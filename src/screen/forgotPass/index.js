@@ -1,132 +1,133 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
-  Alert,
+  Keyboard,
+  ScrollView,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
+import {
+  Input,
+  InputPassword,
+  Button,
+  Checkbox,
+  Logo,
+  Alert,
+} from '../../component';
+import SendCode from './component/sendCode';
+import ConfirmCode from './component/confirmCode';
+import RePass from './component/rePass';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+let deviceWidth = Dimensions.get('window').width;
 
 const ForgotPass = (props) => {
+  const { navigation } = props;
+  const step = useRef();
   const [code, setCode] = useState('');
+  const [email, setEmail] = useState('');
 
-  const onChangeUser = (value) => {
+  const onChangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  const onChangeCode = (value) => {
     setCode(value);
   };
 
   const onConfirms = () => {
-    Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        code == '123456'
-          ? {
-            text: 'success',
-            onPress: () => console.log('Ask me later pressed'),
-          }
-          : {
-            text: 'failed',
-            onPress: () => console.log('Ask me later pressed'),
-          },
-      ],
-      { cancelable: false },
-    );
+    step.current.scrollTo({ x: wp(200), y: 0, animated: true });
+  };
+
+  const onSend = () => {
+    this.alert.open();
+  };
+
+  const onBack = () => {
+    navigation.goBack();
+  };
+
+  const onGetCode = () => {
+    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        testID="test_Code"
-        className="code"
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        autoCorrect={false}
-        numberOfLines={1}
-        multiline={false}
-        style={styles.textInput}
-        value={code}
-        maxLength={25}
-        onChangeText={onChangeUser}
-        placeholder="Code Verify"
+      <Logo containerStyle={styles.logo} />
+      <KeyboardAvoidingView
+        style={styles.detail}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          ref={step}>
+          <SendCode
+            email={email}
+            onChangeEmail={onChangeEmail}
+            onSend={onSend}
+          />
+          <ConfirmCode
+            code={code}
+            onChangeCode={onChangeCode}
+            onConfirms={onConfirms}
+          />
+          <RePass />
+        </ScrollView>
+      </KeyboardAvoidingView>
+      <TouchableOpacity testID="test_Back" onPress={onBack} style={styles.back}>
+        <Text style={styles.textBack}>← Back</Text>
+      </TouchableOpacity>
+      <Alert
+        title={'Notification'}
+        message={'This message'}
+        leftButton={{ text: 'OK', onPress: onGetCode }}
+        ref={(ref) => (this.alert = ref)}
       />
-
-      <TouchableOpacity
-        testID="test_GetCode"
-        style={[styles.buttonStyle, { backgroundColor: 'tomato' }]}>
-        <Text style={styles.textStyle}>Get Code </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        testID="test_Confirm"
-        onPress={onConfirms}
-        style={styles.buttonStyle}>
-        <Text style={styles.textStyle}>Confirm </Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
+  },
   textStyle: {
     alignSelf: 'center',
     color: '#fff',
     fontSize: 16,
   },
-  container: {
+  detail: {
+    flex: 1.5,
+  },
+  logo: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgb(212, 204, 201)',
   },
   textInput: {
-    backgroundColor: 'white',
-    width: '80%',
     height: 50,
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 25,
-    marginVertical: 16,
     paddingHorizontal: 16,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
-  buttonStyle: {
-    height: 45,
-    width: '90%',
-    justifyContent: 'center',
-    backgroundColor: '#38ba7d',
-    borderBottomColor: '#1e6343',
-    borderRadius: 16,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    alignSelf: 'center',
-    marginVertical: 32,
-  },
-  hide: {
-    height: 50,
-    width: '40%',
-    paddingHorizontal: 16,
-    borderRadius: 25,
-    justifyContent: 'center',
+  back: {
+    flex: 0.5,
+    width: deviceWidth / 2,
     alignSelf: 'center',
   },
-  forgotPass: {
-    padding: 32,
-  },
-  textForgot: {
+  textBack: {
     alignSelf: 'center',
-    color: 'tomato',
+    color: 'rgb(12, 235, 41)',
     fontSize: 20,
+  },
+  checkBox: {
+    marginLeft: (deviceWidth * 12.5) / 100,
+    marginVertical: 8,
   },
 });
 

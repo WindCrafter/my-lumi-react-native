@@ -14,10 +14,10 @@ describe('Login', () => {
       .toHaveText('12121323')
       .withTimeout(500);
     await element(by.id('test_Login')).tap();
-    // await element(
-    //   by.label('failed').and(by.type('_UIAlertControllerActionView')),
-    // ).tap();
-    await element(by.text('failed')).tap();
+    await element(
+      by.label('failed').and(by.type('_UIAlertControllerActionView')),
+    ).tap();
+    // await element(by.text('failed')).tap();
     await element(by.id('test_ForgotPass')).tap();
     await element(by.id('test_GetCode')).tap();
     await element(by.id('test_Code')).tap();
@@ -26,10 +26,10 @@ describe('Login', () => {
       .toHaveText('123456')
       .withTimeout(500);
     await element(by.id('test_Confirm')).tap();
-    await element(by.text('success')).tap();
-    // await element(
-    //   by.label('success').and(by.type('_UIAlertControllerActionView')),
-    // ).tap();
+    // await element(by.text('success')).tap();
+    await element(
+      by.label('success').and(by.type('_UIAlertControllerActionView')),
+    ).tap();
   });
   it('Second Test', async () => {
     await element(by.id('header-back')).tap();
@@ -39,9 +39,10 @@ describe('Login', () => {
       .toHaveText('123456789')
       .withTimeout(500);
     await element(by.id('test_Login')).tap();
-    await element(by.text('success')).tap();
-    // await element(
-    //   by.label('success').and(by.type('_UIAlertControllerActionView')),
-    // ).tap();
+    // await element(by.text('success')).tap();
+    await element(
+      by.label('success').and(by.type('_UIAlertControllerActionView')),
+    ).tap();
   });
 });
+

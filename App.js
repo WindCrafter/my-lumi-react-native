@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import { store, persistor } from './src/redux/store/store';
 import AppNavigator from './app-navigator';
+console.disableYellowBox = true;
 
 export default App = () => {
   return (

@@ -1,32 +1,73 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable no-catch-shadow */
+/* eslint-disable no-shadow */
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Alert,
   Keyboard,
   Dimensions,
 } from 'react-native';
-let deviceWidth = Dimensions.get('window').width
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
+import { Input, InputPassword, Button, Checkbox, Logo } from '../../component';
+import config from '../../../utlis/ggConfig/config';
+
+let deviceWidth = Dimensions.get('window').width;
+
 const Login = (props) => {
-  const txtPass = useRef(null);
-  const [user, setUser] = useState('');
+  const refPassword = useRef(null);
+  const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [hide, setHide] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [userInfo, setUserInfo] = useState('');
+  const [error, setError] = useState('');
   const { navigation } = props;
+
+  useEffect(() => {
+    async function fetchData() {
+      _configureGoogleSignIn();
+      await _getCurrentUser();
+    }
+    fetchData();
+  });
+
+  const _configureGoogleSignIn = () => {
+    GoogleSignin.configure({
+      webClientId: config.webClientId,
+      offlineAccess: false,
+    });
+  };
+
+  const _getCurrentUser = async () => {
+    try {
+      const info = await GoogleSignin.signInSilently();
+      setUserInfo(info);
+      setError(null);
+    } catch (error) {
+      const errorMessage =
+        error.code === statusCodes.SIGN_IN_REQUIRED
+          ? 'Please sign in :)'
+          : error.message;
+      setError(new Error(errorMessage));
+    }
+  };
 
   const onPressHandler = () => {
     const reg = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
-    console.log('=========>', reg.test(user) && pass == '123456789');
-    txtPass.current.clear();
+    console.log('=========>', reg.test(email) && pass == '123456789');
+    refPassword.current.clear();
     Keyboard.dismiss();
     Alert.alert(
       'Alert Title',
       'My Alert Msg',
       [
-        reg.test(user) && pass == '123456789'
+        reg.test(email) && pass == '123456789'
           ? {
             text: 'success',
             onPress: () => console.log('Ask me later pressed'),
@@ -40,125 +81,122 @@ const Login = (props) => {
     );
   };
 
-  const onChangeUser = (value) => {
-    setUser(value);
-    console.log(user);
+  const _signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const info = await GoogleSignin.signIn();
+      setUserInfo(info);
+      setError(null);
+    } catch (error) {
+      switch (error.code) {
+        case statusCodes.SIGN_IN_CANCELLED:
+          // sign in was cancelled
+          Alert.alert('cancelled');
+          break;
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          Alert.alert('in progress');
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // android only
+          Alert.alert('play services not available or outdated');
+          break;
+        default:
+          Alert.alert('Something went wrong', error.toString());
+          this.setState({
+            error,
+          });
+      }
+    }
+  };
+
+  const onChangeEmail = (value) => {
+    setEmail(value);
+    console.log(email);
   };
 
   const onChangePass = (value) => {
     setPass(value);
   };
 
-  const onHide = () => {
-    setHide(!hide);
-  };
-
   const onPressForgot = () => {
     navigation.navigate('Forgot Password');
   };
 
+  const onChangeRememberLogin = () => {
+    setChecked(!checked);
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput
-        testID="test_Username"
-        className="username"
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        autoCorrect={false}
-        numberOfLines={1}
-        multiline={false}
-        style={styles.textInput}
-        value={user}
-        maxLength={25}
-        onChangeText={onChangeUser}
-        placeholder="Enter your email or phone number"
-      />
-      <TextInput
-        ref={txtPass}
-        testID="test_Password"
-        className="pass"
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        autoCorrect={false}
-        numberOfLines={1}
-        multiline={false}
-        secureTextEntry={hide}
-        style={styles.textInput}
-        value={pass}
-        maxLength={25}
-        onChangeText={onChangePass}
-        placeholder="Enter your pass"
-      />
-      <TouchableOpacity
-        style={[
-          styles.hide,
-          { backgroundColor: hide ? 'rgb(4, 219, 36)' : 'tomato' },
-        ]}
-        onPress={onHide}>
-        <Text style={styles.textStyle}>Hide/Show</Text>
-      </TouchableOpacity>
+      <Logo containerStyle={styles.logo} />
+      <View style={styles.detail}>
+        <Input
+          placeholder={'Enter your email'}
+          testID="test_Username"
+          containerStyle={styles.textInput}
+          returnKeyType="next"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          maxLength={50}
+          onSubmitEditing={() => refPassword.current.focus()}
+          value={email}
+          onChangeText={onChangeEmail}
+        />
+        <InputPassword
+          testID="test_Password"
+          placeholder={'Enter your password'}
+          containerStyle={styles.textInput}
+          refInput={refPassword}
+          maxLength={20}
+          returnKeyType="done"
+          value={pass}
+          onChangeText={onChangePass}
+        />
+        <Checkbox
+          containerStyle={styles.checkBox}
+          title={'Remember Login'}
+          checked={checked}
+          onChange={onChangeRememberLogin}
+        />
+        <Button title={'Login'} onPress={_signIn} testID="test_Login" />
 
-      <TouchableOpacity
-        testID="test_Login"
-        onPress={onPressHandler}
-        style={styles.buttonStyle}>
-        <Text style={styles.textStyle}>Login</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        testID="test_ForgotPass"
-        onPress={onPressForgot}
-        style={styles.forgotPass}>
-        <Text style={styles.textForgot}>Forgot Password ?</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          testID="test_ForgotPass"
+          onPress={onPressForgot}
+          style={styles.forgotPass}>
+          <Text style={styles.textForgot}>Forgot Password ?</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
   textStyle: {
     alignSelf: 'center',
     color: '#fff',
     fontSize: 16,
   },
-  container: {
+  detail: {
+    flex: 1.75,
+    justifyContent: 'flex-start',
+    paddingVertical: 32,
+  },
+  logo: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgb(212, 204, 201)',
   },
   textInput: {
-    backgroundColor: 'white',
-    width: '80%',
     height: 50,
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 25,
     marginVertical: 16,
     paddingHorizontal: 16,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  buttonStyle: {
-    height: 45,
-    width: '90%',
-    justifyContent: 'center',
-    backgroundColor: '#38ba7d',
-    borderBottomColor: '#1e6343',
-    borderRadius: 16,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    alignSelf: 'center',
-    marginVertical: 32,
   },
   hide: {
     height: 50,
@@ -169,6 +207,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   forgotPass: {
+    marginVertical: 8,
     padding: 4,
     width: deviceWidth / 2,
     alignSelf: 'center',
@@ -176,7 +215,11 @@ const styles = StyleSheet.create({
   textForgot: {
     alignSelf: 'center',
     color: 'tomato',
-    fontSize: 20,
+    fontSize: 14,
+  },
+  checkBox: {
+    marginLeft: (deviceWidth * 12.5) / 100,
+    marginVertical: 8,
   },
 });
 

@@ -19,9 +19,25 @@ const RootStack = createStackNavigator();
 export default function Navigator(props) {
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen name={'Login'} component={login} />
-        <RootStack.Screen name={'Forgot Password'} component={forgotPass} />
+      <RootStack.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerShown: false,
+        }}>
+        <RootStack.Screen
+          name={'Login'}
+          component={login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name={'Forgot Password'}
+          component={forgotPass}
+          options={{
+            title: false,
+          }}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );
