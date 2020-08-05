@@ -1,19 +1,28 @@
 import React from 'react';
-import { Image, StyleSheet, ImageProps, Text, View, ImageBackground } from 'react-native';
-import { imgs } from '../../../utlis';
+import {
+  Image,
+  StyleSheet,
+  ImageProps,
+  Text,
+  View,
+  ImageBackground,
+} from 'react-native';
+import {imgs} from '../../../utlis';
 interface Props extends ImageProps {
   containerStyle?: ImageStyle;
 }
 
 export default function Logo(props?: Props) {
-  const { containerStyle } = props;
+  const {containerStyle} = props;
   return (
     <ImageBackground
       source={imgs.logo}
       resizeMode="contain"
       {...props}
       style={[styles.container, containerStyle]}>
-      <Text style={styles.txt} numberOfLines={1}>Lumi Staff</Text>
+      <Text style={styles.txt} numberOfLines={1}>
+        Lumi Staff
+      </Text>
     </ImageBackground>
   );
 }
