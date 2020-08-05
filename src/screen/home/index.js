@@ -6,7 +6,11 @@ import { BarStatus } from '../../component';
 import { Card } from 'native-base';
 import Admin from './component/admin';
 
-const Home = () => {
+const Home = (props) => {
+  const { navigation } = props;
+  const onAddStaff = () => {
+    navigation.navigate('AddStaff')
+  }
   return (
     <>
       <BarStatus backgroundColor="rgb(47,172,79)" />
@@ -14,7 +18,7 @@ const Home = () => {
         <Header />
         <View style={{ flex: 4 }}>
           <Card style={styles.card}>
-            <Admin />
+            <Admin addStaff={onAddStaff} />
           </Card>
         </View>
       </View>
