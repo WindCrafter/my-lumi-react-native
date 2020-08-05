@@ -59,7 +59,6 @@ const Login = (props) => {
     }
   };
 
-
   const _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -88,6 +87,22 @@ const Login = (props) => {
             error,
           });
       }
+    }
+  };
+
+  const onLogin = () => {
+    Keyboard.dismiss();
+    if (email.trim().length === 0) {
+      Alert.alert('email invalid');
+      return;
+    }
+
+    if (pass.length === 0) {
+      Alert.alert('password invalid');
+
+      return;
+    } else {
+      navigation.navigate('TabbarStack');
     }
   };
 
@@ -152,7 +167,7 @@ const Login = (props) => {
           checked={checked}
           onChange={onChangeRememberLogin}
         />
-        <Button title={'Login'} onPress={_signIn} testID="test_Login" />
+        <Button title={'Login'} onPress={onLogin} testID="test_Login" />
 
         <TouchableOpacity
           testID="test_ForgotPass"

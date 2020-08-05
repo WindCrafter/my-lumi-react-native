@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   txt: {
     alignSelf: 'center',
     color: 'rgb(61, 196, 99)',
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '500',
     marginBottom: 24,
   },

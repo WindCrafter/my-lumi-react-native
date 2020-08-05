@@ -11,10 +11,13 @@ import {
   // CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import login from '../container/login';
 import forgotPass from '../container/forgotPass';
+import TabbarStack from './TabbarStack';
 
 const RootStack = createStackNavigator();
+const BotStack = createBottomTabNavigator();
 
 export default function Navigator(props) {
   return (
@@ -38,6 +41,7 @@ export default function Navigator(props) {
             title: false,
           }}
         />
+        <RootStack.Screen name={'TabbarStack'} component={TabbarStack} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
