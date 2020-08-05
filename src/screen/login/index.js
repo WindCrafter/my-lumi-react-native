@@ -1,6 +1,6 @@
 /* eslint-disable no-catch-shadow */
 /* eslint-disable no-shadow */
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import { Input, InputPassword, Button, Checkbox, Logo } from '../../component';
+import {Input, InputPassword, Button, Checkbox, Logo} from '../../component';
 import config from '../../../utlis/ggConfig/config';
 
 let deviceWidth = Dimensions.get('window').width;
@@ -27,7 +27,7 @@ const Login = (props) => {
   const [checked, setChecked] = useState(false);
   const [userInfo, setUserInfo] = useState('');
   const [error, setError] = useState('');
-  const { navigation } = props;
+  const {navigation} = props;
 
   useEffect(() => {
     async function fetchData() {
@@ -69,15 +69,15 @@ const Login = (props) => {
       [
         reg.test(email) && pass == '123456789'
           ? {
-            text: 'success',
-            onPress: () => console.log('Ask me later pressed'),
-          }
+              text: 'success',
+              onPress: () => console.log('Ask me later pressed'),
+            }
           : {
-            text: 'failed',
-            onPress: () => console.log('Ask me later pressed'),
-          },
+              text: 'failed',
+              onPress: () => console.log('Ask me later pressed'),
+            },
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
