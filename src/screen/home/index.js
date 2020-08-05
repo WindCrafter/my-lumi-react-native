@@ -5,21 +5,35 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { BarStatus } from '../../component';
 import { Card } from 'native-base';
 import Admin from './component/admin';
+import InfoDays from './component/infoDays';
+import DeadLine from './component/deadLine';
+import Schedule from './component/schedule';
 
 const Home = (props) => {
   const { navigation } = props;
   const onAddStaff = () => {
-    navigation.navigate('AddStaff')
-  }
+    navigation.navigate('AddStaff');
+  };
   return (
     <>
       <BarStatus backgroundColor="rgb(47,172,79)" />
       <View style={styles.container}>
         <Header />
         <View style={{ flex: 4 }}>
-          <Card style={styles.card}>
-            <Admin addStaff={onAddStaff} />
-          </Card>
+          <ScrollView>
+            <Card style={styles.card}>
+              <Admin addStaff={onAddStaff} />
+            </Card>
+            <Card style={styles.card}>
+              <InfoDays />
+            </Card>
+            <Card style={styles.card}>
+              <DeadLine />
+            </Card>
+            <Card style={styles.card}>
+              <Schedule />
+            </Card>
+          </ScrollView>
         </View>
       </View>
     </>

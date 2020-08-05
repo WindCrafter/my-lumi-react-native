@@ -26,6 +26,7 @@ InputPassword.defaultProps = {
   height: 50,
   borderRadius: 8,
   backgroundColor: 'rgb(227, 230, 229)',
+  leftImage: imgs.lock,
 };
 
 export default function InputPassword(props?: Props) {

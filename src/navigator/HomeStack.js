@@ -17,11 +17,10 @@ export default function TabbarStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+        headerShown: false,
       }}>
       <Stack.Screen name={'Home'} component={home} />
       <Stack.Screen name={'AddStaff'} component={addStaff} />
     </Stack.Navigator>
   );
-};
-
-
+}

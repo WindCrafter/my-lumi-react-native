@@ -33,4 +33,5 @@ export const imgs = {
   appInfor: require('../../common/assets/images/icon/Phone -2- icon.png'),
   location: require('../../common/assets/images/icon/Location-icon.png'),
   identityCard: require('../../common/assets/images/icon/identitycard-icon.png'),
+  lock: require('../../common/assets/images/icon/Lock-icon.png'),
 };
