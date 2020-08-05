@@ -35,7 +35,7 @@ const Login = (props) => {
       await _getCurrentUser();
     }
     fetchData();
-  });
+  }, []);
 
   const _configureGoogleSignIn = () => {
     GoogleSignin.configure({
@@ -47,6 +47,7 @@ const Login = (props) => {
   const _getCurrentUser = async () => {
     try {
       const info = await GoogleSignin.signInSilently();
+      console.log('sasas', info)
       setUserInfo(info);
       setError(null);
     } catch (error) {
@@ -58,36 +59,16 @@ const Login = (props) => {
     }
   };
 
-  const onPressHandler = () => {
-    const reg = /^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]/;
-    console.log('=========>', reg.test(email) && pass == '123456789');
-    refPassword.current.clear();
-    Keyboard.dismiss();
-    Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        reg.test(email) && pass == '123456789'
-          ? {
-            text: 'success',
-            onPress: () => console.log('Ask me later pressed'),
-          }
-          : {
-            text: 'failed',
-            onPress: () => console.log('Ask me later pressed'),
-          },
-      ],
-      { cancelable: false },
-    );
-  };
 
   const _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const info = await GoogleSignin.signIn();
+      console.log('===>', JSON.stringify(info));
       setUserInfo(info);
       setError(null);
     } catch (error) {
+      console.log('===>', error);
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:
           // sign in was cancelled
@@ -127,6 +108,18 @@ const Login = (props) => {
     setChecked(!checked);
   };
 
+  const _signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+
+      setUserInfo(null);
+      setError(null);
+    } catch (error) {
+      setError(null);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />
@@ -163,7 +156,7 @@ const Login = (props) => {
 
         <TouchableOpacity
           testID="test_ForgotPass"
-          onPress={onPressForgot}
+          onPress={_signOut}
           style={styles.forgotPass}>
           <Text style={styles.textForgot}>Forgot Password ?</Text>
         </TouchableOpacity>

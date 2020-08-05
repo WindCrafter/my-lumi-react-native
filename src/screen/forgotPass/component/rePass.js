@@ -24,7 +24,7 @@ const RePass = (props) => {
         value={pass}
         onChangeText={onChangePass}
       />
-      <Text style={styles.please}>Please enter your new email again </Text>
+      <Text style={styles.please}>Please enter your new password again </Text>
       <InputPassword
         testID="test_Password"
         placeholder={'Enter your password'}
