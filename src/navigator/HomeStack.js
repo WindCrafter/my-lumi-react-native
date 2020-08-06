@@ -17,6 +17,7 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+        headerShown: false,
       }}>
       <Stack.Screen
         name={'hoome'}

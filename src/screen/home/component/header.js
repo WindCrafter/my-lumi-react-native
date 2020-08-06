@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
+import { imgs } from '../../../../utlis';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
@@ -38,7 +39,7 @@ const Header = (props) => {
           </Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
-          <Text>?</Text>
+          <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
       <View style={styles.checkIn}>
@@ -99,12 +100,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   notify: {
-    flex: 0.25,
     marginTop: 24,
     marginRight: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'white',
+    height: 28,
+    width: 28,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
     alignItems: 'center',
   },

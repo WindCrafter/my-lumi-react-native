@@ -7,7 +7,12 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
+<<<<<<< HEAD
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+=======
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
+>>>>>>> 28c4ef8ac358f9825e0ae95e973ec0f8d894f770
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -24,6 +29,7 @@ Input.defaultProps = {
   height: 50,
   borderRadius: 8,
   backgroundColor: 'rgb(227, 230, 229)',
+  leftImage: imgs.personal,
 };
 
 export default function Input(props?: Props) {
