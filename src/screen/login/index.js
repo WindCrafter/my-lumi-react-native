@@ -102,7 +102,7 @@ const Login = (props) => {
 
       return;
     } else {
-      navigation.navigate('TabbarStack');
+      navigation.navigate('HomeStack');
     }
   };
 

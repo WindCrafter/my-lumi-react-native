@@ -2,10 +2,10 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeStack from './HomeStack';
 import account from '../container/account';
 import rollUp from '../container/rollUp';
 import { TabbarIcon } from '../component';
+import home from '../container/home';
 
 const BotStack = createBottomTabNavigator();
 
@@ -18,9 +18,8 @@ export default function TabbarStack() {
       }}>
       <BotStack.Screen
         name={'Home'}
-        component={HomeStack}
-        options={() => ({
-          // tabBarVisible: false,
+        component={home}
+        options={(navigation) => ({
           tabBarIcon: (props) => <TabbarIcon {...props} tab={0} />,
         })}
       />
