@@ -1,19 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import Header from './component/header';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { BarStatus } from '../../component';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {BarStatus} from '../../component';
+import {Card} from 'native-base';
 import Admin from './component/admin';
 import InfoDays from './component/infoDays';
 import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
 
 const Home = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
   const onAddStaff = () => {
-    navigation.navigate('AddStaff');
+    navigation.navigate('Thêm nhân viên');
   };
+
   return (
     <>
       <BarStatus backgroundColor="rgb(47,172,79)" />

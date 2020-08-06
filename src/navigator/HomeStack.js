@@ -22,7 +22,17 @@ export default function HomeStack() {
         headerShown: false,
       }}>
       <Stack.Screen name={'TabHome'} component={TabbarStack} />
-      <Stack.Screen name={'AddStaff'} component={addStaff} route={false} />
+      <Stack.Screen
+        name={'Thêm nhân viên'}
+        component={addStaff}
+        options={{
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: 'rgb(47, 172, 79)',
+          },
+          headerTintColor: 'white',
+        }}
+      />
       <Stack.Screen name={'Information'} component={information} />
     </Stack.Navigator>
   );

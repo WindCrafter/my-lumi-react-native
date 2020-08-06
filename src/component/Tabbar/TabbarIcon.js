@@ -4,16 +4,16 @@
  */
 
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { imgs } from '../../../utlis';
+import {Image, StyleSheet} from 'react-native';
+import {imgs} from '../../../utlis';
 
 const Icons = [
-  { active: imgs.home, inactive: require('../../../naruto.jpeg') },
-  { active: imgs.checkin, inactive: require('../../../naruto.jpeg') },
-  { active: imgs.personal, inactive: require('../../../naruto.jpeg') },
+  {active: imgs.homegreen, inactive: imgs.homegrey},
+  {active: imgs.checkingreen, inactive: imgs.checkingrey},
+  {active: imgs.personalgreen, inactive: imgs.personalgrey},
 ];
 
-export default function TabbarIcon({ focused, tab }) {
+export default function TabbarIcon({focused, tab}) {
   const icon = focused ? Icons[tab].active : Icons[tab].inactive;
   return <Image source={icon} style={styles.container} resizeMode="contain" />;
 }

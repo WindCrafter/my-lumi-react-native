@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   image: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   },
   textInput: {
     flex: 1,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   showHidePassword: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   },
 });

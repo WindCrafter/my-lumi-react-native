@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { imgs } from '../../../../utlis';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {imgs} from '../../../../utlis';
 
 const Admin = (props) => {
-  const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
+  const {addStaff, extendContract, resignStaff, genaralInfo, addOT} = props;
   return (
     <>
       <View style={styles.manager}>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     width: 116,
   },
   icon: {
-    backgroundColor: 'rgb(47,172,79)',
+    // backgroundColor: 'red',
     padding: 4,
     alignSelf: 'center',
     borderRadius: 11,
@@ -110,8 +110,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   img: {
-    height: 14,
-    width: 14,
+    // color:'red'
+    height: 24,
+    width: 24,
   },
   iconOT: {
     padding: 4,

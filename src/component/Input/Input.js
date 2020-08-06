@@ -7,8 +7,8 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs} from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   image: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   },
   textInput: {
     flex: 1,

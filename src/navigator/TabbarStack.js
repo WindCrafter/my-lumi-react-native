@@ -23,10 +23,8 @@ export default function TabbarStack() {
           tabBarIcon: (props) => <TabbarIcon {...props} tab={0} />,
         })}
       />
-      <BotStack.Screen name={'Roll up'} component={rollUp} />
-      <BotStack.Screen name={'Account'} component={account} />
+      <BotStack.Screen name={'Chấm công'} component={rollUp} />
+      <BotStack.Screen name={'Cá nhân'} component={account} />
     </BotStack.Navigator>
   );
-};
-
-
+}

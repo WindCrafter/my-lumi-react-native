@@ -1,6 +1,6 @@
 /* eslint-disable no-catch-shadow */
 /* eslint-disable no-shadow */
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,8 +15,9 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import { Input, InputPassword, Button, Checkbox, Logo } from '../../component';
+import {Input, InputPassword, Button, Checkbox, Logo} from '../../component';
 import config from '../../../utlis/ggConfig/config';
+import {imgs} from '../../../utlis';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -27,7 +28,7 @@ const Login = (props) => {
   const [checked, setChecked] = useState(false);
   const [userInfo, setUserInfo] = useState('');
   const [error, setError] = useState('');
-  const { navigation } = props;
+  const {navigation} = props;
 
   useEffect(() => {
     async function fetchData() {
@@ -47,7 +48,7 @@ const Login = (props) => {
   const _getCurrentUser = async () => {
     try {
       const info = await GoogleSignin.signInSilently();
-      console.log('sasas', info)
+      console.log('sasas', info);
       setUserInfo(info);
       setError(null);
     } catch (error) {
@@ -140,7 +141,10 @@ const Login = (props) => {
       <Logo containerStyle={styles.logo} />
       <View style={styles.detail}>
         <Input
-          placeholder={'Enter your email'}
+          // leftImage={}
+          // backgroundColor={'rgba(0,0,25,0.22)'}
+          opa
+          placeholder={'Tên đăng nhập hoặc email'}
           testID="test_Username"
           containerStyle={styles.textInput}
           returnKeyType="next"
@@ -153,7 +157,8 @@ const Login = (props) => {
         />
         <InputPassword
           testID="test_Password"
-          placeholder={'Enter your password'}
+          // backgroundColor={'rgba(0,0,25,0.22)'}
+          placeholder={'Vui lòng điền mật khẩu'}
           containerStyle={styles.textInput}
           refInput={refPassword}
           maxLength={20}
@@ -163,17 +168,22 @@ const Login = (props) => {
         />
         <Checkbox
           containerStyle={styles.checkBox}
-          title={'Remember Login'}
+          title={'Nhớ lần đăng nhập'}
           checked={checked}
           onChange={onChangeRememberLogin}
         />
-        <Button title={'Login'} onPress={onLogin} testID="test_Login" />
+        <Button
+          backgroundColor={'rgb(0,138,238)'}
+          title={'Đăng nhập'}
+          onPress={onLogin}
+          testID="test_Login"
+        />
 
         <TouchableOpacity
           testID="test_ForgotPass"
           onPress={_signOut}
           style={styles.forgotPass}>
-          <Text style={styles.textForgot}>Forgot Password ?</Text>
+          <Text style={styles.textForgot}>Quên mật khẩu</Text>
         </TouchableOpacity>
       </View>
     </View>
