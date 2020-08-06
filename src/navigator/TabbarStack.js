@@ -1,6 +1,6 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {StatusBar} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeStack from './HomeStack';
 import account from '../container/account';
@@ -20,6 +20,4 @@ export default function TabbarStack() {
       <BotStack.Screen name={'Account'} component={account} />
     </BotStack.Navigator>
   );
-};
-
-
+}

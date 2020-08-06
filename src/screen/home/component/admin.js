@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Admin = (props) => {
-  const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
+  const {addStaff, extendContract, resignStaff, genaralInfo, addOT} = props;
   return (
     <>
       <View style={styles.manager}>

@@ -1,6 +1,6 @@
 /* eslint-disable no-catch-shadow */
 /* eslint-disable no-shadow */
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,8 +15,9 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import { Input, InputPassword, Button, Checkbox, Logo } from '../../component';
+import {Input, InputPassword, Button, Checkbox, Logo} from '../../component';
 import config from '../../../utlis/ggConfig/config';
+import { imgs } from '../../../utlis';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -27,7 +28,7 @@ const Login = (props) => {
   const [checked, setChecked] = useState(false);
   const [userInfo, setUserInfo] = useState('');
   const [error, setError] = useState('');
-  const { navigation } = props;
+  const {navigation} = props;
 
   useEffect(() => {
     async function fetchData() {
@@ -47,7 +48,7 @@ const Login = (props) => {
   const _getCurrentUser = async () => {
     try {
       const info = await GoogleSignin.signInSilently();
-      console.log('sasas', info)
+      console.log('sasas', info);
       setUserInfo(info);
       setError(null);
     } catch (error) {
@@ -140,6 +141,7 @@ const Login = (props) => {
       <Logo containerStyle={styles.logo} />
       <View style={styles.detail}>
         <Input
+        // leftImage={}
           placeholder={'Enter your email'}
           testID="test_Username"
           containerStyle={styles.textInput}

@@ -5,19 +5,19 @@
 
 import React from 'react';
 // import { StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import login from '../container/login';
 import forgotPass from '../container/forgotPass';
 import TabbarStack from './TabbarStack';
 
 const RootStack = createStackNavigator();
-const BotStack = createBottomTabNavigator();
+// const BotStack = createBottomTabNavigator();
 
 export default function Navigator(props) {
   return (

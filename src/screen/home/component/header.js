@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 
 const currrentDate = moment().format('DD/MM/YYYY');
@@ -9,19 +9,19 @@ const currentDayInWeek =
   day === 'Monday'
     ? 'Thứ 2'
     : day === 'Tuesday'
-      ? 'Thứ 3'
-      : day === 'Wednesday'
-        ? 'Thứ 4'
-        : day === 'ThusDay'
-          ? 'Thứ 5'
-          : day === 'Friday'
-            ? 'Thứ 6'
-            : day === 'Saturday'
-              ? 'Thứ 7'
-              : 'Chủ Nhật';
+    ? 'Thứ 3'
+    : day === 'Wednesday'
+    ? 'Thứ 4'
+    : day === 'ThusDay'
+    ? 'Thứ 5'
+    : day === 'Friday'
+    ? 'Thứ 6'
+    : day === 'Saturday'
+    ? 'Thứ 7'
+    : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressNotify } = props;
+  const {pressNotify} = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
