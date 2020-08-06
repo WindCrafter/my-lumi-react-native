@@ -1,11 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-=======
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { imgs } from '../../../../utlis';
->>>>>>> 28c4ef8ac358f9825e0ae95e973ec0f8d894f770
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {imgs} from '../../../../utlis';
 
 const Admin = (props) => {
   const {addStaff, extendContract, resignStaff, genaralInfo, addOT} = props;
@@ -105,7 +100,7 @@ const styles = StyleSheet.create({
     width: 116,
   },
   icon: {
-    backgroundColor: 'rgb(47,172,79)',
+    // backgroundColor: 'red',
     padding: 4,
     alignSelf: 'center',
     borderRadius: 11,
@@ -115,8 +110,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   img: {
-    height: 14,
-    width: 14,
+    // color:'red'
+    height: 24,
+    width: 24,
   },
   iconOT: {
     padding: 4,

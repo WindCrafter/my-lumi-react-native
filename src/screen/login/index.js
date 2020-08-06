@@ -17,7 +17,7 @@ import {
 } from '@react-native-community/google-signin';
 import {Input, InputPassword, Button, Checkbox, Logo} from '../../component';
 import config from '../../../utlis/ggConfig/config';
-import { imgs } from '../../../utlis';
+import {imgs} from '../../../utlis';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -141,8 +141,10 @@ const Login = (props) => {
       <Logo containerStyle={styles.logo} />
       <View style={styles.detail}>
         <Input
-        // leftImage={}
-          placeholder={'Enter your email'}
+          // leftImage={}
+          // backgroundColor={'rgba(0,0,25,0.22)'}
+          opa
+          placeholder={'Tên đăng nhập hoặc email'}
           testID="test_Username"
           containerStyle={styles.textInput}
           returnKeyType="next"
@@ -155,7 +157,8 @@ const Login = (props) => {
         />
         <InputPassword
           testID="test_Password"
-          placeholder={'Enter your password'}
+          // backgroundColor={'rgba(0,0,25,0.22)'}
+          placeholder={'Vui lòng điền mật khẩu'}
           containerStyle={styles.textInput}
           refInput={refPassword}
           maxLength={20}
@@ -165,17 +168,22 @@ const Login = (props) => {
         />
         <Checkbox
           containerStyle={styles.checkBox}
-          title={'Remember Login'}
+          title={'Nhớ lần đăng nhập'}
           checked={checked}
           onChange={onChangeRememberLogin}
         />
-        <Button title={'Login'} onPress={onLogin} testID="test_Login" />
+        <Button
+          backgroundColor={'rgb(0,138,238)'}
+          title={'Đăng nhập'}
+          onPress={onLogin}
+          testID="test_Login"
+        />
 
         <TouchableOpacity
           testID="test_ForgotPass"
           onPress={_signOut}
           style={styles.forgotPass}>
-          <Text style={styles.textForgot}>Forgot Password ?</Text>
+          <Text style={styles.textForgot}>Quên mật khẩu</Text>
         </TouchableOpacity>
       </View>
     </View>

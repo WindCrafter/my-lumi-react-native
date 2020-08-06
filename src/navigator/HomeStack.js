@@ -33,7 +33,8 @@ export default function HomeStack() {
           headerBackTitleVisible: false,
           headerStyle: {
             backgroundColor: 'rgb(47, 172, 79)',
-          },headerTintColor:'white'
+          },
+          headerTintColor: 'white',
         }}
       />
     </Stack.Navigator>

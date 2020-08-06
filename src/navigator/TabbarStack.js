@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import account from '../container/account';
 import rollUp from '../container/rollUp';
-import { TabbarIcon } from '../component';
+import {TabbarIcon} from '../component';
 
 const BotStack = createBottomTabNavigator();
 
@@ -17,15 +17,15 @@ export default function TabbarStack() {
         headerTitleAlign: 'center',
       }}>
       <BotStack.Screen
-        name={'Home'}
+        name={'Trang chủ'}
         component={HomeStack}
         options={() => ({
           // tabBarVisible: false,
           tabBarIcon: (props) => <TabbarIcon {...props} tab={0} />,
         })}
       />
-      <BotStack.Screen name={'Roll up'} component={rollUp} />
-      <BotStack.Screen name={'Account'} component={account} />
+      <BotStack.Screen name={'Chấm công'} component={rollUp} />
+      <BotStack.Screen name={'Cá nhân'} component={account} />
     </BotStack.Navigator>
   );
 }

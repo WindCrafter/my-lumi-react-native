@@ -23,7 +23,7 @@ const Schedule = (props) => {
             <Image source={imgs.meeting} style={styles.img} />
           </View>
           <Text style={styles.txtAdd} numberOfLines={2}>
-            Thêm cuộc họp
+            Tạo lịch họp
           </Text>
         </TouchableOpacity>
       </View>
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   img: {
-    width: 14,
-    height: 14,
+    width: 18,
+    height: 18,
   },
   add: {
     backgroundColor: 'rgb(47,172,79)',
