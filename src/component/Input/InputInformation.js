@@ -1,23 +1,6 @@
-import React from 'react';
-import {
-  TextInputProps,
-  TextInput,
-  Image,
-  View,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import {TextInput, Image, View, StyleSheet} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-
-interface Props extends TextInputProps {
-  leftImage?: String | Number;
-  width?: String | Number;
-  height?: Number;
-  borderRadius?: Number;
-  backgroundColor?: String;
-  containerStyle?: ViewStyle;
-  refInput?: React.Ref;
-}
+import {Props} from './Props';
 
 Input.defaultProps = {
   width: wp(75),

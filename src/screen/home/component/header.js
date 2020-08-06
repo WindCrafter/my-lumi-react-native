@@ -10,6 +10,7 @@ const currentDayInWeek =
   day === 'Monday'
     ? 'Thứ 2'
     : day === 'Tuesday'
+<<<<<<< HEAD
     ? 'Thứ 3'
     : day === 'Wednesday'
     ? 'Thứ 4'
@@ -20,6 +21,18 @@ const currentDayInWeek =
     : day === 'Saturday'
     ? 'Thứ 7'
     : 'Chủ Nhật';
+=======
+      ? 'Thứ 3'
+      : day === 'Wednesday'
+        ? 'Thứ 4'
+        : day === 'Thursday'
+          ? 'Thứ 5'
+          : day === 'Friday'
+            ? 'Thứ 6'
+            : day === 'Saturday'
+              ? 'Thứ 7'
+              : 'Chủ Nhật';
+>>>>>>> e4dde46fb9ae06d5936fcd11695e5b465d6d40b9
 
 const Header = (props) => {
   const {pressNotify} = props;

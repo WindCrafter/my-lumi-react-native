@@ -8,6 +8,8 @@ import {
 
 import home from '../container/home';
 import addStaff from '../container/addStaff';
+import information from '../container/information';
+import TabbarStack from './TabbarStack';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +21,7 @@ export default function HomeStack() {
         headerTitleAlign: 'center',
         headerShown: false,
       }}>
+<<<<<<< HEAD
       <Stack.Screen
         name={'hoome'}
         component={home}
@@ -37,6 +40,11 @@ export default function HomeStack() {
           headerTintColor: 'white',
         }}
       />
+=======
+      <Stack.Screen name={'TabHome'} component={TabbarStack} />
+      <Stack.Screen name={'AddStaff'} component={addStaff} route={false} />
+      <Stack.Screen name={'Information'} component={information} />
+>>>>>>> e4dde46fb9ae06d5936fcd11695e5b465d6d40b9
     </Stack.Navigator>
   );
 }

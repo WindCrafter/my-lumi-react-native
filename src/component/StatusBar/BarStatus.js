@@ -1,6 +1,6 @@
 import React from 'react';
 import {StatusBar, View, Platform, StyleSheet} from 'react-native';
-import {imgs} from '../../../utlis';
+// import {imgs} from '../../../utlis';
 interface Props extends ImageProps {
   containerStyle?: ImageStyle;
 }

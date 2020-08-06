@@ -15,6 +15,7 @@ import {
 import login from '../container/login';
 import forgotPass from '../container/forgotPass';
 import TabbarStack from './TabbarStack';
+import HomeStack from './HomeStack';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
@@ -41,7 +42,7 @@ export default function Navigator(props) {
             title: false,
           }}
         />
-        <RootStack.Screen name={'TabbarStack'} component={TabbarStack} />
+        <RootStack.Screen name={'HomeStack'} component={HomeStack} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
