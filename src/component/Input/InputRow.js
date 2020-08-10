@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
   ViewStyle,
-  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { imgs } from '../../../utlis';
@@ -21,17 +21,19 @@ interface Props extends TextInputProps {
   refInput?: React.Ref;
 }
 
-Input.defaultProps = {
-  width: wp(75),
+InputRow.defaultProps = {
+  width: wp(90),
   height: 50,
-  borderRadius: 8,
-  backgroundColor: 'rgb(227, 230, 229)',
+  borderRadius: 12,
+  backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
-  button: false,
 };
 
-export default function Input(props?: Props) {
+export default function InputRow(props?: Props) {
   const {
+    shadowColor,
+    shadowOpacity,
+    shadowOffset,
     leftImage,
     width,
     height,
@@ -40,16 +42,18 @@ export default function Input(props?: Props) {
     containerStyle,
     refInput,
     testID,
-    button,
-    onPress,
+    title,
     ...otherProps
   } = props;
-  const Button = button ? TouchableOpacity : View;
+
   return (
     <View
       style={[
         styles.container,
         {
+          shadowOffset,
+          shadowOpacity,
+          shadowColor,
           width,
           height,
           borderRadius,
@@ -57,9 +61,10 @@ export default function Input(props?: Props) {
         },
         containerStyle,
       ]}>
-      <Button onPress={onPress} >
+      <View style={styles.left}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
-      </Button>
+        <Text style={styles.title}>{title}</Text>
+      </View>
       <TextInput
         testID={testID}
         ref={refInput}
@@ -79,6 +84,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    marginVertical: 8,
   },
   image: {
     width: 24,
@@ -87,7 +95,18 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     paddingLeft: 12,
-    fontSize: 16,
+    fontSize: 20,
     color: 'black',
+    alignSelf: 'center',
+    textAlign: 'right',
+  },
+  left: {
+    flexDirection: 'row',
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 20,
+    fontWeight: '400',
+    marginLeft: 8,
   },
 });

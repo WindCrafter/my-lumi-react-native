@@ -16,7 +16,7 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import ResignRow from './component/resignRow';
+import ContractRow from './component/contractRow';
 
 const DATA = [
   {
@@ -24,24 +24,24 @@ const DATA = [
     avt: require('../../../naruto.jpeg'),
     dob: '01/01/2020',
     team: 'App',
-    role: 'Leader',
-    dayout: '08/07/2020',
+    role: 'Thực tập',
+    outDate: '08/07/2020',
   },
   {
     name: 'Lê Mạnh Cường',
     avt: require('../../../naruto.jpeg'),
     dob: '02/03/2020',
     team: 'App',
-    role: 'Staff',
-    dayout: '08/07/2020',
+    role: 'Thực tập',
+    outDate: '08/07/2020',
   },
   {
     name: 'Nguyễn Xuân Kiên',
     avt: require('../../../naruto.jpeg'),
     dob: '04/05/2020',
     team: 'App',
-    role: 'Intern',
-    dayout: '08/07/2020',
+    role: 'Thực tập',
+    outDate: '08/07/2020',
   },
 ];
 if (
@@ -51,25 +51,33 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function Resign(props) {
+function Contract(props) {
   const [listData, setListData] = useState(DATA);
   const { navigation } = props;
-  const [check, setCheck] = useState([]);
 
   const goBack = () => {
     navigation.goBack();
   };
 
+  const setContract = (item) => {
+    navigation.navigate('SetContract', { item });
+  };
+
+  const onAddContract = () => {
+    navigation.navigate('AddContract');
+  };
+
   const renderItem = ({ item, index }) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     return (
-      <ResignRow
+      <ContractRow
         name={item.name}
         leftImage={item.avt}
         team={item.team}
         dob={item.dob}
         role={item.role}
-        dayout={item.dayout}
+        outDate={item.outDate}
+        onPress={() => setContract(item)}
       />
     );
   };
@@ -81,9 +89,11 @@ function Resign(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Danh sách nhân viên nghỉ việc'}
+        title={'Gia hạn hợp đồng'}
         height={60}
         goBack={goBack}
+        rightButton
+        onRight={onAddContract}
       />
       <FlatList
         data={listData}
@@ -94,7 +104,7 @@ function Resign(props) {
   );
 }
 
-export default Resign;
+export default Contract;
 
 const styles = StyleSheet.create({
   container: {

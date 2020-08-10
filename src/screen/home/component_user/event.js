@@ -1,18 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const DeadLine = (props) => {
+const Event = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>DeadLine hoặc dự án lớn</Text>
-        <Text style={styles.txtDetail}> Hiện chưa có dự án hoặc deadline nào</Text>
+        <Text style={styles.txtManager}>Sự kiện</Text>
+        <Text style={styles.txtDetail}> Hiện chưa có sự kiện nào</Text>
       </View>
     </>
   );
 };
 
-export default DeadLine;
+export default Event;
 
 const styles = StyleSheet.create({
   txtManager: {

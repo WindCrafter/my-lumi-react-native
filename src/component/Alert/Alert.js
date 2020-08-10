@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   txtButton: {
     fontSize: 16,
     fontWeight: '500',
-    color: 'green',
+    color: 'black',
     textAlign: 'center',
   },
   viewContent: {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   txtTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: 'green',
+    color: 'black',
     textAlign: 'center',
   },
   txtMessage: {

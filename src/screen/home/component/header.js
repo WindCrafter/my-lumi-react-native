@@ -22,7 +22,7 @@ const currentDayInWeek =
               : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressNotify } = props;
+  const { pressNotify, onPress } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
@@ -46,7 +46,7 @@ const Header = (props) => {
         <View style={styles.viewQuiz}>
           <Text style={styles.quiz}>Bạn chưa chấm công ?</Text>
         </View>
-        <TouchableOpacity style={styles.btCheckIn}>
+        <TouchableOpacity style={styles.btCheckIn} onPress={onPress}>
           <Text style={styles.txtCheckIn}>Check In</Text>
         </TouchableOpacity>
       </View>

@@ -5,7 +5,7 @@
 
 import React from 'react';
 // import { StatusBar } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
@@ -13,7 +13,7 @@ import {
 } from '@react-navigation/stack';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import login from '../container/login';
-import forgotPass from '../container/forgotPass';
+import forgotPass from '../container/forgotPassword/forgotPass';
 import TabbarStack from './TabbarStack';
 import HomeStack from './HomeStack';
 

@@ -6,10 +6,17 @@ import {
   // TransitionPresets,
 } from '@react-navigation/stack';
 
-import home from '../container/home';
 import addStaff from '../container/addStaff';
 import information from '../container/information';
 import TabbarStack from './TabbarStack';
+import ot from '../container/ot';
+import resign from '../container/resign';
+import contract from '../container/contract';
+import setContract from '../container/contract/setContract';
+import addContract from '../container/contract/addContract';
+import applyLate from '../container/apply/applyLate';
+import applyBreak from '../container/apply/applyBreak';
+import applyOT from '../container/apply/applyOT';
 
 const Stack = createStackNavigator();
 
@@ -19,9 +26,14 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
-        headerShown: false,
       }}>
-      <Stack.Screen name={'TabHome'} component={TabbarStack} />
+      <Stack.Screen
+        name={'TabHome'}
+        component={TabbarStack}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name={'Thêm nhân viên'}
         component={addStaff}
@@ -33,7 +45,69 @@ export default function HomeStack() {
           headerTintColor: 'white',
         }}
       />
-      <Stack.Screen name={'Information'} component={information} />
+      <Stack.Screen
+        name={'Information'}
+        component={information}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'OT'}
+        component={ot}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Resign'}
+        component={resign}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Contract'}
+        component={contract}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'SetContract'}
+        component={setContract}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'AddContract'}
+        component={addContract}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'ApplyLate'}
+        component={applyLate}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'ApplyBreak'}
+        component={applyBreak}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'ApplyOT'}
+        component={applyOT}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

@@ -2,38 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { imgs } from '../../../../utlis';
 
-const Admin = (props) => {
-  const { addStaff, extendContract, resignStaff, generalInfo, addOT } = props;
+const User = (props) => {
+  const { applyLate, applyOT, applyBreak, generalInfo } = props;
   return (
     <>
       <View style={styles.manager}>
         <Text style={styles.txtManager}>Quản lí nhân sự</Text>
       </View>
       <View style={styles.top}>
-        <TouchableOpacity onPress={addStaff} style={styles.row}>
+        <TouchableOpacity onPress={applyBreak} style={styles.row}>
           <View style={styles.icon}>
-            <Image source={imgs.addstaff} style={styles.img} />
+            <Image source={imgs.leave} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Thêm nhân viên mới
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={extendContract} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.contract} style={styles.img} />
-          </View>
-          <Text numberOfLines={2} style={styles.add}>
-            Gia hạn hợp đồng
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.mid}>
-        <TouchableOpacity onPress={resignStaff} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.delstaff} style={styles.img} />
-          </View>
-          <Text numberOfLines={2} style={styles.add}>
-            Nhân sự nghỉ việc
+            Đơn xin nghỉ
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={generalInfo} style={styles.row}>
@@ -45,22 +27,29 @@ const Admin = (props) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.bot}>
-        <TouchableOpacity onPress={addOT} style={styles.row}>
-          <View style={styles.iconOT}>
+      <View style={styles.mid}>
+        <TouchableOpacity onPress={applyOT} style={styles.row}>
+          <View style={styles.icon}>
             <Image source={imgs.OT} style={styles.img} />
           </View>
-          <Text numberOfLines={1} style={styles.ot}>
-            Đơn Nghỉ, OT
+          <Text numberOfLines={2} style={styles.add}>
+            Đơn xin OT
           </Text>
         </TouchableOpacity>
-        <View style={styles.nothing} />
+        <TouchableOpacity onPress={applyLate} style={styles.row}>
+          <View style={styles.icon}>
+            <Image source={imgs.late} style={styles.img} />
+          </View>
+          <Text numberOfLines={2} style={styles.add}>
+            Đơn xin đi muộn
+          </Text>
+        </TouchableOpacity>
       </View>
     </>
   );
 };
 
-export default Admin;
+export default User;
 
 const styles = StyleSheet.create({
   top: {

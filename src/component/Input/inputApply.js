@@ -6,8 +6,10 @@ import {
   View,
   StyleSheet,
   ViewStyle,
+  Text,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -19,16 +21,18 @@ interface Props extends TextInputProps {
   refInput?: React.Ref;
 }
 
-Input.defaultProps = {
-  width: wp(75),
-  height: 50,
-  borderRadius: 8,
-  backgroundColor: 'rgb(227, 230, 229)',
+InputApply.defaultProps = {
+  width: wp(90),
+  height: 60,
+  borderRadius: 12,
+  backgroundColor: 'rgb(47,172,79)',
 };
 
-export default function Input(props?: Props) {
+export default function InputApply(props?: Props) {
   const {
-    leftImage,
+    shadowColor,
+    shadowOpacity,
+    shadowOffset,
     width,
     height,
     borderRadius,
@@ -36,6 +40,7 @@ export default function Input(props?: Props) {
     containerStyle,
     refInput,
     testID,
+    title,
     ...otherProps
   } = props;
 
@@ -44,6 +49,9 @@ export default function Input(props?: Props) {
       style={[
         styles.container,
         {
+          shadowOffset,
+          shadowOpacity,
+          shadowColor,
           width,
           height,
           borderRadius,
@@ -51,15 +59,18 @@ export default function Input(props?: Props) {
         },
         containerStyle,
       ]}>
-      <Image source={leftImage} style={styles.image} resizeMode="contain" />
       <TextInput
+        multiline
         testID={testID}
         ref={refInput}
         style={styles.textInput}
         selectionColor={'black'}
-        placeholderTextColor={'gray'}
+        placeholder={'Vui lòng nhập....'}
+        placeholderTextColor={'black'}
         autoCorrect={false}
         clearButtonMode="always"
+        maxLength={100}
+
         {...otherProps}
       />
     </View>
@@ -71,15 +82,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    marginVertical: 8,
   },
   image: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   },
   textInput: {
     flex: 1,
     paddingLeft: 12,
     fontSize: 16,
     color: 'black',
+    alignSelf: 'center',
+  },
+  left: {
+    flexDirection: 'row',
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 20,
+    fontWeight: '400',
+    marginLeft: 8,
   },
 });
