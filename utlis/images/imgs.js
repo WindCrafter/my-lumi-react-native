@@ -43,4 +43,6 @@ export const imgs = {
   tick: require('../../common/assets/images/icon/Tick-icon.png'),
   down: require('../../common/assets/images/icon/down-icon.png'),
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
+  warning: require('../../common/assets/images/icon/Warning-icon.png'),
+  addblue: require('../../common/assets/images/icon/Add-icon-blue.png'),
 };

@@ -10,7 +10,8 @@ import home from '../container/home';
 import addStaff from '../container/addStaff';
 import information from '../container/information';
 import TabbarStack from './TabbarStack';
-
+import Notify from '../container/notify';
+import notify from '../container/notify';
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
@@ -40,6 +41,17 @@ export default function HomeStack() {
         }}
       />
       <Stack.Screen name={'Information'} component={information} />
+      <Stack.Screen
+        name={'Thông báo'}
+        component={notify}
+        options={{
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: 'rgb(47, 172, 79)',
+          },
+          headerTintColor: 'white',
+        }}
+      />
     </Stack.Navigator>
   );
 }

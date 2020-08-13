@@ -14,12 +14,14 @@ const Home = (props) => {
   const onAddStaff = () => {
     navigation.navigate('Thêm nhân viên');
   };
-
+  const onPressNotify = () => {
+    navigation.navigate('Thông báo');
+  };
   return (
     <>
       <BarStatus backgroundColor="rgb(47,172,79)" />
       <View style={styles.container}>
-        <Header />
+        <Header pressNotify={onPressNotify}  />
         <View style={{flex: 4}}>
           <ScrollView>
             <Card style={styles.card}>
