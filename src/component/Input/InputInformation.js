@@ -1,16 +1,46 @@
-import {TextInput, Image, View, StyleSheet} from 'react-native';
+import React from 'react';
+import {
+  TextInputProps,
+  TextInput,
+  Image,
+  View,
+  StyleSheet,
+  ViewStyle,
+  Text,
+} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {Props} from './Props';
+import {imgs} from '../../../utlis';
 
-Input.defaultProps = {
-  width: wp(75),
+interface Props extends TextInputProps {
+  leftImage?: String | Number;
+  width?: String | Number;
+  height?: Number;
+  borderRadius?: Number;
+  backgroundColor?: String;
+  containerStyle?: ViewStyle;
+  refInput?: React.Ref;
+  title?: String;
+}
+
+InputInfor.defaultProps = {
+  width: wp(90),
   height: 50,
-  borderRadius: 8,
+  borderRadius: 3,
   backgroundColor: 'rgb(227, 230, 229)',
+  leftImage: imgs.personal,
+  shadowOffset: {
+    width: 0,
+    height: 5,
+  },
+  shadowColor: '#000000',
+  shadowOpacity: 0.16,
 };
 
-export default function Input(props?: Props) {
+export default function InputInfor(props?: Props) {
   const {
+    shadowColor,
+    shadowOpacity,
+    shadowOffset,
     leftImage,
     width,
     height,
@@ -19,6 +49,7 @@ export default function Input(props?: Props) {
     containerStyle,
     refInput,
     testID,
+    title,
     ...otherProps
   } = props;
 
@@ -27,6 +58,9 @@ export default function Input(props?: Props) {
       style={[
         styles.container,
         {
+          shadowOffset,
+          shadowOpacity,
+          shadowColor,
           width,
           height,
           borderRadius,
@@ -35,6 +69,7 @@ export default function Input(props?: Props) {
         containerStyle,
       ]}>
       <Image source={leftImage} style={styles.image} resizeMode="contain" />
+      <Text style={styles.textTitle}>{title}</Text>
       <TextInput
         testID={testID}
         ref={refInput}
@@ -56,12 +91,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   image: {
-    width: 32,
-    height: 32,
+    width: 24,
+    height: 24,
   },
   textInput: {
     flex: 1,
-    paddingLeft: 12,
+    paddingLeft:12,
+    fontSize: 16,
+    color: 'black',
+  },
+  textTitle: {
+    // flex: 1,
+    padding: 6,
     fontSize: 16,
     color: 'black',
   },

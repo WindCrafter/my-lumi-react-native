@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import {StatusBar} from 'react-native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
@@ -19,16 +19,15 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
-        headerShown: false,
+        // headerShown: false,
       }}>
       <Stack.Screen
-        name={'hoome'}
-        component={home}
+        name={'TabHome'}
+        component={TabbarStack}
         options={{
           headerShown: false,
         }}
       />
-      <Stack.Screen name={'TabHome'} component={TabbarStack} />
       <Stack.Screen
         name={'Thêm nhân viên'}
         component={addStaff}
@@ -40,8 +39,6 @@ export default function HomeStack() {
           headerTintColor: 'white',
         }}
       />
-      <Stack.Screen name={'TabHome'} component={TabbarStack} />
-      <Stack.Screen name={'AddStaff'} component={addStaff} route={false} />
       <Stack.Screen name={'Information'} component={information} />
     </Stack.Navigator>
   );

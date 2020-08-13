@@ -20,7 +20,7 @@ const Home = (props) => {
       <BarStatus backgroundColor="rgb(47,172,79)" />
       <View style={styles.container}>
         <Header />
-        <View style={{ flex: 4 }}>
+        <View style={{flex: 4}}>
           <ScrollView>
             <Card style={styles.card}>
               <Admin addStaff={onAddStaff} />

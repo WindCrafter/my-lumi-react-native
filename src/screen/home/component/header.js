@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
-import { imgs } from '../../../../utlis';
+import {imgs} from '../../../../utlis';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
@@ -22,7 +22,7 @@ const currentDayInWeek =
     : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressNotify } = props;
+  const {pressNotify} = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>

@@ -1,18 +1,23 @@
-import { Input, InputPassword } from './Input';
-import { Button } from './Button';
+import {Input, InputPassword, InputInfor, InputSelect} from './Input';
+import {Button} from './Button';
 import Checkbox from './Checkbox';
 import Logo from './Logo';
-import { Alert } from './Alert';
+import {Alert} from './Alert';
 import BarStatus from './StatusBar/BarStatus';
 import TabbarIcon from './Tabbar/TabbarIcon';
-
+import {Touchable} from './Touchable';
+import {TextSelect} from './Text';
 export {
   Input,
   InputPassword,
+  InputInfor,
+  InputSelect,
   Button,
   Checkbox,
   Logo,
   Alert,
   BarStatus,
   TabbarIcon,
+  Touchable,
+  TextSelect,
 };
