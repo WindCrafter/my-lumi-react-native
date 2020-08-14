@@ -18,7 +18,7 @@ import applyLate from '../container/apply/applyLate';
 import applyBreak from '../container/apply/applyBreak';
 import applyOT from '../container/apply/applyOT';
 import qrcode from '../container/checkIn/qrcode';
-
+import notify from '../container/notify';
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
@@ -27,6 +27,7 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+        // headerShown: false,
       }}>
       <Stack.Screen
         name={'TabHome'}
@@ -114,6 +115,18 @@ export default function HomeStack() {
         component={qrcode}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen name={'Information'} component={information} />
+      <Stack.Screen
+        name={'Thông báo'}
+        component={notify}
+        options={{
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: 'rgb(47, 172, 79)',
+          },
+          headerTintColor: 'white',
         }}
       />
     </Stack.Navigator>

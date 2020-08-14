@@ -68,11 +68,14 @@ function Home(props) {
     navigation.navigate('ApplyOT');
   };
 
+  const onPressNotify = () => {
+    navigation.navigate('Thông báo');
+  };
   return (
     <>
       <BarStatus backgroundColor="rgb(47,172,79)" />
       <View style={styles.container}>
-        <Header onPress={onCheckin} />
+        <Header pressNotify={onPressNotify} onPress={onCheckin} />
         <View style={{ flex: 4 }}>
           <ScrollView>
             <Card style={styles.card}>

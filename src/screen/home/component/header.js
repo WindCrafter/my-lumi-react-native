@@ -14,7 +14,7 @@ const currentDayInWeek =
       ? 'Thứ 3'
       : day === 'Wednesday'
         ? 'Thứ 4'
-        : day === 'Thursday'
+        : day === 'ThusDay'
           ? 'Thứ 5'
           : day === 'Friday'
             ? 'Thứ 6'

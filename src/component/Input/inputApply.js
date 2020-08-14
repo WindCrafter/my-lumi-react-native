@@ -19,6 +19,7 @@ interface Props extends TextInputProps {
   backgroundColor?: String;
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
+  title?: String;
 }
 
 InputApply.defaultProps = {
@@ -73,7 +74,7 @@ export default function InputApply(props?: Props) {
 
         {...otherProps}
       />
-    </View>
+    </View >
   );
 }
 
@@ -93,6 +94,12 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     paddingLeft: 12,
+    fontSize: 16,
+    color: 'black',
+  },
+  textTitle: {
+    // flex: 1,
+    padding: 6,
     fontSize: 16,
     color: Colors.white,
     alignSelf: 'center',

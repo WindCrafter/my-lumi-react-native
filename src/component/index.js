@@ -1,4 +1,4 @@
-import { Input, InputPassword, InputRow } from './Input';
+import { Input, InputPassword, InputRow, InputInfor, InputSelect } from './Input';
 import { Button } from './Button';
 import Checkbox from './Checkbox';
 import Logo from './Logo';
@@ -8,11 +8,14 @@ import TabbarIcon from './Tabbar/TabbarIcon';
 import HeaderCustom from './HeaderCustom/index.js';
 import HeaderCheck from './HeaderCustom/HeaderCheck';
 import SmartWipeRow from './Row/SmartWipeRow';
+import { Touchable } from './Touchable';
+import { TextSelect } from './Text';
 
 export {
   Input,
   InputPassword,
-  InputRow,
+  InputInfor,
+  InputSelect,
   Button,
   Checkbox,
   Logo,
@@ -22,4 +25,6 @@ export {
   HeaderCustom,
   HeaderCheck,
   SmartWipeRow,
+  Touchable,
+  TextSelect,
 };
