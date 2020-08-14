@@ -19,7 +19,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import { imgs, Colors } from '../../../utlis';
 import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flexDirection: 'column',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   line: {
     height: 1,
     width: '90%',
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     alignSelf: 'center',
   },
   status: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '500',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   extend: {
     fontSize: 18,
@@ -228,11 +228,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   complete: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
   },
   bottom: {
     position: 'absolute',
     bottom: 32,
-    left: wp(12.5)
-  }
+    left: wp(12.5),
+  },
 });

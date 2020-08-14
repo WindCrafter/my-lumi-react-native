@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+} from 'react-native';
 import Header from './component/header';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { BarStatus } from '../../component';
@@ -10,6 +19,14 @@ import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
 import User from './component_user/user';
 import Event from './component_user/event';
+import InfoWeek from './component_user/infoWeek';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 function Home(props) {
   const [admin, setAdmin] = useState(true);
@@ -35,6 +52,7 @@ function Home(props) {
   };
 
   const onCheckin = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setAdmin(!admin);
   };
 
@@ -71,11 +89,12 @@ function Home(props) {
                     applyBreak={onApplyBreak}
                     applyLate={onApplyLate}
                     applyOT={onApplyOT}
+                    generalInfo={onGoInformation}
                   />
                 )}
             </Card>
             <Card style={styles.card}>
-              <InfoDays />
+              {admin ? <InfoDays /> : <InfoWeek />}
             </Card>
             <Card style={styles.card}>
               <DeadLine />

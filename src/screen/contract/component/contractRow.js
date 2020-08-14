@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../../../../utlis';
 
 export default function ContractRow(props?: Props) {
   const { leftImage, name, dob, team, role, outDate, onPress } = props;
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flex: 2.5,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   txtRole: {
     fontWeight: '600',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   role: {
     flex: 1.25,

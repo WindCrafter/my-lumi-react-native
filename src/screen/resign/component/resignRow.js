@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../../../../utlis';
 
 export default function ResignRow(props?: Props) {
   const { leftImage, name, dob, team, role, dayout } = props;
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flex: 3,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   line: {
     width: wp(90),
     height: 1,
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     alignSelf: 'center',
   },
   dayout: {

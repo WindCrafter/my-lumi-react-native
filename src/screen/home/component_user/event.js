@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import langs from '../../../../common/language';
 
 const Event = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>Sự kiện</Text>
+        <Text style={styles.txtManager}>{langs.event}</Text>
         <Text style={styles.txtDetail}> Hiện chưa có sự kiện nào</Text>
       </View>
     </>

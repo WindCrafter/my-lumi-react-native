@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -19,10 +20,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import { imgs, Colors } from '../../../utlis';
 import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 import InputApply from '../../component/Input/inputApply';
+import langs from '../../../common/language';
 
 if (
   Platform.OS === 'android' &&
@@ -34,6 +36,10 @@ if (
 function ApplyOT(props) {
   const [date, setDate] = useState(new Date(1598051730000));
   const [time, setTime] = useState(new Date(1598051730000));
+  const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
+  const [timeEnd, setTimeEnd] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('');
+  const [start, setStart] = useState('');
   const [show, setShow] = useState(false);
   const { navigation, route } = props;
 
@@ -53,13 +59,41 @@ function ApplyOT(props) {
     setTime(currentTime);
   };
 
-  const onShow = () => {
+  const onChangeEnd = (event, selectedDate) => {
+    const currentDateEnd = selectedDate || dateEnd;
+    setShow(Platform.OS === 'ios');
+    setDateEnd(currentDateEnd);
+  };
+
+  const onChangeTimeEnd = (event, selectedDate) => {
+    const currentTimeEnd = selectedDate || dateEnd;
+    setShow(Platform.OS === 'ios');
+    setTimeEnd(currentTimeEnd);
+  };
+  //m-time , v-start mode
+  const onShowStart = (m, v) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(!show);
+    setShow(true);
+    setStart(v);
+    setMode(m);
+  };
+
+  const onShowEnd = (m, v) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(true);
+    setStart(v);
+    setMode(m);
   };
 
   const onComplete = () => {
     Alert.alert('end');
+  };
+
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(false);
+    setStart('');
+    setMode('');
   };
 
   return (
@@ -75,64 +109,122 @@ function ApplyOT(props) {
         fontSize={24}
       />
       <ScrollView>
-        <Text style={styles.extend}>Nhập thông tin : </Text>
+        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>Tóm tắt lí do :</Text>
+            <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
           </View>
           <InputApply />
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>Thời gian bắt đầu :</Text>
+            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={onShow}>
-            {Platform.OS === 'ios' ? (
+          <View style={[styles.row, { alignSelf: 'center' }]}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  width: wp(25),
+                  marginRight: wp(5),
+                  backgroundColor:
+                    mode === 'time' && start === 'start'
+                      ? 'rgb(125, 22, 204)'
+                      : Colors.background,
+                },
+              ]}
+              onPress={() => onShowStart('time', 'start')}>
+              <Text style={styles.txtTime}>{moment(time).format('HH:mm')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    mode === 'date' && start === 'start'
+                      ? 'rgb(125, 22, 204)'
+                      : Colors.background,
+                },
+              ]}
+              onPress={() => onShowStart('date', 'start')}>
               <Text style={styles.txtTime}>
-                {' '}
-                {moment(date).format('HH:mm     DD/MM/YYYY')} {show ? '▲' : '▼'}
+                {moment(date).format('DD/MM/YYYY')}
               </Text>
-            ) : (
-                <Text style={styles.txtTime}>
-                  {moment(time).format('HH:mm')}
-                  {'       '}
-                  {moment(date).format('DD/MM/YYYY')} {show ? '▲' : '▼'}
-                </Text>
-              )}
-          </TouchableOpacity>
-          {show ? (
-            Platform.OS === 'ios' ? (
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startDate} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
+          </View>
+          <View style={[styles.row, { alignSelf: 'center' }]}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  width: wp(25),
+                  marginRight: wp(5),
+                  backgroundColor:
+                    mode === 'time' && start === 'end'
+                      ? 'rgb(125, 22, 204)'
+                      : Colors.background,
+                },
+              ]}
+              onPress={() => onShowEnd('time', 'end')}>
+              <Text style={styles.txtTime}>
+                {moment(timeEnd).format('HH:mm')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    mode === 'date' && start === 'end'
+                      ? 'rgb(125, 22, 204)'
+                      : Colors.background,
+                },
+              ]}
+              onPress={() => onShowEnd('date', 'end')}>
+              <Text style={styles.txtTime}>
+                {moment(dateEnd).format('DD/MM/YYYY')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {show ? (
+          mode === 'time' ? (
+            <>
+              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
+                <Text style={styles.txtX}>X</Text>
+              </TouchableOpacity>
               <DateTimePicker
-                value={date}
-                mode={'datetime'}
+                value={start === 'start' ? time : timeEnd}
+                mode={'time'}
                 display="default"
-                onChange={onChange}
+                onChange={start === 'start' ? onChangeTime : onChangeTimeEnd}
+                is24hour={true} />
+            </>
+          ) : mode === 'date' ? (
+            <>
+              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
+                <Text style={styles.txtX}>X</Text>
+              </TouchableOpacity>
+              <DateTimePicker
+                value={start === 'start' ? date : dateEnd}
+                mode={'date'}
+                display="default"
+                onChange={start === 'start' ? onChange : onChangeEnd}
                 is24hour={true}
               />
-            ) : (
-                <>
-                  <DateTimePicker
-                    value={time}
-                    mode={'time'}
-                    display="default"
-                    onChange={onChangeTime}
-                    is24hour={true}
-                  />
-                  <DateTimePicker
-                    value={date}
-                    mode={'date'}
-                    display="default"
-                    onChange={onChange}
-                    is24hour={true}
-                  />
-                </>
-              )
-          ) : null}
-        </View>
+            </>
+          ) : null
+        ) : null}
       </ScrollView>
       <View style={styles.bottom}>
         <Button
@@ -177,7 +269,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flexDirection: 'column',
@@ -191,7 +283,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
@@ -218,7 +310,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   complete: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
   },
   bottom: {
     position: 'absolute',
@@ -232,8 +324,8 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 60,
-    width: wp(90),
-    backgroundColor: 'rgb(47,172,79)',
+    width: wp(60),
+    backgroundColor: Colors.background,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -241,5 +333,22 @@ const styles = StyleSheet.create({
   },
   txtTime: {
     fontSize: 20,
+    color: Colors.white,
+  },
+  unshow: {
+    height: 28,
+    width: 28,
+    borderRadius: 14,
+    right: 0,
+    backgroundColor: 'tomato',
+    alignSelf: 'flex-end',
+    marginRight: 24,
+    marginTop: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtX: {
+    color: Colors.white,
+    fontWeight: '900',
   },
 });

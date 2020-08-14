@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { imgs } from '../../../../utlis';
+import langs from '../../../../common/language';
 
 const User = (props) => {
   const { applyLate, applyOT, applyBreak, generalInfo } = props;
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>Quản lí nhân sự</Text>
+        <Text style={styles.txtManager}>{langs.event}</Text>
       </View>
       <View style={styles.top}>
         <TouchableOpacity onPress={applyBreak} style={styles.row}>
@@ -15,7 +16,7 @@ const User = (props) => {
             <Image source={imgs.leave} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Đơn xin nghỉ
+            {langs.applyBreak}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={generalInfo} style={styles.row}>
@@ -23,7 +24,7 @@ const User = (props) => {
             <Image source={imgs.information} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Tổng hợp thông tin
+            {langs.genaralInfo}
           </Text>
         </TouchableOpacity>
       </View>
@@ -33,7 +34,7 @@ const User = (props) => {
             <Image source={imgs.OT} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Đơn xin OT
+            {langs.applyOT}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={applyLate} style={styles.row}>
@@ -41,7 +42,7 @@ const User = (props) => {
             <Image source={imgs.late} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Đơn xin đi muộn
+            {langs.applyLate}
           </Text>
         </TouchableOpacity>
       </View>

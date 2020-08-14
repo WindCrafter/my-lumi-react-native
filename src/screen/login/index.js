@@ -1,6 +1,6 @@
 /* eslint-disable no-catch-shadow */
 /* eslint-disable no-shadow */
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,26 +9,29 @@ import {
   Alert,
   Keyboard,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import {Input, InputPassword, Button, Checkbox, Logo} from '../../component';
+import { Input, InputPassword, Button, Checkbox, Logo } from '../../component';
 import config from '../../../utlis/ggConfig/config';
-import {imgs} from '../../../utlis';
+import { imgs } from '../../../utlis';
+import langs from '../../../common/language';
 
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
+  const { loginAction } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [checked, setChecked] = useState(false);
   const [userInfo, setUserInfo] = useState('');
   const [error, setError] = useState('');
-  const {navigation} = props;
+  const { navigation } = props;
 
   useEffect(() => {
     async function fetchData() {
@@ -48,7 +51,6 @@ const Login = (props) => {
   const _getCurrentUser = async () => {
     try {
       const info = await GoogleSignin.signInSilently();
-      console.log('sasas', info);
       setUserInfo(info);
       setError(null);
     } catch (error) {
@@ -64,7 +66,6 @@ const Login = (props) => {
     try {
       await GoogleSignin.hasPlayServices();
       const info = await GoogleSignin.signIn();
-      console.log('===>', JSON.stringify(info));
       setUserInfo(info);
       setError(null);
     } catch (error) {
@@ -97,19 +98,16 @@ const Login = (props) => {
       Alert.alert('email invalid');
       return;
     }
-
     if (pass.length === 0) {
       Alert.alert('password invalid');
-
       return;
     } else {
-      navigation.navigate('HomeStack');
+      loginAction({ email, password: pass });
     }
   };
 
   const onChangeEmail = (value) => {
     setEmail(value);
-    console.log(email);
   };
 
   const onChangePass = (value) => {
@@ -144,7 +142,7 @@ const Login = (props) => {
           // leftImage={}
           // backgroundColor={'rgba(0,0,25,0.22)'}
           opa
-          placeholder={'Tên đăng nhập hoặc email'}
+          placeholder={langs.user}
           testID="test_Username"
           containerStyle={styles.textInput}
           returnKeyType="next"
@@ -158,7 +156,7 @@ const Login = (props) => {
         <InputPassword
           testID="test_Password"
           // backgroundColor={'rgba(0,0,25,0.22)'}
-          placeholder={'Vui lòng điền mật khẩu'}
+          placeholder={langs.passWord}
           containerStyle={styles.textInput}
           refInput={refPassword}
           maxLength={20}
@@ -168,13 +166,13 @@ const Login = (props) => {
         />
         <Checkbox
           containerStyle={styles.checkBox}
-          title={'Nhớ lần đăng nhập'}
+          title={langs.rememberMe}
           checked={checked}
           onChange={onChangeRememberLogin}
         />
         <Button
           backgroundColor={'rgb(0,138,238)'}
-          title={'Đăng nhập'}
+          title={langs.login}
           onPress={onLogin}
           testID="test_Login"
         />
@@ -183,7 +181,7 @@ const Login = (props) => {
           testID="test_ForgotPass"
           onPress={_signOut}
           style={styles.forgotPass}>
-          <Text style={styles.textForgot}>Quên mật khẩu</Text>
+          <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
         </TouchableOpacity>
       </View>
     </View>

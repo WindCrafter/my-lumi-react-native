@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { imgs } from '../../../../utlis';
+import langs from '../../../../common/language';
 
 const Admin = (props) => {
   const { addStaff, extendContract, resignStaff, generalInfo, addOT } = props;
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>Quản lí nhân sự</Text>
+        <Text style={styles.txtManager}>{langs.manager}</Text>
       </View>
       <View style={styles.top}>
         <TouchableOpacity onPress={addStaff} style={styles.row}>
@@ -15,7 +16,7 @@ const Admin = (props) => {
             <Image source={imgs.addstaff} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Thêm nhân viên mới
+            {langs.addStaff}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={extendContract} style={styles.row}>
@@ -23,7 +24,7 @@ const Admin = (props) => {
             <Image source={imgs.contract} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Gia hạn hợp đồng
+            {langs.extendContract}
           </Text>
         </TouchableOpacity>
       </View>
@@ -33,7 +34,7 @@ const Admin = (props) => {
             <Image source={imgs.delstaff} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Nhân sự nghỉ việc
+            {langs.listStaffOut}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={generalInfo} style={styles.row}>
@@ -41,7 +42,7 @@ const Admin = (props) => {
             <Image source={imgs.information} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            Tổng hợp thông tin
+            {langs.genaralInfo}
           </Text>
         </TouchableOpacity>
       </View>
@@ -51,7 +52,7 @@ const Admin = (props) => {
             <Image source={imgs.OT} style={styles.img} />
           </View>
           <Text numberOfLines={1} style={styles.ot}>
-            Đơn Nghỉ, OT
+            {langs.resignOT}
           </Text>
         </TouchableOpacity>
         <View style={styles.nothing} />

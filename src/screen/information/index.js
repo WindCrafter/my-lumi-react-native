@@ -17,6 +17,7 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
+import { Colors } from '../../../utlis';
 
 const DATA = [
   {
@@ -28,7 +29,7 @@ const DATA = [
     kpi: '28',
     kpi_6m: '28',
     work: '28',
-    key: 1,
+    key: 'sasas',
   },
   {
     name: 'Lê Mạnh Cường',
@@ -39,7 +40,7 @@ const DATA = [
     kpi: '27',
     kpi_6m: '29',
     work: '28',
-    key: 2,
+    key: 'asjba',
   },
   {
     name: 'Nguyễn Xuân Kiên',
@@ -50,7 +51,7 @@ const DATA = [
     kpi: '29',
     kpi_6m: '28',
     work: '27',
-    key: 3,
+    key: 'asasa',
   },
 ];
 if (
@@ -68,7 +69,9 @@ function Information(props) {
   const { navigation } = props;
 
   const renderItem = (data) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      : null;
     return (
       <InfoRow
         name={data.item.name}
@@ -140,7 +143,7 @@ function Information(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.background}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Thông tin tổng hợp'} height={60} goBack={goBack} />
@@ -151,9 +154,11 @@ function Information(props) {
         onPress={onSearch}
         value={search}
         onChangeText={onChangeSearch}
-        autoCapitalize={false}
+        autoCapitalize={'none'}
       />
       <SwipeListView
+        useFlatList={true}
+        // keyExtractor={(item) => item.key}
         data={listData}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   backRightBtnLeft: {
-    backgroundColor: 'blue',
+    backgroundColor: 'rgb(125, 22, 204)',
     right: 75,
   },
   backRightBtnRight: {
@@ -236,5 +241,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
   },
 });

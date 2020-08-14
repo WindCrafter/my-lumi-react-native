@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { imgs } from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
+import langs from '../../../../common/language';
 
 const Schedule = (props) => {
   const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>Công việc</Text>
+        <Text style={styles.txtManager}>{langs.work}</Text>
       </View>
       <View style={styles.detail}>
         <TouchableOpacity style={styles.button}>
@@ -15,7 +16,7 @@ const Schedule = (props) => {
             <Image source={imgs.add} style={styles.img} />
           </View>
           <Text style={styles.txtAdd} numberOfLines={2}>
-            Thêm công việc
+            {langs.addWork}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
@@ -23,7 +24,7 @@ const Schedule = (props) => {
             <Image source={imgs.meeting} style={styles.img} />
           </View>
           <Text style={styles.txtAdd} numberOfLines={2}>
-            Tạo lịch họp
+            {langs.creMeeting}
           </Text>
         </TouchableOpacity>
       </View>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     height: 18,
   },
   add: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     padding: 4,
     alignSelf: 'center',
     borderRadius: 11,

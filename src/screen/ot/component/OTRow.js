@@ -9,7 +9,8 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import { imgs } from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
+import langs from '../../../../common/language';
 
 if (
   Platform.OS === 'android' &&
@@ -61,10 +62,10 @@ export default function OTRow(props?: Props) {
           <TouchableOpacity style={styles.type} onPress={onReadMore}>
             <Text style={styles.txtType}>
               {type === 'break'
-                ? 'Xin Nghỉ'
+                ? langs.applyBreak
                 : type === 'late'
-                  ? 'Xin đi muộn'
-                  : 'Xin OT'}
+                  ? langs.applyLate
+                  : langs.applyOT}
             </Text>
             <View style={styles.button}>
               <Text>Xem thêm</Text>
@@ -77,7 +78,7 @@ export default function OTRow(props?: Props) {
           <View style={styles.check} />
           <View style={[styles.container, { backgroundColor: '#ffffff' }]}>
             <Text style={styles.txtContent} numberOfLines={10}>
-              Lí do: <Text style={styles.content}> {content}</Text>
+              {langs.reason} <Text style={styles.content}> {content}</Text>
             </Text>
           </View>
         </View>
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flex: 3,

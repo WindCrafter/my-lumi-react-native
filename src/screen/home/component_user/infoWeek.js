@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import langs from '../../../../common/language';
 
-const InfoDays = (props) => {
+const InfoWeek = (props) => {
   const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>{langs.dayInfo}</Text>
+        <Text style={styles.txtManager}>{langs.dayWeek}</Text>
       </View>
       <View style={styles.bot}>
         <View styles={styles.comp}>
@@ -27,7 +27,7 @@ const InfoDays = (props) => {
   );
 };
 
-export default InfoDays;
+export default InfoWeek;
 
 const styles = StyleSheet.create({
   bot: {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../../../../utlis';
+import langs from '../../../../common/language';
 
 export default function InfoRow(props?: Props) {
   const { leftImage, name, dob, team, role, work, kpi, kpi_6m } = props;
@@ -10,18 +12,20 @@ export default function InfoRow(props?: Props) {
       <Image source={leftImage} style={styles.image} resizeMode="contain" />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.dob}>DOB: {dob}</Text>
+        <Text style={styles.dob}>
+          {langs.dob} {dob}
+        </Text>
         <Text style={styles.team}>
-          Team: {team} -{' '}
+          {langs.team} {team} -{' '}
           <Text
             style={[styles.role, { color: role === 'Leader' ? 'red' : 'black' }]}>
             {role}
           </Text>
         </Text>
       </View>
-      <View style={styles.work}>
+      {/* <View style={styles.work}>
         <View style={styles.flex}>
-          <Text style={styles.txtWork}>Công/tháng</Text>
+          <Text style={styles.txtWork}>{langs.workMonth}</Text>
         </View>
         <View style={styles.flex}>
           <Text style={styles.numb}> {work}</Text>
@@ -29,7 +33,7 @@ export default function InfoRow(props?: Props) {
       </View>
       <View style={styles.work}>
         <View style={styles.flex}>
-          <Text style={styles.txtWork}>KPI/tháng</Text>
+          <Text style={styles.txtWork}>{langs.kpiMonth}</Text>
         </View>
         <View style={styles.flex}>
           <Text style={styles.numb}> {kpi}</Text>
@@ -37,12 +41,12 @@ export default function InfoRow(props?: Props) {
       </View>
       <View style={styles.work}>
         <View style={styles.flex}>
-          <Text style={styles.txtWork}>KPI/6tháng</Text>
+          <Text style={styles.txtWork}>{langs.kpi_6Month}</Text>
         </View>
         <View style={styles.flex}>
           <Text style={styles.numb}> {kpi_6m}</Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   detail: {
     flex: 3,

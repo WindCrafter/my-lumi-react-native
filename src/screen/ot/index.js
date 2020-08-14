@@ -17,6 +17,7 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
+import { Colors } from '../../../utlis';
 
 const DATA = [
   {
@@ -107,7 +108,7 @@ function OT(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.background}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Đơn nghỉ/OT'} height={60} goBack={goBack} />
@@ -119,7 +120,7 @@ function OT(props) {
       <View style={styles.twoButton}>
         <Button
           title={'Accept'}
-          backgroundColor={'rgb(47,172,79)'}
+          backgroundColor={Colors.background}
           containerStyle={styles.button}
           onPress={onAccept}
         />

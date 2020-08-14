@@ -17,6 +17,7 @@ import addContract from '../container/contract/addContract';
 import applyLate from '../container/apply/applyLate';
 import applyBreak from '../container/apply/applyBreak';
 import applyOT from '../container/apply/applyOT';
+import qrcode from '../container/checkIn/qrcode';
 
 const Stack = createStackNavigator();
 
@@ -104,6 +105,13 @@ export default function HomeStack() {
       <Stack.Screen
         name={'ApplyOT'}
         component={applyOT}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'QRCode'}
+        component={qrcode}
         options={{
           headerShown: false,
         }}

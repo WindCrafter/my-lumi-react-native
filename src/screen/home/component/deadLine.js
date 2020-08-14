@@ -1,12 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import langs from '../../../../common/language';
 
 const DeadLine = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>DeadLine hoặc dự án lớn</Text>
-        <Text style={styles.txtDetail}> Hiện chưa có dự án hoặc deadline nào</Text>
+        <Text style={styles.txtManager}>{langs.dealLine}</Text>
+        <Text style={styles.txtDetail}>
+          {' '}
+          Hiện chưa có dự án hoặc deadline nào
+        </Text>
       </View>
     </>
   );

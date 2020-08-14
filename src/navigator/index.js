@@ -16,11 +16,13 @@ import login from '../container/login';
 import forgotPass from '../container/forgotPassword/forgotPass';
 import TabbarStack from './TabbarStack';
 import HomeStack from './HomeStack';
+import firstLogin from '../container/firstLogin';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
 
 export default function Navigator(props) {
+  const { loginSuccess, changePass } = props;
   return (
     <NavigationContainer>
       <RootStack.Navigator
@@ -28,21 +30,28 @@ export default function Navigator(props) {
           headerTitleAlign: 'center',
           headerShown: false,
         }}>
-        <RootStack.Screen
-          name={'Login'}
-          component={login}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <RootStack.Screen
-          name={'Forgot Password'}
-          component={forgotPass}
-          options={{
-            title: false,
-          }}
-        />
-        <RootStack.Screen name={'HomeStack'} component={HomeStack} />
+        {!loginSuccess ? (
+          <>
+            <RootStack.Screen
+              name={'Login'}
+              component={login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name={'Forgot Password'}
+              component={forgotPass}
+              options={{
+                title: false,
+              }}
+            />
+          </>
+        ) : changePass ? (
+          <RootStack.Screen name={'FirstLogin'} component={firstLogin} />
+        ) : (
+              <RootStack.Screen name={'HomeStack'} component={HomeStack} />
+            )}
       </RootStack.Navigator>
     </NavigationContainer>
   );

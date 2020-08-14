@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import { imgs, Colors } from '../../../utlis';
+import Icon from 'react-native-vector-icons/Feather';
 
 HeaderCustom.defaultProps = {
   width: wp(100),
@@ -37,17 +38,17 @@ export default function HeaderCustom(props?: Props) {
         containerStyle,
       ]}>
       <TouchableOpacity onPress={goBack} style={styles.button}>
-        <Image source={leftImage} style={styles.image} resizeMode="contain" />
+        {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
+        <Icon name="chevron-left" size={32} color={Colors.background} />
       </TouchableOpacity>
       <Text style={[styles.title, { fontSize }]} {...otherProps}>
         {title}
       </Text>
-      {rightButton ?
+      {rightButton ? (
         <TouchableOpacity style={styles.right} onPress={onRight}>
           <Image source={imgs.add} style={styles.img} />
         </TouchableOpacity>
-        : null
-      }
+      ) : null}
     </View>
   );
 }
@@ -62,6 +63,8 @@ const styles = StyleSheet.create({
   button: {
     position: 'absolute',
     left: 32,
+    width: 32,
+    height: 32,
   },
   image: {
     width: 32,
@@ -70,10 +73,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: 'rgb(47,172,79)',
+    color: Colors.background,
   },
   right: {
-    backgroundColor: 'rgb(47,172,79)',
+    backgroundColor: Colors.background,
     padding: 4,
     position: 'absolute',
     right: 16,

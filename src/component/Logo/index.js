@@ -7,13 +7,13 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
-import {imgs} from '../../../utlis';
+import { imgs } from '../../../utlis';
 interface Props extends ImageProps {
   containerStyle?: ImageStyle;
 }
 
 export default function Logo(props?: Props) {
-  const {containerStyle} = props;
+  const { containerStyle } = props;
   return (
     <ImageBackground
       source={imgs.logo}
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     color: 'rgb(61, 196, 99)',
     fontSize: 25,
     fontWeight: '500',
-    marginBottom: 24,
+    marginBottom: 16,
   },
 });
