@@ -12,6 +12,7 @@ const initialState = {
   loginSuccess: false,
   token: '',
   changePass: false,
+  autoLoginStatus: false,
 };
 
 export default function authen(state = initialState, action) {
@@ -28,6 +29,22 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         changePass: false,
+      };
+    case types.AUTO_LOGIN:
+      return {
+        ...state,
+        loginSuccess: true,
+      };
+    case types.CHANGE_AUTO_LOGIN:
+      return {
+        ...state,
+        autoLoginStatus: action.payload,
+      };
+    case types.LOG_OUT:
+      return {
+        ...state,
+        loginSuccess: false,
+        token: '',
       };
     default:
       return state;

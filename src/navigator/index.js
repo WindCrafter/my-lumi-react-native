@@ -12,11 +12,10 @@ import {
   // TransitionPresets,
 } from '@react-navigation/stack';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import login from '../container/login';
-import forgotPass from '../container/forgotPassword/forgotPass';
-import TabbarStack from './TabbarStack';
+import forgotPass from '../admin/container/forgotPassword/forgotPass';
+import login from '../admin/container/login';
 import HomeStack from './HomeStack';
-import firstLogin from '../container/firstLogin';
+import firstLogin from '../admin/container/firstLogin';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();

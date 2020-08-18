@@ -45,3 +45,22 @@ export const changePassFailed = () => {
     type: types.CHANGE_PASS_FAILED,
   };
 };
+
+export const autoLogin = () => {
+  return {
+    type: types.AUTO_LOGIN,
+  };
+};
+
+export const changeAutoLogin = (data) => {
+  return {
+    type: types.CHANGE_AUTO_LOGIN,
+    payload: data,
+  };
+};
+
+export const logOut = () => {
+  return {
+    type: types.LOG_OUT,
+  };
+};

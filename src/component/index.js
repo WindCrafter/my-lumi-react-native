@@ -16,6 +16,7 @@ export {
   InputPassword,
   InputInfor,
   InputSelect,
+  InputRow,
   Button,
   Checkbox,
   Logo,

@@ -17,6 +17,14 @@ const persistConfig = {
   blacklist: [],
 };
 
+// const persistAuthen = {
+//   key: 'authen',
+//   storage: AsyncStorage,
+//   whitelist: ['token'],
+//   blacklist: [],
+// };
+
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, applyMiddleware(sagaMiddleware, createLogger()));

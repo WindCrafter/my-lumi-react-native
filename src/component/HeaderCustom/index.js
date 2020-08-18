@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   right: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     padding: 4,
     position: 'absolute',
     right: 16,

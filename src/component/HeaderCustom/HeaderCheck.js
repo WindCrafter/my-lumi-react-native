@@ -22,9 +22,7 @@ const currentDayInWeek =
               ? 'Thứ 7'
               : 'Chủ Nhật';
 
-HeaderCheck.defaultProps = {
-
-};
+HeaderCheck.defaultProps = {};
 
 function HeaderCheck(props?: Props) {
   const { pressNotify, title } = props;
@@ -32,9 +30,7 @@ function HeaderCheck(props?: Props) {
     <View style={styles.container}>
       <View style={styles.detail}>
         <View style={styles.info}>
-          <Text style={styles.txtName}>
-            {title}
-          </Text>
+          <Text style={styles.txtName}>{title}</Text>
           <Text style={styles.time}>
             {currentDayInWeek}, {currrentDate}
           </Text>
@@ -45,7 +41,7 @@ function HeaderCheck(props?: Props) {
       </View>
     </View>
   );
-};
+}
 
 export default HeaderCheck;
 
@@ -55,7 +51,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     borderBottomRightRadius: 48,
     borderBottomLeftRadius: 48,
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
   },
   detail: {
     flexDirection: 'row',
@@ -94,8 +91,8 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   notify: {
-    marginTop: 48,
-    marginRight: 32,
+    marginTop: 36,
+    marginRight: 8,
     height: 28,
     width: 28,
     borderRadius: 20,

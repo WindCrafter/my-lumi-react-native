@@ -2,10 +2,11 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import account from '../container/account';
+import account from '../admin/container/account';
 import { TabbarIcon } from '../component';
-import home from '../container/home';
-import checkIn from '../container/checkIn';
+import home from '../admin/container/home';
+import checkIn from '../admin/container/checkIn';
+import { Colors } from '../../utlis';
 
 const BotStack = createBottomTabNavigator();
 
@@ -15,6 +16,9 @@ export default function TabbarStack() {
     <BotStack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+      }}
+      tabBarOptions={{
+        activeTintColor: Colors.background,
       }}>
       <BotStack.Screen
         name={'Home'}
@@ -37,6 +41,6 @@ export default function TabbarStack() {
           tabBarIcon: (props) => <TabbarIcon {...props} tab={2} />,
         })}
       />
-    </BotStack.Navigator>
+    </ BotStack.Navigator>
   );
 }

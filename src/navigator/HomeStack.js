@@ -5,20 +5,20 @@ import {
   // CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
-
-import addStaff from '../container/addStaff';
-import information from '../container/information';
 import TabbarStack from './TabbarStack';
-import ot from '../container/ot';
-import resign from '../container/resign';
-import contract from '../container/contract';
-import setContract from '../container/contract/setContract';
-import addContract from '../container/contract/addContract';
-import applyLate from '../container/apply/applyLate';
-import applyBreak from '../container/apply/applyBreak';
-import applyOT from '../container/apply/applyOT';
-import qrcode from '../container/checkIn/qrcode';
-import notify from '../container/notify';
+import addStaff from '../admin/container/addStaff';
+import information from '../admin/container/information';
+import ot from '../admin/container/ot';
+import resign from '../admin/container/resign';
+import contract from '../admin/container/contract';
+import setContract from '../admin/container/contract/setContract';
+import addContract from '../admin/container/contract/addContract';
+import applyLate from '../admin/container/apply/applyLate';
+import applyOT from '../admin/container/apply/applyOT';
+import applyBreak from '../admin/container/apply/applyBreak';
+import notify from '../admin/container/notify';
+import qrcode from '../admin/container/checkIn/qrcode';
+
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
@@ -117,7 +117,6 @@ export default function HomeStack() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name={'Information'} component={information} />
       <Stack.Screen
         name={'Thông báo'}
         component={notify}

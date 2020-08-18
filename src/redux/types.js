@@ -6,3 +6,7 @@ export const REMEMBER_ACCOUNT = 'REMEMBER_ACCOUNT';
 export const CHANGE_PASS = 'CHANGE_PASS';
 export const CHANGE_PASS_SUCCESS = 'CHANGE_PASS_SUCCESS';
 export const CHANGE_PASS_FAILED = 'CHANGE_PASS_FAILED';
+
+export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const CHANGE_AUTO_LOGIN = 'CHANGE_AUTO_LOGIN';
+export const LOG_OUT = 'LOG_OUT';
