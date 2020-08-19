@@ -13,6 +13,7 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
+  role: 'user',
 };
 
 export default function authen(state = initialState, action) {

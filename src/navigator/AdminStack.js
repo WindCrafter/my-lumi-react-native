@@ -5,7 +5,7 @@ import {
   // CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
-import TabbarStack from './TabbarStack';
+import TabbarAdmin from './TabbarAdmin';
 import addStaff from '../admin/container/addStaff';
 import information from '../admin/container/information';
 import ot from '../admin/container/ot';
@@ -13,15 +13,12 @@ import resign from '../admin/container/resign';
 import contract from '../admin/container/contract';
 import setContract from '../admin/container/contract/setContract';
 import addContract from '../admin/container/contract/addContract';
-import applyLate from '../admin/container/apply/applyLate';
-import applyOT from '../admin/container/apply/applyOT';
-import applyBreak from '../admin/container/apply/applyBreak';
 import notify from '../admin/container/notify';
 import qrcode from '../admin/container/checkIn/qrcode';
 
 const Stack = createStackNavigator();
 
-export default function HomeStack() {
+export default function AdminStack() {
   StatusBar.setBarStyle('light-content');
   return (
     <Stack.Navigator
@@ -30,8 +27,8 @@ export default function HomeStack() {
         // headerShown: false,
       }}>
       <Stack.Screen
-        name={'TabHome'}
-        component={TabbarStack}
+        name={'TabbarAdmin'}
+        component={TabbarAdmin}
         options={{
           headerShown: false,
         }}
@@ -85,27 +82,6 @@ export default function HomeStack() {
       <Stack.Screen
         name={'AddContract'}
         component={addContract}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'ApplyLate'}
-        component={applyLate}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'ApplyBreak'}
-        component={applyBreak}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'ApplyOT'}
-        component={applyOT}
         options={{
           headerShown: false,
         }}

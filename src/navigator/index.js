@@ -14,14 +14,15 @@ import {
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import forgotPass from '../admin/container/forgotPassword/forgotPass';
 import login from '../admin/container/login';
-import HomeStack from './HomeStack';
+import AdminStack from './AdminStack';
+import UserStack from './UserStack';
 import firstLogin from '../admin/container/firstLogin';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
 
 export default function Navigator(props) {
-  const { loginSuccess, changePass } = props;
+  const { loginSuccess, changePass, role } = props;
   return (
     <NavigationContainer>
       <RootStack.Navigator
@@ -48,9 +49,11 @@ export default function Navigator(props) {
           </>
         ) : changePass ? (
           <RootStack.Screen name={'FirstLogin'} component={firstLogin} />
+        ) : role === 'admin' ? (
+          <RootStack.Screen name={'AdminStack'} component={AdminStack} />
         ) : (
-              <RootStack.Screen name={'HomeStack'} component={HomeStack} />
-            )}
+                <RootStack.Screen name={'UserStack'} component={UserStack} />
+              )}
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import Header from './component/header';
 import { Card } from 'native-base';
-import Admin from './component/admin';
-import InfoDays from './component/infoDays';
 import DeadLine from './component/deadLine';
-import Schedule from './component/schedule';
+import User from './component_user/user';
+import Event from './component_user/event';
+import InfoWeek from './component_user/infoWeek';
 import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
 
 if (
   Platform.OS === 'android' &&
@@ -27,59 +28,53 @@ if (
 function Home(props) {
   const [admin, setAdmin] = useState(true);
   const { navigation } = props;
-  const onAddStaff = () => {
-    navigation.navigate('Thêm nhân viên');
-  };
 
   const onGoInformation = () => {
     navigation.navigate('Information');
   };
-
-  const goAddOT = () => {
-    navigation.navigate('OT');
-  };
-
-  const onResignStaff = () => {
-    navigation.navigate('Resign');
-  };
-
-  const onContract = () => {
-    navigation.navigate('Contract');
-  };
-
   const onCheckin = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setAdmin(!admin);
   };
 
+  const onApplyBreak = () => {
+    navigation.navigate('ApplyBreak');
+  };
+
+  const onApplyLate = () => {
+    navigation.navigate('ApplyLate');
+  };
+
+  const onApplyOT = () => {
+    navigation.navigate('ApplyOT');
+  };
+
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
   };
-
   return (
     <>
-      <BarStatus backgroundColor="rgb(47,172,79)" />
+      <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} onPress={onCheckin} />
         <View style={{ flex: 4 }}>
           <ScrollView>
             <Card style={styles.card}>
-              <Admin
-                addStaff={onAddStaff}
+              <User
+                applyBreak={onApplyBreak}
+                applyLate={onApplyLate}
+                applyOT={onApplyOT}
                 generalInfo={onGoInformation}
-                addOT={goAddOT}
-                resignStaff={onResignStaff}
-                extendContract={onContract}
               />
             </Card>
             <Card style={styles.card}>
-              <InfoDays />
+              <InfoWeek />
             </Card>
             <Card style={styles.card}>
               <DeadLine />
             </Card>
             <Card style={styles.card}>
-              <Schedule />
+              <Event />
             </Card>
           </ScrollView>
         </View>

@@ -1,16 +1,15 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import account from '../admin/container/account';
+import account from '../user/container/account';
 import { TabbarIcon } from '../component';
-import home from '../admin/container/home';
-import checkIn from '../admin/container/checkIn';
+import home from '../user/container/home';
+import checkIn from '../user/container/checkIn';
 import { Colors } from '../../utlis';
 
 const BotStack = createBottomTabNavigator();
 
-export default function TabbarStack() {
+export default function TabbarUser() {
   StatusBar.setBarStyle('light-content');
   return (
     <BotStack.Navigator
@@ -41,6 +40,6 @@ export default function TabbarStack() {
           tabBarIcon: (props) => <TabbarIcon {...props} tab={2} />,
         })}
       />
-    </ BotStack.Navigator>
+    </BotStack.Navigator>
   );
 }

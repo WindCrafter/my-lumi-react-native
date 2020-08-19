@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import { BarStatus, HeaderCustom, Button } from '../../../component';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP,

@@ -23,7 +23,7 @@ const AppNavigator = (props) => {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
     }, 2000);
-  }, [token, autoLoginStatus]);
+  }, [token, autoLoginStatus, autoLogin]);
 
   if (loading) {
     return <LoadInital />;
@@ -34,6 +34,7 @@ const AppNavigator = (props) => {
       <Navigator
         loginSuccess={props.loginSuccess}
         changePass={props.changePass}
+        role={props.role}
       />
     </>
   );
@@ -48,6 +49,7 @@ const mapStateToProps = (state) => {
     loginSuccess: state.authen.loginSuccess,
     changePass: state.authen.changePass,
     token: state.authen.token,
+    role: state.authen.role,
     autoLoginStatus: state.authen.autoLoginStatus,
   };
 };

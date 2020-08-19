@@ -23,7 +23,7 @@ const AddStaff = (props) => {
   const [showModalRank, hideModalRank] = useState(false);
   const onDone = () => {
     Keyboard.dismiss();
-    navigation.navigate('TabHome');
+    navigation.navigate('TabbarAdmin');
   };
   const setModalPosition = () => hideModalPosition(!showModalPosition);
   const setModalRank = () => hideModalRank(!showModalRank);
