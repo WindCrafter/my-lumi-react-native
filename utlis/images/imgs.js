@@ -45,4 +45,5 @@ export const imgs = {
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
   warning: require('../../common/assets/images/icon/Warning-icon.png'),
   addblue: require('../../common/assets/images/icon/Add-icon-blue.png'),
+  addImage: require('../../common/assets/images/icon/Camera-icon.png'),
 };

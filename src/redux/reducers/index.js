@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const authPersistConfig = {
   key: 'authen',
   storage: AsyncStorage,
-  whitelist: ['token', 'autoLoginStatus'],
+  whitelist: ['token', 'autoLoginStatus', 'changePass'],
 };
 
 const rootReducer = combineReducers({

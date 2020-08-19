@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
-  Alert,
 } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {
@@ -17,7 +16,7 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import InfoRow from './component/InfoRow';
-import { BarStatus, HeaderCustom, Input } from '../../../component';
+import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
 import { Colors } from '../../../../utlis';
 
 const DATA = [

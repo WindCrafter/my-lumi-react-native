@@ -17,7 +17,7 @@ let deviceWidth = Dimensions.get('window').width;
 
 const FirstLogin = (props) => {
   const { changePass, token } = props;
-  const step = useRef();
+  const refAlert = useRef();
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
   const [error, setError] = useState('');
@@ -49,7 +49,7 @@ const FirstLogin = (props) => {
     }
     if (!(rePass === pass)) {
       setError('RePass not match with Pass');
-      this.alert.open();
+      refAlert.current.open();
       return;
     } else {
       changePass({ pass, confirmPassword: rePass, token });
@@ -91,7 +91,7 @@ const FirstLogin = (props) => {
         title={'Warning'}
         message={error}
         leftButton={{ text: 'OK' }}
-        ref={(ref) => (this.alert = ref)}
+        ref={refAlert}
       />
     </View>
   );
