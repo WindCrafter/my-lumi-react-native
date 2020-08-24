@@ -12,7 +12,7 @@ import applyBreak from '../user/container/apply/applyBreak';
 import notify from '../user/container/notify';
 import qrcode from '../user/container/checkIn/qrcode';
 import TabbarUser from './TabbarUser';
-
+import code from '../user/container/checkIn/code'
 const Stack = createStackNavigator();
 
 export default function UserStack() {
@@ -61,6 +61,13 @@ export default function UserStack() {
       <Stack.Screen
         name={'QRCode'}
         component={qrcode}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Code'}
+        component={code}
         options={{
           headerShown: false,
         }}

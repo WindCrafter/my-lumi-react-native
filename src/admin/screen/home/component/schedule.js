@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import langs from '../../../../../common/language';
-import { imgs, Colors } from '../../../../../utlis';
+import {imgs, Colors} from '../../../../../utlis';
 
 const Schedule = (props) => {
-  const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
+  const {addStaff, extendContract, resignStaff, genaralInfo, addOT} = props;
   return (
     <>
       <View style={styles.manager}>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     height: 18,
   },
   add: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     padding: 4,
     alignSelf: 'center',
     borderRadius: 13,

@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Card } from 'native-base';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
-import { HeaderCheck } from '../../../component';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+import {HeaderCheck} from '../../../component';
+import {Colors} from '../../../../utlis';
+import {imgs} from '../../../../utlis';
 const CheckIn = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
   const onQRCode = () => {
     navigation.navigate('QRCode');
+  };
+  const onCode = () => {
+    navigation.navigate('Code');
   };
 
   return (
@@ -17,17 +20,33 @@ const CheckIn = (props) => {
       <HeaderCheck title={langs.checkIn} />
       <View style={styles.detail}>
         <View style={styles.viewTop}>
-          <Text style={styles.txtTop}>Vui lòng chọn hình thức chấm công</Text>
+          <Text style={styles.txtTop}>Vui lòng chọn hình thức chấm công :</Text>
         </View>
         <TouchableOpacity style={styles.viewMid} onPress={onQRCode}>
           <Card style={styles.card}>
-            <Text style={styles.txtCheck}>Chấm công bằng QR code</Text>
+            <View style={styles.body}>
+              <Image source={imgs.blueQrcode} style={styles.image} />
+              <Text style={styles.txtCheck}>Chấm công bằng QR code</Text>
+            </View>
             <Icon name="chevron-right" size={32} color={Colors.background} />
           </Card>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.viewMid}>
+        <TouchableOpacity style={styles.viewMid} >
           <Card style={styles.card}>
-            <Text style={styles.txtCheck}>Chấm công bằng Wifi</Text>
+            <View style={styles.body}>
+              <Image source={imgs.wifiblue} style={styles.image} />
+              <Text style={styles.txtCheck}>Chấm công bằng Wifi</Text>
+            </View>
+
+            <Icon name="chevron-right" size={32} color={Colors.background} />
+          </Card>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.viewMid} onPress={onCode}>
+          <Card style={styles.card}>
+            <View style={styles.body}>
+              <Image source={imgs.checkIcon} style={styles.image} />
+              <Text style={styles.txtCheck}>Chấm công bằng mã</Text>
+            </View>
             <Icon name="chevron-right" size={32} color={Colors.background} />
           </Card>
         </TouchableOpacity>
@@ -49,7 +68,7 @@ const styles = StyleSheet.create({
   viewTop: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
   },
   viewMid: {
     flex: 1,
@@ -80,8 +99,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     alignSelf: 'center',
+    paddingHorizontal: 12,
   },
   nothing: {
     flex: 2,
   },
+  image: {width: 24, height: 24, alignSelf: 'center'},
+  body: {flexDirection: 'row'},
 });

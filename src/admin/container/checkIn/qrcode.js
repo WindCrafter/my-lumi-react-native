@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import QRCode from '../../screen/checkIn/qrCode';
 
 const mapStateToProps = (state) => ({});

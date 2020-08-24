@@ -45,4 +45,12 @@ export const imgs = {
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
   warning: require('../../common/assets/images/icon/Warning-icon.png'),
   addblue: require('../../common/assets/images/icon/Add-icon-blue.png'),
+  Qrcode: require('../../common/assets/images/icon/QRCode-icon3x.png'),
+  wifiblue: require('../../common/assets/images/icon/BlueWifi-icon.png'),
+  checkIcon: require('../../common/assets/images/icon/checkCode-icon.png'),
+  blueQrcode: require('../../common/assets/images/icon/BlueQRcode-icon.png'),
+  key: require('../../common/assets/images/icon/Key-icon.png'),
+  textlogo: require('../../common/assets/images/icon/TextLogo3x.png'),
+  return: require('../../common/assets/images/icon/Return2-icon.png'),
+  scan: require('../../common/assets/images/icon/ScanArea-icon.png')
 };

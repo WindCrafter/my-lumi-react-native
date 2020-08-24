@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,19 +9,19 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  Alert,
+  
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Logo, InputPassword, Button } from '../../../component';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Logo, InputPassword, Button,Alert} from '../../../component';
 let deviceWidth = Dimensions.get('window').width;
 
 const FirstLogin = (props) => {
-  const { changePass, token } = props;
+  const {changePass, token} = props;
   const step = useRef();
+  const refAlert = useRef(null);
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
   const [error, setError] = useState('');
-
   const onChangePass = (value) => {
     setPass(value);
   };
@@ -34,25 +34,25 @@ const FirstLogin = (props) => {
     Keyboard.dismiss();
     if (pass.trim().length === 0) {
       setError('Pass is invalid');
-      this.alert.open();
+      refALert.current.open();
       return;
     }
     if (pass.trim().length < 6) {
       setError('Pass can not less than 6');
-      this.alert.open();
+      refALert.current.open();
       return;
     }
     if (rePass.length === 0) {
       setError('RePass is invalid');
-      this.alert.open();
+      refALert.current.open();
       return;
     }
     if (!(rePass === pass)) {
       setError('RePass not match with Pass');
-      this.alert.open();
+      refALert.current.open();
       return;
     } else {
-      changePass({ pass, confirmPassword: rePass, token });
+      changePass({pass, confirmPassword: rePass, token});
     }
   };
 
@@ -91,7 +91,7 @@ const FirstLogin = (props) => {
         title={'Warning'}
         message={error}
         leftButton={{ text: 'OK' }}
-        ref={(ref) => (this.alert = ref)}
+        ref={refAlert}
       />
     </View>
   );

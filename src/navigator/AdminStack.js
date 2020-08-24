@@ -15,7 +15,7 @@ import setContract from '../admin/container/contract/setContract';
 import addContract from '../admin/container/contract/addContract';
 import notify from '../admin/container/notify';
 import qrcode from '../admin/container/checkIn/qrcode';
-
+import code from '../admin/container/checkIn/code'
 const Stack = createStackNavigator();
 
 export default function AdminStack() {
@@ -89,6 +89,13 @@ export default function AdminStack() {
       <Stack.Screen
         name={'QRCode'}
         component={qrcode}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Code'}
+        component={code}
         options={{
           headerShown: false,
         }}

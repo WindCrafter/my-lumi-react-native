@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import langs from '../../../common/language';
-import { imgs, Colors } from '../../../utlis';
-
+import {imgs, Colors} from '../../../utlis';
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
@@ -11,26 +10,29 @@ const currentDayInWeek =
   day === 'Monday'
     ? 'Thứ 2'
     : day === 'Tuesday'
-      ? 'Thứ 3'
-      : day === 'Wednesday'
-        ? 'Thứ 4'
-        : day === 'Thursday'
-          ? 'Thứ 5'
-          : day === 'Friday'
-            ? 'Thứ 6'
-            : day === 'Saturday'
-              ? 'Thứ 7'
-              : 'Chủ Nhật';
+    ? 'Thứ 3'
+    : day === 'Wednesday'
+    ? 'Thứ 4'
+    : day === 'Thursday'
+    ? 'Thứ 5'
+    : day === 'Friday'
+    ? 'Thứ 6'
+    : day === 'Saturday'
+    ? 'Thứ 7'
+    : 'Chủ Nhật';
 
 HeaderCheck.defaultProps = {};
 
 function HeaderCheck(props?: Props) {
-  const { pressNotify, title } = props;
+  const {pressNotify, title} = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
         <View style={styles.info}>
-          <Text style={styles.txtName}>{title}</Text>
+          <View style={styles.body}>
+            <Text style={styles.txtName}>{title}</Text>
+            <Image source={imgs.down} style={styles.image} />
+          </View>
           <Text style={styles.time}>
             {currentDayInWeek}, {currrentDate}
           </Text>
@@ -100,4 +102,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  body: {
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  image: {padding: 20, marginLeft: 18},
 });

@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import langs from '../../../../../common/language';
-import { imgs } from '../../../../../utlis';
+import {imgs} from '../../../../../utlis';
 
 const Admin = (props) => {
-  const { addStaff, extendContract, resignStaff, generalInfo, addOT } = props;
+  const {addStaff, extendContract, resignStaff, generalInfo, addOT} = props;
   return (
     <>
       <View style={styles.manager}>
