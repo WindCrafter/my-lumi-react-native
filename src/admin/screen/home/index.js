@@ -16,6 +16,7 @@ import InfoDays from './component/infoDays';
 import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
 import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
 
 if (
   Platform.OS === 'android' &&
@@ -58,7 +59,7 @@ function Home(props) {
 
   return (
     <>
-      <BarStatus backgroundColor="rgb(47,172,79)" />
+      <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} onPress={onCheckin} />
         <View style={{ flex: 4 }}>

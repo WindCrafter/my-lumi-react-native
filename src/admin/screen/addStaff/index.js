@@ -1,212 +1,243 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Keyboard,
-  // TouchableWithoutFeedback,
+  TouchableOpacity,
   ScrollView,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+  StatusBar,
+  Alert,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { InputInfor, InputSelect, Button, TextSelect } from '../../../component';
+import {
+  InputInfor,
+  InputSelect,
+  Button,
+  TextSelect,
+  BarStatus,
+  HeaderCustom,
+} from '../../../component';
 import { imgs } from '../../../../utlis';
+import ModalRank from './component/ModalRank';
+import ModalTeam from './component/ModalTeam';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const AddStaff = (props) => {
+  const {
+    navigation,
+    getListRoles,
+    token,
+    addStaff,
+    roleIdUser,
+    roleIdAdmin,
+  } = props;
   const refEmail = useRef(null);
   const refPhone = useRef(null);
   const refPosition = useRef(null);
-  const { navigation } = props;
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
   const [detailRank, setDetailRank] = useState('Vui lòng chọn');
-  const [showModalPosition, hideModalPosition] = useState(false);
-  const [showModalRank, hideModalRank] = useState(false);
+  const [showModalPosition, setModalPosition] = useState(false);
+  const [showModalRank, setModalRank] = useState(false);
+
+  useEffect(() => {
+    getListRoles(token);
+  }, [getListRoles, token]);
+
   const onDone = () => {
     Keyboard.dismiss();
-    navigation.navigate('TabbarAdmin');
+    const roleId = detailRank === 'ADMIN' ? roleIdAdmin : roleIdUser;
+    const data = { name, email, password, roleId, token };
+    if (email.trim().length === 0) {
+      Alert.alert('email invalid');
+      return;
+    }
+    if (password.length === 0) {
+      Alert.alert('password invalid');
+      return;
+    }
+    if (password.length < 7) {
+      Alert.alert('password not less than 6');
+      return;
+    }
+    if (!email.indexOf('@lumi.biz') > -1) {
+      Alert.alert('email not belong to Lumi');
+      return;
+    } else {
+      addStaff(data);
+    }
   };
-  const setModalPosition = () => hideModalPosition(!showModalPosition);
-  const setModalRank = () => hideModalRank(!showModalRank);
-  return (
-    <ScrollView style={styles.container}>
-      <View style={styles.detail}>
-        <Text style={styles.title}>Nhập thông tin nhân viên mới :</Text>
-        <InputInfor
-          backgroundColor={'white'}
-          placeholder={'Họ và tên :'}
-          testID="test_Name"
-          containerStyle={styles.textInput}
-          returnKeyType="next"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          maxLength={50}
-          title={'Họ và tên :'}
-          onSubmitEditing={() => refEmail.current.focus()}
-        // value={email}
-        // onChangeText={onChangeEmail}
-        />
-        <InputInfor
-          testID="test_Email"
-          leftImage={imgs.email}
-          backgroundColor={'white'}
-          placeholder={'Email'}
-          containerStyle={styles.textInput}
-          refInput={refEmail}
-          maxLength={20}
-          returnKeyType="next"
-          title={'Email :'}
-          onSubmitEditing={() => refPhone.current.focus()}
-        />
-        <InputInfor
-          testID="test_Phone"
-          leftImage={imgs.phone}
-          title={'Số điện thoại :'}
-          backgroundColor={'white'}
-          placeholder={'Số điện thoại'}
-          containerStyle={styles.textInput}
-          refInput={refPhone}
-          maxLength={20}
-          returnKeyType="next"
-          onSubmitEditing={() => refPosition.current.focus()}
-        />
-        <InputSelect
-          testID="test_Position"
-          backgroundColor={'white'}
-          leftImage={imgs.setPerson}
-          title={'Vị trí :'}
-          containerStyle={styles.textInput}
-          detail={detailPosition}
-          onPressButton={setModalPosition}
-        />
-        <InputSelect
-          testID="test_Rank"
-          leftImage={imgs.setPerson}
-          backgroundColor={'white'}
-          title={'Chức vụ :'}
-          detail={detailRank}
-          containerStyle={styles.textInput}
-          onPressButton={setModalRank}
-        />
-        <View style={styles.advance}>
-          <Text numberOfLines={2} style={styles.description}>
-            Cung cấp thông tin đăng nhập bao gồm gmail/mật khẩu mặc định (12345)
-            cho nhân viên mới.{' '}
-          </Text>
-        </View>
 
-        <Button
-          onPress={onDone}
-          title={'Hoàn thành'}
-          backgroundColor={'rgb( 0 ,138, 238)'}
-        />
-      </View>
-      <View>
-        <Modal
-          isVisible={showModalPosition}
-          animationIn={'slideInUp'}
-          animationOutTiming={1600}
-          animationOut={'slideOutDown'}
-          onBackdropPress={setModalPosition}
-          style={styles.modal}>
-          <View style={styles.modalview}>
-            <Text style={styles.titlemodal}>Vị trí</Text>
-            <ScrollView>
-              <TextSelect
-                title={'App'}
-                onPressButton={() => {
-                  setDetailPosition('Team App');
-                }}
-                checkTick={detailPosition === 'Team App' ? true : false}
-              />
-              <TextSelect
-                title={'HR'}
-                onPressButton={() => {
-                  setDetailPosition('Team HR');
-                }}
-                checkTick={detailPosition === 'Team HR' ? true : false}
-              />
-              <TextSelect
-                title={'Tester'}
-                onPressButton={() => {
-                  setDetailPosition('Team Tester');
-                }}
-                checkTick={detailPosition === 'Team Tester' ? true : false}
-              />
-              <TextSelect
-                title={'OS'}
-                onPressButton={() => {
-                  setDetailPosition('Team OS');
-                }}
-                checkTick={detailPosition === 'Team OS' ? true : false}
-              />
-              <TextSelect
-                title={'Firmware'}
-                onPressButton={() => {
-                  setDetailPosition('Team Firm-ware');
-                }}
-                checkTick={detailPosition === 'Team Firm-ware' ? true : false}
-              />
-              <TextSelect
-                title={'Back-end'}
-                onPressButton={() => {
-                  setDetailPosition('Team Back-end'), setModalPosition();
-                }}
-                checkTick={detailPosition === 'Team Back-end' ? true : false}
-              />
-              <TextSelect
-                title={'Khác'}
-                onPressButton={() => {
-                  setDetailPosition('Team Khác'), setModalPosition();
-                }}
-                checkTick={detailPosition === 'Team Khác' ? true : false}
-              />
-            </ScrollView>
+  const goBack = () => {
+    navigation.goBack();
+  };
+
+  const setPosition = () => {
+    setModalPosition(true);
+  };
+
+  const setRank = () => {
+    setModalRank(true);
+  };
+
+  const hidePosition = () => {
+    setModalPosition(false);
+  };
+
+  const hideRank = () => {
+    setModalRank(false);
+  };
+
+  const onSetRank = (value) => {
+    setDetailRank(value);
+  };
+
+  const onSetPosition = (value) => {
+    setDetailPosition(value);
+  };
+
+  const onChangeName = (value) => {
+    setName(value);
+  };
+
+  const onChangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  const onChangePass = (value) => {
+    setPassword(value);
+  };
+
+  return (
+    <>
+      <BarStatus
+        backgroundColor="rgb(47,172,79)"
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        title={'Thêm nhân viên'}
+        height={60}
+        goBack={goBack}
+        backgroundColor={'#ffffff'}
+      />
+      <ScrollView style={styles.container}>
+        <View style={styles.detail}>
+          <Text style={styles.title}>Nhập thông tin nhân viên mới :</Text>
+          <InputInfor
+            backgroundColor={'white'}
+            placeholder={'Họ và tên'}
+            testID="test_Name"
+            containerStyle={styles.textInput}
+            returnKeyType="next"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            maxLength={50}
+            title={'Họ và tên :'}
+            value={name}
+            onChangeText={onChangeName}
+            onSubmitEditing={() => refEmail.current.focus()}
+          />
+          <InputInfor
+            testID="test_Email"
+            leftImage={imgs.email}
+            backgroundColor={'white'}
+            placeholder={'Email'}
+            containerStyle={styles.textInput}
+            refInput={refEmail}
+            maxLength={20}
+            returnKeyType="next"
+            title={'Email :'}
+            value={email}
+            onChangeText={onChangeEmail}
+            onSubmitEditing={() => refPhone.current.focus()}
+          />
+          <InputInfor
+            testID="test_Phone"
+            leftImage={imgs.phone}
+            title={'Số điện thoại :'}
+            backgroundColor={'white'}
+            placeholder={'Số điện thoại'}
+            containerStyle={styles.textInput}
+            refInput={refPhone}
+            maxLength={20}
+            returnKeyType="next"
+            value={password}
+            onChangeText={onChangePass}
+            onSubmitEditing={() => refPosition.current.focus()}
+          />
+          <TouchableOpacity style={{ marginBottom: 24 }}>
+            <InputSelect
+              testID="test_Position"
+              backgroundColor={'white'}
+              leftImage={imgs.setPerson}
+              title={'Vị trí :'}
+              containerStyle={styles.textSelect}
+              detail={detailPosition}
+              onPressButton={setPosition}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ marginBottom: 24 }}>
+            <InputSelect
+              testID="test_Rank"
+              leftImage={imgs.setPerson}
+              backgroundColor={'white'}
+              title={'Chức vụ :'}
+              detail={detailRank}
+              containerStyle={styles.textSelect}
+              onPressButton={setRank}
+            />
+          </TouchableOpacity>
+          <View style={styles.advance}>
+            <Text numberOfLines={2} style={styles.description}>
+              Cung cấp thông tin đăng nhập bao gồm gmail/mật khẩu mặc định
+              (12345) cho nhân viên mới.{' '}
+            </Text>
           </View>
-        </Modal>
-      </View>
-      <View>
-        <Modal
-          isVisible={showModalRank}
-          animationIn={'slideInUp'}
-          animationOutTiming={1600}
-          animationOut={'slideOutDown'}
-          style={styles.modal}>
-          <View style={styles.modalview}>
-            <Text style={styles.titlemodal}>Vị trí</Text>
-            <ScrollView>
-              <TextSelect
-                title={'Leader'}
-                onPressButton={() => {
-                  setDetailRank('Leader'), setModalRank(!Modal);
-                }}
-                checkTick={detailRank === 'Leader' ? true : false}
-              />
-              <TextSelect
-                title={'Trưởng phòng'}
-                onPressButton={() => {
-                  setDetailRank('Trưởng phòng'), setModalRank(!Modal);
-                }}
-                checkTick={detailRank === 'Trưởng phòng' ? true : false}
-              />
-              <TextSelect
-                title={'Giám đốc'}
-                onPressButton={() => {
-                  setDetailRank('Giám đốc'), setModalRank(!Modal);
-                }}
-                checkTick={detailRank === 'Giám đốc' ? true : false}
-              />
-              <TextSelect
-                title={'Khác'}
-                onPressButton={() => {
-                  setDetailRank('Khác'), setModalRank(!Modal);
-                }}
-                checkTick={detailRank === 'Team Khác' ? true : false}
-              />
-            </ScrollView>
-          </View>
-        </Modal>
-      </View>
-    </ScrollView>
+
+          <Button
+            onPress={onDone}
+            title={'Hoàn thành'}
+            backgroundColor={'rgb( 0 ,138, 238)'}
+          />
+        </View>
+        <View>
+          <ModalTeam
+            showModalPosition={showModalPosition}
+            pressApp={() => onSetPosition('Team App')}
+            pressBackEnd={() => onSetPosition('Team Back-end')}
+            pressFirmware={() => onSetPosition('Team Firm-ware')}
+            pressHR={() => onSetPosition('Team HR')}
+            pressOS={() => onSetPosition('Team OS')}
+            pressOther={() => onSetPosition('Team Khác')}
+            pressTester={() => onSetPosition('Team Tester')}
+            detailPosition={detailPosition}
+            setModalPosition={hidePosition}
+          />
+          <ModalRank
+            showModalRank={showModalRank}
+            onHideModal={hideRank}
+            pressLeader={() => onSetRank('ADMIN')}
+            pressManager={() => onSetRank('USER')}
+            // pressManagerHigher={() => onSetRank('Giám đốc')}
+            // pressOther={() => onSetRank('Khác')}
+            rank={detailRank}
+          />
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
@@ -233,6 +264,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 16,
     marginBottom: 24,
+    paddingHorizontal: 16,
+  },
+  textSelect: {
+    height: 70,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 16,
     paddingHorizontal: 16,
   },
   description: {

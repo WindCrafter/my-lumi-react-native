@@ -52,5 +52,6 @@ export const imgs = {
   key: require('../../common/assets/images/icon/Key-icon.png'),
   textlogo: require('../../common/assets/images/icon/TextLogo3x.png'),
   return: require('../../common/assets/images/icon/Return2-icon.png'),
-  scan: require('../../common/assets/images/icon/ScanArea-icon.png')
+  scan: require('../../common/assets/images/icon/ScanArea-icon.png'),
+  addImage: require('../../common/assets/images/icon/Camera-icon.png'),
 };

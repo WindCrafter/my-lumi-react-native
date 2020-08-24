@@ -21,6 +21,7 @@ const DATA = [
     team: 'App',
     role: 'Thực tập',
     outDate: '08/07/2020',
+    key: 'ss',
   },
   {
     name: 'Lê Mạnh Cường',
@@ -29,6 +30,7 @@ const DATA = [
     team: 'App',
     role: 'Thực tập',
     outDate: '08/07/2020',
+    key: 'ssas',
   },
   {
     name: 'Nguyễn Xuân Kiên',
@@ -37,6 +39,7 @@ const DATA = [
     team: 'App',
     role: 'Thực tập',
     outDate: '08/07/2020',
+    key: 'sasasn',
   },
 ];
 if (

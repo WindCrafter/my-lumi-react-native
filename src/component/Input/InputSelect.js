@@ -6,10 +6,13 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
-import {Button, Touchable} from '../../component';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
+import { Button, Touchable } from '../../component';
+import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -20,7 +23,6 @@ interface Props extends TextInputProps {
   backgroundColor?: String;
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
-  onPressButton?: () => void;
   title?: String;
   detail?: String;
 }
@@ -57,11 +59,11 @@ export default function InputSelect(props?: Props) {
     detail,
     onPressButton,
   } = props;
+  const ViewCard = Platform.OS === 'ios' ? View : Card;
 
   return (
-    <View
+    <ViewCard
       style={[
-        styles.container,
         {
           shadowOffset,
           shadowOpacity,
@@ -73,13 +75,15 @@ export default function InputSelect(props?: Props) {
         },
         containerStyle,
       ]}>
-      <Image source={leftImage} style={styles.image} resizeMode="contain" />
-      <Text style={styles.textTitle}>{title}</Text>
-      <View style={styles.detail}>
-        <Touchable onPress={onPressButton} title={detail} />
-      </View>
-      <Image source={rightImage} style={styles.image} resizeMode="contain" />
-    </View>
+      <TouchableOpacity style={styles.container} onPress={onPressButton}>
+        <Image source={leftImage} style={styles.image} resizeMode="contain" />
+        <Text style={styles.textTitle}>{title}</Text>
+        <View style={styles.detail}>
+          <Text style={styles.txtDetail}>{detail}</Text>
+        </View>
+        <Image source={rightImage} style={styles.img} resizeMode="contain" />
+      </TouchableOpacity>
+    </ViewCard>
   );
 }
 
@@ -87,22 +91,24 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-
   },
   image: {
     width: 24,
     height: 24,
   },
+  img: {
+    width: 20,
+    height: 20,
+    marginLeft: 8,
+  },
   textTitle: {
-    padding: 12,
+    padding: 6,
     alignItems: 'center',
     fontSize: 16,
     color: 'black',
   },
   detail: {
     flex: 1,
-    alignItems: 'flex-start',
-
+    alignItems: 'flex-end',
   },
 });

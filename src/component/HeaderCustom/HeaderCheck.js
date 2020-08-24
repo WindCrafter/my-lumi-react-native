@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   notify: {
-    marginTop: 36,
+    marginTop: 34,
     marginRight: 8,
     height: 28,
     width: 28,

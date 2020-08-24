@@ -22,10 +22,11 @@ const AppNavigator = (props) => {
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
-    }, 2000);
+    }, 6000);
   }, [token, autoLoginStatus, autoLogin]);
 
   if (loading) {
+    StatusBar.setBarStyle('dark-content');
     return <LoadInital />;
   }
 

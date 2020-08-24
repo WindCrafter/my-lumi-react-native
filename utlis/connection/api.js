@@ -11,7 +11,7 @@ export function _POST(url, data, token) {
   return response;
 }
 
-export default function _PUT(url, data, token) {
+export function _PUT(url, data, token) {
   const response = fetch(url, {
     method: 'POST',
     headers: {
@@ -24,3 +24,17 @@ export default function _PUT(url, data, token) {
   return response;
 }
 
+export function _GET(url, token) {
+  const response = fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': ' Bearer ' + token,
+    },
+  }).then((res) => {
+    console.log(res)
+    return res.json()
+  });
+
+  return response;
+}

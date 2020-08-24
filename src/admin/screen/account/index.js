@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Colors } from '../../../../utlis';
+import { BarStatus } from '../../../component';
+import HeaderAccount from './component/HeaderAccount';
+import CalendarCustom from './component/Calendar';
 
 const Account = (props) => {
   const { logOut } = props;
@@ -10,11 +13,18 @@ const Account = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.logOut} onPress={onLogOut}>
-        <Text style={styles.txtLogOut}>Đăng xuất</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <BarStatus backgroundColor={Colors.background} />
+      <View style={styles.container}>
+        <HeaderAccount />
+        <View style={styles.detail}>
+          <CalendarCustom />
+          <TouchableOpacity style={styles.logOut} onPress={onLogOut}>
+            <Text style={styles.txtLogOut}>Đăng xuất</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
   );
 };
 
@@ -23,14 +33,12 @@ export default Account;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: Colors.white,
   },
   logOut: {
     width: '80%',
     height: 60,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.danger,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 16,
@@ -38,6 +46,11 @@ const styles = StyleSheet.create({
   txtLogOut: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.background,
+    color: Colors.white,
+  },
+  detail: {
+    flex: 4,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });

@@ -5,7 +5,6 @@ import { imgs, Colors } from '../../../../../utlis';
 import langs from '../../../../../common/language';
 
 const currrentDate = moment().format('DD/MM/YYYY');
-console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
 const currentDayInWeek =
   day === 'Monday'
@@ -22,40 +21,33 @@ const currentDayInWeek =
               ? 'Thứ 7'
               : 'Chủ Nhật';
 
-const Header = (props) => {
+const HeaderAccount = (props) => {
   const { pressNotify, onPress } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
-        <View style={styles.avatar}>
-          <Image
-            source={require('../../../../../naruto.jpeg')}
-            style={styles.avt}
-          />
-        </View>
-        <View style={styles.info}>
-          <Text style={styles.txtName}>Xin chào Phong !</Text>
-          <Text style={styles.time}>
-            {currentDayInWeek}, {currrentDate}
-          </Text>
-        </View>
+        <TouchableOpacity style={styles.moreInfo} onPress={onPress}>
+          <View style={styles.avatar}>
+            <Image
+              source={require('../../../../../naruto.jpeg')}
+              style={styles.avt}
+            />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.txtName}>Đỗ Tuấn Phong</Text>
+            <Text style={styles.team}>Team: App - Thực Tập</Text>
+            <Text style={styles.email}>Email: phongdt@lumi.biz</Text>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
           <Image source={imgs.notification} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.checkIn}>
-        <View style={styles.viewQuiz}>
-          <Text style={styles.quiz}>{langs.questCheckin}</Text>
-        </View>
-        <TouchableOpacity style={styles.btCheckIn} onPress={onPress}>
-          <Text style={styles.txtCheckIn}>{langs.checkIn}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default Header;
+export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
@@ -110,26 +102,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  btCheckIn: {
-    paddingHorizontal: 8,
-    height: 24,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    marginLeft: 12,
-    borderRadius: 12,
-    padding: 4,
-  },
-  txtCheckIn: {
-    color: Colors.background,
-    fontSize: 12,
-  },
-  quiz: {
+  email: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '300',
     color: '#ffffff',
   },
-  viewQuiz: {
-    height: 24,
-    justifyContent: 'center',
+  team: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#ffffff',
+    marginVertical: 4,
+  },
+  moreInfo: {
+    flexDirection: 'row',
+    flex: 3.25,
   },
 });
