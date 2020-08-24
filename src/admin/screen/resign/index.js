@@ -81,7 +81,7 @@ function Resign(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Danh sách nhân viên nghỉ việc'}
+        title={'Nhân sự nghỉ việc'}
         height={60}
         goBack={goBack}
       />

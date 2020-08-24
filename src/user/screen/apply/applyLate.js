@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,8 +22,9 @@ import {
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { BarStatus, HeaderCustom, Button } from '../../../component';
-import { imgs, Colors } from '../../../../utlis';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
+const BORDERWIDTH = 1;
 
 if (
   Platform.OS === 'android' &&
@@ -40,7 +41,7 @@ function ApplyLate(props) {
   const [mode, setMode] = useState('');
   const [start, setStart] = useState('');
   const [show, setShow] = useState(false);
-  const { navigation, route } = props;
+  const {navigation, route} = props;
 
   const goBack = () => {
     navigation.goBack();
@@ -116,14 +117,14 @@ function ApplyLate(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
           </View>
-          <InputApply />
+          <InputApply backgroundColor={'white'} />
           <View style={styles.row}>
             <View style={styles.img}>
-              <Image source={imgs.startDate} style={styles.imageStamp} />
+              <Image source={imgs.startTime} style={styles.imageStamp} />
             </View>
             <Text style={styles.txtStatus}>{langs.timeStart}</Text>
           </View>
-          <View style={[styles.row, { alignSelf: 'center' }]}>
+          <View style={[styles.row, {alignSelf: 'center'}]}>
             <TouchableOpacity
               style={[
                 styles.button,
@@ -133,7 +134,7 @@ function ApplyLate(props) {
                   backgroundColor:
                     mode === 'time' && start === 'start'
                       ? 'rgb(125, 22, 204)'
-                      : Colors.background,
+                      : Colors.white,
                 },
               ]}
               onPress={() => onShowStart('time', 'start')}>
@@ -146,7 +147,7 @@ function ApplyLate(props) {
                   backgroundColor:
                     mode === 'date' && start === 'start'
                       ? 'rgb(125, 22, 204)'
-                      : Colors.background,
+                      : Colors.white,
                 },
               ]}
               onPress={() => onShowStart('date', 'start')}>
@@ -157,11 +158,11 @@ function ApplyLate(props) {
           </View>
           <View style={styles.row}>
             <View style={styles.img}>
-              <Image source={imgs.startDate} style={styles.imageStamp} />
+              <Image source={imgs.startTime} style={styles.imageStamp} />
             </View>
             <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
           </View>
-          <View style={[styles.row, { alignSelf: 'center' }]}>
+          <View style={[styles.row, {alignSelf: 'center'}]}>
             <TouchableOpacity
               style={[
                 styles.button,
@@ -171,7 +172,7 @@ function ApplyLate(props) {
                   backgroundColor:
                     mode === 'time' && start === 'end'
                       ? 'rgb(125, 22, 204)'
-                      : Colors.background,
+                      : Colors.white,
                 },
               ]}
               onPress={() => onShowEnd('time', 'end')}>
@@ -186,7 +187,7 @@ function ApplyLate(props) {
                   backgroundColor:
                     mode === 'date' && start === 'end'
                       ? 'rgb(125, 22, 204)'
-                      : Colors.background,
+                      : Colors.white,
                 },
               ]}
               onPress={() => onShowEnd('date', 'end')}>
@@ -207,7 +208,8 @@ function ApplyLate(props) {
                 mode={'time'}
                 display="default"
                 onChange={start === 'start' ? onChangeTime : onChangeTimeEnd}
-                is24hour={true} />
+                is24hour={true}
+              />
             </>
           ) : mode === 'date' ? (
             <>
@@ -282,15 +284,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    backgroundColor: Colors.background,
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
     marginRight: 12,
   },
   imageStamp: {
-    width: 12,
-    height: 12,
+    width: 20,
+    height: 20,
   },
   txtStatus: {
     alignSelf: 'center',
@@ -329,10 +330,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 12,
+    borderWidth: BORDERWIDTH,
+    borderColor: Colors.border,
   },
   txtTime: {
     fontSize: 20,
-    color: Colors.white,
+    color: Colors.black,
   },
   unshow: {
     height: 28,

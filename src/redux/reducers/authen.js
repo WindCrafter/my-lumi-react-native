@@ -21,7 +21,7 @@ export default function authen(state = initialState, action) {
     case types.LOGIN_SUCCESS:
       return {
         ...state,
-        currentUser: { ...(action.payload.data || {}) },
+        currentUser: {...(action.payload.data || {})},
         loginSuccess: true,
         changePass: action.payload.changePass,
         token: action.payload.token,

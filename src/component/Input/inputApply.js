@@ -8,8 +8,8 @@ import {
   ViewStyle,
   Text,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs, Colors } from '../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs, Colors} from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -67,14 +67,13 @@ export default function InputApply(props?: Props) {
         style={styles.textInput}
         selectionColor={'black'}
         placeholder={'Vui lòng nhập....'}
-        placeholderTextColor={Colors.white}
+        placeholderTextColor={Colors.black}
         autoCorrect={false}
         clearButtonMode="always"
         maxLength={100}
-
         {...otherProps}
       />
-    </View >
+    </View>
   );
 }
 
@@ -86,6 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     marginVertical: 8,
+    borderWidth: 2,
+    borderColor: 'black',
   },
   image: {
     width: 24,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     padding: 6,
     fontSize: 16,
-    color: Colors.white,
+    color: Colors.black,
     alignSelf: 'center',
   },
   left: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,16 +9,16 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
-  Alert,
 } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import InfoRow from './component/InfoRow';
-import { BarStatus, HeaderCustom, Input } from '../../../component';
-import { Colors } from '../../../../utlis';
+import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
+import {Colors} from '../../../../utlis';
+import {imgs} from '../../../../utlis';
 
 const DATA = [
   {
@@ -68,7 +68,7 @@ function Information(props) {
   const [search, setSearch] = useState('');
   const [rowMap, setRowMap] = useState({});
   const refAlert = useRef(null);
-  const { navigation } = props;
+  const {navigation} = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
@@ -118,7 +118,7 @@ function Information(props) {
       </View>
     );
   };
-  const onSearch = () => { };
+  const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
@@ -151,7 +151,7 @@ function Information(props) {
       <HeaderCustom title={'Thông tin tổng hợp'} height={60} goBack={goBack} />
       <Input
         button
-        leftImage={require('../../../../search.png')}
+        leftImage={imgs.search}
         containerStyle={styles.search}
         onPress={onSearch}
         value={search}

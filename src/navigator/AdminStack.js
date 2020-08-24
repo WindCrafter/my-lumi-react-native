@@ -37,11 +37,7 @@ export default function AdminStack() {
         name={'Thêm nhân viên'}
         component={addStaff}
         options={{
-          headerBackTitleVisible: false,
-          headerStyle: {
-            backgroundColor: 'rgb(47, 172, 79)',
-          },
-          headerTintColor: 'white',
+          headerShown: false,
         }}
       />
       <Stack.Screen

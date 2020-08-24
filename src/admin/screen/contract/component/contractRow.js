@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   team: {
     fontWeight: '300',
     marginVertical: 4,
-    height: 16,
+    height: 18,
   },
   txtRole: {
     fontWeight: '600',

@@ -26,7 +26,7 @@ const QRCode = (props) => {
           cameraStyle={styles.camera}
           showMarker={true}
           cameraProps={{ratio: '1:1'}}
-          customMarker={<CusMarker/>}
+          customMarker={<CusMarker />}
           topContent={
             <View style={styles.contentTop}>
               <Text style={styles.centerText}>
@@ -55,11 +55,10 @@ export default QRCode;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   detail: {
     flex: 4,
-    justifyContent:"space-around"
+    justifyContent: 'space-around',
   },
   viewTop: {
     flex: 1,

@@ -7,9 +7,9 @@ import {
   ViewStyle,
   Text,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
-import {Button, Touchable} from '../../component';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
+import { Button, Touchable } from '../../component';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -78,7 +78,7 @@ export default function InputSelect(props?: Props) {
       <View style={styles.detail}>
         <Touchable onPress={onPressButton} title={detail} />
       </View>
-      <Image source={rightImage} style={styles.image} resizeMode="contain" />
+      <Image source={rightImage} style={styles.img} resizeMode="contain" />
     </View>
   );
 }
@@ -88,21 +88,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-
   },
   image: {
     width: 24,
     height: 24,
   },
+  img: {
+    width: 20,
+    height: 20,
+    marginLeft: 8,
+  },
   textTitle: {
-    padding: 12,
+    padding: 6,
     alignItems: 'center',
     fontSize: 16,
     color: 'black',
   },
   detail: {
     flex: 1,
-    alignItems: 'flex-start',
-
+    alignItems: 'flex-end',
   },
 });
