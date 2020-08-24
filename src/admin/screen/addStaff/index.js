@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,11 +10,18 @@ import {
   UIManager,
   LayoutAnimation,
   StatusBar,
+  Alert,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { InputInfor, InputSelect, Button, TextSelect, BarStatus, HeaderCustom } from '../../../component';
+import {
+  InputInfor,
+  InputSelect,
+  Button,
+  TextSelect,
+  BarStatus,
+  HeaderCustom,
+} from '../../../component';
 import { imgs } from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
@@ -27,18 +34,51 @@ if (
 }
 
 const AddStaff = (props) => {
-  const { navigation } = props;
+  const {
+    navigation,
+    getListRoles,
+    token,
+    addStaff,
+    roleIdUser,
+    roleIdAdmin,
+  } = props;
   const refEmail = useRef(null);
   const refPhone = useRef(null);
   const refPosition = useRef(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
   const [detailRank, setDetailRank] = useState('Vui lòng chọn');
   const [showModalPosition, setModalPosition] = useState(false);
   const [showModalRank, setModalRank] = useState(false);
 
+  useEffect(() => {
+    getListRoles(token);
+  }, [getListRoles, token]);
+
   const onDone = () => {
     Keyboard.dismiss();
-    navigation.navigate('TabbarAdmin');
+    const roleId = detailRank === 'ADMIN' ? roleIdAdmin : roleIdUser;
+    const data = { name, email, password, roleId, token };
+    if (email.trim().length === 0) {
+      Alert.alert('email invalid');
+      return;
+    }
+    if (password.length === 0) {
+      Alert.alert('password invalid');
+      return;
+    }
+    if (password.length < 7) {
+      Alert.alert('password not less than 6');
+      return;
+    }
+    if (!email.indexOf('@lumi.biz') > -1) {
+      Alert.alert('email not belong to Lumi');
+      return;
+    } else {
+      addStaff(data);
+    }
   };
 
   const goBack = () => {
@@ -46,12 +86,10 @@ const AddStaff = (props) => {
   };
 
   const setPosition = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setModalPosition(true);
   };
 
   const setRank = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setModalRank(true);
   };
 
@@ -71,6 +109,18 @@ const AddStaff = (props) => {
     setDetailPosition(value);
   };
 
+  const onChangeName = (value) => {
+    setName(value);
+  };
+
+  const onChangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  const onChangePass = (value) => {
+    setPassword(value);
+  };
+
   return (
     <>
       <BarStatus
@@ -88,7 +138,7 @@ const AddStaff = (props) => {
           <Text style={styles.title}>Nhập thông tin nhân viên mới :</Text>
           <InputInfor
             backgroundColor={'white'}
-            placeholder={'Họ và tên :'}
+            placeholder={'Họ và tên'}
             testID="test_Name"
             containerStyle={styles.textInput}
             returnKeyType="next"
@@ -96,6 +146,8 @@ const AddStaff = (props) => {
             autoCapitalize="none"
             maxLength={50}
             title={'Họ và tên :'}
+            value={name}
+            onChangeText={onChangeName}
             onSubmitEditing={() => refEmail.current.focus()}
           />
           <InputInfor
@@ -108,6 +160,8 @@ const AddStaff = (props) => {
             maxLength={20}
             returnKeyType="next"
             title={'Email :'}
+            value={email}
+            onChangeText={onChangeEmail}
             onSubmitEditing={() => refPhone.current.focus()}
           />
           <InputInfor
@@ -120,9 +174,11 @@ const AddStaff = (props) => {
             refInput={refPhone}
             maxLength={20}
             returnKeyType="next"
+            value={password}
+            onChangeText={onChangePass}
             onSubmitEditing={() => refPosition.current.focus()}
           />
-          <TouchableOpacity onPress={setPosition} style={{ marginBottom: 24 }}>
+          <TouchableOpacity style={{ marginBottom: 24 }}>
             <InputSelect
               testID="test_Position"
               backgroundColor={'white'}
@@ -130,9 +186,10 @@ const AddStaff = (props) => {
               title={'Vị trí :'}
               containerStyle={styles.textSelect}
               detail={detailPosition}
+              onPressButton={setPosition}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={setRank} style={{ marginBottom: 24 }}>
+          <TouchableOpacity style={{ marginBottom: 24 }}>
             <InputSelect
               testID="test_Rank"
               leftImage={imgs.setPerson}
@@ -140,12 +197,13 @@ const AddStaff = (props) => {
               title={'Chức vụ :'}
               detail={detailRank}
               containerStyle={styles.textSelect}
+              onPressButton={setRank}
             />
           </TouchableOpacity>
           <View style={styles.advance}>
             <Text numberOfLines={2} style={styles.description}>
-              Cung cấp thông tin đăng nhập bao gồm gmail/mật khẩu mặc định (12345)
-            cho nhân viên mới.{' '}
+              Cung cấp thông tin đăng nhập bao gồm gmail/mật khẩu mặc định
+              (12345) cho nhân viên mới.{' '}
             </Text>
           </View>
 
@@ -171,10 +229,10 @@ const AddStaff = (props) => {
           <ModalRank
             showModalRank={showModalRank}
             onHideModal={hideRank}
-            pressLeader={() => onSetRank('Leader')}
-            pressManager={() => onSetRank('Trưởng phòng')}
-            pressManagerHigher={() => onSetRank('Giám đốc')}
-            pressOther={() => onSetRank('Khác')}
+            pressLeader={() => onSetRank('ADMIN')}
+            pressManager={() => onSetRank('USER')}
+            // pressManagerHigher={() => onSetRank('Giám đốc')}
+            // pressOther={() => onSetRank('Khác')}
             rank={detailRank}
           />
         </View>

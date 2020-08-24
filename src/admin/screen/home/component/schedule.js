@@ -4,7 +4,7 @@ import langs from '../../../../../common/language';
 import { imgs, Colors } from '../../../../../utlis';
 
 const Schedule = (props) => {
-  const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
+  const { } = props;
   return (
     <>
       <View style={styles.manager}>
@@ -68,6 +68,13 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   txtAdd: {
     width: 80,

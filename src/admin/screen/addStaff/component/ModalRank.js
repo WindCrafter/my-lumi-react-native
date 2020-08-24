@@ -32,11 +32,12 @@ const ModalRank = (props) => {
         animationOutTiming={1600}
         animationOut={'slideOutDown'}
         onBackdropPress={onHideModal}
-        style={styles.modal}>
+        style={styles.modal}
+        backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
           <Text style={styles.titlemodal}>Chức vụ </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <TextSelect
+            {/* <TextSelect
               title={'Leader'}
               onPressButton={pressLeader}
               checkTick={rank === 'Leader' ? true : false}
@@ -55,6 +56,16 @@ const ModalRank = (props) => {
               title={'Khác'}
               checkTick={rank === 'Khác' ? true : false}
               onPressButton={pressOther}
+            /> */}
+            <TextSelect
+              title={'Admin'}
+              onPressButton={pressLeader}
+              checkTick={rank === 'ADMIN' ? true : false}
+            />
+            <TextSelect
+              title={'User'}
+              onPressButton={pressManager}
+              checkTick={rank === 'USER' ? true : false}
             />
           </ScrollView>
           <Button
@@ -74,6 +85,7 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    margin: 0,
   },
   modalview: {
     borderTopLeftRadius: 24,

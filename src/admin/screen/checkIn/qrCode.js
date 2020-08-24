@@ -1,36 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
 import langs from '../../../../common/language';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { HeaderCheck } from '../../../component';
+import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
 
 const QRCode = (props) => {
   const { navigation } = props;
-  const onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err)
-    );
+  const [txt, setTxt] = useState('');
+  const onSuccess = (e) => {
+    setTxt(e.data);
   };
 
   return (
     <View style={styles.container}>
       <HeaderCheck title={langs.qrCode} />
+      <TouchableOpacity
+        style={styles.butttton}
+        onPress={() => navigation.goBack()}>
+        <Text>{txt}</Text>
+      </TouchableOpacity>
       <View style={styles.detail}>
         <QRCodeScanner
           onRead={onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
+          reactivate={true}
+          reactivateTimeout={300}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          cameraStyle={styles.camera}
           topContent={
             <Text style={styles.centerText}>
-              Go to{' '}
-              <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-              your computer and scan the QR code.
+              Go to <Text style={styles.textBold}>{txt}</Text> on your computer
+              and scan the QR code.
             </Text>
-          }
-          bottomContent={
-            <TouchableOpacity style={styles.buttonTouchable}>
-              <Text style={styles.buttonText}>OK. Got it!</Text>
-            </TouchableOpacity>
           }
         />
       </View>
@@ -84,5 +86,20 @@ const styles = StyleSheet.create({
   },
   nothing: {
     flex: 2,
+  },
+  butttton: {
+    width: 200,
+    height: 40,
+    backgroundColor: 'red',
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textBold: {
+    marginBottom: 60,
+  },
+  camera: {
+    width: widthPercentageToDP(100),
+    height: heightPercentageToDP(50),
   },
 });

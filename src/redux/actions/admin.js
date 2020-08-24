@@ -19,3 +19,23 @@ export const addStaffFailed = () => {
     type: types.ADD_STAFF_FAILED,
   };
 };
+
+export const getListRoles = (data) => {
+  return {
+    type: types.GET_LIST_ROLES,
+    payload: data,
+  };
+};
+
+export const getListRolesSuccess = (data) => {
+  return {
+    type: types.GET_LIST_ROLES_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getListRolesFailed = () => {
+  return {
+    type: types.GET_LIST_ROLES_FAILED,
+  };
+};
