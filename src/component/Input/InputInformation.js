@@ -7,9 +7,11 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform,
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { imgs } from '../../../utlis';
+import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -53,8 +55,10 @@ export default function InputInfor(props?: Props) {
     ...otherProps
   } = props;
 
+  const ViewCard = Platform.OS === 'ios' ? View : Card;
+
   return (
-    <View
+    <ViewCard
       style={[
         styles.container,
         {
@@ -80,7 +84,7 @@ export default function InputInfor(props?: Props) {
         clearButtonMode="always"
         {...otherProps}
       />
-    </View>
+    </ViewCard>
   );
 }
 

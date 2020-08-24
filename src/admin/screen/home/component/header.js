@@ -5,7 +5,6 @@ import { imgs, Colors } from '../../../../../utlis';
 import langs from '../../../../../common/language';
 
 const currrentDate = moment().format('DD/MM/YYYY');
-console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
 const currentDayInWeek =
   day === 'Monday'
@@ -14,13 +13,14 @@ const currentDayInWeek =
       ? 'Thứ 3'
       : day === 'Wednesday'
         ? 'Thứ 4'
-        : day === 'ThusDay'
+        : day === 'ThursDay'
           ? 'Thứ 5'
           : day === 'Friday'
             ? 'Thứ 6'
             : day === 'Saturday'
               ? 'Thứ 7'
               : 'Chủ Nhật';
+console.log('Day=>>', day);
 
 const Header = (props) => {
   const { pressNotify, onPress } = props;

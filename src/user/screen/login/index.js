@@ -36,7 +36,7 @@ const Login = (props) => {
       return;
     } else {
       loginAction({ email, password: pass });
-      console.log('=>>>>>>', token);
+      console.log('', token);
     }
   };
 
@@ -55,7 +55,6 @@ const Login = (props) => {
   const onChangeRememberLogin = () => {
     changeAutoLogin(!autoLoginStatus);
     setChecked(!autoLoginStatus);
-    console.log('=>>>>>>>>', autoLoginStatus);
   };
 
   return (

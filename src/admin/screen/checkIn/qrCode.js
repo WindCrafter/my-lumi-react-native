@@ -17,6 +17,11 @@ const QRCode = (props) => {
   return (
     <View style={styles.container}>
       <HeaderCheck title={langs.qrCode} />
+      <TouchableOpacity
+        style={styles.butttton}
+        onPress={() => navigation.goBack()}>
+        <Text>{txt}</Text>
+      </TouchableOpacity>
       <View style={styles.detail}>
         <QRCodeScanner
           onRead={onSuccess}

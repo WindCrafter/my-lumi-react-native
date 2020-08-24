@@ -1,9 +1,20 @@
 import React, {useState, useRef} from 'react';
-import {StyleSheet, Keyboard, ScrollView, StatusBar} from 'react-native';
-import {Alert} from '../../../component';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Keyboard,
+  ScrollView,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+} from 'react-native';
+import { Alert } from '../../../component';
 import ChangePass from './component/ChangePass';
 import AddInfo from './component/AddInfo';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FirstLogin = (props) => {
   const {changePass, token} = props;
@@ -21,7 +32,7 @@ const FirstLogin = (props) => {
   };
 
   const onNext = () => {
-    step.current.scrollTo({x: wp(100), y: 0, animated: true});
+    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
   };
 
   const onConfirms = () => {

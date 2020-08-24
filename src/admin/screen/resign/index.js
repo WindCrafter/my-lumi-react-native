@@ -26,6 +26,7 @@ const DATA = [
     team: 'App',
     role: 'Leader',
     dayout: '08/07/2020',
+    key: 'ajass',
   },
   {
     name: 'Lê Mạnh Cường',
@@ -34,6 +35,7 @@ const DATA = [
     team: 'App',
     role: 'Staff',
     dayout: '08/07/2020',
+    key: 'ajas',
   },
   {
     name: 'Nguyễn Xuân Kiên',
@@ -42,6 +44,7 @@ const DATA = [
     team: 'App',
     role: 'Intern',
     dayout: '08/07/2020',
+    key: 'ajassass',
   },
 ];
 if (

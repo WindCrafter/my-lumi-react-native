@@ -13,7 +13,8 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
-  role: 'admin',
+  roleIdUser: {},
+  roleIdAdmin: {},
 };
 
 export default function admin(state = initialState, action) {
@@ -21,6 +22,14 @@ export default function admin(state = initialState, action) {
     case types.ADD_STAFF:
       return {
         ...state,
+      };
+    case types.GET_LIST_ROLES_SUCCESS:
+      const resAdmin = action.payload.data.filter((e) => e.name === 'ADMIN')
+      const resUser = action.payload.data.filter((e) => e.name === 'USER')
+      return {
+        ...state,
+        roleIdAdmin: resAdmin[0].roleId,
+        roleIdUser: resUser[0].roleId,
       };
     default:
       return state;

@@ -35,7 +35,8 @@ const ModalTeam = (props) => {
         animationOutTiming={1600}
         animationOut={'slideOutDown'}
         onBackdropPress={setModalPosition}
-        style={styles.modal}>
+        style={styles.modal}
+        backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
           <Text style={styles.titlemodal}>Vị trí</Text>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    margin: 0,
   },
   modalview: {
     borderTopLeftRadius: 24,

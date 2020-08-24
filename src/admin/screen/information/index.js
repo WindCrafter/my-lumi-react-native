@@ -16,9 +16,8 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import InfoRow from './component/InfoRow';
-import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
+import { Colors } from '../../../../utlis';
 
 const DATA = [
   {

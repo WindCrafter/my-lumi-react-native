@@ -4,3 +4,4 @@
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">1KOGU50DZjhpTjyf3_uuLH3ggPMPBCoEBZgCtS</string>
 </resources>
+    
