@@ -18,3 +18,9 @@ export const GET_LIST_ROLES_FAILED = 'GET_LIST_ROLES_FAILED';
 export const ADD_STAFF = 'ADD_STAFF';
 export const ADD_STAFF_SUCCESS = 'ADD_STAFF_SUCCESS';
 export const ADD_STAFF_FAILED = 'ADD_STAFF_FAILED';
+
+export const GET_DEVICE_ID = 'GET_DEVICE_ID';
+
+export const CHECK_IN = 'CHECK_IN';
+export const CHECK_IN_SUCCESS = 'CHECK_IN_SUCCESS';
+export const CHECK_IN_FAILED = 'CHECK_IN_FAILED';

@@ -10,6 +10,7 @@ import HeaderCheck from './HeaderCustom/HeaderCheck';
 import SmartWipeRow from './Row/SmartWipeRow';
 import { Touchable } from './Touchable';
 import { TextSelect } from './Text';
+import Loading from './Loading';
 
 export {
   Input,
@@ -28,4 +29,5 @@ export {
   SmartWipeRow,
   Touchable,
   TextSelect,
+  Loading,
 };

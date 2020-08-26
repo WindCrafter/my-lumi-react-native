@@ -19,12 +19,13 @@ function* sagaLoginAction(action) {
       password: action.payload.password,
     };
     const response = yield _POST(URL_LOGIN, data);
+    console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(
         loginSuccess({
           token: response.data.token,
           changePass: response.data.userProfile.needChangePass,
-          data,
+          data: response.data,
         }),
       );
     } else {

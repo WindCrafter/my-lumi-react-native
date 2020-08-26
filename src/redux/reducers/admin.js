@@ -13,6 +13,7 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
+  deviceId: '',
   roleIdUser: {},
   roleIdAdmin: {},
 };
@@ -24,12 +25,17 @@ export default function admin(state = initialState, action) {
         ...state,
       };
     case types.GET_LIST_ROLES_SUCCESS:
-      const resAdmin = action.payload.data.filter((e) => e.name === 'ADMIN')
-      const resUser = action.payload.data.filter((e) => e.name === 'USER')
+      const resAdmin = action.payload.data.filter((e) => e.name === 'ADMIN');
+      const resUser = action.payload.data.filter((e) => e.name === 'USER');
       return {
         ...state,
         roleIdAdmin: resAdmin[0].roleId,
         roleIdUser: resUser[0].roleId,
+      };
+    case types.GET_DEVICE_ID:
+      return {
+        ...state,
+        deviceId: action.payload.data,
       };
     default:
       return state;

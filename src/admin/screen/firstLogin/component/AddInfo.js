@@ -81,14 +81,14 @@ const AddInfo = (props) => {
               onChangeText={onChangeNative}
               refInput={refNative}
             />
+            <Button
+              title={'Tiếp tục'}
+              onPress={onNext}
+              containerStyle={styles.button}
+            />
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
-      <Button
-        title={'Tiếp tục'}
-        onPress={onNext}
-        containerStyle={styles.button}
-      />
     </>
   );
 };
@@ -135,10 +135,5 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     backgroundColor: 'rgba(0,0,25,0.17)',
     marginVertical: 16,
-  },
-  button: {
-    position: 'absolute',
-    bottom: 32,
-    left: widthPercentageToDP(12.5),
   },
 });

@@ -6,7 +6,7 @@
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">10.10.1.21</domain>
+        <domain includeSubdomains="true">staff.lumi.com.vn</domain>
         <domain includeSubdomains="true">google.com</domain>
     </domain-config>
 </network-security-config>

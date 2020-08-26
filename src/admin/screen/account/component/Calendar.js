@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import moment from 'moment';
@@ -41,13 +41,54 @@ LocaleConfig.locales.vn = {
 };
 LocaleConfig.defaultLocale = 'vn';
 
+const DATA = [
+  { type: 'break', day: '2020-08-02' },
+  { type: 'noCheckout', day: '2020-08-03' },
+  { type: 'late', day: '2020-08-04' },
+  { type: 'ontime', day: '2020-08-05' },
+  { type: 'late', day: '2020-08-06' },
+];
+
 const CalendarCustom = (props) => {
   const today = moment().format('YYYY-MM-DD');
   const [selected, setSelected] = useState('');
+  const [type, setType] = useState({});
   const onDayPress = (day) => {
     setSelected(day.dateString);
-    console.log('Day=>>', day);
+    console.log('Day=>>');
   };
+
+  useEffect(() => {
+    var obj = {};
+    for (var i = 0; i < DATA.length; i++) {
+      if (DATA[i].type === 'late') {
+        obj = {
+          [DATA[i].day]: { selectedColor: 'orange', selected: true },
+          ...obj,
+        };
+      }
+      if (DATA[i].type === 'ontime') {
+        obj = {
+          [DATA[i].day]: { selectedColor: Colors.background, selected: true },
+          ...obj,
+        };
+      }
+      if (DATA[i].type === 'noCheckout') {
+        obj = {
+          [DATA[i].day]: { selectedColor: 'purple', selected: true },
+          ...obj,
+        };
+      }
+      if (DATA[i].type === 'break') {
+        obj = {
+          [DATA[i].day]: { selectedColor: 'red', selected: true },
+          ...obj,
+        };
+      }
+    }
+    setType(obj);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -70,16 +111,13 @@ const CalendarCustom = (props) => {
           );
         }}
         markedDates={{
+          ...type,
           [today]: {
             selected: true,
-            selectedTextColor: Colors.background,
             selectedColor: Colors.white,
-          },
-          [selected]: {
-            selected: true,
-            disableTouchEvent: true,
-            selectedColor: Colors.background,
-            selectedTextColor: Colors.white,
+            selectedTextColor: Colors.background,
+            dotColor: Colors.background,
+            marked: true,
           },
         }}
       />

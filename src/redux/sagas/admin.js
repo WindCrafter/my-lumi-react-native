@@ -22,7 +22,6 @@ function* sagaAddStaff(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_ADD_STAFF, data, token);
-    console.log('LIST ROLES =>>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(addStaffSuccess());
     } else {
@@ -41,7 +40,7 @@ function* sagaGetListRoles(action) {
   try {
     const token = action.payload;
     const response = yield _GET(URL_LIST_ROLE, token);
-    console.log('LIST ROLES =>>>>', response);
+    console.log('get list role', response);
     if (response.success && response.statusCode === 200) {
       yield put(getListRolesSuccess(response));
     } else {

@@ -1,13 +1,24 @@
+import { _global } from '../global/global';
+
 export function _POST(url, data, token) {
+  _global.Loading.show();
   const response = fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': ' Bearer ' + token,
+      Authorization: ' Bearer ' + token,
     },
     body: JSON.stringify(data),
-  }).then((res) => res.json());
-
+  })
+    .then(
+      (res) => res.json(),
+      setTimeout(() => {
+        _global.Loading.hide();
+      }, 200),
+    )
+    .catch((error) => {
+      _global.Loading.hide();
+    });
   return response;
 }
 
@@ -16,7 +27,7 @@ export function _PUT(url, data, token) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': ' Bearer ' + token,
+      Authorization: ' Bearer ' + token,
     },
     body: JSON.stringify(data),
   }).then((res) => res.json());
@@ -29,11 +40,11 @@ export function _GET(url, token) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': ' Bearer ' + token,
+      Authorization: ' Bearer ' + token,
     },
   }).then((res) => {
-    console.log(res)
-    return res.json()
+    console.log(res);
+    return res.json();
   });
 
   return response;

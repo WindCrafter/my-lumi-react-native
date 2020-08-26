@@ -6,7 +6,7 @@ interface Props extends ImageProps {
 }
 
 BarStatus.defaultProps = {
-  height: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+  height: Platform.OS === 'ios' ? 20 : 20,
 };
 
 export default function BarStatus(props?: Props) {

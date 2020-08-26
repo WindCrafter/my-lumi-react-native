@@ -17,6 +17,7 @@ import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
 import { BarStatus } from '../../../component';
 import { Colors } from '../../../../utlis';
+import DeviceInfo from 'react-native-device-info';
 
 if (
   Platform.OS === 'android' &&
@@ -55,6 +56,7 @@ function Home(props) {
 
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
+    // console.log('DEVICE=>>>>', DeviceInfo.getDeviceId(), DeviceInfo.getAnId());
   };
 
   return (

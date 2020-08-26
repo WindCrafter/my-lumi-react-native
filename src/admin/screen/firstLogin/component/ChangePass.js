@@ -74,9 +74,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 8,
   },
-  button: {
-    position: 'absolute',
-    bottom: 32,
-    left: widthPercentageToDP(12.5),
-  },
 });
