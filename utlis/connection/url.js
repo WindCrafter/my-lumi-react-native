@@ -5,4 +5,5 @@ export const URL = {
   ADD_USER: '/admin/add-user',
   LIST_ROLES: '/user/list-roles',
   CHECK_IN: '/check-in',
+  CREATE_QR: '/admin/qr-code',
 };

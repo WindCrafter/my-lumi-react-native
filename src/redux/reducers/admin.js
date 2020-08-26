@@ -13,7 +13,6 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
-  deviceId: '',
   roleIdUser: {},
   roleIdAdmin: {},
 };
@@ -31,11 +30,6 @@ export default function admin(state = initialState, action) {
         ...state,
         roleIdAdmin: resAdmin[0].roleId,
         roleIdUser: resUser[0].roleId,
-      };
-    case types.GET_DEVICE_ID:
-      return {
-        ...state,
-        deviceId: action.payload.data,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
+const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 
 export class Connection extends Component {
   changePass(data, token) {
@@ -22,6 +23,10 @@ export class Connection extends Component {
 
   getListRoles(token) {
     return _GET(URL_LIST_ROLE, token);
+  }
+
+  check(data, token) {
+    return _POST(URL_CHECK_IN, data, token);
   }
 }
 

@@ -24,3 +24,7 @@ export const GET_DEVICE_ID = 'GET_DEVICE_ID';
 export const CHECK_IN = 'CHECK_IN';
 export const CHECK_IN_SUCCESS = 'CHECK_IN_SUCCESS';
 export const CHECK_IN_FAILED = 'CHECK_IN_FAILED';
+
+export const CREATE_QR = 'CREATE_QR';
+export const CREATE_QR_SUCCESS = 'CREATE_QR_SUCCESS';
+export const CREATE_QR_FAILED = 'CREATE_QR_FAILED';

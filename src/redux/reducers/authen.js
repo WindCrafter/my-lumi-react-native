@@ -14,6 +14,7 @@ const initialState = {
   changePass: false,
   autoLoginStatus: false,
   role: 'admin',
+  deviceId: '',
 };
 
 export default function authen(state = initialState, action) {
@@ -21,7 +22,7 @@ export default function authen(state = initialState, action) {
     case types.LOGIN_SUCCESS:
       return {
         ...state,
-        currentUser: { ...(action.payload.data || {}) },
+        currentUser: { ...(action.payload || {}) },
         loginSuccess: true,
         changePass: action.payload.changePass,
         token: action.payload.token,
@@ -46,6 +47,11 @@ export default function authen(state = initialState, action) {
         ...state,
         loginSuccess: false,
         token: '',
+      };
+    case types.GET_DEVICE_ID:
+      return {
+        ...state,
+        deviceId: action.payload,
       };
     default:
       return state;

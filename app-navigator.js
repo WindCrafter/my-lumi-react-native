@@ -24,9 +24,10 @@ const AppNavigator = (props) => {
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     deviceId === ''
-      ? getDeviceId(DeviceInfo.getDeviceId()) + __DEBUG__
-        ? moment().valueOf()
-        : ''
+      ? getDeviceId(
+        `${DeviceInfo.getDeviceId()}` +
+        `${__DEV__ ? moment().valueOf() : ''}`,
+      )
       : null;
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;

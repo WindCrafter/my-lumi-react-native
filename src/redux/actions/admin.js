@@ -39,4 +39,3 @@ export const getListRolesFailed = () => {
     type: types.GET_LIST_ROLES_FAILED,
   };
 };
-

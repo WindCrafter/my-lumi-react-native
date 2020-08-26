@@ -11,7 +11,13 @@ import check from './check';
 const authPersistConfig = {
   key: 'authen',
   storage: AsyncStorage,
-  whitelist: ['token', 'autoLoginStatus', 'changePass', 'deviceId'],
+  whitelist: [
+    'token',
+    'autoLoginStatus',
+    'changePass',
+    'deviceId',
+    'currentUser',
+  ],
 };
 
 const rootReducer = combineReducers({
