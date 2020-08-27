@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import langs from '../../../common/language';
-import {imgs, Colors} from '../../../utlis';
+import { imgs, Colors } from '../../../utlis';
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
@@ -10,21 +10,21 @@ const currentDayInWeek =
   day === 'Monday'
     ? 'Thứ 2'
     : day === 'Tuesday'
-    ? 'Thứ 3'
-    : day === 'Wednesday'
-    ? 'Thứ 4'
-    : day === 'Thursday'
-    ? 'Thứ 5'
-    : day === 'Friday'
-    ? 'Thứ 6'
-    : day === 'Saturday'
-    ? 'Thứ 7'
-    : 'Chủ Nhật';
+      ? 'Thứ 3'
+      : day === 'Wednesday'
+        ? 'Thứ 4'
+        : day === 'Thursday'
+          ? 'Thứ 5'
+          : day === 'Friday'
+            ? 'Thứ 6'
+            : day === 'Saturday'
+              ? 'Thứ 7'
+              : 'Chủ Nhật';
 
 HeaderCheck.defaultProps = {};
 
 function HeaderCheck(props?: Props) {
-  const {pressNotify, title} = props;
+  const { pressNotify, title } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   notify: {
-    marginTop: 34,
+    marginTop: 33.9,
     marginRight: 8,
     height: 28,
     width: 28,
@@ -106,5 +106,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
   },
-  image: {padding: 20, marginLeft: 18},
+  image: { padding: 20, marginLeft: 18 },
 });

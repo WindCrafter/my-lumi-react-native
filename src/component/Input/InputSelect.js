@@ -58,6 +58,7 @@ export default function InputSelect(props?: Props) {
     title,
     detail,
     onPressButton,
+    disabled,
   } = props;
   const ViewCard = Platform.OS === 'ios' ? View : Card;
 
@@ -75,7 +76,10 @@ export default function InputSelect(props?: Props) {
         },
         containerStyle,
       ]}>
-      <TouchableOpacity style={styles.container} onPress={onPressButton}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={onPressButton}
+        disabled={disabled}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
         <Text style={styles.textTitle}>{title}</Text>
         <View style={styles.detail}>
@@ -109,6 +113,6 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
 });

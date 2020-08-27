@@ -3,5 +3,9 @@ export const URL = {
   LOGIN: '/site/login',
   CHANGE_PASS: '/user/need-change-pass',
   ADD_USER: '/admin/add-user',
-  LIST_ROLES: '/admin/list-roles',
+  LIST_ROLES: '/user/list-roles',
+  CHECK_IN: '/check-in',
+  CREATE_QR: '/admin/qr-code',
+  GET_QR: '/admin/qr-code?date=',
+  UPDATE_PROFILE: '/user/update-profile',
 };

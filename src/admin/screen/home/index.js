@@ -17,6 +17,8 @@ import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
 import { BarStatus } from '../../../component';
 import { Colors } from '../../../../utlis';
+import DeviceInfo from 'react-native-device-info';
+import moment from 'moment';
 
 if (
   Platform.OS === 'android' &&
@@ -26,8 +28,8 @@ if (
 }
 
 function Home(props) {
+  const { navigation, nameUser } = props;
   const [admin, setAdmin] = useState(true);
-  const { navigation } = props;
   const onAddStaff = () => {
     navigation.navigate('Thêm nhân viên');
   };
@@ -61,7 +63,11 @@ function Home(props) {
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} onPress={onCheckin} />
+        <Header
+          pressNotify={onPressNotify}
+          onPress={onCheckin}
+          name={nameUser}
+        />
         <View style={{ flex: 4 }}>
           <ScrollView>
             <Card style={styles.card}>

@@ -6,17 +6,21 @@ import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
 
 const Account = (props) => {
-  const { logOut } = props;
-
+  const { logOut, nameUser, emailUser, navigation } = props;
+  const name = nameUser;
+  const email = emailUser;
   const onLogOut = () => {
     logOut();
+  };
+  const onMoveToProfile = () => {
+    navigation.navigate('UpdateProfile');
   };
 
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
-        <HeaderAccount />
+        <HeaderAccount name={name} email={email} onPress={onMoveToProfile} />
         <View style={styles.detail}>
           <CalendarCustom />
           <TouchableOpacity style={styles.logOut} onPress={onLogOut}>

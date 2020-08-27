@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,7 +17,7 @@ import AddInfo from './component/AddInfo';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FirstLogin = (props) => {
-  const {changePass, token} = props;
+  const { changePass, token } = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
@@ -57,10 +57,10 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     } else {
-      changePass({pass, confirmPassword: rePass, token});
+      changePass({ pass, confirmPassword: rePass, token });
     }
   };
-  StatusBar.setBarStyle('dark-content');
+  StatusBar.setBarStyle('default');
 
   return (
     <>

@@ -69,12 +69,12 @@ const AddStaff = (props) => {
       Alert.alert('password invalid');
       return;
     }
-    if (password.length < 7) {
-      Alert.alert('password not less than 6');
+    if (!(email.indexOf('@lumi.biz') > -1)) {
+      Alert.alert('email not belong to Lumi');
       return;
     }
-    if (!email.indexOf('@lumi.biz') > -1) {
-      Alert.alert('email not belong to Lumi');
+    if (password.length < 6) {
+      Alert.alert('password not less than 6');
       return;
     } else {
       addStaff(data);
@@ -155,6 +155,7 @@ const AddStaff = (props) => {
             leftImage={imgs.email}
             backgroundColor={'white'}
             placeholder={'Email'}
+            autoCapitalize={'none'}
             containerStyle={styles.textInput}
             refInput={refEmail}
             maxLength={20}
@@ -176,9 +177,8 @@ const AddStaff = (props) => {
             returnKeyType="next"
             value={password}
             onChangeText={onChangePass}
-            onSubmitEditing={() => refPosition.current.focus()}
           />
-          <TouchableOpacity style={styles.bot}>
+          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setPosition}>
             <InputSelect
               testID="test_Position"
               backgroundColor={'white'}
@@ -189,7 +189,7 @@ const AddStaff = (props) => {
               onPressButton={setPosition}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bot}>
+          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setRank}>
             <InputSelect
               testID="test_Rank"
               leftImage={imgs.setPerson}

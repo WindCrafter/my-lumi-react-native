@@ -64,3 +64,10 @@ export const logOut = () => {
     type: types.LOG_OUT,
   };
 };
+
+export const getDeviceId = (data) => {
+  return {
+    type: types.GET_DEVICE_ID,
+    payload: data,
+  };
+};

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,18 +8,31 @@ import {
   Image,
 } from 'react-native';
 import langs from '../../../../common/language';
-import {Card} from 'native-base';
-import {Colors} from '../../../../utlis';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {HeaderCheck} from '../../../component';
-import {imgs} from '../../../../utlis';
-import Modal from 'react-native-modal';
+import { Card } from 'native-base';
+import { Colors } from '../../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { HeaderCheck } from '../../../component';
+import { imgs } from '../../../../utlis';
+import moment from 'moment';
 
 const Code = (props) => {
-  const {navigation} = props;
+  const { navigation, token, deviceId, checkIn } = props;
+  const [code, setCode] = useState('');
 
-  const [showModalPosition, hideModalPosition] = useState(false);
-  const setModal = () => hideModalPosition(!showModalPosition);
+  const onCheckIn = () => {
+    const data = {
+      time: moment().format('HH:MM'),
+      deviceId: deviceId,
+      codeString: code,
+      type: 'in',
+      token: token,
+    };
+    checkIn(data);
+  };
+
+  const onChangeCode = (value) => {
+    setCode(value);
+  };
 
   return (
     <View style={styles.container}>
@@ -32,15 +45,18 @@ const Code = (props) => {
           <View style={styles.body}>
             <Image source={imgs.key} style={styles.imageInput} />
             <TextInput
+              textAlign={'right'}
               placeholder={'Mã chấm công ...'}
               placeholderTextColor={'black'}
+              onChangeText={onChangeCode}
+              value={code}
             />
           </View>
           <View style={styles.middle} />
         </Card>
         <View style={styles.blankspace} />
 
-        <TouchableOpacity style={styles.touchable} onPress={setModal}>
+        <TouchableOpacity style={styles.touchable} onPress={onCheckIn}>
           <View style={styles.bot}>
             <Text style={styles.done}>Hoàn thành</Text>
           </View>
@@ -54,28 +70,6 @@ const Code = (props) => {
           </View>
         </TouchableOpacity>
         <View style={styles.nothing} />
-      </View>
-      <View>
-        <Modal
-          isVisible={showModalPosition}
-          animationIn={'slideInUp'}
-          animationOutTiming={2000}
-          animationOut={'slideOutDown'}
-          onBackdropPress={setModal}
-          style={styles.modal}>
-          <View style={styles.modalview}>
-            <Text style={styles.textModalTop}>Thông báo</Text>
-            <Text style={styles.textModalMid}>
-              Chấm công thành công.{'\n'}
-              Chúc bạn một ngày làm việc hiệu quả.
-            </Text>
-            <TouchableOpacity onPress={setModal}>
-              <View style={styles.bottomModal}>
-                <Text style={styles.textModalBot}>OK</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </Modal>
       </View>
     </View>
   );
@@ -161,8 +155,15 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
   },
-  done: {alignSelf: 'center', fontSize: 16, color: 'white'},
-  modal: {alignItems: 'center', flexDirection: 'column'},
+  done: {
+    alignSelf: 'center',
+    fontSize: 16,
+    color: 'white',
+  },
+  modal: {
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   modalview: {
     width: wp(90),
     height: 160,
@@ -183,10 +184,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  imageReturn: {width: 16, height: 16},
-  textModal: {textAlign: 'center', fontSize: 18, fontWeight: '600'},
-  textModalMid: {textAlign: 'center'},
-  textReturn: {fontSize: 20, marginLeft: 3},
+  imageReturn: {
+    width: 16,
+    height: 16,
+  },
+  textModal: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  textModalMid: {
+    textAlign: 'center',
+  },
+  textReturn: {
+    fontSize: 20,
+    marginLeft: 3,
+  },
   bottomModal: {
     height: 40,
     backgroundColor: 'white',
@@ -194,8 +207,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
   },
-  textModalBot: {textAlign: 'center', fontSize: 14},
-  imageInput: {alignSelf: 'center'},
+  textModalBot: {
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  imageInput: {
+    alignSelf: 'center',
+  },
   textModalTop: {
     alignSelf: 'center',
     fontSize: 18,
