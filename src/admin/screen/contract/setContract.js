@@ -94,7 +94,7 @@ function SetContract(props) {
           <View style={styles.status}>
             <View style={{ flexDirection: 'row' }}>
               <View style={styles.img}>
-                <Image source={imgs.startDate} style={styles.imageStamp} />
+                <Image source={imgs.checkCalendar} style={styles.imageStamp} />
               </View>
               <Text style={styles.txtStatus}>Thời hạn:</Text>
             </View>
@@ -195,15 +195,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    backgroundColor: Colors.background,
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
     marginRight: 12,
   },
   imageStamp: {
-    width: 12,
-    height: 12,
+    width: 24,
+    height: 24,
   },
   txtStatus: {
     alignSelf: 'center',

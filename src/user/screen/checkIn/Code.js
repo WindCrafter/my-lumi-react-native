@@ -196,5 +196,9 @@ const styles = StyleSheet.create({
   },
   textModalBot: {textAlign: 'center', fontSize: 14},
   imageInput: {alignSelf: 'center'},
-  textModalTop: {alignSelf: 'center', fontSize: 18, marginTop: 10},
+  textModalTop: {
+    alignSelf: 'center',
+    fontSize: 18,
+    marginTop: 10,
+  },
 });

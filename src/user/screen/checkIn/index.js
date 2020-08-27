@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   viewMid: {
     flex: 1,
     alignItems: 'center',
+    marginTop:10
   },
   txtTop: {
     fontSize: 16,

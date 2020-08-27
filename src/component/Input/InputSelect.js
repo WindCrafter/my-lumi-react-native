@@ -28,7 +28,7 @@ interface Props extends TextInputProps {
 }
 
 InputSelect.defaultProps = {
-  width: wp(90),
+  width: wp(80),
   height: 50,
   borderRadius: 3,
   backgroundColor: 'rgb(227, 230, 229)',

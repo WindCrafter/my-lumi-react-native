@@ -18,6 +18,7 @@ import {
 import InfoRow from './component/InfoRow';
 import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
 import { Colors } from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 
 const DATA = [
   {
@@ -156,6 +157,7 @@ function Information(props) {
         value={search}
         onChangeText={onChangeSearch}
         autoCapitalize={'none'}
+        placeholder={'Tìm kiếm ...'}
       />
       <SwipeListView
         useFlatList={true}

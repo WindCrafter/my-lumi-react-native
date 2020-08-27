@@ -1,0 +1,78 @@
+ <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startTime} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+          </View>
+          <View style={[styles.row, {alignSelf: 'center'}]}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  width: wp(25),
+                  marginRight: wp(5),
+                  backgroundColor:
+                    mode === 'time' && start === 'start'
+                      ? Colors.background
+                      : Colors.white,
+                },
+              ]}
+              onPress={() => onShowStart('time', 'start')}>
+              <Text style={styles.txtTime}>{moment(time).format('HH:mm')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    mode === 'date' && start === 'start'
+                      ? Colors.background
+                      : Colors.white,
+                },
+              ]}
+              onPress={() => onShowStart('date', 'start')}>
+              <Text style={styles.txtTime}>
+                {moment(date).format('DD/MM/YYYY')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startTime} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
+          </View>
+          <View style={[styles.row, {alignSelf: 'center'}]}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  width: wp(25),
+                  marginRight: wp(5),
+                  backgroundColor:
+                    mode === 'time' && start === 'end'
+                      ? Colors.background
+                      : Colors.white,
+                },
+              ]}
+              onPress={() => onShowEnd('time', 'end')}>
+              <Text style={styles.txtTime}>
+                {moment(timeEnd).format('HH:mm')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    mode === 'date' && start === 'end'
+                      ? Colors.background
+                      : Colors.white,
+                },
+              ]}
+              onPress={() => onShowEnd('date', 'end')}>
+              <Text style={styles.txtTime}>
+                {moment(dateEnd).format('DD/MM/YYYY')}
+              </Text>
+            </TouchableOpacity>
+          </View>

@@ -23,6 +23,10 @@ interface Props extends TextInputProps {
   title?: String;
   onPressButton?: () => void;
   checkTick?: Boolean;
+  fontSize?: String | Number;
+  marginTop? : String|Number;
+  marginLeft?: String | Number;
+
 }
 
 TextSelect.defaultProps = {
@@ -31,7 +35,7 @@ TextSelect.defaultProps = {
   borderRadius: 15,
   backgroundColor: 'rgb(227, 230, 229)',
   leftImage: imgs.uncorrect,
-  rightImage: imgs.tick,
+  rightImage: imgs.correct,
   shadowOffset: {
     width: 0,
     height: 5,
@@ -39,6 +43,9 @@ TextSelect.defaultProps = {
   shadowColor: '#000000',
   shadowOpacity: 0.16,
   checkTick: false,
+  fontSize: 20,
+  marginTop:20,
+  marginLeft:0
 };
 
 export default function TextSelect(props?: Props) {
@@ -56,6 +63,9 @@ export default function TextSelect(props?: Props) {
     title,
     checkTick,
     onPressButton,
+    fontSize,
+    marginTop,
+    marginLeft
   } = props;
 
   return (
@@ -63,7 +73,8 @@ export default function TextSelect(props?: Props) {
       <View
         style={[
           styles.container,
-          {
+          { marginLeft,
+            marginTop,
             shadowOffset,
             shadowOpacity,
             shadowColor,
@@ -74,15 +85,12 @@ export default function TextSelect(props?: Props) {
           },
           containerStyle,
         ]}>
-        <Text style={styles.textTitle}>{title}</Text>
-        <Image source={leftImage} style={styles.imageLeft} resizeMode="contain" />
-        {checkTick ? (
-          <Image
-            source={rightImage}
-            style={styles.imageRight}
-            resizeMode="contain"
-          />
-        ) : null}
+        <Text style={[styles.textTitle,{fontSize}]}>{title}</Text>
+        <Image
+          source={checkTick ? rightImage : leftImage}
+          style={styles.imageLeft}
+          resizeMode="contain"
+        />
       </View>
     </TouchableOpacity>
   );
@@ -93,27 +101,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    marginTop: 20,
+    justifyContent: 'space-between',
   },
   imageLeft: {
     width: 30,
     height: 30,
-    position: 'absolute',
-    marginLeft: wp(75),
-    marginTop: 4,
-  },
-  imageRight: {
-    width: 24,
-    height: 24,
-    position: 'absolute',
-    marginLeft: wp(75.6),
     marginTop: 4,
   },
 
   textTitle: {
     // flex: 1,
     padding: 8,
-    fontSize: 20,
     color: 'black',
   },
 });

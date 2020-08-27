@@ -7,7 +7,7 @@ export const imgs = {
   addstaff: require('../../common/assets/images/icon/Group3icon.png'),
   delstaff: require('../../common/assets/images/icon/DelPerson-icon.png'),
   email: require('../../common/assets/images/icon/Email-icon.png'),
-  contract: require('../../common/assets/images/icon/Calender-4-icon.png'),
+  contract: require('../../common/assets/images/icon/Calendar-4-icon.png'),
   information: require('../../common/assets/images/icon/Infor-icon.png'),
   add: require('../../common/assets/images/icon/Add-icon.png'),
   meeting: require('../../common/assets/images/icon/Group-icon.png'),
@@ -54,4 +54,6 @@ export const imgs = {
   return: require('../../common/assets/images/icon/Return2-icon.png'),
   scan: require('../../common/assets/images/icon/ScanArea-icon.png'),
   addImage: require('../../common/assets/images/icon/Camera-icon.png'),
+  correct: require('../../common/assets/images/icon/Correct-icon.png'),
+  breakDay: require('../../common/assets/images/icon/Calendar-break-icon.png')
 };

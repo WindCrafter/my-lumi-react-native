@@ -27,7 +27,7 @@ const langs = {
   kpiMonth: 'KPI/tháng',
   kpi_6Month: 'KPI/6tháng',
   reason: 'Lí do:',
-  applyBreak: 'Đơn xin nghỉ',
+  applyBreak: 'Đơn xin nghỉ phép',
   applyOT: 'Đơn xin OT',
   applyLate: 'Đơn xin đi muộn',
   dob: 'DOB:',
@@ -44,6 +44,12 @@ const langs = {
   timeLate: 'Thời điểm đến muộn :',
   enterInfo: 'Nhập thông tin :',
   qrCode: 'QR Code',
+  timeBreak: 'Thời gian nghỉ',
+    breakShift: 'Nghỉ theo ca',
+    breakDay:'Nghỉ theo ngày',
+    breakMoreDay:'Nghỉ nhiều ngày',
+morningShift:'Ca sáng',
+afternoonShift:'Ca chiều'
 };
 
 export default langs;

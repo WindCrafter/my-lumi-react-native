@@ -26,7 +26,7 @@ const QRCode = (props) => {
         <QRCodeScanner
           onRead={onSuccess}
           reactivate={true}
-          reactivateTimeout={300}
+          reactivateTimeout={1000}
           flashMode={RNCamera.Constants.FlashMode.off}
           cameraStyle={styles.camera}
           showMarker={true}

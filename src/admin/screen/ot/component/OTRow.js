@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   Image,
@@ -9,7 +9,7 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import { imgs, Colors } from '../../../../../utlis';
+import {imgs, Colors} from '../../../../../utlis';
 import langs from '../../../../../common/language';
 
 if (
@@ -22,7 +22,7 @@ if (
 export default function OTRow(props?: Props) {
   const [readMore, setReadMore] = useState(false);
   const [accept, setAccept] = useState(false);
-  const { leftImage, name, day, team, role, type, content, check } = props;
+  const {leftImage, name, day, team, role, type, content, check} = props;
 
   const onReadMore = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -36,7 +36,7 @@ export default function OTRow(props?: Props) {
 
   return (
     <>
-      <View style={{ flexDirection: 'row', paddingRight: 8 }}>
+      <View style={{flexDirection: 'row', paddingRight: 8}}>
         <TouchableOpacity style={styles.check} onPress={onAccept}>
           <Image
             source={accept ? imgs.checked : imgs.unchecked}
@@ -53,7 +53,7 @@ export default function OTRow(props?: Props) {
               <Text
                 style={[
                   styles.role,
-                  { color: role === 'Leader' ? 'red' : 'black' },
+                  {color: role === 'Leader' ? 'red' : 'black'},
                 ]}>
                 {role}
               </Text>
@@ -64,8 +64,8 @@ export default function OTRow(props?: Props) {
               {type === 'break'
                 ? langs.applyBreak
                 : type === 'late'
-                  ? langs.applyLate
-                  : langs.applyOT}
+                ? langs.applyLate
+                : langs.applyOT}
             </Text>
             <View style={styles.button}>
               <Text>Xem thêm</Text>
@@ -74,9 +74,9 @@ export default function OTRow(props?: Props) {
         </View>
       </View>
       {readMore ? (
-        <View style={{ flexDirection: 'row', paddingRight: 8 }}>
+        <View style={{flexDirection: 'row', paddingRight: 8}}>
           <View style={styles.check} />
-          <View style={[styles.container, { backgroundColor: '#ffffff' }]}>
+          <View style={[styles.container, {backgroundColor: '#ffffff'}]}>
             <Text style={styles.txtContent} numberOfLines={10}>
               {langs.reason} <Text style={styles.content}> {content}</Text>
             </Text>

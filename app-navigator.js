@@ -22,7 +22,7 @@ const AppNavigator = (props) => {
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
-    }, 6000);
+    }, 2000);
   }, [token, autoLoginStatus, autoLogin]);
 
   if (loading) {

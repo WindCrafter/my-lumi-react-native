@@ -61,7 +61,7 @@ function AddContract(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Thêm Hợp Đồng'}
+        title={'Thêm hợp đồng'}
         height={60}
         goBack={goBack}
         fontSize={24}
@@ -171,15 +171,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    backgroundColor: Colors.background,
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
     marginRight: 12,
   },
   imageStamp: {
-    width: 12,
-    height: 12,
+    width: 24,
+    height: 24,
   },
   txtStatus: {
     alignSelf: 'center',
