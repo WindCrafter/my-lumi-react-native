@@ -55,7 +55,14 @@ const Admin = (props) => {
             {langs.resignOT}
           </Text>
         </TouchableOpacity>
-        <View style={styles.nothing} />
+        <TouchableOpacity onPress={addOT} style={styles.row}>
+          <View style={styles.iconOT}>
+            <Image source={imgs.contact} style={styles.img} />
+          </View>
+          <Text numberOfLines={2} style={styles.ot}>
+            {langs.contact}
+          </Text>
+        </TouchableOpacity>
       </View>
     </>
   );

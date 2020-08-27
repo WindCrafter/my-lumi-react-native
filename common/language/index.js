@@ -20,7 +20,7 @@ const langs = {
   addWork: 'Thêm công việc',
   creMeeting: 'Tạo lịch họp',
   extendContract: 'Gia hạn hợp đồng',
-  genaralInfo: 'Tổng hợp thông tin',
+  genaralInfo: 'Tổng hợp chấm công',
   resignOT: 'Đơn nghỉ, OT',
   listStaffOut: 'Nhân sự nghỉ việc',
   workMonth: 'Công/Tháng',
@@ -45,11 +45,12 @@ const langs = {
   enterInfo: 'Nhập thông tin :',
   qrCode: 'QR Code',
   timeBreak: 'Thời gian nghỉ',
-    breakShift: 'Nghỉ theo ca',
-    breakDay:'Nghỉ theo ngày',
-    breakMoreDay:'Nghỉ nhiều ngày',
-morningShift:'Ca sáng',
-afternoonShift:'Ca chiều'
+  breakShift: 'Nghỉ theo ca',
+  breakDay: 'Nghỉ theo ngày',
+  breakMoreDay: 'Nghỉ nhiều ngày',
+  morningShift: 'Ca sáng',
+  afternoonShift: 'Ca chiều',
+  contact: 'Thông tin liên hệ',
 };
 
 export default langs;

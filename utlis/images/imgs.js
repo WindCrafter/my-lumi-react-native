@@ -45,6 +45,7 @@ export const imgs = {
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
   warning: require('../../common/assets/images/icon/Warning-icon.png'),
   addblue: require('../../common/assets/images/icon/Add-icon-blue.png'),
+  addWhite: require('../../common/assets/images/icon/Add-icon-white.png'),
   Qrcode: require('../../common/assets/images/icon/QRCode-icon3x.png'),
   wifiblue: require('../../common/assets/images/icon/BlueWifi-icon.png'),
   checkIcon: require('../../common/assets/images/icon/checkCode-icon.png'),
@@ -55,5 +56,6 @@ export const imgs = {
   scan: require('../../common/assets/images/icon/ScanArea-icon.png'),
   addImage: require('../../common/assets/images/icon/Camera-icon.png'),
   correct: require('../../common/assets/images/icon/Correct-icon.png'),
-  breakDay: require('../../common/assets/images/icon/Calendar-break-icon.png')
+  breakDay: require('../../common/assets/images/icon/Calendar-break-icon.png'),
+  contact: require('../../common/assets/images/icon/Contact-icon.png')
 };

@@ -13,7 +13,7 @@ const Schedule = (props) => {
       <View style={styles.detail}>
         <TouchableOpacity style={styles.button}>
           <View style={styles.add}>
-            <Image source={imgs.add} style={styles.img} />
+            <Image source={imgs.addWhite} style={styles.img} />
           </View>
           <Text style={styles.txtAdd} numberOfLines={2}>
             {langs.addWork}
