@@ -9,6 +9,7 @@ HeaderCustom.defaultProps = {
   height: 60,
   button: false,
   fontSize: 20,
+  rightImage: imgs.add,
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -23,6 +24,7 @@ export default function HeaderCustom(props?: Props) {
     rightButton,
     onRight,
     fontSize,
+    rightImage,
     ...otherProps
   } = props;
 
@@ -46,7 +48,7 @@ export default function HeaderCustom(props?: Props) {
       </Text>
       {rightButton ? (
         <TouchableOpacity style={styles.right} onPress={onRight}>
-          <Image source={imgs.add} style={styles.img} />
+          <Image source={rightImage} style={styles.img} />
         </TouchableOpacity>
       ) : null}
     </View>

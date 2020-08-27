@@ -6,4 +6,6 @@ export const URL = {
   LIST_ROLES: '/user/list-roles',
   CHECK_IN: '/check-in',
   CREATE_QR: '/admin/qr-code',
+  GET_QR: '/admin/qr-code?date=',
+  UPDATE_PROFILE: '/user/update-profile',
 };

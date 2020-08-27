@@ -26,9 +26,8 @@ if (
 }
 
 function Home(props) {
+  const { navigation, nameUser } = props;
   const [admin, setAdmin] = useState(true);
-  const { navigation } = props;
-
   const onGoInformation = () => {
     navigation.navigate('Information');
   };
@@ -56,7 +55,11 @@ function Home(props) {
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} onPress={onCheckin} />
+        <Header
+          pressNotify={onPressNotify}
+          onPress={onCheckin}
+          name={nameUser}
+        />
         <View style={{ flex: 4 }}>
           <ScrollView>
             <Card style={styles.card}>

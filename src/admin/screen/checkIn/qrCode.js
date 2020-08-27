@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import langs from '../../../../common/language';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera} from 'react-native-camera';
-import {HeaderCheck} from '../../../component';
-import {widthPercentageToDP as hp} from 'react-native-responsive-screen';
-import {imgs} from '../../../../utlis';
+import { RNCamera } from 'react-native-camera';
+import { HeaderCheck } from '../../../component';
+import { widthPercentageToDP as hp } from 'react-native-responsive-screen';
+import { imgs } from '../../../../utlis';
 import CusMarker from './CustomMarker/index';
+import moment from 'moment';
+
 const QRCode = (props) => {
-  const {navigation} = props;
-  const [txt, setTxt] = useState();
-  const onSuccess = (e) => {
-    console.log(e.data);
+  const { navigation, token, deviceId, checkIn } = props;
+
+  const onCheckIn = (code) => {
+    const data = {
+      time: moment().format('HH:MM'),
+      deviceId: deviceId,
+      codeString: code,
+      type: 'in',
+      token: token,
+    };
+    checkIn(data);
   };
 
   return (
@@ -19,25 +28,20 @@ const QRCode = (props) => {
       <HeaderCheck title={langs.qrCode} />
       <TouchableOpacity
         style={styles.butttton}
-        onPress={() => navigation.goBack()}>
-        <Text>{txt}</Text>
-      </TouchableOpacity>
+        onPress={() => navigation.goBack()}
+      />
       <View style={styles.detail}>
         <QRCodeScanner
-          onRead={onSuccess}
+          onRead={onCheckIn}
           reactivate={true}
-          reactivateTimeout={300}
+          reactivateTimeout={3000}
           flashMode={RNCamera.Constants.FlashMode.off}
           cameraStyle={styles.camera}
           showMarker={true}
-          cameraProps={{ratio: '1:1'}}
+          cameraProps={{ ratio: '1:1' }}
           customMarker={<CusMarker />}
           topContent={
             <View style={styles.contentTop}>
-              <Text style={styles.centerText}>
-                Go to <Text style={styles.textBold}>{txt}</Text> on your
-                computer and scan the QR code.
-              </Text>
               <Image source={imgs.Qrcode} style={styles.contentImage} />
             </View>
           }
@@ -124,14 +128,27 @@ const styles = StyleSheet.create({
     borderColor: 'green',
     borderRightWidth: 1,
   },
-  contentTop: {flex: 1, justifyContent: 'space-around'},
+  contentTop: {
+    flex: 1,
+    justifyContent: 'space-around',
+  },
 
-  contentImage: {alignSelf: 'center', height: 72, width: 72},
+  contentImage: {
+    alignSelf: 'center',
+    height: 72,
+    width: 72,
+  },
   bottomContent: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bottomImage: {width: 16, height: 16},
-  textBottom: {fontSize: 20, marginLeft: 3},
+  bottomImage: {
+    width: 16,
+    height: 16,
+  },
+  textBottom: {
+    fontSize: 20,
+    marginLeft: 3,
+  },
 });

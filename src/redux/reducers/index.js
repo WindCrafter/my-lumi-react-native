@@ -16,7 +16,11 @@ const authPersistConfig = {
     'autoLoginStatus',
     'changePass',
     'deviceId',
+    'role',
     'currentUser',
+    'nameUser',
+    'phoneNumber',
+    'emailUser',
   ],
 };
 

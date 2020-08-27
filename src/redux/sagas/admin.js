@@ -8,6 +8,7 @@ import {
   addStaffSuccess,
   addStaffFailed,
 } from '../actions/admin';
+import { _global } from '../../../utlis/global/global';
 
 const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
@@ -24,8 +25,18 @@ function* sagaAddStaff(action) {
     const response = yield _POST(URL_ADD_STAFF, data, token);
     if (response.success && response.statusCode === 200) {
       yield put(addStaffSuccess());
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: response.message,
+        leftButton: { text: 'OK' },
+      });
     } else {
       yield put(addStaffFailed());
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Lỗi mạng',
+        leftButton: { text: 'OK' },
+      });
     }
   } catch (error) {
     console.log(error);
@@ -43,11 +54,21 @@ function* sagaGetListRoles(action) {
     console.log('get list role', response);
     if (response.success && response.statusCode === 200) {
       yield put(getListRolesSuccess(response));
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: response.message,
+        leftButton: { text: 'OK' },
+      });
     } else {
       yield put(getListRolesFailed());
     }
   } catch (error) {
     console.log(error);
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: { text: 'OK' },
+    });
   }
 }
 

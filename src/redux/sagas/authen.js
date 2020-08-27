@@ -8,6 +8,7 @@ import {
 } from '../actions/authen';
 import { URL } from '../../../utlis/connection/url';
 import { _POST } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -30,9 +31,19 @@ function* sagaLoginAction(action) {
       );
     } else {
       yield put(loginFailed());
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: response.message,
+        leftButton: { text: 'OK' },
+      });
     }
   } catch (error) {
     console.log(error);
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: { text: 'OK' },
+    });
   }
 }
 
@@ -50,11 +61,21 @@ function* sagaFirstLogin(action) {
     const response = yield _POST(URL_CHANGE_PASS, data, token);
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: response.message,
+        leftButton: { text: 'OK' },
+      });
     } else {
       yield put(changePassFailed());
     }
   } catch (error) {
     console.log(error);
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: { text: 'OK' },
+    });
   }
 }
 

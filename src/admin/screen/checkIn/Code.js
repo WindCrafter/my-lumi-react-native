@@ -13,7 +13,6 @@ import { Colors } from '../../../../utlis';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { HeaderCheck } from '../../../component';
 import { imgs } from '../../../../utlis';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 
 const Code = (props) => {

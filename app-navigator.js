@@ -10,7 +10,7 @@ import { autoLogin, getDeviceId } from './src/redux/actions/authen';
 import Navigator from './src/navigator';
 import { _global } from './utlis/global/global';
 import LoadInital from './src/admin/screen/loadInitial';
-import { Loading } from './src/component';
+import { Loading, Alert } from './src/component';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 
@@ -51,6 +51,11 @@ const AppNavigator = (props) => {
         loadingRef
         ref={(ref) => {
           _global.Loading = ref;
+        }}
+      />
+      <Alert
+        ref={(ref) => {
+          _global.Alert = ref;
         }}
       />
     </>

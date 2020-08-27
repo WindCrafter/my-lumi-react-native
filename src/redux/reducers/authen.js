@@ -13,8 +13,12 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
-  role: 'admin',
+  role: 'user',
   deviceId: '',
+  nameUser: '',
+  emailUser: '',
+  phoneNumber: '',
+  advance: '',
 };
 
 export default function authen(state = initialState, action) {
@@ -26,6 +30,15 @@ export default function authen(state = initialState, action) {
         loginSuccess: true,
         changePass: action.payload.changePass,
         token: action.payload.token,
+        role:
+          action.payload.data.userProfile.roleId ===
+            action.payload.data.roles[0].roleId
+            ? 'admin'
+            : 'user',
+        nameUser: action.payload.data.userProfile.name,
+        emailUser: action.payload.data.userProfile.email,
+        phoneNumber: action.payload.data.userProfile.phoneNumber,
+        advance: action.payload.data.userProfile.advance,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -52,6 +65,14 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         deviceId: action.payload,
+      };
+    case types.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        nameUser: action.payload.name,
+        emailUser: action.payload.email,
+        phoneNumber: action.payload.phoneNumber,
+        advance: action.payload.advance,
       };
     default:
       return state;

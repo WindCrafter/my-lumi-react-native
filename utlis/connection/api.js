@@ -36,16 +36,22 @@ export function _PUT(url, data, token) {
 }
 
 export function _GET(url, token) {
+  _global.Loading.show();
   const response = fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: ' Bearer ' + token,
     },
-  }).then((res) => {
-    console.log(res);
-    return res.json();
-  });
-
+  })
+    .then(
+      (res) => res.json(),
+      setTimeout(() => {
+        _global.Loading.hide();
+      }, 200),
+    )
+    .catch((error) => {
+      _global.Loading.hide();
+    });
   return response;
 }

@@ -13,7 +13,7 @@ const currentDayInWeek =
       ? 'Thứ 3'
       : day === 'Wednesday'
         ? 'Thứ 4'
-        : day === 'ThursDay'
+        : day === 'Thursday'
           ? 'Thứ 5'
           : day === 'Friday'
             ? 'Thứ 6'
@@ -23,7 +23,7 @@ const currentDayInWeek =
 console.log('Day=>>', day);
 
 const Header = (props) => {
-  const { pressNotify, onPress } = props;
+  const { pressNotify, onPress, name } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
@@ -34,7 +34,7 @@ const Header = (props) => {
           />
         </View>
         <View style={styles.info}>
-          <Text style={styles.txtName}>Xin chào Phong !</Text>
+          <Text style={styles.txtName}>Xin chào {name} !</Text>
           <Text style={styles.time}>
             {currentDayInWeek}, {currrentDate}
           </Text>
