@@ -8,9 +8,8 @@ import checkIn from '../user/container/checkIn';
 import { Colors } from '../../utlis';
 
 const BotStack = createBottomTabNavigator();
-
+StatusBar.setBarStyle('dark-content');
 export default function TabbarUser() {
-  StatusBar.setBarStyle('light-content');
   return (
     <BotStack.Navigator
       screenOptions={{

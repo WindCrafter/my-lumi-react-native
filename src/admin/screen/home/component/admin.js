@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import langs from '../../../../../common/language';
-import {imgs} from '../../../../../utlis';
+import { imgs } from '../../../../../utlis';
 
 const Admin = (props) => {
   const {
@@ -19,54 +19,54 @@ const Admin = (props) => {
       </View>
       <View style={styles.top}>
         <TouchableOpacity onPress={addStaff} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.addstaff} style={styles.img} />
-          </View>
+
+          <Image source={imgs.addstaff} style={styles.img} />
+
           <Text numberOfLines={2} style={styles.add}>
             {langs.addStaff}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={extendContract} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.contract} style={styles.img} />
-          </View>
+
+          <Image source={imgs.contract} style={styles.img} />
+
           <Text numberOfLines={2} style={styles.add}>
             {langs.extendContract}
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.mid}>
+      <View style={styles.top}>
         <TouchableOpacity onPress={resignStaff} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.delstaff} style={styles.img} />
-          </View>
+
+          <Image source={imgs.delstaff} style={styles.img} />
+
           <Text numberOfLines={2} style={styles.add}>
             {langs.listStaffOut}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={generalInfo} style={styles.row}>
-          <View style={styles.icon}>
-            <Image source={imgs.information} style={styles.img} />
-          </View>
+
+          <Image source={imgs.information} style={styles.img} />
+
           <Text numberOfLines={2} style={styles.add}>
             {langs.genaralInfo}
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.bot}>
+      <View style={styles.top}>
         <TouchableOpacity onPress={addOT} style={styles.row}>
-          <View style={styles.iconOT}>
-            <Image source={imgs.OT} style={styles.img} />
-          </View>
-          <Text numberOfLines={1} style={styles.ot}>
+
+          <Image source={imgs.OT} style={styles.img} />
+
+          <Text numberOfLines={1} style={styles.add}>
             {langs.resignOT}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={inforContact} style={styles.row}>
-          <View style={styles.iconOT}>
-            <Image source={imgs.contact} style={styles.img} />
-          </View>
-          <Text numberOfLines={2} style={styles.ot}>
+
+          <Image source={imgs.contact} style={styles.img} />
+
+          <Text numberOfLines={2} style={styles.add}>
             {langs.contact}
           </Text>
         </TouchableOpacity>
@@ -79,68 +79,37 @@ export default Admin;
 
 const styles = StyleSheet.create({
   top: {
-    marginTop: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  mid: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 16,
-  },
-  bot: {
-    justifyContent: 'space-around',
     flexDirection: 'row',
     marginTop: 16,
   },
   add: {
-    width: 80,
     fontSize: 12,
     alignSelf: 'center',
   },
   txtManager: {
     fontSize: 20,
     alignSelf: 'center',
-    height: 30,
   },
   manager: {
-    height: 20,
-  },
-  ot: {
-    width: 80,
-    fontSize: 12,
-    alignSelf: 'center',
+    // height: 20,
   },
   nothing: {
     width: 116,
   },
   icon: {
-    // backgroundColor: 'red',
-    padding: 4,
     alignSelf: 'center',
     borderRadius: 11,
     marginRight: 4,
   },
   row: {
     flexDirection: 'row',
+    flex: 1,
+    marginHorizontal: 4
   },
   img: {
     // color:'red'
-    height: 24,
-    width: 24,
-  },
-  iconOT: {
-    padding: 4,
-    alignSelf: 'center',
-    borderRadius: 11,
-    marginRight: 4,
-    // shadowColor: 'black',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 10,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // borderWidth: 0.25,
+    height: 20,
+    width: 20,
+    marginRight: 8
   },
 });

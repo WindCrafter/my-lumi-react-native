@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,15 +10,15 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import ContactRow from '../../../component/Input/InputContact';
-import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 const DATA = [
   {
     name: 'Nguyễn Văn Nghị',
@@ -61,11 +61,12 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
 function Contact(props) {
   const [listData, setListData] = useState(DATA);
 
   const [search, setSearch] = useState('');
-  const {navigation} = props;
+  const { navigation } = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
@@ -85,7 +86,7 @@ function Contact(props) {
     );
   };
 
-  const onSearch = () => {};
+  const onSearch = () => { };
 
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
@@ -106,7 +107,7 @@ function Contact(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor={Colors.background}
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Thông tin liên hệ'} height={60} goBack={goBack} />

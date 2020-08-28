@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,8 +22,8 @@ import {
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Button } from '../../../component';
+import { imgs, Colors } from '../../../../utlis';
 const BORDERWIDTH = 1;
 
 if (
@@ -33,6 +33,8 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
+
 function ApplyLate(props) {
   const [date, setDate] = useState(new Date(1598051730000));
   const [time, setTime] = useState(new Date(1598051730000));
@@ -41,7 +43,7 @@ function ApplyLate(props) {
   const [mode, setMode] = useState('');
   const [start, setStart] = useState('');
   const [show, setShow] = useState(false);
-  const {navigation, route} = props;
+  const { navigation, route } = props;
 
   const goBack = () => {
     navigation.goBack();
@@ -99,7 +101,7 @@ function ApplyLate(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
@@ -124,7 +126,7 @@ function ApplyLate(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.timeStart}</Text>
           </View>
-          <View style={[styles.row, {alignSelf: 'center'}]}>
+          <View style={[styles.row, { alignSelf: 'center' }]}>
             <TouchableOpacity
               style={[
                 styles.button,
@@ -162,7 +164,7 @@ function ApplyLate(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
           </View>
-          <View style={[styles.row, {alignSelf: 'center'}]}>
+          <View style={[styles.row, { alignSelf: 'center' }]}>
             <TouchableOpacity
               style={[
                 styles.button,

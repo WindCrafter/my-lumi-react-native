@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -13,9 +13,9 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import ContactRow from '../../../component/Input/InputContact';
-import {BarStatus, HeaderCustom, Input} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Input } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 const DATA = [
   {
     name: 'Nguyễn Văn Nghị',
@@ -63,7 +63,7 @@ function Contact(props) {
   const [] = useState('');
   const [search, setSearch] = useState('');
   const [] = useState({});
-  const {navigation} = props;
+  const { navigation } = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
@@ -83,7 +83,7 @@ function Contact(props) {
     );
   };
 
-  const onSearch = () => {};
+  const onSearch = () => { };
 
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
@@ -102,7 +102,7 @@ function Contact(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor={Colors.background}
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Thông tin liên lạc'} height={60} goBack={goBack} />
@@ -116,7 +116,7 @@ function Contact(props) {
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
 
-/>
+      />
 
       <FlatList data={listData} renderItem={renderItem} />
     </View>

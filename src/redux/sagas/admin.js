@@ -9,6 +9,8 @@ import {
   addStaffFailed,
 } from '../actions/admin';
 import { _global } from '../../../utlis/global/global';
+import langs from '../../../common/language';
+import { Colors } from '../../../utlis';
 
 const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
@@ -26,15 +28,17 @@ function* sagaAddStaff(action) {
     if (response.success && response.statusCode === 200) {
       yield put(addStaffSuccess());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.notify,
         message: response.message,
+        messageColor: Colors.background,
         leftButton: { text: 'OK' },
       });
     } else {
       yield put(addStaffFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Lỗi mạng',
+        title: langs.notify,
+        message: langs.errorNetwork,
+        messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     }
@@ -54,21 +58,11 @@ function* sagaGetListRoles(action) {
     console.log('get list role', response);
     if (response.success && response.statusCode === 200) {
       yield put(getListRolesSuccess(response));
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        leftButton: { text: 'OK' },
-      });
     } else {
       yield put(getListRolesFailed());
     }
   } catch (error) {
     console.log(error);
-    _global.Alert.alert({
-      title: 'Thông báo',
-      message: 'Lỗi mạng',
-      leftButton: { text: 'OK' },
-    });
   }
 }
 

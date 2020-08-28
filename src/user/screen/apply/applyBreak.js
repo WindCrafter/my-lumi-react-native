@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,7 @@ import {
   Alert,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {TextSelect, InputSelect} from '../../../component';
+import { TextSelect, InputSelect } from '../../../component';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP,
@@ -22,8 +22,8 @@ import {
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Button } from '../../../component';
+import { imgs, Colors } from '../../../../utlis';
 import ModalBreak from './ModalBreak/index';
 const BORDERWIDTH = 1;
 if (
@@ -33,8 +33,10 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
+
 function ApplyBreak(props) {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const [date, setDate] = useState(new Date(1598051730000));
   const [time, setTime] = useState(new Date(1598051730000));
   const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
@@ -62,8 +64,8 @@ function ApplyBreak(props) {
     typeShift === 'Ca sáng'
       ? setTypeShift('Ca chiều')
       : typeShift === 'Ca chiều'
-      ? setTypeShift('Ca sáng')
-      : null;
+        ? setTypeShift('Ca sáng')
+        : null;
   };
   const onChangeTime = (event, selectedDate) => {
     const currentTime = selectedDate || date;
@@ -124,7 +126,7 @@ function ApplyBreak(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
@@ -143,8 +145,8 @@ function ApplyBreak(props) {
             <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
           </View>
           <InputApply
-          borderRadius={12}
-           backgroundColor={'white'}
+            borderRadius={12}
+            backgroundColor={'white'}
             containerStyle={{
               height: 70,
               justifyContent: 'center',
@@ -189,7 +191,7 @@ function ApplyBreak(props) {
                   </View>
                   <Text style={styles.txtStatus}>{langs.timeStart}</Text>
                 </View>
-                <View style={[styles.row, {alignSelf: 'center'}]}>
+                <View style={[styles.row, { alignSelf: 'center' }]}>
                   <TouchableOpacity
                     style={[
                       styles.button,
@@ -229,7 +231,7 @@ function ApplyBreak(props) {
                   </View>
                   <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
                 </View>
-                <View style={[styles.row, {alignSelf: 'center'}]}>
+                <View style={[styles.row, { alignSelf: 'center' }]}>
                   <TouchableOpacity
                     style={[
                       styles.button,
@@ -254,8 +256,8 @@ function ApplyBreak(props) {
                   <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
                 </View>
 
-                <View style={[styles.rowBot, {alignSelf: 'center'}]}>
-                      <Text style={styles.txtStatus}>Từ</Text>
+                <View style={[styles.rowBot, { alignSelf: 'center' }]}>
+                  <Text style={styles.txtStatus}>Từ</Text>
 
                   <TouchableOpacity
                     style={[
@@ -266,7 +268,7 @@ function ApplyBreak(props) {
                       },
                     ]}
                     onPress={() => onShowEnd('date', 'end')}>
-                        <Image source={imgs.breakDay} style={styles.imageStamp} />
+                    <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                     <Text style={styles.txtTime}>
                       {moment(dateEnd).format('DD/MM/YYYY')}
@@ -284,7 +286,7 @@ function ApplyBreak(props) {
                       },
                     ]}
                     onPress={() => onShowEnd('date', 'end')}>
-                        <Image source={imgs.breakDay} style={styles.imageStamp} />
+                    <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                     <Text style={styles.txtTime}>
                       {moment(dateEnd).format('DD/MM/YYYY')}
@@ -432,12 +434,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 4,
 
-  },rowBot:{
+  }, rowBot: {
     flexDirection: 'row',
-    marginHorizontal:4,
+    marginHorizontal: 4,
     marginVertical: 4,
-    justifyContent:'space-between',
-    width:wp(98)
+    justifyContent: 'space-between',
+    width: wp(98)
   },
   button: {
     height: 60,

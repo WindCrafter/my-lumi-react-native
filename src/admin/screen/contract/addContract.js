@@ -30,6 +30,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
 function AddContract(props) {
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
@@ -57,7 +58,7 @@ function AddContract(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom

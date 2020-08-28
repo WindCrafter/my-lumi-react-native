@@ -9,6 +9,7 @@ import {
   Alert,
   Keyboard,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import { Logo, Input, InputPassword, Checkbox, Button } from '../../../component';
 import langs from '../../../../common/language';

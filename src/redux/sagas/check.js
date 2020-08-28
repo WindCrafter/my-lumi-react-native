@@ -4,6 +4,7 @@ import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET } from '../../../utlis/connection/api';
 import { checkInSuccess, checkInFailed, createQRSuccess, createQRFailed } from '../actions/check';
 import { _global } from '../../../utlis/global/global';
+import { Colors } from '../../../utlis';
 
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
@@ -25,6 +26,7 @@ function* sagaCheckIn(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: 'Chấm công thành công',
+        messageColor: Colors.background,
         leftButton: { text: 'OK' },
       });
     } else {
@@ -32,6 +34,7 @@ function* sagaCheckIn(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
+        messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     }
@@ -40,6 +43,7 @@ function* sagaCheckIn(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
+      messageColor: Colors.danger,
       leftButton: { text: 'OK' },
     });
   }
@@ -64,6 +68,7 @@ function* sagaCreateQR(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
+        messageColor: Colors.background,
         leftButton: { text: 'OK' },
       });
     }

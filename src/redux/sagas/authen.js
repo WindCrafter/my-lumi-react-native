@@ -1,4 +1,4 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import * as types from '../types';
 import {
   loginSuccess,
@@ -8,9 +8,11 @@ import {
   updateProfileSuccess,
   updateProfileFailed,
 } from '../actions/authen';
-import {URL} from '../../../utlis/connection/url';
-import {_POST} from '../../../utlis/connection/api';
-import {_global} from '../../../utlis/global/global';
+import { URL } from '../../../utlis/connection/url';
+import { _POST } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
+import langs from '../../../common/language';
+import { Colors } from '../../../utlis';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -34,18 +36,14 @@ function* sagaLoginAction(action) {
       );
     } else {
       yield put(loginFailed());
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        leftButton: {text: 'OK'},
-      });
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
-      message: 'Lỗi mạng',
-      leftButton: {text: 'OK'},
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: { text: 'OK' },
+      messageColor: Colors.danger,
     });
   }
 }
@@ -65,9 +63,10 @@ function* sagaFirstLogin(action) {
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.notify,
         message: response.message,
-        leftButton: {text: 'OK'},
+        messageColor: Colors.background,
+        leftButton: { text: 'OK' },
       });
     } else {
       yield put(changePassFailed());
@@ -75,9 +74,10 @@ function* sagaFirstLogin(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
-      message: 'Lỗi mạng',
-      leftButton: {text: 'OK'},
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: { text: 'OK' },
+      messageColor: Colors.danger,
     });
   }
 }

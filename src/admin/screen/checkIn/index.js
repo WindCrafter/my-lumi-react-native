@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
 import { HeaderCheck } from '../../../component';
 import { Colors } from '../../../../utlis';
 import { imgs } from '../../../../utlis';
+
 const CheckIn = (props) => {
+
   const { navigation } = props;
   const onQRCode = () => {
     navigation.navigate('QRCode');
@@ -18,7 +20,6 @@ const CheckIn = (props) => {
   const onCreateQR = () => {
     navigation.navigate('CreateQRCode');
   };
-
   return (
     <View style={styles.container}>
       <HeaderCheck title={langs.checkIn} />

@@ -106,5 +106,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
   },
-  image: { padding: 20, marginLeft: 18 },
+  image: {
+    padding: 20,
+    marginLeft: 18,
+  },
 });

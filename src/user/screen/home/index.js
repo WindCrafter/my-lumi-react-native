@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,15 +8,16 @@ import {
   Platform,
   UIManager,
   LayoutAnimation,
+  StatusBar,
 } from 'react-native';
 import Header from './component/header';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import DeadLine from './component/deadLine';
 import User from './component_user/user';
 import Event from './component_user/event';
 import InfoWeek from './component_user/infoWeek';
-import {BarStatus} from '../../../component';
-import {Colors} from '../../../../utlis';
+import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
 
 if (
   Platform.OS === 'android' &&
@@ -25,8 +26,9 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
 function Home(props) {
-  const {navigation, nameUser} = props;
+  const { navigation, nameUser } = props;
   const [admin, setAdmin] = useState(true);
   const onGetContact = () => {
     navigation.navigate('Contact');
@@ -52,14 +54,14 @@ function Home(props) {
   };
   return (
     <>
-      <BarStatus backgroundColor={Colors.background} />
+      <BarStatus backgroundColor={Colors.white} />
       <View style={styles.container}>
         <Header
           pressNotify={onPressNotify}
           onPress={onCheckin}
           name={nameUser}
         />
-        <View style={{flex: 4}}>
+        <View style={{ flex: 4 }}>
           <ScrollView>
             <Card style={styles.card}>
               <User

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,13 +11,13 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import {Alert} from '../../../component';
+import { Alert } from '../../../component';
 import ChangePass from './component/ChangePass';
 import AddInfo from './component/AddInfo';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const FirstLogin = (props) => {
-  const {changePass, token, updateProfile} = props;
+  const { changePass, token, updateProfile } = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
@@ -42,7 +42,7 @@ const FirstLogin = (props) => {
   };
 
   const onNext = () => {
-    step.current.scrollTo({x: wp(100), y: 0, animated: true});
+    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
   };
 
   const onConfirms = () => {
@@ -67,13 +67,13 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     } else {
-      changePass({pass, confirmPassword: rePass, token});
+      changePass({ pass, confirmPassword: rePass, token });
     }
   };
   const onConfirmsProfile = () => {
     Keyboard.dismiss();
     const data = {
-      name:'jijiiii',
+      name: 'jijiiii',
       phoneNumber: phone,
       birthday,
       token,
@@ -95,7 +95,7 @@ const FirstLogin = (props) => {
           onChangeBirthDay={onChangeBirthday}
           phone={phone}
           onChangePhone={onChangePhone}
-          onNext={onConfirmsProfile,onNext}
+          onNext={onConfirmsProfile, onNext}
         />
         <ChangePass
           pass={pass}

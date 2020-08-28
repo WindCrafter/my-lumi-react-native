@@ -1,13 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import {Card} from 'native-base';
+import { StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
-import {HeaderCheck} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { HeaderCheck } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { imgs } from '../../../../utlis';
+
+
 const CheckIn = (props) => {
-  const {navigation} = props;
+  const { navigation } = props;
   const onQRCode = () => {
     navigation.navigate('QRCode');
   };
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
   viewMid: {
     flex: 1,
     alignItems: 'center',
-    marginTop:10
+    marginTop: 10
   },
   txtTop: {
     fontSize: 16,
@@ -105,6 +107,6 @@ const styles = StyleSheet.create({
   nothing: {
     flex: 2,
   },
-  image: {width: 24, height: 24, alignSelf: 'center'},
-  body: {flexDirection: 'row'},
+  image: { width: 24, height: 24, alignSelf: 'center' },
+  body: { flexDirection: 'row' },
 });

@@ -18,11 +18,10 @@ import qrcode from '../admin/container/checkIn/qrcode';
 import code from '../admin/container/checkIn/code';
 import createQRCode from '../admin/container/checkIn/createQRCode';
 import updateProfile from '../admin/container/account/updateProfile';
-import contact from  '../admin/container/contact';
+import contact from '../admin/container/contact';
 const Stack = createStackNavigator();
-
+StatusBar.setBarStyle('dark-content');
 export default function AdminStack() {
-  StatusBar.setBarStyle('light-content');
   return (
     <Stack.Navigator
       screenOptions={{

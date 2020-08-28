@@ -108,7 +108,7 @@ function OT(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor={Colors.background}
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Đơn nghỉ/OT'} height={60} goBack={goBack} />

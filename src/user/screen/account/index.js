@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { Colors } from '../../../../utlis';
 import { BarStatus } from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 20,
     color: Colors.black,
-    marginLeft:10
+    marginLeft: 10
   },
 
   detail: {

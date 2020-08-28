@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View, Image} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, StyleSheet, Text, View, Image, StatusBar } from 'react-native';
 import flatListData from './data';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
 
 class FlatlistItem extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ const Notify = () => {
         style={styles.Container8}
         horizontal={false}
         data={flatListData}
-        renderItem={({item, index}) => {
+        renderItem={({ item, index }) => {
           return <FlatlistItem item={item} index={index} />;
         }}
       />
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   bot: {
     flexDirection: 'column',
   },
-  top: {flexDirection: 'row'},
+  top: { flexDirection: 'row' },
   line: {
     height: 1,
     width: wp(80),

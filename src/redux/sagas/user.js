@@ -4,6 +4,7 @@ import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import { updateProfileSuccess, updateProfileFailed } from '../actions/user';
+import { Colors } from '../../../utlis';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 
@@ -23,6 +24,7 @@ function* sagaUpdateProfile(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
+        messageColor: Colors.background,
         leftButton: { text: 'OK' },
       });
     } else {
@@ -30,6 +32,7 @@ function* sagaUpdateProfile(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: 'Lỗi mạng',
+        messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     }

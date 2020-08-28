@@ -12,6 +12,7 @@ import { BarStatus, HeaderCustom } from '../../../component';
 
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import ContractRow from './component/contractRow';
+import { Colors } from '../../../../utlis';
 
 const DATA = [
   {
@@ -49,6 +50,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
 function Contract(props) {
   const [listData, setListData] = useState(DATA);
   const { navigation } = props;
@@ -83,7 +85,7 @@ function Contract(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom

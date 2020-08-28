@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   txtMessage: {
     fontSize: 14,
     fontWeight: '500',
-    color: 'tomato',
+    color: 'black',
     textAlign: 'center',
   },
 });
@@ -102,6 +102,7 @@ class Alert extends PureComponent {
       title: props.title ? props.title : null,
       message: props.message ? props.message : null,
       leftButton: props.leftButton ? props.leftButton : null,
+      messageColor: props.messageColor ? props.messageColor : null,
       rightButton: props.rightButton ? props.rightButton : null,
       onClose: props.onClose ? props.onClose : null,
       renderContent: props.renderContent ? props.renderContent : null,
@@ -293,14 +294,17 @@ class Alert extends PureComponent {
     let { renderContent } = this.props;
     let message = null;
     let title = null;
+    let messageColor = null;
 
     if (this.dataAlert) {
       renderContent = this.dataAlert.renderContent;
       message = this.dataAlert.message;
+      messageColor = this.dataAlert.messageColor;
       title = this.dataAlert.title;
     } else {
       message = this.props.message;
       title = this.props.title;
+      messageColor = this.props.messageColor;
     }
 
     if (renderContent) {
@@ -312,7 +316,7 @@ class Alert extends PureComponent {
         {title && <Text style={styles.txtTitle}>{title}</Text>}
         {message && (
           <Text
-            style={[styles.txtMessage, title ? { marginTop: 24 } : undefined]}>
+            style={[styles.txtMessage, title ? { marginTop: 24 } : undefined, { color: messageColor }]}>
             {message}
           </Text>
         )}
@@ -470,6 +474,7 @@ Alert.defaultProps = {
   hasTextInput: false,
   borderRadius: 12,
   useModal: false,
+  messageColor: 'black',
 };
 
 export default Alert;

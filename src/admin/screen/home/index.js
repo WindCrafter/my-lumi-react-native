@@ -8,6 +8,7 @@ import {
   Platform,
   UIManager,
   LayoutAnimation,
+  StatusBar,
 } from 'react-native';
 import Header from './component/header';
 import { Card } from 'native-base';
@@ -19,6 +20,7 @@ import { BarStatus } from '../../../component';
 import { Colors } from '../../../../utlis';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
+import { _global } from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -28,6 +30,7 @@ if (
 }
 
 function Home(props) {
+
   const { navigation, nameUser } = props;
   const onAddStaff = () => {
     navigation.navigate('Thêm nhân viên');
@@ -36,7 +39,7 @@ function Home(props) {
   const onGoInformation = () => {
     navigation.navigate('Information');
   };
-  const onGetContact=() =>{
+  const onGetContact = () => {
     navigation.navigate('Contact');
 
   }
@@ -59,7 +62,12 @@ function Home(props) {
   };
 
   const onPressNotify = () => {
-    navigation.navigate('Thông báo');
+    // navigation.navigate('Thông báo');
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'hello',
+      leftButton: { text: 'OK' },
+    });
   };
 
   return (
@@ -114,6 +122,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     shadowColor: 'black',
     paddingHorizontal: 16,
-    paddingVertical: 28,
+    paddingVertical: 16,
   },
 });

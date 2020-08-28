@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
@@ -62,13 +62,15 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
+
 function Information(props) {
   const [listData, setListData] = useState(DATA);
   const [key, setKey] = useState('');
   const [search, setSearch] = useState('');
   const [rowMap, setRowMap] = useState({});
   const refAlert = useRef(null);
-  const {navigation} = props;
+  const { navigation } = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
@@ -118,7 +120,7 @@ function Information(props) {
       </View>
     );
   };
-  const onSearch = () => {};
+  const onSearch = () => { };
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
       const itemData = `${item.name.toLowerCase()}`;
@@ -144,7 +146,7 @@ function Information(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor={Colors.background}
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Thông tin chấm công'} height={60} goBack={goBack} />

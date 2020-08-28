@@ -15,9 +15,8 @@ import TabbarUser from './TabbarUser';
 import code from '../user/container/checkIn/code'
 import updateProfile from '../user/container/account/updateProfile';
 const Stack = createStackNavigator();
-
+StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
-  StatusBar.setBarStyle('light-content');
   return (
     <Stack.Navigator
       screenOptions={{

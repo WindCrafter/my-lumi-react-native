@@ -17,6 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import ResignRow from './component/resignRow';
 import { BarStatus, HeaderCustom } from '../../../component';
+import { Colors } from '../../../../utlis';
 
 const DATA = [
   {
@@ -54,6 +55,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+
 function Resign(props) {
   const [listData, setListData] = useState(DATA);
   const { navigation } = props;
@@ -80,14 +82,10 @@ function Resign(props) {
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom
-        title={'Nhân sự nghỉ việc'}
-        height={60}
-        goBack={goBack}
-      />
+      <HeaderCustom title={'Nhân sự nghỉ việc'} height={60} goBack={goBack} />
       <FlatList
         data={listData}
         keyExtractor={(item) => item.key}

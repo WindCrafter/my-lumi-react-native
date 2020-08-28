@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  StatusBar,
 } from 'react-native';
 import langs from '../../../../common/language';
 import { Card } from 'native-base';
@@ -14,6 +15,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { HeaderCheck } from '../../../component';
 import { imgs } from '../../../../utlis';
 import moment from 'moment';
+
 
 const Code = (props) => {
   const { navigation, token, deviceId, checkIn } = props;

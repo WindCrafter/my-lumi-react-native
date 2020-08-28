@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  StatusBar,
 } from 'react-native';
 import SendCode from './component/sendCode';
 import ConfirmCode from './component/confirmCode';

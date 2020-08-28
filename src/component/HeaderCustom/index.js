@@ -10,6 +10,7 @@ HeaderCustom.defaultProps = {
   button: false,
   fontSize: 20,
   rightImage: imgs.add,
+  backgroundColor: Colors.white,
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -61,6 +62,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     justifyContent: 'center',
+    borderBottomWidth: 0.25,
+    borderColor: Colors.background,
   },
   button: {
     position: 'absolute',

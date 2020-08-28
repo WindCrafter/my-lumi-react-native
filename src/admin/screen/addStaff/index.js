@@ -22,7 +22,7 @@ import {
   BarStatus,
   HeaderCustom,
 } from '../../../component';
-import { imgs } from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
 
@@ -42,6 +42,7 @@ const AddStaff = (props) => {
     roleIdUser,
     roleIdAdmin,
   } = props;
+
   const refEmail = useRef(null);
   const refPhone = useRef(null);
   const refPosition = useRef(null);
@@ -54,7 +55,7 @@ const AddStaff = (props) => {
   const [showModalRank, setModalRank] = useState(false);
 
   useEffect(() => {
-    // getListRoles(token);
+    getListRoles(token);
   }, [getListRoles, token]);
 
   const onDone = () => {
@@ -124,7 +125,7 @@ const AddStaff = (props) => {
   return (
     <>
       <BarStatus
-        backgroundColor="rgb(47,172,79)"
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom

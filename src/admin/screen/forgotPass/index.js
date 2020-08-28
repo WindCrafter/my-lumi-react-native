@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  StatusBar,
 } from 'react-native';
 import SendCode from './component/sendCode';
 import ConfirmCode from './component/confirmCode';
@@ -17,6 +18,7 @@ import RePass from './component/rePass';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Logo } from '../../../component';
 let deviceWidth = Dimensions.get('window').width;
+
 
 const ForgotPass = (props) => {
   const { navigation } = props;

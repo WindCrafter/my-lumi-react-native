@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, StatusBar } from 'react-native';
 import langs from '../../../../common/language';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
@@ -9,9 +9,10 @@ import { imgs } from '../../../../utlis';
 import CusMarker from './CustomMarker/index';
 import moment from 'moment';
 
-const QRCode = (props) => {
-  const { navigation, token, deviceId, checkIn } = props;
 
+const QRCode = (props) => {
+
+  const { navigation, token, deviceId, checkIn } = props;
   const onCheckIn = (code) => {
     const data = {
       time: moment().format('HH:MM'),
@@ -22,7 +23,6 @@ const QRCode = (props) => {
     };
     checkIn(data);
   };
-
   return (
     <View style={styles.container}>
       <HeaderCheck title={langs.qrCode} />

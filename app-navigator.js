@@ -36,7 +36,7 @@ const AppNavigator = (props) => {
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId]);
 
   if (loading) {
-    StatusBar.setBarStyle('dark-content');
+
     return <LoadInital />;
   }
 
