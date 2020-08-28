@@ -5,7 +5,7 @@ import {
   // CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
-import information from '../user/container/information';
+import contact from '../user/container/contact';
 import applyLate from '../user/container/apply/applyLate';
 import applyOT from '../user/container/apply/applyOT';
 import applyBreak from '../user/container/apply/applyBreak';
@@ -32,8 +32,8 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Information'}
-        component={information}
+        name={'Contact'}
+        component={contact}
         options={{
           headerShown: false,
         }}

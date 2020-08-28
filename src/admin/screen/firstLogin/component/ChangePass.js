@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Logo, InputPassword, Button } from '../../../../component';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import {StyleSheet, Text, View} from 'react-native';
+import {Logo, InputPassword, Button} from '../../../../component';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 
 const ChangePass = (props) => {
-  const { pass, onChangePass, rePass, onChangeRePass, onConfirms } = props;
+  const {pass, onChangePass, rePass, onChangeRePass, onConfirms} = props;
   return (
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />

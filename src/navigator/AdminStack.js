@@ -18,7 +18,7 @@ import qrcode from '../admin/container/checkIn/qrcode';
 import code from '../admin/container/checkIn/code';
 import createQRCode from '../admin/container/checkIn/createQRCode';
 import updateProfile from '../admin/container/account/updateProfile';
-
+import contact from  '../admin/container/contact';
 const Stack = createStackNavigator();
 
 export default function AdminStack() {
@@ -60,6 +60,13 @@ export default function AdminStack() {
       <Stack.Screen
         name={'Resign'}
         component={resign}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Contact'}
+        component={contact}
         options={{
           headerShown: false,
         }}

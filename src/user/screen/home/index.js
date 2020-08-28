@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,13 +10,13 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Header from './component/header';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import DeadLine from './component/deadLine';
 import User from './component_user/user';
 import Event from './component_user/event';
 import InfoWeek from './component_user/infoWeek';
-import { BarStatus } from '../../../component';
-import { Colors } from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import {Colors} from '../../../../utlis';
 
 if (
   Platform.OS === 'android' &&
@@ -26,10 +26,10 @@ if (
 }
 
 function Home(props) {
-  const { navigation, nameUser } = props;
+  const {navigation, nameUser} = props;
   const [admin, setAdmin] = useState(true);
-  const onGoInformation = () => {
-    navigation.navigate('Information');
+  const onGetContact = () => {
+    navigation.navigate('Contact');
   };
   const onCheckin = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -60,14 +60,14 @@ function Home(props) {
           onPress={onCheckin}
           name={nameUser}
         />
-        <View style={{ flex: 4 }}>
+        <View style={{flex: 4}}>
           <ScrollView>
             <Card style={styles.card}>
               <User
                 applyBreak={onApplyBreak}
                 applyLate={onApplyLate}
                 applyOT={onApplyOT}
-                generalInfo={onGoInformation}
+                contactInfor={onGetContact}
               />
             </Card>
             <Card style={styles.card}>

@@ -13,7 +13,7 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
-  role: 'user',
+  role: 'admin',
   deviceId: '',
   nameUser: '',
   emailUser: '',
@@ -73,6 +73,7 @@ export default function authen(state = initialState, action) {
         emailUser: action.payload.email,
         phoneNumber: action.payload.phoneNumber,
         advance: action.payload.advance,
+        
       };
     default:
       return state;

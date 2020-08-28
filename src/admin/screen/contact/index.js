@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,14 +10,14 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import InfoRow from './component/InfoRow';
-import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
-import { Colors } from '../../../../utlis';
+import ContactRow from '../../../component/Input/InputContact';
+import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
+import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 const DATA = [
   {
@@ -61,20 +61,18 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function Information(props) {
+function Contact(props) {
   const [listData, setListData] = useState(DATA);
-  const [key, setKey] = useState('');
+
   const [search, setSearch] = useState('');
-  const [rowMap, setRowMap] = useState({});
-  const refAlert = useRef(null);
-  const { navigation } = props;
+  const {navigation} = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     return (
-      <InfoRow
+      <ContactRow
         name={data.item.name}
         leftImage={data.item.avt}
         team={data.item.team}
@@ -87,37 +85,7 @@ function Information(props) {
     );
   };
 
-  const closeRow = (rowmap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  };
-
-  const deleteRow = (rowmap, rowKey) => {
-    closeRow(rowmap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
-  };
-
-  const onRowDidOpen = (rowKey) => {
-    setKey(rowKey);
-  };
-
-  const renderHiddenItem = (data, rowmap) => {
-    const id = data.item.key;
-    return (
-      <View style={styles.rowBack}>
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.backRightBtnRight]}
-          onPress={() => onAlert(rowmap, id)}>
-          <Text style={styles.backTextWhite}>Sa thải</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  const onSearch = () => { };
+  const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
@@ -135,19 +103,13 @@ function Information(props) {
     navigation.goBack();
   };
 
-  const onAlert = (rowmap, rowkey) => {
-    refAlert.current.open();
-    setKey(rowkey);
-    setRowMap(rowmap);
-  };
-
   return (
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.background}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Thông tin tổng hợp'} height={60} goBack={goBack} />
+      <HeaderCustom title={'Thông tin liên hệ'} height={60} goBack={goBack} />
       <Input
         button
         leftImage={imgs.search}
@@ -157,36 +119,13 @@ function Information(props) {
         onChangeText={onChangeSearch}
         autoCapitalize={'none'}
       />
-      <SwipeListView
-        useFlatList={true}
-        // keyExtractor={(item) => item.key}
-        data={listData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={0}
-        rightOpenValue={-90}
-        previewrowKey={'0'}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-      />
-      <Alert
-        title={'Warning'}
-        message={'Bạn muốn xoá người này chứ'}
-        leftButton={{
-          text: 'OK',
-          onPress: () => deleteRow(rowMap, key),
-        }}
-        rightButton={{
-          text: 'Cancel',
-        }}
-        ref={refAlert}
-      />
+
+      <FlatList data={listData} renderItem={renderItem} />
     </View>
   );
 }
 
-export default Information;
+export default Contact;
 
 const styles = StyleSheet.create({
   container: {

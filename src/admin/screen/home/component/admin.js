@@ -4,7 +4,14 @@ import langs from '../../../../../common/language';
 import {imgs} from '../../../../../utlis';
 
 const Admin = (props) => {
-  const {addStaff, extendContract, resignStaff, generalInfo, addOT} = props;
+  const {
+    addStaff,
+    extendContract,
+    resignStaff,
+    generalInfo,
+    addOT,
+    inforContact,
+  } = props;
   return (
     <>
       <View style={styles.manager}>
@@ -55,7 +62,7 @@ const Admin = (props) => {
             {langs.resignOT}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={addOT} style={styles.row}>
+        <TouchableOpacity onPress={inforContact} style={styles.row}>
           <View style={styles.iconOT}>
             <Image source={imgs.contact} style={styles.img} />
           </View>

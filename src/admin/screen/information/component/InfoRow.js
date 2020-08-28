@@ -23,7 +23,7 @@ export default function InfoRow(props?: Props) {
           </Text>
         </Text>
       </View>
-      {/* <View style={styles.work}>
+      <View style={styles.work}>
         <View style={styles.flex}>
           <Text style={styles.txtWork}>{langs.workMonth}</Text>
         </View>
@@ -46,7 +46,7 @@ export default function InfoRow(props?: Props) {
         <View style={styles.flex}>
           <Text style={styles.numb}> {kpi_6m}</Text>
         </View>
-      </View> */}
+      </View>
     </View>
   );
 }

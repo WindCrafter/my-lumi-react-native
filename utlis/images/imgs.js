@@ -21,6 +21,7 @@ export const imgs = {
   search: require('../../common/assets/images/icon/Search-icon.png'),
   notification: require('../../common/assets/images/icon/Notification-icon.png'),
   stampCheck: require('../../common/assets/images/icon/StampCheck-icon.png'),
+  stampUnCheck: require('../../common/assets/images/icon/Stamp-unchecked-icon.png'),
   checkCalendar: require('../../common/assets/images/icon/Calendar-1-icon.png'),
   leave: require('../../common/assets/images/icon/Leave-icon.png'),
   OT: require('../../common/assets/images/icon/OT-icon.png'),
@@ -41,6 +42,7 @@ export const imgs = {
   checkingrey: require('../../common/assets/images/icon/Checkin-grey-icon.png'),
   checkingreen: require('../../common/assets/images/icon/Checkin-green-icon.png'),
   tick: require('../../common/assets/images/icon/Tick-icon.png'),
+  tickblue: require('../../common/assets/images/icon/Tick-blue-icon.png') ,
   down: require('../../common/assets/images/icon/down-icon.png'),
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
   warning: require('../../common/assets/images/icon/Warning-icon.png'),
@@ -57,5 +59,7 @@ export const imgs = {
   addImage: require('../../common/assets/images/icon/Camera-icon.png'),
   correct: require('../../common/assets/images/icon/Correct-icon.png'),
   breakDay: require('../../common/assets/images/icon/Calendar-break-icon.png'),
-  contact: require('../../common/assets/images/icon/Contact-icon.png')
+  contact: require('../../common/assets/images/icon/Contact-icon.png'),
+  banking: require('../../common/assets/images/icon/Banking-icon.png'),
+  lateIcon: require('../../common/assets/images/icon/Late-icon.png'),
 };

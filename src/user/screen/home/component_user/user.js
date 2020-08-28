@@ -4,7 +4,7 @@ import langs from '../../../../../common/language';
 import { imgs } from '../../../../../utlis';
 
 const User = (props) => {
-  const { applyLate, applyOT, applyBreak, generalInfo } = props;
+  const { applyLate, applyOT, applyBreak, contactInfor  } = props;
   return (
     <>
       <View style={styles.manager}>
@@ -19,12 +19,12 @@ const User = (props) => {
             {langs.applyBreak}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={generalInfo} style={styles.row}>
+        <TouchableOpacity onPress={contactInfor} style={styles.row}>
           <View style={styles.icon}>
-            <Image source={imgs.information} style={styles.img} />
+            <Image source={imgs.contact} style={styles.img} />
           </View>
           <Text numberOfLines={2} style={styles.add}>
-            {langs.genaralInfo}
+            {langs.contact}
           </Text>
         </TouchableOpacity>
       </View>

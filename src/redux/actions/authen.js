@@ -46,6 +46,25 @@ export const changePassFailed = () => {
   };
 };
 
+export const updateProfile = (data) => {
+  return {
+    type: types.UPDATE_PROFILE,
+    payload: data,
+  };
+};
+
+export const updateProfileSuccess = (data) => {
+  return {
+    type: types.UPDATE_PROFILE_SUCCESS,
+    payload: data,
+  };
+};
+export const updateProfileFailed = (data) => {
+  return {
+    type: types.UPDATE_PROFILE_FAILED,
+    payload: data,
+  };
+};
 export const autoLogin = () => {
   return {
     type: types.AUTO_LOGIN,

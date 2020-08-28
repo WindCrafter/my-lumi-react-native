@@ -13,6 +13,8 @@ function* sagaUpdateProfile(action) {
       name: action.payload.name,
       phoneNumber: action.payload.phoneNumber,
       advance: action.payload.advance,
+      birthday: action.payload.birthday,
+
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);

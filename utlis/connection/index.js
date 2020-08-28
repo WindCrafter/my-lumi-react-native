@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { _POST, _GET } from './api';
-import { URL } from './url';
+import React, {Component} from 'react';
+import {_POST, _GET} from './api';
+import {URL} from './url';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
-
+const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 export class Connection extends Component {
   changePass(data, token) {
     return _POST(URL_CHANGE_PASS, data, token);
@@ -27,6 +27,9 @@ export class Connection extends Component {
 
   check(data, token) {
     return _POST(URL_CHECK_IN, data, token);
+  }
+  updateProfile(data, token) {
+    return _POST(URL_UPDATE_PROFILE, data, token);
   }
 }
 

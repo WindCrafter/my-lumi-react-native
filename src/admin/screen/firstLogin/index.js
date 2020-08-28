@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,18 +11,28 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import { Alert } from '../../../component';
+import {Alert} from '../../../component';
 import ChangePass from './component/ChangePass';
 import AddInfo from './component/AddInfo';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const FirstLogin = (props) => {
-  const { changePass, token } = props;
+  const {changePass, token, updateProfile} = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('hey');
+
+  const [birthday, setBirthday] = useState('');
   const [error, setError] = useState('');
+  const onChangePhone = (value) => {
+    setPhone(value);
+  };
+  const onChangeBirthday = (value) => {
+    setBirthday(value);
+  };
   const onChangePass = (value) => {
     setPass(value);
   };
@@ -32,7 +42,7 @@ const FirstLogin = (props) => {
   };
 
   const onNext = () => {
-    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
+    step.current.scrollTo({x: wp(100), y: 0, animated: true});
   };
 
   const onConfirms = () => {
@@ -57,8 +67,18 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     } else {
-      changePass({ pass, confirmPassword: rePass, token });
+      changePass({pass, confirmPassword: rePass, token});
     }
+  };
+  const onConfirmsProfile = () => {
+    Keyboard.dismiss();
+    const data = {
+      name:'jijiiii',
+      phoneNumber: phone,
+      birthday,
+      token,
+    };
+    updateProfile(data);
   };
   StatusBar.setBarStyle('default');
 
@@ -70,7 +90,13 @@ const FirstLogin = (props) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         ref={step}>
-        <AddInfo onNext={onNext} />
+        <AddInfo
+          birthday={birthday}
+          onChangeBirthDay={onChangeBirthday}
+          phone={phone}
+          onChangePhone={onChangePhone}
+          onNext={onConfirmsProfile,onNext}
+        />
         <ChangePass
           pass={pass}
           onChangePass={onChangePass}

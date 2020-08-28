@@ -8,4 +8,5 @@ export const URL = {
   CREATE_QR: '/admin/qr-code',
   GET_QR: '/admin/qr-code?date=',
   UPDATE_PROFILE: '/user/update-profile',
+  
 };

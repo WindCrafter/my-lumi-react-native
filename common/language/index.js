@@ -37,6 +37,7 @@ const langs = {
   dealLine: 'Dead Line hoặc dự án lớn',
   dayInfo: 'Tổng quan/ngày',
   dayWeek: 'Tổng quan/tuần',
+  inforMonth:'Tổng quan/tháng',
   work: 'Công việc',
   reasonSum: 'Tóm tắt lí do :',
   timeStart: 'Thời điểm bắt đầu :',
@@ -51,6 +52,7 @@ const langs = {
   morningShift: 'Ca sáng',
   afternoonShift: 'Ca chiều',
   contact: 'Thông tin liên hệ',
+  validBreak: 'Số phép tồn'
 };
 
 export default langs;

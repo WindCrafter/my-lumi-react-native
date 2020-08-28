@@ -37,6 +37,10 @@ function Home(props) {
   const onGoInformation = () => {
     navigation.navigate('Information');
   };
+  const onGetContact=() =>{
+    navigation.navigate('Contact');
+
+  }
 
   const goAddOT = () => {
     navigation.navigate('OT');
@@ -77,6 +81,7 @@ function Home(props) {
                 addOT={goAddOT}
                 resignStaff={onResignStaff}
                 extendContract={onContract}
+                inforContact={onGetContact}
               />
             </Card>
             <Card style={styles.card}>

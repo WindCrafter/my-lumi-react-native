@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import langs from '../../../../../common/language';
-import { Colors } from '../../../../../utlis';
+import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import langs from '../../../common/language';
+import {Colors, imgs} from '../../../utlis';
 
-export default function InfoRow(props?: Props) {
-  const { leftImage, name, dob, team, role, work, kpi, kpi_6m } = props;
+export default function ContactRow(props?: Props) {
+  const {leftImage, name, dob, team, role, work, kpi, kpi_6m} = props;
 
   return (
     <View style={styles.container}>
@@ -18,35 +18,18 @@ export default function InfoRow(props?: Props) {
         <Text style={styles.team}>
           {langs.team} {team} -{' '}
           <Text
-            style={[styles.role, { color: role === 'Leader' ? 'red' : 'black' }]}>
+            style={[styles.role, {color: role === 'Leader' ? 'red' : 'black'}]}>
             {role}
           </Text>
         </Text>
       </View>
-      {/* <View style={styles.work}>
-        <View style={styles.flex}>
-          <Text style={styles.txtWork}>{langs.workMonth}</Text>
-        </View>
-        <View style={styles.flex}>
-          <Text style={styles.numb}> {work}</Text>
-        </View>
-      </View>
-      <View style={styles.work}>
-        <View style={styles.flex}>
-          <Text style={styles.txtWork}>{langs.kpiMonth}</Text>
-        </View>
-        <View style={styles.flex}>
-          <Text style={styles.numb}> {kpi}</Text>
-        </View>
-      </View>
-      <View style={styles.work}>
-        <View style={styles.flex}>
-          <Text style={styles.txtWork}>{langs.kpi_6Month}</Text>
-        </View>
-        <View style={styles.flex}>
-          <Text style={styles.numb}> {kpi_6m}</Text>
-        </View>
-      </View> */}
+      <TouchableOpacity style={styles.work}>
+        <Image source={imgs.phone} />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.work}>
+        <Image source={imgs.banking} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -71,8 +54,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   image: {
-    width: 56,
-    height: 56,
+    width: 72,
+    height: 72,
     borderRadius: 32,
     flex: 1,
   },
@@ -104,7 +87,8 @@ const styles = StyleSheet.create({
   },
   work: {
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   txtWork: {
     fontWeight: '300',

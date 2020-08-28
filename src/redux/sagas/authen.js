@@ -1,17 +1,20 @@
-import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import {takeLatest, put, select, delay} from 'redux-saga/effects';
 import * as types from '../types';
 import {
   loginSuccess,
   loginFailed,
   changePassSuccess,
   changePassFailed,
+  updateProfileSuccess,
+  updateProfileFailed,
 } from '../actions/authen';
-import { URL } from '../../../utlis/connection/url';
-import { _POST } from '../../../utlis/connection/api';
-import { _global } from '../../../utlis/global/global';
+import {URL} from '../../../utlis/connection/url';
+import {_POST} from '../../../utlis/connection/api';
+import {_global} from '../../../utlis/global/global';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
+const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 
 function* sagaLoginAction(action) {
   try {
@@ -34,7 +37,7 @@ function* sagaLoginAction(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
   } catch (error) {
@@ -42,7 +45,7 @@ function* sagaLoginAction(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
     });
   }
 }
@@ -64,7 +67,7 @@ function* sagaFirstLogin(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     } else {
       yield put(changePassFailed());
@@ -74,7 +77,7 @@ function* sagaFirstLogin(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
     });
   }
 }
@@ -82,3 +85,4 @@ function* sagaFirstLogin(action) {
 export function* watchFirstLogin() {
   yield takeLatest(types.CHANGE_PASS, sagaFirstLogin);
 }
+
