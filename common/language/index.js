@@ -52,7 +52,10 @@ const langs = {
   morningShift: 'Ca sáng',
   afternoonShift: 'Ca chiều',
   contact: 'Thông tin liên hệ',
-  validBreak: 'Số phép tồn'
+  validBreak: 'Số phép tồn',
+  identity: 'CCCD/CMND',
+  inforCompany:'Tổng quan công ti',
+  staff:'Số nhân viên'
 };
 
 export default langs;

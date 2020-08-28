@@ -108,7 +108,7 @@ const FirstLogin = (props) => {
       <Alert
         title={'Warning'}
         message={error}
-        leftButton={{text: 'OK'}}
+        leftButton={{ text: 'OK' }}
         ref={refAlert}
       />
     </>

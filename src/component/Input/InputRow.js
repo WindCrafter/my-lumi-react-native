@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     paddingLeft: 12,
-    fontSize: 20,
+    fontSize: 16,
     color: 'black',
     alignSelf: 'center',
     textAlign: 'right',
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '400',
     marginLeft: 8,
   },

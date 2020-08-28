@@ -8,7 +8,7 @@ const User = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>{langs.event}</Text>
+        <Text style={styles.txtManager}>Tính năng</Text>
       </View>
       <View style={styles.top}>
         <TouchableOpacity onPress={applyBreak} style={styles.row}>

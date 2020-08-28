@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Image } from 'react-native';
 import { Colors } from '../../../../utlis';
 import { BarStatus } from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
+import { imgs } from '../../../../utlis';
 
 const Account = (props) => {
   const { logOut, nameUser, emailUser, navigation } = props;
@@ -23,9 +24,22 @@ const Account = (props) => {
         <HeaderAccount name={name} email={email} onPress={onMoveToProfile} />
         <View style={styles.detail}>
           <CalendarCustom />
-          <TouchableOpacity style={styles.logOut} onPress={onLogOut}>
-            <Text style={styles.txtLogOut}>Đăng xuất</Text>
-          </TouchableOpacity>
+          <View style={styles.bottomDetail}>
+            <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
+              <Image source={imgs.KPI} />
+              <Text style={styles.txtLogOut}>KPI tháng</Text>
+            </View>
+            <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
+              <Image source={imgs.inforblack} />
+              <Text style={styles.txtLogOut}>Thông tin ứng dụng</Text>
+            </View>
+
+            <TouchableOpacity onPress={onLogOut} style={{ flexDirection: 'row', paddingVertical: 10 }}>
+              <Image source={imgs.logout} />
+
+              <Text style={styles.txtLogOut}>Đăng xuất</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </>
@@ -50,11 +64,19 @@ const styles = StyleSheet.create({
   txtLogOut: {
     fontWeight: '600',
     fontSize: 20,
-    color: Colors.white,
+    color: Colors.black,
+    marginLeft:10
   },
+
   detail: {
     flex: 4,
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  bot: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  bottomDetail: { width: '90%' }
 });

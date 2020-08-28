@@ -8,6 +8,8 @@ const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
+const URL_GET_QR = `${URL.LOCAL_HOST}${URL.GET_QR}`;
+
 export class Connection extends Component {
   changePass(data, token) {
     return _POST(URL_CHANGE_PASS, data, token);
@@ -31,6 +33,9 @@ export class Connection extends Component {
   updateProfile(data, token) {
     return _POST(URL_UPDATE_PROFILE, data, token);
   }
+  getQR(date, token) {
+    return _GET(`${URL_GET_QR}${date}`, token);
+  }
 }
 
-export default Connection;
+export default new Connection();

@@ -62,4 +62,6 @@ export const imgs = {
   contact: require('../../common/assets/images/icon/Contact-icon.png'),
   banking: require('../../common/assets/images/icon/Banking-icon.png'),
   lateIcon: require('../../common/assets/images/icon/Late-icon.png'),
+  inforblack: require('../../common/assets/images/icon/information-black-icon.png'),
+  logout: require('../../common/assets/images/icon/log-out-icon.png')
 };

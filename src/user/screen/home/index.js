@@ -32,8 +32,7 @@ function Home(props) {
     navigation.navigate('Contact');
   };
   const onCheckin = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setAdmin(!admin);
+    navigation.navigate('Chấm công');
   };
 
   const onApplyBreak = () => {

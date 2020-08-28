@@ -92,7 +92,6 @@ const CalendarCustom = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Image source={imgs.checkCalendar} style={styles.img} />
         <Text style={styles.text}>Lịch sử chấm công</Text>
       </View>
       <Calendar
@@ -140,8 +139,9 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 20,
-    fontWeight: '300',
+    fontSize: 25,
+    fontWeight: '500',
+    marginLeft: 20, marginBottom: 10
   },
   monthFormat: {
     flexDirection: 'row',

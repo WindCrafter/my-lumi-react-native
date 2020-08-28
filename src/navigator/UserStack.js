@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import {
   createStackNavigator,
-  // CardStyleInterpolators,
+  CardStyleInterpolators,
   // TransitionPresets,
 } from '@react-navigation/stack';
 import contact from '../user/container/contact';
@@ -21,8 +21,10 @@ export default function UserStack() {
   return (
     <Stack.Navigator
       screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
         headerTitleAlign: 'center',
-        // headerShown: false,
       }}>
       <Stack.Screen
         name={'TabbarUser'}

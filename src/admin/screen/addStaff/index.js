@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,8 @@ import {
   StatusBar,
   Alert,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   InputInfor,
   InputSelect,
@@ -22,7 +22,7 @@ import {
   BarStatus,
   HeaderCustom,
 } from '../../../component';
-import {imgs} from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
 
@@ -54,13 +54,13 @@ const AddStaff = (props) => {
   const [showModalRank, setModalRank] = useState(false);
 
   useEffect(() => {
-    getListRoles(token);
+    // getListRoles(token);
   }, [getListRoles, token]);
 
   const onDone = () => {
     Keyboard.dismiss();
     const roleId = detailRank === 'ADMIN' ? roleIdAdmin : roleIdUser;
-    const data = {name, email, password, roleId, token};
+    const data = { name, email, password, roleId, token };
     if (email.trim().length === 0) {
       Alert.alert('email invalid');
       return;
@@ -304,5 +304,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  bot: {marginBottom: 24},
+  bot: { marginBottom: 24 },
 });

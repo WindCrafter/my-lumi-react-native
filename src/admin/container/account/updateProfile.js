@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
   emailUser: state.authen.emailUser,
   phoneNumber: state.authen.phoneNumber,
   token: state.authen.token,
-  advance: state.authen.token,
+  advance: state.authen.advance,
 });
 
 const mapDispatchToProps = {

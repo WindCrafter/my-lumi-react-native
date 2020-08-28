@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import moment from 'moment';
+import Connection from '../../../../utlis/connection/index';
 
 const CreateQRCode = (props) => {
   const { createQR, token, source, navigation } = props;
+  const [sourceImg, setSourceImg] = useState(source);
   const onCreateQR = () => {
     const data = {
       day: moment().format('DD/MM/YYYY'),
@@ -13,6 +15,14 @@ const CreateQRCode = (props) => {
     createQR(data);
     console.log('SOurce=>>>>', source);
   };
+
+  const onGetQR = async () => {
+    const date = moment().format('DD/MM/YYYY');
+    await Connection.getQR(date, token).then((res) =>
+      setSourceImg(res.data.qrDataUrl),
+    );
+  };
+
   const goBack = () => {
     navigation.goBack();
   };
@@ -22,13 +32,13 @@ const CreateQRCode = (props) => {
       <TouchableOpacity style={styles.bton} onPress={goBack}>
         <Text style={styles.txt}>Quay lại</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.bton} >
+      <TouchableOpacity style={styles.bton} onPress={onGetQR}>
         <Text style={styles.txt}>Lấy QR code</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.bton} onPress={onCreateQR}>
         <Text style={styles.txt}>Tạo QR code</Text>
       </TouchableOpacity>
-      <Image source={{ uri: source }} style={styles.img} />
+      <Image source={{ uri: sourceImg }} style={styles.img} />
     </View>
   );
 };

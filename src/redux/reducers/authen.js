@@ -18,7 +18,7 @@ const initialState = {
   nameUser: '',
   emailUser: '',
   phoneNumber: '',
-  advance: '',
+  advance: {},
 };
 
 export default function authen(state = initialState, action) {
@@ -29,7 +29,7 @@ export default function authen(state = initialState, action) {
         currentUser: { ...(action.payload || {}) },
         loginSuccess: true,
         changePass: action.payload.changePass,
-        token: action.payload.token,
+        token: state.autoLoginStatus ? action.payload.token : null,
         role:
           action.payload.data.userProfile.roleId ===
             action.payload.data.roles[0].roleId

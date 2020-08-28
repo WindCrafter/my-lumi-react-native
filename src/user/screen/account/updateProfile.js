@@ -17,6 +17,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors, imgs } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
+import { _global } from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -26,11 +27,26 @@ if (
 }
 
 function UpdateProfile(props) {
-  const { navigation, nameUser, phoneNumber, updateProfile, token } = props;
+  const {
+    navigation,
+    nameUser,
+    phoneNumber,
+    updateProfile,
+    token,
+    advance,
+  } = props;
   const step = useRef(null);
+  const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const [update, setUpdate] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
+  const [identity, setIdentity] = useState(
+    advance && advance.identity ? advance.identity : null,
+  );
+  const [nativeLand, setNativeLand] = useState(
+    advance && advance.nativeLand ? advance.nativeLand : null,
+  );
+
   const goBack = () => {
     navigation.goBack();
   };
@@ -48,16 +64,34 @@ function UpdateProfile(props) {
     setPhone(val);
   };
 
+  const onChangeIdentity = (val) => {
+    setIdentity(val);
+  };
+
+  const onChangeNativeLand = (val) => {
+    setNativeLand(val);
+  };
+
   const onUpdateInfo = () => {
-    const advance = {};
     const data = {
       name: name,
       phoneNumber: phone,
-      advance: advance,
+      advance: {
+        identity: identity,
+        nativeLand: nativeLand,
+      },
       token: token,
     };
-    updateProfile(data);
-  }
+    if (!isVNPhoneMobile.test(phone)) {
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Sai số điện thoại',
+        leftButton: { text: 'OK' },
+      });
+    } else {
+      updateProfile(data);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -80,12 +114,21 @@ function UpdateProfile(props) {
         scrollEnabled={update}
         showsHorizontalScrollIndicator={false}
         ref={step}>
-        <Info name={nameUser} phoneNumber={phoneNumber} />
+        <Info
+          name={nameUser}
+          phoneNumber={phoneNumber}
+          identity={advance && advance.identity ? advance.identity : null}
+          nativeLand={advance && advance.nativeLand ? advance.nativeLand : null}
+        />
         <UpdateInfo
           name={name}
           phone={phone}
+          identity={identity}
+          nativeLand={nativeLand}
+          onChangeNative={onChangeNativeLand}
           onChangePhone={onChangePhone}
           onChangeName={onChangeName}
+          onChangeIdentity={onChangeIdentity}
         />
       </ScrollView>
       <View style={styles.viewButton}>
