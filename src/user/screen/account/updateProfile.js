@@ -17,6 +17,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors, imgs } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
+import { _global } from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -28,6 +29,7 @@ if (
 function UpdateProfile(props) {
   const { navigation, nameUser, phoneNumber, updateProfile, token } = props;
   const step = useRef(null);
+  const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const [update, setUpdate] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
@@ -56,8 +58,16 @@ function UpdateProfile(props) {
       advance: advance,
       token: token,
     };
-    updateProfile(data);
-  }
+    if (!isVNPhoneMobile.test(phone)) {
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Sai số điện thoại',
+        leftButton: { text: 'OK' },
+      });
+    } else {
+      updateProfile(data);
+    }
+  };
 
   return (
     <View style={styles.container}>

@@ -16,20 +16,17 @@ const QRCode = (props) => {
     const data = {
       time: moment().format('HH:MM'),
       deviceId: deviceId,
-      codeString: code,
+      codeString: code.data,
       type: 'in',
       token: token,
     };
+    console.log('=>>>>', code);
     checkIn(data);
   };
 
   return (
     <View style={styles.container}>
       <HeaderCheck title={langs.qrCode} />
-      <TouchableOpacity
-        style={styles.butttton}
-        onPress={() => navigation.goBack()}
-      />
       <View style={styles.detail}>
         <QRCodeScanner
           onRead={onCheckIn}

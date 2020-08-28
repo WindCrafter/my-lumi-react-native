@@ -29,7 +29,6 @@ if (
 
 function Home(props) {
   const { navigation, nameUser } = props;
-  const [admin, setAdmin] = useState(true);
   const onAddStaff = () => {
     navigation.navigate('Thêm nhân viên');
   };
@@ -52,7 +51,7 @@ function Home(props) {
 
   const onCheckin = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setAdmin(!admin);
+    navigation.navigate('Chấm công');
   };
 
   const onPressNotify = () => {

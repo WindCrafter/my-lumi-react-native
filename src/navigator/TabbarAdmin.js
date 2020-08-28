@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import account from '../admin/container/account';
 import { TabbarIcon } from '../component';
 import home from '../admin/container/home';
@@ -9,6 +8,7 @@ import checkIn from '../admin/container/checkIn';
 import { Colors } from '../../utlis';
 
 const BotStack = createBottomTabNavigator();
+
 
 export default function TabbarAdmin() {
   StatusBar.setBarStyle('light-content');

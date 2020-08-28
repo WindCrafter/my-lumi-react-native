@@ -27,13 +27,11 @@ if (
 
 function Home(props) {
   const { navigation, nameUser } = props;
-  const [admin, setAdmin] = useState(true);
   const onGoInformation = () => {
     navigation.navigate('Information');
   };
   const onCheckin = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setAdmin(!admin);
+    navigation.navigate('Chấm công');
   };
 
   const onApplyBreak = () => {
