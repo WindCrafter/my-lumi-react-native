@@ -51,6 +51,7 @@ const langs = {
   morningShift: 'Ca sáng',
   afternoonShift: 'Ca chiều',
   contact: 'Thông tin liên hệ',
+  identity: 'CCCD/CMND',
 };
 
 export default langs;

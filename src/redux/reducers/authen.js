@@ -18,7 +18,7 @@ const initialState = {
   nameUser: '',
   emailUser: '',
   phoneNumber: '',
-  advance: '',
+  advance: {},
 };
 
 export default function authen(state = initialState, action) {

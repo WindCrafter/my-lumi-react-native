@@ -4,7 +4,7 @@ import { Card } from 'native-base'
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const Info = (props) => {
-  const { name, phoneNumber } = props;
+  const { name, phoneNumber, identity, nativeLand } = props;
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
@@ -24,11 +24,11 @@ const Info = (props) => {
         </View>
         <View style={styles.viewInfo}>
           <Text style={styles.txtInfo}>CCCD/CMND:</Text>
-          <Text style={styles.txtInfo}>Undefined</Text>
+          <Text style={styles.txtInfo}>{identity}</Text>
         </View>
         <View style={styles.viewInfo}>
           <Text style={styles.txtInfo}>Quê quán:</Text>
-          <Text style={styles.txtInfo}>Undefined</Text>
+          <Text style={styles.txtInfo}>{nativeLand}</Text>
         </View>
         <View style={styles.viewInfo}>
           <Text style={styles.txtInfo}>Số điện thoại:</Text>

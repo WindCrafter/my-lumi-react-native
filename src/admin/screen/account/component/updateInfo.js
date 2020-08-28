@@ -18,6 +18,7 @@ const UpdateInfo = (props) => {
   const refBirth = useRef('');
   const refTeam = useRef('');
   const refNative = useRef('');
+  const refIdentity = useRef('');
   const {
     phone,
     onChangePhone,
@@ -27,6 +28,8 @@ const UpdateInfo = (props) => {
     onChangeTeam,
     nativeLand,
     onChangeNative,
+    identity,
+    onChangeIdentity,
   } = props;
   return (
     <>
@@ -76,6 +79,16 @@ const UpdateInfo = (props) => {
               onChangeText={onChangeNative}
               clearButtonMode="while-editing"
               refInput={refNative}
+            />
+            <InputRow
+              leftImage={imgs.identityCard}
+              containerStyle={styles.txtInput}
+              title={langs.identity}
+              size={16}
+              value={identity}
+              onChangeText={onChangeIdentity}
+              clearButtonMode="while-editing"
+              refInput={refIdentity}
             />
           </ScrollView>
         </View>
