@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -63,7 +63,7 @@ function Contact(props) {
   const [] = useState('');
   const [search, setSearch] = useState('');
   const [] = useState({});
-  const { navigation } = props;
+  const {navigation} = props;
 
   const renderItem = (data) => {
     Platform.OS === 'ios'
@@ -105,7 +105,7 @@ function Contact(props) {
         backgroundColor={Colors.background}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Thông tin tổng hợp'} height={60} goBack={goBack} />
+      <HeaderCustom title={'Thông tin liên lạc'} height={60} goBack={goBack} />
       <Input
         button
         leftImage={imgs.search}
@@ -114,7 +114,9 @@ function Contact(props) {
         value={search}
         onChangeText={onChangeSearch}
         autoCapitalize={'none'}
-      />
+        placeholder={'Tìm kiếm ...'}
+
+/>
 
       <FlatList data={listData} renderItem={renderItem} />
     </View>
@@ -126,7 +128,7 @@ export default Contact;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: heightPercentageToDP(100),
+    height: '100%',
   },
   backTextWhite: {
     color: '#FFF',

@@ -184,6 +184,7 @@ const AddStaff = (props) => {
               backgroundColor={'white'}
               leftImage={imgs.setPerson}
               title={'Vị trí :'}
+              width={wp(90)}
               containerStyle={styles.textSelect}
               detail={detailPosition}
               onPressButton={setPosition}
@@ -191,6 +192,8 @@ const AddStaff = (props) => {
           </TouchableOpacity>
           <TouchableOpacity style={{ marginBottom: 24 }} onPress={setRank}>
             <InputSelect
+              width={wp(90)}
+
               testID="test_Rank"
               leftImage={imgs.setPerson}
               backgroundColor={'white'}

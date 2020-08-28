@@ -142,7 +142,19 @@ function ApplyBreak(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
           </View>
-          <InputApply backgroundColor={'white'} />
+          <InputApply
+          borderRadius={12}
+           backgroundColor={'white'}
+            containerStyle={{
+              height: 70,
+              justifyContent: 'center',
+              alignSelf: 'center',
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              width: wp(90),
+              borderWidth: 2,
+              shadowColor: 'white',
+            }} />
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
@@ -343,7 +355,7 @@ export default ApplyBreak;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: heightPercentageToDP(100),
+    height: '100%',
   },
   containerUser: {
     flexDirection: 'row',

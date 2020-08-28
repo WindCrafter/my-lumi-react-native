@@ -7,9 +7,12 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform,
+
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../utlis';
+import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -44,9 +47,10 @@ export default function InputApply(props?: Props) {
     title,
     ...otherProps
   } = props;
+  const ViewCard = Platform.OS === 'ios' ? View : Card;
 
   return (
-    <View
+    <ViewCard
       style={[
         styles.container,
         {
@@ -73,7 +77,7 @@ export default function InputApply(props?: Props) {
         maxLength={100}
         {...otherProps}
       />
-    </View>
+    </ViewCard>
   );
 }
 
@@ -85,8 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     marginVertical: 8,
-    borderWidth: 2,
-    borderColor: 'black',
+    
   },
   image: {
     width: 24,

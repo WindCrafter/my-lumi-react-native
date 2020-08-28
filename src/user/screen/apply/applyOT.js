@@ -243,7 +243,7 @@ export default ApplyOT;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: heightPercentageToDP(100),
+    height: '100%',
   },
   containerUser: {
     flexDirection: 'row',
