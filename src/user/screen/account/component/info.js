@@ -35,17 +35,17 @@ const Info = (props) => {
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
-        <View style={styles.viewAvt}>
-          <Image
-            source={require('../../../../../naruto.jpeg')}
-            style={styles.avt}
-          />
-        </View>
         <KeyboardAvoidingView
           style={styles.info}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View style={styles.detail}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.viewAvt}>
+                <Image
+                  source={require('../../../../../naruto.jpeg')}
+                  style={styles.avt}
+                />
+              </View>
               <InputRow
                 containerStyle={styles.txtInput}
                 title={langs.name}
@@ -125,12 +125,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   info: {
-    flex: 5,
+    flex: 1,
     width: widthPercentageToDP(100),
     alignItems: 'center',
   },
   viewAvt: {
     flex: 1,
+    alignSelf: 'center',
   },
   avt: {
     height: 64,
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   detail: {
-    flex: 4,
+    flex: 1,
     alignItems: 'center',
   },
   avatar: {

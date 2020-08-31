@@ -41,7 +41,7 @@ const UpdateInfo = (props) => {
           style={styles.info}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View style={styles.detail}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <TouchableOpacity onPress={onChangeBirthday}>
                 <InputRow
                   containerStyle={styles.txtInput}

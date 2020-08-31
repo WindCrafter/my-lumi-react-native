@@ -189,20 +189,33 @@ function UpdateProfile(props) {
           <Text style={styles.txtButton}>Khai báo thông tin </Text>
         </TouchableOpacity>
       </View>
-      <ModalTime
-        showModal={show}
-        hideModal={onHideModal}
-        picker={
-          <View style={styles.picker}>
-            <DateTimePicker
-              value={birthday}
-              mode={'date'}
-              display="default"
-              onChange={onChangeBirthday}
-            />
-          </View>
-        }
-      />
+      {Platform.OS === 'ios' ? (
+        <ModalTime
+          showModal={show}
+          hideModal={onHideModal}
+          picker={
+            <View style={styles.picker}>
+              <DateTimePicker
+                value={birthday}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+              />
+            </View>
+          }
+        />
+      ) : (
+          show && (
+            <View style={styles.picker}>
+              <DateTimePicker
+                value={birthday}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+              />
+            </View>
+          )
+        )}
     </View>
   );
 }
