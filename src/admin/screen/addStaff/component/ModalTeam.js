@@ -32,7 +32,7 @@ const ModalTeam = (props) => {
       <Modal
         isVisible={showModalPosition}
         animationIn={'slideInUp'}
-        animationOutTiming={1600}
+        animationOutTiming={500}
         animationOut={'slideOutDown'}
         onBackdropPress={setModalPosition}
         style={styles.modal}

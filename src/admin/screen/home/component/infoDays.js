@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View ,Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import langs from '../../../../../common/language';
-import {imgs} from '../../../../../utlis'
+import { imgs } from '../../../../../utlis';
 const InfoDays = (props) => {
   const { addStaff, extendContract, resignStaff, genaralInfo, addOT } = props;
   return (
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     color: 'tomato',
     alignSelf: 'center',
     marginRight: 5,
-
   },
   txtLate: {
     marginTop: 8,
@@ -76,14 +75,12 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,25,0.22)',
     alignSelf: 'center',
     marginRight: 5,
-
   },
   txtBreak: {
     marginTop: 8,
     fontSize: 14,
     alignSelf: 'center',
     fontWeight: '500',
-    
   },
   txtManager: {
     fontSize: 20,

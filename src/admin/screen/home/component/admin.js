@@ -104,12 +104,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     flex: 1,
-    marginHorizontal: 4
+    marginHorizontal: 4,
   },
   img: {
     // color:'red'
     height: 20,
     width: 20,
-    marginRight: 8
+    marginRight: 8,
   },
 });

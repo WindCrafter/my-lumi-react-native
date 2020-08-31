@@ -82,6 +82,7 @@ export default function InputInfor(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
+        keyboardType="email-address"
         {...otherProps}
       />
     </ViewCard>

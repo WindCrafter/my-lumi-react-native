@@ -55,7 +55,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
 function Resign(props) {
   const [listData, setListData] = useState(DATA);
   const { navigation } = props;
@@ -85,7 +84,12 @@ function Resign(props) {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Nhân sự nghỉ việc'} height={60} goBack={goBack} />
+      <HeaderCustom
+        title={'Nhân sự nghỉ việc'}
+        height={60}
+        goBack={goBack}
+        containerStyle={styles.header}
+      />
       <FlatList
         data={listData}
         keyExtractor={(item) => item.key}
@@ -101,5 +105,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     height: '100%',
+  },
+  header: {
+    marginBottom: 8,
   },
 });

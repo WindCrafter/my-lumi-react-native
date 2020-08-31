@@ -3,15 +3,18 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
+  Image,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
+import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { InputRow } from '../../../../component';
-import { imgs } from '../../../../../utlis';
 import langs from '../../../../../common/language';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { imgs, Colors } from '../../../../../utlis';
+import moment from 'moment';
 
 const UpdateInfo = (props) => {
   const refPhone = useRef('');
@@ -20,10 +23,10 @@ const UpdateInfo = (props) => {
   const refNative = useRef('');
   const refIdentity = useRef('');
   const {
-    phone,
-    onChangePhone,
-    name,
-    onChangeName,
+    gene,
+    onChangeGene,
+    birthday,
+    onChangeBirthday,
     team,
     onChangeTeam,
     nativeLand,
@@ -32,68 +35,75 @@ const UpdateInfo = (props) => {
     onChangeIdentity,
   } = props;
   return (
-    <>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.detail}>
-          <ScrollView>
-            <InputRow
-              containerStyle={styles.txtInput}
-              title={langs.name}
-              size={16}
-              value={name}
-              onChangeText={onChangeName}
-              refInput={refPhone}
-              clearButtonMode="while-editing"
-              onSubmitEditing={() => refBirth.current.focus()}
-            />
-            <InputRow
-              leftImage={imgs.phone}
-              containerStyle={styles.txtInput}
-              title={langs.phone}
-              size={16}
-              value={phone}
-              onChangeText={onChangePhone}
-              refInput={refBirth}
-              clearButtonMode="while-editing"
-              onSubmitEditing={() => refTeam.current.focus()}
-            />
-            <InputRow
-              leftImage={imgs.setPerson}
-              containerStyle={styles.txtInput}
-              title={langs.team}
-              size={16}
-              value={team}
-              onChangeText={onChangeTeam}
-              refInput={refTeam}
-              clearButtonMode="while-editing"
-              onSubmitEditing={() => refNative.current.focus()}
-            />
-            <InputRow
-              leftImage={imgs.location}
-              containerStyle={styles.txtInput}
-              title={langs.nativeLand}
-              size={16}
-              value={nativeLand}
-              onChangeText={onChangeNative}
-              clearButtonMode="while-editing"
-              refInput={refNative}
-            />
-            <InputRow
-              leftImage={imgs.identityCard}
-              containerStyle={styles.txtInput}
-              title={langs.identity}
-              size={16}
-              value={identity}
-              onChangeText={onChangeIdentity}
-              clearButtonMode="while-editing"
-              refInput={refIdentity}
-            />
-          </ScrollView>
-        </View>
-      </KeyboardAvoidingView>
-    </>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <KeyboardAvoidingView
+          style={styles.info}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <View style={styles.detail}>
+            <ScrollView>
+              <TouchableOpacity onPress={onChangeBirthday}>
+                <InputRow
+                  containerStyle={styles.txtInput}
+                  leftImage={imgs.DOB}
+                  title={langs.birthday}
+                  size={16}
+                  value={moment(birthday).format('DD/MM/YYYY')}
+                  refInput={refPhone}
+                  editable={false}
+                  clearButtonMode="never"
+                  onSubmitEditing={() => refBirth.current.focus()}
+                />
+              </TouchableOpacity>
+              <InputRow
+                leftImage={imgs.person}
+                containerStyle={styles.txtInput}
+                title={langs.gene}
+                size={16}
+                value={gene}
+                onChangeText={onChangeGene}
+                refInput={refBirth}
+                clearButtonMode="while-editing"
+                onSubmitEditing={() => refTeam.current.focus()}
+                placeholder={'Nam/Nữ/Khác'}
+              />
+              <InputRow
+                leftImage={imgs.setPerson}
+                containerStyle={styles.txtInput}
+                title={langs.team}
+                size={16}
+                value={team}
+                onChangeText={onChangeTeam}
+                refInput={refTeam}
+                clearButtonMode="while-editing"
+                onSubmitEditing={() => refNative.current.focus()}
+              />
+              <InputRow
+                leftImage={imgs.location}
+                containerStyle={styles.txtInput}
+                title={langs.nativeLand}
+                size={16}
+                value={nativeLand}
+                onChangeText={onChangeNative}
+                clearButtonMode="while-editing"
+                refInput={refNative}
+              />
+              <InputRow
+                leftImage={imgs.identityCard}
+                containerStyle={styles.txtInput}
+                title={langs.identity}
+                size={16}
+                value={identity}
+                keyboardType={'number-pad'}
+                onChangeText={onChangeIdentity}
+                clearButtonMode="while-editing"
+                refInput={refIdentity}
+              />
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </Card>
+    </View>
   );
 };
 
@@ -101,8 +111,30 @@ export default UpdateInfo;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: widthPercentageToDP(100),
-    backgroundColor: Colors.white,
+    alignItems: 'center',
+  },
+  card: {
+    flex: 1,
+    width: widthPercentageToDP(90),
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+  },
+  info: {
+    flex: 5,
+    width: widthPercentageToDP(100),
+    alignItems: 'center',
+  },
+  viewAvt: {
+    flex: 1,
+  },
+  avt: {
+    height: 64,
+    width: 64,
+    borderRadius: 32,
   },
   header: {
     flex: 1,

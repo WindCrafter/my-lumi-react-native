@@ -1,10 +1,37 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { Card } from 'native-base'
+import React, { useRef } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
+import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { InputRow } from '../../../../component';
+import langs from '../../../../../common/language';
+import { imgs, Colors } from '../../../../../utlis';
 
 const Info = (props) => {
-  const { name, phoneNumber, identity, nativeLand } = props;
+  const refPhone = useRef('');
+  const refBirth = useRef('');
+  const refTeam = useRef('');
+  const refNative = useRef('');
+  const refIdentity = useRef('');
+  const {
+    phone,
+    onChangePhone,
+    name,
+    onChangeName,
+    team,
+    onChangeTeam,
+    nativeLand,
+    onChangeNative,
+    identity,
+    onChangeIdentity,
+  } = props;
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
@@ -14,30 +41,68 @@ const Info = (props) => {
             style={styles.avt}
           />
         </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>Họ và tên:</Text>
-          <Text style={styles.txtInfo}>{name}</Text>
-        </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>Team:</Text>
-          <Text style={styles.txtInfo}>Undefined</Text>
-        </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>CCCD/CMND:</Text>
-          <Text style={styles.txtInfo}>{identity}</Text>
-        </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>Quê quán:</Text>
-          <Text style={styles.txtInfo}>{nativeLand}</Text>
-        </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>Số điện thoại:</Text>
-          <Text style={styles.txtInfo}>{phoneNumber}</Text>
-        </View>
-        <View style={styles.viewInfo}>
-          <Text style={styles.txtInfo}>Số TKNH:</Text>
-          <Text style={styles.txtInfo}>Undefined</Text>
-        </View>
+        <KeyboardAvoidingView
+          style={styles.info}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <View style={styles.detail}>
+            <ScrollView>
+              <InputRow
+                containerStyle={styles.txtInput}
+                title={langs.name}
+                size={16}
+                value={name}
+                onChangeText={onChangeName}
+                refInput={refPhone}
+                clearButtonMode="while-editing"
+                onSubmitEditing={() => refBirth.current.focus()}
+              />
+              <InputRow
+                leftImage={imgs.phone}
+                containerStyle={styles.txtInput}
+                title={langs.phone}
+                size={16}
+                value={phone}
+                keyboardType={'numbers-and-punctuation'}
+                onChangeText={onChangePhone}
+                refInput={refBirth}
+                clearButtonMode="while-editing"
+                onSubmitEditing={() => refTeam.current.focus()}
+              />
+              <InputRow
+                leftImage={imgs.setPerson}
+                containerStyle={styles.txtInput}
+                title={langs.team}
+                size={16}
+                value={team}
+                onChangeText={onChangeTeam}
+                refInput={refTeam}
+                clearButtonMode="while-editing"
+                onSubmitEditing={() => refNative.current.focus()}
+              />
+              <InputRow
+                leftImage={imgs.location}
+                containerStyle={styles.txtInput}
+                title={langs.nativeLand}
+                size={16}
+                value={nativeLand}
+                onChangeText={onChangeNative}
+                clearButtonMode="while-editing"
+                refInput={refNative}
+                onSubmitEditing={() => refIdentity.current.focus()}
+              />
+              <InputRow
+                leftImage={imgs.identityCard}
+                containerStyle={styles.txtInput}
+                title={langs.identity}
+                size={16}
+                value={identity}
+                onChangeText={onChangeIdentity}
+                clearButtonMode="while-editing"
+                refInput={refIdentity}
+              />
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
       </Card>
     </View>
   );
@@ -54,28 +119,58 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     width: widthPercentageToDP(90),
-    paddingVertical: 32,
+    paddingVertical: 16,
     paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
   },
+  info: {
+    flex: 5,
+    width: widthPercentageToDP(100),
+    alignItems: 'center',
+  },
   viewAvt: {
-    flex: 2,
+    flex: 1,
   },
   avt: {
     height: 64,
     width: 64,
     borderRadius: 32,
   },
-  viewInfo: {
+  header: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    marginVertical: 16,
+    justifyContent: 'center',
+    marginTop: 32,
   },
-  txtInfo: {
-    fontSize: 18,
-    fontWeight: '400',
+  txtHeader: {
+    color: Colors.background,
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  detail: {
+    flex: 4,
+    alignItems: 'center',
+  },
+  avatar: {
+    height: 96,
+    width: 96,
+    borderRadius: 64,
+    backgroundColor: 'rgba(4,4,15,0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+    alignSelf: 'center',
+  },
+  iconAvt: {
+    width: 48,
+    height: 48,
+    marginRight: 6,
+    marginBottom: 4,
+  },
+  txtInput: {
+    width: widthPercentageToDP(80),
+    borderRadius: 32,
+    backgroundColor: 'rgba(0,0,25,0.17)',
+    marginVertical: 16,
   },
 });

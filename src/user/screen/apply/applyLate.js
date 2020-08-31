@@ -33,8 +33,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
-
 function ApplyLate(props) {
   const [date, setDate] = useState(new Date(1598051730000));
   const [time, setTime] = useState(new Date(1598051730000));

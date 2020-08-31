@@ -22,7 +22,7 @@ function* sagaCheckIn(action) {
     const response = yield _POST(URL_CHECK_IN, data, token);
     console.log('CHECK=>>>', response);
     if (response.success && response.statusCode === 200) {
-      yield put(checkInSuccess());
+      yield put(checkInSuccess(response.data));
       _global.Alert.alert({
         title: 'Thông báo',
         message: 'Chấm công thành công',

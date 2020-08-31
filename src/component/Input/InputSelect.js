@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
 });

@@ -7,6 +7,7 @@ const langs = {
   name: 'Họ và tên:',
   phone: 'Số điện thoại:',
   birthday: 'Ngày sinh:',
+  gene: 'Giới tính',
   nativeLand: 'Quê quán:',
   home: 'Trang chủ',
   addStaff: 'Thêm nhân viên',

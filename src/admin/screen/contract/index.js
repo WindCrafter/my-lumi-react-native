@@ -94,6 +94,7 @@ function Contract(props) {
         goBack={goBack}
         rightButton
         onRight={onAddContract}
+        containerStyle={styles.header}
       />
       <FlatList
         data={listData}
@@ -110,5 +111,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     height: '100%',
+  },
+  header: {
+    marginBottom: 8,
   },
 });

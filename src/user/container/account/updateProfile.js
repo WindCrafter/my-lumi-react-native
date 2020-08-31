@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
   phoneNumber: state.authen.phoneNumber,
   token: state.authen.token,
   advance: state.authen.advance,
+  birthday: state.authen.birthday,
 });
 
 const mapDispatchToProps = {

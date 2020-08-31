@@ -10,8 +10,8 @@ import {
   Platform,
 
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs, Colors } from '../../../utlis';
 import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
@@ -75,6 +75,7 @@ export default function InputApply(props?: Props) {
         autoCorrect={false}
         clearButtonMode="always"
         maxLength={100}
+        keyboardType="email-address"
         {...otherProps}
       />
     </ViewCard>
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     marginVertical: 8,
-    
   },
   image: {
     width: 24,

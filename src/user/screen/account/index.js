@@ -5,8 +5,8 @@ import { BarStatus } from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
 import { imgs } from '../../../../utlis';
-
 const Account = (props) => {
+
   const { logOut, nameUser, emailUser, navigation } = props;
   const name = nameUser;
   const email = emailUser;
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.black,
     marginLeft: 10
-  },
 
+  },
   detail: {
     flex: 4,
     justifyContent: 'space-around',

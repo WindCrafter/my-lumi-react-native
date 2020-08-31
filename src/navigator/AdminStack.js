@@ -14,11 +14,10 @@ import contract from '../admin/container/contract';
 import setContract from '../admin/container/contract/setContract';
 import addContract from '../admin/container/contract/addContract';
 import notify from '../admin/container/notify';
-import qrcode from '../admin/container/checkIn/qrcode';
-import code from '../admin/container/checkIn/code';
 import createQRCode from '../admin/container/checkIn/createQRCode';
 import updateProfile from '../admin/container/account/updateProfile';
 import contact from '../admin/container/contact';
+import history from '../admin/container/checkIn/history';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function AdminStack() {
@@ -94,15 +93,8 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'QRCode'}
-        component={qrcode}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'Code'}
-        component={code}
+        name={'History'}
+        component={history}
         options={{
           headerShown: false,
         }}

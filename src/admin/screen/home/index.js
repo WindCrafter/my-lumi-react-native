@@ -41,8 +41,7 @@ function Home(props) {
   };
   const onGetContact = () => {
     navigation.navigate('Contact');
-
-  }
+  };
 
   const goAddOT = () => {
     navigation.navigate('OT');

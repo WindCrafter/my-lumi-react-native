@@ -73,6 +73,7 @@ export default function InputRow(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
+        keyboardType="email-address"
         {...otherProps}
       />
     </View>

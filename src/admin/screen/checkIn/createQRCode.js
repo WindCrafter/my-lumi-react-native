@@ -5,6 +5,7 @@ import Connection from '../../../../utlis/connection/index';
 
 const CreateQRCode = (props) => {
   const { createQR, token, source, navigation } = props;
+  const [newdate, setDate] = useState(new Date)
   const [sourceImg, setSourceImg] = useState(source);
   const onCreateQR = () => {
     const data = {
@@ -13,11 +14,10 @@ const CreateQRCode = (props) => {
       token: token,
     };
     createQR(data);
-    console.log('SOurce=>>>>', source);
   };
 
   const onGetQR = async () => {
-    const date = moment().format('DD/MM/YYYY');
+    const date = moment(newdate).format('DD/MM/YYYY');
     await Connection.getQR(date, token).then((res) =>
       setSourceImg(res.data.qrDataUrl),
     );
@@ -38,7 +38,7 @@ const CreateQRCode = (props) => {
       <TouchableOpacity style={styles.bton} onPress={onCreateQR}>
         <Text style={styles.txt}>Tạo QR code</Text>
       </TouchableOpacity>
-      <Image source={{ uri: sourceImg }} style={styles.img} />
+      <Image source={{ uri: sourceImg ? sourceImg : null }} style={styles.img} />
     </View>
   );
 };

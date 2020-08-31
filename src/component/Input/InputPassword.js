@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   TextInputProps,
   TouchableOpacity,
@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;

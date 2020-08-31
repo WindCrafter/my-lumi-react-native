@@ -21,24 +21,27 @@ const currentDayInWeek =
               ? 'Thứ 7'
               : 'Chủ Nhật';
 
-HeaderCheck.defaultProps = {};
+HeaderCheck.defaultProps = {
+  type: 'Check In',
+};
 
 function HeaderCheck(props?: Props) {
-  const { pressNotify, title } = props;
+  const { onPress, title, type, pressHistory } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
         <View style={styles.info}>
-          <View style={styles.body}>
+          <TouchableOpacity style={styles.body} onPress={onPress}>
             <Text style={styles.txtName}>{title}</Text>
             <Image source={imgs.down} style={styles.image} />
-          </View>
+          </TouchableOpacity>
+          <Text style={styles.time}>{type}</Text>
           <Text style={styles.time}>
             {currentDayInWeek}, {currrentDate}
           </Text>
         </View>
-        <TouchableOpacity style={styles.notify} onPress={pressNotify}>
-          <Image source={imgs.notification} />
+        <TouchableOpacity style={styles.notify} onPress={pressHistory}>
+          <Image source={imgs.information} style={styles.img} />
         </TouchableOpacity>
       </View>
     </View>
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
     color: '#ffffff',
+    marginLeft: 2,
   },
   notify: {
     marginTop: 33.9,
@@ -98,16 +102,20 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
     borderRadius: 20,
-    backgroundColor: 'rgba(0,0,25,0.22)',
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   body: {
     flexDirection: 'row',
     alignContent: 'center',
+    alignItems: 'center',
   },
   image: {
-    padding: 20,
-    marginLeft: 18,
+    marginLeft: 8,
+  },
+  img: {
+    width: 28,
+    height: 28,
   },
 });

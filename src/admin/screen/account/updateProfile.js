@@ -18,6 +18,9 @@ import { Colors, imgs } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import { _global } from '../../../../utlis/global/global';
+import ModalTime from './component/ModalTime';
+import moment from 'moment';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 if (
   Platform.OS === 'android' &&
@@ -27,7 +30,6 @@ if (
 }
 
 function UpdateProfile(props) {
-
   const {
     navigation,
     nameUser,
@@ -35,12 +37,21 @@ function UpdateProfile(props) {
     updateProfile,
     token,
     advance,
+    birthdayUser,
   } = props;
   const step = useRef(null);
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
+  const regId = /(\d{12})|(\d{9})/;
   const [update, setUpdate] = useState(false);
+  const [show, setShow] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
+  const [birthday, setBirthDay] = useState(
+    birthdayUser ? birthdayUser : new Date(1598051730000),
+  );
+  const [gene, setGene] = useState(
+    advance && advance.gene ? advance.gene : null,
+  );
   const [identity, setIdentity] = useState(
     advance && advance.identity ? advance.identity : null,
   );
@@ -65,6 +76,15 @@ function UpdateProfile(props) {
     setPhone(val);
   };
 
+  const onChangeBirthday = (event, val) => {
+    const pickDate = val || birthday;
+    setBirthDay(pickDate);
+  };
+
+  const onChangeGene = (val) => {
+    setGene(val);
+  };
+
   const onChangeIdentity = (val) => {
     setIdentity(val);
   };
@@ -73,31 +93,59 @@ function UpdateProfile(props) {
     setNativeLand(val);
   };
 
+  const onShowModal = () => {
+    setShow(true);
+  };
+
+  const onHideModal = () => {
+    setShow(false);
+  };
+
   const onUpdateInfo = () => {
     const data = {
       name: name,
       phoneNumber: phone,
+      birthday: birthday,
       advance: {
         identity: identity,
         nativeLand: nativeLand,
+        gene: gene,
       },
       token: token,
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
         title: 'Thông báo',
-        message: 'Sai số điện thoại',
+        message: 'Sai định dạng số điện thoại',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
+    }
+    if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
+    }
+    if (!regId.test(identity)) {
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Sai định dang CCCD/CMND',
+        messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     } else {
       updateProfile(data);
+      navigation.goBack();
     }
   };
 
   return (
     <View style={styles.container}>
       <BarStatus
-        backgroundColor={Colors.background}
+        backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
@@ -116,12 +164,6 @@ function UpdateProfile(props) {
         showsHorizontalScrollIndicator={false}
         ref={step}>
         <Info
-          name={nameUser}
-          phoneNumber={phoneNumber}
-          identity={advance && advance.identity ? advance.identity : null}
-          nativeLand={advance && advance.nativeLand ? advance.nativeLand : null}
-        />
-        <UpdateInfo
           name={name}
           phone={phone}
           identity={identity}
@@ -131,14 +173,36 @@ function UpdateProfile(props) {
           onChangeName={onChangeName}
           onChangeIdentity={onChangeIdentity}
         />
+        <UpdateInfo
+          birthday={birthday}
+          gene={gene}
+          identity={identity}
+          nativeLand={nativeLand}
+          onChangeNative={onChangeNativeLand}
+          onChangeGene={onChangeGene}
+          onChangeBirthday={onShowModal}
+          onChangeIdentity={onChangeIdentity}
+        />
       </ScrollView>
       <View style={styles.viewButton}>
-        {update ? (
-          <TouchableOpacity style={styles.button} onPress={onUpdateInfo}>
-            <Text style={styles.txtButton}>Khai báo thông tin </Text>
-          </TouchableOpacity>
-        ) : null}
+        <TouchableOpacity style={styles.button} onPress={onUpdateInfo}>
+          <Text style={styles.txtButton}>Khai báo thông tin </Text>
+        </TouchableOpacity>
       </View>
+      <ModalTime
+        showModal={show}
+        hideModal={onHideModal}
+        picker={
+          <View style={styles.picker}>
+            <DateTimePicker
+              value={birthday}
+              mode={'date'}
+              display="default"
+              onChange={onChangeBirthday}
+            />
+          </View>
+        }
+      />
     </View>
   );
 }
@@ -167,5 +231,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: Colors.white,
+  },
+  scrollView: {
+    paddingTop: 8,
+  },
+  picker: {
+    width: wp(100),
   },
 });

@@ -67,7 +67,6 @@ function AddContract(props) {
         goBack={goBack}
         fontSize={24}
       />
-      <View style={styles.line} />
       <ScrollView>
         <Text style={styles.extend}>Nhập thông tin : </Text>
         <View style={styles.detail}>

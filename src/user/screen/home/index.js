@@ -26,7 +26,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
 function Home(props) {
   const { navigation, nameUser } = props;
   const [admin, setAdmin] = useState(true);
@@ -54,7 +53,7 @@ function Home(props) {
   };
   return (
     <>
-      <BarStatus backgroundColor={Colors.white} />
+      <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header
           pressNotify={onPressNotify}
@@ -102,6 +101,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     shadowColor: 'black',
     paddingHorizontal: 16,
-    paddingVertical: 28,
+    paddingVertical: 16,
   },
 });

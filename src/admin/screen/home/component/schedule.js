@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import langs from '../../../../../common/language';
-import {imgs, Colors} from '../../../../../utlis';
+import { imgs, Colors } from '../../../../../utlis';
 
 const Schedule = (props) => {
   const { } = props;
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   img: {
-    width: 18,
-    height: 18,
+    width: 16,
+    height: 16,
   },
   add: {
     backgroundColor: Colors.background,
@@ -77,9 +77,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   txtAdd: {
-    width: 80,
     alignSelf: 'center',
     marginLeft: 4,
-    fontSize: 16,
+    fontSize: 14,
   },
 });

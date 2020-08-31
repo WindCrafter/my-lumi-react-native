@@ -48,7 +48,7 @@ const AddStaff = (props) => {
   const refPosition = useRef(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('123456');
   const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
   const [detailRank, setDetailRank] = useState('Vui lòng chọn');
   const [showModalPosition, setModalPosition] = useState(false);
@@ -139,7 +139,7 @@ const AddStaff = (props) => {
           <Text style={styles.title}>Nhập thông tin nhân viên mới :</Text>
           <InputInfor
             backgroundColor={'white'}
-            placeholder={'Họ và tên'}
+            placeholder={''}
             testID="test_Name"
             containerStyle={styles.textInput}
             returnKeyType="next"
@@ -155,7 +155,7 @@ const AddStaff = (props) => {
             testID="test_Email"
             leftImage={imgs.email}
             backgroundColor={'white'}
-            placeholder={'Email'}
+            placeholder={''}
             autoCapitalize={'none'}
             containerStyle={styles.textInput}
             refInput={refEmail}
@@ -168,10 +168,10 @@ const AddStaff = (props) => {
           />
           <InputInfor
             testID="test_Phone"
-            leftImage={imgs.phone}
-            title={'Số điện thoại :'}
+            leftImage={imgs.lock}
+            title={'Mật khẩu :'}
             backgroundColor={'white'}
-            placeholder={'Số điện thoại'}
+            placeholder={'Nhập mật khẩu'}
             containerStyle={styles.textInput}
             refInput={refPhone}
             maxLength={20}
@@ -194,7 +194,6 @@ const AddStaff = (props) => {
           <TouchableOpacity style={{ marginBottom: 24 }} onPress={setRank}>
             <InputSelect
               width={wp(90)}
-
               testID="test_Rank"
               leftImage={imgs.setPerson}
               backgroundColor={'white'}
@@ -305,5 +304,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
-  bot: { marginBottom: 24 },
+  bot: {
+    marginBottom: 24,
+  },
 });

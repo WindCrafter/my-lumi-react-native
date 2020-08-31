@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 25,
     fontWeight: '500',
-    marginLeft: 20, marginBottom: 10
+    marginLeft:20,marginBottom:10
   },
   monthFormat: {
     flexDirection: 'row',

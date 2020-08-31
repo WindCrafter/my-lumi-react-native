@@ -24,10 +24,16 @@ const authPersistConfig = {
   ],
 };
 
+const checkPersist = {
+  key: 'check',
+  storage: AsyncStorage,
+  whitelist: ['dateCheckIn', 'timeCheckIn', 'dateCheckOut', 'timeCheckOut'],
+};
+
 const rootReducer = combineReducers({
   authen: persistReducer(authPersistConfig, authen),
   admin: admin,
-  check: check,
+  check: persistReducer(checkPersist, check),
 });
 
 // Exports

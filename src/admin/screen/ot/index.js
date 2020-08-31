@@ -101,7 +101,9 @@ function OT(props) {
   };
 
   const onAccept = () => {
-    const newData = DATA.filter(e => !(check.find(item => e.key == item.key)));
+    const newData = DATA.filter(
+      (e) => !check.find((item) => e.key == item.key),
+    );
     setListData(newData);
   };
 
@@ -111,7 +113,12 @@ function OT(props) {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Đơn nghỉ/OT'} height={60} goBack={goBack} />
+      <HeaderCustom
+        title={'Đơn nghỉ/OT'}
+        height={60}
+        goBack={goBack}
+        containerStyle={styles.header}
+      />
       <FlatList
         data={listData}
         keyExtractor={(item) => item.key}
@@ -149,5 +156,8 @@ const styles = StyleSheet.create({
   button: {
     width: widthPercentageToDP(45),
     marginHorizontal: 4,
+  },
+  header: {
+    marginBottom: 8,
   },
 });

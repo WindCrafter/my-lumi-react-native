@@ -10,10 +10,9 @@ import applyLate from '../user/container/apply/applyLate';
 import applyOT from '../user/container/apply/applyOT';
 import applyBreak from '../user/container/apply/applyBreak';
 import notify from '../user/container/notify';
-import qrcode from '../user/container/checkIn/qrcode';
 import TabbarUser from './TabbarUser';
-import code from '../user/container/checkIn/code'
 import updateProfile from '../user/container/account/updateProfile';
+import history from '../user/container/checkIn/history';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -61,22 +60,15 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'QRCode'}
-        component={qrcode}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'Code'}
-        component={code}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name={'UpdateProfile'}
         component={updateProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'History'}
+        component={history}
         options={{
           headerShown: false,
         }}

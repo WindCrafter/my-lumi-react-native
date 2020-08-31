@@ -18,6 +18,7 @@ const initialState = {
   nameUser: '',
   emailUser: '',
   phoneNumber: '',
+  birthday: '',
   advance: {},
 };
 
@@ -39,6 +40,7 @@ export default function authen(state = initialState, action) {
         emailUser: action.payload.data.userProfile.email,
         phoneNumber: action.payload.data.userProfile.phoneNumber,
         advance: action.payload.data.userProfile.advance,
+        birthday: action.payload.data.userProfile.birthday,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -73,7 +75,7 @@ export default function authen(state = initialState, action) {
         emailUser: action.payload.email,
         phoneNumber: action.payload.phoneNumber,
         advance: action.payload.advance,
-        
+        birthday: action.payload.birthday,
       };
     default:
       return state;

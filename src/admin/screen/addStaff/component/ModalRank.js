@@ -29,7 +29,7 @@ const ModalRank = (props) => {
       <Modal
         isVisible={showModalRank}
         animationIn={'slideInUp'}
-        animationOutTiming={1600}
+        animationOutTiming={500}
         animationOut={'slideOutDown'}
         onBackdropPress={onHideModal}
         style={styles.modal}

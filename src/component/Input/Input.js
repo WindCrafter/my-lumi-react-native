@@ -57,7 +57,7 @@ export default function Input(props?: Props) {
         },
         containerStyle,
       ]}>
-      <Button onPress={onPress} >
+      <Button onPress={onPress}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
       </Button>
       <TextInput
@@ -68,6 +68,7 @@ export default function Input(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
+        keyboardType="email-address"
         {...otherProps}
       />
     </View>

@@ -22,7 +22,7 @@ const currentDayInWeek =
               : 'Chủ Nhật';
 
 const HeaderAccount = (props) => {
-  const { pressNotify, onPress, name, email } = props;
+  const { onPress, name, email } = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
@@ -39,10 +39,8 @@ const HeaderAccount = (props) => {
             <Text style={styles.email}>Email: {email}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.notify} onPress={pressNotify}>
-          <Image source={imgs.notification} />
-        </TouchableOpacity>
       </View>
+      <View style={styles.bot} />
     </View>
   );
 };
@@ -116,5 +114,9 @@ const styles = StyleSheet.create({
   moreInfo: {
     flexDirection: 'row',
     flex: 3.25,
+  },
+  bot: {
+    flex: 1,
+    paddingBottom: 16,
   },
 });
