@@ -48,6 +48,7 @@ function UpdateProfile(props) {
   const regId = /(\d{12})|(\d{9})/;
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
   const [birthday, setBirthDay] = useState(
@@ -81,7 +82,9 @@ function UpdateProfile(props) {
   };
 
   const onChangeBirthday = (event, val) => {
-    const pickDate = val || birthday;
+    const pickDate = val || moment(birthday, 'DD/MM/YYYY').toDate();
+    setShowPicker(Platform.OS === 'ios');
+    console.log('=>>>>>>>', pickDate)
     setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
 
@@ -99,6 +102,7 @@ function UpdateProfile(props) {
 
   const onShowModal = () => {
     setShow(true);
+    setShowPicker(!showPicker);
   };
 
   const onHideModal = () => {
@@ -147,41 +151,72 @@ function UpdateProfile(props) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title={'Khai báo thông tin'}
-        height={60}
-        goBack={goBack}
-        rightButton
-        textPress={true}
-        onRight={onUpdateInfo}
-      />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-        <Info
-          name={name}
-          phone={phone}
-          identity={identity}
-          nativeLand={nativeLand}
-          onChangeNative={onChangeNativeLand}
-          onChangePhone={onChangePhone}
-          onChangeName={onChangeName}
-          onChangeIdentity={onChangeIdentity}
+    <View style={styles.view}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.select({
+          ios: () => 0,
+          android: () => 0,
+        })()}>
+        <BarStatus
+          backgroundColor={Colors.white}
+          height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
         />
-        {update ? (
-          <UpdateInfo
-            birthday={birthday}
-            gene={gene}
-            onChangeGene={onChangeGene}
-            onChangeBirthday={onShowModal}
+        <HeaderCustom
+          title={'Khai báo thông tin'}
+          height={60}
+          goBack={goBack}
+          rightButton
+          textPress={true}
+          onRight={onUpdateInfo}
+        />
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+          <Info
+            name={name}
+            phone={phone}
+            identity={identity}
+            nativeLand={nativeLand}
+            onChangeNative={onChangeNativeLand}
+            onChangePhone={onChangePhone}
+            onChangeName={onChangeName}
+            onChangeIdentity={onChangeIdentity}
           />
-        ) : null}
-      </ScrollView>
+          {update ? (
+            <UpdateInfo
+              birthday={birthday}
+              gene={gene}
+              onChangeGene={onChangeGene}
+              onChangeBirthday={onShowModal}
+            />
+          ) : null}
+        </ScrollView>
+        {Platform.OS === 'ios' ? (
+          <ModalTime
+            showModal={show}
+            hideModal={onHideModal}
+            picker={
+              <View style={styles.picker}>
+                <DateTimePicker
+                  value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                  mode={'date'}
+                  display="default"
+                  onChange={onChangeBirthday}
+                />
+              </View>
+            }
+          />
+        ) : (
+            showPicker && (
+              <DateTimePicker
+                value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+              />
+            )
+          )}
+      </KeyboardAvoidingView>
       {!update ? (
         <View style={styles.viewButton}>
           <TouchableOpacity style={styles.button} onPress={onExtend}>
@@ -189,32 +224,7 @@ function UpdateProfile(props) {
           </TouchableOpacity>
         </View>
       ) : null}
-      {Platform.OS === 'ios' ? (
-        <ModalTime
-          showModal={show}
-          hideModal={onHideModal}
-          picker={
-            <View style={styles.picker}>
-              <DateTimePicker
-                value={moment(birthday, 'DD/MM/YYYY').toDate()}
-                mode={'date'}
-                display="default"
-                onChange={onChangeBirthday}
-              />
-            </View>
-          }
-        />
-      ) : (
-          <View style={styles.picker}>
-            <DateTimePicker
-              value={moment(birthday, 'DD/MM/YYYY').toDate()}
-              mode={'date'}
-              display="default"
-              onChange={onChangeBirthday}
-            />
-          </View>
-        )}
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -222,13 +232,12 @@ export default UpdateProfile;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 3,
     backgroundColor: '#ffffff',
+    marginBottom: 16,
   },
   viewButton: {
-    position: 'absolute',
-    bottom: 32,
-    left: widthPercentageToDP(7.5),
+    flex: 0.5,
   },
   button: {
     width: wp(85),
@@ -252,5 +261,9 @@ const styles = StyleSheet.create({
   },
   scroll: {
     paddingTop: 16,
+  },
+  view: {
+    flex: 1,
+    backgroundColor: Colors.white,
   },
 });

@@ -21,6 +21,8 @@ const authPersistConfig = {
     'nameUser',
     'phoneNumber',
     'emailUser',
+    'advance',
+    'birthday',
   ],
 };
 
