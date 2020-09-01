@@ -11,6 +11,7 @@ HeaderCustom.defaultProps = {
   fontSize: 20,
   rightImage: imgs.add,
   backgroundColor: Colors.white,
+  textPress: false,
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -26,6 +27,7 @@ export default function HeaderCustom(props?: Props) {
     onRight,
     fontSize,
     rightImage,
+    textPress,
     ...otherProps
   } = props;
 
@@ -49,7 +51,11 @@ export default function HeaderCustom(props?: Props) {
       </Text>
       {rightButton ? (
         <TouchableOpacity style={styles.right} onPress={onRight}>
-          <Image source={rightImage} style={styles.img} />
+          {textPress ? (
+            <Text style={styles.txtBt}>Save</Text>
+          ) : (
+              <Image source={rightImage} style={styles.img} />
+            )}
         </TouchableOpacity>
       ) : null}
     </View>
@@ -90,5 +96,11 @@ const styles = StyleSheet.create({
   img: {
     width: 20,
     height: 20,
+  },
+  txtBt: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: Colors.background,
+    textAlign: 'center',
   },
 });

@@ -20,89 +20,40 @@ const UpdateInfo = (props) => {
   const refPhone = useRef('');
   const refBirth = useRef('');
   const refTeam = useRef('');
-  const refNative = useRef('');
-  const refIdentity = useRef('');
-  const {
-    gene,
-    onChangeGene,
-    birthday,
-    onChangeBirthday,
-    team,
-    onChangeTeam,
-    nativeLand,
-    onChangeNative,
-    identity,
-    onChangeIdentity,
-  } = props;
+  const { gene, onChangeGene, birthday, onChangeBirthday } = props;
   return (
     <View style={styles.container}>
-      <Card style={styles.card}>
-        <KeyboardAvoidingView
-          style={styles.info}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <View style={styles.detail}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <TouchableOpacity onPress={onChangeBirthday}>
-                <InputRow
-                  containerStyle={styles.txtInput}
-                  leftImage={imgs.DOB}
-                  title={langs.birthday}
-                  size={16}
-                  value={moment(birthday).format('DD/MM/YYYY')}
-                  refInput={refPhone}
-                  editable={false}
-                  clearButtonMode="never"
-                  onSubmitEditing={() => refBirth.current.focus()}
-                />
-              </TouchableOpacity>
-              <InputRow
-                leftImage={imgs.person}
-                containerStyle={styles.txtInput}
-                title={langs.gene}
-                size={16}
-                value={gene}
-                onChangeText={onChangeGene}
-                refInput={refBirth}
-                clearButtonMode="while-editing"
-                onSubmitEditing={() => refTeam.current.focus()}
-                placeholder={'Nam/Nữ/Khác'}
-              />
-              <InputRow
-                leftImage={imgs.setPerson}
-                containerStyle={styles.txtInput}
-                title={langs.team}
-                size={16}
-                value={team}
-                onChangeText={onChangeTeam}
-                refInput={refTeam}
-                clearButtonMode="while-editing"
-                onSubmitEditing={() => refNative.current.focus()}
-              />
-              <InputRow
-                leftImage={imgs.location}
-                containerStyle={styles.txtInput}
-                title={langs.nativeLand}
-                size={16}
-                value={nativeLand}
-                onChangeText={onChangeNative}
-                clearButtonMode="while-editing"
-                refInput={refNative}
-              />
-              <InputRow
-                leftImage={imgs.identityCard}
-                containerStyle={styles.txtInput}
-                title={langs.identity}
-                size={16}
-                value={identity}
-                keyboardType={'number-pad'}
-                onChangeText={onChangeIdentity}
-                clearButtonMode="while-editing"
-                refInput={refIdentity}
-              />
-            </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
-      </Card>
+      <KeyboardAvoidingView
+        style={styles.info}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View style={styles.detail}>
+          <TouchableOpacity onPress={onChangeBirthday}>
+            <InputRow
+              containerStyle={styles.txtInput}
+              leftImage={imgs.DOB}
+              title={langs.birthday}
+              size={16}
+              value={birthday}
+              refInput={refPhone}
+              editable={false}
+              clearButtonMode="never"
+              onSubmitEditing={() => refBirth.current.focus()}
+            />
+          </TouchableOpacity>
+          <InputRow
+            leftImage={imgs.person}
+            containerStyle={styles.txtInput}
+            title={langs.gene}
+            size={16}
+            value={gene}
+            onChangeText={onChangeGene}
+            refInput={refBirth}
+            clearButtonMode="while-editing"
+            onSubmitEditing={() => refTeam.current.focus()}
+            placeholder={'Nam/Nữ/Khác'}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

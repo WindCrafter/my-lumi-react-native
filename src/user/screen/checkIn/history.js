@@ -56,7 +56,7 @@ function History(props) {
       `${timeCheckOut}` +
       ' ngày hôm nay - ' +
       `${dateCheckOut}`
-      : 'Hôm nay bạn chưa check in !!!!!';
+      : 'Hôm nay bạn chưa check out !!!!!';
   return (
     <View style={styles.container}>
       <BarStatus

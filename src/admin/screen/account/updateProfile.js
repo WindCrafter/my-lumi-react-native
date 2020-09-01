@@ -11,9 +11,13 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { BarStatus, HeaderCustom } from '../../../component';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { Colors, imgs } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
@@ -47,7 +51,7 @@ function UpdateProfile(props) {
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
   const [birthday, setBirthDay] = useState(
-    birthdayUser ? birthdayUser : new Date(1598051730000),
+    birthdayUser ? birthdayUser : moment(new Date()).format('DD/MM/YYYY'),
   );
   const [gene, setGene] = useState(
     advance && advance.gene ? advance.gene : null,
@@ -59,13 +63,13 @@ function UpdateProfile(props) {
     advance && advance.nativeLand ? advance.nativeLand : null,
   );
 
+  const onExtend = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setUpdate(!update);
+  };
+
   const goBack = () => {
     navigation.goBack();
-  };
-  const onNextstep = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
-    setUpdate(true);
   };
 
   const onChangeName = (val) => {
@@ -78,7 +82,7 @@ function UpdateProfile(props) {
 
   const onChangeBirthday = (event, val) => {
     const pickDate = val || birthday;
-    setBirthDay(pickDate);
+    setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
 
   const onChangeGene = (val) => {
@@ -143,7 +147,9 @@ function UpdateProfile(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
@@ -153,16 +159,10 @@ function UpdateProfile(props) {
         height={60}
         goBack={goBack}
         rightButton
-        rightImage={imgs.KPI}
-        onRight={onNextstep}
+        textPress={true}
+        onRight={onUpdateInfo}
       />
-      <ScrollView
-        horizontal
-        pagingEnabled
-        contentContainerStyle={styles.scrollView}
-        scrollEnabled={update}
-        showsHorizontalScrollIndicator={false}
-        ref={step}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <Info
           name={name}
           phone={phone}
@@ -173,37 +173,48 @@ function UpdateProfile(props) {
           onChangeName={onChangeName}
           onChangeIdentity={onChangeIdentity}
         />
-        <UpdateInfo
-          birthday={birthday}
-          gene={gene}
-          identity={identity}
-          nativeLand={nativeLand}
-          onChangeNative={onChangeNativeLand}
-          onChangeGene={onChangeGene}
-          onChangeBirthday={onShowModal}
-          onChangeIdentity={onChangeIdentity}
-        />
+        {update ? (
+          <UpdateInfo
+            birthday={birthday}
+            gene={gene}
+            onChangeGene={onChangeGene}
+            onChangeBirthday={onShowModal}
+          />
+        ) : null}
       </ScrollView>
-      <View style={styles.viewButton}>
-        <TouchableOpacity style={styles.button} onPress={onUpdateInfo}>
-          <Text style={styles.txtButton}>Khai báo thông tin </Text>
-        </TouchableOpacity>
-      </View>
-      <ModalTime
-        showModal={show}
-        hideModal={onHideModal}
-        picker={
+      {!update ? (
+        <View style={styles.viewButton}>
+          <TouchableOpacity style={styles.button} onPress={onExtend}>
+            <Text style={styles.txtButton}>Mở rộng </Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {Platform.OS === 'ios' ? (
+        <ModalTime
+          showModal={show}
+          hideModal={onHideModal}
+          picker={
+            <View style={styles.picker}>
+              <DateTimePicker
+                value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+              />
+            </View>
+          }
+        />
+      ) : (
           <View style={styles.picker}>
             <DateTimePicker
-              value={birthday}
+              value={moment(birthday, 'DD/MM/YYYY').toDate()}
               mode={'date'}
               display="default"
               onChange={onChangeBirthday}
             />
           </View>
-        }
-      />
-    </View>
+        )}
+    </KeyboardAvoidingView>
   );
 }
 
@@ -215,8 +226,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   viewButton: {
-    flex: 0.5,
-    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 32,
+    left: widthPercentageToDP(7.5),
   },
   button: {
     width: wp(85),
@@ -237,5 +249,8 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: wp(100),
+  },
+  scroll: {
+    paddingTop: 16,
   },
 });

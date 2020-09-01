@@ -34,76 +34,72 @@ const Info = (props) => {
   } = props;
   return (
     <View style={styles.container}>
-      <Card style={styles.card}>
-        <KeyboardAvoidingView
-          style={styles.info}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <View style={styles.detail}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={styles.viewAvt}>
-                <Image
-                  source={require('../../../../../naruto.jpeg')}
-                  style={styles.avt}
-                />
-              </View>
-              <InputRow
-                containerStyle={styles.txtInput}
-                title={langs.name}
-                size={16}
-                value={name}
-                onChangeText={onChangeName}
-                refInput={refPhone}
-                clearButtonMode="while-editing"
-                onSubmitEditing={() => refBirth.current.focus()}
-              />
-              <InputRow
-                leftImage={imgs.phone}
-                containerStyle={styles.txtInput}
-                title={langs.phone}
-                size={16}
-                value={phone}
-                keyboardType={'numbers-and-punctuation'}
-                onChangeText={onChangePhone}
-                refInput={refBirth}
-                clearButtonMode="while-editing"
-                onSubmitEditing={() => refTeam.current.focus()}
-              />
-              <InputRow
-                leftImage={imgs.setPerson}
-                containerStyle={styles.txtInput}
-                title={langs.team}
-                size={16}
-                value={team}
-                onChangeText={onChangeTeam}
-                refInput={refTeam}
-                clearButtonMode="while-editing"
-                onSubmitEditing={() => refNative.current.focus()}
-              />
-              <InputRow
-                leftImage={imgs.location}
-                containerStyle={styles.txtInput}
-                title={langs.nativeLand}
-                size={16}
-                value={nativeLand}
-                onChangeText={onChangeNative}
-                clearButtonMode="while-editing"
-                refInput={refNative}
-                onSubmitEditing={() => refIdentity.current.focus()}
-              />
-              <InputRow
-                leftImage={imgs.identityCard}
-                containerStyle={styles.txtInput}
-                title={langs.identity}
-                size={16}
-                value={identity}
-                onChangeText={onChangeIdentity}
-                clearButtonMode="while-editing"
-                refInput={refIdentity}
-              />
-            </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
-      </Card>
+      <View style={styles.viewAvt}>
+        <Image
+          source={require('../../../../../naruto.jpeg')}
+          style={styles.avt}
+        />
+      </View>
+      <KeyboardAvoidingView
+        style={styles.info}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View style={styles.detail}>
+          <InputRow
+            containerStyle={styles.txtInput}
+            title={langs.name}
+            size={16}
+            value={name}
+            onChangeText={onChangeName}
+            refInput={refPhone}
+            clearButtonMode="while-editing"
+            onSubmitEditing={() => refBirth.current.focus()}
+          />
+          <InputRow
+            leftImage={imgs.phone}
+            containerStyle={styles.txtInput}
+            title={langs.phone}
+            size={16}
+            value={phone}
+            keyboardType={'numbers-and-punctuation'}
+            onChangeText={onChangePhone}
+            refInput={refBirth}
+            clearButtonMode="while-editing"
+            onSubmitEditing={() => refTeam.current.focus()}
+          />
+          <InputRow
+            leftImage={imgs.setPerson}
+            containerStyle={styles.txtInput}
+            title={langs.team}
+            size={16}
+            value={team}
+            onChangeText={onChangeTeam}
+            refInput={refTeam}
+            clearButtonMode="while-editing"
+            onSubmitEditing={() => refNative.current.focus()}
+          />
+          <InputRow
+            leftImage={imgs.location}
+            containerStyle={styles.txtInput}
+            title={langs.nativeLand}
+            size={16}
+            value={nativeLand}
+            onChangeText={onChangeNative}
+            clearButtonMode="while-editing"
+            refInput={refNative}
+            onSubmitEditing={() => refIdentity.current.focus()}
+          />
+          <InputRow
+            leftImage={imgs.identityCard}
+            containerStyle={styles.txtInput}
+            title={langs.identity}
+            size={16}
+            value={identity}
+            onChangeText={onChangeIdentity}
+            clearButtonMode="while-editing"
+            refInput={refIdentity}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -125,13 +121,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   info: {
-    flex: 1,
+    flex: 5,
     width: widthPercentageToDP(100),
     alignItems: 'center',
   },
   viewAvt: {
     flex: 1,
-    alignSelf: 'center',
   },
   avt: {
     height: 64,
@@ -149,7 +144,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   detail: {
-    flex: 1,
+    flex: 4,
     alignItems: 'center',
   },
   avatar: {

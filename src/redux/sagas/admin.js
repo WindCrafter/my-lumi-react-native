@@ -25,6 +25,7 @@ function* sagaAddStaff(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_ADD_STAFF, data, token);
+    console.log('Faile=>>>', response)
     if (response.success && response.statusCode === 200) {
       yield put(addStaffSuccess());
       _global.Alert.alert({
@@ -37,13 +38,19 @@ function* sagaAddStaff(action) {
       yield put(addStaffFailed());
       _global.Alert.alert({
         title: langs.notify,
-        message: langs.errorNetwork,
+        message: response.message,
         messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     }
   } catch (error) {
     console.log(error);
+    _global.Alert.alert({
+      title: langs.notify,
+      message: langs.errorNetwork,
+      messageColor: Colors.danger,
+      leftButton: { text: 'OK' },
+    });
   }
 }
 

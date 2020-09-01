@@ -36,6 +36,12 @@ function* sagaLoginAction(action) {
       );
     } else {
       yield put(loginFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: response.message,
+        leftButton: { text: 'OK' },
+        messageColor: Colors.danger,
+      });
     }
   } catch (error) {
     console.log(error);
