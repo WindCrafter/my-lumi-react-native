@@ -84,7 +84,7 @@ function UpdateProfile(props) {
   const onChangeBirthday = (event, val) => {
     const pickDate = val || moment(birthday, 'DD/MM/YYYY').toDate();
     setShowPicker(Platform.OS === 'ios');
-    console.log('=>>>>>>>', pickDate)
+    console.log('=>>>>>>>', pickDate);
     setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
 
@@ -152,13 +152,7 @@ function UpdateProfile(props) {
 
   return (
     <View style={styles.view}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.select({
-          ios: () => 0,
-          android: () => 0,
-        })()}>
+      <KeyboardAvoidingView style={styles.container}>
         <BarStatus
           backgroundColor={Colors.white}
           height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
@@ -234,7 +228,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 3,
     backgroundColor: '#ffffff',
-    marginBottom: 16,
   },
   viewButton: {
     flex: 0.5,
