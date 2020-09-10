@@ -1,0 +1,9 @@
+import Input from './Input';
+import InputPassword from './InputPassword';
+import InputRow from './InputRow';
+import InputInfor from './InputInformation';
+import InputSelect from './InputSelect';
+import InputApply from './inputApply';
+import InputCustom from './InputCustom';
+
+export { Input, InputPassword, InputInfor, InputRow, InputSelect, InputApply,InputCustom };

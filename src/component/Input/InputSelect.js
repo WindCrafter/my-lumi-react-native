@@ -1,0 +1,166 @@
+import React from 'react';
+import {
+  TextInputProps,
+  Image,
+  View,
+  StyleSheet,
+  ViewStyle,
+  Text,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
+import { Button, Touchable } from '../../component';
+import { Card } from 'native-base';
+
+interface Props extends TextInputProps {
+  leftImage?: String | Number;
+  rightImage?: String | Number;
+  width?: String | Number;
+  height?: Number;
+  borderRadius?: Number;
+  backgroundColor?: String;
+  containerStyle?: ViewStyle;
+  refInput?: React.Ref;
+  title?: String;
+  detail?: String;
+  paddingHorizontal?: String;
+  justifyContent?: String;
+  alignSelf?: String;
+  alignItems?: String;
+  padding?: String;
+  paddingVertical?: String;
+  marginRight?: String;
+}
+
+InputSelect.defaultProps = {
+  width: wp(90),
+  height: 70,
+  borderRadius: 16,
+  leftImage: imgs.personal,
+  rightImage: imgs.down,
+  shadowOffset: {
+    width: 0,
+    height: 5,
+  },
+  shadowColor: '#000000',
+  shadowOpacity: 0.16,
+  detail: 'Vui lòng chọn',
+  paddingHorizontal: 16,
+  justifyContent: 'center',
+  alignSelf: 'center',
+  alignItems: 'center',
+  padding: 6,
+
+};
+
+export default function InputSelect(props?: Props) {
+  const {
+    shadowColor,
+    shadowOpacity,
+    shadowOffset,
+    leftImage,
+    rightImage,
+    width,
+    height,
+    borderRadius,
+    backgroundColor,
+    containerStyle,
+    title,
+    detail,
+    onPressButton,
+    disabled,
+    paddingHorizontal,
+    justifyContent,
+    alignSelf,
+    alignItems,
+    padding,
+    paddingVertical,
+    marginRight
+  } = props;
+  const ViewCard = Platform.OS === 'ios' ? Card:View;
+
+  return (
+    <ViewCard
+      style={[
+        {
+          shadowOffset,
+          shadowOpacity,
+          shadowColor,
+          width,
+          height,
+          borderRadius,
+          backgroundColor,
+          paddingHorizontal,
+          justifyContent,
+          alignSelf,
+          paddingVertical
+        },
+        containerStyle,
+      ]}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={onPressButton}
+        disabled={disabled}>
+        <Image source={leftImage} style={styles.image} resizeMode="contain" />
+        <Text
+          style={[
+            {
+              padding,
+            },
+            styles.textTitle,
+          ]}>
+          {title}
+        </Text>
+        <View style={styles.detail}>
+          <Text
+            style={[
+              {
+                marginRight
+              },
+              styles.textDetail,
+            ]}>
+            {detail}
+          </Text>
+        </View>
+        <Image source={rightImage} style={styles.img} resizeMode="contain" />
+      </TouchableOpacity>
+    </ViewCard>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  image: {
+    width: 24,
+    height: 24,
+    alignSelf: 'center',
+  },
+  img: {
+    width: 20,
+    height: 20,
+    alignSelf: 'center',
+  },
+  textTitle: {
+    alignSelf: 'center',
+    fontSize: 16,
+    color: 'black',
+  },
+  detail: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDetail: {
+    padding: 6,
+    fontSize: 16,
+    color: 'black',
+    alignItems: 'flex-end',
+  },
+});
