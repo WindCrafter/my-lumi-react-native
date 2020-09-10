@@ -78,16 +78,7 @@ const CheckIn = (props) => {
 
   return (
     <View style={styles.container}>
-      <HeaderCheck
-        title={langs.checkIn}
-        type={type ? 'Check In' : 'Check Out'}
-        onPress={onChangeType}
-        pressHistory={onGoHistory}
-      />
       <View style={styles.detail}>
-        <View style={styles.viewTop}>
-          <Text style={styles.txtTop}>Vui lòng chọn hình thức chấm công :</Text>
-        </View>
         <TouchableOpacity style={styles.viewMid} onPress={onQRCode}>
           <Card style={styles.card}>
             <View style={styles.body}>
@@ -157,7 +148,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 24,
-    width: '90%',
+    width: '80%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
     overflow: 'hidden',
@@ -169,7 +160,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     paddingHorizontal: 16,
-    paddingVertical: 28,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -182,6 +173,12 @@ const styles = StyleSheet.create({
   nothing: {
     flex: 2,
   },
-  image: { width: 24, height: 24, alignSelf: 'center' },
-  body: { flexDirection: 'row' },
+  image: {
+    width: 24,
+    height: 24,
+    alignSelf: 'center',
+  },
+  body: {
+    flexDirection: 'row',
+  },
 });

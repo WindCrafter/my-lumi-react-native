@@ -43,14 +43,6 @@ const Header = (props) => {
           <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
-      <View style={styles.checkIn}>
-        <View style={styles.viewQuiz}>
-          <Text style={styles.quiz}>{langs.questCheckin}</Text>
-        </View>
-        <TouchableOpacity style={styles.btCheckIn} onPress={onPress}>
-          <Text style={styles.txtCheckIn}>{langs.checkIn}</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -67,12 +59,6 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     flex: 5,
-  },
-  checkIn: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingBottom: 16,
   },
   avatar: {
     flex: 1,
@@ -109,27 +95,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  btCheckIn: {
-    paddingHorizontal: 8,
-    height: 24,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    marginLeft: 12,
-    borderRadius: 12,
-    padding: 4,
-  },
-  txtCheckIn: {
-    color: Colors.background,
-    fontSize: 12,
-  },
-  quiz: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-  },
-  viewQuiz: {
-    height: 24,
-    justifyContent: 'center',
   },
 });

@@ -2,13 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import langs from '../../../../../common/language';
 
-const DeadLine = (props) => {
+const Event = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Text style={styles.txtManager}>{langs.dealLine}</Text>
+        <Text style={styles.txtManager}>{langs.event}</Text>
         <Text style={styles.txtDetail}>
-          {' '}
           Hiện chưa có dự án hoặc deadline nào
         </Text>
       </View>
@@ -16,7 +15,7 @@ const DeadLine = (props) => {
   );
 };
 
-export default DeadLine;
+export default Event;
 
 const styles = StyleSheet.create({
   txtManager: {

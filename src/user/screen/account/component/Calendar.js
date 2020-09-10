@@ -6,20 +6,6 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Colors, imgs } from '../../../../../utlis';
 
 LocaleConfig.locales.vn = {
-  // monthNames: [
-  //   'Tháng 1',
-  //   'Tháng 2',
-  //   'Tháng 3',
-  //   'Tháng 4',
-  //   'Tháng 5',
-  //   'Tháng 6',
-  //   'Tháng 7',
-  //   'Tháng 8',
-  //   'Tháng 9',
-  //   'Tháng 10',
-  //   'Tháng 11',
-  //   'Tháng 12',
-  // ],
   monthNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   monthNamesShort: [
     'TH1',
@@ -35,8 +21,8 @@ LocaleConfig.locales.vn = {
     'TH11',
     'TH12',
   ],
-  dayNames: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
-  dayNamesShort: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
   today: 'Hôm nay',
 };
 LocaleConfig.defaultLocale = 'vn';
@@ -141,7 +127,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 25,
     fontWeight: '500',
-    marginLeft:20,marginBottom:10
+    marginLeft: 20, marginBottom: 10
   },
   monthFormat: {
     flexDirection: 'row',

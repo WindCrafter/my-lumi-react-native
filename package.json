@@ -25,7 +25,7 @@
     "native-base": "^2.13.13",
     "react": "16.13.1",
     "react-native": "0.63.1",
-    "react-native-calendars": "^1.315.0",
+    "react-native-calendars": "https://github.com/TranDuke/react-native-calendars-1.git",
     "react-native-camera": "^3.36.0",
     "react-native-code-push": "^6.3.0",
     "react-native-device-info": "^5.6.5",
