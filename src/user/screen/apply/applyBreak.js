@@ -14,13 +14,16 @@ import {
   Alert,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {InputSelect} from '../../../component';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { TextSelect, InputSelect } from '../../../component';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
+import { BarStatus, HeaderCustom, Button } from '../../../component';
+import { imgs, Colors } from '../../../../utlis';
 import ModalBreak from './ModalBreak/index';
 const BORDERWIDTH = 1;
 if (

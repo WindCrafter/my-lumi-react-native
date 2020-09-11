@@ -43,7 +43,7 @@ export default function TabbarUser() {
         })}
       />
       <BotStack.Screen
-        name={'Chấm công'}
+        name={'Nhân viên'}
         component={checkIn}
         options={() => ({
           tabBarIcon: (props) => <TabbarIcon {...props} tab={3} />,

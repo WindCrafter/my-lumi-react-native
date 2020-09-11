@@ -1,31 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {
-  Calendar,
-  LocaleConfig,
-  Agenda,
-  CalendarTheme,
-} from 'react-native-calendars';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import moment from 'moment';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../../../utlis';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Colors, imgs } from '../../../../../utlis';
 
 LocaleConfig.locales.vn = {
-  monthNames: [
-    'Tháng 1',
-    'Tháng 2',
-    'Tháng 3',
-    'Tháng 4',
-    'Tháng 5',
-    'Tháng 6',
-    'Tháng 7',
-    'Tháng 8',
-    'Tháng 9',
-    'Tháng 10',
-    'Tháng 11',
-    'Tháng 12',
-  ],
-  // monthNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+  monthNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   monthNamesShort: [
     'TH1',
     'TH2',
@@ -40,18 +21,18 @@ LocaleConfig.locales.vn = {
     'TH11',
     'TH12',
   ],
-  dayNames: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
-  dayNamesShort: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
   today: 'Hôm nay',
 };
 LocaleConfig.defaultLocale = 'vn';
 
 const DATA = [
-  {type: 'break', day: '2020-08-02'},
-  {type: 'noCheckout', day: '2020-08-03'},
-  {type: 'late', day: '2020-08-04'},
-  {type: 'ontime', day: '2020-08-05'},
-  {type: 'late', day: '2020-08-06'},
+  { type: 'break', day: '2020-08-02' },
+  { type: 'noCheckout', day: '2020-08-03' },
+  { type: 'late', day: '2020-08-04' },
+  { type: 'ontime', day: '2020-08-05' },
+  { type: 'late', day: '2020-08-06' },
 ];
 
 const CalendarCustom = (props) => {
@@ -68,25 +49,25 @@ const CalendarCustom = (props) => {
     for (var i = 0; i < DATA.length; i++) {
       if (DATA[i].type === 'late') {
         obj = {
-          [DATA[i].day]: {selectedColor: 'orange', selected: true},
+          [DATA[i].day]: { selectedColor: 'orange', selected: true },
           ...obj,
         };
       }
       if (DATA[i].type === 'ontime') {
         obj = {
-          [DATA[i].day]: {selectedColor: Colors.background, selected: true},
+          [DATA[i].day]: { selectedColor: Colors.background, selected: true },
           ...obj,
         };
       }
       if (DATA[i].type === 'noCheckout') {
         obj = {
-          [DATA[i].day]: {selectedColor: 'purple', selected: true},
+          [DATA[i].day]: { selectedColor: 'purple', selected: true },
           ...obj,
         };
       }
       if (DATA[i].type === 'break') {
         obj = {
-          [DATA[i].day]: {selectedColor: 'red', selected: true},
+          [DATA[i].day]: { selectedColor: 'red', selected: true },
           ...obj,
         };
       }
@@ -97,10 +78,11 @@ const CalendarCustom = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.text}>Lịch sử chấm công :</Text>
+        <Text style={styles.text}>Lịch sử chấm công</Text>
       </View>
       <Calendar
         style={styles.calendar}
+        hideExtraDays
         onDayPress={onDayPress}
         firstDay={0}
         renderHeader={(date) => {

@@ -1,13 +1,27 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, ScrollView, Platform, UIManager} from 'react-native';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native';
 import Header from './component/header';
-import {Card} from 'native-base';
-import DeadLine from './component/deadLine';
-import User from './component_user/user';
-import Event from './component_user/event';
-import InfoWeek from './component_user/infoWeek';
-import {BarStatus} from '../../../component';
-import {Colors} from '../../../../utlis';
+import { Card } from 'native-base';
+import DeadLine from './component/event';
+import InfoWeek from './component/Usage';
+import { BarStatus } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+import RowCheck from './component/RowCheck';
+import Event from './component/event';
+import CheckIn from '../checkIn';
+import Usage from './component/Usage';
+import HistoryWeek from './component/Calendar';
 
 if (
   Platform.OS === 'android' &&
@@ -17,8 +31,8 @@ if (
 }
 
 function Home(props) {
-  const {navigation, nameUser} = props;
-  const [] = useState(true);
+  const { navigation, nameUser } = props;
+  const [show, setShow] = useState(false);
   const onGetContact = () => {
     navigation.navigate('Contact');
   };
@@ -41,6 +55,12 @@ function Home(props) {
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
   };
+
+  const onHideShow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(!show);
+  };
+
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
@@ -50,24 +70,24 @@ function Home(props) {
           onPress={onCheckin}
           name={nameUser}
         />
-        <View style={{flex: 4}}>
+        <View style={{ flex: 5 }}>
           <ScrollView>
+            <TouchableOpacity onPress={onHideShow}>
+              <Card style={styles.card}>
+                <RowCheck down={show} />
+              </Card>
+            </TouchableOpacity>
+            {show ? (<View style={styles.row}>
+              <Usage source={imgs.late} text={'Xin Trễ'} tintColor={'red'} />
+              <Usage source={imgs.leave} text={'Xin Nghỉ'} />
+              <Usage source={imgs.OT} text={'Xin OT'} tintColor={'#008aee'} />
+            </View>) : null}
+            
             <Card style={styles.card}>
               <Event />
             </Card>
             <Card style={styles.card}>
-              <User
-                applyBreak={onApplyBreak}
-                applyLate={onApplyLate}
-                applyOT={onApplyOT}
-                contactInfor={onGetContact}
-              />
-            </Card>
-            <Card style={styles.card}>
-              <InfoWeek />
-            </Card>
-            <Card style={styles.card}>
-              <DeadLine />
+              <HistoryWeek />
             </Card>
           </ScrollView>
         </View>
@@ -92,5 +112,12 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '90%',
+    alignSelf: 'center',
   },
 });

@@ -42,7 +42,7 @@ export const imgs = {
   checkingrey: require('../../common/assets/images/icon/Checkin-grey-icon.png'),
   checkingreen: require('../../common/assets/images/icon/Checkin-green-icon.png'),
   tick: require('../../common/assets/images/icon/Tick-icon.png'),
-  tickblue: require('../../common/assets/images/icon/Tick-blue-icon.png'),
+  tickblue: require('../../common/assets/images/icon/Tick-blue-icon.png') ,
   down: require('../../common/assets/images/icon/down-icon.png'),
   uncorrect: require('../../common/assets/images/icon/Uncorrect-icon.png'),
   warning: require('../../common/assets/images/icon/Warning-icon.png'),
@@ -68,4 +68,5 @@ export const imgs = {
   scheduleGreen: require('../../common/assets/images/icon/scheduleGreen.png'),
   documentGreen: require('../../common/assets/images/icon/documentGreen.png'),
   document: require('../../common/assets/images/icon/Document.png'),
+  logout: require('../../common/assets/images/icon/log-out-icon.png')
 };

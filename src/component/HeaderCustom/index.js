@@ -52,7 +52,7 @@ export default function HeaderCustom(props?: Props) {
       {rightButton ? (
         <TouchableOpacity style={styles.right} onPress={onRight}>
           {textPress ? (
-            <Text style={styles.txtBt}>Lưu</Text>
+            <Text style={styles.txtBt}>Save</Text>
           ) : (
               <Image source={rightImage} style={styles.img} />
             )}

@@ -43,14 +43,6 @@ const Header = (props) => {
           <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
-      <View style={styles.checkIn}>
-        <View style={styles.viewQuiz}>
-          <Text style={styles.quiz}>{langs.questCheckin}</Text>
-        </View>
-        <TouchableOpacity style={styles.btCheckIn} onPress={onPress}>
-          <Text style={styles.txtCheckIn}>{langs.checkIn}</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -83,7 +75,6 @@ const styles = StyleSheet.create({
     flex: 2.25,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    padding:24
   },
   avt: {
     height: 64,

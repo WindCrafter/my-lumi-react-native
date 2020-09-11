@@ -35,11 +35,10 @@ function HeaderCheck(props?: Props) {
             <Text style={styles.txtName}>{title}</Text>
             <Image source={imgs.down} style={styles.image} />
           </TouchableOpacity>
+          <Text style={styles.time}>{type}</Text>
           <Text style={styles.time}>
             {currentDayInWeek}, {currrentDate}
           </Text>
-          <Text style={styles.type}>{type}</Text>
-
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressHistory}>
           <Image source={imgs.information} style={styles.img} />
@@ -96,13 +95,6 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     color: '#ffffff',
     marginLeft: 2,
-    paddingBottom:5
-  },
-  type: {
-    fontSize: 25,
-    fontWeight: '300',
-    color: '#ffffff',
-    marginLeft: 2,
   },
   notify: {
     marginTop: 33.9,
@@ -121,9 +113,6 @@ const styles = StyleSheet.create({
   },
   image: {
     marginLeft: 8,
-    width: 20,
-    height: 20,
-    tintColor:'white'
   },
   img: {
     width: 28,

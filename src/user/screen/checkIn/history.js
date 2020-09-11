@@ -1,18 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
   Platform,
   StatusBar,
+  FlatList,
+  LayoutAnimation,
   Image,
   UIManager,
+  ScrollView,
   Text,
+  TouchableOpacity,
 } from 'react-native';
-import {BarStatus, HeaderCustom} from '../../../component';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../../utlis';
+import { BarStatus, HeaderCustom } from '../../../component';
+import {
+  widthPercentageToDP as wp,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
+import { Colors, imgs } from '../../../../utlis';
 import moment from 'moment';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -28,46 +36,39 @@ function History(props) {
     timeCheckIn,
     timeCheckOut,
   } = props;
-  const [date] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const onGoBack = () => {
     navigation.goBack();
   };
   const newDate = moment(date).format('DD/MM/YYYY');
 
   const detailIn =
-    newDate === dateCheckIn ? (
-      <View style={styles.viewCheck}>
-        <Text style={styles.textCheck}>{timeCheckIn}</Text>
-
-        <Text style={styles.textConfirm}>Bạn đã check-in.</Text>
-      </View>
-    ) : (
-      <Text style={styles.textNotDoneYet}>Chưa thực hiện.</Text>
-    );
+    newDate === dateCheckIn
+      ? 'Check in thành công lúc ' +
+      `${timeCheckIn}` +
+      ' ngày hôm nay - ' +
+      `${dateCheckIn}`
+      : 'Hôm nay bạn chưa check in !!!!!';
 
   const detailOut =
-    newDate === dateCheckOut ? (
-      <View style={styles.viewCheck}>
-        <Text style={styles.textCheck}>{timeCheckOut}</Text>
-
-        <Text style={styles.textConfirm}>Bạn đã check-out.</Text>
-      </View>
-    ) : (
-      <Text style={styles.textNotDoneYet}>Chưa thực hiện.</Text>
-    );
+    newDate === dateCheckOut
+      ? 'Check out thành công lúc ' +
+      `${timeCheckOut}` +
+      ' ngày hôm nay - ' +
+      `${dateCheckOut}`
+      : 'Hôm nay bạn chưa check out !!!!!';
   return (
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Lịch sử chấm công'} height={60} goBack={onGoBack} />
+      <HeaderCustom
+        title={'Lịch sử chấm công hôm nay'}
+        height={60}
+        goBack={onGoBack}
+      />
       <Card style={styles.card}>
-        <View style={styles.viewTop}>
-          <Image source={imgs.startDate} />
-          <Text style={styles.textHeader}>{newDate}</Text>
-        </View>
-
         <Text style={styles.status}>Trạng thái :</Text>
         <View style={styles.row}>
           <Image source={imgs.late} />
@@ -83,7 +84,7 @@ function History(props) {
         <View style={styles.row}>
           <Image source={imgs.late} />
           <View style={styles.flex1}>
-            <Text style={styles.txtCheck}>Check Out:</Text>
+            <Text style={styles.txtCheck}>Check Out :</Text>
           </View>
           <View style={styles.flex2}>
             <Text style={styles.txtDetail} numberOfLines={3}>
@@ -121,16 +122,15 @@ const styles = StyleSheet.create({
   },
   status: {
     fontWeight: '500',
-    fontSize: 19,
+    fontSize: 17,
   },
   row: {
     flexDirection: 'row',
     marginVertical: 16,
     alignItems: 'center',
-    marginLeft: 25,
   },
   txtCheck: {
-    marginLeft: 6,
+    marginLeft: 8,
     fontSize: 15,
     fontWeight: '400',
   },
@@ -143,20 +143,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   flex2: {
-    flex: 1.5,
+    flex: 2,
   },
-  viewCheck: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  textCheck: {color: 'black', fontWeight: '600', fontSize: 18},
-  textConfirm: {color: 'green', fontSize: 15},
-  textNotDoneYet: {color: 'black', fontWeight: '600', fontSize: 18},
-  viewTop: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 10,
-  },
-  textHeader: {fontSize: 19, marginLeft: 10, fontWeight: '400'},
 });

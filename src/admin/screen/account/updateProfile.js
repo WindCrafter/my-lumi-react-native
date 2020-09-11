@@ -128,7 +128,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Sai định dạng số điện thoại',
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: { text: 'OK' },
       });
     }
     if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
@@ -136,7 +136,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: { text: 'OK' },
       });
     }
     if (!regId.test(identity)) {
@@ -144,7 +144,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Sai định dang CCCD/CMND',
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: { text: 'OK' },
       });
     } else {
       updateProfile(data);
@@ -155,7 +155,12 @@ function UpdateProfile(props) {
   return (
     <View style={styles.view}>
       <KeyboardAvoidingView
-        style={styles.container}>
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.select({
+          ios: () => 0,
+          android: () => 0,
+        })()}>
         <BarStatus
           backgroundColor={Colors.white}
           height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
@@ -179,14 +184,14 @@ function UpdateProfile(props) {
             onChangeName={onChangeName}
             onChangeIdentity={onChangeIdentity}
           />
-         
+          {update ? (
             <UpdateInfo
               birthday={birthday}
               gene={gene}
               onChangeGene={onChangeGene}
               onChangeBirthday={onShowModal}
             />
-          
+          ) : null}
         </ScrollView>
         {Platform.OS === 'ios' ? (
           <ModalTime
@@ -214,13 +219,13 @@ function UpdateProfile(props) {
             )
           )}
       </KeyboardAvoidingView>
-      {/* {!update ? (
+      {!update ? (
         <View style={styles.viewButton}>
           <TouchableOpacity style={styles.button} onPress={onExtend}>
             <Text style={styles.txtButton}>Mở rộng </Text>
           </TouchableOpacity>
         </View>
-      ) : null} */}
+      ) : null}
     </View>
   );
 }

@@ -37,7 +37,7 @@ const DATA = [
   {
     name: 'Lê Mạnh Cường',
     avt: require('../../../../naruto.jpeg'),
-    day: '01/01/2020',
+    day: '02/03/2020',
     team: 'App',
     role: 'Staff',
     kpi: '27',
@@ -50,7 +50,7 @@ const DATA = [
   {
     name: 'Nguyễn Xuân Kiên',
     avt: require('../../../../naruto.jpeg'),
-    day: '01/01/2020',
+    day: '04/05/2020',
     team: 'App',
     role: 'Intern',
     kpi: '29',

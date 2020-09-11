@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,18 +8,18 @@ import {
   StatusBar,
   Keyboard,
 } from 'react-native';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
-import {HeaderCheck} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { HeaderCheck } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 import ModalQR from './component/ModalQR';
 import moment from 'moment';
 import ModalCode from './component/ModalCode';
 
 const CheckIn = (props) => {
-  const {navigation, checkIn, deviceId, token} = props;
+  const { navigation, checkIn, deviceId, token } = props;
   const [showQR, setShowQR] = useState(false);
   const [showCode, setShowCode] = useState(false);
   const [code, setCode] = useState('');
@@ -186,6 +186,6 @@ const styles = StyleSheet.create({
   nothing: {
     flex: 2,
   },
-  image: {width: 24, height: 24, alignSelf: 'center'},
-  body: {flexDirection: 'row'},
+  image: { width: 24, height: 24, alignSelf: 'center' },
+  body: { flexDirection: 'row' },
 });

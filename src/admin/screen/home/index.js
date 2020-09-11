@@ -78,7 +78,7 @@ function Home(props) {
           onPress={onCheckin}
           name={nameUser}
         />
-        <View style={{ flex: 4 }}>
+        <View style={{ flex: 5 }}>
           <ScrollView>
             <Card style={styles.card}>
               <Admin

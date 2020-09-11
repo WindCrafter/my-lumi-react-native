@@ -43,14 +43,7 @@ const Header = (props) => {
           <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
-      <View style={styles.checkIn}>
-        <View style={styles.viewQuiz}>
-          <Text style={styles.quiz}>{langs.questCheckin}</Text>
-        </View>
-        <TouchableOpacity style={styles.btCheckIn} onPress={onPress}>
-          <Text style={styles.txtCheckIn}>{langs.checkIn}</Text>
-        </TouchableOpacity>
-      </View>
+     
     </View>
   );
 };
@@ -67,12 +60,6 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     flex: 5,
-  },
-  checkIn: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingBottom: 16,
   },
   avatar: {
     flex: 1,

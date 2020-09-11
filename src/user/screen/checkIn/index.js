@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 24,
-    width: '90%',
+    width: '80%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
     overflow: 'hidden',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     paddingHorizontal: 16,
-    paddingVertical: 28,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

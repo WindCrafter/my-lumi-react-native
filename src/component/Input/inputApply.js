@@ -106,8 +106,18 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: 'black',
-  },
+ 
 
+    paddingLeft: 12,
+   
+  },
+  textTitle: {
+    // flex: 1,
+    padding: 6,
+    fontSize: 16,
+    color: Colors.black,
+    alignSelf: 'center',
+  },
   left: {
     flexDirection: 'row',
   },
@@ -117,4 +127,5 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginLeft: 8,
   },
-});
+}
+);

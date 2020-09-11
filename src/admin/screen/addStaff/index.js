@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,8 @@ import {
   StatusBar,
   Alert,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   InputInfor,
   InputSelect,
@@ -22,7 +22,7 @@ import {
   BarStatus,
   HeaderCustom,
 } from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
 
@@ -61,7 +61,7 @@ const AddStaff = (props) => {
   const onDone = () => {
     Keyboard.dismiss();
     const roleId = detailRank === 'ADMIN' ? roleIdAdmin : roleIdUser;
-    const data = {name, email, password, roleId, token};
+    const data = { name, email, password, roleId, token };
     if (email.trim().length === 0) {
       Alert.alert('email invalid');
       return;
@@ -179,7 +179,7 @@ const AddStaff = (props) => {
             value={password}
             onChangeText={onChangePass}
           />
-          <TouchableOpacity style={{marginBottom: 24}} onPress={setPosition}>
+          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setPosition}>
             <InputSelect
               testID="test_Position"
               backgroundColor={'white'}
@@ -189,10 +189,9 @@ const AddStaff = (props) => {
               containerStyle={styles.textSelect}
               detail={detailPosition}
               onPressButton={setPosition}
-              padding={6}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={{marginBottom: 24}} onPress={setRank}>
+          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setRank}>
             <InputSelect
               width={wp(90)}
               testID="test_Rank"
@@ -274,9 +273,8 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 8,
+    borderRadius: 16,
     paddingHorizontal: 16,
-    borderWidth: Platform === 'ios' ? 0 : 0.25,
   },
   description: {
     fontSize: 15,
