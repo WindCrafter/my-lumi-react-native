@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,11 +12,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from './component/header';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import DeadLine from './component/event';
 import InfoWeek from './component/Usage';
-import { BarStatus } from '../../../component';
-import { Colors, imgs } from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import {Colors, imgs} from '../../../../utlis';
 import RowCheck from './component/RowCheck';
 import Event from './component/event';
 import CheckIn from '../checkIn';
@@ -31,7 +31,7 @@ if (
 }
 
 function Home(props) {
-  const { navigation, nameUser } = props;
+  const {navigation, nameUser,checkIn,checkInWifi} = props;
   const [show, setShow] = useState(false);
   const onGetContact = () => {
     navigation.navigate('Contact');
@@ -60,29 +60,45 @@ function Home(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(!show);
   };
-
+  const onGoHistory = () => {
+    navigation.navigate('History');
+  };
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
-        <Header
-          pressNotify={onPressNotify}
-          onPress={onCheckin}
-          name={nameUser}
-        />
-        <View style={{ flex: 5 }}>
+        <Header pressNotify={onPressNotify} name={nameUser} />
+        <View style={{flex: 5}}>
           <ScrollView>
             <TouchableOpacity onPress={onHideShow}>
               <Card style={styles.card}>
                 <RowCheck down={show} />
               </Card>
             </TouchableOpacity>
-            {show ? (<View style={styles.row}>
-              <Usage source={imgs.late} text={'Xin Trễ'} tintColor={'red'} />
-              <Usage source={imgs.leave} text={'Xin Nghỉ'} />
-              <Usage source={imgs.OT} text={'Xin OT'} tintColor={'#008aee'} />
-            </View>) : null}
-            
+            {show ? <CheckIn goHistory={onGoHistory}
+              checkInUser={checkIn}
+              checkInWifiUser={checkInWifi}
+            /> : null}
+            <View style={styles.row}>
+              <Usage
+                source={imgs.late}
+                text={'Xin Trễ'}
+                tintColor={'red'}
+                onPressButton={onApplyLate}
+              />
+              <Usage
+                source={imgs.leave}
+                text={'Xin Nghỉ'}
+                onPressButton={onApplyLate}
+              />
+              <Usage
+                source={imgs.OT}
+                text={'Xin OT'}
+                tintColor={'#008aee'}
+                onPressButton={onApplyOT}
+              />
+            </View>
+
             <Card style={styles.card}>
               <Event />
             </Card>

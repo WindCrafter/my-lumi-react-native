@@ -7,6 +7,12 @@ export const checkIn = (data) => {
   };
 };
 
+export const checkInWifi = (data) => {
+  return {
+    type: types.CHECK_IN_WIFI,
+    payload: data,
+  };
+};
 export const checkInSuccess = (data) => {
   return {
     type: types.CHECK_IN_SUCCESS,

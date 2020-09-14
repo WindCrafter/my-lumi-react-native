@@ -5,9 +5,9 @@ import { imgs } from '../../../../../utlis';
 import { Card } from 'native-base';
 
 const Usage = (props) => {
-  const { source, text, tintColor } = props;
+  const { source, text, tintColor, onPressButton } = props;
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPressButton}>
       <Card style={styles.manager}>
         <Image source={source} style={[styles.img, { tintColor: tintColor }]} />
         <Text style={styles.txt}>{text}</Text>

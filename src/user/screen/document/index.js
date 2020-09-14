@@ -11,27 +11,37 @@ import {
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions';
-const Document = () => {
-  const [ssid, setSsid] = useState('');
-  const [bssid, setBssid] = useState('');
+const Document = (props) => {
+  // const {  checkInWifi, deviceId, ssid,bssid,type } = props;
+
+  const [ssidUser, setSsidUser] = useState('');
+  const [bssidUser, setBssidUser] = useState('');
 
   const password = 'lumivn274';
-
+  const onCheckInWifi = () => {
+    const data = {
+      ssid: ssidUser,
+      bssid: bssidUser,
+      type: type ? 'in' : 'out',
+      deviceId: deviceId,
+    };
+    checkInWifi(data);
+    setShowCode(false);
+  };
   const initWifi = async () => {
     try {
-      const ssid = await (await NetInfo.fetch('wifi')).details.ssid;
-      const bssid = await (await NetInfo.fetch('wifi')).details.bssid;
+      let state = await NetInfo.fetch('wifi');
 
-      setSsid(ssid);
-      setBssid(bssid);
+      setSsidUser(state.details.ssid);
+      setBssidUser(state.details.bssid);
 
-      console.log('Your current connected wifi SSID is ' + ssid);
-      console.log('Your current BSSID is ' + bssid);
+      console.log('Your current connected wifi ssidUser is ' + ssidUser);
+      console.log('Your current BssidUser is ' + bssidUser);
     } catch (error) {
-      setSsid('Cannot get current SSID!' + error.message);
-      setBssid('Cannot get current BSSID!' + error.message);
+      setSsidUser('Cannot get current ssidUser!' + error.message);
+      setBssidUser('Cannot get current BssidUser!' + error.message);
 
-      console.log('Cannot get current SSID!', {error});
+      console.log('Cannot get current ssidUser!', {error});
     }
   };
 
@@ -40,7 +50,7 @@ const Document = () => {
       const granted = await request(
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
         }),
         {
           title: 'YÊU CẦU VỊ TRÍ',
@@ -51,22 +61,18 @@ const Document = () => {
         },
       );
       if (granted === RESULTS.GRANTED) {
-        console.log(granted);
-
+        console.log('Thanh cong');
         initWifi();
+        // onCheckInWifi
       } else {
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
-
       }
     } catch (err) {
       console.warn(err);
     }
   };
 
-  useEffect(() => {
-    requestLocationPermission();
-  }, []);
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -75,16 +81,17 @@ const Document = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.sectionContainer}>
-            <Text style={styles.sectionTitle}>ssid</Text>
-            <Text style={styles.sectionDescription}>{ssid}</Text>
-            <Text style={styles.sectionTitle}>bssid</Text>
+            <Text style={styles.sectionTitle}>ssidUser</Text>
+            <Text style={styles.sectionDescription}>{ssidUser}</Text>
+            <Text style={styles.sectionTitle}>bssidUser</Text>
 
-            <Text style={styles.sectionDescription}>{bssid}</Text>
+            <Text style={styles.sectionDescription}>{bssidUser}</Text>
           </View>
           <Button
             onPress={requestLocationPermission}
             title="Nhấn để kết nối/chấm công"
           />
+
           <View style={styles.body} />
         </ScrollView>
       </SafeAreaView>

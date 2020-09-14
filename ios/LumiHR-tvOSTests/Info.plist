@@ -20,12 +20,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-
-   <key>NSLocationAlwaysUsageDescription</key>
-  <string>LUMIHR uses the location for the network SSID and BSSID</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>LUMIHR uses the location for the network SSID and BSSID</string>
-  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>LUMIHR uses the location for the network SSID and BSSID</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>LUMIHR uses the location for the network SSID and BSSID</string>
+  
 </dict>
 </plist>

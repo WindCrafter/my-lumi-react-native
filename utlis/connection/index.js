@@ -7,6 +7,8 @@ const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_LIST_ROLE = `${URL.LOCAL_HOST}${URL.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL.LOCAL_HOST}${URL.ADD_USER}`;
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
+const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
+
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_GET_QR = `${URL.LOCAL_HOST}${URL.GET_QR}`;
 
@@ -29,6 +31,9 @@ export class Connection extends Component {
 
   check(data, token) {
     return _POST(URL_CHECK_IN, data, token);
+  }
+  checkInWifi(data, token) {
+    return _POST(URL_CHECK_IN_WIFI, data, token);
   }
   updateProfile(data, token) {
     return _POST(URL_UPDATE_PROFILE, data, token);

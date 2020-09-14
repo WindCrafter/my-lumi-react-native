@@ -1,6 +1,7 @@
 import { _global } from '../global/global';
 
 export function _POST(url, data, token) {
+  console.log('POST: ',url,data,token)
   _global.Loading.show();
   const response = fetch(url, {
     method: 'POST',
@@ -11,13 +12,17 @@ export function _POST(url, data, token) {
     body: JSON.stringify(data),
   })
     .then(
-      (res) => res.json(),
+      (res) => {
+        return res.json()
+      },
       setTimeout(() => {
         _global.Loading.hide();
       }, 200),
     )
     .catch((error) => {
+      console.log(error);
       _global.Loading.hide();
+      return error;
     });
   return response;
 }
@@ -36,6 +41,8 @@ export function _PUT(url, data, token) {
 }
 
 export function _GET(url, token) {
+  console.log('GET: ', url, token)
+
   _global.Loading.show();
   const response = fetch(url, {
     method: 'GET',
@@ -52,6 +59,7 @@ export function _GET(url, token) {
     )
     .catch((error) => {
       _global.Loading.hide();
+      return error;
     });
   return response;
 }
