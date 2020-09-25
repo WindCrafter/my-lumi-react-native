@@ -69,31 +69,26 @@ const CheckIn = (props) => {
     setCode('');
     Keyboard.dismiss();
   };
-  const onCheckInWifi = () => {
-    console.log(token);
-    const data = {
-      ssid: ssidUser,
-      bssid: bssidUser,
-      type: type ? 'in' : 'out',
-      deviceId: deviceId,
-      token: token,
-
-      
-    };
-
-    checkInWifi(data);
-    console.log(ssidUser)
-    setShowWifi(false);
-  };
   const initWifi = async () => {
     try {
       let state = await NetInfo.fetch('wifi');
 
       setSsidUser(state.details.ssid);
       setBssidUser(state.details.bssid);
-      onCheckInWifi();
-      console.log('Your current connected wifi ssidUser is ' + ssidUser);
-      console.log('Your current BssidUser is ' + bssidUser);
+      const data = {
+        ssid: state.details.ssid,
+        bssid: state.details.bssid,
+        type: type ? 'in' : 'out',
+        deviceId: deviceId,
+        token: token,
+
+
+      };
+
+      checkInWifi(data);
+      setShowWifi(false);
+      console.log('Your current connected wifi ssidUser is ' + state.details.ssid);
+      console.log('Your current BssidUser is ' + state.details.bssid);
     } catch (error) {
       setSsidUser('Cannot get current ssidUser!' + error.message);
       setBssidUser('Cannot get current BssidUser!' + error.message);
