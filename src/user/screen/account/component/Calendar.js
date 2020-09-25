@@ -95,17 +95,23 @@ const CalendarCustom = (props) => {
             </View>
           );
         }}
+        horizontal
+        pagingEnabled
+        calendarWidth={320}
+
         markedDates={{
           ...type,
           [today]: {
             selected: true,
             selectedColor: Colors.white,
             selectedTextColor: Colors.background,
-            dotColor: Colors.background,
+            dotColor: 'red',
             marked: true,
           },
+
         }}
       />
+      
     </View>
   );
 };
@@ -125,9 +131,10 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
-    marginLeft: 20, marginBottom: 10
+    marginLeft: 20,
+    marginBottom: 10,
   },
   monthFormat: {
     flexDirection: 'row',

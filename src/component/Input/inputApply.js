@@ -8,11 +8,10 @@ import {
   ViewStyle,
   Text,
   Platform,
-
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs, Colors } from '../../../utlis';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs, Colors} from '../../../utlis';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -23,6 +22,7 @@ interface Props extends TextInputProps {
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
   title?: String;
+  paddingLeft?: String;
 }
 
 InputApply.defaultProps = {
@@ -30,6 +30,7 @@ InputApply.defaultProps = {
   height: 60,
   borderRadius: 12,
   backgroundColor: Colors.background,
+  paddingLeft: 12,
 };
 
 export default function InputApply(props?: Props) {
@@ -45,6 +46,7 @@ export default function InputApply(props?: Props) {
     refInput,
     testID,
     title,
+    paddingLeft,
     ...otherProps
   } = props;
   const ViewCard = Platform.OS === 'ios' ? View : Card;
@@ -68,7 +70,12 @@ export default function InputApply(props?: Props) {
         multiline
         testID={testID}
         ref={refInput}
-        style={styles.textInput}
+        style={[
+          {
+            paddingLeft,
+          },
+          styles.textInput,
+        ]}
         selectionColor={'black'}
         placeholder={'Vui lòng nhập....'}
         placeholderTextColor={Colors.black}
@@ -97,9 +104,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    paddingLeft: 12,
     fontSize: 16,
     color: 'black',
+ 
+
+    paddingLeft: 12,
+   
   },
   textTitle: {
     // flex: 1,
@@ -117,4 +127,5 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginLeft: 8,
   },
-});
+}
+);

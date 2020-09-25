@@ -55,8 +55,8 @@ const langs = {
   contact: 'Thông tin liên hệ',
   validBreak: 'Số phép tồn',
   identity: 'CCCD/CMND',
-  inforCompany: 'Tổng quan công ti',
-  staff: 'Số nhân viên',
+  inforCompany: 'Tổng quan công ty',
+  staff: 'Nhân viên',
   notify: 'Thông báo',
   errorNetwork: 'Lỗi mạng',
 };

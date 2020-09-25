@@ -92,7 +92,7 @@ const CalendarCustom = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.text}>Lịch sử chấm công</Text>
+        <Text style={styles.text}>Lịch sử chấm công :</Text>
       </View>
       <Calendar
         style={styles.calendar}

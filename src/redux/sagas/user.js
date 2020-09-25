@@ -19,6 +19,7 @@ function* sagaUpdateProfile(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);
+    console.log(response)
     if (response.success && response.statusCode === 200) {
       yield put(updateProfileSuccess(response.data));
       _global.Alert.alert({

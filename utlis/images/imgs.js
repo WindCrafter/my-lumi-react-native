@@ -63,5 +63,10 @@ export const imgs = {
   banking: require('../../common/assets/images/icon/Banking-icon.png'),
   lateIcon: require('../../common/assets/images/icon/Late-icon.png'),
   inforblack: require('../../common/assets/images/icon/information-black-icon.png'),
+  logout: require('../../common/assets/images/icon/log-out-icon.png'),
+  scheduleGrey: require('../../common/assets/images/icon/Schedule-icon.png'),
+  scheduleGreen: require('../../common/assets/images/icon/scheduleGreen.png'),
+  documentGreen: require('../../common/assets/images/icon/documentGreen.png'),
+  document: require('../../common/assets/images/icon/Document.png'),
   logout: require('../../common/assets/images/icon/log-out-icon.png')
 };

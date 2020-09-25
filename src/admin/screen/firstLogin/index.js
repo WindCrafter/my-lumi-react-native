@@ -1,37 +1,53 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
   Keyboard,
   ScrollView,
-  Dimensions,
-  KeyboardAvoidingView,
   Platform,
   StatusBar,
 } from 'react-native';
-import { Alert } from '../../../component';
+import {Alert} from '../../../component';
 import ChangePass from './component/ChangePass';
 import AddInfo from './component/AddInfo';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {_global} from '../../../../utlis/global/global';
+import ModalTime from '../../../user/screen/account/component/ModalTime';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 const FirstLogin = (props) => {
-  const { changePass, token, updateProfile } = props;
+  const {changePass, token, updateProfile, name} = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
   const [phone, setPhone] = useState('');
-  const [name, setName] = useState('hey');
+  const [] = useState('hey');
+  const [nativeLand,setNativeLand]=useState('');
+  const [showPicker, setShowPicker] = useState(false);
+  const [birthday, setBirthDay] = useState(
+    moment(new Date()).format('DD/MM/YYYY'),
+  );
+  const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
+  const [show, setShow] = useState(false);
+  const onHideModal = () => {
+    setShow(false);
+  };
 
-  const [birthday, setBirthday] = useState('');
   const [error, setError] = useState('');
+
   const onChangePhone = (value) => {
     setPhone(value);
   };
-  const onChangeBirthday = (value) => {
-    setBirthday(value);
+  const onChangeNative=(value)=> {
+    setNativeLand(value)
+  }
+  const onChangeBirthday = (event, val) => {
+    const pickDate = val || birthday;
+    setShowPicker(Platform.OS === 'ios');
+
+    setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
   const onChangePass = (value) => {
     setPass(value);
@@ -40,9 +56,10 @@ const FirstLogin = (props) => {
   const onChangeRePass = (value) => {
     setRePass(value);
   };
+  const onShowModal = () => {
+    setShow(true);
+    setShowPicker(!showPicker);
 
-  const onNext = () => {
-    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
   };
 
   const onConfirms = () => {
@@ -67,18 +84,32 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     } else {
-      changePass({ pass, confirmPassword: rePass, token });
+      changePass({pass, confirmPassword: rePass, token});
     }
   };
   const onConfirmsProfile = () => {
     Keyboard.dismiss();
     const data = {
-      name: 'jijiiii',
+      name:name,
       phoneNumber: phone,
       birthday,
       token,
+      advance: {
+        nativeLand
+      }
     };
-    updateProfile(data);
+    if (!isVNPhoneMobile.test(phone)) {
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Sai số điện thoại.\nVui lòng kiểm tra lại.',
+        messageColor:'red',
+        leftButton: {text: 'OK'},
+      });
+    } else {
+      updateProfile(data);
+
+      step.current.scrollTo({x: wp(100), y: 0, animated: true});
+    }
   };
   StatusBar.setBarStyle('default');
 
@@ -92,10 +123,11 @@ const FirstLogin = (props) => {
         ref={step}>
         <AddInfo
           birthday={birthday}
-          onChangeBirthDay={onChangeBirthday}
+          onChangeBirthDay={onShowModal}
           phone={phone}
           onChangePhone={onChangePhone}
-          onNext={onConfirmsProfile, onNext}
+          onNext={onConfirmsProfile}
+          onChangeNative={onChangeNative}
         />
         <ChangePass
           pass={pass}
@@ -108,9 +140,38 @@ const FirstLogin = (props) => {
       <Alert
         title={'Warning'}
         message={error}
-        leftButton={{ text: 'OK' }}
+        leftButton={{text: 'OK'}}
         ref={refAlert}
       />
+      {Platform.OS === 'ios' ? (
+        <ModalTime
+          showModal={show}
+          hideModal={onHideModal}
+          picker={
+            <View style={styles.picker}>
+              <DateTimePicker
+                value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+              />
+            </View>
+          }
+        />
+      ) : (
+            ( showPicker &&
+            <View style={styles.picker}>
+
+          <DateTimePicker
+            value={moment(birthday, 'DD/MM/YYYY').toDate()}
+            mode={'date'}
+            display="default"
+            onChange={onChangeBirthday}
+          />
+            </View>
+
+          )
+      )}
     </>
   );
 };
@@ -118,6 +179,9 @@ const FirstLogin = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
+  },
+  picker: {
+    width: wp(100),
   },
 });
 

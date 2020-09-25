@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   txtLogOut: {
     fontWeight: '600',
-    fontSize: 20,
+    fontSize: 18,
     color: Colors.black,
     marginLeft: 10
 

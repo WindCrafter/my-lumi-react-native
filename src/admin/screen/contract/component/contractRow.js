@@ -11,17 +11,12 @@ export default function ContractRow(props?: Props) {
       <Image source={leftImage} style={styles.image} resizeMode="contain" />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.dob}>DOB: {dob}</Text>
         <Text style={styles.team}>Team: {team}</Text>
       </View>
       <View style={styles.role}>
         <Text style={styles.txtRole}>{role}</Text>
       </View>
-      <View style={styles.outDate}>
-        <Text style={styles.txtOutDate}>Đáo hạn</Text>
-        <Text style={styles.time}> {outDate}</Text>
-        <View style={styles.blank} />
-      </View>
+    
     </TouchableOpacity>
   );
 }

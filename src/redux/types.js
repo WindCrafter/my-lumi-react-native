@@ -22,6 +22,8 @@ export const ADD_STAFF_FAILED = 'ADD_STAFF_FAILED';
 export const GET_DEVICE_ID = 'GET_DEVICE_ID';
 
 export const CHECK_IN = 'CHECK_IN';
+export const CHECK_IN_WIFI = 'CHECK_IN_WIFI';
+
 export const CHECK_IN_SUCCESS = 'CHECK_IN_SUCCESS';
 export const CHECK_IN_FAILED = 'CHECK_IN_FAILED';
 

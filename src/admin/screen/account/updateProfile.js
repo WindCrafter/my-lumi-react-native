@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -12,18 +12,20 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
+  
 } from 'react-native';
-import { BarStatus, HeaderCustom } from '../../../component';
+import moment from 'moment';
+
+import {BarStatus, HeaderCustom} from '../../../component';
 import {
   widthPercentageToDP as wp,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Colors, imgs } from '../../../../utlis';
+import {Colors, imgs} from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
-import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 if (

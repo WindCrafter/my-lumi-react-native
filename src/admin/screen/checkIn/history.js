@@ -143,6 +143,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   flex2: {
+    flex: 1.5,
+  },
+  viewCheck: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  textCheck: {color: 'black', fontWeight: '600', fontSize: 18},
+  textConfirm: {color: 'green', fontSize: 15},
+  textNotDoneYet: {color: 'black', fontWeight: '600', fontSize: 18},
+  viewTop: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  textHeader: {fontSize: 19, marginLeft: 10, fontWeight: '400'},
     flex: 2,
   },
-});
+);

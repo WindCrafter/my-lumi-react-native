@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,21 +7,29 @@ import {
   Image,
   StatusBar,
   Keyboard,
+  Platform,
 } from 'react-native';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
-import { HeaderCheck } from '../../../component';
-import { Colors } from '../../../../utlis';
-import { imgs } from '../../../../utlis';
+import {HeaderCheck} from '../../../component';
+import {Colors} from '../../../../utlis';
+import {imgs} from '../../../../utlis';
 import ModalQR from './component/ModalQR';
 import moment from 'moment';
 import ModalCode from './component/ModalCode';
+import ModalWifi from './component/ModalWifi';
+import NetInfo from '@react-native-community/netinfo';
 
+import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions';
 const CheckIn = (props) => {
-  const { navigation, checkIn, deviceId, token } = props;
+  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi} = props;
+  // console.log(checkInWifi)
   const [showQR, setShowQR] = useState(false);
   const [showCode, setShowCode] = useState(false);
+  const [showWifi, setShowWifi] = useState(false);
+  const [ssidUser, setSsidUser] = useState('');
+  const [bssidUser, setBssidUser] = useState('');
   const [code, setCode] = useState('');
   const [type, setType] = useState(true);
   const onQRCode = () => {
@@ -33,9 +41,15 @@ const CheckIn = (props) => {
   const onCode = () => {
     setShowCode(true);
   };
+  const onWifi = () => {
+    setShowWifi(true);
+  };
   const onHideModalCode = () => {
     setShowCode(false);
     Keyboard.dismiss();
+  };
+  const onHideModalWifi = () => {
+    setShowWifi(false);
   };
 
   const onChangeType = () => {
@@ -55,7 +69,58 @@ const CheckIn = (props) => {
     setCode('');
     Keyboard.dismiss();
   };
+  const initWifi = async () => {
+    try {
+      let state = await NetInfo.fetch('wifi');
 
+      setSsidUser(state.details.ssid);
+      setBssidUser(state.details.bssid);
+      const data = {
+        ssid: state.details.ssid,
+        bssid: state.details.bssid,
+        type: type ? 'in' : 'out',
+        deviceId: deviceId,
+        token: token,
+
+
+      };
+
+      checkInWifi(data);
+      setShowWifi(false);
+      console.log('Your current connected wifi ssidUser is ' + state.details.ssid);
+      console.log('Your current BssidUser is ' + state.details.bssid);
+    } catch (error) {
+      setSsidUser('Cannot get current ssidUser!' + error.message);
+      setBssidUser('Cannot get current BssidUser!' + error.message);
+      console.log('Cannot get current ssidUser!', {error});
+    }
+  };
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await request(
+        Platform.select({
+          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+        }),
+        {
+          title: 'YÊU CẦU VỊ TRÍ',
+          message: 'Yêu cầu quyền truy cập vị trí ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === RESULTS.GRANTED) {
+        console.log('Thanh cong');
+        initWifi();
+      } else {
+        console.log('Yêu cầu vị trí bị từ chối');
+        console.log(RESULTS.GRANTED);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   const onChangeCode = (value) => {
     setCode(value);
   };
@@ -72,12 +137,14 @@ const CheckIn = (props) => {
     setShowQR(false);
   };
 
-  const onGoHistory = () => {
-    navigation.navigate('History');
-  };
-
   return (
-    <View style={styles.container}>
+    <Card style={styles.container}>
+      <HeaderCheck
+        title={langs.checkIn}
+        type={type ? 'Check In' : 'Check Out'}
+        onPress={onChangeType}
+        pressHistory={goHistory}
+      />
       <View style={styles.detail}>
         <TouchableOpacity style={styles.viewMid} onPress={onQRCode}>
           <Card style={styles.card}>
@@ -88,7 +155,7 @@ const CheckIn = (props) => {
             <Icon name="chevron-right" size={32} color={Colors.background} />
           </Card>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.viewMid}>
+        <TouchableOpacity style={styles.viewMid} onPress={onWifi}>
           <Card style={styles.card}>
             <View style={styles.body}>
               <Image source={imgs.wifiblue} style={styles.image} />
@@ -120,7 +187,14 @@ const CheckIn = (props) => {
         hideModal={onHideModalCode}
         onCheckIn={onCheckInCode}
       />
-    </View>
+      <ModalWifi
+        showModal={showWifi}
+        hideModal={onHideModalWifi}
+        onCheckInWifi={requestLocationPermission}
+        ssidUser={ssidUser}
+        bssidUser={bssidUser}
+      />
+    </Card>
   );
 };
 
@@ -129,6 +203,10 @@ export default CheckIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 24,
+    paddingBottom: 10,
   },
   detail: {
     flex: 4,
@@ -173,12 +251,6 @@ const styles = StyleSheet.create({
   nothing: {
     flex: 2,
   },
-  image: {
-    width: 24,
-    height: 24,
-    alignSelf: 'center',
-  },
-  body: {
-    flexDirection: 'row',
-  },
+  image: {width: 24, height: 24, alignSelf: 'center'},
+  body: {flexDirection: 'row'},
 });

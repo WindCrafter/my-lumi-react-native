@@ -27,9 +27,10 @@ export default function authen(state = initialState, action) {
     case types.LOGIN_SUCCESS:
       return {
         ...state,
-        currentUser: { ...(action.payload || {}) },
+        currentUser: {...(action.payload || {})},
         loginSuccess: true,
         changePass: action.payload.changePass,
+        // changePass:true,
         token: state.autoLoginStatus ? action.payload.token : null,
         role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         nameUser: action.payload.data.userProfile.name,

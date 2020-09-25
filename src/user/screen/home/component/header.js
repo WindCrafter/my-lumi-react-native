@@ -43,6 +43,7 @@ const Header = (props) => {
           <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
+     
     </View>
   );
 };
@@ -95,5 +96,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btCheckIn: {
+    paddingHorizontal: 8,
+    height: 24,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    marginLeft: 12,
+    borderRadius: 12,
+    padding: 4,
+  },
+  txtCheckIn: {
+    color: Colors.background,
+    fontSize: 12,
+  },
+  quiz: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#ffffff',
+  },
+  viewQuiz: {
+    height: 24,
+    justifyContent: 'center',
   },
 });
