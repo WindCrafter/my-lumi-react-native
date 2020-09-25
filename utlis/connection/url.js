@@ -1,5 +1,5 @@
 export const URL = {
-  LOCAL_HOST: 'https://staff.lumi.com.vn',
+  LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
   LOGIN: '/site/login',
   CHANGE_PASS: '/user/need-change-pass',
   ADD_USER: '/admin/add-user',

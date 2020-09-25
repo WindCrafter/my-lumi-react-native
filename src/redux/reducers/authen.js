@@ -31,11 +31,7 @@ export default function authen(state = initialState, action) {
         loginSuccess: true,
         changePass: action.payload.changePass,
         token: state.autoLoginStatus ? action.payload.token : null,
-        role:
-          action.payload.data.userProfile.roleId ===
-            action.payload.data.roles[0].roleId
-            ? 'admin'
-            : 'user',
+        role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         nameUser: action.payload.data.userProfile.name,
         emailUser: action.payload.data.userProfile.email,
         phoneNumber: action.payload.data.userProfile.phoneNumber,
