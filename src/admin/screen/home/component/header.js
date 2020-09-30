@@ -60,6 +60,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 5,
   },
+  checkIn: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 16,
+  },
   avatar: {
     flex: 1,
     justifyContent: 'center',
@@ -80,11 +86,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#ffffff',
+    marginVertical:4
   },
   time: {
     fontSize: 16,
     fontWeight: '300',
     color: '#ffffff',
+    marginVertical: 4
+
   },
   notify: {
     marginTop: 24,
@@ -95,5 +104,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btCheckIn: {
+    paddingHorizontal: 8,
+    height: 24,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    marginLeft: 12,
+    borderRadius: 12,
+    padding: 4,
+  },
+  txtCheckIn: {
+    color: Colors.background,
+    fontSize: 12,
+  },
+  quiz: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#ffffff',
+  },
+  viewQuiz: {
+    height: 24,
+    justifyContent: 'center',
   },
 });

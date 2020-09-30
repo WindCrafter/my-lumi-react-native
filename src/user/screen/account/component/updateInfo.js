@@ -49,7 +49,6 @@ const UpdateInfo = (props) => {
             onChangeText={onChangeGene}
             refInput={refBirth}
             clearButtonMode="while-editing"
-            onSubmitEditing={() => refTeam.current.focus()}
             placeholder={'Nam/Nữ/Khác'}
           />
         </View>

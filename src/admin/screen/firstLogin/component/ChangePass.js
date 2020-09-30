@@ -8,21 +8,21 @@ const ChangePass = (props) => {
   return (
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />
-      <Text style={styles.please}>Please enter your new password </Text>
+      <Text style={styles.please}>Vui lòng nhập mật khẩu mới :</Text>
       <View style={styles.detail}>
         <InputPassword
           testID="test_Password"
-          placeholder={'Enter your password'}
+          placeholder={'Mật khẩu'}
           containerStyle={styles.textInput}
           maxLength={20}
           returnKeyType="done"
           value={pass}
           onChangeText={onChangePass}
         />
-        <Text style={styles.please}>Please enter your new password again </Text>
+        <Text style={styles.please}>Nhập lại mật khẩu mới :</Text>
         <InputPassword
           testID="test_Password"
-          placeholder={'Enter your password'}
+          placeholder={'Mật khẩu'}
           containerStyle={styles.textInput}
           maxLength={20}
           returnKeyType="done"
@@ -30,7 +30,7 @@ const ChangePass = (props) => {
           onChangeText={onChangeRePass}
         />
         <Button
-          title={'Complete'}
+          title={'Hoàn thành'}
           onPress={onConfirms}
           containerStyle={styles.button}
         />
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
   },
   please: {
     marginLeft: widthPercentageToDP(12.5),
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 8,
+    fontWeight:'500'
   },
 });

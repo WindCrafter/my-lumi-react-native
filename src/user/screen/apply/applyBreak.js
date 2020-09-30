@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -33,21 +33,20 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
-
 function ApplyBreak(props) {
-  const { navigation, route } = props;
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [time, setTime] = useState(new Date(1598051730000));
+  const {navigation} = props;
+  const [shift, setShift] = useState(new Date(1598051730000));
+  const [day, setDay] = useState(new Date(1598051730000));
+  const [dateStart, setDateStart] = useState(new Date(1598051730000));
   const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
-  const [timeEnd, setTimeEnd] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('');
-  const [start, setStart] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [typeShift, setTypeShift] = useState('Ca sáng');
   const [check, setCheck] = useState(true);
   const [typeBreak, setTypeBreak] = useState('Vui lòng chọn');
+  const [start, setStart] = useState('');
+
   const goBack = () => {
     navigation.goBack();
   };
@@ -55,42 +54,53 @@ function ApplyBreak(props) {
     setShowModal(false);
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
   const onSetTypeShift = () => {
     typeShift === 'Ca sáng'
       ? setTypeShift('Ca chiều')
       : typeShift === 'Ca chiều'
-        ? setTypeShift('Ca sáng')
-        : null;
+      ? setTypeShift('Ca sáng')
+      : null;
   };
-  const onChangeTime = (event, selectedDate) => {
-    const currentTime = selectedDate || date;
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(false);
+    setStart('');
+    setMode('');
+  };
+  const onChangeShift = (event, selectedShift) => {
+    const currentShift = selectedShift || shift;
     setShow(Platform.OS === 'ios');
-    setTime(currentTime);
+    setShift(currentShift);
   };
-
-  const onChangeEnd = (event, selectedDate) => {
-    const currentDateEnd = selectedDate || dateEnd;
+  const onChangeDay = (event, selectedDay) => {
+    const currentDay = selectedDay || day;
+    setShow(Platform.OS === 'ios');
+    setDay(currentDay);
+  };
+  const onChangeDateStart = (event, selectedDateStart) => {
+    const currentDateStart = selectedDateStart || dateStart;
+    setShow(Platform.OS === 'ios');
+    setDateStart(currentDateStart);
+  };
+  const onChangeDateEnd = (event, selectedDateEnd) => {
+    const currentDateEnd = selectedDateEnd || dateEnd;
     setShow(Platform.OS === 'ios');
     setDateEnd(currentDateEnd);
   };
   const onSetBreakShift = () => {
     setTypeBreak('Nghỉ theo ca');
+    setShow(false);
+    setMode('');
   };
   const onSetBreakDay = () => {
     setTypeBreak('Nghỉ một ngày');
+    setShow(false);
+    setMode('');
   };
   const onSetBreakMoreDay = () => {
     setTypeBreak('Nghỉ nhiều ngày');
-  };
-  const onChangeTimeEnd = (event, selectedDate) => {
-    const currentTimeEnd = selectedDate || dateEnd;
-    setShow(Platform.OS === 'ios');
-    setTimeEnd(currentTimeEnd);
+    setShow(false);
+    setMode('');
   };
   const onSetModal = () => {
     setShowModal(!showModal);
@@ -98,29 +108,14 @@ function ApplyBreak(props) {
   const onSetCheck = () => {
     setCheck(!check);
   }; //m-time , v-start mode
-  const onShowStart = (m, v) => {
+  const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(true);
-    setStart(v);
-    setMode(m);
-  };
-
-  const onShowEnd = (m, v) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(true);
-    setStart(v);
     setMode(m);
   };
 
   const onComplete = () => {
     Alert.alert('end');
-  };
-
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(false);
-    setStart('');
-    setMode('');
   };
 
   return (
@@ -147,16 +142,17 @@ function ApplyBreak(props) {
           <InputApply
             borderRadius={12}
             backgroundColor={'white'}
+            paddingLeft={30}
             containerStyle={{
               height: 70,
               justifyContent: 'center',
               alignSelf: 'center',
               borderRadius: 16,
-              paddingHorizontal: 16,
               width: wp(90),
               borderWidth: 2,
               shadowColor: 'white',
-            }} />
+            }}
+          />
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
@@ -170,15 +166,11 @@ function ApplyBreak(props) {
             title={typeBreak}
             detail={''}
             containerStyle={{
-              height: 70,
-              justifyContent: 'center',
-              alignSelf: 'center',
               borderRadius: 16,
-              paddingHorizontal: 16,
-              width: wp(90),
               borderWidth: 2,
               shadowColor: 'white',
             }}
+            paddingVertical={16}
             onPressButton={onSetModal}
           />
 
@@ -189,15 +181,15 @@ function ApplyBreak(props) {
                   <View style={styles.img}>
                     <Image source={imgs.DOB} style={styles.imageStamp} />
                   </View>
-                  <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
                 </View>
-                <View style={[styles.row, { alignSelf: 'center' }]}>
+                <View style={[styles.row, {alignSelf: 'center',}]}>
                   <TouchableOpacity
                     style={[
                       styles.button,
                       {
-                        width: wp(30),
-                        marginRight: wp(5),
+                        width: wp(35),
+                        marginRight: 10,
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
                       },
@@ -214,11 +206,11 @@ function ApplyBreak(props) {
                         backgroundColor: Colors.white,
                       },
                     ]}
-                    onPress={() => onShowStart('date', 'start')}>
+                    onPress={() => onShow('shift')}>
                     <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                     <Text style={styles.txtTime}>
-                      {moment(date).format('DD/MM/YYYY')}
+                      {moment(shift).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -229,9 +221,9 @@ function ApplyBreak(props) {
                   <View style={styles.img}>
                     <Image source={imgs.startTime} style={styles.imageStamp} />
                   </View>
-                  <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
+                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
                 </View>
-                <View style={[styles.row, { alignSelf: 'center' }]}>
+                <View style={[styles.row, {alignSelf: 'center'}]}>
                   <TouchableOpacity
                     style={[
                       styles.button,
@@ -239,10 +231,10 @@ function ApplyBreak(props) {
                         backgroundColor: Colors.white,
                       },
                     ]}
-                    onPress={() => onShowEnd('date', 'end')}>
+                    onPress={() => onShow('oneday')}>
                     <Image source={imgs.breakDay} style={styles.imageStamp} />
                     <Text style={styles.txtTime}>
-                      {moment(dateEnd).format('DD/MM/YYYY')}
+                      {moment(day).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -253,11 +245,11 @@ function ApplyBreak(props) {
                   <View style={styles.img}>
                     <Image source={imgs.startTime} style={styles.imageStamp} />
                   </View>
-                  <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
+                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
                 </View>
 
-                <View style={[styles.rowBot, { alignSelf: 'center' }]}>
-                  <Text style={styles.txtStatus}>Từ</Text>
+                <View style={[styles.rowBot, {alignSelf: 'center'}]}>
+                  <Text style={styles.txtStatus}>Từ :</Text>
 
                   <TouchableOpacity
                     style={[
@@ -267,14 +259,16 @@ function ApplyBreak(props) {
                         backgroundColor: Colors.white,
                       },
                     ]}
-                    onPress={() => onShowEnd('date', 'end')}>
+                    onPress={() => onShow('datestart')}>
                     <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                     <Text style={styles.txtTime}>
-                      {moment(dateEnd).format('DD/MM/YYYY')}
+                      {moment(dateStart).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
-                  <Text style={styles.txtStatus}>đến</Text>
+                </View>
+                <View style={[styles.rowBot, {alignSelf: 'center'}]}>
+                  <Text style={styles.txtStatus}>Đến :</Text>
 
                   <TouchableOpacity
                     style={[
@@ -285,7 +279,7 @@ function ApplyBreak(props) {
                         backgroundColor: Colors.white,
                       },
                     ]}
-                    onPress={() => onShowEnd('date', 'end')}>
+                    onPress={() => onShow('dateend')}>
                     <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                     <Text style={styles.txtTime}>
@@ -298,33 +292,66 @@ function ApplyBreak(props) {
           ) : null}
         </View>
         {show ? (
-          mode === 'time' ? (
+          mode === 'shift' ? (
             <>
-              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                {Platform.OS === 'ios' ? (
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
                   <Text style={styles.txtX}>X</Text>
-                ) : null}
-              </TouchableOpacity>
+                </TouchableOpacity>
+              ) : null}
+
               <DateTimePicker
-                value={start === 'start' ? time : timeEnd}
-                mode={'time'}
+                value={shift}
+                mode={'date'}
                 display="default"
-                onChange={start === 'start' ? onChangeTime : onChangeTimeEnd}
+                onChange={onChangeShift}
                 is24hour={true}
               />
             </>
-          ) : mode === 'date' ? (
+          ) : mode === 'oneday' ? (
             <>
-              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                {Platform.OS === 'ios' ? (
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
                   <Text style={styles.txtX}>X</Text>
-                ) : null}
-              </TouchableOpacity>
+                </TouchableOpacity>
+              ) : null}
+
               <DateTimePicker
-                value={start === 'start' ? date : dateEnd}
+                value={day}
                 mode={'date'}
                 display="default"
-                onChange={start === 'start' ? onChange : onChangeEnd}
+                onChange={onChangeDay}
+              />
+            </>
+          ) : mode === 'datestart' ? (
+            <>
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
+                  <Text style={styles.txtX}>X</Text>
+                </TouchableOpacity>
+              ) : null}
+
+              <DateTimePicker
+                value={dateStart}
+                mode={'date'}
+                display="default"
+                onChange={onChangeDateStart}
+                is24hour={true}
+              />
+            </>
+          ) : mode === 'dateend' ? (
+            <>
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
+                  <Text style={styles.txtX}>X</Text>
+                </TouchableOpacity>
+              ) : null}
+
+              <DateTimePicker
+                value={dateEnd}
+                mode={'date'}
+                display="default"
+                onChange={onChangeDateEnd}
                 is24hour={true}
               />
             </>
@@ -408,7 +435,7 @@ const styles = StyleSheet.create({
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '300',
   },
   extend: {
@@ -432,14 +459,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginHorizontal: 16,
-    marginVertical: 4,
-
-  }, rowBot: {
+    marginTop: 4,
+  },
+  rowBot: {
     flexDirection: 'row',
     marginHorizontal: 4,
-    marginVertical: 4,
-    justifyContent: 'space-between',
-    width: wp(98)
+    marginVertical: 8,
+    justifyContent: 'space-around',
+    width: wp(98),
   },
   button: {
     height: 60,

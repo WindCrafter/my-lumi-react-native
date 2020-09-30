@@ -9,6 +9,7 @@ import { Colors } from '../../../utlis';
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
+const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 
 function* sagaCheckIn(action) {
   try {
@@ -20,6 +21,50 @@ function* sagaCheckIn(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_CHECK_IN, data, token);
+    console.log('CHECK=>>>', response);
+    console.log('CHECK=>>>', token);
+    console.log('CHECK=>>>', data);
+
+    if (response.success && response.statusCode === 200) {
+      yield put(checkInSuccess(response.data));
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: 'Chấm công thành công',
+        messageColor: Colors.background,
+        leftButton: { text: 'OK' },
+      });
+    } else {
+      yield put(checkInFailed());
+      _global.Alert.alert({
+        title: 'Thông báo',
+        message: response.message,
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      messageColor: Colors.danger,
+      leftButton: { text: 'OK' },
+    });
+  }
+}
+
+function* sagaCheckInWifi(action) {
+  console.log('action', action);
+  try {
+    const data = {
+      ssid: action.payload.ssid,
+      type: action.payload.type,
+      bssid: action.payload.bssid,
+      deviceId: action.payload.deviceId,
+    };
+    const token = action.payload.token;
+    console.log('-------->',token);
+    const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
     console.log('CHECK=>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(checkInSuccess(response.data));
@@ -52,7 +97,9 @@ function* sagaCheckIn(action) {
 export function* watchCheckIn() {
   yield takeLatest(types.CHECK_IN, sagaCheckIn);
 }
-
+export function* watchCheckInWifi() {
+  yield takeLatest(types.CHECK_IN_WIFI, sagaCheckInWifi);
+}
 function* sagaCreateQR(action) {
   try {
     const data = {

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { imgs } from '../../../utlis';
+import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -24,7 +25,7 @@ interface Props extends TextInputProps {
 InputRow.defaultProps = {
   width: wp(90),
   height: 50,
-  borderRadius: 12,
+  borderRadius: 24,
   backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
 };
@@ -45,6 +46,7 @@ export default function InputRow(props?: Props) {
     title,
     ...otherProps
   } = props;
+  // const View = Platform.OS === 'ios' ? View : Card;
 
   return (
     <View

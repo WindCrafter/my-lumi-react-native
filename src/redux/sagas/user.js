@@ -3,10 +3,11 @@ import * as types from '../types';
 import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
-import { updateProfileSuccess, updateProfileFailed } from '../actions/user';
+import { updateProfileSuccess, updateProfileFailed,getListUsersSuccess, getListUsersFailed } from '../actions/user';
 import { Colors } from '../../../utlis';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
+const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
 
 function* sagaUpdateProfile(action) {
   try {
@@ -19,6 +20,7 @@ function* sagaUpdateProfile(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);
+    console.log(response)
     if (response.success && response.statusCode === 200) {
       yield put(updateProfileSuccess(response.data));
       _global.Alert.alert({
@@ -43,4 +45,23 @@ function* sagaUpdateProfile(action) {
 
 export function* watchUpdateProfile() {
   yield takeLatest(types.UPDATE_PROFILE, sagaUpdateProfile);
+}
+function* sagaGetListUsers(action) {
+  try {
+    console.log(action);
+    const token = action.payload;
+    const response = yield _GET(URL_LIST_USERS, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getListUsersSuccess(response.data));
+    } else {
+      yield put(getListUsersFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListUsers() {
+  yield takeLatest(types.GET_LIST_USERS, sagaGetListUsers);
 }

@@ -66,6 +66,7 @@ function* sagaFirstLogin(action) {
       confirmPassword: action.payload.confirmPassword,
     };
     const response = yield _POST(URL_CHANGE_PASS, data, token);
+   console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
       _global.Alert.alert({
@@ -74,6 +75,7 @@ function* sagaFirstLogin(action) {
         messageColor: Colors.background,
         leftButton: { text: 'OK' },
       });
+    
     } else {
       yield put(changePassFailed());
     }

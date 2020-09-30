@@ -32,7 +32,7 @@ if (
 }
 
 function Home(props) {
-  const { navigation, nameUser } = props;
+  const { navigation, nameUser, checkIn, checkInWifi } = props;
   const [show, setShow] = useState(false);
   const onGetContact = () => {
     navigation.navigate('Contact');
@@ -61,16 +61,14 @@ function Home(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(!show);
   };
-
+  const onGoHistory = () => {
+    navigation.navigate('History');
+  };
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
-        <Header
-          pressNotify={onPressNotify}
-          onPress={onCheckin}
-          name={nameUser}
-        />
+        <Header pressNotify={onPressNotify} name={nameUser} />
         <View style={{ flex: 5 }}>
           <ScrollView>
             <Card style={styles.card}>

@@ -1,56 +1,25 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
+  Text,
   View,
   Platform,
   StatusBar,
   FlatList,
+  TouchableOpacity,
   LayoutAnimation,
-  UIManager,
+  UIManager,Linking
 } from 'react-native';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import ContactRow from '../../../component/Input/InputContact';
-import { BarStatus, HeaderCustom, Input } from '../../../component';
-import { Colors } from '../../../../utlis';
-import { imgs } from '../../../../utlis';
-const DATA = [
-  {
-    name: 'Nguyễn Văn Nghị',
-    avt: require('../../../../naruto.jpeg'),
-    dob: '01/01/2020',
-    team: 'App',
-    role: 'Leader',
-    kpi: '28',
-    kpi_6m: '28',
-    work: '28',
-    key: 'sasas',
-  },
-  {
-    name: 'Lê Mạnh Cường',
-    avt: require('../../../../naruto.jpeg'),
-    dob: '02/03/2020',
-    team: 'App',
-    role: 'Staff',
-    kpi: '27',
-    kpi_6m: '29',
-    work: '28',
-    key: 'asjba',
-  },
-  {
-    name: 'Nguyễn Xuân Kiên',
-    avt: require('../../../../naruto.jpeg'),
-    dob: '04/05/2020',
-    team: 'App',
-    role: 'Intern',
-    kpi: '29',
-    kpi_6m: '28',
-    work: '27',
-    key: 'asasa',
-  },
-];
+import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
+import {Colors} from '../../../../utlis';
+import {imgs} from '../../../../utlis';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -59,16 +28,20 @@ if (
 }
 
 function Contact(props) {
-  const [listData, setListData] = useState(DATA);
-  const [] = useState('');
+  // const [listData, setListData] = useState(DATA);
   const [search, setSearch] = useState('');
-  const [] = useState({});
-  const { navigation } = props;
+  const { navigation, currentUser, getListUsers, token, phoneNumber} = props;
 
+  useEffect(() => {
+    getListUsers(token);
+  }, [getListUsers, token]);
   const renderItem = (data) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
+    const onGetContact = () => {
+      Linking.openURL(`tel:${data.item.phoneNumber}`);
+    };
     return (
       <ContactRow
         name={data.item.name}
@@ -79,33 +52,36 @@ function Contact(props) {
         work={data.item.work}
         kpi={data.item.kpi}
         kpi_6m={data.item.kpi_6m}
+        onCall={onGetContact}
       />
     );
   };
 
-  const onSearch = () => { };
+  const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
-    const newData = DATA.filter((item) => {
+    const newData = currentUser.filter((item) => {
       const itemData = `${item.name.toLowerCase()}`;
 
       const textData = txt.toLowerCase();
 
       return itemData.indexOf(textData) > -1;
     });
-    setListData(newData);
+    // setListData(newData);
     setSearch(txt);
   };
+
   const goBack = () => {
     navigation.goBack();
   };
+
   return (
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Thông tin liên lạc'} height={60} goBack={goBack} />
+      <HeaderCustom title={'Thông tin liên hệ'} height={60} goBack={goBack} />
       <Input
         button
         leftImage={imgs.search}
@@ -115,10 +91,9 @@ function Contact(props) {
         onChangeText={onChangeSearch}
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
-
       />
 
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList data={currentUser} renderItem={renderItem} />
     </View>
   );
 }

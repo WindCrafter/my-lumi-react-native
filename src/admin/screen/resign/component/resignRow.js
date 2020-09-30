@@ -12,7 +12,6 @@ export default function ResignRow(props?: Props) {
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
         <View style={styles.detail}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.dob}>DOB: {dob}</Text>
           <Text style={styles.team}>
             Team: {team} -{' '}
             <Text
@@ -89,13 +88,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 14,
     textAlign: 'center',
-    marginVertical: 8,
+    
   },
   time: {
     color: 'tomato',
     fontWeight: '300',
     fontSize: 16,
     textAlign: 'center',
-    marginVertical: 8,
   },
 });

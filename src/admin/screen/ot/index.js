@@ -126,13 +126,13 @@ function OT(props) {
       />
       <View style={styles.twoButton}>
         <Button
-          title={'Accept'}
+          title={'Xác nhận'}
           backgroundColor={Colors.background}
           containerStyle={styles.button}
           onPress={onAccept}
         />
         <Button
-          title={'Delete'}
+          title={'Từ chối'}
           backgroundColor={'tomato'}
           onPress={onAccept}
           containerStyle={styles.button}

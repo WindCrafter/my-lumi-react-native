@@ -36,7 +36,7 @@ const RePass = (props) => {
         onChangeText={onChangeRePass}
       />
       <Button
-        title={'Complete'}
+        title={'Hoàn thành'}
         onPress={onConfirms}
         testID="test_Complete"
         containerStyle={styles.button}

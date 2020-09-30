@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,11 +7,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { Colors, imgs } from '../../../../../utlis';
-import { InputRow, Button } from '../../../../component';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {Colors, imgs} from '../../../../../utlis';
+import {InputRow, Button, InputSelect} from '../../../../component';
 import langs from '../../../../../common/language';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import { _global } from '../../../../../utlis/global/global';
+
+const BACKGROUDNCOLOR = Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : 'rgba(0,0,25,0.17)';
 
 const AddInfo = (props) => {
   const refPhone = useRef('');
@@ -50,17 +53,22 @@ const AddInfo = (props) => {
               value={phone}
               onChangeText={onChangePhone}
               refInput={refPhone}
-              onSubmitEditing={() => refBirth.current.focus()}
             />
-            <InputRow
+
+            <InputSelect
+              width={widthPercentageToDP(80)}
               leftImage={imgs.DOB}
-              containerStyle={styles.txtInput}
-              title={langs.birthday}
-              size={16}
-              value={birthday}
-              onChangeText={onChangeBirthDay}
-              refInput={refBirth}
-              onSubmitEditing={() => refTeam.current.focus()}
+              borderRadius={32}
+              height={50}
+              shadowColor={'white'}
+              title={'Ngày sinh:'}
+              padding={8}
+              detail={birthday}
+              marginVertical={18}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onChangeBirthDay}
+              shadowOpacity={0.1}
+              marginRight={-30}
             />
             <InputRow
               leftImage={imgs.setPerson}
@@ -72,6 +80,7 @@ const AddInfo = (props) => {
               refInput={refTeam}
               onSubmitEditing={() => refNative.current.focus()}
             />
+
             <InputRow
               leftImage={imgs.location}
               containerStyle={styles.txtInput}
@@ -133,7 +142,11 @@ const styles = StyleSheet.create({
   txtInput: {
     width: widthPercentageToDP(80),
     borderRadius: 32,
-    backgroundColor: 'rgba(0,0,25,0.17)',
+    backgroundColor: BACKGROUDNCOLOR,
     marginVertical: 16,
   },
+  viewInputSelect:{
+    marginVertical:16,
+    backgroundColor: 'rgba(0,0,25,0.17)'
+  }
 });

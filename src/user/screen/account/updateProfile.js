@@ -126,7 +126,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Sai định dạng số điện thoại',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
     if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
@@ -176,7 +176,7 @@ function UpdateProfile(props) {
             onChangeName={onChangeName}
             onChangeIdentity={onChangeIdentity}
           />
-          {update ? (
+          {true ? (
             <UpdateInfo
               birthday={birthday}
               gene={gene}
@@ -201,23 +201,24 @@ function UpdateProfile(props) {
             }
           />
         ) : (
-            showPicker && (
-              <DateTimePicker
-                value={moment(birthday, 'DD/MM/YYYY').toDate()}
-                mode={'date'}
-                display="default"
-                onChange={onChangeBirthday}
-              />
-            )
-          )}
+          showPicker && (
+            <DateTimePicker
+              value={moment(birthday, 'DD/MM/YYYY').toDate()}
+              mode={'date'}
+              display="default"
+              onChange={onChangeBirthday}
+            />
+          )
+        )}
+       
       </KeyboardAvoidingView>
-      {!update ? (
+      {/* {!update ? (
         <View style={styles.viewButton}>
           <TouchableOpacity style={styles.button} onPress={onExtend}>
             <Text style={styles.txtButton}>Mở rộng </Text>
           </TouchableOpacity>
         </View>
-      ) : null}
+      ) : null} */}
     </View>
   );
 }

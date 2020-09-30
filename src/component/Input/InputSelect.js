@@ -25,13 +25,20 @@ interface Props extends TextInputProps {
   refInput?: React.Ref;
   title?: String;
   detail?: String;
+  paddingHorizontal?: String;
+  justifyContent?: String;
+  alignSelf?: String;
+  alignItems?: String;
+  padding?: String;
+  paddingVertical?: String;
+  marginRight?: String;
+  color?: String;
 }
 
 InputSelect.defaultProps = {
-  width: wp(80),
-  height: 50,
-  borderRadius: 3,
-  backgroundColor: 'rgb(227, 230, 229)',
+  width: wp(90),
+  height: 70,
+  borderRadius: 16,
   leftImage: imgs.personal,
   rightImage: imgs.down,
   shadowOffset: {
@@ -41,6 +48,13 @@ InputSelect.defaultProps = {
   shadowColor: '#000000',
   shadowOpacity: 0.16,
   detail: 'Vui lòng chọn',
+  paddingHorizontal: 16,
+  justifyContent: 'center',
+  alignSelf: 'center',
+  alignItems: 'center',
+  padding: 6,
+  color:'black'
+
 };
 
 export default function InputSelect(props?: Props) {
@@ -59,8 +73,15 @@ export default function InputSelect(props?: Props) {
     detail,
     onPressButton,
     disabled,
+    paddingHorizontal,
+    justifyContent,
+    alignSelf,
+    alignItems,
+    padding,
+    paddingVertical,
+    marginRight, color,
   } = props;
-  const ViewCard = Platform.OS === 'ios' ? View : Card;
+  const ViewCard = Platform.OS === 'ios' ? Card:View;
 
   return (
     <ViewCard
@@ -73,6 +94,10 @@ export default function InputSelect(props?: Props) {
           height,
           borderRadius,
           backgroundColor,
+          paddingHorizontal,
+          justifyContent,
+          alignSelf,
+          paddingVertical
         },
         containerStyle,
       ]}>
@@ -81,9 +106,26 @@ export default function InputSelect(props?: Props) {
         onPress={onPressButton}
         disabled={disabled}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
-        <Text style={styles.textTitle}>{title}</Text>
+        <Text
+          style={[
+            {
+              padding,
+              color
+            },
+            styles.textTitle,
+          ]}>
+          {title}
+        </Text>
         <View style={styles.detail}>
-          <Text style={styles.txtDetail}>{detail}</Text>
+          <Text
+            style={[
+              {
+                marginRight
+              },
+              styles.textDetail,
+            ]}>
+            {detail}
+          </Text>
         </View>
         <Image source={rightImage} style={styles.img} resizeMode="contain" />
       </TouchableOpacity>
@@ -94,25 +136,33 @@ export default function InputSelect(props?: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   image: {
     width: 24,
     height: 24,
+    alignSelf: 'center',
   },
   img: {
     width: 20,
     height: 20,
-    marginLeft: 8,
+    alignSelf: 'center',
   },
   textTitle: {
-    padding: 6,
-    alignItems: 'center',
+    alignSelf: 'center',
     fontSize: 16,
-    color: 'black',
   },
   detail: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDetail: {
+    padding: 6,
+    fontSize: 16,
+    color: 'black',
     alignItems: 'flex-end',
   },
 });
