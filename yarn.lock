@@ -6673,7 +6673,7 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
 
 "react-native-action-button@https://github.com/TranDuke/react-native-action-button.git":
   version "2.9.0"
-  resolved "https://github.com/TranDuke/react-native-action-button.git#0a050ff0f46ddb392c6f7d23580656ac1453cd6a"
+  resolved "https://github.com/TranDuke/react-native-action-button.git#ae1f25a00076e465b596f39229b97d1a8ae39704"
   dependencies:
     prop-types "^15.5.10"
 

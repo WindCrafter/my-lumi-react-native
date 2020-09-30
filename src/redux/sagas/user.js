@@ -3,7 +3,7 @@ import * as types from '../types';
 import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
-import { updateProfileSuccess, updateProfileFailed,getListUsersSuccess, getListUsersFailed } from '../actions/user';
+import { updateProfileSuccess, updateProfileFailed, getListUsersSuccess, getListUsersFailed } from '../actions/user';
 import { Colors } from '../../../utlis';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
@@ -20,7 +20,7 @@ function* sagaUpdateProfile(action) {
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);
-    console.log(response)
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(updateProfileSuccess(response.data));
       _global.Alert.alert({

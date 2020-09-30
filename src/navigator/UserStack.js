@@ -1,5 +1,11 @@
 import React from 'react';
-import { Alert, StatusBar, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  Alert,
+  StatusBar,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -90,20 +96,21 @@ export default function UserStack() {
         component={Event}
         options={{
           headerRight: () => (
-            <TouchableOpacity style={styles.container}
+            <TouchableOpacity
+              style={styles.container}
               onPress={() => Alert.alert('Xong')}>
-                <Text style={styles.txtDetail}>{'XONG'}</Text>
+              <Text style={styles.txtDetail}>{'XONG'}</Text>
             </TouchableOpacity>
           ),
         }}
-        
       />
     </Stack.Navigator>
   );
 }
 const styles = StyleSheet.create({
   txtDetail: {
-    color: "#008aee",fontSize:16
+    color: '#008aee',
+    fontSize: 16,
   },
-  container : {paddingHorizontal:3}
+  container: { paddingHorizontal: 3 },
 });

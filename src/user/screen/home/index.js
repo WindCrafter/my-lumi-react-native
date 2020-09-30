@@ -33,36 +33,9 @@ if (
 
 function Home(props) {
   const { navigation, nameUser, checkIn, checkInWifi } = props;
-  const [show, setShow] = useState(false);
-  const onGetContact = () => {
-    navigation.navigate('Contact');
-  };
-  const onCheckin = () => {
-    navigation.navigate('Chấm công');
-  };
-
-  const onApplyBreak = () => {
-    navigation.navigate('ApplyBreak');
-  };
-
-  const onApplyLate = () => {
-    navigation.navigate('ApplyLate');
-  };
-
-  const onApplyOT = () => {
-    navigation.navigate('ApplyOT');
-  };
 
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
-  };
-
-  const onHideShow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(!show);
-  };
-  const onGoHistory = () => {
-    navigation.navigate('History');
   };
   return (
     <>
