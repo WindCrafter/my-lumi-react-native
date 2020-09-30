@@ -5,7 +5,7 @@ import langs from '../../../common/language';
 import {Colors, imgs} from '../../../utlis';
 
 export default function ContactRow(props?: Props) {
-  const {leftImage, name, dob, team, role, work, kpi, kpi_6m} = props;
+  const { leftImage, name, dob, team, role, work, kpi, kpi_6m, onCall} = props;
 
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ export default function ContactRow(props?: Props) {
           </Text>
         </Text>
       </View>
-      <TouchableOpacity style={styles.work}>
+      <TouchableOpacity style={styles.work} onPress={onCall}>
         <Image source={imgs.phone} />
       </TouchableOpacity>
 

@@ -9,4 +9,5 @@ export const URL = {
   GET_QR: '/admin/qr-code?date=',
   UPDATE_PROFILE: '/user/update-profile',
   CHECK_IN_WIFI: '/check-in/wifi',
+  LIST_USERS: '/user/list-users',
 };

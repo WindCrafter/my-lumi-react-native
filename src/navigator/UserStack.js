@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -13,6 +13,7 @@ import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
 import history from '../user/container/checkIn/history';
+import Event from '../user/container/event';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -84,6 +85,25 @@ export default function UserStack() {
           headerTintColor: 'white',
         }}
       />
+      <Stack.Screen
+        name={'Sự kiện mới'}
+        component={Event}
+        options={{
+          headerRight: () => (
+            <TouchableOpacity style={styles.container}
+              onPress={() => Alert.alert('Xong')}>
+                <Text style={styles.txtDetail}>{'XONG'}</Text>
+            </TouchableOpacity>
+          ),
+        }}
+        
+      />
     </Stack.Navigator>
   );
 }
+const styles = StyleSheet.create({
+  txtDetail: {
+    color: "#008aee",fontSize:16
+  },
+  container : {paddingHorizontal:3}
+});

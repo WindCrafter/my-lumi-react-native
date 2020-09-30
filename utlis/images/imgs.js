@@ -68,5 +68,7 @@ export const imgs = {
   scheduleGreen: require('../../common/assets/images/icon/scheduleGreen.png'),
   documentGreen: require('../../common/assets/images/icon/documentGreen.png'),
   document: require('../../common/assets/images/icon/Document.png'),
-  logout: require('../../common/assets/images/icon/log-out-icon.png')
+  next: require('../../common/assets/images/icon/Next-icon.png'),
+  inforsolidblack: require('../../common/assets/images/icon/Information-solid-black-icon.png'),
+  title: require('../../common/assets/images/icon/Title-icon.png'),
 };

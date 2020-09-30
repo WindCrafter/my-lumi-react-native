@@ -20,6 +20,7 @@ const initialState = {
   phoneNumber: '',
   birthday: '',
   advance: {},
+  remember: false,
 };
 
 export default function authen(state = initialState, action) {
@@ -31,13 +32,14 @@ export default function authen(state = initialState, action) {
         loginSuccess: true,
         changePass: action.payload.changePass,
         // changePass:true,
-        token: state.autoLoginStatus ? action.payload.token : null,
+        token: action.payload.token,
         role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         nameUser: action.payload.data.userProfile.name,
         emailUser: action.payload.data.userProfile.email,
         phoneNumber: action.payload.data.userProfile.phoneNumber,
         advance: action.payload.data.userProfile.advance,
         birthday: action.payload.data.userProfile.birthday,
+        remember: state.autoLoginStatus ? true : false,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -48,6 +50,8 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         loginSuccess: true,
+                remember: state.autoLoginStatus ? true : false,
+
       };
     case types.CHANGE_AUTO_LOGIN:
       return {

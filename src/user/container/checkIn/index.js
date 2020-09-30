@@ -7,6 +7,8 @@ import {checkInWifi} from '../../../redux/actions/check';
 const mapStateToProps = (state) => ({
   deviceId: state.authen.deviceId,
   token: state.authen.token,
+  currentUser: state.user.currentUser,
+
 });
 
 const mapDispatchToProps = {

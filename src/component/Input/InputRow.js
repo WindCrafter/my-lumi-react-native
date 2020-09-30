@@ -25,7 +25,7 @@ interface Props extends TextInputProps {
 InputRow.defaultProps = {
   width: wp(90),
   height: 50,
-  borderRadius: 12,
+  borderRadius: 24,
   backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
 };

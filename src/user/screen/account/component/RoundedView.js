@@ -9,10 +9,9 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
-import { Button, Touchable } from '../../component';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs} from '../../../../../utlis';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -32,45 +31,36 @@ interface Props extends TextInputProps {
   padding?: String;
   paddingVertical?: String;
   marginRight?: String;
-  color?: String;
+  fontSize?: String;
+  tintColor?: String;
+  line?: Boolean;
 }
 
-InputSelect.defaultProps = {
-  width: wp(90),
+RoundedView.defaultProps = {
+  width: '100%',
   height: 70,
-  borderRadius: 16,
   leftImage: imgs.personal,
   rightImage: imgs.down,
-  shadowOffset: {
-    width: 0,
-    height: 5,
-  },
   shadowColor: '#000000',
   shadowOpacity: 0.16,
-  detail: 'Vui lòng chọn',
   paddingHorizontal: 16,
   justifyContent: 'center',
   alignSelf: 'center',
   alignItems: 'center',
-  padding: 6,
-  color:'black'
-
+  fontSize: 0,
+  tintColor: 'black',
+  line: false,
 };
 
-export default function InputSelect(props?: Props) {
+export default function RoundedView(props?: Props) {
   const {
-    shadowColor,
-    shadowOpacity,
-    shadowOffset,
     leftImage,
     rightImage,
     width,
     height,
-    borderRadius,
-    backgroundColor,
+    detail,
     containerStyle,
     title,
-    detail,
     onPressButton,
     disabled,
     paddingHorizontal,
@@ -79,25 +69,18 @@ export default function InputSelect(props?: Props) {
     alignItems,
     padding,
     paddingVertical,
-    marginRight, color,
+    fontSize,
+    tintColor,
+    line,
   } = props;
-  const ViewCard = Platform.OS === 'ios' ? Card:View;
 
   return (
-    <ViewCard
+    <View
       style={[
         {
-          shadowOffset,
-          shadowOpacity,
-          shadowColor,
           width,
-          height,
-          borderRadius,
-          backgroundColor,
-          paddingHorizontal,
-          justifyContent,
+
           alignSelf,
-          paddingVertical
         },
         containerStyle,
       ]}>
@@ -105,31 +88,39 @@ export default function InputSelect(props?: Props) {
         style={styles.container}
         onPress={onPressButton}
         disabled={disabled}>
-        <Image source={leftImage} style={styles.image} resizeMode="contain" />
-        <Text
-          style={[
-            {
-              padding,
-              color
-            },
-            styles.textTitle,
-          ]}>
-          {title}
-        </Text>
-        <View style={styles.detail}>
-          <Text
-            style={[
-              {
-                marginRight
-              },
-              styles.textDetail,
-            ]}>
-            {detail}
-          </Text>
+        <View style={{flexDirection: 'row',justifyContent:'center'}}>
+          <Image source={leftImage} style={styles.image} resizeMode="contain" />
+          <View style={{marginLeft: 12}}>
+            <Text
+              style={[
+                {
+                  padding,
+                },
+                styles.textTitle,
+              ]}>
+              {title}
+            </Text>
+
+            <Text
+              style={[
+                {
+                  fontSize,
+                },
+                styles.textDetail,
+              ]}>
+              {detail}
+            </Text>
+          </View>
         </View>
-        <Image source={rightImage} style={styles.img} resizeMode="contain" />
+
+        <Image
+          source={rightImage}
+          style={[{tintColor}, styles.img]}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
-    </ViewCard>
+      {line ? <View style={styles.line} /> : null}
+    </View>
   );
 }
 
@@ -137,8 +128,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     textAlignVertical: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignSelf: 'center',
+    width: '90%',
   },
   image: {
     width: 24,
@@ -146,23 +138,25 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   img: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     alignSelf: 'center',
   },
   textTitle: {
-    alignSelf: 'center',
-    fontSize: 16,
-  },
-  detail: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textDetail: {
-    padding: 6,
-    fontSize: 16,
+    fontSize: 18,
     color: 'black',
-    alignItems: 'flex-end',
+
+  },
+
+  textDetail: {
+    color: 'black',
+
+  },
+  line: {
+    width: '80%',
+    height: 1,
+    backgroundColor: 'rgba(0, 0, 25, 0.22)',
+    alignSelf: 'center',
+    marginTop:11
   },
 });
