@@ -4,8 +4,8 @@ import Account from '../../screen/account';
 import { logOut } from '../../../redux/actions/authen';
 
 const mapStateToProps = (state) => ({
-  nameUser: state.authen.nameUser,
-  emailUser: state.authen.emailUser,
+  nameUser: state.authen.userProfile.name,
+  emailUser: state.authen.userProfile.email,
 });
 
 const mapDispatchToProps = {

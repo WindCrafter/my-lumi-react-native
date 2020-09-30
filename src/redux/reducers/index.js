@@ -20,11 +20,7 @@ const authPersistConfig = {
     'deviceId',
     'role',
     'currentUser',
-    'nameUser',
-    'phoneNumber',
-    'emailUser',
-    'advance',
-    'birthday',
+    'userProfile',
   ],
 };
 
@@ -39,7 +35,6 @@ const rootReducer = combineReducers({
   admin: admin,
   check: persistReducer(checkPersist, check),
   user: user,
-
 });
 
 // Exports

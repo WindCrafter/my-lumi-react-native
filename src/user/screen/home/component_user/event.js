@@ -1,16 +1,14 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import langs from '../../../../../common/language';
-import {imgs} from '../../../../../utlis';
+import { imgs } from '../../../../../utlis';
 const Event = (props) => {
   return (
     <>
       <View style={styles.checkInOut}>
-        <Image source={imgs.checkingreen}  style={styles.checkInIcon} />
-
+        <Image source={imgs.checkingreen} style={styles.checkInIcon} />
         <Text style={styles.txtManager}>{langs.checkIn}</Text>
         <Image source={imgs.return} style={styles.rowIcon} />
-
       </View>
     </>
   );
@@ -30,12 +28,12 @@ const styles = StyleSheet.create({
   checkInOut: {
     flexDirection: 'row',
     height: 72,
-    alignItems:'center'
+    alignItems: 'center'
   },
-  checkInIcon:{
-    margin:28
+  checkInIcon: {
+    margin: 28
   },
-  rowIcon:{
-   
+  rowIcon: {
+
   }
 });

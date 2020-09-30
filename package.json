@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/blur": "^3.6.0",
     "@react-native-community/datetimepicker": "^2.6.1",
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "^0.1.10",
@@ -27,7 +28,7 @@
     "native-base": "^2.13.13",
     "react": "16.13.1",
     "react-native": "0.63.1",
-    "react-native-action-button": "^2.8.5",
+    "react-native-action-button": "https://github.com/TranDuke/react-native-action-button.git",
     "react-native-calendars": "https://github.com/TranDuke/react-native-calendars-1.git",
     "react-native-camera": "^3.36.0",
     "react-native-code-push": "^6.3.0",

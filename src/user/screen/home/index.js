@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from './component/header';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import DeadLine from './component/event';
 import InfoWeek from './component/Usage';
-import {BarStatus} from '../../../component';
-import {Colors, imgs} from '../../../../utlis';
+import { BarStatus } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import RowCheck from './component/RowCheck';
 import Event from './component/event';
 import CheckIn from '../checkIn';
 import Usage from './component/Usage';
 import HistoryWeek from './component/Calendar';
+import FloatButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android' &&
@@ -31,74 +32,18 @@ if (
 }
 
 function Home(props) {
-  const {navigation, nameUser,checkIn,checkInWifi} = props;
-  const [show, setShow] = useState(false);
-  const onGetContact = () => {
-    navigation.navigate('Contact');
-  };
-  const onCheckin = () => {
-    navigation.navigate('Chấm công');
-  };
-
-  const onApplyBreak = () => {
-    navigation.navigate('ApplyBreak');
-  };
-
-  const onApplyLate = () => {
-    navigation.navigate('ApplyLate');
-  };
-
-  const onApplyOT = () => {
-    navigation.navigate('ApplyOT');
-  };
+  const { navigation, nameUser, checkIn, checkInWifi } = props;
 
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
-  };
-
-  const onHideShow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(!show);
-  };
-  const onGoHistory = () => {
-    navigation.navigate('History');
   };
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} name={nameUser} />
-        <View style={{flex: 5}}>
+        <View style={{ flex: 5 }}>
           <ScrollView>
-            <TouchableOpacity onPress={onHideShow}>
-              <Card style={styles.card}>
-                <RowCheck down={show} />
-              </Card>
-            </TouchableOpacity>
-            {show ? <CheckIn goHistory={onGoHistory}
-              checkInUser={checkIn}
-              checkInWifiUser={checkInWifi}
-            /> : null}
-            <View style={styles.row}>
-              <Usage
-                source={imgs.late}
-                text={'Xin Trễ'}
-                tintColor={'red'}
-                onPressButton={onApplyLate}
-              />
-              <Usage
-                source={imgs.leave}
-                text={'Xin Nghỉ'}
-                onPressButton={onApplyLate}
-              />
-              <Usage
-                source={imgs.OT}
-                text={'Xin OT'}
-                tintColor={'#008aee'}
-                onPressButton={onApplyOT}
-              />
-            </View>
-
             <Card style={styles.card}>
               <Event />
             </Card>
@@ -106,6 +51,7 @@ function Home(props) {
               <HistoryWeek />
             </Card>
           </ScrollView>
+          <FloatButton />
         </View>
       </View>
     </>

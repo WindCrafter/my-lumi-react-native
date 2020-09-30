@@ -8,11 +8,9 @@ const initialState = {
     token: '',
     changePass: false,
     autoLoginStatus: false,
-    roleIdUser: {},
-    roleIdAdmin: {},
 };
 
-export default function admin(state = initialState, action) {
+export default function user(state = initialState, action) {
     switch (action.type) {
         case types.GET_LIST_USERS_SUCCESS:
             return {

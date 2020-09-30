@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import HomeComponent from '../../screen/home';
 
 const mapStateToProps = (state) => ({
-  nameUser: state.authen.nameUser,
-  emailUser: state.authen.emailUser,
+  nameUser: state.authen.userProfile.name,
+  emailUser: state.authen.userProfile.email,
 });
 
 const mapDispatchToProps = {};
