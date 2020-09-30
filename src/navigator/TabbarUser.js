@@ -30,6 +30,7 @@ export default function TabbarUser() {
         component={checkIn}
         options={() => ({
           tabBarIcon: (props) => <TabbarIcon {...props} tab={1} />,
+          showLabel: false,
         })}
       />
       <BotStack.Screen

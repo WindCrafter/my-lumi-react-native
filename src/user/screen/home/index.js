@@ -22,6 +22,7 @@ import Event from './component/event';
 import CheckIn from '../checkIn';
 import Usage from './component/Usage';
 import HistoryWeek from './component/Calendar';
+import FloatButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android' &&
@@ -72,17 +73,6 @@ function Home(props) {
         />
         <View style={{ flex: 5 }}>
           <ScrollView>
-            <TouchableOpacity onPress={onHideShow}>
-              <Card style={styles.card}>
-                <RowCheck down={show} />
-              </Card>
-            </TouchableOpacity>
-            {show ? <CheckIn /> : null}
-            <View style={styles.row}>
-              <Usage source={imgs.late} text={'Xin Trễ'} tintColor={'red'} />
-              <Usage source={imgs.leave} text={'Xin Nghỉ'} />
-              <Usage source={imgs.OT} text={'Xin OT'} tintColor={'#008aee'} />
-            </View>
             <Card style={styles.card}>
               <Event />
             </Card>
@@ -90,6 +80,7 @@ function Home(props) {
               <HistoryWeek />
             </Card>
           </ScrollView>
+          <FloatButton />
         </View>
       </View>
     </>

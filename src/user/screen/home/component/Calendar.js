@@ -42,8 +42,8 @@ const HistoryWeek = (props) => {
           disableAllTouchEventsForDisabledDay
           firstDay={1}
           dayPress={(value) => onDayPress(value)}
-          callMonth={'Tháng'}
           headerTitleStyle={styles.txtHeader}
+          monthFormat={'MMMM - yyyy'}
         />
       </CalendarProvider>
       <View style={[styles.row, { justifyContent: 'space-between' }]}>

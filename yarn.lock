@@ -1015,6 +1015,13 @@
   dependencies:
     deep-assign "^3.0.0"
 
+"@react-native-community/blur@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/blur/-/blur-3.6.0.tgz#31c9e0f2770519c9b5c4f99418f192246f0d4db8"
+  integrity sha512-GtDBhpX2pQcjl4VopOC8FktrVufrEfYRwVeMQ2WWckqKIv2BdwvlvWvj88L1WmEdBr9UNcm3rtgz+d+YXkmirA==
+  dependencies:
+    prop-types "^15.5.10"
+
 "@react-native-community/cli-debugger-ui@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.9.0.tgz#4177764ba69243c97aa26829d59d9501acb2bd71"
@@ -5713,10 +5720,15 @@ mocha@^8.0.1:
     yargs-parser "13.1.2"
     yargs-unparser "1.6.0"
 
-moment@^2.19.3, moment@^2.24.0, moment@^2.27.0:
+moment@^2.19.3, moment@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
+moment@^2.24.0:
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.0.tgz#fcbef955844d91deb55438613ddcec56e86a3425"
+  integrity sha512-z6IJ5HXYiuxvFTI6eiQ9dm77uE0gyy1yXNApVHqTcnIKfY9tIwEjlzsZ6u1LQXvVgKeTnv9Xm7NDvJ7lso3MtA==
 
 ms@2.0.0:
   version "2.0.0"
@@ -6561,6 +6573,12 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+"react-native-action-button@https://github.com/TranDuke/react-native-action-button.git":
+  version "2.9.0"
+  resolved "https://github.com/TranDuke/react-native-action-button.git#0a050ff0f46ddb392c6f7d23580656ac1453cd6a"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-animatable@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
@@ -6570,7 +6588,7 @@ react-native-animatable@1.3.3:
 
 "react-native-calendars@https://github.com/TranDuke/react-native-calendars-1.git":
   version "1.22.0"
-  resolved "https://github.com/TranDuke/react-native-calendars-1.git#a710d9b3f573086def0680f6ae0bd37aede290e2"
+  resolved "https://github.com/TranDuke/react-native-calendars-1.git#a6d3a75f0c93694b86312e7dee3675378fb7a4ac"
   dependencies:
     hoist-non-react-statics "^3.3.1"
     immutable "^4.0.0-rc.12"
