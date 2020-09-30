@@ -71,4 +71,11 @@ export const imgs = {
   next: require('../../common/assets/images/icon/Next-icon.png'),
   inforsolidblack: require('../../common/assets/images/icon/Information-solid-black-icon.png'),
   title: require('../../common/assets/images/icon/Title-icon.png'),
+  bank: require('../../common/assets/images/icon/Bank-icon.png'),
+  tech: require('../../common/assets/images/icon/BankIcon/TechcomBank3x.png'),
+  bidv: require('../../common/assets/images/icon/BankIcon/BIDV3x.png'),
+  vpbank: require('../../common/assets/images/icon/BankIcon/VpBank3x.png'),
+  viettin: require('../../common/assets/images/icon/BankIcon/ViettinBank3x.png'),
+  agri: require('../../common/assets/images/icon/BankIcon/Agribank3x.png'),
+  vietcomBank: require('../../common/assets/images/icon/BankIcon/VietcomBank3x.png'),
 };

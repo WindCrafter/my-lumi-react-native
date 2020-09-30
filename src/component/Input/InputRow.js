@@ -20,6 +20,7 @@ interface Props extends TextInputProps {
   backgroundColor?: String;
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
+  canedit?:Boolean;
 }
 
 InputRow.defaultProps = {
@@ -28,6 +29,7 @@ InputRow.defaultProps = {
   borderRadius: 24,
   backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
+  canedit: true,
 };
 
 export default function InputRow(props?: Props) {
@@ -44,6 +46,7 @@ export default function InputRow(props?: Props) {
     refInput,
     testID,
     title,
+    canedit,
     ...otherProps
   } = props;
   // const View = Platform.OS === 'ios' ? View : Card;
@@ -76,6 +79,7 @@ export default function InputRow(props?: Props) {
         autoCorrect={false}
         clearButtonMode="always"
         keyboardType="email-address"
+        editable={canedit}
         {...otherProps}
       />
     </View>
