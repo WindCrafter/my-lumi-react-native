@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logOut } from '../../../redux/actions/authen';
 import { updateProfile } from '../../../redux/actions/user';
