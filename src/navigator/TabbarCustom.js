@@ -76,6 +76,7 @@ const[test,setTest]=useState('')
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
+
   return (
     <View style={styles.container}>
       <ButtonTabbar
@@ -102,17 +103,17 @@ const[test,setTest]=useState('')
         state={state}
         descriptors={descriptors}
         navigation={navigation}
-        index={3}
-        route={state.routes[3]}
-        tab={3}
+        index={2}
+        route={state.routes[2]}
+        tab={2}
       />
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
         navigation={navigation}
-        index={4}
-        route={state.routes[4]}
-        tab={4}
+        index={3}
+        route={state.routes[3]}
+        tab={3}
       />
     </View>
   );

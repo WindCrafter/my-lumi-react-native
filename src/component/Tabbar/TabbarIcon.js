@@ -5,8 +5,7 @@ import { imgs } from '../../../utlis';
 const Icons = [
   { active: imgs.homegreen, inactive: imgs.homegrey },
   { active: imgs.documentGreen, inactive: imgs.document },
-  { active: imgs.scheduleGreen, inactive: imgs.scheduleGrey },
-  { active: imgs.checkingreen, inactive: imgs.checkingrey },
+  { active: imgs.notification, inactive: imgs.notification },
   { active: imgs.personalgreen, inactive: imgs.personalgrey },
 ];
 

@@ -7,6 +7,7 @@ import { BlurView } from '@react-native-community/blur';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 const FloatButton = (props) => {
+  const { onPressLate, onPressBreak, onPressOT } = props;
   const blurView = () => {
     return (
 
@@ -28,7 +29,7 @@ const FloatButton = (props) => {
           outputY={[160, 80]}
           buttonColor="#9b59b6"
           title="Xin đi muộn/ về sớm"
-          onPress={() => console.log('notes tapped!')}>
+          onPress={onPressLate}>
           <Text>1</Text>
         </ActionButton.Item>
         <ActionButton.Item
@@ -38,7 +39,7 @@ const FloatButton = (props) => {
           outputY={[140, 70]}
           buttonColor="#3498db"
           title="Xin nghỉ"
-          onPress={() => { }}>
+          onPress={onPressBreak}>
           <Text>1</Text>
         </ActionButton.Item>
         <ActionButton.Item
@@ -46,7 +47,7 @@ const FloatButton = (props) => {
           outputY={[0, 80]}
           buttonColor="#1abc9c"
           title="Xin OT"
-          onPress={() => { }}>
+          onPress={onPressOT}>
           <Text>1</Text>
         </ActionButton.Item>
       </ActionButton>

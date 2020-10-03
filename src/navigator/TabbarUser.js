@@ -10,6 +10,7 @@ import document from '../user/container/document';
 import TabbarCustom from './TabbarCustom';
 
 import { Colors } from '../../utlis';
+import notify from '../user/container/notify';
 
 const BotStack = createBottomTabNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -25,8 +26,7 @@ export default function TabbarUser() {
       tabBar={(props) => <TabbarCustom {...props} />}>
       <BotStack.Screen name={'Home'} component={home} />
       <BotStack.Screen name={'Book lịch'} component={book} />
-      <BotStack.Screen name={'Tài liệu'} component={document} />
-      <BotStack.Screen name={'Nhân viên'} component={checkIn} />
+      <BotStack.Screen name={'Thông báo'} component={notify} />
       <BotStack.Screen name={'Cá nhân'} component={account} />
     </BotStack.Navigator>
   );

@@ -9,9 +9,9 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../utlis';
-import {Card} from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs, Colors } from '../../../utlis';
+import { Card } from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -26,11 +26,8 @@ interface Props extends TextInputProps {
 }
 
 InputApply.defaultProps = {
-  width: wp(90),
-  height: 60,
   borderRadius: 12,
   backgroundColor: Colors.background,
-  paddingLeft: 12,
 };
 
 export default function InputApply(props?: Props) {
@@ -45,20 +42,16 @@ export default function InputApply(props?: Props) {
     containerStyle,
     refInput,
     testID,
-    title,
     paddingLeft,
     ...otherProps
   } = props;
-  const ViewCard = Platform.OS === 'ios' ? View : Card;
+  const ViewCard = Platform.OS === 'ios' ? Card : View;
 
   return (
     <ViewCard
       style={[
         styles.container,
         {
-          shadowOffset,
-          shadowOpacity,
-          shadowColor,
           width,
           height,
           borderRadius,
@@ -68,6 +61,8 @@ export default function InputApply(props?: Props) {
       ]}>
       <TextInput
         multiline
+        textAlignVertical={'top'}
+        numberOfLines={3}
         testID={testID}
         ref={refInput}
         style={[
@@ -76,11 +71,9 @@ export default function InputApply(props?: Props) {
           },
           styles.textInput,
         ]}
-        selectionColor={'black'}
         placeholder={'Vui lòng nhập....'}
-        placeholderTextColor={Colors.black}
         autoCorrect={false}
-        clearButtonMode="always"
+        clearButtonMode="while-editing"
         maxLength={100}
         keyboardType="email-address"
         {...otherProps}
@@ -93,39 +86,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignSelf: 'center',
-    marginVertical: 8,
-  },
-  image: {
-    width: 24,
-    height: 24,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
   },
   textInput: {
-    flex: 1,
     fontSize: 16,
-    color: 'black',
- 
-
-    paddingLeft: 12,
-   
-  },
-  textTitle: {
-    // flex: 1,
-    padding: 6,
-    fontSize: 16,
-    color: Colors.black,
-    alignSelf: 'center',
+    width: '90%',
   },
   left: {
     flexDirection: 'row',
   },
-  title: {
-    alignSelf: 'center',
-    fontSize: 20,
-    fontWeight: '400',
-    marginLeft: 8,
-  },
-}
-);
+});

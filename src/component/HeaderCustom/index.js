@@ -44,7 +44,7 @@ export default function HeaderCustom(props?: Props) {
       ]}>
       <TouchableOpacity onPress={goBack} style={styles.button}>
         {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
-        <Icon name="chevron-left" size={32} color={Colors.background} />
+        <Icon name="chevron-left" size={32} color={Colors.black} />
       </TouchableOpacity>
       <Text style={[styles.title, { fontSize }]} {...otherProps}>
         {title}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'center',
     borderBottomWidth: 0.25,
-    borderColor: Colors.background,
+    borderColor: Colors.black,
   },
   button: {
     position: 'absolute',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '300',
-    color: Colors.background,
+    color: Colors.black,
   },
   right: {
     backgroundColor: Colors.white,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   txtBt: {
     fontSize: 18,
     fontWeight: '500',
-    color: Colors.background,
+    color: Colors.black,
     textAlign: 'center',
   },
 });

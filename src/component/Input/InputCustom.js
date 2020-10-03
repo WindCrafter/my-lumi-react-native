@@ -46,7 +46,7 @@ export default function InputCustom(props?: Props) {
     title,
     ...otherProps
   } = props;
-  const View = Platform.OS === 'ios' ? View : Card;
+  const ViewCard = Platform.OS === 'ios' ? View : Card;
 
   return (
     <ViewCard

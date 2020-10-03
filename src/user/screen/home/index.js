@@ -37,6 +37,19 @@ function Home(props) {
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
   };
+
+  const onPressLate = () => {
+    navigation.navigate('ApplyLate');
+  };
+
+  const onPressBreak = () => {
+    navigation.navigate('ApplyBreak');
+  };
+
+  const onPressOT = () => {
+    navigation.navigate('ApplyOT');
+  };
+
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
@@ -51,7 +64,7 @@ function Home(props) {
               <HistoryWeek />
             </Card>
           </ScrollView>
-          <FloatButton />
+          <FloatButton onPressLate={onPressLate} onPressBreak={onPressBreak} onPressOT={onPressOT} />
         </View>
       </View>
     </>
