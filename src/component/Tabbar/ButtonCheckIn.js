@@ -1,12 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Colors } from '../../../utlis';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {Colors, imgs} from '../../../utlis';
 
-const ButtonCheckIn = () => {
+const ButtonCheckIn = (props) => {
+  const {navigation, onCheck} = props;
+
+  const onLongPress = () => {
+    navigation.navigate('CheckIn');
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Test</Text>
-    </View>
+    <TouchableOpacity
+      accessibilityRole="button"
+      onPress={onCheck}
+      onLongPress={onLongPress}
+      style={styles.container}>
+      <View style={styles.container}>
+        <Image source={imgs.buttoncheckin} />
+      </View>
+    </TouchableOpacity>
   );
 };
 

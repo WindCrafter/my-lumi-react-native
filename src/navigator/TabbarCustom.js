@@ -1,13 +1,78 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Colors } from '../../utlis';
-import { TabbarIcon } from '../component';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import {Colors} from '../../utlis';
+import {TabbarIcon} from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import NetInfo from '@react-native-community/netinfo';
+import { connect } from 'react-redux';
+import { checkInWifi } from '../redux/actions/check';
 
-export default function TabbarCustom({ state, descriptors, navigation }) {
+ function TabbarCustom({
+  state,
+  descriptors,
+  navigation,
+  deviceId,
+  token,
+ checkIn ,
+}) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
+  const [type, setType] = useState(true);
+const[test,setTest]=useState('')
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await request(
+        Platform.select({
+          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+        }),
+        {
+          title: 'YÊU CẦU VỊ TRÍ',
+          message: 'Yêu cầu quyền truy cập vị trí ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === RESULTS.GRANTED) {
+        console.log('Thanh cong');
+        initWifi();
+        console.log(token);
+      } else {
+        navigation.navigate('CheckIn');
+        console.log('Yêu cầu vị trí bị từ chối');
+        console.log(RESULTS.GRANTED);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  const initWifi = async () => {
+    try {
+      let set = await NetInfo.fetch('wifi');
 
+      const data = {
+        ssid: set.details.ssid,
+        bssid: set.details.bssid,
+        type: type ? 'in' : 'out',
+        deviceId: deviceId,
+        token: token,
+      };
+      checkIn(data);
+      setType(!type);
+      console.log(
+        'Your current connected wifi ssidUser is ' + set.details.ssid,
+      );
+      console.log('Your current BssidUser is ' + set.details.bssid);
+      console.log(data)
+    } catch (error) {
+      navigation.navigate('CheckIn');
+      console.log(test)
+
+      console.log('Cannot get current ssidUser!', {error});
+    }
+  };
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
@@ -29,7 +94,10 @@ export default function TabbarCustom({ state, descriptors, navigation }) {
         route={state.routes[1]}
         tab={1}
       />
-      <ButtonCheckIn />
+      <ButtonCheckIn
+        navigation={navigation}
+        onCheck={requestLocationPermission}
+      />
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
@@ -59,3 +127,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
 });
+const mapStateToProps = (state) => {
+  return {
+    deviceId: state.authen.deviceId,
+    token: state.authen.token,
+    currentUser: state.user.currentUser,
+  }
+
+
+};
+
+const mapDispatchToProps = {
+  checkIn: checkInWifi,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabbarCustom);
+
+
+

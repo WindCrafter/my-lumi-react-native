@@ -26,6 +26,8 @@ export default function authen(state = initialState, action) {
         ...state,
         loginSuccess: true,
         changePass: action.payload.changePass,
+        // changePass: true,
+
         token: action.payload.token,
         role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         userProfile: action.payload.data.userProfile,

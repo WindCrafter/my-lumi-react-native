@@ -20,6 +20,7 @@ import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
 import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
+import CheckIn from '../user/container/checkIn/index'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -76,6 +77,13 @@ export default function UserStack() {
       <Stack.Screen
         name={'History'}
         component={history}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'CheckIn'}
+        component={CheckIn}
         options={{
           headerShown: false,
         }}

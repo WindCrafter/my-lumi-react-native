@@ -11,6 +11,7 @@ import SmartWipeRow from './Row/SmartWipeRow';
 import {Touchable} from './Touchable';
 import {TextSelect} from './Text';
 import Loading from './Loading';
+import Bottom from './BottomCustom/BottomCustom'
 export {
   Input,
   InputPassword,
@@ -29,4 +30,5 @@ export {
   Touchable,
   TextSelect,
   Loading,
+  Bottom,
 };

@@ -19,6 +19,7 @@ function* sagaCheckIn(action) {
       codeString: action.payload.codeString,
       deviceId: action.payload.deviceId,
     };
+  
     const token = action.payload.token;
     const response = yield _POST(URL_CHECK_IN, data, token);
     console.log('CHECK=>>>', response);
@@ -62,6 +63,7 @@ function* sagaCheckInWifi(action) {
       bssid: action.payload.bssid,
       deviceId: action.payload.deviceId,
     };
+    
     const token = action.payload.token;
     console.log('-------->',token);
     const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
@@ -80,7 +82,11 @@ function* sagaCheckInWifi(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {
+          text: 'OK', 
+          // onPress : onLongPress
+},
+
       });
     }
   } catch (error) {
@@ -90,6 +96,8 @@ function* sagaCheckInWifi(action) {
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
       leftButton: { text: 'OK' },
+      rightButton: { text: 'OK' },
+
     });
   }
 }

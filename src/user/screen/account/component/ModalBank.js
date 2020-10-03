@@ -78,8 +78,8 @@ const ModalBank = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Text>Số tài khoản</Text>
-          <TextInput placeholder={'nhap'} onChangeText={onBankAccount} />
+          <Text style={styles.detail}>Số tài khoản</Text>
+          <TextInput placeholder={'Vui lòng nhập số tài khoản'} onChangeText={onBankAccount} style={styles.detail}/>
         </View>
       </Modal>
     </View>
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
   viewHeader: {
     flexDirection: 'row',
     width: '100%',
-    borderWidth: 1,
     justifyContent: 'center',
+    marginBottom:20
   },
   modal: {
     justifyContent: 'flex-end',
@@ -117,17 +117,19 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
+    fontWeight:'bold',fontSize:18,
   },
   detail: {
     alignItems: 'flex-start',
     fontWeight: 'bold',
     fontSize: 15,
+    marginLeft:20,marginBottom:10,marginTop:10
   },
   img: {
     height: 48,
     width: 48,
   },
-  done: {alignSelf: 'flex-end'},
+  done: {paddingLeft:55,position:'absolute',fontSize:18,color:'green'},
   container: {flexDirection: 'column', justifyContent: 'space-around'},
   bankname: {fontWeight: '900'},
   inforBank: {alignItems: 'center', width: '25%'},

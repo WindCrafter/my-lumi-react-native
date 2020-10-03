@@ -3,6 +3,9 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
+import {
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
@@ -26,9 +29,12 @@ HeaderCheck.defaultProps = {
 };
 
 function HeaderCheck(props?: Props) {
-  const {onPress, title, type, pressHistory} = props;
+  const { onPress, title, type, pressHistory, onPressBack} = props;
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.body} onPress={onPressBack}>
+        <Image style={styles.cancel} source={imgs.cancel} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.body} onPress={onPress}>
         <Text style={styles.txtName}>{type}</Text>
       </TouchableOpacity>
@@ -44,21 +50,17 @@ export default HeaderCheck;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colors.background,
     borderRadius: 24,
     paddingHorizontal: 24,
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width:'100%',alignSelf:"center"
-  },
-  detail: {
-    flexDirection: 'row',
-    flex: 5,
-  },
+    width: '100%',
+    position:'absolute',
+top:50 
+},
+
   checkIn: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingBottom: 16,
@@ -80,9 +82,10 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
   txtName: {
-    fontSize:24,
+    fontSize: 24,
     fontWeight: '700',
-    color: '#ffffff',
+    color: 'white',
+    alignSelf: 'center',
   },
   time: {
     fontSize: 16,
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
   body: {
     alignContent: 'center',
     alignSelf: 'center',
+    justifyContent: 'center',
   },
   image: {
     marginLeft: 8,
@@ -109,5 +113,10 @@ const styles = StyleSheet.create({
   img: {
     width: 28,
     height: 28,
+  },
+  cancel: {
+    width: 12,
+    height: 12,
+    tintColor:'white'
   },
 });

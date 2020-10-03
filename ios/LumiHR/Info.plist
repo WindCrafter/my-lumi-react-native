@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Feather.ttf</string>
@@ -70,8 +74,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Explain why you need location permission</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Explain why you need location permission LumiHr</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Explain</string>
+	<key>LSApplicationCat egoryType</key>
+	<string></string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>NSCameraUsageDescription</key>

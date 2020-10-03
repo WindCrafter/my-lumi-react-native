@@ -10,7 +10,7 @@ const initialState = {
     autoLoginStatus: false,
 };
 
-export default function user(state = initialState, action) {
+export default function admin(state = initialState, action) {
     switch (action.type) {
         case types.GET_LIST_USERS_SUCCESS:
             return {
