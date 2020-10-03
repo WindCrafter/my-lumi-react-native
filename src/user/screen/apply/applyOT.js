@@ -12,6 +12,7 @@ import {
   UIManager,
   Image,
   Alert,
+  Keyboard,
 } from 'react-native';
 import { BarStatus, HeaderCustom, Button } from '../../../component';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,7 +25,8 @@ import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-const BORDERWIDTH = 1;
+import { Card } from 'native-base';
+import Suggest from './component/Suggest';
 
 if (
   Platform.OS === 'android' &&
@@ -36,66 +38,48 @@ if (
 
 
 function ApplyOT(props) {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [time, setTime] = useState(new Date(1598051730000));
-  const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
-  const [timeEnd, setTimeEnd] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState('');
-  const [start, setStart] = useState('');
+  const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
+  const [time, setTime] = useState(30);
   const { navigation, route } = props;
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
-
-  const onChangeTime = (event, selectedDate) => {
-    const currentTime = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setTime(currentTime);
-  };
-
-  const onChangeEnd = (event, selectedDate) => {
-    const currentDateEnd = selectedDate || dateEnd;
-    setShow(Platform.OS === 'ios');
-    setDateEnd(currentDateEnd);
-  };
-
-  const onChangeTimeEnd = (event, selectedDate) => {
-    const currentTimeEnd = selectedDate || dateEnd;
-    setShow(Platform.OS === 'ios');
-    setTimeEnd(currentTimeEnd);
-  };
-  //m-time , v-start mode
-  const onShowStart = (m, v) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(true);
-    setStart(v);
-    setMode(m);
-  };
-
-  const onShowEnd = (m, v) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(true);
-    setStart(v);
-    setMode(m);
-  };
-
   const onComplete = () => {
     Alert.alert('end');
   };
 
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  const onChangeReason = (val) => {
+    setReason(val);
+  };
+
+  const onSetReason = (val) => {
+    setReason(val);
+    unFocus();
+  };
+
+  const onFocus = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    setShow(true);
+  };
+
+  const unFocus = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
-    setStart('');
-    setMode('');
+    Keyboard.dismiss();
+  };
+
+  const onSubtract = () => {
+    if (time > 0) {
+      setTime(time - 5);
+    }
+  };
+  const onAdd = () => {
+    if (time < 60) {
+      setTime(time + 5);
+    }
   };
 
   return (
@@ -105,7 +89,7 @@ function ApplyOT(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Đơn xin làm thêm giờ'}
+        title={'Đơn xin OT'}
         height={60}
         goBack={goBack}
         fontSize={24}
@@ -119,115 +103,64 @@ function ApplyOT(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
           </View>
-          <InputApply backgroundColor={'white'} />
+          <InputApply
+            borderRadius={12}
+            backgroundColor={'white'}
+            containerStyle={{
+              width: '90%',
+              justifyContent: 'center',
+              alignSelf: 'center',
+            }}
+            value={reason}
+            onChangeText={onChangeReason}
+            onFocus={onFocus}
+            onSubmitEditing={unFocus}
+            blurOnSubmit={true}
+          />
+
+          {show ? (
+            <Card style={styles.card}>
+              <Suggest
+                detail={'lí do 1'}
+                onPress={() => onSetReason('lí do 1')}
+              />
+              <Suggest
+                detail={'lí do 2'}
+                onPress={() => onSetReason('lí do 2')}
+              />
+              <Suggest
+                detail={'lí do 3'}
+                onPress={() => onSetReason('lí do 3')}
+              />
+              <Suggest
+                detail={'lí do 4'}
+                onPress={() => onSetReason('lí do 4')}
+              />
+              <Suggest
+                detail={'lí do 5'}
+                onPress={() => onSetReason('lí do 5')}
+              />
+            </Card>
+          ) : null}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
             </View>
             <Text style={styles.txtStatus}>{langs.timeStart}</Text>
           </View>
-          <View style={[styles.row, { alignSelf: 'center' }]}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  width: wp(25),
-                  marginRight: wp(5),
-                  backgroundColor:
-                    mode === 'time' && start === 'start'
-                      ? 'rgb(125, 22, 204)'
-                      : Colors.white,
-                },
-              ]}
-              onPress={() => onShowStart('time', 'start')}>
-              <Text style={styles.txtTime}>{moment(time).format('HH:mm')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  backgroundColor:
-                    mode === 'date' && start === 'start'
-                      ? 'rgb(125, 22, 204)'
-                      : Colors.white,
-                },
-              ]}
-              onPress={() => onShowStart('date', 'start')}>
-              <Text style={styles.txtTime}>
-                {moment(date).format('DD/MM/YYYY')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.startTime} style={styles.imageStamp} />
+          <Card style={styles.card}>
+            <View style={[styles.row, { justifyContent: 'center' }]}>
+              <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
+                <Text style={styles.add}>-</Text>
+              </TouchableOpacity>
+              <Image source={imgs.startTime} style={styles.icon} />
+              <Text style={styles.txtTime}>{time} phút</Text>
+              <TouchableOpacity style={styles.btnAdd} onPress={onAdd}>
+                <Text style={styles.add}>+</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.txtStatus}>{langs.timeEnd}</Text>
-          </View>
-          <View style={[styles.row, { alignSelf: 'center' }]}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  width: wp(25),
-                  marginRight: wp(5),
-                  backgroundColor:
-                    mode === 'time' && start === 'end'
-                      ? 'rgb(125, 22, 204)'
-                      : Colors.white,
-                },
-              ]}
-              onPress={() => onShowEnd('time', 'end')}>
-              <Text style={styles.txtTime}>
-                {moment(timeEnd).format('HH:mm')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  backgroundColor:
-                    mode === 'date' && start === 'end'
-                      ? 'rgb(125, 22, 204)'
-                      : Colors.white,
-                },
-              ]}
-              onPress={() => onShowEnd('date', 'end')}>
-              <Text style={styles.txtTime}>
-                {moment(dateEnd).format('DD/MM/YYYY')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </Card>
         </View>
-        {show ? (
-          mode === 'time' ? (
-            <>
-              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                <Text style={styles.txtX}>X</Text>
-              </TouchableOpacity>
-              <DateTimePicker
-                value={start === 'start' ? time : timeEnd}
-                mode={'time'}
-                display="default"
-                onChange={start === 'start' ? onChangeTime : onChangeTimeEnd}
-                is24hour={true}
-              />
-            </>
-          ) : mode === 'date' ? (
-            <>
-              <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                <Text style={styles.txtX}>X</Text>
-              </TouchableOpacity>
-              <DateTimePicker
-                value={start === 'start' ? date : dateEnd}
-                mode={'date'}
-                display="default"
-                onChange={start === 'start' ? onChange : onChangeEnd}
-                is24hour={true}
-              />
-            </>
-          ) : null
-        ) : null}
       </ScrollView>
       <View style={styles.bottom}>
         <Button
@@ -246,23 +179,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     height: '100%',
-  },
-  containerUser: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-    width: wp(95),
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginVertical: 6,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   image: {
     width: 56,
@@ -289,7 +205,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   imageStamp: {
     width: 20,
@@ -297,7 +213,7 @@ const styles = StyleSheet.create({
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '300',
     marginLeft: 12,
   },
@@ -324,37 +240,50 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
   },
-  button: {
-    height: 60,
-    width: wp(60),
-    backgroundColor: Colors.background,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.black,
-    borderWidth: BORDERWIDTH,
-    borderColor: Colors.border,
-  },
   txtTime: {
-    fontSize: 20,
+    fontSize: 16,
     color: Colors.black,
+    alignSelf: 'center',
+    marginHorizontal: 12,
   },
-  unshow: {
-    height: 28,
-    width: 28,
-    borderRadius: 14,
-    right: 0,
-    backgroundColor: 'tomato',
-    alignSelf: 'flex-end',
-    marginRight: 24,
-    marginTop: 8,
+  card: {
+    borderRadius: 16,
+    marginTop: 16,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  icon: {
+    alignSelf: 'center',
+  },
+  slider: {
+    width: '90%',
+    alignSelf: 'center',
+  },
+  add: {
+    fontSize: 24,
+    color: 'white',
+  },
+  btnSubtract: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'red',
+    width: 32,
+    height: 32,
+    borderRadius: 24,
+    alignSelf: 'center',
+    marginRight: 8,
   },
-  txtX: {
-    color: Colors.white,
-    fontWeight: '900',
+  btnAdd: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    width: 32,
+    height: 32,
+    borderRadius: 24,
+    alignSelf: 'center',
+    marginLeft: 8,
   },
 });

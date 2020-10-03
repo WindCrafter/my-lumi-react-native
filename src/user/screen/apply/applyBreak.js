@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,20 +12,20 @@ import {
   UIManager,
   Image,
   Alert,
+  Keyboard,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { TextSelect, InputSelect } from '../../../component';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import { BarStatus, HeaderCustom, Button } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
-import ModalBreak from './ModalBreak/index';
-const BORDERWIDTH = 1;
+import { Card } from 'native-base';
+import ApplyIcon from './component/ApplyIcon';
+import PickerCustom from './component/PickerCustom';
+import Icon from 'react-native-vector-icons/Feather';
+import Suggest from './component/Suggest';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -34,7 +34,7 @@ if (
 }
 
 function ApplyBreak(props) {
-  const {navigation} = props;
+  const { navigation } = props;
   const [shift, setShift] = useState(new Date(1598051730000));
   const [day, setDay] = useState(new Date(1598051730000));
   const [dateStart, setDateStart] = useState(new Date(1598051730000));
@@ -43,23 +43,15 @@ function ApplyBreak(props) {
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [typeShift, setTypeShift] = useState('Ca sáng');
+  const [shiftStart, setShiftStart] = useState('Ca sáng');
+  const [shiftEnd, setShiftEnd] = useState('Ca sáng');
   const [check, setCheck] = useState(true);
-  const [typeBreak, setTypeBreak] = useState('Vui lòng chọn');
+  const [typeBreak, setTypeBreak] = useState('Theo ca');
   const [start, setStart] = useState('');
+  const [reason, setReason] = useState('');
 
   const goBack = () => {
     navigation.goBack();
-  };
-  const onSetClose = () => {
-    setShowModal(false);
-  };
-
-  const onSetTypeShift = () => {
-    typeShift === 'Ca sáng'
-      ? setTypeShift('Ca chiều')
-      : typeShift === 'Ca chiều'
-      ? setTypeShift('Ca sáng')
-      : null;
   };
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -87,35 +79,55 @@ function ApplyBreak(props) {
     setShow(Platform.OS === 'ios');
     setDateEnd(currentDateEnd);
   };
-  const onSetBreakShift = () => {
-    setTypeBreak('Nghỉ theo ca');
-    setShow(false);
-    setMode('');
+
+  const onSetTypeBreak = (val) => {
+    setTypeBreak(val);
+    onUnshow();
   };
-  const onSetBreakDay = () => {
-    setTypeBreak('Nghỉ một ngày');
-    setShow(false);
-    setMode('');
-  };
-  const onSetBreakMoreDay = () => {
-    setTypeBreak('Nghỉ nhiều ngày');
-    setShow(false);
-    setMode('');
-  };
-  const onSetModal = () => {
-    setShowModal(!showModal);
-  };
-  const onSetCheck = () => {
-    setCheck(!check);
-  }; //m-time , v-start mode
   const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(true);
     setMode(m);
   };
 
+  const onChangeReason = (val) => {
+    setReason(val);
+  };
+
+  const onSetReason = (val) => {
+    setReason(val);
+    unFocus();
+  };
+
+  const onSetTypeShift = () => {
+    typeShift === 'Ca sáng'
+      ? setTypeShift('Ca chiều')
+      : setTypeShift('Ca sáng');
+  };
+
+  const onSetShiftStart = () => {
+    shiftStart === 'Ca sáng'
+      ? setShiftStart('Ca chiều')
+      : setShiftStart('Ca sáng');
+  };
+
+  const onSetShiftEnd = () => {
+    shiftEnd === 'Ca sáng' ? setShiftEnd('Ca chiều') : setShiftEnd('Ca sáng');
+  };
+
   const onComplete = () => {
     Alert.alert('end');
+  };
+
+  const onFocus = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    setShowModal(true);
+  };
+
+  const unFocus = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    setShowModal(false);
+    Keyboard.dismiss();
   };
 
   return (
@@ -142,231 +154,225 @@ function ApplyBreak(props) {
           <InputApply
             borderRadius={12}
             backgroundColor={'white'}
-            paddingLeft={30}
             containerStyle={{
-              height: 70,
+              width: '90%',
               justifyContent: 'center',
               alignSelf: 'center',
-              borderRadius: 16,
-              width: wp(90),
-              borderWidth: 2,
-              shadowColor: 'white',
             }}
+            value={reason}
+            onChangeText={onChangeReason}
+            onFocus={onFocus}
+            onSubmitEditing={unFocus}
+            blurOnSubmit={true}
           />
+          {showModal ? (
+            <Card style={styles.card}>
+              <Suggest
+                detail={'lí do 1'}
+                onPress={() => onSetReason('lí do 1')}
+              />
+              <Suggest
+                detail={'lí do 2'}
+                onPress={() => onSetReason('lí do 2')}
+              />
+              <Suggest
+                detail={'lí do 3'}
+                onPress={() => onSetReason('lí do 3')}
+              />
+              <Suggest
+                detail={'lí do 4'}
+                onPress={() => onSetReason('lí do 4')}
+              />
+              <Suggest
+                detail={'lí do 5'}
+                onPress={() => onSetReason('lí do 5')}
+              />
+            </Card>
+          ) : null}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
             </View>
             <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
           </View>
-          <InputSelect
-            testID="test_Rank"
-            leftImage={''}
-            backgroundColor={'white'}
-            title={typeBreak}
-            detail={''}
-            containerStyle={{
-              borderRadius: 16,
-              borderWidth: 2,
-              shadowColor: 'white',
-            }}
-            paddingVertical={16}
-            onPressButton={onSetModal}
-          />
+          <Card style={styles.card} >
+            <View style={styles.row}>
+              <ApplyIcon
+                title={'Theo Ca'}
+                onPress={() => onSetTypeBreak('Theo ca')}
+              />
+              <ApplyIcon
+                title={'Một ngày'}
+                onPress={() => onSetTypeBreak('Một ngày')}
+              />
+              <ApplyIcon
+                title={'Nhiều ngày'}
+                onPress={() => onSetTypeBreak('Nhiều ngày')}
+              />
+            </View>
+            {typeBreak === 'Theo ca' ? (
+              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      width: wp(35),
+                      marginRight: 10,
+                      backgroundColor: Colors.white,
+                      flexDirection: 'row',
+                    },
+                  ]}
+                  onPress={onSetTypeShift}>
+                  <Image source={imgs.startTime} style={styles.imageStamp} />
 
-          {!showModal ? (
-            typeBreak === 'Nghỉ theo ca' ? (
-              <>
-                <View style={styles.row}>
-                  <View style={styles.img}>
-                    <Image source={imgs.DOB} style={styles.imageStamp} />
-                  </View>
-                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
-                </View>
-                <View style={[styles.row, {alignSelf: 'center',}]}>
+                  <Text style={styles.txtTime}>{typeShift}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                    },
+                  ]}
+                  onPress={() => onShow('shift')}>
+                  <Image source={imgs.breakDay} style={styles.imageStamp} />
+
+                  <Text style={styles.txtTime}>
+                    {moment(shift).format('DD/MM/YYYY')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : typeBreak === 'Một ngày' ? (
+              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                    },
+                  ]}
+                  onPress={() => onShow('oneday')}>
+                  <Image source={imgs.breakDay} style={styles.imageStamp} />
+                  <Text style={styles.txtTime}>
+                    {moment(day).format('DD/MM/YYYY')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : typeBreak === 'Nhiều ngày' ? (
+              <View style={styles.rowBot}>
+                <View style={styles.column}>
                   <TouchableOpacity
                     style={[
                       styles.button,
                       {
-                        width: wp(35),
-                        marginRight: 10,
+                        marginVertical: 24,
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
                       },
                     ]}
-                    onPress={onSetTypeShift}>
-                    <Image source={imgs.startTime} style={styles.imageStamp} />
+                    onPress={onSetShiftStart}>
+                    <Image
+                      source={imgs.startTime}
+                      style={[styles.imageStamp, { tintColor: '#455997' }]}
+                    />
 
-                    <Text style={styles.txtTime}>{typeShift}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: Colors.white,
-                      },
-                    ]}
-                    onPress={() => onShow('shift')}>
-                    <Image source={imgs.breakDay} style={styles.imageStamp} />
-
-                    <Text style={styles.txtTime}>
-                      {moment(shift).format('DD/MM/YYYY')}
+                    <Text style={[styles.txtTime, { color: '#455997' }]}>
+                      {shiftStart}
                     </Text>
                   </TouchableOpacity>
-                </View>
-              </>
-            ) : typeBreak === 'Nghỉ một ngày' ? (
-              <>
-                <View style={styles.row}>
-                  <View style={styles.img}>
-                    <Image source={imgs.startTime} style={styles.imageStamp} />
-                  </View>
-                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
-                </View>
-                <View style={[styles.row, {alignSelf: 'center'}]}>
                   <TouchableOpacity
                     style={[
                       styles.button,
                       {
-                        backgroundColor: Colors.white,
-                      },
-                    ]}
-                    onPress={() => onShow('oneday')}>
-                    <Image source={imgs.breakDay} style={styles.imageStamp} />
-                    <Text style={styles.txtTime}>
-                      {moment(day).format('DD/MM/YYYY')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </>
-            ) : typeBreak === 'Nghỉ nhiều ngày' ? (
-              <>
-                <View style={styles.row}>
-                  <View style={styles.img}>
-                    <Image source={imgs.startTime} style={styles.imageStamp} />
-                  </View>
-                  <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
-                </View>
-
-                <View style={[styles.rowBot, {alignSelf: 'center'}]}>
-                  <Text style={styles.txtStatus}>Từ :</Text>
-
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        width: wp(40),
                         backgroundColor: Colors.white,
                       },
                     ]}
                     onPress={() => onShow('datestart')}>
-                    <Image source={imgs.breakDay} style={styles.imageStamp} />
+                    <Image
+                      source={imgs.breakDay}
+                      style={[styles.imageStamp, { tintColor: '#455997' }]}
+                    />
 
-                    <Text style={styles.txtTime}>
+                    <Text style={[styles.txtTime, { color: '#455997' }]}>
                       {moment(dateStart).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={[styles.rowBot, {alignSelf: 'center'}]}>
-                  <Text style={styles.txtStatus}>Đến :</Text>
-
+                <Icon
+                  name="chevron-right"
+                  size={96}
+                  color={'gray'}
+                  style={styles.icon}
+                />
+                <View style={styles.column}>
                   <TouchableOpacity
                     style={[
                       styles.button,
                       {
-                        width: wp(40),
-                        // marginRight: wp(5),
+                        backgroundColor: Colors.white,
+                        flexDirection: 'row',
+                        marginVertical: 24,
+                      },
+                    ]}
+                    onPress={onSetShiftEnd}>
+                    <Image
+                      source={imgs.startTime}
+                      style={[styles.imageStamp, { tintColor: '#00821c' }]}
+                    />
+
+                    <Text style={[styles.txtTime, { color: '#00821c' }]}>
+                      {shiftEnd}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.button,
+                      {
                         backgroundColor: Colors.white,
                       },
                     ]}
                     onPress={() => onShow('dateend')}>
-                    <Image source={imgs.breakDay} style={styles.imageStamp} />
+                    <Image
+                      source={imgs.breakDay}
+                      style={[styles.imageStamp, { tintColor: '#00821c' }]}
+                    />
 
-                    <Text style={styles.txtTime}>
+                    <Text style={[styles.txtTime, { color: '#00821c' }]}>
                       {moment(dateEnd).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
                 </View>
-              </>
-            ) : null
-          ) : null}
+              </View>
+            ) : null}
+          </Card>
         </View>
         {show ? (
           mode === 'shift' ? (
-            <>
-              {Platform.OS === 'ios' ? (
-                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                  <Text style={styles.txtX}>X</Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePicker
-                value={shift}
-                mode={'date'}
-                display="default"
-                onChange={onChangeShift}
-                is24hour={true}
-              />
-            </>
+            <PickerCustom
+              value={shift}
+              onChange={onChangeShift}
+              onPress={onUnshow}
+            />
           ) : mode === 'oneday' ? (
-            <>
-              {Platform.OS === 'ios' ? (
-                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                  <Text style={styles.txtX}>X</Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePicker
-                value={day}
-                mode={'date'}
-                display="default"
-                onChange={onChangeDay}
-              />
-            </>
+            <PickerCustom
+              value={day}
+              onChange={onChangeDay}
+              onPress={onUnshow}
+            />
           ) : mode === 'datestart' ? (
-            <>
-              {Platform.OS === 'ios' ? (
-                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                  <Text style={styles.txtX}>X</Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePicker
-                value={dateStart}
-                mode={'date'}
-                display="default"
-                onChange={onChangeDateStart}
-                is24hour={true}
-              />
-            </>
+            <PickerCustom
+              value={dateStart}
+              onChange={onChangeDateStart}
+              onPress={onUnshow}
+            />
           ) : mode === 'dateend' ? (
-            <>
-              {Platform.OS === 'ios' ? (
-                <TouchableOpacity style={styles.unshow} onPress={onUnshow}>
-                  <Text style={styles.txtX}>X</Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePicker
-                value={dateEnd}
-                mode={'date'}
-                display="default"
-                onChange={onChangeDateEnd}
-                is24hour={true}
-              />
-            </>
+            <PickerCustom
+              value={dateEnd}
+              onChange={onChangeDateEnd}
+              onPress={onUnshow}
+            />
           ) : null
         ) : null}
-        <ModalBreak
-          showModal={showModal}
-          pressShift={onSetBreakShift}
-          pressDay={onSetBreakDay}
-          pressMoreDay={onSetBreakMoreDay}
-          setModal={onSetModal}
-          typeBreak={typeBreak}
-          setCheck={onSetCheck}
-          setClose={onSetClose}
-        />
       </ScrollView>
       <View style={styles.bottom}>
         <Button
@@ -386,48 +392,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: '100%',
   },
-  containerUser: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-    width: wp(95),
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginVertical: 6,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
   image: {
     width: 56,
     height: 56,
     borderRadius: 32,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '300',
-    color: Colors.background,
   },
   detail: {
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginHorizontal: 12,
   },
-  status: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    marginVertical: 16,
-  },
   img: {
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   imageStamp: {
     width: 20,
@@ -435,7 +414,7 @@ const styles = StyleSheet.create({
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '300',
   },
   extend: {
@@ -456,51 +435,47 @@ const styles = StyleSheet.create({
     bottom: 32,
     left: wp(12.5),
   },
-  row: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    marginTop: 4,
-  },
-  rowBot: {
-    flexDirection: 'row',
-    marginHorizontal: 4,
-    marginVertical: 8,
-    justifyContent: 'space-around',
-    width: wp(98),
-  },
   button: {
-    height: 60,
-    width: wp(60),
     backgroundColor: Colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 12,
-    borderWidth: BORDERWIDTH,
-    borderColor: Colors.border,
+    flexDirection: 'row',
+  },
+  card: {
+    borderRadius: 16,
+    marginTop: 16,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  row: {
     flexDirection: 'row',
   },
   txtTime: {
-    fontSize: 20,
+    fontSize: 14,
     color: Colors.black,
     marginLeft: 10,
   },
-  unshow: {
-    height: 28,
-    width: 28,
-    borderRadius: 14,
-    right: 0,
-    backgroundColor: 'tomato',
-    alignSelf: 'flex-end',
-    marginRight: 24,
-    marginTop: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+  rowBot: {
+    flexDirection: 'row',
+    marginHorizontal: 4,
+    marginTop: 16,
+    justifyContent: 'space-around',
+    flex: 1,
   },
-  txtX: {
-    color: Colors.white,
-    fontWeight: '900',
+  column: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
-  columnTick: {
-    flexDirection: 'column',
+  icon: {
+    alignSelf: 'center',
+  },
+  test: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'red',
   },
 });
