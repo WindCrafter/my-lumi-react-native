@@ -59,6 +59,7 @@ const langs = {
   staff: 'Nhân viên',
   notify: 'Thông báo',
   errorNetwork: 'Lỗi mạng',
+  day: 'Ngày:',
 };
 
 export default langs;

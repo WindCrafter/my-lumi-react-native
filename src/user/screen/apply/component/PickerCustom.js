@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors } from '../../../../../utlis';
 
 const PickerCustom = (props) => {
-  const { value, onPress, onChange } = props;
+  const { value, onPress, onChange, mode } = props;
   return (
     <>
       {Platform.OS === 'ios' ? (
@@ -15,7 +15,7 @@ const PickerCustom = (props) => {
 
       <DateTimePicker
         value={value}
-        mode={'date'}
+        mode={mode}
         display="default"
         onChange={onChange}
         is24hour={true}
