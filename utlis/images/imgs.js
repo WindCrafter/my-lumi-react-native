@@ -84,4 +84,11 @@ export const imgs = {
   wifiwhite: require('../../common/assets/images/icon/Wifi-white.png'),
   codewhite: require('../../common/assets/images/icon/Code-white.png'),
   qrwhite: require('../../common/assets/images/icon/Qr-white.png'),
+  dayOff: require('../../common/assets/images/icon/Day-off-icon.png'),
+  overTime: require('../../common/assets/images/icon/OverTime-icon.png'),
+  clockAlert: require('../../common/assets/images/icon/Clock-alert.png'),
+  note: require('../../common/assets/images/icon/Note-icon.png'),
+  notificationGreen: require('../../common/assets/images/icon/Notifications-green-icon.png'),
+  notificationGrey: require('../../common/assets/images/icon/Notifications-grey-icon.png'),
+
 };

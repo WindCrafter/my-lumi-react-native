@@ -13,19 +13,18 @@ import {
   ScrollView,
 } from 'react-native';
 import {Card} from 'native-base';
-import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
 import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 
 import moment from 'moment';
-import ModalCode from './component/ModalCode';
-import ModalWifi from './component/ModalWifi';
+
 import NetInfo from '@react-native-community/netinfo';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp,heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 // import {ScrollView} from 'react-native-gesture-handler';
+import { NetworkInfo } from 'react-native-network-info';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
@@ -34,8 +33,9 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
+
 const CheckIn = (props) => {
-  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi} = props;
+  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi,switchTo} = props;
   // console.log(checkInWifi)
 
   const [ssidUser, setSsidUser] = useState('');
@@ -50,11 +50,12 @@ const CheckIn = (props) => {
 
   const onCheckInCode = () => {
     const data = {
-      time: moment().format('HH:mm'),
+      typeCheck: "code",
       deviceId: deviceId,
       codeString: code,
       type: type ? 'in' : 'out',
       token: token,
+
     };
     checkIn(data);
     setCode('');
@@ -70,7 +71,8 @@ const CheckIn = (props) => {
         deviceId: deviceId,
         token: token,
       };
-
+      setSsidUser(state.details.ssid);
+      setBssidUser(state.details.bssid);
       checkInWifi(data);
       console.log(
         'Your current connected wifi ssidUser is ' + state.details.ssid,
@@ -103,6 +105,7 @@ const CheckIn = (props) => {
       } else {
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
+        console.log(granted)
       }
     } catch (err) {
       console.warn(err);
@@ -114,16 +117,19 @@ const CheckIn = (props) => {
 
   const onCheckIn = (e) => {
     const data = {
-      time: moment().format('HH:mm'),
       deviceId: deviceId,
       codeString: e.data,
       type: type ? 'in' : 'out',
+      typeCheck: "qrCode",
       token: token,
+
+
     };
     checkIn(data);
   };
   const onPressBack = () => {
     navigation.goBack();
+    switchTo();
   };
   const scrollRef = useRef();
 
@@ -143,7 +149,8 @@ const CheckIn = (props) => {
 
   return (
 
-    <View style={{flex:1}}>
+    <View>
+     
     <ScrollView
       ref={scrollRef}
       horizontal={true}
@@ -151,41 +158,28 @@ const CheckIn = (props) => {
       // scrollEnabled={false}
       showsHorizontalScrollIndicator={false}
       onScrollAnimationEnd={false}
+      // style={{flex:1}}
       >
-      <View style={styles.pageone}>
-        <HeaderCheck
-          title={langs.checkIn}
-          type={type ? 'Check In' : 'Check Out'}
-          onPress={onChangeType}
-          pressHistory={goHistory}
-          onPressBack={onPressBack}
-        />
-          <View style={styles.modalview}>
+      
             <QRCodeScanner
               onRead={onCheckIn}
               reactivate={true}
               reactivateTimeout={3000}
               flashMode={RNCamera.Constants.FlashMode.off}
               cameraStyle={styles.camera}
+              topViewStyle={styles.not}
               showMarker={true}
-              cameraProps={{ratio: '1:1'}}
+              // cameraProps={{ratio: '1:1'}}
               customMarker={<CusMarker />}
+          bottomContent={<Text style={styles.titlemodal}>
+            Di chuyển Camera vào vùng chứa mã bạn nhé.
+            </Text>}
+
             />
-            <Text style={styles.titlemodal}>
-              Di chuyển Camera vào vùng chứa mã bạn nhé.
-            </Text>
-        </View>
-        
-      </View>
+           
 
       <View style={styles.pagetwo}>
-        <HeaderCheck
-          title={langs.checkIn}
-          type={type ? 'Check In' : 'Check Out'}
-          onPress={onChangeType}
-          pressHistory={goHistory}
-          onPressBack={onPressBack}
-        />
+      
         <View style={styles.viewMid} >
           <View style={styles.modalviewWifi}>
             <Card style={styles.cardWifi}>
@@ -203,7 +197,7 @@ const CheckIn = (props) => {
             </Card>
             <TouchableOpacity
               style={styles.touchableWifi}
-              onPress={requestLocationPermission}>
+                onPress={requestLocationPermission}>
               <Text style={styles.doneWifi}>Kết nối lại</Text>
             </TouchableOpacity>
           </View>
@@ -212,13 +206,7 @@ const CheckIn = (props) => {
       </View>
 
       <View style={styles.pagethree}>
-        <HeaderCheck
-          title={langs.checkIn}
-          type={type ? 'Check In' : 'Check Out'}
-          onPress={onChangeType}
-          pressHistory={goHistory}
-          onPressBack={onPressBack}
-        />
+       
         <View style={styles.viewMid}>
           <View style={styles.modalviewCode}>
             <Card style={styles.card}>
@@ -244,7 +232,14 @@ const CheckIn = (props) => {
          
         </View>
       </View>
-    </ScrollView>
+      </ScrollView> 
+      <HeaderCheck
+        title={langs.checkIn}
+        type={type ? 'Check In' : 'Check Out'}
+        onPress={onChangeType}
+        pressHistory={goHistory}
+        onPressBack={onPressBack}
+      />
       <Bottom
         method={method}
         onPressOne={PageQr}
@@ -258,13 +253,7 @@ const CheckIn = (props) => {
 export default CheckIn;
 
 const styles = StyleSheet.create({
-  container: {
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 24,
-    paddingBottom: 10,
-    flex:1
-  },
+  
   detail: {
     width: wp(100),
   },
@@ -314,11 +303,14 @@ const styles = StyleSheet.create({
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
+    height:hp(100)
   },
   pagethree: {
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
+    height: hp(100)
+
   },
   modalview: {
     borderRadius: 28,
@@ -330,18 +322,18 @@ const styles = StyleSheet.create({
   titlemodal: {
     fontWeight: '500',
     fontSize: 16,
-    marginBottom: 16,
+    marginBottom: wp(50),
     color: 'white',
   },
   complete: {
     backgroundColor: Colors.background,
   },
   camera: {
-    height: '60%',
-    width: '60%',
-    marginTop: heightPercentageToDP(10),
-    alignSelf: 'center',
-  },
+    height: hp(100),
+    width: wp(100),
+    // flex:1 
+
+ },
   contentTop: {
     flex: 1,
     paddingTop: 8,
@@ -462,4 +454,5 @@ const styles = StyleSheet.create({
   iconWifi: {
     marginHorizontal: 8,
   },
+  not:{flex:0}
 });

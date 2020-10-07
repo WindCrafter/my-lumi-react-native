@@ -1,16 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import langs from '../../../../../common/language';
-import { imgs } from '../../../../../utlis';
+import {StyleSheet, View, Image} from 'react-native';
+// import langs from '../../../../../common/language';
+import {imgs} from '../../../../../utlis';
 import ActionButton from 'react-native-action-button';
-import { BlurView } from '@react-native-community/blur';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {BlurView} from '@react-native-community/blur';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 const FloatButton = (props) => {
-  const { onPressLate, onPressBreak, onPressOT } = props;
+  const {onPressLate, onPressBreak, onPressOT} = props;
   const blurView = () => {
     return (
-
       <BlurView
         style={styles.absolute}
         blurType="dark"
@@ -19,36 +21,42 @@ const FloatButton = (props) => {
       />
     );
   };
+  const buttonIcon = () => {
+    return <Image source={imgs.note} style={styles.note} />;
+  };
   return (
-    <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
-      <ActionButton buttonColor="rgba(231,76,60,1)" backdrop={blurView()}>
+    <View style={styles.container}>
+      <ActionButton
+        buttonColor="white"
+        backdrop={blurView()}
+        renderIcon={buttonIcon}>
         <ActionButton.Item
           inputX={[0, 0]}
           outputX={[0, 0]}
           inputY={[0, 1]}
           outputY={[160, 80]}
-          buttonColor="#9b59b6"
+          buttonColor="#ff5353"
           title="Xin đi muộn/ về sớm"
           onPress={onPressLate}>
-          <Text>1</Text>
+          <Image source={imgs.clockAlert} />
         </ActionButton.Item>
         <ActionButton.Item
           inputX={[0, 1]}
           outputX={[0, -85]}
           inputY={[0, 1]}
           outputY={[140, 70]}
-          buttonColor="#3498db"
+          buttonColor="#2fac4f"
           title="Xin nghỉ"
           onPress={onPressBreak}>
-          <Text>1</Text>
+          <Image source={imgs.overTime} />
         </ActionButton.Item>
         <ActionButton.Item
           outputX={[0, -120]}
           outputY={[0, 80]}
-          buttonColor="#1abc9c"
+          buttonColor="#008aee"
           title="Xin OT"
           onPress={onPressOT}>
-          <Text>1</Text>
+          <Image source={imgs.dayOff} />
         </ActionButton.Item>
       </ActionButton>
     </View>
@@ -72,4 +80,6 @@ const styles = StyleSheet.create({
     // bottom: 0,
     // right: 0,
   },
+  note: {alignSelf: 'center', height: 24, width: 24},
+  container: {flex: 1, backgroundColor: '#f3f3f3'},
 });

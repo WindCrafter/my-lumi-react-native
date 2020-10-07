@@ -20,7 +20,7 @@ import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
 import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
-import CheckIn from '../user/container/checkIn/index'
+import CheckIn from '../user/container/checkIn/index';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -85,6 +85,7 @@ export default function UserStack() {
         name={'CheckIn'}
         component={CheckIn}
         options={{
+          gestureEnabled: false,
           headerShown: false,
         }}
       />
@@ -103,6 +104,8 @@ export default function UserStack() {
         name={'Sự kiện mới'}
         component={Event}
         options={{
+          headerBackTitleVisible: false,
+
           headerRight: () => (
             <TouchableOpacity
               style={styles.container}
@@ -120,5 +123,5 @@ const styles = StyleSheet.create({
     color: '#008aee',
     fontSize: 16,
   },
-  container: { paddingHorizontal: 3 },
+  container: {paddingHorizontal: 3},
 });

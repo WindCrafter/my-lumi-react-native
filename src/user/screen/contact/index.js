@@ -30,8 +30,7 @@ if (
 function Contact(props) {
   // const [listData, setListData] = useState(DATA);
   const [search, setSearch] = useState('');
-  const { navigation, currentUser, getListUsers, token, phoneNumber} = props;
-
+  const { navigation, currentUser, getListUsers, token }= props;
   useEffect(() => {
     getListUsers(token);
   }, [getListUsers, token]);
@@ -40,7 +39,17 @@ function Contact(props) {
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     const onGetContact = () => {
-      Linking.openURL(`tel:${data.item.phoneNumber}`);
+      let phone ;
+      let phoneNumber = data.item.phoneNumber;
+      if (Platform.OS !== 'android') {
+        phone = `telprompt:${phoneNumber}`;
+      }
+      else {
+        phone = `tel:${phoneNumber}`;
+      }
+
+
+      Linking.openURL(phone);
     };
     return (
       <ContactRow

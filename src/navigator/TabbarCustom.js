@@ -26,14 +26,7 @@ const[test,setTest]=useState('')
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
-        }),
-        {
-          title: 'YÊU CẦU VỊ TRÍ',
-          message: 'Yêu cầu quyền truy cập vị trí ',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
+        })
       );
       if (granted === RESULTS.GRANTED) {
         console.log('Thanh cong');

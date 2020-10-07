@@ -3,33 +3,16 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
-import {
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
-const currrentDate = moment().format('DD/MM/YYYY');
-console.log('=>>>>>', currrentDate);
-const day = moment().format('dddd');
-const currentDayInWeek =
-  day === 'Monday'
-    ? 'Thứ 2'
-    : day === 'Tuesday'
-    ? 'Thứ 3'
-    : day === 'Wednesday'
-    ? 'Thứ 4'
-    : day === 'Thursday'
-    ? 'Thứ 5'
-    : day === 'Friday'
-    ? 'Thứ 6'
-    : day === 'Saturday'
-    ? 'Thứ 7'
-    : 'Chủ Nhật';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
+   
 
 HeaderCheck.defaultProps = {
   type: 'Check In',
 };
 
 function HeaderCheck(props?: Props) {
-  const { onPress, title, type, pressHistory, onPressBack} = props;
+  const {onPress, title, type, pressHistory, onPressBack} = props;
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.body} onPress={onPressBack}>
@@ -56,9 +39,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    position:'absolute',
-top:50 
-},
+    position: 'absolute',
+    alignSelf: 'center',
+    alignItems: 'center',
+    top: 30
+  },
 
   checkIn: {
     flexDirection: 'row',
@@ -106,6 +91,7 @@ top:50
     alignContent: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
+    // height:48,width:48
   },
   image: {
     marginLeft: 8,
@@ -115,8 +101,8 @@ top:50
     height: 28,
   },
   cancel: {
-    width: 12,
-    height: 12,
-    tintColor:'white'
+    width: 18,
+    height: 18,
+    tintColor: 'white',
   },
 });

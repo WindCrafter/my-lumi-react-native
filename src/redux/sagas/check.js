@@ -1,11 +1,15 @@
-import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import {takeLatest, put, select, delay} from 'redux-saga/effects';
 import * as types from '../types';
-import { URL } from '../../../utlis/connection/url';
-import { _POST, _GET } from '../../../utlis/connection/api';
-import { checkInSuccess, checkInFailed, createQRSuccess, createQRFailed } from '../actions/check';
-import { _global } from '../../../utlis/global/global';
-import { Colors } from '../../../utlis';
-
+import {URL} from '../../../utlis/connection/url';
+import {_POST, _GET} from '../../../utlis/connection/api';
+import {
+  checkInSuccess,
+  checkInFailed,
+  createQRSuccess,
+  createQRFailed,
+} from '../actions/check';
+import {_global} from '../../../utlis/global/global';
+import {Colors} from '../../../utlis';
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
@@ -14,12 +18,12 @@ const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 function* sagaCheckIn(action) {
   try {
     const data = {
-      time: action.payload.time,
+      typeCheck: action.payload.typeCheck,
       type: action.payload.type,
       codeString: action.payload.codeString,
       deviceId: action.payload.deviceId,
     };
-  
+
     const token = action.payload.token;
     const response = yield _POST(URL_CHECK_IN, data, token);
     console.log('CHECK=>>>', response);
@@ -29,10 +33,10 @@ function* sagaCheckIn(action) {
     if (response.success && response.statusCode === 200) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Chấm công thành công',
+        title: 'YEAH! CHECK-IN THÀNH CÔNG',
+        message: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     } else {
       yield put(checkInFailed());
@@ -40,7 +44,7 @@ function* sagaCheckIn(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
   } catch (error) {
@@ -49,7 +53,7 @@ function* sagaCheckIn(action) {
       title: 'Thông báo',
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
     });
   }
 }
@@ -63,18 +67,34 @@ function* sagaCheckInWifi(action) {
       bssid: action.payload.bssid,
       deviceId: action.payload.deviceId,
     };
-    
+
     const token = action.payload.token;
-    console.log('-------->',token);
+    console.log('-------->', token);
     const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
     console.log('CHECK=>>>', response);
-    if (response.success && response.statusCode === 200) {
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data.type === 'in'
+    ) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: 'YEAH! CHECK-IN THÀNH CÔNG',
         message: 'Chấm công thành công',
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
+      });
+    } else if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data.type === 'out'
+    ) {
+      yield put(checkInSuccess(response.data));
+      _global.Alert.alert({
+        title: 'YEAH! CHECK-OUT THÀNH CÔNG',
+        message: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé',
+        messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
     } else {
       yield put(checkInFailed());
@@ -83,10 +103,9 @@ function* sagaCheckInWifi(action) {
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {
-          text: 'OK', 
+          text: 'OK',
           // onPress : onLongPress
-},
-
+        },
       });
     }
   } catch (error) {
@@ -95,9 +114,8 @@ function* sagaCheckInWifi(action) {
       title: 'Thông báo',
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
-      leftButton: { text: 'OK' },
-      rightButton: { text: 'OK' },
-
+      leftButton: {text: 'OK'},
+      rightButton: {text: 'OK'},
     });
   }
 }
@@ -124,7 +142,7 @@ function* sagaCreateQR(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
   } catch (error) {
@@ -132,7 +150,7 @@ function* sagaCreateQR(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
     });
   }
 }
