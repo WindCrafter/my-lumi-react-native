@@ -1,18 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import moment from 'moment';
-import {imgs, Colors} from '../../../../../utlis';
-import langs from '../../../../../common/language';
+import {StyleSheet, Text, View} from 'react-native';
 
-const currrentDate = moment().format('DD/MM/YYYY');
-const day = moment().format('dddd');
-
-const HeaderAccount = (props) => {
+const HeaderAccount = () => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <Text style={styles.txtTitle}>Tài khoản</Text>
-        <Text style={styles.txtDetail}>Điều chỉnh và cài đặt.</Text>
+        <Text style={styles.txtTitle}>Lịch</Text>
+        <Text style={styles.txtDetail}>Xem lịch làm việc.</Text>
       </View>
       <View style={styles.line} />
       <View style={styles.bot} />
@@ -24,12 +18,11 @@ export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    marginTop:15
   },
 
   info: {
     flexDirection: 'column',
-    flex: 2.25,
     justifyContent: 'center',
     marginHorizontal: 24,
   },

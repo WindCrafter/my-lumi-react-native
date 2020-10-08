@@ -20,7 +20,6 @@ LocaleConfig.locales.vn = {
     'Tháng 11',
     'Tháng 12',
   ],
-  // monthNames: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   monthNamesShort: [
     'TH1',
     'TH2',
@@ -35,8 +34,8 @@ LocaleConfig.locales.vn = {
     'TH11',
     'TH12',
   ],
-  dayNames: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
-  dayNamesShort: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
   today: 'Hôm nay',
 };
 LocaleConfig.defaultLocale = 'vn';
@@ -92,7 +91,7 @@ const CalendarCustom = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text style={styles.text}>Lịch sử chấm công :</Text>
+        <Text style={styles.text}>Lịch sử chấm công</Text>
       </View>
       <Calendar
         style={styles.calendar}
@@ -109,17 +108,23 @@ const CalendarCustom = (props) => {
             </View>
           );
         }}
+        horizontal
+        pagingEnabled
+        calendarWidth={320}
+
         markedDates={{
           ...type,
           [today]: {
             selected: true,
             selectedColor: Colors.white,
             selectedTextColor: Colors.background,
-            dotColor: Colors.background,
+            dotColor: 'red',
             marked: true,
           },
+
         }}
       />
+      
     </View>
   );
 };
@@ -139,9 +144,10 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '500',
-    marginLeft: 20, marginBottom: 10
+    marginLeft: 20,
+    marginBottom: 10,
   },
   monthFormat: {
     flexDirection: 'row',
