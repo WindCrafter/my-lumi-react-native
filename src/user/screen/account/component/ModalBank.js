@@ -93,8 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    marginBottom:20
-  },
+paddingVertical:20  },
   modal: {
     justifyContent: 'flex-end',
     margin: 0,
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     width: widthPercentageToDP(100),
     height: heightPercentageToDP(50),
-    backgroundColor: 'white',
+    backgroundColor: "#3AC9EA",
   },
   titlemodal: {
     fontWeight: '500',
@@ -121,18 +120,19 @@ const styles = StyleSheet.create({
   },
   detail: {
     alignItems: 'flex-start',
-    fontWeight: 'bold',
-    fontSize: 15,
-    marginLeft:20,marginBottom:10,marginTop:10
+    fontWeight: '700',
+    fontSize: 18,
+    marginLeft:20,marginBottom:20,marginTop:10
   },
   img: {
     height: 48,
     width: 48,
   },
-  done: {paddingLeft:55,position:'absolute',fontSize:18,color:'green'},
+  done: {paddingHorizontal:widthPercentageToDP(10) ,position:'absolute',fontSize:18,color:'green'},
   container: {flexDirection: 'column', justifyContent: 'space-around'},
-  bankname: {fontWeight: '900'},
+  bankname: {fontWeight: '600'},
   inforBank: {alignItems: 'center', width: '25%'},
-  lineBank: {flexDirection: 'row', justifyContent: 'space-around'},
-  touchDone: {justifyContent: 'flex-end'},
+  lineBank: {
+    flexDirection: 'row', justifyContent: 'space-around',paddingBottom:20},
+  touchDone: {justifyContent: 'center',alignSelf:'center'},
 });

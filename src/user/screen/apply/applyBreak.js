@@ -35,10 +35,10 @@ if (
 
 function ApplyBreak(props) {
   const { navigation } = props;
-  const [shift, setShift] = useState(new Date(1598051730000));
-  const [day, setDay] = useState(new Date(1598051730000));
-  const [dateStart, setDateStart] = useState(new Date(1598051730000));
-  const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
+  const [shift, setShift] = useState(new Date());
+  const [day, setDay] = useState(new Date());
+  const [dateStart, setDateStart] = useState(new Date());
+  const [dateEnd, setDateEnd] = useState(new Date());
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -352,24 +352,28 @@ function ApplyBreak(props) {
               value={shift}
               onChange={onChangeShift}
               onPress={onUnshow}
+              mode={'date'}
             />
           ) : mode === 'oneday' ? (
             <PickerCustom
               value={day}
               onChange={onChangeDay}
               onPress={onUnshow}
+              mode={'date'}
             />
           ) : mode === 'datestart' ? (
             <PickerCustom
               value={dateStart}
               onChange={onChangeDateStart}
               onPress={onUnshow}
+              mode={'date'}
             />
           ) : mode === 'dateend' ? (
             <PickerCustom
               value={dateEnd}
               onChange={onChangeDateEnd}
               onPress={onUnshow}
+              mode={'date'}
             />
           ) : null
         ) : null}

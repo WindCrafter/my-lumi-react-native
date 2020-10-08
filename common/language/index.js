@@ -60,7 +60,8 @@ const langs = {
   notify: 'Thông báo',
   errorNetwork: 'Lỗi mạng',
   bankAccount:'Số tài khoản:',
-  bank: 'Ngân hàng:'
+  bank: 'Ngân hàng:',
+  day: 'Ngày:',
 };
 
 export default langs;

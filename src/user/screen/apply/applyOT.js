@@ -21,12 +21,13 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import { imgs, Colors } from '../../../../utlis';
-import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import { Card } from 'native-base';
 import Suggest from './component/Suggest';
+import PickerCustom from './component/PickerCustom';
+import moment from 'moment';
 
 if (
   Platform.OS === 'android' &&
@@ -35,13 +36,15 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
-
 function ApplyOT(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
+  const [showPicker, setShowPicker] = useState(false);
   const { navigation, route } = props;
+  const [mode, setMode] = useState('');
+  const [day, setDay] = useState(new Date());
+  const [hour, setHour] = useState(new Date());
 
   const goBack = () => {
     navigation.goBack();
@@ -80,6 +83,28 @@ function ApplyOT(props) {
     if (time < 60) {
       setTime(time + 5);
     }
+  };
+
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowPicker(false);
+    setMode('');
+  };
+  const onChangeHour = (event, selectedShift) => {
+    const currentShift = selectedShift || hour;
+    setShowPicker(Platform.OS === 'ios');
+    setHour(currentShift);
+  };
+  const onChangeDay = (event, selectedDay) => {
+    const currentDay = selectedDay || day;
+    setShowPicker(Platform.OS === 'ios');
+    setDay(currentDay);
+  };
+
+  const onShowPicker = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowPicker(true);
+    setMode(m);
   };
 
   return (
@@ -142,12 +167,6 @@ function ApplyOT(props) {
               />
             </Card>
           ) : null}
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.startTime} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
-          </View>
           <Card style={styles.card}>
             <View style={[styles.row, { justifyContent: 'center' }]}>
               <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
@@ -159,8 +178,56 @@ function ApplyOT(props) {
                 <Text style={styles.add}>+</Text>
               </TouchableOpacity>
             </View>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+              <View style={styles.img}>
+                <Image
+                  source={imgs.startTime}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
+                />
+                <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.time}
+                onPress={() => onShowPicker('time')}>
+                <Text style={styles.txtTime}>
+                  {moment(hour).format('hh:mm')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+              <View style={styles.img}>
+                <Image
+                  source={imgs.startDate}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
+                />
+                <Text style={styles.txtStatus}>{langs.day}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.time}
+                onPress={() => onShowPicker('day')}>
+                <Text style={styles.txtTime}>
+                  {moment(day).format('DD/MM/yyyy')}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </Card>
         </View>
+        {showPicker ? (
+          mode === 'time' ? (
+            <PickerCustom
+              value={hour}
+              onChange={onChangeHour}
+              onPress={onUnshow}
+              mode={'time'}
+            />
+          ) : mode === 'day' ? (
+            <PickerCustom
+              value={day}
+              onChange={onChangeDay}
+              onPress={onUnshow}
+              mode={'date'} />
+          ) : null
+        ) : null}
       </ScrollView>
       <View style={styles.bottom}>
         <Button
@@ -206,6 +273,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignSelf: 'center',
     marginRight: 8,
+    flexDirection: 'row',
   },
   imageStamp: {
     width: 20,
@@ -215,7 +283,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontWeight: '300',
-    marginLeft: 12,
   },
   extend: {
     fontSize: 18,
@@ -237,7 +304,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginHorizontal: 16,
     marginVertical: 8,
   },
   txtTime: {
@@ -285,5 +351,9 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignSelf: 'center',
     marginLeft: 8,
+  },
+  time: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

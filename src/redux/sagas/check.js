@@ -72,10 +72,12 @@ function* sagaCheckInWifi(action) {
     console.log('-------->', token);
     const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
     console.log('CHECK=>>>', response);
+    console.log('CHECK=>>>', action.payload.type);
+
     if (
       response.success &&
       response.statusCode === 200 &&
-      response.data.type === 'in'
+      action.payload.type === 'in'
     ) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
@@ -87,7 +89,7 @@ function* sagaCheckInWifi(action) {
     } else if (
       response.success &&
       response.statusCode === 200 &&
-      response.data.type === 'out'
+      action.payload.type === 'out'
     ) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({

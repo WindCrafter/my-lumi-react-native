@@ -1,21 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {imgs} from '../../../../../utlis';
+interface Props {
+  tintColor?: String;
+  
+}
+ApplyIcon.defaultProps = {
+  tintColor: 'grey',
 
-const ApplyIcon = (props) => {
-  const { source, title, onPress } = props;
+};
+export default function ApplyIcon(props?: Props) {
+  const { source, title, onPress, tintColor} = props;
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
-        style={styles.img}
+        style={[{tintColor},styles.img]}
         resizeMode="cover"
-        source={source ? source : require('../../../../../naruto.jpeg')}
+        source={source ? source : imgs.clockAlert}
       />
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-export default ApplyIcon;
 
 const styles = StyleSheet.create({
   container: {
@@ -24,9 +32,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   img: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 32,
+    height: 32,
   },
   title: {
     fontSize: 14,

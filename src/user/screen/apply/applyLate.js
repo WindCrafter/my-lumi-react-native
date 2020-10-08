@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,15 +14,13 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { BarStatus, HeaderCustom, Button } from '../../../component';
-import { imgs, Colors } from '../../../../utlis';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 
 if (
@@ -36,8 +34,8 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  const { navigation, route } = props;
-
+  const {navigation, route} = props;
+  const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
@@ -65,7 +63,12 @@ function ApplyLate(props) {
     setShow(false);
     Keyboard.dismiss();
   };
-
+  const onSetLate = () => {
+    setType('late');
+  };
+  const onSetEarly = () => {
+    setType('early');
+  };
   const onSubtract = () => {
     if (time > 0) {
       setTime(time - 5);
@@ -145,10 +148,22 @@ function ApplyLate(props) {
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              <ApplyIcon title={'Đến muộn'} />
-              <ApplyIcon title={'Về Sớm'} />
+              <ApplyIcon
+                title={'Đến muộn'}
+                onPress={onSetLate}
+                tintColor={type === 'late' ? 'green' : 'grey'}
+              />
+              <ApplyIcon
+                title={'Về Sớm'}
+                onPress={onSetEarly}
+                tintColor={type === 'early' ? 'green' : 'grey'}
+              />
             </View>
-            <View style={[styles.row, { justifyContent: 'center' }]}>
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
               <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
                 <Text style={styles.add}>-</Text>
               </TouchableOpacity>
@@ -196,7 +211,6 @@ const styles = StyleSheet.create({
   },
   status: {
     flexDirection: 'row',
-    marginHorizontal: 16,
     marginVertical: 16,
     justifyContent: 'space-between',
   },
@@ -214,7 +228,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontWeight: '300',
-    marginLeft: 12,
   },
   extend: {
     fontSize: 18,
@@ -236,14 +249,13 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginHorizontal: 16,
     marginVertical: 8,
   },
   txtTime: {
     fontSize: 16,
     color: Colors.black,
     alignSelf: 'center',
-    marginHorizontal: 12,
+    marginHorizontal: 8,
   },
   card: {
     borderRadius: 16,
