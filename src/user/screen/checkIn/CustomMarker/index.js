@@ -8,20 +8,13 @@ export default class CusMarker extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          <View style={styles.column}>
             <View style={styles.leftTop} />
-          </View>
-          <View style={styles.column}>
             <View style={styles.rightTop} />
-          </View>
         </View>
         <View style={styles.row}>
-          <View style={styles.column}>
             <View style={styles.leftBot} />
-          </View>
-          <View style={styles.column}>
+
             <View style={styles.rightBot} />
-          </View>
         </View>
       </View>
     );
@@ -31,9 +24,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    width: '100%',
+    width: '80%',
     justifyContent: 'space-between',
-    alignContent: 'space-between',
+    alignContent: 'center',
   },
   row: {
     flexDirection: 'row',

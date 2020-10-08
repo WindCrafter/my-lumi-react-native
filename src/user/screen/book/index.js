@@ -74,8 +74,8 @@ const Book = (props) => {
     '2020-10-03': [],
     '2020-10-04': [{ name: 'item 3 - any js object' }],
   };
-  const onMoveToProfile = () => {
-    console.log('----- < > ______');
+  const onMoveToEvent = () => {
+    console.log('----- < > ______')
     navigation.navigate('Sự kiện mới');
   };
   return (
@@ -105,8 +105,8 @@ const Book = (props) => {
         <ActionButton.Item
           buttonColor="white"
           title="Tạo phòng họp"
-          onPress={onMoveToProfile}>
-          <Image source={imgs.meeting} style={{ tintColor: '#008aee' }} />
+          onPress={onMoveToEvent}>
+          <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
         </ActionButton.Item>
       </ActionButton>
     </>

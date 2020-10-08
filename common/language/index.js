@@ -7,7 +7,7 @@ const langs = {
   name: 'Họ và tên:',
   phone: 'Số điện thoại:',
   birthday: 'Ngày sinh:',
-  gene: 'Giới tính',
+  gene: 'Giới tính:',
   nativeLand: 'Quê quán:',
   home: 'Trang chủ',
   addStaff: 'Thêm nhân viên',
@@ -54,12 +54,14 @@ const langs = {
   afternoonShift: 'Ca chiều',
   contact: 'Thông tin liên hệ',
   validBreak: 'Số phép tồn',
-  identity: 'CCCD/CMND',
+  identity: 'CCCD/CMND:',
   inforCompany: 'Tổng quan công ty',
   staff: 'Nhân viên',
   notify: 'Thông báo',
   errorNetwork: 'Lỗi mạng',
   day: 'Ngày:',
+  bankAccount:'Số tài khoản:',
+  bank: 'Ngân hàng:'
 };
 
 export default langs;

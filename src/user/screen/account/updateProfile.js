@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -12,17 +12,20 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Modal,
 } from 'react-native';
-import { BarStatus, HeaderCustom } from '../../../component';
+import {BarStatus, HeaderCustom} from '../../../component';
 import {
   widthPercentageToDP as wp,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Colors, imgs } from '../../../../utlis';
+import {Colors, imgs} from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
+import ModalBank from './component/ModalBank';
+
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -48,6 +51,8 @@ function UpdateProfile(props) {
   const regId = /(\d{12})|(\d{9})/;
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
+  const [showBank, setShowBank] = useState(false);
+
   const [showPicker, setShowPicker] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
@@ -63,7 +68,12 @@ function UpdateProfile(props) {
   const [nativeLand, setNativeLand] = useState(
     advance && advance.nativeLand ? advance.nativeLand : null,
   );
-
+  const [bankAccount, setBankAccount] = useState(
+    advance && advance.bankAccount ? advance.bankAccount : null,
+  );
+  const [bankName, setBankName] = useState(
+    advance && advance.bankName ? advance.bankName : null,
+  );
   const onExtend = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setUpdate(!update);
@@ -76,11 +86,30 @@ function UpdateProfile(props) {
   const onChangeName = (val) => {
     setName(val);
   };
-
+  const onSetTech = () => {
+    setBankName('Techcom Bank');
+  };
+  const onSetBIDV = () => {
+    setBankName('BIDV');
+  };
+  const onSetAgri = () => {
+    setBankName('Agribank');
+  };
+  const onSetVCB = () => {
+    setBankName('VietcomBank');
+  };
+  const onSetVPB = () => {
+    setBankName('VP Bank');
+  };
+  const onSetVTB = () => {
+    setBankName('Viettin Bank');
+  };
   const onChangePhone = (val) => {
     setPhone(val);
   };
-
+  const onChangeAccount = (val) => {
+    setBankAccount(val);
+  };
   const onChangeBirthday = (event, val) => {
     const pickDate = val || moment(birthday, 'DD/MM/YYYY').toDate();
     setShowPicker(Platform.OS === 'ios');
@@ -104,7 +133,12 @@ function UpdateProfile(props) {
     setShow(true);
     setShowPicker(!showPicker);
   };
-
+  const onPick = () => {
+    setShowBank(true);
+  };
+  const onDonePick = () => {
+    setShowBank(!showBank);
+  };
   const onHideModal = () => {
     setShow(false);
   };
@@ -118,6 +152,8 @@ function UpdateProfile(props) {
         identity: identity,
         nativeLand: nativeLand,
         gene: gene,
+        bankAccount: bankAccount,
+        bankName: bankName,
       },
       token: token,
     };
@@ -134,7 +170,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
     if (!regId.test(identity)) {
@@ -142,7 +178,7 @@ function UpdateProfile(props) {
         title: 'Thông báo',
         message: 'Sai định dang CCCD/CMND',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     } else {
       updateProfile(data);
@@ -176,14 +212,15 @@ function UpdateProfile(props) {
             onChangeName={onChangeName}
             onChangeIdentity={onChangeIdentity}
           />
-          {true ? (
-            <UpdateInfo
-              birthday={birthday}
-              gene={gene}
-              onChangeGene={onChangeGene}
-              onChangeBirthday={onShowModal}
-            />
-          ) : null}
+
+          <UpdateInfo
+            birthday={birthday}
+            gene={gene}
+            onChangeGene={onChangeGene}
+            onChangeBirthday={onShowModal}
+            onChangeBank={onPick}
+            bankName={bankName}
+          />
         </ScrollView>
         {Platform.OS === 'ios' ? (
           <ModalTime
@@ -210,15 +247,20 @@ function UpdateProfile(props) {
             />
           )
         )}
-       
+        {showBank ? (
+          <ModalBank
+            showModal={showBank}
+            hideModal={onDonePick}
+            onSetVTB={onSetVTB}
+            onSetBIDV={onSetBIDV}
+            onSetTech={onSetTech}
+            onSetAgri={onSetAgri}
+            onSetVCB={onSetVCB}
+            onSetVPB={onSetVPB}
+            onBankAccount={onChangeAccount}
+          />
+        ) : null}
       </KeyboardAvoidingView>
-      {/* {!update ? (
-        <View style={styles.viewButton}>
-          <TouchableOpacity style={styles.button} onPress={onExtend}>
-            <Text style={styles.txtButton}>Mở rộng </Text>
-          </TouchableOpacity>
-        </View>
-      ) : null} */}
     </View>
   );
 }

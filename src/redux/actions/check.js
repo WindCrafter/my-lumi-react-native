@@ -45,3 +45,9 @@ export const createQRFailed = () => {
     type: types.CREATE_QR_FAILED,
   };
 };
+
+export const switchTo = () => {
+  return {
+    type: types.SWITCH_TO_CHECKIN,
+  };
+};

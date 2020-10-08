@@ -18,6 +18,7 @@
 		38CCADEC34F1358F3EFBDA54 /* libPods-LumiHR-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B47A9EEBE8C01026A53CF86 /* libPods-LumiHR-tvOSTests.a */; };
 		3906432744517F979EDEA857 /* libPods-LumiHR-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A32C5F52C6C2ED594375D326 /* libPods-LumiHR-tvOS.a */; };
 		42A9F20B719D31AC55820977 /* libPods-LumiHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D32B1F3D1D0EACE5208A441 /* libPods-LumiHR.a */; };
+		637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637181BE252BEB7A0030B72C /* ExternalAccessory.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		F3317DC6943835227DD1F675 /* libPods-LumiHR-LumiHRTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71857B2C02000A0BAF70EEE8 /* libPods-LumiHR-LumiHRTests.a */; };
 		FA95319A24EB8A90007F7670 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA95319924EB8A8F007F7670 /* AppCenter-Config.plist */; };
@@ -60,6 +61,8 @@
 		362696845B1C33E29E59560C /* Pods-LumiHR-LumiHRTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.debug.xcconfig"; sourceTree = "<group>"; };
 		47D6629F870FFBD0DD98A593 /* Pods-LumiHR-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D32B1F3D1D0EACE5208A441 /* libPods-LumiHR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		637181BD252BEB7A0030B72C /* LumiHR.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LumiHR.entitlements; path = LumiHR/LumiHR.entitlements; sourceTree = "<group>"; };
+		637181BE252BEB7A0030B72C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		65C2B270EC09DD232CF84A0C /* Pods-LumiHR-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		71857B2C02000A0BAF70EEE8 /* libPods-LumiHR-LumiHRTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-LumiHRTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LumiHR/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */,
 				42A9F20B719D31AC55820977 /* libPods-LumiHR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +136,7 @@
 		13B07FAE1A68108700A75B9A /* LumiHR */ = {
 			isa = PBXGroup;
 			children = (
+				637181BD252BEB7A0030B72C /* LumiHR.entitlements */,
 				FA02492324E29D73003B6244 /* Fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -149,6 +154,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				637181BE252BEB7A0030B72C /* ExternalAccessory.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				4D32B1F3D1D0EACE5208A441 /* libPods-LumiHR.a */,
@@ -318,6 +324,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = W829PZX392;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -713,6 +720,7 @@
 			baseConfigurationReference = 362696845B1C33E29E59560C /* Pods-LumiHR-LumiHRTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = W829PZX392;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -737,6 +745,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = W829PZX392;
 				INFOPLIST_FILE = LumiHRTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -757,6 +766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LumiHR/LumiHR.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W829PZX392;
 				ENABLE_BITCODE = NO;
@@ -768,7 +778,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lumi.lumihr;
 				PRODUCT_NAME = LumiHR;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -782,6 +792,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LumiHR/LumiHR.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W829PZX392;
 				INFOPLIST_FILE = LumiHR/Info.plist;
@@ -792,7 +803,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lumi.lumihr;
 				PRODUCT_NAME = LumiHR;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,11 +12,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from './component/header';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import DeadLine from './component/event';
 import InfoWeek from './component/Usage';
-import { BarStatus } from '../../../component';
-import { Colors, imgs } from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import {Colors, imgs} from '../../../../utlis';
 import RowCheck from './component/RowCheck';
 import Event from './component/event';
 import CheckIn from '../checkIn';
@@ -32,7 +32,7 @@ if (
 }
 
 function Home(props) {
-  const { navigation, nameUser, checkIn, checkInWifi } = props;
+  const {navigation, nameUser, checkIn, checkInWifi, switchTo} = props;
 
   const onPressNotify = () => {
     navigation.navigate('Thông báo');
@@ -49,13 +49,18 @@ function Home(props) {
   const onPressOT = () => {
     navigation.navigate('ApplyOT');
   };
-
+  useEffect(() => {
+    (switchTo ? navigation.navigate('CheckIn') : null),
+    console.log('------,check',switchTo)
+  }
+  
+  );
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} name={nameUser} />
-        <View style={{ flex: 5 }}>
+        <View style={{flex: 5}}>
           <ScrollView>
             <Card style={styles.card}>
               <Event />
@@ -64,7 +69,11 @@ function Home(props) {
               <HistoryWeek />
             </Card>
           </ScrollView>
-          <FloatButton onPressLate={onPressLate} onPressBreak={onPressBreak} onPressOT={onPressOT} />
+          <FloatButton
+            onPressLate={onPressLate}
+            onPressBreak={onPressBreak}
+            onPressOT={onPressOT}
+          />
         </View>
       </View>
     </>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,49 +8,41 @@ import {
   StatusBar,
   Keyboard,
   Platform,
+  KeyboardAvoidingView,
+  TextInput,
+  ScrollView,
 } from 'react-native';
 import {Card} from 'native-base';
-import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
-import {HeaderCheck} from '../../../component';
+import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
-import ModalQR from './component/ModalQR';
-import moment from 'moment';
-import ModalCode from './component/ModalCode';
-import ModalWifi from './component/ModalWifi';
-import NetInfo from '@react-native-community/netinfo';
 
-import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions';
+import moment from 'moment';
+
+import NetInfo from '@react-native-community/netinfo';
+import {widthPercentageToDP as wp,heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+// import {ScrollView} from 'react-native-gesture-handler';
+import { NetworkInfo } from 'react-native-network-info';
+
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {RNCamera} from 'react-native-camera';
+import CusMarker from '../checkIn/CustomMarker';
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
+
 const CheckIn = (props) => {
-  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi} = props;
+  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi,switchTo} = props;
   // console.log(checkInWifi)
-  const [showQR, setShowQR] = useState(false);
-  const [showCode, setShowCode] = useState(false);
-  const [showWifi, setShowWifi] = useState(false);
+
   const [ssidUser, setSsidUser] = useState('');
   const [bssidUser, setBssidUser] = useState('');
   const [code, setCode] = useState('');
   const [type, setType] = useState(true);
-  const onQRCode = () => {
-    setShowQR(true);
-  };
-  const onHideModalQR = () => {
-    setShowQR(false);
-  };
-  const onCode = () => {
-    setShowCode(true);
-  };
-  const onWifi = () => {
-    setShowWifi(true);
-  };
-  const onHideModalCode = () => {
-    setShowCode(false);
-    Keyboard.dismiss();
-  };
-  const onHideModalWifi = () => {
-    setShowWifi(false);
-  };
+  const [method, setMedthod] = useState('qr');
 
   const onChangeType = () => {
     setType(!type);
@@ -58,36 +50,33 @@ const CheckIn = (props) => {
 
   const onCheckInCode = () => {
     const data = {
-      time: moment().format('HH:mm'),
+      typeCheck: "code",
       deviceId: deviceId,
       codeString: code,
       type: type ? 'in' : 'out',
       token: token,
+
     };
     checkIn(data);
-    setShowCode(false);
     setCode('');
     Keyboard.dismiss();
   };
   const initWifi = async () => {
     try {
       let state = await NetInfo.fetch('wifi');
-
-      setSsidUser(state.details.ssid);
-      setBssidUser(state.details.bssid);
       const data = {
         ssid: state.details.ssid,
         bssid: state.details.bssid,
         type: type ? 'in' : 'out',
         deviceId: deviceId,
         token: token,
-
-
       };
-
+      setSsidUser(state.details.ssid);
+      setBssidUser(state.details.bssid);
       checkInWifi(data);
-      setShowWifi(false);
-      console.log('Your current connected wifi ssidUser is ' + state.details.ssid);
+      console.log(
+        'Your current connected wifi ssidUser is ' + state.details.ssid,
+      );
       console.log('Your current BssidUser is ' + state.details.bssid);
     } catch (error) {
       setSsidUser('Cannot get current ssidUser!' + error.message);
@@ -116,6 +105,7 @@ const CheckIn = (props) => {
       } else {
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
+        console.log(granted)
       }
     } catch (err) {
       console.warn(err);
@@ -127,99 +117,152 @@ const CheckIn = (props) => {
 
   const onCheckIn = (e) => {
     const data = {
-      time: moment().format('HH:mm'),
       deviceId: deviceId,
       codeString: e.data,
       type: type ? 'in' : 'out',
+      typeCheck: "qrCode",
       token: token,
+
+
     };
     checkIn(data);
-    setShowQR(false);
+  };
+  const onPressBack = () => {
+    navigation.goBack();
+    switchTo();
+  };
+  const scrollRef = useRef();
+
+  
+  const PageCode = () => {
+    scrollRef.current.scrollTo({x: 2 * wp(100), y: 20, animated: true});
+    setMedthod('code');
+  };
+  const PageQr = () => {
+    scrollRef.current.scrollTo({x: 0, y: 20, animated: true});
+    setMedthod('qr');
+  };
+  const PageWifi = () => {
+    scrollRef.current.scrollTo({x: wp(100), y: 20, animated: true});
+    setMedthod('wifi');
   };
 
   return (
-    <Card style={styles.container}>
+
+    <View>
+     
+    <ScrollView
+      ref={scrollRef}
+      horizontal={true}
+      pagingEnabled={true}
+      // scrollEnabled={false}
+      showsHorizontalScrollIndicator={false}
+      onScrollAnimationEnd={false}
+      // style={{flex:1}}
+      >
+      
+            <QRCodeScanner
+              onRead={onCheckIn}
+              reactivate={true}
+              reactivateTimeout={3000}
+              flashMode={RNCamera.Constants.FlashMode.off}
+              cameraStyle={styles.camera}
+              topViewStyle={styles.not}
+              showMarker={true}
+              // cameraProps={{ratio: '1:1'}}
+              customMarker={<CusMarker />}
+          bottomContent={<Text style={styles.titlemodal}>
+            Di chuyển Camera vào vùng chứa mã bạn nhé.
+            </Text>}
+
+            />
+           
+
+      <View style={styles.pagetwo}>
+      
+        <View style={styles.viewMid} >
+          <View style={styles.modalviewWifi}>
+            <Card style={styles.cardWifi}>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={imgs.ssid} style={styles.iconWifi} />
+                <Text style={styles.txtTopWifi}>Tên wifi:</Text>
+
+                <Text style={styles.txtTopWifi}>{ssidUser}</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={imgs.bssid} style={styles.iconWifi} />
+                <Text style={styles.txtTopWifi}>Mã MAC:</Text>
+                <Text style={styles.txtTopWifi}>{bssidUser}</Text>
+              </View>
+            </Card>
+            <TouchableOpacity
+              style={styles.touchableWifi}
+                onPress={requestLocationPermission}>
+              <Text style={styles.doneWifi}>Kết nối lại</Text>
+            </TouchableOpacity>
+          </View>
+           
+        </View>
+      </View>
+
+      <View style={styles.pagethree}>
+       
+        <View style={styles.viewMid}>
+          <View style={styles.modalviewCode}>
+            <Card style={styles.card}>
+              <KeyboardAvoidingView style={styles.bodyCode}>
+                <Image source={imgs.key} style={styles.imageInputCode} />
+                <TextInput
+                  style={styles.txtInputCode}
+                  textAlign={'left'}
+                  placeholder={'Nhập mã chấm công'}
+                  placeholderTextColor={'gray'}
+                  onChangeText={onChangeCode}
+                  clearButtonMode={'while-editing'}
+                  value={code}
+                />
+              </KeyboardAvoidingView>
+            </Card>
+            <TouchableOpacity
+              style={styles.touchableCode}
+              onPress={onCheckInCode}>
+              <Text style={styles.doneCode}>Xác nhận</Text>
+            </TouchableOpacity>
+          </View>
+         
+        </View>
+      </View>
+      </ScrollView> 
       <HeaderCheck
         title={langs.checkIn}
         type={type ? 'Check In' : 'Check Out'}
         onPress={onChangeType}
         pressHistory={goHistory}
+        onPressBack={onPressBack}
       />
-      <View style={styles.detail}>
-        <TouchableOpacity style={styles.viewMid} onPress={onQRCode}>
-          <Card style={styles.card}>
-            <View style={styles.body}>
-              <Image source={imgs.blueQrcode} style={styles.image} />
-              <Text style={styles.txtCheck}>Chấm công bằng QR code</Text>
-            </View>
-            <Icon name="chevron-right" size={32} color={Colors.background} />
-          </Card>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.viewMid} onPress={onWifi}>
-          <Card style={styles.card}>
-            <View style={styles.body}>
-              <Image source={imgs.wifiblue} style={styles.image} />
-              <Text style={styles.txtCheck}>Chấm công bằng Wifi</Text>
-            </View>
-            <Icon name="chevron-right" size={32} color={Colors.background} />
-          </Card>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.viewMid} onPress={onCode}>
-          <Card style={styles.card}>
-            <View style={styles.body}>
-              <Image source={imgs.checkIcon} style={styles.image} />
-              <Text style={styles.txtCheck}>Chấm công bằng mã</Text>
-            </View>
-            <Icon name="chevron-right" size={32} color={Colors.background} />
-          </Card>
-        </TouchableOpacity>
-        <View style={styles.nothing} />
-      </View>
-      <ModalQR
-        showModal={showQR}
-        hideModal={onHideModalQR}
-        onCheckIn={onCheckIn}
+      <Bottom
+        method={method}
+        onPressOne={PageQr}
+        onPressTwo={PageWifi}
+        onPressThree={PageCode}
       />
-      <ModalCode
-        code={code}
-        onChangeCode={onChangeCode}
-        showModal={showCode}
-        hideModal={onHideModalCode}
-        onCheckIn={onCheckInCode}
-      />
-      <ModalWifi
-        showModal={showWifi}
-        hideModal={onHideModalWifi}
-        onCheckInWifi={requestLocationPermission}
-        ssidUser={ssidUser}
-        bssidUser={bssidUser}
-      />
-    </Card>
+    </View>
   );
 };
 
 export default CheckIn;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 24,
-    paddingBottom: 10,
-  },
+  
   detail: {
-    flex: 4,
+    width: wp(100),
   },
   viewTop: {
-    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 18,
   },
   viewMid: {
-    flex: 1,
     alignItems: 'center',
-    marginTop: 10,
   },
   txtTop: {
     fontSize: 16,
@@ -248,9 +291,168 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 12,
   },
-  nothing: {
-    flex: 2,
-  },
+
   image: {width: 24, height: 24, alignSelf: 'center'},
   body: {flexDirection: 'row'},
+  pageone: {
+    width: wp(100),
+    justifyContent: 'center',
+    backgroundColor: Colors.background,
+  },
+  pagetwo: {
+    width: wp(100),
+    justifyContent: 'center',
+    backgroundColor: Colors.background,
+    height:hp(100)
+  },
+  pagethree: {
+    width: wp(100),
+    justifyContent: 'center',
+    backgroundColor: Colors.background,
+    height: hp(100)
+
+  },
+  modalview: {
+    borderRadius: 28,
+    width: widthPercentageToDP(100),
+    height: heightPercentageToDP(60),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titlemodal: {
+    fontWeight: '500',
+    fontSize: 16,
+    marginBottom: wp(50),
+    color: 'white',
+  },
+  complete: {
+    backgroundColor: Colors.background,
+  },
+  camera: {
+    height: hp(100),
+    width: wp(100),
+    // flex:1 
+
+ },
+  contentTop: {
+    flex: 1,
+    paddingTop: 8,
+  },
+  contentImage: {
+    alignSelf: 'center',
+    height: 72,
+    width: 72,
+  },
+  modalviewCode: {
+    borderRadius: 24,
+    width: widthPercentageToDP(85),
+    height: heightPercentageToDP(35),
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  viewTopCode: {
+    justifyContent: 'center',
+  },
+
+  txtTopCode: {
+    fontSize: 18,
+  },
+
+  cardCode: {
+    width: widthPercentageToDP(70),
+    alignSelf: 'center',
+    borderRadius: 24,
+    paddingVertical: 2,
+    backgroundColor: '#ffffff',
+    overflow: 'hidden',
+    shadowColor: 'gray',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  touchableCode: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'contain',
+    width: 132,
+    height: 49,
+    borderRadius: 16,
+    backgroundColor: '#ffffff',
+  },
+  doneCode: {
+    color: '#008aee',
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  bodyCode: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    width: widthPercentageToDP(40),
+  },
+  imageInputCode: {
+    alignSelf: 'center',
+    marginRight: 8,
+  },
+  txtInputCode: {
+    width: widthPercentageToDP(50),
+  },
+  modalviewWifi: {
+    borderRadius: 24,
+    width: 85,
+    height: heightPercentageToDP(35),
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+
+  viewTopWifi: {
+    justifyContent: 'center',
+  },
+
+  txtTopWifi: {
+    fontSize: 18,
+  },
+
+  cardWifi: {
+    width: widthPercentageToDP(80),
+    alignSelf: 'center',
+    paddingVertical: 2,
+    overflow: 'hidden',
+    shadowColor: 'gray',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    height: 159,
+    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-evenly',
+  },
+  touchableWifi: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'contain',
+    backgroundColor: Colors.background,
+    width: 132,
+    height: 49,
+    borderRadius: 16,
+    backgroundColor: '#ffffff',
+  },
+  doneWifi: {
+    color: '#008aee',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  iconWifi: {
+    marginHorizontal: 8,
+  },
+  not:{flex:0}
 });

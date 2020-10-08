@@ -29,15 +29,15 @@ const ModalCode = (props) => {
         onBackdropPress={hideModal}
         style={styles.modal}
         backdropTransitionOutTiming={0}>
-        <View style={styles.modalview}>
-          <View style={styles.viewTop}>
-            <Text style={styles.txtTop}>Điền mã được cấp để chấm công :</Text>
+        <View style={styles.modalviewCode}>
+          <View style={styles.viewTopCode}>
+            <Text style={styles.txtTopCode}>Điền mã được cấp để chấm công :</Text>
           </View>
-          <Card style={styles.card}>
-            <KeyboardAvoidingView style={styles.body}>
-              <Image source={imgs.key} style={styles.imageInput} />
+          <Card style={styles.cardCode}>
+            <KeyboardAvoidingView style={styles.bodyCode}>
+              <Image source={imgs.key} style={styles.imageInputCode} />
               <TextInput
-                style={styles.txtInput}
+                style={styles.txtInputCode}
                 textAlign={'left'}
                 placeholder={'Nhập mã chấm công'}
                 placeholderTextColor={'gray'}
@@ -47,8 +47,8 @@ const ModalCode = (props) => {
               />
             </KeyboardAvoidingView>
           </Card>
-          <TouchableOpacity style={styles.touchable} onPress={onCheckIn}>
-            <Text style={styles.done}>Hoàn thành</Text>
+          <TouchableOpacity style={styles.touchableCode} onPress={onCheckIn}>
+            <Text style={styles.doneCode}>Hoàn thành</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -59,12 +59,8 @@ const ModalCode = (props) => {
 export default ModalCode;
 
 const styles = StyleSheet.create({
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 0,
-  },
-  modalview: {
+  
+  modalviewCode: {
     borderRadius: 24,
     width: widthPercentageToDP(85),
     height: heightPercentageToDP(35),
@@ -73,37 +69,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  titlemodal: {
-    fontWeight: '500',
-    fontSize: 20,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  complete: {
-    backgroundColor: Colors.background,
-  },
-  viewTop: {
+  
+
+  viewTopCode: {
     justifyContent: 'center',
   },
-  viewMid: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  txtTop: {
+  
+  txtTopCode: {
     fontSize: 18,
   },
-  txtCheck: {
-    fontSize: 17,
-    fontWeight: '400',
-    alignSelf: 'center',
-  },
-  nothing: {
-    flex: 3,
-  },
-  blankspace: {
-    flex: 2,
-  },
-  card: {
+  
+  cardCode: {
     width: widthPercentageToDP(70),
     alignSelf: 'center',
     borderRadius: 24,
@@ -118,7 +94,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-  touchable: {
+  touchableCode: {
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'contain',
@@ -128,22 +104,22 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 16,
   },
-  done: {
+  doneCode: {
     color: Colors.white,
     fontSize: 16,
     fontWeight: '500',
   },
-  body: {
+  bodyCode: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 4,
     width: widthPercentageToDP(40),
   },
-  imageInput: {
+  imageInputCode: {
     alignSelf: 'center',
     marginRight: 8,
   },
-  txtInput: {
+  txtInputCode: {
     width: widthPercentageToDP(50),
   },
 });
