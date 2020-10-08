@@ -17,6 +17,7 @@ const initialState = {
   deviceId: '',
   userProfile: {},
   remember: false,
+  roleInfo: [],
 };
 
 export default function authen(state = initialState, action) {
@@ -29,6 +30,7 @@ export default function authen(state = initialState, action) {
         token: action.payload.token,
         role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         userProfile: action.payload.data.userProfile,
+        roleInfo: action.payload.data.roles,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
