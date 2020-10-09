@@ -1,6 +1,6 @@
 // Imports: Dependencies
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
+import {combineReducers} from 'redux';
+import {persistReducer} from 'redux-persist';
 
 // Imports: Reducers
 import authen from './authen';
@@ -21,6 +21,7 @@ const authPersistConfig = {
     'role',
     'currentUser',
     'userProfile',
+    'roleInfo',
   ],
 };
 

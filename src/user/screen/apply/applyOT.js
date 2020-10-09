@@ -41,11 +41,22 @@ function ApplyOT(props) {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
   const [showPicker, setShowPicker] = useState(false);
-  const { navigation, route } = props;
+  const { navigation, route, userId, token, overTime} = props;
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [hour, setHour] = useState(new Date());
-
+  const onSetOverTime = () => {
+    console.log(userId)
+    console.log(moment(hour).format('hh:mm'))
+    const data = {
+      userId: userId,
+      time: time,
+      date: moment().format('DD/MM/YYYY'),
+      token: token,
+      start: moment(hour).format('hh:mm'),
+    };
+    overTime(data);
+  };
   const goBack = () => {
     navigation.goBack();
   };
@@ -233,7 +244,7 @@ function ApplyOT(props) {
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
-          onPress={onComplete}
+          onPress={onSetOverTime}
         />
       </View>
     </View>

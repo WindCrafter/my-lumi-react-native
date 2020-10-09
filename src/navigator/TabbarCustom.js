@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Platform,Dimensions} from 'react-native';
 import {Colors} from '../../utlis';
 import {TabbarIcon} from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
@@ -32,6 +32,9 @@ const[test,setTest]=useState('')
         console.log('Thanh cong');
         initWifi();
         console.log(token);
+        console.log(Dimensions.get('window').width)
+        console.log(Dimensions.get('window').height)
+
       } else {
         navigation.navigate('CheckIn');
         console.log('Yêu cầu vị trí bị từ chối');

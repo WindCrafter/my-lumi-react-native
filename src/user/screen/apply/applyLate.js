@@ -14,6 +14,8 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
+import moment from 'moment';
+
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
@@ -34,14 +36,14 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  const {navigation, route} = props;
+  const { navigation, route, setLateEarly, userId, token} = props;
   const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
 
   const onComplete = () => {
-    Alert.alert('end');
+    onsetLateEarly()
   };
 
   const onChangeReason = (val) => {
@@ -52,7 +54,17 @@ function ApplyLate(props) {
     setReason(val);
     unFocus();
   };
-
+  const onsetLateEarly = () => {
+    console.log(userId)
+    const data = {
+      userId: userId,      
+      type : type ,
+      time: time,
+      date: moment().format('DD/MM/YYYY'),
+      token:token
+    };
+    setLateEarly(data);
+  };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);

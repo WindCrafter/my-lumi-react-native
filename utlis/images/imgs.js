@@ -90,5 +90,11 @@ export const imgs = {
   note: require('../../common/assets/images/icon/Note-icon.png'),
   notificationGreen: require('../../common/assets/images/icon/Notifications-green-icon.png'),
   notificationGrey: require('../../common/assets/images/icon/Notifications-grey-icon.png'),
+  breakMoreDay: require('../../common/assets/images/icon/Calendar-breakdays-icon2x.png'),
+  breakOneDay: require('../../common/assets/images/icon/Calendar-breakday-icon2x.png'),
+  breakShift   : require('../../common/assets/images/icon/Clock-shift-icon2x.png'),
+
+
+
 
 };

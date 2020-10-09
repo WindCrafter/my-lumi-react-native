@@ -11,7 +11,10 @@ const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_GET_QR = `${URL.LOCAL_HOST}${URL.GET_QR}`;
-
+const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
+const URL_TAKE_LEAVE =`${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
+const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
+ 
 export class Connection extends Component {
   changePass(data, token) {
     return _POST(URL_CHANGE_PASS, data, token);
@@ -41,6 +44,17 @@ export class Connection extends Component {
   getQR(date, token) {
     return _GET(`${URL_GET_QR}${date}`, token);
   }
+  setLateEarly(data, token) {
+    return _POST(URL_LATE_EARLY, data, token);
+  }
+  takeLeave(data, token) {
+    return _POST(URL_TAKE_LEAVE, data, token);
+  }
+  overTime(data,token) {
+    return _POST(URL_OVERTIME, data, token);
+
+  }
+
 }
 
 export default new Connection();

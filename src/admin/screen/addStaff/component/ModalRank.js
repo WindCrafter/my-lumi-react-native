@@ -6,13 +6,14 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { TextSelect, Button } from '../../../../component';
+import {TextSelect, Button} from '../../../../component';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Colors } from '../../../../../utlis';
+import {Colors} from '../../../../../utlis';
 
 const ModalRank = (props) => {
   const {
@@ -23,7 +24,20 @@ const ModalRank = (props) => {
     pressManagerHigher,
     pressOther,
     rank,
+    data,
+    onPress,
   } = props;
+
+  const renderItem = ({item, index}) => {
+    return (
+      <TextSelect
+        title={item.name}
+        onPressButton={() => onPress(item.name, item.roleId)}
+        checkTick={rank === item.name ? true : false}
+        fontSize={16}
+      />
+    );
+  };
   return (
     <View>
       <Modal
@@ -36,8 +50,7 @@ const ModalRank = (props) => {
         backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
           <Text style={styles.titlemodal}>Chức vụ </Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <TextSelect
+          {/* <TextSelect
               title={'Leader'}
               onPressButton={pressLeader}
               checkTick={rank === 'Leader' ? true : false}
@@ -56,7 +69,7 @@ const ModalRank = (props) => {
               title={'Khác'}
               checkTick={rank === 'Khác' ? true : false}
               onPressButton={pressOther}
-            /> */}
+            />
             <TextSelect
               title={'Admin'}
               onPressButton={pressLeader}
@@ -66,8 +79,13 @@ const ModalRank = (props) => {
               title={'User'}
               onPressButton={pressManager}
               checkTick={rank === 'USER' ? true : false}
-            />
-          </ScrollView>
+            /> */}
+
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.roleId}
+          />
           <Button
             title={'Xong'}
             containerStyle={styles.complete}

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,8 @@ import {
   StatusBar,
   Alert,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   InputInfor,
   InputSelect,
@@ -22,9 +22,10 @@ import {
   BarStatus,
   HeaderCustom,
 } from '../../../component';
-import { imgs, Colors } from '../../../../utlis';
+import {imgs, Colors} from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
+import {Item} from 'native-base';
 
 if (
   Platform.OS === 'android' &&
@@ -34,34 +35,23 @@ if (
 }
 
 const AddStaff = (props) => {
-  const {
-    navigation,
-    getListRoles,
-    token,
-    addStaff,
-    roleIdUser,
-    roleIdAdmin,
-  } = props;
+  const {navigation, getListRoles, token, addStaff, roleInfo} = props;
 
   const refEmail = useRef(null);
   const refPhone = useRef(null);
   const refPosition = useRef(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [roleId, setRoleId] = useState('');
   const [password, setPassword] = useState('123456');
   const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
   const [detailRank, setDetailRank] = useState('Vui lòng chọn');
   const [showModalPosition, setModalPosition] = useState(false);
   const [showModalRank, setModalRank] = useState(false);
 
-  useEffect(() => {
-    getListRoles(token);
-  }, [getListRoles, token]);
-
   const onDone = () => {
     Keyboard.dismiss();
-    const roleId = detailRank === 'ADMIN' ? roleIdAdmin : roleIdUser;
-    const data = { name, email, password, roleId, token };
+    const data = {name, email, password, roleId, token};
     if (email.trim().length === 0) {
       Alert.alert('email invalid');
       return;
@@ -102,8 +92,9 @@ const AddStaff = (props) => {
     setModalRank(false);
   };
 
-  const onSetRank = (value) => {
-    setDetailRank(value);
+  const onSetRank = (role, id) => {
+    setDetailRank(role);
+    setRoleId(id);
   };
 
   const onSetPosition = (value) => {
@@ -179,7 +170,7 @@ const AddStaff = (props) => {
             value={password}
             onChangeText={onChangePass}
           />
-          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setPosition}>
+          <TouchableOpacity style={{marginBottom: 24}} onPress={setPosition}>
             <InputSelect
               testID="test_Position"
               backgroundColor={'white'}
@@ -191,7 +182,7 @@ const AddStaff = (props) => {
               onPressButton={setPosition}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={{ marginBottom: 24 }} onPress={setRank}>
+          <TouchableOpacity style={{marginBottom: 24}} onPress={setRank}>
             <InputSelect
               width={wp(90)}
               testID="test_Rank"
@@ -232,11 +223,9 @@ const AddStaff = (props) => {
           <ModalRank
             showModalRank={showModalRank}
             onHideModal={hideRank}
-            pressLeader={() => onSetRank('ADMIN')}
-            pressManager={() => onSetRank('USER')}
-            // pressManagerHigher={() => onSetRank('Giám đốc')}
-            // pressOther={() => onSetRank('Khác')}
             rank={detailRank}
+            data={roleInfo}
+            onPress={(role, id) => onSetRank(role, id)}
           />
         </View>
       </ScrollView>

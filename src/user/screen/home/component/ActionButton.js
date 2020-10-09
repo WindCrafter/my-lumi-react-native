@@ -80,6 +80,25 @@ const styles = StyleSheet.create({
     // bottom: 0,
     // right: 0,
   },
-  note: {alignSelf: 'center', height: 24, width: 24},
-  container: {flex: 1, backgroundColor: '#f3f3f3'},
+  note: { alignSelf: 'center', height: 24, width: 24 },
+  container: { flex: 1, backgroundColor: '#f3f3f3' },
 });
+
+// actionButtonIcon: {
+//   fontSize: 20,
+//   height: 22,
+//   color: 'white',
+//   bottom: 120,
+// },
+// absolute: {
+//   position: 'absolute',
+//   height: heightPercentageToDP(100),
+//   width: widthPercentageToDP(100),
+
+//   bottom: 120,
+// },
+// note: {
+//   position: 'absolute',
+//   bottom: 120,
+// },
+// container: {flex: 1, backgroundColor: '#f3f3f3'},

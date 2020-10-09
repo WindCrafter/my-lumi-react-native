@@ -10,4 +10,7 @@ export const URL = {
   UPDATE_PROFILE: '/user/update-profile',
   CHECK_IN_WIFI: '/check-in/wifi',
   LIST_USERS: '/user/list-users',
+  LATE_EARLY: '/user/add-late-early',
+  TAKE_LEAVE: '/user/add-take-leave',
+  OVERTIME: '/user/add-overtime',
 };

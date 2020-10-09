@@ -59,9 +59,9 @@ const langs = {
   staff: 'Nhân viên',
   notify: 'Thông báo',
   errorNetwork: 'Lỗi mạng',
-  bankAccount:'Số tài khoản:',
-  bank: 'Ngân hàng:',
   day: 'Ngày:',
+  bankAccount:'Số tài khoản:',
+  bank: 'Ngân hàng:'
 };
 
 export default langs;

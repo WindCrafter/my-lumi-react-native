@@ -47,6 +47,7 @@ export default function check(state = initialState, action) {
         ...state,
         switchTo: false,
       };
+      
     default:
       return state;
   }
