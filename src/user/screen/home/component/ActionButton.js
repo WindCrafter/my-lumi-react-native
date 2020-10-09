@@ -25,41 +25,39 @@ const FloatButton = (props) => {
     return <Image source={imgs.note} style={styles.note} />;
   };
   return (
-    <View style={styles.container}>
-      <ActionButton
-        buttonColor="white"
-        backdrop={blurView()}
-        renderIcon={buttonIcon}>
-        <ActionButton.Item
-          inputX={[0, 0]}
-          outputX={[0, 0]}
-          inputY={[0, 1]}
-          outputY={[160, 80]}
-          buttonColor="#ff5353"
-          title="Xin đi muộn/ về sớm"
-          onPress={onPressLate}>
-          <Image source={imgs.clockAlert} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          inputX={[0, 1]}
-          outputX={[0, -85]}
-          inputY={[0, 1]}
-          outputY={[140, 70]}
-          buttonColor="#2fac4f"
-          title="Xin nghỉ"
-          onPress={onPressBreak}>
-          <Image source={imgs.overTime} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          outputX={[0, -120]}
-          outputY={[0, 80]}
-          buttonColor="#008aee"
-          title="Xin OT"
-          onPress={onPressOT}>
-          <Image source={imgs.dayOff} />
-        </ActionButton.Item>
-      </ActionButton>
-    </View>
+    <ActionButton
+      buttonColor="white"
+      backdrop={blurView()}
+      renderIcon={buttonIcon}>
+      <ActionButton.Item
+        inputX={[0, 0]}
+        outputX={[0, 0]}
+        inputY={[0, 1]}
+        outputY={[160, 80]}
+        buttonColor="#ff5353"
+        title="Xin đi muộn/ về sớm"
+        onPress={onPressLate}>
+        <Image source={imgs.clockAlert} />
+      </ActionButton.Item>
+      <ActionButton.Item
+        inputX={[0, 1]}
+        outputX={[0, -85]}
+        inputY={[0, 1]}
+        outputY={[140, 70]}
+        buttonColor="#2fac4f"
+        title="Xin nghỉ"
+        onPress={onPressBreak}>
+        <Image source={imgs.overTime} />
+      </ActionButton.Item>
+      <ActionButton.Item
+        outputX={[0, -120]}
+        outputY={[0, 80]}
+        buttonColor="#008aee"
+        title="Xin OT"
+        onPress={onPressOT}>
+        <Image source={imgs.dayOff} />
+      </ActionButton.Item>
+    </ActionButton>
   );
 };
 
@@ -81,5 +79,4 @@ const styles = StyleSheet.create({
     // right: 0,
   },
   note: {alignSelf: 'center', height: 24, width: 24},
-  container: {flex: 1, backgroundColor: '#f3f3f3'},
 });

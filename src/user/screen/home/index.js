@@ -10,17 +10,15 @@ import {
   LayoutAnimation,
   StatusBar,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import Header from './component/header';
 import {Card} from 'native-base';
-import DeadLine from './component/event';
-import InfoWeek from './component/Usage';
+import ActionButton from 'react-native-action-button';
 import {BarStatus} from '../../../component';
 import {Colors, imgs} from '../../../../utlis';
 import RowCheck from './component/RowCheck';
 import Event from './component/event';
-import CheckIn from '../checkIn';
-import Usage from './component/Usage';
 import HistoryWeek from './component/Calendar';
 import FloatButton from './component/ActionButton';
 
@@ -49,12 +47,11 @@ function Home(props) {
   const onPressOT = () => {
     navigation.navigate('ApplyOT');
   };
+
   useEffect(() => {
-    (switchTo ? navigation.navigate('CheckIn') : null),
-    console.log('------,check',switchTo)
-  }
-  
-  );
+    switchTo ? navigation.navigate('CheckIn') : null,
+      console.log('------,check', switchTo);
+  });
   return (
     <>
       <BarStatus backgroundColor={Colors.background} />

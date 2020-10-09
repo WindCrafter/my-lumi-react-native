@@ -7,33 +7,67 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
+  LayoutAnimation,
+  UIManager,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
 import {InputRow, Button, InputSelect} from '../../../component';
-import langs from '../../../../common/language';
-import {ScrollView} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Feather';
 import {_global} from '../../../../utlis/global/global';
+import {Card} from 'native-base';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import moment from 'moment';
+import PickerCustom from '../apply/component/PickerCustom';
 
-const BACKGROUDNCOLOR =
-  Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : 'rgba(0,0,25,0.17)';
-
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 const Event = (props) => {
   const refPhone = useRef('');
-  const refBirth = useRef('');
-  const refTeam = useRef('');
-  const refNative = useRef('');
-  const {
-    phone,
-    onChangeTitle,
-    birthday,
-    onChangeBirthDay,
-    team,
-    onChangeTeam,
-    nativeLand,
-    onChangeNative,
-    onNext,
-  } = props;
+  const [timeStart, setTimeStart] = useState(new Date());
+  const [timeEnd, setTimeEnd] = useState(new Date());
+  const [dateStart, setDateStart] = useState(new Date());
+  const [dateEnd, setDateEnd] = useState(new Date());
+  const [phone, setPhone] = useState('');
+  const [mode, setMode] = useState('');
+  const [show, setShow] = useState('');
+  const onChangeTitle = () => {};
+  const onChangeBirthDay = () => {};
+  const onShow = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(true);
+    setMode(m);
+  };
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShow(false);
+    setMode('');
+  };
+  const onChangeTimeStart = (event, selectedTimeStart) => {
+    const currentTimeStart = selectedTimeStart || timeStart;
+    setShow(Platform.OS === 'ios');
+    setTimeStart(currentTimeStart);
+  };
+  const onChangeTimeEnd = (event, selectedTimeEnd) => {
+    const currentTimeEnd = selectedTimeEnd || timeEnd;
+    setShow(Platform.OS === 'ios');
+    setTimeEnd(currentTimeEnd);
+  };
+  const onChangeDateStart = (event, selectedDateStart) => {
+    const currentDateStart = selectedDateStart || dateStart;
+    setShow(Platform.OS === 'ios');
+    setDateStart(currentDateStart);
+  };
+  const onChangeDateEnd = (event, selectedDateEnd) => {
+    const currentDateEnd = selectedDateEnd || dateEnd;
+    setShow(Platform.OS === 'ios');
+    setDateEnd(currentDateEnd);
+  };
+
   return (
     <>
       <KeyboardAvoidingView
@@ -53,16 +87,129 @@ const Event = (props) => {
           refInput={refPhone}
           leftImage={imgs.title}
         />
-        <View style={styles.Description}>
+        <Card style={styles.Description}>
           <TextInput
             multiline
             placeholder={'Tóm tắt sự kiện, lịch họp hoặc hoạt động'}
-                      maxLength={40}
-                      style={styles.txtDescription}
-                      
-
+            maxLength={40}
+            style={styles.txtDescription}
           />
-        </View>
+        </Card>
+        <Card style={styles.card}>
+          <View style={styles.rowBot}>
+            <View style={styles.column}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  {
+                    marginVertical: 20,
+                    backgroundColor: Colors.white,
+                    flexDirection: 'row',
+                  },
+                ]}
+                onPress={() => onShow('timeStart')}>
+                <Image
+                  source={imgs.startTime}
+                  style={[styles.imageStamp, {tintColor: '#455997'}]}
+                />
+                <Text style={[styles.txtTime, {color: '#455997'}]}>
+                  {moment(timeStart).format('HH:mm')}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor: Colors.white,
+                  },
+                ]}
+                onPress={() => onShow('dateStart')}>
+                <Image
+                  source={imgs.breakDay}
+                  style={[styles.imageStamp, {tintColor: '#455997'}]}
+                />
+
+                <Text style={[styles.txtTime, {color: '#455997'}]}>
+                  {moment(dateStart).format('DD/MM/yyyy')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Icon
+              name="chevron-right"
+              size={96}
+              color={'gray'}
+              style={styles.icon}
+            />
+            <View style={styles.column}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor: Colors.white,
+                    flexDirection: 'row',
+                    marginVertical: 20,
+                  },
+                ]}
+                onPress={() => onShow('timeEnd')}>
+                <Image
+                  source={imgs.startTime}
+                  style={[styles.imageStamp, {tintColor: '#00821c'}]}
+                />
+
+                <Text style={[styles.txtTime, {color: '#00821c'}]}>
+                  {moment(timeEnd).format('HH:mm')}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  {
+                    backgroundColor: Colors.white,
+                  },
+                ]}
+                onPress={() => onShow('dateEnd')}>
+                <Image
+                  source={imgs.breakDay}
+                  style={[styles.imageStamp, {tintColor: '#00821c'}]}
+                />
+                <Text style={[styles.txtTime, {color: '#00821c'}]}>
+                  {moment(dateEnd).format('DD/MM/yyyy')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Card>
+        {show ? (
+          mode === 'timeStart' ? (
+            <PickerCustom
+              value={timeStart}
+              onChange={onChangeTimeStart}
+              onPress={onUnshow}
+              mode={'time'}
+            />
+          ) : mode === 'timeEnd' ? (
+            <PickerCustom
+              value={timeEnd}
+              onChange={onChangeTimeEnd}
+              onPress={onUnshow}
+              mode={'time'}
+            />
+          ) : mode === 'dateStart' ? (
+            <PickerCustom
+              value={dateStart}
+              onChange={onChangeDateStart}
+              onPress={onUnshow}
+              mode={'date'}
+            />
+          ) : mode === 'dateEnd' ? (
+            <PickerCustom
+              value={dateEnd}
+              onChange={onChangeDateEnd}
+              onPress={onUnshow}
+              mode={'date'}
+            />
+          ) : null
+        ) : null}
         <InputSelect
           width={'90%'}
           leftImage={imgs.location}
@@ -71,7 +218,6 @@ const Event = (props) => {
           shadowColor={'white'}
           title={'Địa điểm'}
           padding={8}
-          detail={birthday}
           marginVertical={18}
           containerStyle={styles.viewInputSelect}
           onPressButton={onChangeBirthDay}
@@ -88,7 +234,6 @@ const Event = (props) => {
           shadowColor={'white'}
           title={'Người tham gia'}
           padding={8}
-          detail={birthday}
           marginVertical={18}
           containerStyle={styles.viewInputSelect}
           onPressButton={onChangeBirthDay}
@@ -97,7 +242,6 @@ const Event = (props) => {
           color={'rgba(4, 4, 15, 0.45)'}
           detail={''}
         />
-       
       </KeyboardAvoidingView>
     </>
   );
@@ -166,8 +310,45 @@ const styles = StyleSheet.create({
     height: 124,
     alignSelf: 'center',
     justifyContent: 'center',
-    
-    
   },
-  txtDescription: { paddingHorizontal:24,fontSize:16}
+  txtDescription: {paddingHorizontal: 24, fontSize: 16},
+  card: {
+    borderRadius: 16,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  txtTime: {
+    fontSize: 14,
+    color: Colors.black,
+    marginLeft: 10,
+  },
+  rowBot: {
+    flexDirection: 'row',
+    marginHorizontal: 4,
+    justifyContent: 'space-around',
+  },
+  column: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  icon: {
+    alignSelf: 'center',
+  },
+  imageStamp: {
+    width: 20,
+    height: 20,
+  },
+  button: {
+    backgroundColor: Colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    flexDirection: 'row',
+  },
 });

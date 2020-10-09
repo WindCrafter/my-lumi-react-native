@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,13 +14,13 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { BarStatus, HeaderCustom, Button } from '../../../component';
-import { imgs, Colors } from '../../../../utlis';
-import { Card } from 'native-base';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
+import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Icon from 'react-native-vector-icons/Feather';
@@ -34,7 +34,7 @@ if (
 }
 
 function ApplyBreak(props) {
-  const { navigation } = props;
+  const {navigation} = props;
   const [shift, setShift] = useState(new Date());
   const [day, setDay] = useState(new Date());
   const [dateStart, setDateStart] = useState(new Date());
@@ -120,12 +120,12 @@ function ApplyBreak(props) {
   };
 
   const onFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowModal(true);
   };
 
   const unFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowModal(false);
     Keyboard.dismiss();
   };
@@ -195,7 +195,7 @@ function ApplyBreak(props) {
             </View>
             <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
           </View>
-          <Card style={styles.card} >
+          <Card style={styles.card}>
             <View style={styles.row}>
               <ApplyIcon
                 title={'Theo Ca'}
@@ -211,7 +211,7 @@ function ApplyBreak(props) {
               />
             </View>
             {typeBreak === 'Theo ca' ? (
-              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -243,7 +243,7 @@ function ApplyBreak(props) {
                 </TouchableOpacity>
               </View>
             ) : typeBreak === 'Một ngày' ? (
-              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -273,10 +273,10 @@ function ApplyBreak(props) {
                     onPress={onSetShiftStart}>
                     <Image
                       source={imgs.startTime}
-                      style={[styles.imageStamp, { tintColor: '#455997' }]}
+                      style={[styles.imageStamp, {tintColor: '#455997'}]}
                     />
 
-                    <Text style={[styles.txtTime, { color: '#455997' }]}>
+                    <Text style={[styles.txtTime, {color: '#455997'}]}>
                       {shiftStart}
                     </Text>
                   </TouchableOpacity>
@@ -290,10 +290,10 @@ function ApplyBreak(props) {
                     onPress={() => onShow('datestart')}>
                     <Image
                       source={imgs.breakDay}
-                      style={[styles.imageStamp, { tintColor: '#455997' }]}
+                      style={[styles.imageStamp, {tintColor: '#455997'}]}
                     />
 
-                    <Text style={[styles.txtTime, { color: '#455997' }]}>
+                    <Text style={[styles.txtTime, {color: '#455997'}]}>
                       {moment(dateStart).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>
@@ -317,10 +317,10 @@ function ApplyBreak(props) {
                     onPress={onSetShiftEnd}>
                     <Image
                       source={imgs.startTime}
-                      style={[styles.imageStamp, { tintColor: '#00821c' }]}
+                      style={[styles.imageStamp, {tintColor: '#00821c'}]}
                     />
 
-                    <Text style={[styles.txtTime, { color: '#00821c' }]}>
+                    <Text style={[styles.txtTime, {color: '#00821c'}]}>
                       {shiftEnd}
                     </Text>
                   </TouchableOpacity>
@@ -334,10 +334,10 @@ function ApplyBreak(props) {
                     onPress={() => onShow('dateend')}>
                     <Image
                       source={imgs.breakDay}
-                      style={[styles.imageStamp, { tintColor: '#00821c' }]}
+                      style={[styles.imageStamp, {tintColor: '#00821c'}]}
                     />
 
-                    <Text style={[styles.txtTime, { color: '#00821c' }]}>
+                    <Text style={[styles.txtTime, {color: '#00821c'}]}>
                       {moment(dateEnd).format('DD/MM/YYYY')}
                     </Text>
                   </TouchableOpacity>

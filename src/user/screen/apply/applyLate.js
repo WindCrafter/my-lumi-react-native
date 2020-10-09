@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,15 +14,13 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { BarStatus, HeaderCustom, Button } from '../../../component';
-import { imgs, Colors } from '../../../../utlis';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 
 if (
@@ -36,7 +34,7 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  const { navigation, route } = props;
+  const {navigation, route} = props;
 
   const goBack = () => {
     navigation.goBack();
@@ -148,7 +146,11 @@ function ApplyLate(props) {
               <ApplyIcon title={'Đến muộn'} />
               <ApplyIcon title={'Về Sớm'} />
             </View>
-            <View style={[styles.row, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
               <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
                 <Text style={styles.add}>-</Text>
               </TouchableOpacity>
