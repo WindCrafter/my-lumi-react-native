@@ -19,6 +19,7 @@ import {Card} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
+import LocationModal from './component/LocationModal';
 
 if (
   Platform.OS === 'android' &&
@@ -35,6 +36,8 @@ const Event = (props) => {
   const [phone, setPhone] = useState('');
   const [mode, setMode] = useState('');
   const [show, setShow] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [location, setLocation] = useState('');
   const onChangeTitle = () => {};
   const onChangeBirthDay = () => {};
   const onShow = (m) => {
@@ -66,6 +69,12 @@ const Event = (props) => {
     const currentDateEnd = selectedDateEnd || dateEnd;
     setShow(Platform.OS === 'ios');
     setDateEnd(currentDateEnd);
+  };
+  const hideModal = () => {
+    setShowModal(false);
+  };
+  const onChangeLocation = () => {
+    setShowModal(true);
   };
 
   return (
@@ -220,11 +229,11 @@ const Event = (props) => {
           padding={8}
           marginVertical={18}
           containerStyle={styles.viewInputSelect}
-          onPressButton={onChangeBirthDay}
+          onPressButton={onChangeLocation}
           shadowOpacity={0.1}
           marginRight={-30}
           color={'rgba(4, 4, 15, 0.45)'}
-          detail={''}
+          detail={location}
         />
         <InputSelect
           width={'90%'}
@@ -243,6 +252,12 @@ const Event = (props) => {
           detail={''}
         />
       </KeyboardAvoidingView>
+      <LocationModal
+        showModal={showModal}
+        setModal={hideModal}
+        onPress={(e) => setLocation(e)}
+        detail={location}
+      />
     </>
   );
 };
