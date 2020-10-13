@@ -19,6 +19,7 @@ import ContactRow from '../../../component/Input/InputContact';
 import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
+import Clipboard from "@react-native-community/clipboard";
 
 if (
   Platform.OS === 'android' &&
@@ -30,6 +31,7 @@ if (
 function Contact(props) {
   // const [listData, setListData] = useState(DATA);
   const [search, setSearch] = useState('');
+
   const { navigation, currentUser, getListUsers, token }= props;
   useEffect(() => {
     getListUsers(token);
@@ -51,17 +53,22 @@ function Contact(props) {
 
       Linking.openURL(phone);
     };
+
+    const copyToClipboard = () => {
+      Clipboard.setString(`${data.item.advance.bankAccount}`)
+    }
     return (
       <ContactRow
         name={data.item.name}
         leftImage={data.item.avt}
         team={data.item.team}
-        dob={data.item.dob}
+        dob={data.item.birthday}
         role={data.item.role}
         work={data.item.work}
         kpi={data.item.kpi}
         kpi_6m={data.item.kpi_6m}
         onCall={onGetContact}
+        onCopyBankAccount={copyToClipboard}
       />
     );
   };
@@ -70,6 +77,7 @@ function Contact(props) {
 
   const onChangeSearch = (txt) => {
     const newData = currentUser.filter((item) => {
+      // console.log('----->>>>.',item.name)
       const itemData = `${item.name.toLowerCase()}`;
 
       const textData = txt.toLowerCase();

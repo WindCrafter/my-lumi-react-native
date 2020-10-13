@@ -1,5 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import {
+  Alert,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -18,6 +24,7 @@ import createQRCode from '../admin/container/checkIn/createQRCode';
 import updateProfile from '../admin/container/account/updateProfile';
 import contact from '../admin/container/contact';
 import history from '../admin/container/checkIn/history';
+import event from '../admin/container/event';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function AdminStack() {
@@ -124,6 +131,29 @@ export default function AdminStack() {
           headerTintColor: 'white',
         }}
       />
+      <Stack.Screen
+        name={'Sự kiện mới'}
+        component={event}
+        options={{
+          headerBackTitleVisible: false,
+
+          headerRight: () => (
+            <TouchableOpacity
+              style={styles.container}
+              onPress={() => Alert.alert('Xong')}>
+              <Text style={styles.txtDetail}>{'XONG'}</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  txtDetail: {
+    color: '#008aee',
+    fontSize: 16,
+  },
+  container: {paddingHorizontal: 3},
+});

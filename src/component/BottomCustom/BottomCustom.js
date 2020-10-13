@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    bottom:50
+    bottom:20
   },
 
   cancel: {

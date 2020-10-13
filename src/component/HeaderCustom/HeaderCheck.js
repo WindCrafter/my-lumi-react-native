@@ -5,8 +5,6 @@ import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-   
-
 HeaderCheck.defaultProps = {
   type: 'Check In',
 };
@@ -23,7 +21,9 @@ function HeaderCheck(props?: Props) {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.notify} onPress={pressHistory}>
+        <View style={styles.boderNotify}>
         <Image source={imgs.information} style={styles.img} />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -34,7 +34,6 @@ export default HeaderCheck;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 24,
-    paddingHorizontal: 24,
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    top: 30
+    top: 30,
   },
 
   checkIn: {
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
   },
   txtName: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '500',
     color: 'white',
     alignSelf: 'center',
   },
@@ -80,18 +79,29 @@ const styles = StyleSheet.create({
   },
   notify: {
     marginRight: 8,
-    height: 28,
-    width: 28,
-    borderRadius: 20,
-    backgroundColor: Colors.white,
+    height: 48,
+    width: wp(30),
     justifyContent: 'center',
     alignSelf: 'center',
+    alignItems:'center'
   },
+  boderNotify: {
+    backgroundColor: Colors.white,
+    height: 32,
+width:32,
+    borderRadius: 20,
+    alignItems:'center',
+    justifyContent:'center'
+
+  }
+  ,
   body: {
     alignContent: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
-    // height:48,width:48
+    height: 48,
+    width: wp(30),
+    alignItems: 'center',
   },
   image: {
     marginLeft: 8,

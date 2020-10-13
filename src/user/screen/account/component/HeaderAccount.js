@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   line: {height: 1, width: '100%', backgroundColor: 'black'},
   bot: {
-    flex: 1,
-    paddingBottom: 16,
+    flex: 0.5,
+    paddingBottom: -8,
   },
 });

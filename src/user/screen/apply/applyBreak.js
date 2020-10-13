@@ -166,12 +166,12 @@ function ApplyBreak(props) {
   };
 
   const onFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowModal(true);
   };
 
   const unFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowModal(false);
     Keyboard.dismiss();
   };
@@ -252,16 +252,18 @@ function ApplyBreak(props) {
               <ApplyIcon
                 title={'Một ngày'}
                 onPress={() => onSetTypeBreak('Một ngày')}
-                tintColor={typeBreak === 'Một ngày' ? Colors.background : 'grey'}
-                                source={imgs.breakOneDay}
-
+                tintColor={
+                  typeBreak === 'Một ngày' ? Colors.background : 'grey'
+                }
+                source={imgs.breakOneDay}
               />
               <ApplyIcon
                 title={'Nhiều ngày'}
                 onPress={() => onSetTypeBreak('Nhiều ngày')}
-                tintColor={typeBreak === 'Nhiều ngày' ? Colors.background : 'grey'}
+                tintColor={
+                  typeBreak === 'Nhiều ngày' ? Colors.background : 'grey'
+                }
                 source={imgs.breakMoreDay}
-
               />
             </View>
             {typeBreak === 'Theo ca' ? (
@@ -319,7 +321,7 @@ function ApplyBreak(props) {
                     style={[
                       styles.button,
                       {
-                        marginVertical: 24,
+                        // marginVertical: 24,
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
                       },
@@ -352,12 +354,7 @@ function ApplyBreak(props) {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <Icon
-                  name="chevron-right"
-                  size={96}
-                  color={'gray'}
-                  style={styles.icon}
-                />
+                <Image source={imgs.arrow} style={styles.icon} />
                 <View style={styles.column}>
                   <TouchableOpacity
                     style={[
@@ -365,7 +362,7 @@ function ApplyBreak(props) {
                       {
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
-                        marginVertical: 24,
+                        // marginVertical: 24,
                       },
                     ]}
                     onPress={onSetShiftEnd}>
@@ -525,8 +522,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   column: {
-    justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    // borderWidth: 1,
+    justifyContent:'space-around'
   },
   icon: {
     alignSelf: 'center',

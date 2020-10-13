@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
-import { imgs, Colors } from '../../../../../utlis';
+import {imgs, Colors} from '../../../../../utlis';
 import langs from '../../../../../common/language';
+import {SCREEN_WIDTH} from '../../../../../utlis/config/utlis';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 console.log('=>>>>>', currrentDate);
@@ -11,19 +12,19 @@ const currentDayInWeek =
   day === 'Monday'
     ? 'Thứ 2'
     : day === 'Tuesday'
-      ? 'Thứ 3'
-      : day === 'Wednesday'
-        ? 'Thứ 4'
-        : day === 'Thursday'
-          ? 'Thứ 5'
-          : day === 'Friday'
-            ? 'Thứ 6'
-            : day === 'Saturday'
-              ? 'Thứ 7'
-              : 'Chủ Nhật';
+    ? 'Thứ 3'
+    : day === 'Wednesday'
+    ? 'Thứ 4'
+    : day === 'Thursday'
+    ? 'Thứ 5'
+    : day === 'Friday'
+    ? 'Thứ 6'
+    : day === 'Saturday'
+    ? 'Thứ 7'
+    : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressNotify, onPress, name } = props;
+  const {pressNotify, onPress, name} = props;
   return (
     <View style={styles.container}>
       <View style={styles.detail}>
@@ -43,7 +44,6 @@ const Header = (props) => {
           <Image source={imgs.notification} />
         </TouchableOpacity>
       </View>
-     
     </View>
   );
 };
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   avt: {
-    height: 64,
-    width: 64,
+    height: SCREEN_WIDTH > 500 ? 64 : 48,
+    width: SCREEN_WIDTH > 500 ? 64 : 48,
     borderRadius: 32,
     marginLeft: 24,
   },

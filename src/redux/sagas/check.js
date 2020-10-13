@@ -107,16 +107,23 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      yield put(checkInFailed());
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        messageColor: Colors.danger,
-        leftButton: {
-          text: 'OK',
-          // onPress : onLongPress
-        },
-      });
+      if (response.statusCode === 500)  {
+        yield put(checkInFailed());
+
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: response.message,
+          messageColor: Colors.danger,
+          leftButton: {
+            text: 'OK',
+            // onPress : onLongPress
+          },
+        });
+      }
+      else {
+        yield put(checkInFailed());
+      }
+      
     }
   } catch (error) {
     console.log(error);
@@ -151,7 +158,7 @@ function* sagaCreateQR(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
-        messageColor: Colors.background,
+        messageColor: Colors.danger,
         leftButton: {text: 'OK'},
       });
     }
@@ -160,6 +167,8 @@ function* sagaCreateQR(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
+      messageColor: Colors.danger,
+
       leftButton: {text: 'OK'},
     });
   }
@@ -202,6 +211,8 @@ function* sagaSetLateEarly(action) {
       title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
+      messageColor: Colors.danger,
+
     });
   }
 }
@@ -236,6 +247,8 @@ function* sagaTakeLeave(action) {
         message: response.message,
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
+        messageColor: Colors.danger,
+
       });
     }
   } catch (error) {
@@ -244,6 +257,8 @@ function* sagaTakeLeave(action) {
       title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
+      messageColor: Colors.danger,
+
     });
   }
 }
@@ -278,7 +293,7 @@ function* sagaOverTime(action) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
-        messageColor: Colors.background,
+        messageColor: Colors.danger,
         leftButton: { text: 'OK' },
       });
     }
@@ -288,6 +303,8 @@ function* sagaOverTime(action) {
       title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: { text: 'OK' },
+      messageColor: Colors.danger,
+
     });
   }
 }

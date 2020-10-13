@@ -24,6 +24,7 @@ import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
+import Slider from '@react-native-community/slider';
 
 if (
   Platform.OS === 'android' &&
@@ -36,12 +37,16 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
+  
   const { navigation, route, setLateEarly, userId, token} = props;
   const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
+const onChangeTime =(value) => {
+  setTime(value);
 
+}
   const onComplete = () => {
     onsetLateEarly()
   };
@@ -164,11 +169,17 @@ function ApplyLate(props) {
                 title={'Đến muộn'}
                 onPress={onSetLate}
                 tintColor={type === 'late' ? 'green' : 'grey'}
+                color={type === 'late' ? 'green' : 'grey'}
               />
               <ApplyIcon
                 title={'Về Sớm'}
                 onPress={onSetEarly}
                 tintColor={type === 'early' ? 'green' : 'grey'}
+                source={imgs.clockEarly}
+                height={28}
+                width={28}
+                color={type === 'early' ? 'green' : 'grey'}
+
               />
             </View>
             <View
@@ -176,15 +187,23 @@ function ApplyLate(props) {
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
-              <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
-                <Text style={styles.add}>-</Text>
-              </TouchableOpacity>
+             
               <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              <TouchableOpacity style={styles.btnAdd} onPress={onAdd}>
-                <Text style={styles.add}>+</Text>
-              </TouchableOpacity>
+              
+             
             </View>
+            <Slider
+              style={{ width: wp(80), height: 40 ,alignSelf:'center'}}
+              minimumValue={0}
+              maximumValue={60}
+              minimumTrackTintColor="#4BBF70"
+              maximumTrackTintColor="grey"
+              step={5}
+              onValueChange={onChangeTime}
+              onSlidingComplete={onChangeTime}
+              thumbImage={imgs.miniLogo}
+            />
           </Card>
         </View>
       </ScrollView>

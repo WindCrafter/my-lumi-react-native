@@ -1,10 +1,10 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Colors } from '../../../../../utlis';
+import {Colors} from '../../../../../utlis';
 
 const PickerCustom = (props) => {
-  const { value, onPress, onChange, mode } = props;
+  const {value, onPress, onChange, mode} = props;
   return (
     <>
       {Platform.OS === 'ios' ? (
@@ -19,6 +19,7 @@ const PickerCustom = (props) => {
         display="default"
         onChange={onChange}
         is24hour={true}
+        minimumDate={new Date()}
       />
     </>
   );
@@ -27,7 +28,6 @@ const PickerCustom = (props) => {
 export default PickerCustom;
 
 const styles = StyleSheet.create({
-
   unshow: {
     height: 28,
     width: 28,

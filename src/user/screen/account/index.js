@@ -46,7 +46,6 @@ const Account = (props) => {
             onPressButton={onMoveToProfile}
           />
         </Card>
-        <View style={{flex:0.2}}></View>
         <View style={styles.detail}>
           <Card style={styles.cardMid}>
             <RoundedView
@@ -120,6 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 24,
     height: 88,
+    marginTop:-8
   },
   cardMid: {
     width: '90%',

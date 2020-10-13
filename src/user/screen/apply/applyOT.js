@@ -28,6 +28,7 @@ import { Card } from 'native-base';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
 import moment from 'moment';
+import Slider from '@react-native-community/slider';
 
 if (
   Platform.OS === 'android' &&
@@ -84,7 +85,10 @@ function ApplyOT(props) {
     setShow(false);
     Keyboard.dismiss();
   };
+  const onChangeTime = (value) => {
+    setTime(value);
 
+  }
   const onSubtract = () => {
     if (time > 0) {
       setTime(time - 5);
@@ -180,15 +184,22 @@ function ApplyOT(props) {
           ) : null}
           <Card style={styles.card}>
             <View style={[styles.row, { justifyContent: 'center' }]}>
-              <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
-                <Text style={styles.add}>-</Text>
-              </TouchableOpacity>
-              <Image source={imgs.startTime} style={styles.icon} />
+              
+              <Image source={imgs.time} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              <TouchableOpacity style={styles.btnAdd} onPress={onAdd}>
-                <Text style={styles.add}>+</Text>
-              </TouchableOpacity>
+              
             </View>
+            <Slider
+              style={{ width: wp(80), height: 40, alignSelf: 'center' }}
+              minimumValue={0}
+              maximumValue={60}
+              minimumTrackTintColor="#4BBF70"
+              maximumTrackTintColor="grey"
+              step={5}
+              onValueChange={onChangeTime}
+              onSlidingComplete={onChangeTime}
+              thumbImage={imgs.miniLogo}
+            />
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
@@ -334,6 +345,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
+    tintColor:'black'
   },
   slider: {
     width: '90%',

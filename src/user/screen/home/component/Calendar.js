@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import {Agenda} from 'react-native-calendars';
 import {
   ExpandableCalendar,
   AgendaList,
   CalendarProvider,
 } from 'react-native-calendars';
-import { Colors, imgs } from '../../../../../utlis';
+import {Colors, imgs} from '../../../../../utlis';
 import moment from 'moment';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 
 const HistoryWeek = (props) => {
   const today = moment().format('YYYY-MM-DD');
-  const { item, timeIn, timeOut, type } = props;
+  const {item, timeIn, timeOut, type} = props;
   const getTheme = () => {
     return {
       // selected date
@@ -46,7 +46,7 @@ const HistoryWeek = (props) => {
           monthFormat={'MMMM - yyyy'}
         />
       </CalendarProvider>
-      <View style={[styles.row, { justifyContent: 'space-between' }]}>
+      <View style={[styles.row, {justifyContent: 'space-between'}]}>
         <Card style={styles.card}>
           <Icon color={Colors.background} name={'arrow-right'} size={20} />
           <Text style={styles.txtTime}>{timeIn ? timeIn : '--:--'}</Text>
@@ -116,14 +116,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 16,
-    paddingHorizontal: 8,
-    width: 90,
+    paddingHorizontal: 24,
     borderRadius: 24,
     flexDirection: 'row',
     backgroundColor: Colors.background,
   },
   txtType: {
     color: Colors.white,
-    fontSize: 16,
+    fontSize: 12,
   },
 });

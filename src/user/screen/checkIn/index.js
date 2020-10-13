@@ -65,7 +65,7 @@ const CheckIn = (props) => {
     try {
       let state = await NetInfo.fetch('wifi');
       const data = {
-        ssid: state.details.ssid,
+        ssid: '122',
         bssid: state.details.bssid,
         type: type ? 'in' : 'out',
         deviceId: deviceId,
@@ -155,7 +155,7 @@ const CheckIn = (props) => {
       ref={scrollRef}
       horizontal={true}
       pagingEnabled={true}
-      // scrollEnabled={false}
+      scrollEnabled={false}
       showsHorizontalScrollIndicator={false}
       onScrollAnimationEnd={false}
       // style={{flex:1}}
@@ -322,8 +322,10 @@ const styles = StyleSheet.create({
   titlemodal: {
     fontWeight: '500',
     fontSize: 16,
-    marginBottom: wp(50),
+    marginBottom: -20,
     color: 'white',
+    width:'80%',
+    textAlign:"center"
   },
   complete: {
     backgroundColor: Colors.background,
@@ -350,6 +352,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical:30
   },
 
   viewTopCode: {
@@ -435,16 +438,18 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: '#ffffff',
     justifyContent: 'space-evenly',
+
   },
   touchableWifi: {
     justifyContent: 'center',
     alignItems: 'center',
-    resizeMode: 'contain',
     backgroundColor: Colors.background,
     width: 132,
     height: 49,
     borderRadius: 16,
     backgroundColor: '#ffffff',
+    marginTop:70
+
   },
   doneWifi: {
     color: '#008aee',

@@ -20,7 +20,7 @@ const UpdateInfo = (props) => {
   const refPhone = useRef('');
   const refBirth = useRef('');
   const refTeam = useRef('');
-  const { gene, onChangeGene, birthday, onChangeBirthday } = props;
+  const { gene, onChangeGene, birthday, onChangeBirthday, onChangeBank ,bankName} = props;
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
@@ -51,6 +51,24 @@ const UpdateInfo = (props) => {
             clearButtonMode="while-editing"
             placeholder={'Nam/Nữ/Khác'}
           />
+          <TouchableOpacity onPress={onChangeBank}>
+
+          <InputRow
+            leftImage={imgs.bank}
+            containerStyle={styles.txtInput}
+            title={langs.bank}
+            size={16}
+              value={bankName}
+            onChangeText={onChangeGene}
+            refInput={refBirth}
+            clearButtonMode="while-editing"
+            canedit={false}
+            
+          />
+          </TouchableOpacity>
+
+         
+          <View style={{height:50}}></View>
         </View>
       </KeyboardAvoidingView>
     </View>
