@@ -107,7 +107,7 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      if (response.statusCode === 500)  {
+      if (response.statusCode === 400)  {
         yield put(checkInFailed());
 
         _global.Alert.alert({

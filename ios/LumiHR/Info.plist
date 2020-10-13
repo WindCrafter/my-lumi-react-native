@@ -59,11 +59,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>Cấp quyền truy cập để quét mã QR.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Explain why you need location permission</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Explain why you need location permission LumiHr</string>
+	<string>Vui lòng chọn luôn luôn để chấm công.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Explain</string>
 	<key>NSMicrophoneUsageDescription</key>
