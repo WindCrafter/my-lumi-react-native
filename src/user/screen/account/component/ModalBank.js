@@ -49,7 +49,6 @@ const ModalBank = (props) => {
           </View>
 
           <View style={styles.container}>
-            <Text style={styles.detail}>Chọn ngân hàng :</Text>
 
             <View style={styles.lineBank}>
               <TouchableOpacity style={styles.inforBank} onPress={onSetTech}>
@@ -143,7 +142,7 @@ const ModalBank = (props) => {
           </View>
           <Text style={styles.detail}>Số tài khoản :</Text>
           <TextInput
-            placeholder={'Vui lòng nhập số tài khoản :'}
+            placeholder={'Nhập số tài khoản của bạn.'}
             onChangeText={onBankAccount}
             style={styles.detailHolder}
           />
@@ -209,10 +208,11 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   done: {
-    paddingHorizontal: widthPercentageToDP(10),
+    paddingHorizontal: widthPercentageToDP(15),
     position: 'absolute',
-    fontSize: 18,
+    fontSize: 15,
     color: 'green',
+    fontWeight:"500"
   },
   container: {flexDirection: 'column', justifyContent: 'space-around'},
   bankname: {fontWeight: '600'},
