@@ -18,7 +18,7 @@ const PickerCustom = (props) => {
         mode={mode}
         display="default"
         onChange={onChange}
-        is24hour={true}
+        is24Hour={true}
         minimumDate={new Date()}
       />
     </>
