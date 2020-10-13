@@ -28,6 +28,7 @@ import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
 import moment from 'moment';
+import Slider from '@react-native-community/slider';
 
 if (
   Platform.OS === 'android' &&
@@ -41,11 +42,22 @@ function ApplyOT(props) {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
   const [showPicker, setShowPicker] = useState(false);
-  const {navigation, route} = props;
+  const {navigation, route, userId, token, overTime} = props;
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [hour, setHour] = useState(new Date());
-
+  const onSetOverTime = () => {
+    console.log(userId);
+    console.log(moment(hour).format('hh:mm'));
+    const data = {
+      userId: userId,
+      time: time,
+      date: moment().format('DD/MM/YYYY'),
+      token: token,
+      start: moment(hour).format('hh:mm'),
+    };
+    overTime(data);
+  };
   const goBack = () => {
     navigation.goBack();
   };
@@ -73,7 +85,9 @@ function ApplyOT(props) {
     setShow(false);
     Keyboard.dismiss();
   };
-
+  const onChangeTime = (value) => {
+    setTime(value);
+  };
   const onSubtract = () => {
     if (time > 0) {
       setTime(time - 5);
@@ -169,15 +183,20 @@ function ApplyOT(props) {
           ) : null}
           <Card style={styles.card}>
             <View style={[styles.row, {justifyContent: 'center'}]}>
-              <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
-                <Text style={styles.add}>-</Text>
-              </TouchableOpacity>
-              <Image source={imgs.startTime} style={styles.icon} />
+              <Image source={imgs.time} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              <TouchableOpacity style={styles.btnAdd} onPress={onAdd}>
-                <Text style={styles.add}>+</Text>
-              </TouchableOpacity>
             </View>
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={60}
+              minimumTrackTintColor="#4BBF70"
+              maximumTrackTintColor="grey"
+              step={5}
+              onValueChange={onChangeTime}
+              onSlidingComplete={onChangeTime}
+              thumbImage={imgs.miniLogo}
+            />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
                 <Image
@@ -232,7 +251,7 @@ function ApplyOT(props) {
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
-          onPress={onComplete}
+          onPress={onSetOverTime}
         />
       </ScrollView>
     </View>
@@ -317,10 +336,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-  },
-  slider: {
-    width: '90%',
-    alignSelf: 'center',
+    tintColor: 'black',
   },
   add: {
     fontSize: 24,
@@ -349,5 +365,10 @@ const styles = StyleSheet.create({
   time: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  slider: {
+    width: wp(80),
+    height: 40,
+    alignSelf: 'center',
   },
 });

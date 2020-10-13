@@ -14,6 +14,8 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
+import moment from 'moment';
+
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
@@ -22,6 +24,7 @@ import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
+import Slider from '@react-native-community/slider';
 
 if (
   Platform.OS === 'android' &&
@@ -34,14 +37,18 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  const {navigation, route} = props;
-
+  
+  const { navigation, route, setLateEarly, userId, token} = props;
+  const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
+const onChangeTime =(value) => {
+  setTime(value);
 
+}
   const onComplete = () => {
-    Alert.alert('end');
+    onsetLateEarly()
   };
 
   const onChangeReason = (val) => {
@@ -52,7 +59,17 @@ function ApplyLate(props) {
     setReason(val);
     unFocus();
   };
-
+  const onsetLateEarly = () => {
+    console.log(userId)
+    const data = {
+      userId: userId,      
+      type : type ,
+      time: time,
+      date: moment().format('DD/MM/YYYY'),
+      token:token
+    };
+    setLateEarly(data);
+  };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
@@ -63,7 +80,12 @@ function ApplyLate(props) {
     setShow(false);
     Keyboard.dismiss();
   };
-
+  const onSetLate = () => {
+    setType('late');
+  };
+  const onSetEarly = () => {
+    setType('early');
+  };
   const onSubtract = () => {
     if (time > 0) {
       setTime(time - 5);
@@ -143,23 +165,45 @@ function ApplyLate(props) {
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              <ApplyIcon title={'Đến muộn'} />
-              <ApplyIcon title={'Về Sớm'} />
+              <ApplyIcon
+                title={'Đến muộn'}
+                onPress={onSetLate}
+                tintColor={type === 'late' ? 'green' : 'grey'}
+                color={type === 'late' ? 'green' : 'grey'}
+              />
+              <ApplyIcon
+                title={'Về Sớm'}
+                onPress={onSetEarly}
+                tintColor={type === 'early' ? 'green' : 'grey'}
+                source={imgs.clockEarly}
+                height={28}
+                width={28}
+                color={type === 'early' ? 'green' : 'grey'}
+
+              />
             </View>
             <View
               style={[
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
-              <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
-                <Text style={styles.add}>-</Text>
-              </TouchableOpacity>
+             
               <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              <TouchableOpacity style={styles.btnAdd} onPress={onAdd}>
-                <Text style={styles.add}>+</Text>
-              </TouchableOpacity>
+              
+             
             </View>
+            <Slider
+              style={{ width: wp(80), height: 40 ,alignSelf:'center'}}
+              minimumValue={0}
+              maximumValue={60}
+              minimumTrackTintColor="#4BBF70"
+              maximumTrackTintColor="grey"
+              step={5}
+              onValueChange={onChangeTime}
+              onSlidingComplete={onChangeTime}
+              thumbImage={imgs.miniLogo}
+            />
           </Card>
         </View>
       </ScrollView>

@@ -72,12 +72,12 @@ export const imgs = {
   inforsolidblack: require('../../common/assets/images/icon/Information-solid-black-icon.png'),
   title: require('../../common/assets/images/icon/Title-icon.png'),
   bank: require('../../common/assets/images/icon/Bank-icon.png'),
-  tech: require('../../common/assets/images/icon/BankIcon/TechcomBank3x.png'),
-  bidv: require('../../common/assets/images/icon/BankIcon/BIDV3x.png'),
-  vpbank: require('../../common/assets/images/icon/BankIcon/VpBank3x.png'),
-  viettin: require('../../common/assets/images/icon/BankIcon/ViettinBank3x.png'),
-  agri: require('../../common/assets/images/icon/BankIcon/Agribank3x.png'),
-  vietcomBank: require('../../common/assets/images/icon/BankIcon/VietcomBank3x.png'),
+  tech: require('../../common/assets/images/icon/BankIcon/TechcomBank2x.png'),
+  bidv: require('../../common/assets/images/icon/BankIcon/BIDV2x.png'),
+  vpbank: require('../../common/assets/images/icon/BankIcon/VpBank2x.png'),
+  viettin: require('../../common/assets/images/icon/BankIcon/ViettinBank2x.png'),
+  agri: require('../../common/assets/images/icon/BankIcon/Agribank2x.png'),
+  vietcomBank: require('../../common/assets/images/icon/BankIcon/VietcomBank2x.png'),
   buttoncheckin: require('../../common/assets/images/icon/Button-checkin.png'),
   bssid: require('../../common/assets/images/icon/Location-green.png'),
   ssid: require('../../common/assets/images/icon/Cloud-icon.png'),
@@ -90,5 +90,14 @@ export const imgs = {
   note: require('../../common/assets/images/icon/Note-icon.png'),
   notificationGreen: require('../../common/assets/images/icon/Notifications-green-icon.png'),
   notificationGrey: require('../../common/assets/images/icon/Notifications-grey-icon.png'),
+  breakMoreDay: require('../../common/assets/images/icon/Calendar-breakdays-icon2x.png'),
+  breakOneDay: require('../../common/assets/images/icon/Calendar-breakday-icon2x.png'),
+  breakShift   : require('../../common/assets/images/icon/Clock-shift-icon2x.png'),
+  miniLogo: require('../../common/assets/images/logo/mini-logo.png'),
+  clockEarly: require('../../common/assets/images/icon/Clock-early-icon.png'),
+  arrow: require('../../common/assets/images/icon/Arrow-icon.png'),
+  time: require('../../common/assets/images/icon/Clock2-icon.png'),
+
+
 
 };

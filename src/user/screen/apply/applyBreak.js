@@ -11,7 +11,6 @@ import {
   LayoutAnimation,
   UIManager,
   Image,
-  Alert,
   Keyboard,
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
@@ -34,7 +33,7 @@ if (
 }
 
 function ApplyBreak(props) {
-  const {navigation} = props;
+  const {navigation, takeLeave, userId, token} = props;
   const [shift, setShift] = useState(new Date());
   const [day, setDay] = useState(new Date());
   const [dateStart, setDateStart] = useState(new Date());
@@ -45,18 +44,69 @@ function ApplyBreak(props) {
   const [typeShift, setTypeShift] = useState('Ca sáng');
   const [shiftStart, setShiftStart] = useState('Ca sáng');
   const [shiftEnd, setShiftEnd] = useState('Ca sáng');
-  const [check, setCheck] = useState(true);
   const [typeBreak, setTypeBreak] = useState('Theo ca');
-  const [start, setStart] = useState('');
   const [reason, setReason] = useState('');
-
+  const onComplete = () => {
+    typeBreak === 'Theo ca'
+      ? onTakeLeaveShift()
+      : typeBreak === 'Một  ngày'
+      ? onTakeLeaveDay()
+      : onTakeLeaveDays();
+  };
+  const onTakeLeaveDays = () => {
+    console.log(userId);
+    const data = {
+      userId: userId,
+      token: token,
+      startDate: {
+        date: moment(dateStart).format('DD/MM/YYYY'),
+        shift: shiftStart === 'Ca sáng' ? 'morning' : 'afternoon',
+      },
+      endDate: {
+        date: moment(dateEnd).format('DD/MM/YYYY'),
+        shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
+      },
+    };
+    takeLeave(data);
+  };
+  const onTakeLeaveDay = () => {
+    console.log(userId);
+    const data = {
+      userId: userId,
+      token: token,
+      startDate: {
+        date: moment(day).format('DD/MM/YYYY'),
+        shift: 'morning',
+      },
+      endDate: {
+        date: moment(day).format('DD/MM/YYYY'),
+        shift: 'afternoon',
+      },
+    };
+    takeLeave(data);
+  };
+  const onTakeLeaveShift = () => {
+    console.log(userId);
+    const data = {
+      userId: userId,
+      token: token,
+      startDate: {
+        date: moment(shift).format('DD/MM/YYYY'),
+        shift: typeShift === 'Ca sáng' ? 'morning' : 'afternoon',
+      },
+      endDate: {
+        date: null,
+        shift: null,
+      },
+    };
+    takeLeave(data);
+  };
   const goBack = () => {
     navigation.goBack();
   };
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(false);
-    setStart('');
     setMode('');
   };
   const onChangeShift = (event, selectedShift) => {
@@ -113,10 +163,6 @@ function ApplyBreak(props) {
 
   const onSetShiftEnd = () => {
     shiftEnd === 'Ca sáng' ? setShiftEnd('Ca chiều') : setShiftEnd('Ca sáng');
-  };
-
-  const onComplete = () => {
-    Alert.alert('end');
   };
 
   const onFocus = () => {
@@ -200,14 +246,24 @@ function ApplyBreak(props) {
               <ApplyIcon
                 title={'Theo Ca'}
                 onPress={() => onSetTypeBreak('Theo ca')}
+                tintColor={typeBreak === 'Theo ca' ? Colors.background : 'grey'}
+                source={imgs.breakShift}
               />
               <ApplyIcon
                 title={'Một ngày'}
                 onPress={() => onSetTypeBreak('Một ngày')}
+                tintColor={
+                  typeBreak === 'Một ngày' ? Colors.background : 'grey'
+                }
+                source={imgs.breakOneDay}
               />
               <ApplyIcon
                 title={'Nhiều ngày'}
                 onPress={() => onSetTypeBreak('Nhiều ngày')}
+                tintColor={
+                  typeBreak === 'Nhiều ngày' ? Colors.background : 'grey'
+                }
+                source={imgs.breakMoreDay}
               />
             </View>
             {typeBreak === 'Theo ca' ? (
@@ -265,7 +321,7 @@ function ApplyBreak(props) {
                     style={[
                       styles.button,
                       {
-                        marginVertical: 24,
+                        // marginVertical: 24,
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
                       },
@@ -298,12 +354,7 @@ function ApplyBreak(props) {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <Icon
-                  name="chevron-right"
-                  size={96}
-                  color={'gray'}
-                  style={styles.icon}
-                />
+                <Image source={imgs.arrow} style={styles.icon} />
                 <View style={styles.column}>
                   <TouchableOpacity
                     style={[
@@ -311,7 +362,7 @@ function ApplyBreak(props) {
                       {
                         backgroundColor: Colors.white,
                         flexDirection: 'row',
-                        marginVertical: 24,
+                        // marginVertical: 24,
                       },
                     ]}
                     onPress={onSetShiftEnd}>
@@ -471,8 +522,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   column: {
-    justifyContent: 'flex-start',
     alignItems: 'flex-start',
+    // borderWidth: 1,
+    justifyContent:'space-around'
   },
   icon: {
     alignSelf: 'center',

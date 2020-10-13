@@ -123,5 +123,5 @@ const styles = StyleSheet.create({
     color: '#008aee',
     fontSize: 16,
   },
-  container: {paddingHorizontal: 3},
+  container: {paddingHorizontal:16},
 });

@@ -96,7 +96,7 @@ function UpdateProfile(props) {
     setBankName('Agribank');
   };
   const onSetVCB = () => {
-    setBankName('VietcomBank');
+    setBankName('Vietcom Bank');
   };
   const onSetVPB = () => {
     setBankName('VP Bank');
@@ -258,6 +258,7 @@ function UpdateProfile(props) {
             onSetVCB={onSetVCB}
             onSetVPB={onSetVPB}
             onBankAccount={onChangeAccount}
+            bankName={bankName}
           />
         ) : null}
       </KeyboardAvoidingView>

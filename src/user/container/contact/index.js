@@ -5,7 +5,6 @@ const mapStateToProps = (state) => ({
     
     token: state.authen.token,
     currentUser: state.user.currentUser,
-    // phoneNumber: state.user.phoneNumber,
 
 });
 

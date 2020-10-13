@@ -43,6 +43,69 @@ export const createQRSuccess = (data) => {
 export const createQRFailed = () => {
   return {
     type: types.CREATE_QR_FAILED,
+
+  };
+};
+
+export const setLateEarly = (data) => {
+  return {
+    type: types.SET_LATE_EARLY,
+    payload: data,
+
+  };
+};
+export const setLateEarlyFailed = () => {
+  return {
+    type: types.SET_LATE_EARLY_FAILED,
+  };
+};
+export const setLateEarlySuccess = (data) => {
+  return {
+    type: types.SET_LATE_EARLY_SUCCESS,
+    payload: data,
+
+  };
+};
+
+
+export const takeLeave = (data) => {
+  return {
+    type: types.TAKE_LEAVE,
+    payload: data,
+
+  };
+};
+export const takeLeaveFailed = () => {
+  return {
+    type: types.TAKE_LEAVE_FAILED,
+  };
+};
+export const takeLeaveSuccess = (data) => {
+  return {
+    type: types.TAKE_LEAVE_SUCCESS,
+    payload: data,
+
+  };
+};
+
+
+export const overTime = (data) => {
+  return {
+    type: types.OVER_TIME,
+    payload: data,
+
+  };
+};
+export const overTimeFailed = () => {
+  return {
+    type: types.OVER_TIME_FAILED,
+  };
+};
+export const overTimeSuccess = (data) => {
+  return {
+    type: types.OVER_TIME_SUCCESS,
+    payload: data,
+
   };
 };
 

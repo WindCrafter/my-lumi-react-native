@@ -27,6 +27,8 @@ const ModalBank = (props) => {
     onSetVPB,
     onSetVTB,
     onBankAccount,
+    backgroundColor,
+    bankName,
   } = props;
   return (
     <View>
@@ -51,35 +53,100 @@ const ModalBank = (props) => {
 
             <View style={styles.lineBank}>
               <TouchableOpacity style={styles.inforBank} onPress={onSetTech}>
-                <Image source={imgs.tech} style={styles.img} />
+                <Image
+                  source={imgs.tech}
+                  style={[
+                    styles.img,
+                    {
+                      backgroundColor:
+                        bankName === 'Techcom Bank' ? '#E5E5E7' : null,
+                    },
+                  ]}
+                />
                 <Text style={styles.bankname}>Techcombank</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.inforBank} onPress={onSetVCB}>
-                <Image source={imgs.vietcomBank} style={styles.img} />
+              <TouchableOpacity
+                style={[styles.inforBank, {backgroundColor: backgroundColor}]}
+                onPress={onSetVCB}>
+                <Image
+                  source={imgs.vietcomBank}
+                  style={[
+                    styles.img,
+                    {
+                      backgroundColor:
+                        bankName === 'Vietcom Bank' ? '#E5E5E7' : null,
+                    },
+                  ]}
+                />
                 <Text style={styles.bankname}>Vietcombank</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.inforBank} onPress={onSetAgri}>
-                <Image source={imgs.agri} style={styles.img} />
+              <TouchableOpacity
+                style={[styles.inforBank, {backgroundColor: backgroundColor}]}
+                onPress={onSetAgri}>
+                <Image
+                  source={imgs.agri}
+                  style={[
+                    styles.img,
+                    {
+                      backgroundColor:
+                        bankName === 'Agribank' ? '#E5E5E7' : null,
+                    },
+                  ]}
+                />
                 <Text style={styles.bankname}>Agribank</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.lineBank}>
-              <TouchableOpacity style={styles.inforBank} onPress={onSetVPB}>
-                <Image source={imgs.vpbank} style={styles.img} />
+              <TouchableOpacity
+                style={[styles.inforBank, {backgroundColor: backgroundColor}]}
+                onPress={onSetVPB}>
+                <Image
+                  source={imgs.vpbank}
+                  style={[
+                    styles.img,
+                    {
+                      backgroundColor:
+                        bankName === 'VP Bank' ? '#E5E5E7' : null,
+                    },
+                  ]}
+                />
                 <Text style={styles.bankname}>VP Bank</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.inforBank} onPress={onSetVTB}>
-                <Image source={imgs.viettin} style={styles.img} />
+              <TouchableOpacity
+                style={[styles.inforBank, {backgroundColor: backgroundColor}]}
+                onPress={onSetVTB}>
+                <Image
+                  source={imgs.viettin}
+                  style={[
+                    styles.img,
+                    {
+                      backgroundColor:
+                        bankName === 'Viettin Bank' ? '#E5E5E7' : null,
+                    },
+                  ]}
+                />
                 <Text style={styles.bankname}>VietinBank</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.inforBank} onPress={onSetBIDV}>
-                <Image source={imgs.bidv} style={styles.img} />
+              <TouchableOpacity
+                style={[styles.inforBank, {backgroundColor: backgroundColor}]}
+                onPress={onSetBIDV}>
+                <Image
+                  source={imgs.bidv}
+                  style={[
+                    styles.img,
+                    {backgroundColor: bankName === 'BIDV' ? '#E5E5E7' : null},
+                  ]}
+                />
                 <Text style={styles.bankname}>BIDV</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={styles.detail}>Số tài khoản</Text>
-          <TextInput placeholder={'Vui lòng nhập số tài khoản'} onChangeText={onBankAccount} style={styles.detail}/>
+          <Text style={styles.detail}>Số tài khoản :</Text>
+          <TextInput
+            placeholder={'Vui lòng nhập số tài khoản :'}
+            onChangeText={onBankAccount}
+            style={styles.detailHolder}
+          />
         </View>
       </Modal>
     </View>
@@ -93,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    marginBottom:20
+    paddingVertical: 20,
   },
   modal: {
     justifyContent: 'flex-end',
@@ -103,7 +170,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     width: widthPercentageToDP(100),
-    height: heightPercentageToDP(50),
+    height: heightPercentageToDP(70),
     backgroundColor: 'white',
   },
   titlemodal: {
@@ -117,22 +184,43 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontWeight:'bold',fontSize:18,
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   detail: {
     alignItems: 'flex-start',
-    fontWeight: 'bold',
-    fontSize: 15,
-    marginLeft:20,marginBottom:10,marginTop:10
+    fontWeight: '500',
+    fontSize: 18,
+    marginLeft: 20,
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  detailHolder: {
+    alignItems: 'flex-start',
+    fontWeight: '500',
+    fontSize: 16,
+    marginLeft: 20,
+    marginBottom: 20,
+    marginTop: 10,
   },
   img: {
     height: 48,
     width: 48,
+    borderRadius: 32,
   },
-  done: {paddingLeft:55,position:'absolute',fontSize:18,color:'green'},
+  done: {
+    paddingHorizontal: widthPercentageToDP(10),
+    position: 'absolute',
+    fontSize: 18,
+    color: 'green',
+  },
   container: {flexDirection: 'column', justifyContent: 'space-around'},
-  bankname: {fontWeight: '900'},
-  inforBank: {alignItems: 'center', width: '25%'},
-  lineBank: {flexDirection: 'row', justifyContent: 'space-around'},
-  touchDone: {justifyContent: 'flex-end'},
+  bankname: {fontWeight: '600'},
+  inforBank: {alignItems: 'center', width: '25%', borderRadius: 32},
+  lineBank: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingBottom: 20,
+  },
+  touchDone: {justifyContent: 'center', alignSelf: 'center'},
 });

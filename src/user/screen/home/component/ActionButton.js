@@ -47,7 +47,8 @@ const FloatButton = (props) => {
         buttonColor="#2fac4f"
         title="Xin nghỉ"
         onPress={onPressBreak}>
-        <Image source={imgs.overTime} />
+        <Image source={imgs.dayOff} />
+
       </ActionButton.Item>
       <ActionButton.Item
         outputX={[0, -120]}
@@ -55,7 +56,7 @@ const FloatButton = (props) => {
         buttonColor="#008aee"
         title="Xin OT"
         onPress={onPressOT}>
-        <Image source={imgs.dayOff} />
+        <Image source={imgs.overTime} />
       </ActionButton.Item>
     </ActionButton>
   );
@@ -80,3 +81,22 @@ const styles = StyleSheet.create({
   },
   note: {alignSelf: 'center', height: 24, width: 24},
 });
+
+// actionButtonIcon: {
+//   fontSize: 20,
+//   height: 22,
+//   color: 'white',
+//   bottom: 120,
+// },
+// absolute: {
+//   position: 'absolute',
+//   height: heightPercentageToDP(100),
+//   width: widthPercentageToDP(100),
+
+//   bottom: 120,
+// },
+// note: {
+//   position: 'absolute',
+//   bottom: 120,
+// },
+// container: {flex: 1, backgroundColor: '#f3f3f3'},
