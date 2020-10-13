@@ -8,7 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
   LayoutAnimation,
-  UIManager,Linking
+  UIManager,
+  Linking,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {
@@ -28,9 +29,9 @@ if (
 }
 
 function Contact(props) {
-  // const [listData, setListData] = useState(DATA);
+  const {navigation, currentUser, getListUsers, token} = props;
+  const [listData, setListData] = useState(currentUser);
   const [search, setSearch] = useState('');
-  const { navigation, currentUser, getListUsers, token }= props;
   useEffect(() => {
     getListUsers(token);
   }, [getListUsers, token]);
@@ -39,15 +40,13 @@ function Contact(props) {
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     const onGetContact = () => {
-      let phone ;
+      let phone;
       let phoneNumber = data.item.phoneNumber;
       if (Platform.OS !== 'android') {
         phone = `telprompt:${phoneNumber}`;
-      }
-      else {
+      } else {
         phone = `tel:${phoneNumber}`;
       }
-
 
       Linking.openURL(phone);
     };
@@ -76,8 +75,9 @@ function Contact(props) {
 
       return itemData.indexOf(textData) > -1;
     });
-    // setListData(newData);
+    setListData(newData);
     setSearch(txt);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   };
 
   const goBack = () => {
@@ -102,7 +102,7 @@ function Contact(props) {
         placeholder={'Tìm kiếm ...'}
       />
 
-      <FlatList data={currentUser} renderItem={renderItem} />
+      <FlatList data={listData} renderItem={renderItem} />
     </View>
   );
 }

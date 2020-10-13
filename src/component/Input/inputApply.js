@@ -9,9 +9,9 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs, Colors } from '../../../utlis';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs, Colors} from '../../../utlis';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -45,10 +45,9 @@ export default function InputApply(props?: Props) {
     paddingLeft,
     ...otherProps
   } = props;
-  const ViewCard = Platform.OS === 'ios' ? Card : View;
 
   return (
-    <ViewCard
+    <Card
       style={[
         styles.container,
         {
@@ -78,7 +77,7 @@ export default function InputApply(props?: Props) {
         keyboardType="email-address"
         {...otherProps}
       />
-    </ViewCard>
+    </Card>
   );
 }
 

@@ -21,6 +21,7 @@ import updateProfile from '../user/container/account/updateProfile';
 import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
 import CheckIn from '../user/container/checkIn/index';
+import PickTeam from '../user/container/event/PickTeam';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -104,15 +105,14 @@ export default function UserStack() {
         name={'Sự kiện mới'}
         component={Event}
         options={{
-          headerBackTitleVisible: false,
-
-          headerRight: () => (
-            <TouchableOpacity
-              style={styles.container}
-              onPress={() => Alert.alert('Xong')}>
-              <Text style={styles.txtDetail}>{'XONG'}</Text>
-            </TouchableOpacity>
-          ),
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'PickTeam'}
+        component={PickTeam}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

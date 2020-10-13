@@ -5,8 +5,6 @@ import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-   
-
 HeaderCheck.defaultProps = {
   type: 'Check In',
 };
@@ -42,7 +40,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    top: 30
+    top: 30,
   },
 
   checkIn: {

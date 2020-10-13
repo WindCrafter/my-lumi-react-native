@@ -60,6 +60,7 @@ function* sagaCheckIn(action) {
 
 function* sagaCheckInWifi(action) {
   console.log('action', action);
+  const alert = () => {};
   try {
     const data = {
       ssid: action.payload.ssid,
@@ -107,6 +108,7 @@ function* sagaCheckInWifi(action) {
           // onPress : onLongPress
         },
       });
+      setTimeout(() => _global.Alert.close(), 1000);
     }
   } catch (error) {
     console.log(error);

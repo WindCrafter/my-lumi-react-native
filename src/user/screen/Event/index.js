@@ -9,10 +9,17 @@ import {
   TextInput,
   LayoutAnimation,
   UIManager,
+  StatusBar,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
-import {InputRow, Button, InputSelect} from '../../../component';
+import {
+  InputRow,
+  Button,
+  InputSelect,
+  HeaderCustom,
+  BarStatus,
+} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
 import {_global} from '../../../../utlis/global/global';
 import {Card} from 'native-base';
@@ -20,6 +27,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
+import langs from '../../../../common/language';
 
 if (
   Platform.OS === 'android' &&
@@ -28,6 +36,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const Event = (props) => {
+  const {navigation} = props;
   const refPhone = useRef('');
   const [timeStart, setTimeStart] = useState(new Date());
   const [timeEnd, setTimeEnd] = useState(new Date());
@@ -77,8 +86,27 @@ const Event = (props) => {
     setShowModal(true);
   };
 
+  const onGoPickTeam = () => {
+    navigation.navigate('PickTeam');
+  };
+
+  const onGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <>
+      <BarStatus
+        height={Platform.OS === 'ios' ? 28 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        backgroundColor={'rgba(0,0,0,0)'}
+        title={langs.newEvent}
+        goBack={onGoBack}
+        rightButton
+        textPress
+        onRight
+      />
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -245,7 +273,7 @@ const Event = (props) => {
           padding={8}
           marginVertical={18}
           containerStyle={styles.viewInputSelect}
-          onPressButton={onChangeBirthDay}
+          onPressButton={onGoPickTeam}
           shadowOpacity={0.1}
           marginRight={-30}
           color={'rgba(4, 4, 15, 0.45)'}

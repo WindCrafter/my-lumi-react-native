@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,17 +14,17 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import { BarStatus, HeaderCustom, Button } from '../../../component';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { imgs, Colors } from '../../../../utlis';
-import { ScrollView } from 'react-native-gesture-handler';
+import {imgs, Colors} from '../../../../utlis';
+import {ScrollView} from 'react-native-gesture-handler';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
 import moment from 'moment';
@@ -41,7 +41,7 @@ function ApplyOT(props) {
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
   const [showPicker, setShowPicker] = useState(false);
-  const { navigation, route } = props;
+  const {navigation, route} = props;
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [hour, setHour] = useState(new Date());
@@ -168,7 +168,7 @@ function ApplyOT(props) {
             </Card>
           ) : null}
           <Card style={styles.card}>
-            <View style={[styles.row, { justifyContent: 'center' }]}>
+            <View style={[styles.row, {justifyContent: 'center'}]}>
               <TouchableOpacity style={styles.btnSubtract} onPress={onSubtract}>
                 <Text style={styles.add}>-</Text>
               </TouchableOpacity>
@@ -178,11 +178,11 @@ function ApplyOT(props) {
                 <Text style={styles.add}>+</Text>
               </TouchableOpacity>
             </View>
-            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, { marginRight: 8 }]}
+                  style={[styles.imageStamp, {marginRight: 8}]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeStart}</Text>
               </View>
@@ -194,11 +194,11 @@ function ApplyOT(props) {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, { marginRight: 8 }]}
+                  style={[styles.imageStamp, {marginRight: 8}]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
@@ -225,17 +225,16 @@ function ApplyOT(props) {
               value={day}
               onChange={onChangeDay}
               onPress={onUnshow}
-              mode={'date'} />
+              mode={'date'}
+            />
           ) : null
         ) : null}
-      </ScrollView>
-      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onComplete}
         />
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -296,11 +295,6 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-  },
-  bottom: {
-    position: 'absolute',
-    bottom: 32,
-    left: wp(12.5),
   },
   row: {
     flexDirection: 'row',
