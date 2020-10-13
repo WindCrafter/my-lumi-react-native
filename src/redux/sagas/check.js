@@ -10,8 +10,9 @@ import {
   setLateEarlyFailed,
   setLateEarlySuccess,
   takeLeaveSuccess,
-takeLeaveFailed,
-overTimeSuccess,overTimeFailed
+  takeLeaveFailed,
+  overTimeSuccess,
+  overTimeFailed,
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -68,6 +69,7 @@ function* sagaCheckIn(action) {
 
 function* sagaCheckInWifi(action) {
   console.log('action', action);
+  const alert = () => {};
   try {
     const data = {
       ssid: action.payload.ssid,
@@ -212,7 +214,6 @@ function* sagaSetLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
-
     });
   }
 }
@@ -220,7 +221,6 @@ function* sagaSetLateEarly(action) {
 export function* watchSetLateEarly() {
   yield takeLatest(types.SET_LATE_EARLY, sagaSetLateEarly);
 }
-
 
 function* sagaTakeLeave(action) {
   try {
@@ -238,7 +238,7 @@ function* sagaTakeLeave(action) {
         title: 'Đơn xin nghỉ đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     } else {
       yield put(takeLeaveFailed());
@@ -248,7 +248,6 @@ function* sagaTakeLeave(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
         messageColor: Colors.danger,
-
       });
     }
   } catch (error) {
@@ -258,7 +257,6 @@ function* sagaTakeLeave(action) {
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
-
     });
   }
 }
@@ -267,7 +265,6 @@ export function* watchTakeLeave() {
   yield takeLatest(types.TAKE_LEAVE, sagaTakeLeave);
 }
 
-
 function* sagaOverTime(action) {
   try {
     const data = {
@@ -275,7 +272,6 @@ function* sagaOverTime(action) {
       userId: action.payload.userId,
       date: action.payload.date,
       time: action.payload.time,
-
     };
     const token = action.payload.token;
     const response = yield _POST(URL_OVERTIME, data, token);
@@ -286,7 +282,7 @@ function* sagaOverTime(action) {
         title: 'Đơn tăng ca đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     } else {
       yield put(overTimeFailed());
@@ -294,7 +290,7 @@ function* sagaOverTime(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
   } catch (error) {
@@ -302,9 +298,8 @@ function* sagaOverTime(action) {
     _global.Alert.alert({
       title: 'Thông báo',
       message: 'Lỗi mạng',
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
-
     });
   }
 }
