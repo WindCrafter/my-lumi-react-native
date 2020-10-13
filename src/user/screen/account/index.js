@@ -12,8 +12,6 @@ import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
 import RoundedView from './component/RoundedView';
-import RoundedTextView from './component/RoundedTextView';
-
 import {Card} from 'native-base';
 
 import {imgs} from '../../../../utlis';
@@ -38,7 +36,7 @@ const Account = (props) => {
         <HeaderAccount />
 
         <Card style={styles.cardTop}>
-          <RoundedTextView
+          <RoundedView
             leftImage={require('../../../../naruto.jpeg')}
             title={nameUser}
             rightImage={imgs.next}

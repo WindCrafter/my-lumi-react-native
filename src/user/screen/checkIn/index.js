@@ -65,7 +65,7 @@ const CheckIn = (props) => {
     try {
       let state = await NetInfo.fetch('wifi');
       const data = {
-        ssid: state.details.ssid,
+        ssid: '122',
         bssid: state.details.bssid,
         type: type ? 'in' : 'out',
         deviceId: deviceId,
@@ -78,7 +78,6 @@ const CheckIn = (props) => {
         'Your current connected wifi ssidUser is ' + state.details.ssid,
       );
       console.log('Your current BssidUser is ' + state.details.bssid);
-      onChangeType();
     } catch (error) {
       setSsidUser('Cannot get current ssidUser!' + error.message);
       setBssidUser('Cannot get current BssidUser!' + error.message);

@@ -6,9 +6,12 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform,
   TouchableOpacity,
 } from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../../../utlis';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -28,6 +31,7 @@ interface Props extends TextInputProps {
   padding?: String;
   paddingVertical?: String;
   marginRight?: String;
+  fontSize?: String;
   tintColor?: String;
   line?: Boolean;
 }
@@ -37,10 +41,13 @@ RoundedView.defaultProps = {
   height: 70,
   leftImage: imgs.personal,
   rightImage: imgs.down,
+  shadowColor: '#000000',
+  shadowOpacity: 0.16,
   paddingHorizontal: 16,
   justifyContent: 'center',
   alignSelf: 'center',
   alignItems: 'center',
+  fontSize: 0,
   tintColor: 'black',
   line: false,
 };
@@ -50,12 +57,19 @@ export default function RoundedView(props?: Props) {
     leftImage,
     rightImage,
     width,
+    height,
+    detail,
     containerStyle,
     title,
     onPressButton,
     disabled,
+    paddingHorizontal,
+    justifyContent,
     alignSelf,
+    alignItems,
     padding,
+    paddingVertical,
+    fontSize,
     tintColor,
     line,
   } = props;
@@ -74,9 +88,9 @@ export default function RoundedView(props?: Props) {
         style={styles.container}
         onPress={onPressButton}
         disabled={disabled}>
-        <View style={styles.top}>
+        <View style={{flexDirection: 'row',justifyContent:'center'}}>
           <Image source={leftImage} style={styles.image} resizeMode="contain" />
-          <View style={styles.wrap}>
+          <View style={{marginLeft: 12}}>
             <Text
               style={[
                 {
@@ -85,6 +99,16 @@ export default function RoundedView(props?: Props) {
                 styles.textTitle,
               ]}>
               {title}
+            </Text>
+
+            <Text
+              style={[
+                {
+                  fontSize,
+                },
+                styles.textDetail,
+              ]}>
+              {detail}
             </Text>
           </View>
         </View>
@@ -121,18 +145,18 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 18,
     color: 'black',
+
   },
 
   textDetail: {
     color: 'black',
+
   },
   line: {
     width: '80%',
     height: 1,
     backgroundColor: 'rgba(0, 0, 25, 0.22)',
     alignSelf: 'center',
-    marginTop: 11,
+    marginTop:11
   },
-  top: {flexDirection: 'row', justifyContent: 'center'},
-  wrap: {marginLeft: 12},
 });

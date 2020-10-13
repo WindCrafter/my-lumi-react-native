@@ -45,28 +45,25 @@ function* sagaCheckIn(action) {
         title: 'YEAH! CHECK-IN THÀNH CÔNG',
         message: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
       messageColor: Colors.danger,
+      leftButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
@@ -97,9 +94,8 @@ function* sagaCheckInWifi(action) {
         title: 'YEAH! CHECK-IN THÀNH CÔNG',
         message: 'Chấm công thành công',
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else if (
       response.success &&
       response.statusCode === 200 &&
@@ -110,29 +106,30 @@ function* sagaCheckInWifi(action) {
         title: 'YEAH! CHECK-OUT THÀNH CÔNG',
         message: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé',
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-        
+        leftButton: {
+          text: 'OK',
+          // onPress : onLongPress
+        },
       });
-      setTimeout(() => _global.Alert.close(), 1200);
+      setTimeout(() => _global.Alert.close(), 1000);
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
       messageColor: Colors.danger,
-      
+      leftButton: {text: 'OK'},
+      rightButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
@@ -158,22 +155,18 @@ function* sagaCreateQR(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-       
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
       messageColor: Colors.danger,
 
-      
+      leftButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
@@ -197,29 +190,25 @@ function* sagaSetLateEarly(action) {
         title: 'Đơn của bạn đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
@@ -243,29 +232,26 @@ function* sagaTakeLeave(action) {
         title: 'Đơn xin nghỉ đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else {
       yield put(takeLeaveFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
         messageColor: Colors.danger,
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
@@ -290,28 +276,25 @@ function* sagaOverTime(action) {
         title: 'Đơn tăng ca đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     } else {
       yield put(overTimeFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
+        leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 1200);
-
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'LỖI MẠNG',
-      message: 'Vui lòng kiểm tra lại kết nối mạng.',
+      title: 'Thông báo',
+      message: 'Lỗi mạng',
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1200);
-
   }
 }
 
