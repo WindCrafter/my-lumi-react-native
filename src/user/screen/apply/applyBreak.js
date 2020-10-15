@@ -22,7 +22,6 @@ import {imgs, Colors} from '../../../../utlis';
 import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
-import Icon from 'react-native-vector-icons/Feather';
 import Suggest from './component/Suggest';
 
 if (
@@ -133,6 +132,7 @@ function ApplyBreak(props) {
   const onSetTypeBreak = (val) => {
     setTypeBreak(val);
     onUnshow();
+    unFocus();
   };
   const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -188,7 +188,9 @@ function ApplyBreak(props) {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag">
         <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
@@ -209,6 +211,7 @@ function ApplyBreak(props) {
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
+            onBlur={unFocus}
             blurOnSubmit={true}
           />
           {showModal ? (
@@ -397,36 +400,38 @@ function ApplyBreak(props) {
             ) : null}
           </Card>
         </View>
-        {show ? (
-          mode === 'shift' ? (
-            <PickerCustom
-              value={shift}
-              onChange={onChangeShift}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : mode === 'oneday' ? (
-            <PickerCustom
-              value={day}
-              onChange={onChangeDay}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : mode === 'datestart' ? (
-            <PickerCustom
-              value={dateStart}
-              onChange={onChangeDateStart}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : mode === 'dateend' ? (
-            <PickerCustom
-              value={dateEnd}
-              onChange={onChangeDateEnd}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : null
+        {mode === 'shift' ? (
+          <PickerCustom
+            value={shift}
+            onChange={onChangeShift}
+            onPress={onUnshow}
+            mode={'date'}
+            show={show}
+          />
+        ) : mode === 'oneday' ? (
+          <PickerCustom
+            value={day}
+            onChange={onChangeDay}
+            onPress={onUnshow}
+            mode={'date'}
+            show={show}
+          />
+        ) : mode === 'datestart' ? (
+          <PickerCustom
+            value={dateStart}
+            onChange={onChangeDateStart}
+            onPress={onUnshow}
+            mode={'date'}
+            show={show}
+          />
+        ) : mode === 'dateend' ? (
+          <PickerCustom
+            value={dateEnd}
+            onChange={onChangeDateEnd}
+            onPress={onUnshow}
+            mode={'date'}
+            show={show}
+          />
         ) : null}
       </ScrollView>
       <View style={styles.bottom}>
@@ -524,7 +529,7 @@ const styles = StyleSheet.create({
   column: {
     alignItems: 'flex-start',
     // borderWidth: 1,
-    justifyContent:'space-around'
+    justifyContent: 'space-around',
   },
   icon: {
     alignSelf: 'center',

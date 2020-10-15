@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,13 +15,27 @@ import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
 
 import {imgs} from '../../../../utlis';
+import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
-  const {logOut, nameUser, emailUser, navigation} = props;
+  const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
   const name = nameUser;
   const email = emailUser;
   const onLogOut = () => {
-    logOut();
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: 'Bạn thực sự muốn đăng xuất đúng không?',
+      messageColor: Colors.danger,
+      leftButton: {
+        text: 'Đăng xuất',
+        onPress: () => logOut(),
+        textStyle: {color: Colors.danger},
+      },
+      rightButton: {text: 'Cancel'},
+    });
   };
+  useEffect(() => {
+    getListUsers(token);
+  }, [getListUsers, token]);
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');
   };
@@ -30,11 +44,9 @@ const Account = (props) => {
   };
   return (
     <>
-      <BarStatus backgroundColor={Colors.white} />
-
+      <BarStatus />
       <View style={styles.container}>
         <HeaderAccount />
-
         <Card style={styles.cardTop}>
           <RoundedView
             leftImage={require('../../../../naruto.jpeg')}
@@ -44,6 +56,7 @@ const Account = (props) => {
             detail={'Team App'}
             fontSize={16}
             onPressButton={onMoveToProfile}
+            styleImg={styles.image}
           />
         </Card>
         <View style={styles.detail}>
@@ -119,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 24,
     height: 88,
-    marginTop:-8
+    marginTop: 16,
   },
   cardMid: {
     width: '90%',
@@ -132,5 +145,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     borderRadius: 24,
     height: 282,
+  },
+  image: {
+    height: 36,
+    width: 36,
+    borderRadius: 18,
+    alignSelf: 'center',
   },
 });

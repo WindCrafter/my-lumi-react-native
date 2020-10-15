@@ -38,7 +38,6 @@ interface Props extends TextInputProps {
 
 RoundedView.defaultProps = {
   width: '100%',
-  height: 70,
   leftImage: imgs.personal,
   rightImage: imgs.down,
   shadowColor: '#000000',
@@ -50,6 +49,11 @@ RoundedView.defaultProps = {
   fontSize: 0,
   tintColor: 'black',
   line: false,
+  styleImg: {
+    width: 16,
+    height: 16,
+    alignSelf: 'center',
+  },
 };
 
 export default function RoundedView(props?: Props) {
@@ -68,59 +72,50 @@ export default function RoundedView(props?: Props) {
     alignSelf,
     alignItems,
     padding,
-    paddingVertical,
+    styleImg,
     fontSize,
     tintColor,
     line,
   } = props;
 
   return (
-    <View
-      style={[
-        {
-          width,
-
-          alignSelf,
-        },
-        containerStyle,
-      ]}>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={onPressButton}
-        disabled={disabled}>
-        <View style={{flexDirection: 'row',justifyContent:'center'}}>
-          <Image source={leftImage} style={styles.image} resizeMode="contain" />
-          <View style={{marginLeft: 12}}>
-            <Text
-              style={[
-                {
-                  padding,
-                },
-                styles.textTitle,
-              ]}>
-              {title}
-            </Text>
-
-            <Text
-              style={[
-                {
-                  fontSize,
-                },
-                styles.textDetail,
-              ]}>
-              {detail}
-            </Text>
+    <>
+      <View
+        style={[
+          {
+            width,
+            alignSelf,
+          },
+          containerStyle,
+        ]}>
+        <TouchableOpacity
+          style={styles.container}
+          onPress={onPressButton}
+          disabled={disabled}>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Image source={leftImage} style={styleImg} resizeMode="cover" />
+            <View style={styles.viewTitle}>
+              <Text
+                style={[
+                  {
+                    padding,
+                  },
+                  styles.textTitle,
+                ]}>
+                {title}
+              </Text>
+            </View>
           </View>
-        </View>
 
-        <Image
-          source={rightImage}
-          style={[{tintColor}, styles.img]}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+          <Image
+            source={rightImage}
+            style={[{tintColor}, styles.image]}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
       {line ? <View style={styles.line} /> : null}
-    </View>
+    </>
   );
 }
 
@@ -133,30 +128,27 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   image: {
-    width: 24,
-    height: 24,
-    alignSelf: 'center',
-  },
-  img: {
-    width: 16,
-    height: 16,
+    width: 18,
+    height: 18,
     alignSelf: 'center',
   },
   textTitle: {
     fontSize: 18,
     color: 'black',
-
+    alignSelf:'center',
   },
 
   textDetail: {
     color: 'black',
-
   },
   line: {
     width: '80%',
     height: 1,
     backgroundColor: 'rgba(0, 0, 25, 0.22)',
     alignSelf: 'center',
-    marginTop:11
+  },
+  viewTitle:{
+    marginLeft: 12,
+    justifyContent:'center',
   },
 });

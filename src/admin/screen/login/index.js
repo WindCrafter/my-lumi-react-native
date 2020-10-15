@@ -37,6 +37,7 @@ const Login = (props) => {
       return;
     } else {
       loginAction({email, password: pass});
+      changeAutoLogin(checked);
     }
   };
 
@@ -53,8 +54,7 @@ const Login = (props) => {
   };
 
   const onChangeRememberLogin = () => {
-    changeAutoLogin(!autoLoginStatus);
-    setChecked(!autoLoginStatus);
+    setChecked(!checked);
   };
 
   return (

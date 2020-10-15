@@ -12,9 +12,10 @@ import {Colors, imgs} from '../../../../../utlis';
 import {InputRow, Button, InputSelect} from '../../../../component';
 import langs from '../../../../../common/language';
 import {ScrollView} from 'react-native-gesture-handler';
-import { _global } from '../../../../../utlis/global/global';
+import {_global} from '../../../../../utlis/global/global';
 
-const BACKGROUDNCOLOR = Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : 'rgba(0,0,25,0.17)';
+const BACKGROUDNCOLOR =
+  Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : 'rgba(0,0,25,0.17)';
 
 const AddInfo = (props) => {
   const refPhone = useRef('');
@@ -53,6 +54,7 @@ const AddInfo = (props) => {
               value={phone}
               onChangeText={onChangePhone}
               refInput={refPhone}
+              keyboardType="numeric"
             />
 
             <InputSelect
@@ -89,6 +91,7 @@ const AddInfo = (props) => {
               value={nativeLand}
               onChangeText={onChangeNative}
               refInput={refNative}
+              keyboardType={'default'}
             />
             <Button
               title={'Tiếp tục'}
@@ -145,8 +148,8 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUDNCOLOR,
     marginVertical: 16,
   },
-  viewInputSelect:{
-    marginVertical:16,
-    backgroundColor: 'rgba(0,0,25,0.17)'
-  }
+  viewInputSelect: {
+    marginVertical: 16,
+    backgroundColor: 'rgba(0,0,25,0.17)',
+  },
 });
