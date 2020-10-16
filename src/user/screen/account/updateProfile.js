@@ -28,6 +28,8 @@ import ModalBank from './component/ModalBank';
 
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import ModalGene from './component/ModalGene';
+import ModalTeam from './component/ModalTeam';
 
 if (
   Platform.OS === 'android' &&
@@ -44,6 +46,7 @@ function UpdateProfile(props) {
     updateProfile,
     token,
     advance,
+    teamUser,
     birthdayUser,
   } = props;
   const step = useRef(null);
@@ -52,10 +55,12 @@ function UpdateProfile(props) {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
   const [showBank, setShowBank] = useState(false);
-
+  const [showGene, setShowGene] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [showTeam, setShowTeam] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
+  const [team, setTeam] = useState(teamUser);
   const [birthday, setBirthDay] = useState(
     birthdayUser ? birthdayUser : moment(new Date()).format('DD/MM/YYYY'),
   );
@@ -117,8 +122,24 @@ function UpdateProfile(props) {
     setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
 
-  const onChangeGene = (val) => {
-    setGene(val);
+  const onShowGene = (val) => {
+    setShowGene(true);
+  };
+  const onHideGene = () => {
+    setShowGene(false);
+  };
+  const onChangeGene = (value) => {
+    setGene(value);
+  };
+
+  const onShowTeam = (val) => {
+    setShowTeam(true);
+  };
+  const onHideTeam = () => {
+    setShowTeam(false);
+  };
+  const onChangeTeam = (value) => {
+    setTeam(value);
   };
 
   const onChangeIdentity = (val) => {
@@ -207,16 +228,18 @@ function UpdateProfile(props) {
             phone={phone}
             identity={identity}
             nativeLand={nativeLand}
+            team={team}
             onChangeNative={onChangeNativeLand}
             onChangePhone={onChangePhone}
             onChangeName={onChangeName}
             onChangeIdentity={onChangeIdentity}
+            onChangeTeam={onShowTeam}
           />
 
           <UpdateInfo
             birthday={birthday}
             gene={gene}
-            onChangeGene={onChangeGene}
+            onChangeGene={onShowGene}
             onChangeBirthday={onShowModal}
             onChangeBank={onPick}
             bankName={bankName}
@@ -233,6 +256,7 @@ function UpdateProfile(props) {
                   mode={'date'}
                   display="default"
                   onChange={onChangeBirthday}
+                  locale="vi-VI"
                 />
               </View>
             }
@@ -244,23 +268,34 @@ function UpdateProfile(props) {
               mode={'date'}
               display="default"
               onChange={onChangeBirthday}
+              locale="vi-VI"
             />
           )
         )}
-        {showBank ? (
-          <ModalBank
-            showModal={showBank}
-            hideModal={onDonePick}
-            onSetVTB={onSetVTB}
-            onSetBIDV={onSetBIDV}
-            onSetTech={onSetTech}
-            onSetAgri={onSetAgri}
-            onSetVCB={onSetVCB}
-            onSetVPB={onSetVPB}
-            onBankAccount={onChangeAccount}
-            bankName={bankName}
-          />
-        ) : null}
+        <ModalBank
+          showModal={showBank}
+          hideModal={onDonePick}
+          onSetVTB={onSetVTB}
+          onSetBIDV={onSetBIDV}
+          onSetTech={onSetTech}
+          onSetAgri={onSetAgri}
+          onSetVCB={onSetVCB}
+          onSetVPB={onSetVPB}
+          onBankAccount={onChangeAccount}
+          bankName={bankName}
+        />
+        <ModalGene
+          showModal={showGene}
+          hideModal={onHideGene}
+          detailGene={gene}
+          pressItem={(e) => onChangeGene(e)}
+        />
+        <ModalTeam
+          showModal={showTeam}
+          hideModal={onHideTeam}
+          detailTeam={team}
+          pressItem={(e) => onChangeTeam(e)}
+        />
       </KeyboardAvoidingView>
     </View>
   );

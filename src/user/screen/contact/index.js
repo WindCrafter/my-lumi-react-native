@@ -30,12 +30,9 @@ if (
 }
 
 function Contact(props) {
-  const {navigation, currentUser, getListUsers, token} = props;
+  const {navigation, currentUser} = props;
   const [listData, setListData] = useState(currentUser);
   const [search, setSearch] = useState('');
-  useEffect(() => {
-    getListUsers(token);
-  }, [getListUsers, token]);
   const renderItem = (data) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
@@ -109,7 +106,11 @@ function Contact(props) {
         placeholder={'Tìm kiếm ...'}
       />
 
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        data={listData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.userId}
+      />
     </View>
   );
 }

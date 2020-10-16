@@ -24,7 +24,7 @@ const FirstLogin = (props) => {
   const [rePass, setRePass] = useState('');
   const [phone, setPhone] = useState('');
   const [] = useState('hey');
-  const [nativeLand,setNativeLand]=useState('');
+  const [nativeLand, setNativeLand] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [birthday, setBirthDay] = useState(
     moment(new Date()).format('DD/MM/YYYY'),
@@ -40,9 +40,9 @@ const FirstLogin = (props) => {
   const onChangePhone = (value) => {
     setPhone(value);
   };
-  const onChangeNative=(value)=> {
-    setNativeLand(value)
-  }
+  const onChangeNative = (value) => {
+    setNativeLand(value);
+  };
   const onChangeBirthday = (event, val) => {
     const pickDate = val || birthday;
     setShowPicker(Platform.OS === 'ios');
@@ -59,7 +59,6 @@ const FirstLogin = (props) => {
   const onShowModal = () => {
     setShow(true);
     setShowPicker(!showPicker);
-
   };
 
   const onConfirms = () => {
@@ -90,19 +89,19 @@ const FirstLogin = (props) => {
   const onConfirmsProfile = () => {
     Keyboard.dismiss();
     const data = {
-      name:name,
+      name: name,
       phoneNumber: phone,
       birthday,
       token,
       advance: {
-        nativeLand
-      }
+        nativeLand,
+      },
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
         title: 'Thông báo',
         message: 'Sai số điện thoại.\nVui lòng kiểm tra lại.',
-        messageColor:'red',
+        messageColor: 'red',
         leftButton: {text: 'OK'},
       });
     } else {
@@ -154,23 +153,23 @@ const FirstLogin = (props) => {
                 mode={'date'}
                 display="default"
                 onChange={onChangeBirthday}
+                locale="vi-VI"
               />
             </View>
           }
         />
       ) : (
-            ( showPicker &&
-            <View style={styles.picker}>
-
-          <DateTimePicker
-            value={moment(birthday, 'DD/MM/YYYY').toDate()}
-            mode={'date'}
-            display="default"
-            onChange={onChangeBirthday}
-          />
-            </View>
-
-          )
+        showPicker && (
+          <View style={styles.picker}>
+            <DateTimePicker
+              value={moment(birthday, 'DD/MM/YYYY').toDate()}
+              mode={'date'}
+              display="spinner"
+              onChange={onChangeBirthday}
+              locale="vi-VI"
+            />
+          </View>
+        )
       )}
     </>
   );

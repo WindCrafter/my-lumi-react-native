@@ -18,14 +18,13 @@ import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 
-import moment from 'moment';
-
 import NetInfo from '@react-native-community/netinfo';
-import {widthPercentageToDP as wp,heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 // import {ScrollView} from 'react-native-gesture-handler';
-import { NetworkInfo } from 'react-native-network-info';
-
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import CusMarker from '../checkIn/CustomMarker';
@@ -35,7 +34,15 @@ import {
 } from 'react-native-responsive-screen';
 
 const CheckIn = (props) => {
-  const {navigation, checkIn, deviceId, token, goHistory, checkInWifi,switchTo} = props;
+  const {
+    navigation,
+    checkIn,
+    deviceId,
+    token,
+    goHistory,
+    checkInWifi,
+    switchTo,
+  } = props;
   // console.log(checkInWifi)
 
   const [ssidUser, setSsidUser] = useState('');
@@ -50,12 +57,11 @@ const CheckIn = (props) => {
 
   const onCheckInCode = () => {
     const data = {
-      typeCheck: "code",
+      typeCheck: 'code',
       deviceId: deviceId,
       codeString: code,
       type: type ? 'in' : 'out',
       token: token,
-
     };
     checkIn(data);
     setCode('');
@@ -105,7 +111,7 @@ const CheckIn = (props) => {
       } else {
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
-        console.log(granted)
+        console.log(granted);
       }
     } catch (err) {
       console.warn(err);
@@ -120,10 +126,8 @@ const CheckIn = (props) => {
       deviceId: deviceId,
       codeString: e.data,
       type: type ? 'in' : 'out',
-      typeCheck: "qrCode",
+      typeCheck: 'qrCode',
       token: token,
-
-
     };
     checkIn(data);
   };
@@ -133,7 +137,6 @@ const CheckIn = (props) => {
   };
   const scrollRef = useRef();
 
-  
   const PageCode = () => {
     scrollRef.current.scrollTo({x: 2 * wp(100), y: 20, animated: true});
     setMedthod('code');
@@ -148,91 +151,82 @@ const CheckIn = (props) => {
   };
 
   return (
-
     <View>
-     
-    <ScrollView
-      ref={scrollRef}
-      horizontal={true}
-      pagingEnabled={true}
-      scrollEnabled={false}
-      showsHorizontalScrollIndicator={false}
-      onScrollAnimationEnd={false}
-      // style={{flex:1}}
-      >
-      
-            <QRCodeScanner
-              onRead={onCheckIn}
-              reactivate={true}
-              reactivateTimeout={3000}
-              flashMode={RNCamera.Constants.FlashMode.off}
-              cameraStyle={styles.camera}
-              topViewStyle={styles.not}
-              showMarker={true}
-              // cameraProps={{ratio: '1:1'}}
-              customMarker={<CusMarker />}
-          bottomContent={<Text style={styles.titlemodal}>
-            Di chuyển Camera vào vùng chứa mã bạn nhé.
-            </Text>}
+      <ScrollView
+        ref={scrollRef}
+        horizontal={true}
+        pagingEnabled={true}
+        scrollEnabled={false}
+        showsHorizontalScrollIndicator={false}
+        onScrollAnimationEnd={false}>
+        <QRCodeScanner
+          onRead={onCheckIn}
+          reactivate={true}
+          reactivateTimeout={3000}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          cameraStyle={styles.camera}
+          topViewStyle={styles.not}
+          showMarker={true}
+          // cameraProps={{ratio: '1:1'}}
+          customMarker={<CusMarker />}
+          bottomContent={
+            <Text style={styles.titlemodal}>
+              Di chuyển Camera vào vùng chứa mã bạn nhé.
+            </Text>
+          }
+        />
 
-            />
-           
+        <View style={styles.pagetwo}>
+          <View style={styles.viewMid}>
+            <View style={styles.modalviewWifi}>
+              <Card style={styles.cardWifi}>
+                <View style={{flexDirection: 'row'}}>
+                  <Image source={imgs.ssid} style={styles.iconWifi} />
+                  <Text style={styles.txtTopWifi}>Tên wifi:</Text>
 
-      <View style={styles.pagetwo}>
-      
-        <View style={styles.viewMid} >
-          <View style={styles.modalviewWifi}>
-            <Card style={styles.cardWifi}>
-              <View style={{flexDirection: 'row'}}>
-                <Image source={imgs.ssid} style={styles.iconWifi} />
-                <Text style={styles.txtTopWifi}>Tên wifi:</Text>
-
-                <Text style={styles.txtTopWifi}>{ssidUser}</Text>
-              </View>
-              <View style={{flexDirection: 'row'}}>
-                <Image source={imgs.bssid} style={styles.iconWifi} />
-                <Text style={styles.txtTopWifi}>Mã MAC:</Text>
-                <Text style={styles.txtTopWifi}>{bssidUser}</Text>
-              </View>
-            </Card>
-            <TouchableOpacity
-              style={styles.touchableWifi}
+                  <Text style={styles.txtTopWifi}>{ssidUser}</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Image source={imgs.bssid} style={styles.iconWifi} />
+                  <Text style={styles.txtTopWifi}>Mã MAC:</Text>
+                  <Text style={styles.txtTopWifi}>{bssidUser}</Text>
+                </View>
+              </Card>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={requestLocationPermission}>
-              <Text style={styles.doneWifi}>Kết nối lại</Text>
-            </TouchableOpacity>
+                <Text style={styles.doneWifi}>Kết nối lại</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-           
         </View>
-      </View>
 
-      <View style={styles.pagethree}>
-       
-        <View style={styles.viewMid}>
-          <View style={styles.modalviewCode}>
-            <Card style={styles.card}>
-              <KeyboardAvoidingView style={styles.bodyCode}>
-                <Image source={imgs.key} style={styles.imageInputCode} />
-                <TextInput
-                  style={styles.txtInputCode}
-                  textAlign={'left'}
-                  placeholder={'Nhập mã chấm công'}
-                  placeholderTextColor={'gray'}
-                  onChangeText={onChangeCode}
-                  clearButtonMode={'while-editing'}
-                  value={code}
-                />
-              </KeyboardAvoidingView>
-            </Card>
-            <TouchableOpacity
-              style={styles.touchableCode}
-              onPress={onCheckInCode}>
-              <Text style={styles.doneCode}>Xác nhận</Text>
-            </TouchableOpacity>
+        <View style={styles.pagethree}>
+          <View style={styles.viewMid}>
+            <View style={styles.modalviewCode}>
+              <Card style={styles.card}>
+                <KeyboardAvoidingView style={styles.bodyCode}>
+                  <Image source={imgs.key} style={styles.imageInputCode} />
+                  <TextInput
+                    style={styles.txtInputCode}
+                    textAlign={'left'}
+                    placeholder={'Nhập mã chấm công'}
+                    placeholderTextColor={'gray'}
+                    onChangeText={onChangeCode}
+                    clearButtonMode={'while-editing'}
+                    value={code}
+                  />
+                </KeyboardAvoidingView>
+              </Card>
+              <TouchableOpacity
+                style={styles.touchableCode}
+                onPress={onCheckInCode}>
+                <Text style={styles.doneCode}>Xác nhận</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-         
         </View>
-      </View>
-      </ScrollView> 
+      </ScrollView>
       <HeaderCheck
         title={langs.checkIn}
         type={type ? 'Check In' : 'Check Out'}
@@ -253,13 +247,8 @@ const CheckIn = (props) => {
 export default CheckIn;
 
 const styles = StyleSheet.create({
-  
   detail: {
     width: wp(100),
-  },
-  viewTop: {
-    justifyContent: 'center',
-    paddingHorizontal: 18,
   },
   viewMid: {
     alignItems: 'center',
@@ -285,13 +274,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  txtCheck: {
-    fontSize: 17,
-    fontWeight: '400',
-    alignSelf: 'center',
-    paddingHorizontal: 12,
-  },
-
   image: {width: 24, height: 24, alignSelf: 'center'},
   body: {flexDirection: 'row'},
   pageone: {
@@ -303,14 +285,13 @@ const styles = StyleSheet.create({
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
-    height:hp(100)
+    height: hp(100),
   },
   pagethree: {
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
-    height: hp(100)
-
+    height: hp(100),
   },
   modalview: {
     borderRadius: 28,
@@ -324,26 +305,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: -20,
     color: 'white',
-    width:'80%',
-    textAlign:"center"
-  },
-  complete: {
-    backgroundColor: Colors.background,
+    width: '80%',
+    textAlign: 'center',
   },
   camera: {
     height: hp(100),
     width: wp(100),
-    // flex:1 
-
- },
-  contentTop: {
-    flex: 1,
-    paddingTop: 8,
-  },
-  contentImage: {
-    alignSelf: 'center',
-    height: 72,
-    width: 72,
+    // flex:1
   },
   modalviewCode: {
     borderRadius: 24,
@@ -352,31 +320,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical:30
-  },
-
-  viewTopCode: {
-    justifyContent: 'center',
-  },
-
-  txtTopCode: {
-    fontSize: 18,
-  },
-
-  cardCode: {
-    width: widthPercentageToDP(70),
-    alignSelf: 'center',
-    borderRadius: 24,
-    paddingVertical: 2,
-    backgroundColor: '#ffffff',
-    overflow: 'hidden',
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    marginVertical: 30,
   },
   touchableCode: {
     justifyContent: 'center',
@@ -413,15 +357,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-
-  viewTopWifi: {
-    justifyContent: 'center',
-  },
-
   txtTopWifi: {
     fontSize: 18,
+    alignSelf: 'center',
   },
-
   cardWifi: {
     width: widthPercentageToDP(80),
     alignSelf: 'center',
@@ -438,18 +377,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: '#ffffff',
     justifyContent: 'space-evenly',
-
-  },
-  touchableWifi: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.background,
-    width: 132,
-    height: 49,
-    borderRadius: 16,
-    backgroundColor: '#ffffff',
-    marginTop:70
-
   },
   doneWifi: {
     color: '#008aee',
@@ -457,7 +384,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   iconWifi: {
-    marginHorizontal: 8,
+    marginHorizontal: 16,
   },
-  not:{flex:0}
+  not: {flex: 0},
+  button:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    width: 132,
+    height: 49,
+    borderRadius: 16,
+    marginTop: 70,
+  },
 });

@@ -37,18 +37,17 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  
-  const { navigation, route, setLateEarly, userId, token} = props;
+
+  const {navigation, route, setLateEarly, userId, token} = props;
   const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
-const onChangeTime =(value) => {
-  setTime(value);
-
-}
+  const onChangeTime = (value) => {
+    setTime(value);
+  };
   const onComplete = () => {
-    onsetLateEarly()
+    onsetLateEarly();
   };
 
   const onChangeReason = (val) => {
@@ -60,13 +59,13 @@ const onChangeTime =(value) => {
     unFocus();
   };
   const onsetLateEarly = () => {
-    console.log(userId)
+    console.log(userId);
     const data = {
-      userId: userId,      
-      type : type ,
+      userId: userId,
+      type: type,
       time: time,
       date: moment().format('DD/MM/YYYY'),
-      token:token
+      token: token,
     };
     setLateEarly(data);
   };
@@ -109,7 +108,9 @@ const onChangeTime =(value) => {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag">
         <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
@@ -130,6 +131,7 @@ const onChangeTime =(value) => {
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
+            onBlur={unFocus}
             blurOnSubmit={true}
           />
 
@@ -179,7 +181,6 @@ const onChangeTime =(value) => {
                 height={28}
                 width={28}
                 color={type === 'early' ? 'green' : 'grey'}
-
               />
             </View>
             <View
@@ -187,14 +188,11 @@ const onChangeTime =(value) => {
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
-             
               <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              
-             
             </View>
             <Slider
-              style={{ width: wp(80), height: 40 ,alignSelf:'center'}}
+              style={{width: wp(80), height: 40, alignSelf: 'center'}}
               minimumValue={0}
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
