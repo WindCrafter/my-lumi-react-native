@@ -104,7 +104,9 @@ function ApplyBreak(props) {
     navigation.goBack();
   };
   const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      : null;
     setShow(false);
     setMode('');
   };
@@ -135,7 +137,9 @@ function ApplyBreak(props) {
     unFocus();
   };
   const onShow = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      : null;
     setShow(true);
     setMode(m);
   };
@@ -166,12 +170,16 @@ function ApplyBreak(props) {
   };
 
   const onFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+      : null;
     setShowModal(true);
   };
 
   const unFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+      : null;
     setShowModal(false);
     Keyboard.dismiss();
   };
@@ -214,7 +222,7 @@ function ApplyBreak(props) {
             onBlur={unFocus}
             blurOnSubmit={true}
           />
-          {showModal ? (
+          {!reason && showModal ? (
             <Card style={styles.card}>
               <Suggest
                 detail={'lí do 1'}
@@ -433,14 +441,12 @@ function ApplyBreak(props) {
             show={show}
           />
         ) : null}
-      </ScrollView>
-      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành '}
           containerStyle={styles.complete}
           onPress={onComplete}
         />
-      </View>
+      </ScrollView>
     </View>
   );
 }

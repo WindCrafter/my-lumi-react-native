@@ -110,7 +110,7 @@ function ApplyLate(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="interactive">
         <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
@@ -204,14 +204,13 @@ function ApplyLate(props) {
             />
           </Card>
         </View>
-      </ScrollView>
-      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onComplete}
         />
-      </View>
+      </ScrollView>
+      <View style={styles.bottom} />
     </View>
   );
 }
