@@ -15,7 +15,7 @@ import {_global} from '../../../../utlis/global/global';
 import ModalTime from '../../../user/screen/account/component/ModalTime';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-
+import ModalTeam from './component/ModalTeam';
 const FirstLogin = (props) => {
   const {changePass, token, updateProfile, name} = props;
   const step = useRef();
@@ -65,27 +65,39 @@ const FirstLogin = (props) => {
   const onConfirms = () => {
     Keyboard.dismiss();
     if (pass.trim().length === 0) {
-      setError('Pass is invalid');
+      setError('Mật khẩu không được để trống.');
       refAlert.current.open();
       return;
     }
     if (pass.trim().length < 6) {
-      setError('Pass can not less than 6');
+      setError('Mật khẩu không được dưới 6 kí tự.');
       refAlert.current.open();
       return;
     }
     if (rePass.length === 0) {
-      setError('RePass is invalid');
+      setError('Mật khẩu không được để trống.');
       refAlert.current.open();
       return;
     }
     if (!(rePass === pass)) {
-      setError('RePass not match with Pass');
+      setError('Mật khẩu nhập lại không đúng.');
       refAlert.current.open();
       return;
     } else {
       changePass({pass, confirmPassword: rePass, token});
     }
+  };
+  const [showModalPosition, setModalPosition] = useState(false);
+  const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
+
+  const setPosition = () => {
+    setModalPosition(true);
+  };
+  const hidePosition = () => {
+    setModalPosition(false);
+  };
+  const onSetPosition = (value) => {
+    setDetailPosition(value);
   };
   const onConfirmsProfile = () => {
     Keyboard.dismiss();
@@ -120,7 +132,10 @@ const FirstLogin = (props) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        ref={step}>
+        ref={step}
+        scrollEnabled={false}
+        >
+          
         <AddInfo
           birthday={birthday}
           onChangeBirthDay={onShowModal}
@@ -128,6 +143,8 @@ const FirstLogin = (props) => {
           onChangePhone={onChangePhone}
           onNext={onConfirmsProfile}
           onChangeNative={onChangeNative}
+          onChangeTeam={setPosition}
+          detailPosition={detailPosition}
         />
         <ChangePass
           pass={pass}
@@ -143,6 +160,18 @@ const FirstLogin = (props) => {
         leftButton={{text: 'OK'}}
         ref={refAlert}
       />
+      <ModalTeam
+        showModalPosition={showModalPosition}
+        pressApp={() => onSetPosition('Team App')}
+        pressBackEnd={() => onSetPosition('Team Back-end')}
+        pressFirmware={() => onSetPosition('Team Firm-ware')}
+        pressHR={() => onSetPosition('Team HR')}
+        pressOS={() => onSetPosition('Team OS')}
+        pressOther={() => onSetPosition('Team Khác')}
+        pressTester={() => onSetPosition('Team Tester')}
+        detailPosition={detailPosition}
+        setModalPosition={hidePosition}
+      />
       {Platform.OS === 'ios' ? (
         <ModalTime
           showModal={show}
@@ -154,6 +183,8 @@ const FirstLogin = (props) => {
                 mode={'date'}
                 display="default"
                 onChange={onChangeBirthday}
+                locale={'vi'}
+
               />
             </View>
           }
@@ -167,6 +198,7 @@ const FirstLogin = (props) => {
             mode={'date'}
             display="default"
             onChange={onChangeBirthday}
+            locale={'vi'}
           />
             </View>
 

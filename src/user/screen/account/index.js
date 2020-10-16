@@ -27,7 +27,7 @@ const Account = (props) => {
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');
   };
-  const onMoveTContact = () => {
+  const onMoveToContact = () => {
     navigation.navigate('Contact');
   };
   return (
@@ -63,7 +63,7 @@ const Account = (props) => {
               rightImage={imgs.next}
               tintColor={'grey'}
               line={true}
-              onPressButton={onMoveTContact}
+              onPressButton={onMoveToContact}
             />
             <RoundedView
               leftImage={imgs.inforsolidblack}

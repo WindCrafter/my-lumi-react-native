@@ -22,6 +22,7 @@ import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
 import CheckIn from '../user/container/checkIn/index';
 import PickTeam from '../user/container/event/PickTeam';
+import ForgotPass from '../user/container/forgotPassword/forgotPass'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -41,6 +42,13 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
+        name={'ForgotPass'}
+        component={ForgotPass}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name={'Contact'}
         component={contact}
         options={{
@@ -52,6 +60,8 @@ export default function UserStack() {
         component={applyLate}
         options={{
           headerShown: false,
+          gestureEnabled: false,
+
         }}
       />
       <Stack.Screen
@@ -59,6 +69,8 @@ export default function UserStack() {
         component={applyBreak}
         options={{
           headerShown: false,
+          gestureEnabled: false,
+
         }}
       />
       <Stack.Screen
@@ -66,6 +78,8 @@ export default function UserStack() {
         component={applyOT}
         options={{
           headerShown: false,
+          gestureEnabled: false,
+
         }}
       />
       <Stack.Screen

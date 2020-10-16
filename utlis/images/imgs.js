@@ -97,4 +97,5 @@ export const imgs = {
   clockEarly: require('../../common/assets/images/icon/Clock-early-icon.png'),
   arrow: require('../../common/assets/images/icon/Arrow-icon.png'),
   time: require('../../common/assets/images/icon/Clock2-icon.png'),
+  sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
 };

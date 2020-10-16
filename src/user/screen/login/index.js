@@ -50,7 +50,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('Forgot Password');
+    navigation.navigate('ForgotPass');
   };
 
   const onChangeRememberLogin = () => {
@@ -101,9 +101,9 @@ const Login = (props) => {
           testID="test_Login"
         />
 
-        <TouchableOpacity testID="test_ForgotPass" style={styles.forgotPass}>
+        {/* <TouchableOpacity testID="test_ForgotPass" style={styles.forgotPass} onPress={onPressForgot}>
           <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

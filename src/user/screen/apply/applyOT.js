@@ -68,6 +68,8 @@ function ApplyOT(props) {
 
   const onChangeReason = (val) => {
     setReason(val);
+    setShow(false);
+
   };
 
   const onSetReason = (val) => {
@@ -134,7 +136,6 @@ function ApplyOT(props) {
         fontSize={24}
       />
       <ScrollView>
-        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -160,25 +161,25 @@ function ApplyOT(props) {
           {show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'lí do 1'}
-                onPress={() => onSetReason('lí do 1')}
+                detail={'Sửa bug phát sinh.'}
+                onPress={() => onSetReason('Sửa bug phát sinh.')}
               />
               <Suggest
-                detail={'lí do 2'}
-                onPress={() => onSetReason('lí do 2')}
+                detail={'Bảo đảm tiến độ dự án.'}
+                onPress={() => onSetReason('Bảo đảm tiến độ dự án.')}
               />
               <Suggest
-                detail={'lí do 3'}
-                onPress={() => onSetReason('lí do 3')}
+                detail={'Bảo trì hệ thống.'}
+                onPress={() => onSetReason('Bảo trì hệ thống.')}
               />
               <Suggest
-                detail={'lí do 4'}
-                onPress={() => onSetReason('lí do 4')}
+                detail={'Phát triển tính năng mới.'}
+                onPress={() => onSetReason('Phát triển tính năng mới.')}
               />
-              <Suggest
+              {/* <Suggest
                 detail={'lí do 5'}
                 onPress={() => onSetReason('lí do 5')}
-              />
+              /> */}
             </Card>
           ) : null}
           <Card style={styles.card}>
@@ -248,12 +249,13 @@ function ApplyOT(props) {
             />
           ) : null
         ) : null}
-        <Button
-          title={'Hoàn thành'}
-          containerStyle={styles.complete}
-          onPress={onSetOverTime}
-        />
+       
       </ScrollView>
+      <Button
+        title={'Hoàn thành'}
+        containerStyle={styles.complete}
+        onPress={onSetOverTime}
+      />
     </View>
   );
 }
@@ -314,6 +316,9 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+    position: 'absolute',
+    bottom:"10%"
+
   },
   row: {
     flexDirection: 'row',

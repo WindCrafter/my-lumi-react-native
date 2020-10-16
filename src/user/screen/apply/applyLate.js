@@ -37,22 +37,22 @@ function ApplyLate(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
-  
-  const { navigation, route, setLateEarly, userId, token} = props;
+
+  const {navigation, route, setLateEarly, userId, token} = props;
   const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
   };
-const onChangeTime =(value) => {
-  setTime(value);
-
-}
+  const onChangeTime = (value) => {
+    setTime(value);
+  };
   const onComplete = () => {
-    onsetLateEarly()
+    onsetLateEarly();
   };
 
   const onChangeReason = (val) => {
     setReason(val);
+    setShow(!show);
   };
 
   const onSetReason = (val) => {
@@ -60,13 +60,13 @@ const onChangeTime =(value) => {
     unFocus();
   };
   const onsetLateEarly = () => {
-    console.log(userId)
+    console.log(userId);
     const data = {
-      userId: userId,      
-      type : type ,
+      userId: userId,
+      type: type,
       time: time,
       date: moment().format('DD/MM/YYYY'),
-      token:token
+      token: token,
     };
     setLateEarly(data);
   };
@@ -86,16 +86,7 @@ const onChangeTime =(value) => {
   const onSetEarly = () => {
     setType('early');
   };
-  const onSubtract = () => {
-    if (time > 0) {
-      setTime(time - 5);
-    }
-  };
-  const onAdd = () => {
-    if (time < 60) {
-      setTime(time + 5);
-    }
-  };
+  
 
   return (
     <View style={styles.container}>
@@ -110,7 +101,6 @@ const onChangeTime =(value) => {
         fontSize={24}
       />
       <ScrollView>
-        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -136,24 +126,24 @@ const onChangeTime =(value) => {
           {show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'lí do 1'}
-                onPress={() => onSetReason('lí do 1')}
+                detail={'Tắc đường.'}
+                onPress={() => onSetReason('Tắc đường.')}
               />
               <Suggest
-                detail={'lí do 2'}
-                onPress={() => onSetReason('lí do 2')}
+                detail={'Có việc đột xuất.'}
+                onPress={() => onSetReason('Có việc đột xuất.')}
               />
               <Suggest
-                detail={'lí do 3'}
-                onPress={() => onSetReason('lí do 3')}
+                detail={'Bị hỏng xe.'}
+                onPress={() => onSetReason('Bị hỏng xe.')}
               />
               <Suggest
-                detail={'lí do 4'}
-                onPress={() => onSetReason('lí do 4')}
+                detail={'Công việc ngoài phạm vi phòng.'}
+                onPress={() => onSetReason('Công việc ngoài phạm vi phòng.')}
               />
               <Suggest
-                detail={'lí do 5'}
-                onPress={() => onSetReason('lí do 5')}
+                detail={'Lí do cá nhân.'}
+                onPress={() => onSetReason('Lí do cá nhân.')}
               />
             </Card>
           ) : null}
@@ -179,7 +169,6 @@ const onChangeTime =(value) => {
                 height={28}
                 width={28}
                 color={type === 'early' ? 'green' : 'grey'}
-
               />
             </View>
             <View
@@ -187,14 +176,11 @@ const onChangeTime =(value) => {
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
-             
               <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
-              
-             
             </View>
             <Slider
-              style={{ width: wp(80), height: 40 ,alignSelf:'center'}}
+              style={{width: wp(80), height: 40, alignSelf: 'center'}}
               minimumValue={0}
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
@@ -202,7 +188,7 @@ const onChangeTime =(value) => {
               step={5}
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
-              thumbImage={imgs.miniLogo}
+              // thumbImage={imgs.miniLogo}
             />
           </Card>
         </View>

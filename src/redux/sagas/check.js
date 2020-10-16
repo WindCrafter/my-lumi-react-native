@@ -46,7 +46,7 @@ function* sagaCheckIn(action) {
         message: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else {
       yield put(checkInFailed());
@@ -55,7 +55,7 @@ function* sagaCheckIn(action) {
         message: response.message,
         messageColor: Colors.danger,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     }
   } catch (error) {
@@ -65,7 +65,7 @@ function* sagaCheckIn(action) {
       message: 'Vui lòng kiểm tra lại kết nối mạng.',
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }
@@ -98,7 +98,7 @@ function* sagaCheckInWifi(action) {
         message: 'Chấm công thành công',
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else if (
       response.success &&
@@ -111,7 +111,7 @@ function* sagaCheckInWifi(action) {
         message: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé!',
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else {
       yield put(checkInFailed());
@@ -121,7 +121,7 @@ function* sagaCheckInWifi(action) {
         messageColor: Colors.danger,
         
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
     }
   } catch (error) {
     console.log(error);
@@ -131,7 +131,7 @@ function* sagaCheckInWifi(action) {
       messageColor: Colors.danger,
       
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }
@@ -160,7 +160,7 @@ function* sagaCreateQR(action) {
         messageColor: Colors.danger,
        
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     }
   } catch (error) {
@@ -172,7 +172,7 @@ function* sagaCreateQR(action) {
 
       
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }
@@ -199,7 +199,7 @@ function* sagaSetLateEarly(action) {
         messageColor: Colors.background,
         
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else {
       yield put(setLateEarlyFailed());
@@ -208,7 +208,7 @@ function* sagaSetLateEarly(action) {
         message: response.message,
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     }
   } catch (error) {
@@ -218,7 +218,7 @@ function* sagaSetLateEarly(action) {
       message: 'Vui lòng kiểm tra lại kết nối mạng.',
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }
@@ -244,7 +244,7 @@ function* sagaTakeLeave(action) {
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else {
       yield put(takeLeaveFailed());
@@ -254,7 +254,7 @@ function* sagaTakeLeave(action) {
         messageColor: Colors.background,
         messageColor: Colors.danger,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     }
   } catch (error) {
@@ -264,7 +264,7 @@ function* sagaTakeLeave(action) {
       message: 'Vui lòng kiểm tra lại kết nối mạng.',
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }
@@ -291,7 +291,7 @@ function* sagaOverTime(action) {
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     } else {
       yield put(overTimeFailed());
@@ -300,7 +300,7 @@ function* sagaOverTime(action) {
         message: response.message,
         messageColor: Colors.danger,
       });
-      setTimeout(() => _global.Alert.close(), 1000);
+      setTimeout(() => _global.Alert.close(), 2000);
 
     }
   } catch (error) {
@@ -310,7 +310,7 @@ function* sagaOverTime(action) {
       message: 'Vui lòng kiểm tra lại kết nối mạng.',
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 1000);
+    setTimeout(() => _global.Alert.close(), 2000);
 
   }
 }

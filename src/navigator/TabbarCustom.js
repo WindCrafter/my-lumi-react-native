@@ -1,40 +1,50 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Platform,Dimensions} from 'react-native';
+import React, { useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Dimensions,
+} from 'react-native';
 import {Colors} from '../../utlis';
 import {TabbarIcon} from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
-import { connect } from 'react-redux';
-import { checkInWifi } from '../redux/actions/check';
-
- function TabbarCustom({
+import {connect} from 'react-redux';
+import {checkInWifi} from '../redux/actions/check';
+import { getListUsers} from '../redux/actions/user'
+function TabbarCustom({
   state,
   descriptors,
   navigation,
   deviceId,
   token,
- checkIn ,
+  checkIn,
+  getListUsers
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const [type, setType] = useState(true);
-const[test,setTest]=useState('')
+  const [test, setTest] = useState('');
+  useEffect(() => {
+    getListUsers(token);
+  }, [getListUsers, token]);
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
-        })
+        }),
       );
       if (granted === RESULTS.GRANTED) {
         console.log('Thanh cong');
         initWifi();
         console.log(token);
-        console.log(Dimensions.get('window').width)
-        console.log(Dimensions.get('window').height)
-
+        console.log(Dimensions.get('window').width);
+        console.log(Dimensions.get('window').height);
       } else {
         navigation.navigate('CheckIn');
         console.log('Yêu cầu vị trí bị từ chối');
@@ -61,10 +71,10 @@ const[test,setTest]=useState('')
         'Your current connected wifi ssidUser is ' + set.details.ssid,
       );
       console.log('Your current BssidUser is ' + set.details.bssid);
-      console.log(data)
+      console.log(data);
     } catch (error) {
       navigation.navigate('CheckIn');
-      console.log(test)
+      console.log(test);
 
       console.log('Cannot get current ssidUser!', {error});
     }
@@ -129,16 +139,12 @@ const mapStateToProps = (state) => {
     deviceId: state.authen.deviceId,
     token: state.authen.token,
     currentUser: state.user.currentUser,
-  }
-
-
+  };
 };
 
 const mapDispatchToProps = {
   checkIn: checkInWifi,
+  getListUsers: getListUsers, 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabbarCustom);
-
-
-

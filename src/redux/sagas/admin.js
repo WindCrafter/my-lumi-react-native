@@ -27,7 +27,7 @@ function* sagaAddStaff(action) {
 
     const token = action.payload.token;
     const response = yield _POST(URL_ADD_STAFF, data, token);
-    console.log('Faile=>>>', response)
+    console.log('=>>>', response)
     console.log('---role', action.payload.roleId)
     if (response.success && response.statusCode === 200) {
       yield put(addStaffSuccess());

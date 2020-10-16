@@ -68,7 +68,6 @@ function AddContract(props) {
         fontSize={24}
       />
       <ScrollView>
-        <Text style={styles.extend}>Nhập thông tin : </Text>
         <View style={styles.detail}>
           <InputRow title={'Họ và tên:'} placeholder={'Nhập họ và tên'} />
           <InputRow title={'Trạng thái:'} leftImage={imgs.stampCheck} />

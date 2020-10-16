@@ -52,7 +52,7 @@ export default function InputRow(props?: Props) {
   // const View = Platform.OS === 'ios' ? View : Card;
 
   return (
-    <View
+    <Card
       style={[
         styles.container,
         {
@@ -82,7 +82,7 @@ export default function InputRow(props?: Props) {
         editable={canedit}
         {...otherProps}
       />
-    </View>
+    </Card>
   );
 }
 

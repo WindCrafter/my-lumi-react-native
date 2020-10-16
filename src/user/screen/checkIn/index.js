@@ -236,7 +236,7 @@ const CheckIn = (props) => {
       </ScrollView>
       <HeaderCheck
         title={langs.checkIn}
-        type={type ? 'Check In' : 'Check Out'}
+        type={type ? 'Check-in' : 'Check-out'}
         onPress={onChangeType}
         pressHistory={goHistory}
         onPressBack={onPressBack}

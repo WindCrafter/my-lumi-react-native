@@ -21,7 +21,7 @@ import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 import Clipboard from '@react-native-community/clipboard';
-
+import {_global} from '../../../../utlis/global/global';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -48,12 +48,34 @@ function Contact(props) {
       } else {
         phone = `tel:${phoneNumber}`;
       }
+      console.log('phone->>>>>  <<<', phone);
 
-      Linking.openURL(phone);
+      console.log('phone->>>>>', phoneNumber);
+      if (phoneNumber === '') {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Lumier này chưa cung cấp số điện thoại.',
+          messageColor: Colors.danger,
+          leftButton: {text: 'OK'},
+        });
+      } else {
+        Linking.openURL(phone);
+      }
     };
 
     const copyToClipboard = () => {
-      Clipboard.setString(`${data.item.advance.bankAccount}`);
+      if (!data.item.advance && !data.item.advance.bankAccount ) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Lumier này chưa cung cấp số tài khoản.',
+          messageColor: Colors.danger,
+          leftButton: { text: 'OK' },
+        });
+      } 
+      else {
+        Clipboard.setString(`${data.item.advance.bankAccount}`);
+
+      }
     };
     return (
       <ContactRow
