@@ -15,11 +15,7 @@ import {
   Keyboard,
 } from 'react-native';
 import {BarStatus, HeaderCustom, Button} from '../../../component';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../../utlis';
 import {ScrollView} from 'react-native-gesture-handler';
 import InputApply from '../../../component/Input/inputApply';
@@ -38,11 +34,11 @@ if (
 }
 
 function ApplyOT(props) {
+  const {navigation, route, userId, token, overTime} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
   const [showPicker, setShowPicker] = useState(false);
-  const {navigation, route, userId, token, overTime} = props;
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [hour, setHour] = useState(new Date());
@@ -87,7 +83,9 @@ function ApplyOT(props) {
   };
   const onChangeTime = (value) => {
     setTime(value);
+    console.log(value);
   };
+
   const onSubtract = () => {
     if (time > 0) {
       setTime(time - 5);
@@ -119,6 +117,7 @@ function ApplyOT(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowPicker(true);
     setMode(m);
+    console.log(showPicker);
   };
 
   return (
@@ -154,10 +153,11 @@ function ApplyOT(props) {
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
+            onBlur={unFocus}
             blurOnSubmit={true}
           />
 
-          {show ? (
+          {reason && show ? (
             <Card style={styles.card}>
               <Suggest
                 detail={'lí do 1'}
@@ -196,6 +196,7 @@ function ApplyOT(props) {
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
               thumbImage={imgs.miniLogo}
+              value={time}
             />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
