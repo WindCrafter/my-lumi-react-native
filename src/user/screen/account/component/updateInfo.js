@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,18 +9,23 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Card } from 'native-base';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { InputRow } from '../../../../component';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {InputRow} from '../../../../component';
 import langs from '../../../../../common/language';
-import { imgs, Colors } from '../../../../../utlis';
-import moment from 'moment';
+import {imgs, Colors} from '../../../../../utlis';
 
 const UpdateInfo = (props) => {
   const refPhone = useRef('');
   const refBirth = useRef('');
   const refTeam = useRef('');
-  const { gene, onChangeGene, birthday, onChangeBirthday, onChangeBank ,bankName} = props;
+  const {
+    gene,
+    onChangeGene,
+    birthday,
+    onChangeBirthday,
+    onChangeBank,
+    bankName,
+  } = props;
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
@@ -40,35 +45,32 @@ const UpdateInfo = (props) => {
               onSubmitEditing={() => refBirth.current.focus()}
             />
           </TouchableOpacity>
-          <InputRow
-            leftImage={imgs.person}
-            containerStyle={styles.txtInput}
-            title={langs.gene}
-            size={16}
-            value={gene}
-            onChangeText={onChangeGene}
-            refInput={refBirth}
-            clearButtonMode="while-editing"
-            placeholder={'Nam/Nữ/Khác'}
-          />
-          <TouchableOpacity onPress={onChangeBank}>
-
-          <InputRow
-            leftImage={imgs.bank}
-            containerStyle={styles.txtInput}
-            title={langs.bank}
-            size={16}
-              value={bankName}
-            onChangeText={onChangeGene}
-            refInput={refBirth}
-            clearButtonMode="while-editing"
-            canedit={false}
-            
-          />
+          <TouchableOpacity onPress={onChangeGene}>
+            <InputRow
+              leftImage={imgs.person}
+              containerStyle={styles.txtInput}
+              title={langs.gene}
+              size={16}
+              value={gene}
+              editable={false}
+              refInput={refBirth}
+              clearButtonMode="while-editing"
+              placeholder={'Nam/Nữ/Khác'}
+            />
           </TouchableOpacity>
-
-         
-          <View style={{height:50}}></View>
+          <TouchableOpacity onPress={onChangeBank}>
+            <InputRow
+              leftImage={imgs.bank}
+              containerStyle={styles.txtInput}
+              title={langs.bank}
+              size={16}
+              value={bankName}
+              refInput={refBirth}
+              clearButtonMode="while-editing"
+              canedit={false}
+            />
+          </TouchableOpacity>
+          <View style={{height: 50}} />
         </View>
       </KeyboardAvoidingView>
     </View>

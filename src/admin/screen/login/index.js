@@ -10,12 +10,12 @@ import {
   Keyboard,
   Dimensions,
   StatusBar,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
-import { _global } from '../../../../utlis/global/global'
-import { Colors } from '../../../../utlis'
+import {_global} from '../../../../utlis/global/global';
+import {Colors} from '../../../../utlis';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
@@ -35,7 +35,7 @@ const Login = (props) => {
         title: 'Nhắc bạn',
         message: 'Vui lòng điền tên đăng nhập.',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
       return;
     }
@@ -44,11 +44,12 @@ const Login = (props) => {
         title: 'Thông báo',
         message: 'Mật khẩu không được để trống.',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
       return;
     } else {
       loginAction({email, password: pass});
+      changeAutoLogin(checked);
     }
   };
 
@@ -65,59 +66,57 @@ const Login = (props) => {
   };
 
   const onChangeRememberLogin = () => {
-    changeAutoLogin(!autoLoginStatus);
-    setChecked(!autoLoginStatus);
+    setChecked(!checked);
   };
 
   return (
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.detail}>
-        <Input
-          // leftImage={}
-          // backgroundColor={'rgba(0,0,25,0.22)'}
-          placeholder={langs.user}
-          testID="test_Username"
-          containerStyle={styles.textInput}
-          returnKeyType="next"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          maxLength={50}
-          onSubmitEditing={() => refPassword.current.focus()}
-          value={email}
-          onChangeText={onChangeEmail}
-        />
-        <InputPassword
-          testID="test_Password"
-          // backgroundColor={'rgba(0,0,25,0.22)'}
-          placeholder={langs.passWord}
-          containerStyle={styles.textInput}
-          refInput={refPassword}
-          maxLength={20}
-          returnKeyType="done"
-          value={pass}
-          onChangeText={onChangePass}
-        />
-        <Checkbox
-          containerStyle={styles.checkBox}
-          title={langs.rememberMe}
-          checked={checked}
-          onChange={onChangeRememberLogin}
-        />
-        <Button
-          backgroundColor={'rgb(0,138,238)'}
-          title={langs.login}
-          onPress={onLogin}
-          testID="test_Login"
-        />
+        <View style={styles.detail}>
+          <Input
+            // leftImage={}
+            // backgroundColor={'rgba(0,0,25,0.22)'}
+            placeholder={langs.user}
+            testID="test_Username"
+            containerStyle={styles.textInput}
+            returnKeyType="next"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            maxLength={50}
+            onSubmitEditing={() => refPassword.current.focus()}
+            value={email}
+            onChangeText={onChangeEmail}
+          />
+          <InputPassword
+            testID="test_Password"
+            // backgroundColor={'rgba(0,0,25,0.22)'}
+            placeholder={langs.passWord}
+            containerStyle={styles.textInput}
+            refInput={refPassword}
+            maxLength={20}
+            returnKeyType="done"
+            value={pass}
+            onChangeText={onChangePass}
+          />
+          <Checkbox
+            containerStyle={styles.checkBox}
+            title={langs.rememberMe}
+            checked={checked}
+            onChange={onChangeRememberLogin}
+          />
+          <Button
+            backgroundColor={'rgb(0,138,238)'}
+            title={langs.login}
+            onPress={onLogin}
+            testID="test_Login"
+          />
 
           {/* <TouchableOpacity onPress={onPressForgot} testID="test_ForgotPass" style={styles.forgotPass}>
           <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
         </TouchableOpacity> */}
-      </View>
-        </TouchableWithoutFeedback>
-
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

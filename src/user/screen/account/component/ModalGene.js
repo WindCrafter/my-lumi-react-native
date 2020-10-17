@@ -1,18 +1,27 @@
 import React from 'react';
 import Modal from 'react-native-modal';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {TextSelect, Button} from '../../../../component';
 import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {Button} from '../../../../component';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 
-const ModalTime = (props) => {
-  const {hideModal, showModal, picker} = props;
+const DATA = [{gene: 'Nam'}, {gene: 'Nữ'}, {gene: 'Khác'}];
+
+const ModalGene = (props) => {
+  const {hideModal, showModal, detailGene, pressItem} = props;
+
+  const renderItem = ({item}) => {
+    return (
+      <TextSelect
+        title={item.gene}
+        onPressButton={() => pressItem(item.gene)}
+        checkTick={detailGene === item.gene ? true : false}
+      />
+    );
+  };
   return (
     <View>
       <Modal
@@ -24,8 +33,12 @@ const ModalTime = (props) => {
         style={styles.modal}
         backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
-          <Text style={styles.titlemodal}>Chọn ngày sinh</Text>
-          {picker}
+          <Text style={styles.titlemodal}>Chọn giới tính</Text>
+          <FlatList
+            data={DATA}
+            keyExtractor={(item) => item.gene}
+            renderItem={renderItem}
+          />
           <Button
             title={'Xong'}
             containerStyle={styles.complete}
@@ -37,12 +50,13 @@ const ModalTime = (props) => {
   );
 };
 
-export default ModalTime;
+export default ModalGene;
 
 const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    margin: 0,
   },
   modalview: {
     borderTopLeftRadius: 24,
@@ -56,6 +70,8 @@ const styles = StyleSheet.create({
   titlemodal: {
     fontWeight: '500',
     fontSize: 20,
+    marginTop: 20,
+    marginBottom: 10,
   },
   complete: {
     backgroundColor: Colors.background,

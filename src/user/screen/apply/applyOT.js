@@ -89,16 +89,13 @@ function ApplyOT(props) {
   };
   const onChangeTime = (value) => {
     setTime(value);
+    console.log('---time', value);
+
   };
-  const onSubtract = () => {
-    if (time > 0) {
-      setTime(time - 5);
-    }
-  };
-  const onAdd = () => {
-    if (time < 60) {
-      setTime(time + 5);
-    }
+  const onChangeTimeComplete = (value) => {
+    setTime(value);
+    console.log('---time', value);
+
   };
 
   const onUnshow = () => {
@@ -188,15 +185,15 @@ function ApplyOT(props) {
               <Text style={styles.txtTime}>{time} phút</Text>
             </View>
             <Slider
-              style={styles.slider}
+              style={styles.Slider}
               minimumValue={0}
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
               maximumTrackTintColor="grey"
               step={5}
               onValueChange={onChangeTime}
-              onSlidingComplete={onChangeTime}
-              thumbImage={imgs.miniLogo}
+              onSlidingComplete={onChangeTimeComplete}
+            // thumbImage={imgs.miniLogo}
             />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
@@ -371,7 +368,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  slider: {
+  Slider: {
     width: wp(80),
     height: 40,
     alignSelf: 'center',

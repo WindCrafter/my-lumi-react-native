@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-import { Card } from 'native-base';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { InputRow } from '../../../../component';
+import {Card} from 'native-base';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {InputRow} from '../../../../component';
 import langs from '../../../../../common/language';
-import { imgs, Colors } from '../../../../../utlis';
+import {imgs, Colors} from '../../../../../utlis';
 
 const Info = (props) => {
   const refPhone = useRef('');
@@ -60,23 +61,26 @@ const Info = (props) => {
             title={langs.phone}
             size={16}
             value={phone}
-            keyboardType={'numbers-and-punctuation'}
+            keyboardType={'number-pad'}
             onChangeText={onChangePhone}
             refInput={refBirth}
             clearButtonMode="while-editing"
             onSubmitEditing={() => refTeam.current.focus()}
           />
-          <InputRow
-            leftImage={imgs.setPerson}
-            containerStyle={styles.txtInput}
-            title={langs.team}
-            size={16}
-            value={team}
-            onChangeText={onChangeTeam}
-            refInput={refTeam}
-            clearButtonMode="while-editing"
-            onSubmitEditing={() => refNative.current.focus()}
-          />
+          <TouchableOpacity onPress={onChangeTeam}>
+            <InputRow
+              leftImage={imgs.setPerson}
+              containerStyle={styles.txtInput}
+              title={langs.team}
+              size={16}
+              value={team}
+              refInput={refTeam}
+              clearButtonMode="while-editing"
+              placeholder="Chọn team"
+              onSubmitEditing={() => refNative.current.focus()}
+              editable={false}
+            />
+          </TouchableOpacity>
           <InputRow
             leftImage={imgs.location}
             containerStyle={styles.txtInput}
@@ -97,6 +101,7 @@ const Info = (props) => {
             onChangeText={onChangeIdentity}
             clearButtonMode="while-editing"
             refInput={refIdentity}
+            keyboardType="number-pad"
           />
         </View>
       </KeyboardAvoidingView>

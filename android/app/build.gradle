@@ -78,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: true,  // clean and rebuild if changing
+    enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -155,14 +155,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-        release {
-            if (project.hasProperty('LUMI_HR_RELEASE_STORE_FILE')) {
-                storeFile file(LUMI_HR_RELEASE_STORE_FILE)
-                storePassword LUMI_HR_RELEASE_STORE_PASSWORD
-                keyAlias LUMI_HR_RELEASE_KEY_ALIAS
-                keyPassword LUMI_HR_RELEASE_KEY_PASSWORD
-            }
-        }
+        // release {
+        //     if (project.hasProperty('LUMI_HR_RELEASE_STORE_FILE')) {
+        //         storeFile file(LUMI_HR_RELEASE_STORE_FILE)
+        //         storePassword LUMI_HR_RELEASE_STORE_PASSWORD
+        //         keyAlias LUMI_HR_RELEASE_KEY_ALIAS
+        //         keyPassword LUMI_HR_RELEASE_KEY_PASSWORD
+        //     }
+        // }
     }
     buildTypes {
         debug {
@@ -176,7 +176,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             // Detox-specific additions to pro-guard
             proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
-            signingConfig signingConfigs.release
+            // signingConfig signingConfigs.release
 
 
 

@@ -22,6 +22,7 @@ import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 import Clipboard from '@react-native-community/clipboard';
 import {_global} from '../../../../utlis/global/global';
+import ModalInforBank from './component/ModalInforBank';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -30,12 +31,15 @@ if (
 }
 
 function Contact(props) {
-  const {navigation, currentUser, getListUsers, token} = props;
+  const {navigation, currentUser} = props;
   const [listData, setListData] = useState(currentUser);
   const [search, setSearch] = useState('');
-  useEffect(() => {
-    getListUsers(token);
-  }, [getListUsers, token]);
+  const [BankAccount, setBankAccount] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const hideModal = () => {
+    setShowModal(false);
+  };
   const renderItem = (data) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
@@ -64,17 +68,18 @@ function Contact(props) {
     };
 
     const copyToClipboard = () => {
-      if (!data.item.advance && !data.item.advance.bankAccount ) {
+      if (!data.item.advance || !data.item.advance.bankAccount) {
         _global.Alert.alert({
           title: 'Thông báo',
           message: 'Lumier này chưa cung cấp số tài khoản.',
           messageColor: Colors.danger,
-          leftButton: { text: 'OK' },
+          leftButton: {text: 'OK'},
         });
-      } 
-      else {
+      } else {
+        setBankAccount(data.item.advance.bankAccount);
+        setBankName(data.item.advance.bankName);
         Clipboard.setString(`${data.item.advance.bankAccount}`);
-
+        setShowModal(true);
       }
     };
     return (
@@ -131,7 +136,17 @@ function Contact(props) {
         placeholder={'Tìm kiếm ...'}
       />
 
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        data={listData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.userId}
+      />
+      <ModalInforBank
+        bankName={bankName}
+        BankAccount={BankAccount}
+        hideModal={hideModal}
+        showModal={showModal}
+      />
     </View>
   );
 }

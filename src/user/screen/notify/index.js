@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -9,13 +9,13 @@ import {
   StatusBar,
 } from 'react-native';
 import flatListData from './data';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import HeaderNotifi from './component/HeaderNotifi';
-import { BarStatus } from '../../../component';
-import { Card } from 'native-base';
+import {BarStatus} from '../../../component';
+import {Card} from 'native-base';
 
 const Notify = () => {
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) => {
     return (
       <Card style={styles.card}>
         <Image style={styles.img} source={item.image} resizeMode="cover" />
@@ -29,11 +29,10 @@ const Notify = () => {
     );
   };
   return (
-    <View>
+    <View style={styles.container}>
       <BarStatus />
       <HeaderNotifi />
       <FlatList
-        style={styles.Container8}
         horizontal={false}
         data={flatListData}
         renderItem={renderItem}
@@ -46,9 +45,11 @@ const Notify = () => {
 export default Notify;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   card: {
     borderRadius: 16,
-    marginTop: 16,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',

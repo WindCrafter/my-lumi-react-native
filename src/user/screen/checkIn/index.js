@@ -18,8 +18,6 @@ import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 
-import moment from 'moment';
-
 import NetInfo from '@react-native-community/netinfo';
 import {
   widthPercentageToDP as wp,
@@ -27,8 +25,6 @@ import {
 } from 'react-native-responsive-screen';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 // import {ScrollView} from 'react-native-gesture-handler';
-import {NetworkInfo} from 'react-native-network-info';
-
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import CusMarker from '../checkIn/CustomMarker';
@@ -75,7 +71,7 @@ const CheckIn = (props) => {
     try {
       let state = await NetInfo.fetch('wifi');
       const data = {
-        ssid: state.details.ssid,
+        ssid: '122',
         bssid: state.details.bssid,
         type: type ? 'in' : 'out',
         deviceId: deviceId,
@@ -88,7 +84,6 @@ const CheckIn = (props) => {
         'Your current connected wifi ssidUser is ' + state.details.ssid,
       );
       console.log('Your current BssidUser is ' + state.details.bssid);
-      onChangeType();
     } catch (error) {
       setSsidUser('Cannot get current ssidUser!' + error.message);
       setBssidUser('Cannot get current BssidUser!' + error.message);
@@ -200,7 +195,7 @@ const CheckIn = (props) => {
                 </View>
               </Card>
               <TouchableOpacity
-                style={styles.touchableWifi}
+                style={styles.button}
                 onPress={requestLocationPermission}>
                 <Text style={styles.doneWifi}>Kết nối lại</Text>
               </TouchableOpacity>
@@ -257,10 +252,6 @@ const styles = StyleSheet.create({
   detail: {
     width: wp(100),
   },
-  viewTop: {
-    justifyContent: 'center',
-    paddingHorizontal: 18,
-  },
   viewMid: {
     alignItems: 'center',
   },
@@ -285,13 +276,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  txtCheck: {
-    fontSize: 17,
-    fontWeight: '400',
-    alignSelf: 'center',
-    paddingHorizontal: 12,
-  },
-
   image: {width: 24, height: 24, alignSelf: 'center'},
   body: {flexDirection: 'row'},
   pageone: {
@@ -326,22 +310,10 @@ const styles = StyleSheet.create({
     width: '80%',
     textAlign: 'center',
   },
-  complete: {
-    backgroundColor: Colors.background,
-  },
   camera: {
     height: hp(100),
     width: wp(100),
     // flex:1
-  },
-  contentTop: {
-    flex: 1,
-    paddingTop: 8,
-  },
-  contentImage: {
-    alignSelf: 'center',
-    height: 72,
-    width: 72,
   },
   modalviewCode: {
     borderRadius: 24,
@@ -351,30 +323,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 30,
-  },
-
-  viewTopCode: {
-    justifyContent: 'center',
-  },
-
-  txtTopCode: {
-    fontSize: 18,
-  },
-
-  cardCode: {
-    width: widthPercentageToDP(70),
-    alignSelf: 'center',
-    borderRadius: 24,
-    paddingVertical: 2,
-    backgroundColor: '#ffffff',
-    overflow: 'hidden',
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   touchableCode: {
     justifyContent: 'center',
@@ -411,15 +359,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-
-  viewTopWifi: {
-    justifyContent: 'center',
-  },
-
   txtTopWifi: {
     fontSize: 18,
+    alignSelf: 'center',
   },
-
   cardWifi: {
     width: widthPercentageToDP(80),
     alignSelf: 'center',
@@ -437,23 +380,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     justifyContent: 'space-evenly',
   },
-  touchableWifi: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.background,
-    width: 132,
-    height: 49,
-    borderRadius: 16,
-    backgroundColor: '#ffffff',
-    marginTop: 70,
-  },
   doneWifi: {
     color: '#008aee',
     fontSize: 16,
     fontWeight: '500',
   },
   iconWifi: {
-    marginHorizontal: 8,
+    marginHorizontal: 16,
   },
   not: {flex: 0},
+  button:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    width: 132,
+    height: 49,
+    borderRadius: 16,
+    marginTop: 70,
+  },
 });

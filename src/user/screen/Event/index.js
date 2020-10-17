@@ -19,6 +19,7 @@ import {
   InputSelect,
   HeaderCustom,
   BarStatus,
+  Alert,
 } from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
 import {_global} from '../../../../utlis/global/global';
@@ -93,7 +94,9 @@ const Event = (props) => {
   const onGoBack = () => {
     navigation.goBack();
   };
-
+  const onDone = () => {
+    Alert.alert('end');
+  };
   return (
     <>
       <BarStatus
@@ -105,7 +108,6 @@ const Event = (props) => {
         goBack={onGoBack}
         rightButton
         textPress
-        onRight
       />
       <KeyboardAvoidingView
         style={styles.container}

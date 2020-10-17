@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {
   FlatList,
+  Image,
   Platform,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {BorderlessButton, TouchableOpacity} from 'react-native-gesture-handler';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import langs from '../../../../common/language';
-import {imgs} from '../../../../utlis';
+import {Colors, imgs} from '../../../../utlis';
 import {BarStatus, HeaderCustom, Input} from '../../../component';
 
 const DataTeam = [
@@ -44,8 +44,11 @@ const PickTeam = (props) => {
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.btn}>
-        <TouchableOpacity>
-          <Text>{item.name}</Text>
+        <TouchableOpacity style={styles.button}>
+          <View style={styles.viewImage}>
+            <Image source={imgs.meeting} style={styles.image} />
+          </View>
+          <Text style={styles.txtTeam}>{item.name}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -103,5 +106,27 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
+  },
+  button: {
+    flexDirection: 'row',
+    marginVertical: 4,
+    alignItems: 'center',
+  },
+  viewImage: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(4,4,15,0.45)',
+  },
+  image: {
+    width: 16,
+    height: 16,
+    tintColor: Colors.white,
+  },
+  txtTeam: {
+    marginLeft: 4,
+    fontSize: 14,
   },
 });

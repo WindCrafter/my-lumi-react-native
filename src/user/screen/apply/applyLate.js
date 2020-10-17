@@ -45,6 +45,8 @@ function ApplyLate(props) {
   };
   const onChangeTime = (value) => {
     setTime(value);
+    console.log('---time', value);
+
   };
   const onComplete = () => {
     onsetLateEarly();
@@ -100,7 +102,10 @@ function ApplyLate(props) {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag">
+        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -120,6 +125,7 @@ function ApplyLate(props) {
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
+            onBlur={unFocus}
             blurOnSubmit={true}
           />
 
@@ -180,7 +186,7 @@ function ApplyLate(props) {
               <Text style={styles.txtTime}>{time} phút</Text>
             </View>
             <Slider
-              style={{width: wp(80), height: 40, alignSelf: 'center'}}
+              style={styles.Slider}
               minimumValue={0}
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
@@ -314,4 +320,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
+  Slider: { width: wp(80), height: 40, alignSelf: 'center' }
 });

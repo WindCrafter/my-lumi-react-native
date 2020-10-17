@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '300',
+    fontWeight: '500',
     color: Colors.black,
   },
   right: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   txtBt: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '300',
     color: Colors.black,
     textAlign: 'center',
   },
