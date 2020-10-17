@@ -196,6 +196,7 @@ function ApplyLate(props) {
               onSlidingComplete={onChangeTime}
               // thumbImage={imgs.miniLogo}
             />
+            
           </Card>
         </View>
       </ScrollView>

@@ -95,7 +95,7 @@ const CheckIn = (props) => {
       const granted = await request(
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
         }),
         {
           title: 'YÊU CẦU VỊ TRÍ',

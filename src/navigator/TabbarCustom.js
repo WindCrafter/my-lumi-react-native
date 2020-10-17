@@ -46,6 +46,8 @@ function TabbarCustom({
         console.log(Dimensions.get('window').width);
         console.log(Dimensions.get('window').height);
       } else {
+        initWifi();
+
         navigation.navigate('CheckIn');
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
@@ -103,7 +105,7 @@ function TabbarCustom({
       />
       <ButtonCheckIn
         navigation={navigation}
-        onCheck={requestLocationPermission}
+        onCheck={initWifi}
       />
       <ButtonTabbar
         state={state}

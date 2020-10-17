@@ -6,7 +6,7 @@ import {
   View,
   Platform,
   StatusBar,
-  FlatList,
+  ScrollView,
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
@@ -14,20 +14,16 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../../utlis';
-import {ScrollView} from 'react-native-gesture-handler';
+import moment from 'moment';
+import PickerCustom from './component/PickerCustom';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
+import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
-import PickerCustom from './component/PickerCustom';
-import moment from 'moment';
 import Slider from '@react-native-community/slider';
 
 if (
@@ -41,14 +37,51 @@ function ApplyOT(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
+  const [hour, setHour] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const {navigation, route, userId, token, overTime} = props;
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
-  const [hour, setHour] = useState(new Date());
+  const [showModal, setShowModal] = useState(false);
+  const {navigation, route, userId, token, overTime} = props;
+  const goBack = () => {
+    navigation.goBack();
+  };
+  const onChangeHour = (event, selectedShift) => {
+    const currentShift = selectedShift || hour;
+    console.log(currentShift);
+    setHour(currentShift);
+    setShowModal(true);
+  };
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(false);
+    setMode('');
+  };
+  const onChangeTime = (value) => {
+    setTime(value);
+    console.log('---time', value);
+  };
+
+  const onChangeDay = (event, selectedDay) => {
+    const currentDay = selectedDay || day;
+    setShowModal(true);
+    setDay(currentDay);
+  };
+  const onChangeReason = (val) => {
+    setReason(val);
+    setShow(!show);
+  };
+  const onShowPicker = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(true);
+    setMode(m);
+  };
+  const onSetReason = (val) => {
+    setReason(val);
+    unFocus();
+  };
   const onSetOverTime = () => {
     console.log(userId);
-    console.log(moment(hour).format('hh:mm'));
     const data = {
       userId: userId,
       time: time,
@@ -58,25 +91,6 @@ function ApplyOT(props) {
     };
     overTime(data);
   };
-  const goBack = () => {
-    navigation.goBack();
-  };
-
-  const onComplete = () => {
-    Alert.alert('end');
-  };
-
-  const onChangeReason = (val) => {
-    setReason(val);
-    setShow(false);
-
-  };
-
-  const onSetReason = (val) => {
-    setReason(val);
-    unFocus();
-  };
-
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
@@ -86,38 +100,6 @@ function ApplyOT(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
     Keyboard.dismiss();
-  };
-  const onChangeTime = (value) => {
-    setTime(value);
-    console.log('---time', value);
-
-  };
-  const onChangeTimeComplete = (value) => {
-    setTime(value);
-    console.log('---time', value);
-
-  };
-
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowPicker(false);
-    setMode('');
-  };
-  const onChangeHour = (event, selectedShift) => {
-    const currentShift = selectedShift || hour;
-    setShowPicker(Platform.OS === 'ios');
-    setHour(currentShift);
-  };
-  const onChangeDay = (event, selectedDay) => {
-    const currentDay = selectedDay || day;
-    setShowPicker(Platform.OS === 'ios');
-    setDay(currentDay);
-  };
-
-  const onShowPicker = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowPicker(true);
-    setMode(m);
   };
 
   return (
@@ -132,7 +114,9 @@ function ApplyOT(props) {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -152,6 +136,7 @@ function ApplyOT(props) {
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
+            onBlur={unFocus}
             blurOnSubmit={true}
           />
 
@@ -173,15 +158,21 @@ function ApplyOT(props) {
                 detail={'Phát triển tính năng mới.'}
                 onPress={() => onSetReason('Phát triển tính năng mới.')}
               />
-              {/* <Suggest
-                detail={'lí do 5'}
-                onPress={() => onSetReason('lí do 5')}
-              /> */}
             </Card>
           ) : null}
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startTime} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+          </View>
           <Card style={styles.card}>
-            <View style={[styles.row, {justifyContent: 'center'}]}>
-              <Image source={imgs.time} style={styles.icon} />
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
+              <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
             </View>
             <Slider
@@ -192,8 +183,8 @@ function ApplyOT(props) {
               maximumTrackTintColor="grey"
               step={5}
               onValueChange={onChangeTime}
-              onSlidingComplete={onChangeTimeComplete}
-            // thumbImage={imgs.miniLogo}
+              onSlidingComplete={onChangeTime}
+              // thumbImage={imgs.miniLogo}
             />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
@@ -207,7 +198,7 @@ function ApplyOT(props) {
                 style={styles.time}
                 onPress={() => onShowPicker('time')}>
                 <Text style={styles.txtTime}>
-                  {moment(hour).format('hh:mm')}
+                  {moment(hour).format('HH:mm')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -229,13 +220,15 @@ function ApplyOT(props) {
             </View>
           </Card>
         </View>
-        {showPicker ? (
+        {
           mode === 'time' ? (
             <PickerCustom
               value={hour}
               onChange={onChangeHour}
               onPress={onUnshow}
               mode={'time'}
+              show={showModal}
+              locale={'en-GB'}
             />
           ) : mode === 'day' ? (
             <PickerCustom
@@ -243,16 +236,18 @@ function ApplyOT(props) {
               onChange={onChangeDay}
               onPress={onUnshow}
               mode={'date'}
+              show={showModal}
             />
           ) : null
-        ) : null}
-       
+        }
       </ScrollView>
-      <Button
-        title={'Hoàn thành'}
-        containerStyle={styles.complete}
-        onPress={onSetOverTime}
-      />
+      <View style={styles.bottom}>
+        <Button
+          title={'Hoàn thành'}
+          containerStyle={styles.complete}
+          onPress={onSetOverTime}
+        />
+      </View>
     </View>
   );
 }
@@ -314,8 +309,7 @@ const styles = StyleSheet.create({
   complete: {
     backgroundColor: Colors.background,
     position: 'absolute',
-    bottom:"10%"
-
+    bottom: '10%',
   },
   row: {
     flexDirection: 'row',
