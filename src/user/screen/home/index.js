@@ -63,7 +63,7 @@ function Home(props) {
               <Event />
             </Card>
             <Card style={styles.card}>
-              <HistoryWeek />
+              <HistoryWeek navigation={navigation}/>
             </Card>
           </ScrollView>
           <FloatButton

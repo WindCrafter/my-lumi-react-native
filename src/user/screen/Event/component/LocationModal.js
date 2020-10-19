@@ -25,11 +25,11 @@ const DATA = [
     id: '2',
   },
   {
-    room: 'Phòng chủ tịch',
+    room: 'Phòng Chủ Tịch',
     id: '3',
   },
   {
-    room: 'khác',
+    room: 'Khác',
     id: '4',
   },
 ];

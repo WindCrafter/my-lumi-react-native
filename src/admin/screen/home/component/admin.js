@@ -28,7 +28,7 @@ const Admin = (props) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={extendContract} style={styles.row}>
 
-          <Image source={imgs.contract} style={styles.img} />
+          <Image source={imgs.selectCalendar} style={styles.img} />
 
           <Text numberOfLines={2} style={styles.add}>
             {langs.extendContract}

@@ -141,7 +141,7 @@ const Event = (props) => {
                 style={[
                   styles.button,
                   {
-                    marginVertical: 20,
+                    // marginVertical: 20,
                     backgroundColor: Colors.white,
                     flexDirection: 'row',
                   },
@@ -173,11 +173,9 @@ const Event = (props) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <Icon
-              name="chevron-right"
-              size={96}
-              color={'gray'}
-              style={styles.icon}
+            <Image
+              source={imgs.arrow}
+              // style={[styles.imageStamp, { tintColor: '#455997' }]}
             />
             <View style={styles.column}>
               <TouchableOpacity
@@ -186,7 +184,7 @@ const Event = (props) => {
                   {
                     backgroundColor: Colors.white,
                     flexDirection: 'row',
-                    marginVertical: 20,
+                    // marginVertical: 20,
                   },
                 ]}
                 onPress={() => onShow('timeEnd')}>
@@ -379,7 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   column: {
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
     alignItems: 'flex-start',
   },
   icon: {

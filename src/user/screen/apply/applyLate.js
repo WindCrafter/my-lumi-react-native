@@ -15,7 +15,6 @@ import {
   Keyboard,
 } from 'react-native';
 import moment from 'moment';
-
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
@@ -34,11 +33,11 @@ if (
 }
 
 function ApplyLate(props) {
+  const {navigation, route, setLateEarly, userId, token} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
 
-  const {navigation, route, setLateEarly, userId, token} = props;
   const [type, setType] = useState('late');
   const goBack = () => {
     navigation.goBack();
@@ -104,7 +103,7 @@ function ApplyLate(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="interactive">
         <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
@@ -195,18 +194,18 @@ function ApplyLate(props) {
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
               // thumbImage={imgs.miniLogo}
+              value={time}
             />
             
           </Card>
         </View>
-      </ScrollView>
-      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onComplete}
         />
-      </View>
+      </ScrollView>
+      <View style={styles.bottom} />
     </View>
   );
 }
@@ -321,5 +320,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
-  Slider: { width: wp(80), height: 40, alignSelf: 'center' }
+  Slider: { width: wp(72), height: 40, alignSelf: 'center' }
 });

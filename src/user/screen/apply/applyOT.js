@@ -34,6 +34,7 @@ if (
 }
 
 function ApplyOT(props) {
+  const {navigation, route, userId, token, overTime} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
@@ -42,7 +43,6 @@ function ApplyOT(props) {
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
-  const {navigation, route, userId, token, overTime} = props;
   const goBack = () => {
     navigation.goBack();
   };
@@ -140,7 +140,7 @@ function ApplyOT(props) {
             blurOnSubmit={true}
           />
 
-          {show ? (
+          {reason && show ? (
             <Card style={styles.card}>
               <Suggest
                 detail={'Sửa bug phát sinh.'}
@@ -178,13 +178,14 @@ function ApplyOT(props) {
             <Slider
               style={styles.Slider}
               minimumValue={0}
-              maximumValue={60}
+              maximumValue={240}
               minimumTrackTintColor="#4BBF70"
               maximumTrackTintColor="grey"
               step={5}
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
               // thumbImage={imgs.miniLogo}
+              value={time}
             />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   Slider: {
-    width: wp(80),
+    width: wp(72),
     height: 40,
     alignSelf: 'center',
   },

@@ -23,6 +23,7 @@ import Event from '../user/container/event';
 import CheckIn from '../user/container/checkIn/index';
 import PickTeam from '../user/container/event/PickTeam';
 import ForgotPass from '../user/container/forgotPassword/forgotPass'
+import allHistory from '../user/container/allHistory/index'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -85,6 +86,13 @@ export default function UserStack() {
       <Stack.Screen
         name={'UpdateProfile'}
         component={updateProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'allHistory'}
+        component={allHistory}
         options={{
           headerShown: false,
         }}

@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import {
   FlatList,
   Image,
+  LayoutAnimation,
   Platform,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import {BorderlessButton, TouchableOpacity} from 'react-native-gesture-handler';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import langs from '../../../../common/language';
 import {Colors, imgs} from '../../../../utlis';
+import {getText} from '../../../../utlis/config/utlis';
 import {BarStatus, HeaderCustom, Input} from '../../../component';
 
 const DataTeam = [
@@ -22,9 +24,20 @@ const DataTeam = [
   {name: 'Team Test', id: '5'},
 ];
 
+const DataUser = [
+  {name: 'Batman', team: ['Team App'], id: '1'},
+  {name: 'Joker', team: ['Team OS', 'Team App'], id: '2'},
+  {name: 'Supa Man', team: ['Team Test'], id: '3'},
+  {name: 'Flash', team: ['Team Back-End'], id: '4'},
+  {name: 'Wonder Boy', team: ['Team System'], id: '5'},
+  {name: 'Chạn Vương', team: ['Team System', 'Team OS'], id: '6'},
+];
+
 const PickTeam = (props) => {
   const {navigation} = props;
   const [search, setSearch] = useState('');
+  const [listUser, setListUser] = useState(DataUser);
+  const [tag, setTag] = useState([]);
   const onGoBack = () => {
     navigation.goBack();
   };
@@ -32,27 +45,76 @@ const PickTeam = (props) => {
   const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
-    // const newData = currentUser.filter((item) => {
-    //   const itemData = `${item.name.toLowerCase()}`;
-    //   const textData = txt.toLowerCase();
-    //   return itemData.indexOf(textData) > -1;
-    // });
-    // setListData(newData);
-    // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    const newData = DataUser.filter((item) => {
+      const itemData = getText(item.name);
+      const textData = getText(txt);
+      return itemData.indexOf(textData) > -1;
+    });
+    setListUser(newData);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setSearch(txt);
   };
+
+  const pushTag = (val) => {
+    const newTag = [...tag, val];
+    const newData = DataUser.filter((e) => {
+      return !newTag.find((t) => !e.team.find((ta) => ta === t));
+    });
+    console.log(newData);
+    setTag(newTag);
+    setListUser(newData);
+  };
+
+  const removeTag = (val) => {
+    let newTag = tag.filter((e) => !(e === val));
+    const newData = DataUser.filter((e) => {
+      return !newTag.find((t) => !e.team.find((ta) => ta === t));
+    });
+    setTag(newTag);
+    setListUser(newData);
+  };
+
   const renderItem = ({item, index}) => {
+    const picked = tag.find((e) => e === item.name);
+    console.log(item.name, picked);
     return (
       <View style={styles.btn}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={!picked ? styles.button : styles.btnPicked}
+          onPress={() => (!picked ? pushTag(item.name) : removeTag(item.name))}>
           <View style={styles.viewImage}>
             <Image source={imgs.meeting} style={styles.image} />
           </View>
-          <Text style={styles.txtTeam}>{item.name}</Text>
+          <Text
+            style={[
+              styles.txtTeam,
+              {color: picked ? Colors.white : Colors.black},
+            ]}>
+            {item.name}
+          </Text>
         </TouchableOpacity>
       </View>
     );
   };
+
+  const renderUser = ({item, index}) => {
+    return (
+      <>
+        <TouchableOpacity style={styles.rowUser}>
+          <View style={styles.viewImage}>
+            <Image
+              source={require('../../../../naruto.jpeg')}
+              style={styles.avatar}
+              resizeMode={'cover'}
+            />
+          </View>
+          <Text style={styles.textUser}>{item.name}</Text>
+        </TouchableOpacity>
+        <View style={styles.lineUser} />
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <BarStatus
@@ -75,12 +137,22 @@ const PickTeam = (props) => {
       />
       <View style={styles.viewSuggest}>
         <Text style={styles.txtSuggest}>Gợi ý:</Text>
-        <FlatList
-          data={DataTeam}
-          numColumns={2}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
+        <View style={styles.viewTeam}>
+          <FlatList
+            data={DataTeam}
+            numColumns={2}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+          />
+        </View>
+        <View style={styles.line} />
+        <View style={styles.viewUser}>
+          <FlatList
+            data={listUser}
+            keyExtractor={(item) => item.id}
+            renderItem={renderUser}
+          />
+        </View>
       </View>
     </View>
   );
@@ -103,14 +175,28 @@ const styles = StyleSheet.create({
   },
   txtSuggest: {
     fontSize: 16,
+    marginBottom: 8,
   },
   btn: {
-    flex: 1,
+    // flex: 1,
+    width: '50%',
+    paddingHorizontal: 8,
+  },
+  btnPicked: {
+    flexDirection: 'row',
+    marginVertical: 2,
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 16,
   },
   button: {
     flexDirection: 'row',
-    marginVertical: 4,
+    marginVertical: 2,
     alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   viewImage: {
     width: 24,
@@ -126,7 +212,42 @@ const styles = StyleSheet.create({
     tintColor: Colors.white,
   },
   txtTeam: {
-    marginLeft: 4,
+    marginLeft: 8,
     fontSize: 14,
+  },
+  line: {
+    height: StyleSheet.hairlineWidth,
+    width: widthPercentageToDP(90),
+    alignSelf: 'center',
+    backgroundColor: 'gray',
+    marginVertical: 16,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 32,
+  },
+  rowUser: {
+    flexDirection: 'row',
+    marginVertical: 16,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  textUser: {
+    marginLeft: 24,
+    fontSize: 16,
+  },
+  lineUser: {
+    height: StyleSheet.hairlineWidth,
+    width: widthPercentageToDP(66),
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+    marginVertical: 4,
+  },
+  viewTeam: {
+    flex: 1,
+  },
+  viewUser: {
+    flex: 5,
   },
 });

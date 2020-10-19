@@ -7,7 +7,7 @@ export const imgs = {
   addstaff: require('../../common/assets/images/icon/Group3icon.png'),
   delstaff: require('../../common/assets/images/icon/DelPerson-icon.png'),
   email: require('../../common/assets/images/icon/Email-icon.png'),
-  contract: require('../../common/assets/images/icon/Calendar-4-icon.png'),
+  selectCalendar: require('../../common/assets/images/icon/Calendar-4-icon.png'),
   information: require('../../common/assets/images/icon/Infor-icon.png'),
   add: require('../../common/assets/images/icon/Add-icon.png'),
   meeting: require('../../common/assets/images/icon/Group-icon.png'),
@@ -98,4 +98,5 @@ export const imgs = {
   arrow: require('../../common/assets/images/icon/Arrow-icon.png'),
   time: require('../../common/assets/images/icon/Clock2-icon.png'),
   sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
+  calendarWeek: require('../../common/assets/images/icon/Calendar-week.png'),
 };

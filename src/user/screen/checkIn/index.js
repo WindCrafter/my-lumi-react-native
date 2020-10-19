@@ -196,7 +196,7 @@ const CheckIn = (props) => {
               </Card>
               <TouchableOpacity
                 style={styles.button}
-                onPress={requestLocationPermission}>
+                onPress={initWifi}>
                 <Text style={styles.doneWifi}>Kết nối lại</Text>
               </TouchableOpacity>
             </View>

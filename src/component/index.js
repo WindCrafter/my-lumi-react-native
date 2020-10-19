@@ -12,6 +12,7 @@ import {Touchable} from './Touchable';
 import {TextSelect} from './Text';
 import Loading from './Loading';
 import Bottom from './BottomCustom/BottomCustom'
+import Combine from './Combine'
 export {
   Input,
   InputPassword,
@@ -31,4 +32,5 @@ export {
   TextSelect,
   Loading,
   Bottom,
+  Combine,
 };

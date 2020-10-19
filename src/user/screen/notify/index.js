@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -7,37 +7,57 @@ import {
   Image,
   StatusBare,
   StatusBar,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import flatListData from './data';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
 import HeaderNotifi from './component/HeaderNotifi';
+import ModalInfor from './component/ModalInfor';
 import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
+import {Combine} from '../../../component';
 
 const Notify = () => {
+  const [showModal, setShowModal] = useState(false);
+  const onShowModal = () => {
+    setShowModal(true);
+  };
+  const hideModal = () => {
+    setShowModal(false);
+  };
   const renderItem = ({item, index}) => {
     return (
+      <TouchableOpacity onPress={onShowModal}>
+
       <Card style={styles.card}>
         <Image style={styles.img} source={item.image} resizeMode="cover" />
         <View style={styles.viewText}>
           <Text numberOfLines={3}>{item.detail}</Text>
-          <Text style={styles.time}>
-            {item.time} - {item.date}
-          </Text>
+            <Text style={styles.time}>
+              {item.time} - {item.date}
+            </Text>
         </View>
       </Card>
+      </TouchableOpacity>
+
     );
   };
   return (
     <View style={styles.container}>
       <BarStatus />
       <HeaderNotifi />
+
       <FlatList
         horizontal={false}
         data={flatListData}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
       />
+      <ModalInfor showModal={showModal} hideModal={hideModal} />
     </View>
   );
 };
@@ -75,5 +95,12 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+    width: 40,
+    height: 40,
   },
 });
