@@ -1,40 +1,47 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Platform,Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Dimensions,
+  SafeAreaView,
+} from 'react-native';
 import {Colors} from '../../utlis';
 import {TabbarIcon} from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
-import { connect } from 'react-redux';
-import { checkInWifi } from '../redux/actions/check';
+import {connect} from 'react-redux';
+import {checkInWifi} from '../redux/actions/check';
 
- function TabbarCustom({
+function TabbarCustom({
   state,
   descriptors,
   navigation,
   deviceId,
   token,
- checkIn ,
+  checkIn,
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const [type, setType] = useState(true);
-const[test,setTest]=useState('')
+  const [test, setTest] = useState('');
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
           ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
-        })
+        }),
       );
       if (granted === RESULTS.GRANTED) {
         console.log('Thanh cong');
         initWifi();
         console.log(token);
-        console.log(Dimensions.get('window').width)
-        console.log(Dimensions.get('window').height)
-
+        console.log(Dimensions.get('window').width);
+        console.log(Dimensions.get('window').height);
       } else {
         navigation.navigate('CheckIn');
         console.log('Yêu cầu vị trí bị từ chối');
@@ -61,10 +68,10 @@ const[test,setTest]=useState('')
         'Your current connected wifi ssidUser is ' + set.details.ssid,
       );
       console.log('Your current BssidUser is ' + set.details.bssid);
-      console.log(data)
+      console.log(data);
     } catch (error) {
       navigation.navigate('CheckIn');
-      console.log(test)
+      console.log(test);
 
       console.log('Cannot get current ssidUser!', {error});
     }
@@ -74,7 +81,7 @@ const[test,setTest]=useState('')
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
@@ -111,17 +118,17 @@ const[test,setTest]=useState('')
         route={state.routes[3]}
         tab={3}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingVertical: 12,
     borderTopWidth: 0.5,
     borderTopColor: 'gray',
     backgroundColor: Colors.white,
+    paddingBottom: 16,
   },
 });
 const mapStateToProps = (state) => {
@@ -129,9 +136,7 @@ const mapStateToProps = (state) => {
     deviceId: state.authen.deviceId,
     token: state.authen.token,
     currentUser: state.user.currentUser,
-  }
-
-
+  };
 };
 
 const mapDispatchToProps = {
@@ -139,6 +144,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabbarCustom);
-
-
-

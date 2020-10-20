@@ -10,6 +10,11 @@ import {
   LayoutAnimation,
   UIManager,
   StatusBar,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
@@ -23,7 +28,6 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import {_global} from '../../../../utlis/global/global';
 import {Card} from 'native-base';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
@@ -36,18 +40,20 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const Event = (props) => {
-  const {navigation} = props;
+  const {navigation, memberPicked, kickMember, clearMember} = props;
   const refPhone = useRef('');
   const [timeStart, setTimeStart] = useState(new Date());
   const [timeEnd, setTimeEnd] = useState(new Date());
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
-  const [phone, setPhone] = useState('');
+  const [title, setTitle] = useState('');
   const [mode, setMode] = useState('');
   const [show, setShow] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [location, setLocation] = useState('');
-  const onChangeTitle = () => {};
+  const onChangeTitle = (val) => {
+    setTitle(val);
+  };
   const onChangeBirthDay = () => {};
   const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -84,6 +90,7 @@ const Event = (props) => {
   };
   const onChangeLocation = () => {
     setShowModal(true);
+    Keyboard.dismiss();
   };
 
   const onGoPickTeam = () => {
@@ -92,6 +99,50 @@ const Event = (props) => {
 
   const onGoBack = () => {
     navigation.goBack();
+    clearMember();
+  };
+
+  const onAddEvent = () => {
+    clearMember();
+    Alert.alert('Tính năng đang được phát triển!!! Chưa sử dụng được');
+  };
+
+  const removeMember = (val) => {
+    kickMember(val);
+  };
+
+  const renderItem = ({item, index}) => {
+    return (
+      <>
+        <View style={styles.btUser}>
+          <View style={styles.rowUser}>
+            <View style={styles.viewImage}>
+              <Image
+                source={require('../../../../naruto.jpeg')}
+                style={styles.avatar}
+                resizeMode={'cover'}
+              />
+            </View>
+            <Text style={styles.textUser}>{item.name}</Text>
+          </View>
+          <TouchableOpacity onPress={() => removeMember(item)}>
+            <Icon
+              name="user-x"
+              style={styles.icon}
+              size={24}
+              color={Colors.danger}
+            />
+          </TouchableOpacity>
+        </View>
+        {index === memberPicked.length - 1 ? null : (
+          <View style={styles.lineUser} />
+        )}
+      </>
+    );
+  };
+
+  const onBlur = () => {
+    Keyboard.dismiss();
   };
 
   return (
@@ -105,180 +156,193 @@ const Event = (props) => {
         goBack={onGoBack}
         rightButton
         textPress
-        onRight
+        onRight={onAddEvent}
       />
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.header}>
-          <Text style={styles.txtHeader}>
-            Vui lòng kiểm tra lịch tại đây trước khi tạo mới.{' '}
-          </Text>
-        </View>
-        <InputRow
-          containerStyle={styles.txtInput}
-          title={'Tiêu đề : '}
-          size={16}
-          value={phone}
-          onChangeText={onChangeTitle}
-          refInput={refPhone}
-          leftImage={imgs.title}
-        />
-        <Card style={styles.Description}>
-          <TextInput
-            multiline
-            placeholder={'Tóm tắt sự kiện, lịch họp hoặc hoạt động'}
-            maxLength={40}
-            style={styles.txtDescription}
-          />
-        </Card>
-        <Card style={styles.card}>
-          <View style={styles.rowBot}>
-            <View style={styles.column}>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  {
-                    marginVertical: 20,
-                    backgroundColor: Colors.white,
-                    flexDirection: 'row',
-                  },
-                ]}
-                onPress={() => onShow('timeStart')}>
-                <Image
-                  source={imgs.startTime}
-                  style={[styles.imageStamp, {tintColor: '#455997'}]}
-                />
-                <Text style={[styles.txtTime, {color: '#455997'}]}>
-                  {moment(timeStart).format('HH:mm')}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  {
-                    backgroundColor: Colors.white,
-                  },
-                ]}
-                onPress={() => onShow('dateStart')}>
-                <Image
-                  source={imgs.breakDay}
-                  style={[styles.imageStamp, {tintColor: '#455997'}]}
-                />
-
-                <Text style={[styles.txtTime, {color: '#455997'}]}>
-                  {moment(dateStart).format('DD/MM/yyyy')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <Icon
-              name="chevron-right"
-              size={96}
-              color={'gray'}
-              style={styles.icon}
-            />
-            <View style={styles.column}>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  {
-                    backgroundColor: Colors.white,
-                    flexDirection: 'row',
-                    marginVertical: 20,
-                  },
-                ]}
-                onPress={() => onShow('timeEnd')}>
-                <Image
-                  source={imgs.startTime}
-                  style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                />
-
-                <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                  {moment(timeEnd).format('HH:mm')}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  {
-                    backgroundColor: Colors.white,
-                  },
-                ]}
-                onPress={() => onShow('dateEnd')}>
-                <Image
-                  source={imgs.breakDay}
-                  style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                />
-                <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                  {moment(dateEnd).format('DD/MM/yyyy')}
-                </Text>
-              </TouchableOpacity>
-            </View>
+        <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.txtHeader}>
+              Vui lòng kiểm tra lịch tại đây trước khi tạo mới.{' '}
+            </Text>
           </View>
-        </Card>
-        {show ? (
-          mode === 'timeStart' ? (
-            <PickerCustom
-              value={timeStart}
-              onChange={onChangeTimeStart}
-              onPress={onUnshow}
-              mode={'time'}
+          <InputRow
+            containerStyle={styles.txtInput}
+            title={'Tiêu đề : '}
+            size={16}
+            value={title}
+            onChangeText={onChangeTitle}
+            refInput={refPhone}
+            leftImage={imgs.title}
+          />
+          <Card style={styles.Description}>
+            <TextInput
+              multiline
+              placeholder={'Tóm tắt sự kiện, lịch họp hoặc hoạt động'}
+              maxLength={90}
+              style={styles.txtDescription}
+              onBlur={onBlur}
             />
-          ) : mode === 'timeEnd' ? (
-            <PickerCustom
-              value={timeEnd}
-              onChange={onChangeTimeEnd}
-              onPress={onUnshow}
-              mode={'time'}
-            />
-          ) : mode === 'dateStart' ? (
-            <PickerCustom
-              value={dateStart}
-              onChange={onChangeDateStart}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : mode === 'dateEnd' ? (
-            <PickerCustom
-              value={dateEnd}
-              onChange={onChangeDateEnd}
-              onPress={onUnshow}
-              mode={'date'}
-            />
-          ) : null
-        ) : null}
-        <InputSelect
-          width={'90%'}
-          leftImage={imgs.location}
-          borderRadius={32}
-          height={54}
-          shadowColor={'white'}
-          title={'Địa điểm'}
-          padding={8}
-          marginVertical={18}
-          containerStyle={styles.viewInputSelect}
-          onPressButton={onChangeLocation}
-          shadowOpacity={0.1}
-          marginRight={-30}
-          color={'rgba(4, 4, 15, 0.45)'}
-          detail={location}
-        />
-        <InputSelect
-          width={'90%'}
-          leftImage={imgs.personal}
-          borderRadius={32}
-          height={54}
-          shadowColor={'white'}
-          title={'Người tham gia'}
-          padding={8}
-          marginVertical={18}
-          containerStyle={styles.viewInputSelect}
-          onPressButton={onGoPickTeam}
-          shadowOpacity={0.1}
-          marginRight={-30}
-          color={'rgba(4, 4, 15, 0.45)'}
-          detail={''}
-        />
+          </Card>
+          <Card style={styles.card}>
+            <View style={styles.rowBot}>
+              <View style={styles.column}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      marginVertical: 20,
+                      backgroundColor: Colors.white,
+                      flexDirection: 'row',
+                    },
+                  ]}
+                  onPress={() => onShow('timeStart')}>
+                  <Image
+                    source={imgs.startTime}
+                    style={[styles.imageStamp, {tintColor: '#455997'}]}
+                  />
+                  <Text style={[styles.txtTime, {color: '#455997'}]}>
+                    {moment(timeStart).format('HH:mm')}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                    },
+                  ]}
+                  onPress={() => onShow('dateStart')}>
+                  <Image
+                    source={imgs.breakDay}
+                    style={[styles.imageStamp, {tintColor: '#455997'}]}
+                  />
+
+                  <Text style={[styles.txtTime, {color: '#455997'}]}>
+                    {moment(dateStart).format('DD/MM/yyyy')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Icon
+                name="chevron-right"
+                size={96}
+                color={'gray'}
+                style={styles.icon}
+              />
+              <View style={styles.column}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                      flexDirection: 'row',
+                      marginVertical: 20,
+                    },
+                  ]}
+                  onPress={() => onShow('timeEnd')}>
+                  <Image
+                    source={imgs.startTime}
+                    style={[styles.imageStamp, {tintColor: '#00821c'}]}
+                  />
+
+                  <Text style={[styles.txtTime, {color: '#00821c'}]}>
+                    {moment(timeEnd).format('HH:mm')}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                    },
+                  ]}
+                  onPress={() => onShow('dateEnd')}>
+                  <Image
+                    source={imgs.breakDay}
+                    style={[styles.imageStamp, {tintColor: '#00821c'}]}
+                  />
+                  <Text style={[styles.txtTime, {color: '#00821c'}]}>
+                    {moment(dateEnd).format('DD/MM/yyyy')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Card>
+          {show ? (
+            mode === 'timeStart' ? (
+              <PickerCustom
+                value={timeStart}
+                onChange={onChangeTimeStart}
+                onPress={onUnshow}
+                mode={'time'}
+              />
+            ) : mode === 'timeEnd' ? (
+              <PickerCustom
+                value={timeEnd}
+                onChange={onChangeTimeEnd}
+                onPress={onUnshow}
+                mode={'time'}
+              />
+            ) : mode === 'dateStart' ? (
+              <PickerCustom
+                value={dateStart}
+                onChange={onChangeDateStart}
+                onPress={onUnshow}
+                mode={'date'}
+              />
+            ) : mode === 'dateEnd' ? (
+              <PickerCustom
+                value={dateEnd}
+                onChange={onChangeDateEnd}
+                onPress={onUnshow}
+                mode={'date'}
+              />
+            ) : null
+          ) : null}
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.location}
+            borderRadius={32}
+            height={54}
+            shadowColor={'white'}
+            title={'Địa điểm'}
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onChangeLocation}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={location}
+          />
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.personal}
+            borderRadius={32}
+            rightImage={imgs.add}
+            height={54}
+            shadowColor={'white'}
+            title={'Người tham gia'}
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onGoPickTeam}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={''}
+          />
+          {memberPicked.length > 0 ? (
+            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+              <FlatList
+                data={memberPicked}
+                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
+              />
+            </Card>
+          ) : null}
+        </ScrollView>
       </KeyboardAvoidingView>
       <LocationModal
         showModal={showModal}
@@ -293,7 +357,9 @@ const Event = (props) => {
 export default Event;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   header: {
     flex: 1,
     justifyContent: 'center',
@@ -306,16 +372,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     marginBottom: 20,
   },
-
   avatar: {
-    height: 96,
-    width: 96,
-    borderRadius: 64,
-    backgroundColor: 'rgba(4,4,15,0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    alignSelf: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 32,
   },
   iconAvt: {
     width: 48,
@@ -393,5 +453,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 12,
     flexDirection: 'row',
+  },
+  viewImage: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(4,4,15,0.45)',
+  },
+  btUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowUser: {
+    flexDirection: 'row',
+    marginVertical: 16,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  lineUser: {
+    height: StyleSheet.hairlineWidth,
+    width: widthPercentageToDP(70),
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+    marginVertical: 4,
+  },
+  textUser: {
+    marginLeft: 24,
+    fontSize: 16,
   },
 });

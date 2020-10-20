@@ -134,7 +134,7 @@ function ApplyLate(props) {
             blurOnSubmit={true}
           />
 
-          {show ? (
+          {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
                 detail={'lí do 1'}

@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import { Colors, imgs } from '../../../utlis';
 import { Button, Touchable } from '../../component';
 import { Card } from 'native-base';
 
@@ -146,9 +146,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   img: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     alignSelf: 'center',
+    tintColor: Colors.background,
   },
   textTitle: {
     alignSelf: 'center',
