@@ -25,6 +25,8 @@ import updateProfile from '../admin/container/account/updateProfile';
 import contact from '../admin/container/contact';
 import history from '../admin/container/checkIn/history';
 import event from '../admin/container/event';
+import ForgotPass from '../user/container/forgotPassword/forgotPass'
+
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function AdminStack() {
@@ -46,6 +48,13 @@ export default function AdminStack() {
       <Stack.Screen
         name={'Thêm nhân viên'}
         component={addStaff}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'ForgotPass'}
+        component={ForgotPass}
         options={{
           headerShown: false,
         }}

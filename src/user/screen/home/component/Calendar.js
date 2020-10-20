@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const HistoryWeek = (props) => {
   const today = moment().format('YYYY-MM-DD');
-  const {item, timeIn, timeOut, type} = props;
+  const {item, timeIn, timeOut, type, navigation} = props;
   const getTheme = () => {
     return {
       // selected date
@@ -22,8 +22,8 @@ const HistoryWeek = (props) => {
     };
   };
 
-  const onDayPress = (val) => {
-    console.log(val);
+  const onDayPress = () => {
+    navigation.navigate('allHistory');
   };
 
   return (

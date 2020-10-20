@@ -6,7 +6,7 @@ import {
   View,
   Platform,
   StatusBar,
-  FlatList,
+  ScrollView,
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
@@ -14,16 +14,16 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
+import moment from 'moment';
+import PickerCustom from './component/PickerCustom';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../../utlis';
-import {ScrollView} from 'react-native-gesture-handler';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
+import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {imgs, Colors} from '../../../../utlis';
+import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
-import PickerCustom from './component/PickerCustom';
-import moment from 'moment';
 import Slider from '@react-native-community/slider';
 
 if (
@@ -38,13 +38,50 @@ function ApplyOT(props) {
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
+  const [hour, setHour] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
-  const [hour, setHour] = useState(new Date());
+  const [showModal, setShowModal] = useState(false);
+  const goBack = () => {
+    navigation.goBack();
+  };
+  const onChangeHour = (event, selectedShift) => {
+    const currentShift = selectedShift || hour;
+    console.log(currentShift);
+    setHour(currentShift);
+    setShowModal(true);
+  };
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(false);
+    setMode('');
+  };
+  const onChangeTime = (value) => {
+    setTime(value);
+    console.log('---time', value);
+  };
+
+  const onChangeDay = (event, selectedDay) => {
+    const currentDay = selectedDay || day;
+    setShowModal(true);
+    setDay(currentDay);
+  };
+  const onChangeReason = (val) => {
+    setReason(val);
+    setShow(!show);
+  };
+  const onShowPicker = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(true);
+    setMode(m);
+  };
+  const onSetReason = (val) => {
+    setReason(val);
+    unFocus();
+  };
   const onSetOverTime = () => {
     console.log(userId);
-    console.log(moment(hour).format('hh:mm'));
     const data = {
       userId: userId,
       time: time,
@@ -54,23 +91,6 @@ function ApplyOT(props) {
     };
     overTime(data);
   };
-  const goBack = () => {
-    navigation.goBack();
-  };
-
-  const onComplete = () => {
-    Alert.alert('end');
-  };
-
-  const onChangeReason = (val) => {
-    setReason(val);
-  };
-
-  const onSetReason = (val) => {
-    setReason(val);
-    unFocus();
-  };
-
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
@@ -80,44 +100,6 @@ function ApplyOT(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
     Keyboard.dismiss();
-  };
-  const onChangeTime = (value) => {
-    setTime(value);
-    console.log(value);
-  };
-
-  const onSubtract = () => {
-    if (time > 0) {
-      setTime(time - 5);
-    }
-  };
-  const onAdd = () => {
-    if (time < 60) {
-      setTime(time + 5);
-    }
-  };
-
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowPicker(false);
-    setMode('');
-  };
-  const onChangeHour = (event, selectedShift) => {
-    const currentShift = selectedShift || hour;
-    setShowPicker(Platform.OS === 'ios');
-    setHour(currentShift);
-  };
-  const onChangeDay = (event, selectedDay) => {
-    const currentDay = selectedDay || day;
-    setShowPicker(Platform.OS === 'ios');
-    setDay(currentDay);
-  };
-
-  const onShowPicker = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowPicker(true);
-    setMode(m);
-    console.log(showPicker);
   };
 
   return (
@@ -132,8 +114,9 @@ function ApplyOT(props) {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollView>
-        <Text style={styles.extend}>{langs.enterInfo} </Text>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -160,42 +143,48 @@ function ApplyOT(props) {
           {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'lí do 1'}
-                onPress={() => onSetReason('lí do 1')}
+                detail={'Sửa bug phát sinh.'}
+                onPress={() => onSetReason('Sửa bug phát sinh.')}
               />
               <Suggest
-                detail={'lí do 2'}
-                onPress={() => onSetReason('lí do 2')}
+                detail={'Bảo đảm tiến độ dự án.'}
+                onPress={() => onSetReason('Bảo đảm tiến độ dự án.')}
               />
               <Suggest
-                detail={'lí do 3'}
-                onPress={() => onSetReason('lí do 3')}
+                detail={'Bảo trì hệ thống.'}
+                onPress={() => onSetReason('Bảo trì hệ thống.')}
               />
               <Suggest
-                detail={'lí do 4'}
-                onPress={() => onSetReason('lí do 4')}
-              />
-              <Suggest
-                detail={'lí do 5'}
-                onPress={() => onSetReason('lí do 5')}
+                detail={'Phát triển tính năng mới.'}
+                onPress={() => onSetReason('Phát triển tính năng mới.')}
               />
             </Card>
           ) : null}
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startTime} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+          </View>
           <Card style={styles.card}>
-            <View style={[styles.row, {justifyContent: 'center'}]}>
-              <Image source={imgs.time} style={styles.icon} />
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
+              <Image source={imgs.startTime} style={styles.icon} />
               <Text style={styles.txtTime}>{time} phút</Text>
             </View>
             <Slider
-              style={styles.slider}
+              style={styles.Slider}
               minimumValue={0}
-              maximumValue={60}
+              maximumValue={240}
               minimumTrackTintColor="#4BBF70"
               maximumTrackTintColor="grey"
               step={5}
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
-              thumbImage={imgs.miniLogo}
+              // thumbImage={imgs.miniLogo}
               value={time}
             />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
@@ -210,7 +199,7 @@ function ApplyOT(props) {
                 style={styles.time}
                 onPress={() => onShowPicker('time')}>
                 <Text style={styles.txtTime}>
-                  {moment(hour).format('hh:mm')}
+                  {moment(hour).format('HH:mm')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -232,13 +221,15 @@ function ApplyOT(props) {
             </View>
           </Card>
         </View>
-        {showPicker ? (
+        {
           mode === 'time' ? (
             <PickerCustom
               value={hour}
               onChange={onChangeHour}
               onPress={onUnshow}
               mode={'time'}
+              show={showModal}
+              locale={'en-GB'}
             />
           ) : mode === 'day' ? (
             <PickerCustom
@@ -246,15 +237,18 @@ function ApplyOT(props) {
               onChange={onChangeDay}
               onPress={onUnshow}
               mode={'date'}
+              show={showModal}
             />
           ) : null
-        ) : null}
+        }
+      </ScrollView>
+      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onSetOverTime}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -315,6 +309,8 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+    position: 'absolute',
+    bottom: '10%',
   },
   row: {
     flexDirection: 'row',
@@ -367,8 +363,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  slider: {
-    width: wp(80),
+  Slider: {
+    width: wp(72),
     height: 40,
     alignSelf: 'center',
   },

@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    width:120
+    
   },
   checkImage: {
     width: 20,

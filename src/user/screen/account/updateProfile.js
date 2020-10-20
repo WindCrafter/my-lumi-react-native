@@ -1,25 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
   Platform,
   StatusBar,
-  FlatList,
-  LayoutAnimation,
-  Image,
   UIManager,
   ScrollView,
-  Text,
-  TouchableOpacity,
   KeyboardAvoidingView,
-  Modal,
 } from 'react-native';
 import {BarStatus, HeaderCustom} from '../../../component';
-import {
-  widthPercentageToDP as wp,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Colors} from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import {_global} from '../../../../utlis/global/global';
@@ -49,10 +40,9 @@ function UpdateProfile(props) {
     teamUser,
     birthdayUser,
   } = props;
-  const step = useRef(null);
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
-  const [update, setUpdate] = useState(false);
+  const [update] = useState(false);
   const [show, setShow] = useState(false);
   const [showBank, setShowBank] = useState(false);
   const [showGene, setShowGene] = useState(false);
@@ -79,10 +69,6 @@ function UpdateProfile(props) {
   const [bankName, setBankName] = useState(
     advance && advance.bankName ? advance.bankName : null,
   );
-  const onExtend = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setUpdate(!update);
-  };
 
   const goBack = () => {
     navigation.goBack();
@@ -92,7 +78,7 @@ function UpdateProfile(props) {
     setName(val);
   };
   const onSetTech = () => {
-    setBankName('Techcom Bank');
+    setBankName('Techcombank');
   };
   const onSetBIDV = () => {
     setBankName('BIDV');
@@ -101,13 +87,13 @@ function UpdateProfile(props) {
     setBankName('Agribank');
   };
   const onSetVCB = () => {
-    setBankName('Vietcom Bank');
+    setBankName('Vietcombank');
   };
   const onSetVPB = () => {
-    setBankName('VP Bank');
+    setBankName('VPBank');
   };
   const onSetVTB = () => {
-    setBankName('Viettin Bank');
+    setBankName('VietinBank');
   };
   const onChangePhone = (val) => {
     setPhone(val);

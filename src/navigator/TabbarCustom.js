@@ -16,7 +16,6 @@ import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
-
 function TabbarCustom({
   state,
   descriptors,
@@ -43,6 +42,8 @@ function TabbarCustom({
         console.log(Dimensions.get('window').width);
         console.log(Dimensions.get('window').height);
       } else {
+        initWifi();
+
         navigation.navigate('CheckIn');
         console.log('Yêu cầu vị trí bị từ chối');
         console.log(RESULTS.GRANTED);
@@ -100,7 +101,7 @@ function TabbarCustom({
       />
       <ButtonCheckIn
         navigation={navigation}
-        onCheck={requestLocationPermission}
+        onCheck={initWifi}
       />
       <ButtonTabbar
         state={state}

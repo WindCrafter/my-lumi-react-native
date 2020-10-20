@@ -81,7 +81,7 @@ export default function InputSelect(props?: Props) {
     paddingVertical,
     marginRight, color,
   } = props;
-  const ViewCard = Platform.OS === 'ios' ? Card:View;
+  const ViewCard = Platform.OS === 'ios' ? Card : Card;
 
   return (
     <ViewCard
@@ -164,6 +164,5 @@ const styles = StyleSheet.create({
     padding: 6,
     fontSize: 16,
     color: 'black',
-    alignItems: 'flex-end',
   },
 });

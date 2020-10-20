@@ -59,7 +59,7 @@ const ModalBank = (props) => {
                     styles.img,
                     {
                       backgroundColor:
-                        bankName === 'Techcom Bank' ? '#E5E5E7' : null,
+                        bankName === 'Techcombank' ? '#E5E5E7' : null,
                     },
                   ]}
                 />
@@ -74,7 +74,7 @@ const ModalBank = (props) => {
                     styles.img,
                     {
                       backgroundColor:
-                        bankName === 'Vietcom Bank' ? '#E5E5E7' : null,
+                        bankName === 'Vietcombank' ? '#E5E5E7' : null,
                     },
                   ]}
                 />
@@ -106,11 +106,11 @@ const ModalBank = (props) => {
                     styles.img,
                     {
                       backgroundColor:
-                        bankName === 'VP Bank' ? '#E5E5E7' : null,
+                        bankName === 'VPBank' ? '#E5E5E7' : null,
                     },
                   ]}
                 />
-                <Text style={styles.bankname}>VP Bank</Text>
+                <Text style={styles.bankname}>VPBank</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.inforBank, {backgroundColor: backgroundColor}]}
@@ -121,7 +121,7 @@ const ModalBank = (props) => {
                     styles.img,
                     {
                       backgroundColor:
-                        bankName === 'Viettin Bank' ? '#E5E5E7' : null,
+                        bankName === 'VietinBank' ? '#E5E5E7' : null,
                     },
                   ]}
                 />

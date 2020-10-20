@@ -225,24 +225,24 @@ function ApplyBreak(props) {
           {!reason && showModal ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'lí do 1'}
-                onPress={() => onSetReason('lí do 1')}
+                detail={'Bị ốm.'}
+                onPress={() => onSetReason('Bị ốm.')}
               />
               <Suggest
-                detail={'lí do 2'}
-                onPress={() => onSetReason('lí do 2')}
+                detail={'Đi công tác.'}
+                onPress={() => onSetReason('Đi công tác.')}
               />
               <Suggest
-                detail={'lí do 3'}
-                onPress={() => onSetReason('lí do 3')}
+                detail={'Đi chơi.'}
+                onPress={() => onSetReason('Đi chơi.')}
               />
               <Suggest
-                detail={'lí do 4'}
-                onPress={() => onSetReason('lí do 4')}
+                detail={'Đi khảo sát công trình.'}
+                onPress={() => onSetReason('Đi khảo sát công trình.')}
               />
               <Suggest
-                detail={'lí do 5'}
-                onPress={() => onSetReason('lí do 5')}
+                detail={'Lí do cá nhân.'}
+                onPress={() => onSetReason('Lí do cá nhân.')}
               />
             </Card>
           ) : null}

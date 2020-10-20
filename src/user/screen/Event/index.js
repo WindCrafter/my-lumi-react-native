@@ -144,7 +144,9 @@ const Event = (props) => {
   const onBlur = () => {
     Keyboard.dismiss();
   };
-
+  const onDone = () => {
+    Alert.alert('end');
+  };
   return (
     <>
       <BarStatus
@@ -323,7 +325,11 @@ const Event = (props) => {
             rightImage={imgs.add}
             height={54}
             shadowColor={'white'}
-            title={'Người tham gia'}
+            title={
+              memberPicked.length > 0
+                ? `Đang chọn ${memberPicked.length} người tham gia `
+                : 'Chọn người tham gia'
+            }
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
@@ -437,7 +443,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   column: {
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
     alignItems: 'flex-start',
   },
   icon: {

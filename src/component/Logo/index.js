@@ -7,27 +7,27 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
-import { imgs } from '../../../utlis';
+import {imgs} from '../../../utlis';
 interface Props extends ImageProps {
   containerStyle?: ImageStyle;
 }
 
 export default function Logo(props?: Props) {
-  const { containerStyle } = props;
+  const {containerStyle} = props;
   return (
     <ImageBackground
-      source={imgs.textlogo}
+      source={imgs.sloganLogo}
       resizeMode="contain"
       {...props}
-      style={[styles.container, containerStyle]}>
-    </ImageBackground>
+      style={[styles.container, containerStyle]}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 156,
-    height: 156,
+    width: 240,
+    height: 100,
     alignSelf: 'center',
     justifyContent: 'flex-end',
   },

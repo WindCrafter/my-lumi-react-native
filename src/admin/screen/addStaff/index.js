@@ -26,7 +26,7 @@ import {imgs, Colors} from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
 import {Item} from 'native-base';
-
+import {_global} from '../../../../utlis/global/global'
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -44,8 +44,8 @@ const AddStaff = (props) => {
   const [email, setEmail] = useState('');
   const [roleId, setRoleId] = useState('');
   const [password, setPassword] = useState('123456');
-  const [detailPosition, setDetailPosition] = useState('Vui lòng chọn');
-  const [detailRank, setDetailRank] = useState('Vui lòng chọn');
+  const [detailPosition, setDetailPosition] = useState('Vui lòng chọn :');
+  const [detailRank, setDetailRank] = useState('Vui lòng chọn : ');
   const [showModalPosition, setModalPosition] = useState(false);
   const [showModalRank, setModalRank] = useState(false);
 
@@ -53,19 +53,41 @@ const AddStaff = (props) => {
     Keyboard.dismiss();
     const data = {name, email, password, roleId, token};
     if (email.trim().length === 0) {
-      Alert.alert('email invalid');
+      _global.Alert.alert({
+        title: 'Nhắc bạn',
+        message: 'Vui lòng điền tên đăng nhập.',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
       return;
     }
     if (password.length === 0) {
-      Alert.alert('password invalid');
+      _global.Alert.alert({
+        title: 'Lưu ý!',
+        message: 'Mật khẩu không được để trống.',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
       return;
     }
-    if (!(email.indexOf('@lumi.biz') > -1)) {
-      Alert.alert('email not belong to Lumi');
+    if (
+      !(email.indexOf('@lumi.biz') > -1) 
+    ) {
+      _global.Alert.alert({
+        title: 'Lưu ý!',
+        message: 'Định dạng email không đúng.',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
       return;
     }
     if (password.length < 6) {
-      Alert.alert('password not less than 6');
+      _global.Alert.alert({
+        title: 'Lưu ý!',
+        message: 'Mật khẩu không được dưới 6 kí tự.',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
       return;
     } else {
       addStaff(data);
@@ -127,7 +149,6 @@ const AddStaff = (props) => {
       />
       <ScrollView style={styles.container}>
         <View style={styles.detail}>
-          <Text style={styles.title}>Nhập thông tin nhân viên mới :</Text>
           <InputInfor
             backgroundColor={'white'}
             placeholder={''}

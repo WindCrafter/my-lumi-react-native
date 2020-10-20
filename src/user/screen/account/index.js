@@ -17,13 +17,13 @@ import {Card} from 'native-base';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
-  const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
+  const {logOut, nameUser, emailUser, navigation} = props;
   const name = nameUser;
   const email = emailUser;
   const onLogOut = () => {
     _global.Alert.alert({
       title: 'Thông báo',
-      message: 'Bạn thực sự muốn đăng xuất đúng không?',
+      message: 'Bạn thực sự muốn đăng xuất ?',
       messageColor: Colors.danger,
       leftButton: {
         text: 'Đăng xuất',
@@ -33,13 +33,11 @@ const Account = (props) => {
       rightButton: {text: 'Cancel'},
     });
   };
-  useEffect(() => {
-    getListUsers(token);
-  }, [getListUsers, token]);
+  
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');
   };
-  const onMoveTContact = () => {
+  const onMoveToContact = () => {
     navigation.navigate('Contact');
   };
   return (
@@ -74,7 +72,7 @@ const Account = (props) => {
               rightImage={imgs.next}
               tintColor={'grey'}
               line={true}
-              onPressButton={onMoveTContact}
+              onPressButton={onMoveToContact}
             />
             <RoundedView
               leftImage={imgs.inforsolidblack}

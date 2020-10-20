@@ -32,6 +32,7 @@ const AddInfo = (props) => {
     nativeLand,
     onChangeNative,
     onNext,
+    detailPosition
   } = props;
   return (
     <>
@@ -56,13 +57,12 @@ const AddInfo = (props) => {
               refInput={refPhone}
               keyboardType="numeric"
             />
-
             <InputSelect
               width={widthPercentageToDP(80)}
               leftImage={imgs.DOB}
               borderRadius={32}
               height={50}
-              shadowColor={'white'}
+              backgroundColor={'white'}
               title={'Ngày sinh:'}
               padding={8}
               detail={birthday}
@@ -72,16 +72,23 @@ const AddInfo = (props) => {
               shadowOpacity={0.1}
               marginRight={-30}
             />
-            <InputRow
+            <InputSelect
+              width={widthPercentageToDP(80)}
               leftImage={imgs.setPerson}
-              containerStyle={styles.txtInput}
-              title={langs.team}
-              size={16}
-              value={team}
-              onChangeText={onChangeTeam}
-              refInput={refTeam}
-              onSubmitEditing={() => refNative.current.focus()}
+              borderRadius={32}
+              height={50}
+              backgroundColor={'white'}
+              title={'Team:'}
+              padding={8}
+              marginVertical={16}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onChangeTeam}
+              shadowOpacity={0.1}
+              marginRight={-50}
+              detail={detailPosition}
+              
             />
+            
 
             <InputRow
               leftImage={imgs.location}
@@ -148,6 +155,10 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUDNCOLOR,
     marginVertical: 16,
   },
+  // viewInputSelect:{
+  //   marginVertical:16,
+  //   backgroundColor: 'rgba(4,4,15,0.2)'
+  // }
   viewInputSelect: {
     marginVertical: 16,
     backgroundColor: 'rgba(0,0,25,0.17)',

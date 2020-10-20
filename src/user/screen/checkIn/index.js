@@ -95,7 +95,7 @@ const CheckIn = (props) => {
       const granted = await request(
         Platform.select({
           android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
         }),
         {
           title: 'YÊU CẦU VỊ TRÍ',
@@ -158,7 +158,9 @@ const CheckIn = (props) => {
         pagingEnabled={true}
         scrollEnabled={false}
         showsHorizontalScrollIndicator={false}
-        onScrollAnimationEnd={false}>
+        onScrollAnimationEnd={false}
+        // style={{flex:1}}
+      >
         <QRCodeScanner
           onRead={onCheckIn}
           reactivate={true}
@@ -194,7 +196,7 @@ const CheckIn = (props) => {
               </Card>
               <TouchableOpacity
                 style={styles.button}
-                onPress={requestLocationPermission}>
+                onPress={initWifi}>
                 <Text style={styles.doneWifi}>Kết nối lại</Text>
               </TouchableOpacity>
             </View>
@@ -229,7 +231,7 @@ const CheckIn = (props) => {
       </ScrollView>
       <HeaderCheck
         title={langs.checkIn}
-        type={type ? 'Check In' : 'Check Out'}
+        type={type ? 'Check-in' : 'Check-out'}
         onPress={onChangeType}
         pressHistory={goHistory}
         onPressBack={onPressBack}

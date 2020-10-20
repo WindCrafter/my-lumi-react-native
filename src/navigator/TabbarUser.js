@@ -6,7 +6,6 @@ import { TabbarIcon } from '../component';
 import home from '../user/container/home';
 import checkIn from '../user/container/checkIn';
 import book from '../user/container/schedule';
-import document from '../user/container/document';
 import TabbarCustom from './TabbarCustom';
 
 import { Colors } from '../../utlis';

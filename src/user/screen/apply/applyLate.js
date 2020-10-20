@@ -44,6 +44,8 @@ function ApplyLate(props) {
   };
   const onChangeTime = (value) => {
     setTime(value);
+    console.log('---time', value);
+
   };
   const onComplete = () => {
     onsetLateEarly();
@@ -51,6 +53,7 @@ function ApplyLate(props) {
 
   const onChangeReason = (val) => {
     setReason(val);
+    setShow(!show);
   };
 
   const onSetReason = (val) => {
@@ -84,16 +87,7 @@ function ApplyLate(props) {
   const onSetEarly = () => {
     setType('early');
   };
-  const onSubtract = () => {
-    if (time > 0) {
-      setTime(time - 5);
-    }
-  };
-  const onAdd = () => {
-    if (time < 60) {
-      setTime(time + 5);
-    }
-  };
+  
 
   return (
     <View style={styles.container}>
@@ -137,24 +131,24 @@ function ApplyLate(props) {
           {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'lí do 1'}
-                onPress={() => onSetReason('lí do 1')}
+                detail={'Tắc đường.'}
+                onPress={() => onSetReason('Tắc đường.')}
               />
               <Suggest
-                detail={'lí do 2'}
-                onPress={() => onSetReason('lí do 2')}
+                detail={'Có việc đột xuất.'}
+                onPress={() => onSetReason('Có việc đột xuất.')}
               />
               <Suggest
-                detail={'lí do 3'}
-                onPress={() => onSetReason('lí do 3')}
+                detail={'Bị hỏng xe.'}
+                onPress={() => onSetReason('Bị hỏng xe.')}
               />
               <Suggest
-                detail={'lí do 4'}
-                onPress={() => onSetReason('lí do 4')}
+                detail={'Công việc ngoài phạm vi phòng.'}
+                onPress={() => onSetReason('Công việc ngoài phạm vi phòng.')}
               />
               <Suggest
-                detail={'lí do 5'}
-                onPress={() => onSetReason('lí do 5')}
+                detail={'Lí do cá nhân.'}
+                onPress={() => onSetReason('Lí do cá nhân.')}
               />
             </Card>
           ) : null}
@@ -191,7 +185,7 @@ function ApplyLate(props) {
               <Text style={styles.txtTime}>{time} phút</Text>
             </View>
             <Slider
-              style={{width: wp(80), height: 40, alignSelf: 'center'}}
+              style={styles.Slider}
               minimumValue={0}
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
@@ -199,9 +193,10 @@ function ApplyLate(props) {
               step={5}
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
-              thumbImage={imgs.miniLogo}
+              // thumbImage={imgs.miniLogo}
               value={time}
             />
+            
           </Card>
         </View>
         <Button
@@ -325,4 +320,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
+  Slider: { width: wp(72), height: 40, alignSelf: 'center' }
 });

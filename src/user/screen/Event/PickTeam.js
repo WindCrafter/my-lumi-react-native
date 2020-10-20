@@ -37,11 +37,11 @@ const DataUser = [
 
 const PickTeam = (props) => {
   const {navigation, addMember, memberPicked} = props;
-  const newList = DataUser.filter(
+  const newData = DataUser.filter(
     (e) => !memberPicked.find((i) => i.id === e.id),
   );
   const [search, setSearch] = useState('');
-  const [listUser, setListUser] = useState(newList);
+  const [listUser, setListUser] = useState(newData);
   const [tag, setTag] = useState([]);
   const [userPicked, setUserPicked] = useState([]);
   const onGoBack = () => {
