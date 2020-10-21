@@ -23,27 +23,41 @@ import {Combine} from '../../../component';
 
 const Notify = () => {
   const [showModal, setShowModal] = useState(false);
-  const onShowModal = () => {
-    setShowModal(true);
-  };
+
   const hideModal = () => {
     setShowModal(false);
   };
+  
   const renderItem = ({item, index}) => {
+    const onShowModal = () => {
+      setShowModal(true);
+      console.log('=======',flatListData.length)
+    };
+    const onShow = () => {
+      switch (item.type) {
+        case 'confirm':
+          onShowModal();
+          break;
+        case 'warning':
+          onShowModal();
+          break;
+        case 'verify':
+          onShowModal;
+          break;
+      }
+    };
     return (
-      <TouchableOpacity onPress={onShowModal}>
-
-      <Card style={styles.card}>
-        <Image style={styles.img} source={item.image} resizeMode="cover" />
-        <View style={styles.viewText}>
-          <Text numberOfLines={3}>{item.detail}</Text>
+      <TouchableOpacity onPress={onShow}>
+        <Card style={styles.card}>
+          <Image style={styles.img} source={item.image} resizeMode="cover" />
+          <View style={styles.viewText}>
+            <Text numberOfLines={3}>{item.detail}</Text>
             <Text style={styles.time}>
               {item.time} - {item.date}
             </Text>
-        </View>
-      </Card>
+          </View>
+        </Card>
       </TouchableOpacity>
-
     );
   };
   return (

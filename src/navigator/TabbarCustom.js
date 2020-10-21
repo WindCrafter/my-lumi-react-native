@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
-import { getListUsers} from '../redux/actions/user'
+import {getListUsers} from '../redux/actions/user';
 function TabbarCustom({
   state,
   descriptors,
@@ -23,7 +23,7 @@ function TabbarCustom({
   deviceId,
   token,
   checkIn,
-  getListUsers
+  getListUsers,
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const [type, setType] = useState(true);
@@ -43,8 +43,6 @@ function TabbarCustom({
         console.log('Thanh cong');
         initWifi();
         console.log(token);
-        console.log(Dimensions.get('window').width);
-        console.log(Dimensions.get('window').height);
       } else {
         initWifi();
 
@@ -56,6 +54,9 @@ function TabbarCustom({
       console.warn(err);
     }
   };
+  const onCheckInWifi = () => {
+    Platform.OS === 'ios' ? initWifi() : requestLocationPermission()
+  }
   const initWifi = async () => {
     try {
       let set = await NetInfo.fetch('wifi');
@@ -103,10 +104,7 @@ function TabbarCustom({
         route={state.routes[1]}
         tab={1}
       />
-      <ButtonCheckIn
-        navigation={navigation}
-        onCheck={initWifi}
-      />
+      <ButtonCheckIn navigation={navigation} onCheck={onCheckInWifi} />
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
@@ -146,7 +144,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   checkIn: checkInWifi,
-  getListUsers: getListUsers, 
+  getListUsers: getListUsers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabbarCustom);

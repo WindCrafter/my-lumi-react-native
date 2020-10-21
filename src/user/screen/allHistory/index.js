@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 6,
     shadowOpacity: 1,
+    elevation:3
   },
 
   week: {

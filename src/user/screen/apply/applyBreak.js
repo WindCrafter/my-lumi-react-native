@@ -441,12 +441,13 @@ function ApplyBreak(props) {
             show={show}
           />
         ) : null}
-        <Button
-          title={'Hoàn thành '}
-          containerStyle={styles.complete}
-          onPress={onComplete}
-        />
+        
       </ScrollView>
+      <Button
+        title={'Hoàn thành '}
+        containerStyle={styles.complete}
+        onPress={onComplete}
+      />
     </View>
   );
 }

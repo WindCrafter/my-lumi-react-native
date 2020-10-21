@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import {
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,Touch
 } from 'react-native';
 import {TextSelect, Button, Combine} from '../../../../component';
 import {
@@ -13,9 +14,81 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
-
+const DATA = [
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+];
 const ModalInfor = (props) => {
+  const [listData, setListData] = useState(DATA);
   const {hideModal, showModal, picker} = props;
+  const renderItem = (data) => {
+    Platform.OS === 'ios'
+      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      : null;
+    return (
+      <Combine
+        day={data.item.day}
+        date={data.item.date}
+        department={data.item.department}
+        status={data.item.status}
+        shift={data.item.shift}
+        timeIn={data.item.timeIn}
+        timeOut={data.item.timeOut}
+      />
+    );
+  };
   return (
     <View>
       <Modal
@@ -26,18 +99,12 @@ const ModalInfor = (props) => {
         onBackdropPress={hideModal}
         style={styles.modal}
         backdropTransitionOutTiming={0}>
-        <View style={styles.modalview}>
-          <ScrollView horizontal={false}
- >
-            <Combine status={'late'} />
-            <Combine />
-            <Combine />
-            <Combine />
-            <Combine />
-            <Combine />
-            <Combine />
-            <Combine />
-
+        <View
+          style={
+            DATA.length > 5 ? styles.modalviewLong : styles.modalviewShort
+          }>
+          <ScrollView horizontal={false}>
+            <FlatList data={listData} renderItem={renderItem} />
           </ScrollView>
         </View>
       </Modal>
@@ -53,13 +120,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 0,
   },
-  modalview: {
+  modalviewShort: {
     borderRadius: 24,
     backgroundColor: 'white',
     alignItems: 'center',
     width: '96%',
-    height:"72%",
-    paddingVertical:18
+    paddingVertical: 16,
+  },
+  modalviewLong: {
+    borderRadius: 24,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    width: '96%',
+    paddingVertical: 16,
+    height: '72%',
   },
   titlemodal: {
     fontWeight: '500',

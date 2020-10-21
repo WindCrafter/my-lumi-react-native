@@ -90,6 +90,9 @@ const CheckIn = (props) => {
       console.log('Cannot get current ssidUser!', {error});
     }
   };
+  const onCheckInWifi= () => {
+    Platform.OS==='ios' ? initWifi() : requestLocationPermission()
+  }
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -196,7 +199,7 @@ const CheckIn = (props) => {
               </Card>
               <TouchableOpacity
                 style={styles.button}
-                onPress={initWifi}>
+                onPress={onCheckInWifi}>
                 <Text style={styles.doneWifi}>Kết nối lại</Text>
               </TouchableOpacity>
             </View>
