@@ -101,7 +101,7 @@ function TabbarCustom({
       />
       <ButtonCheckIn
         navigation={navigation}
-        onCheck={initWifi}
+        onCheck={requestLocationPermission}
       />
       <ButtonTabbar
         state={state}

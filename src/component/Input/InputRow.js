@@ -7,10 +7,11 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Colors, imgs} from '../../../utlis';
+import {Card, Col} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -20,7 +21,7 @@ interface Props extends TextInputProps {
   backgroundColor?: String;
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
-  canedit?:Boolean;
+  canedit?: Boolean;
 }
 
 InputRow.defaultProps = {
@@ -39,7 +40,6 @@ export default function InputRow(props?: Props) {
     shadowOffset,
     leftImage,
     width,
-    height,
     borderRadius,
     backgroundColor,
     containerStyle,
@@ -59,8 +59,6 @@ export default function InputRow(props?: Props) {
           shadowOffset,
           shadowOpacity,
           shadowColor,
-          width,
-          height,
           borderRadius,
           backgroundColor,
         },
@@ -73,7 +71,7 @@ export default function InputRow(props?: Props) {
       <TextInput
         testID={testID}
         ref={refInput}
-        style={styles.textInput}
+        style={[styles.textInput,{width: width}]}
         selectionColor={'black'}
         placeholderTextColor={'gray'}
         autoCorrect={false}
@@ -98,6 +96,7 @@ const styles = StyleSheet.create({
   image: {
     width: 24,
     height: 24,
+    tintColor: Colors.black,
   },
   textInput: {
     flex: 1,

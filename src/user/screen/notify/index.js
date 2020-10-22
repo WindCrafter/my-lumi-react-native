@@ -1,6 +1,5 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect, useRef} from 'react';
 import {
-  FlatList,
   StyleSheet,
   Text,
   View,
@@ -8,6 +7,7 @@ import {
   StatusBare,
   StatusBar,
   Modal,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import flatListData from './data';
@@ -21,29 +21,33 @@ import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
 import {Combine} from '../../../component';
 
-const Notify = () => {
+const Notify = (props) => {
+  const {navigation}=props;
   const [showModal, setShowModal] = useState(false);
   const onShowModal = () => {
     setShowModal(true);
   };
+  const flatListRef = useRef('');
   const hideModal = () => {
     setShowModal(false);
   };
+
+  useEffect(() => {
+    flatListRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }, ['']);
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity onPress={onShowModal}>
-
-      <Card style={styles.card}>
-        <Image style={styles.img} source={item.image} resizeMode="cover" />
-        <View style={styles.viewText}>
-          <Text numberOfLines={3}>{item.detail}</Text>
+        <Card style={styles.card}>
+          <Image style={styles.img} source={item.image} resizeMode="cover" />
+          <View style={styles.viewText}>
+            <Text numberOfLines={3}>{item.detail}</Text>
             <Text style={styles.time}>
               {item.time} - {item.date}
             </Text>
-        </View>
-      </Card>
+          </View>
+        </Card>
       </TouchableOpacity>
-
     );
   };
   return (
@@ -52,6 +56,7 @@ const Notify = () => {
       <HeaderNotifi />
 
       <FlatList
+        ref={flatListRef}
         horizontal={false}
         data={flatListData}
         renderItem={renderItem}

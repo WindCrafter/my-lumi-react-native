@@ -16,7 +16,7 @@ const ButtonTabbar = ({descriptors, navigation, state, route, index, tab}) => {
       canPreventDefault: true,
     });
 
-    if (!isFocused && !event.defaultPrevented) {
+    if (!event.defaultPrevented) {
       navigation.navigate(route.name);
     }
   };

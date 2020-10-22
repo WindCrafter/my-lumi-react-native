@@ -197,7 +197,7 @@ const PickTeam = (props) => {
             numColumns={2}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
-            scrollEnabled={false}
+            // scrollEnabled={false}
           />
         </View>
         <View style={styles.line} />

@@ -16,7 +16,7 @@ function* sagaUpdateProfile(action) {
       phoneNumber: action.payload.phoneNumber,
       advance: action.payload.advance,
       birthday: action.payload.birthday,
-
+      deviceTimeKeepingId: action.payload.deviceTimeKeepingId,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);

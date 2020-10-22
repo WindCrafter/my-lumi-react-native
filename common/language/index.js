@@ -64,6 +64,7 @@ const langs = {
   bank: 'Ngân hàng:',
   pickTeam: 'Chọn người tham gia',
   newEvent: 'Sự kiện mới',
+  deviceID: 'DeviceID:',
 };
 
 export default langs;

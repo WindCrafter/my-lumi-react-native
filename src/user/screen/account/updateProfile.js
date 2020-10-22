@@ -21,6 +21,7 @@ import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalGene from './component/ModalGene';
 import ModalTeam from './component/ModalTeam';
+import Clipboard from '@react-native-community/clipboard';
 
 if (
   Platform.OS === 'android' &&
@@ -39,6 +40,7 @@ function UpdateProfile(props) {
     advance,
     teamUser,
     birthdayUser,
+    deviceId,
   } = props;
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
@@ -150,6 +152,23 @@ function UpdateProfile(props) {
     setShow(false);
   };
 
+  const onAlertCopy = () => {
+    _global.Alert.alert({
+      title: 'DeviceID',
+      message: deviceId,
+      messageColor: Colors.black,
+      leftButton: {
+        text: 'Copy',
+        onPress: onCopyDeviceID,
+        textStyle: {color: Colors.background},
+      },
+    });
+  };
+
+  const onCopyDeviceID = () => {
+    Clipboard.setString(`${deviceId}`);
+  };
+
   const onUpdateInfo = () => {
     const data = {
       name: name,
@@ -194,7 +213,7 @@ function UpdateProfile(props) {
   };
 
   return (
-    <View style={styles.view}>
+    <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView style={styles.container}>
         <BarStatus
           backgroundColor={Colors.white}
@@ -202,7 +221,6 @@ function UpdateProfile(props) {
         />
         <HeaderCustom
           title={'Khai báo thông tin'}
-          height={60}
           goBack={goBack}
           rightButton
           textPress={true}
@@ -229,6 +247,8 @@ function UpdateProfile(props) {
             onChangeBirthday={onShowModal}
             onChangeBank={onPick}
             bankName={bankName}
+            deviceId={deviceId}
+            onCopyDeviceID={onAlertCopy}
           />
         </ScrollView>
         {Platform.OS === 'ios' ? (
@@ -283,7 +303,7 @@ function UpdateProfile(props) {
           pressItem={(e) => onChangeTeam(e)}
         />
       </KeyboardAvoidingView>
-    </View>
+    </ScrollView>
   );
 }
 

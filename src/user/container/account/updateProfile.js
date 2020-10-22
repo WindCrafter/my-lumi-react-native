@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
   token: state.authen.token,
   advance: state.authen.userProfile.advance,
   birthdayUser: state.authen.userProfile.birthday,
+  deviceId: state.authen.deviceId,
 });
 
 const mapDispatchToProps = {

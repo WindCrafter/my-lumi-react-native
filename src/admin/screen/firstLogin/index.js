@@ -17,7 +17,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import ModalTeam from './component/ModalTeam';
 const FirstLogin = (props) => {
-  const {changePass, token, updateProfile, name} = props;
+  const {changePass, token, updateProfile, name, deviceId} = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
@@ -105,6 +105,7 @@ const FirstLogin = (props) => {
       phoneNumber: phone,
       birthday,
       token,
+      deviceTimeKeepingId: deviceId,
       advance: {
         nativeLand,
       },
@@ -132,9 +133,7 @@ const FirstLogin = (props) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         ref={step}
-        scrollEnabled={false}
-        >
-          
+        scrollEnabled={false}>
         <AddInfo
           birthday={birthday}
           onChangeBirthDay={onShowModal}

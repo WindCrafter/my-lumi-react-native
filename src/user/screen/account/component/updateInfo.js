@@ -25,6 +25,8 @@ const UpdateInfo = (props) => {
     onChangeBirthday,
     onChangeBank,
     bankName,
+    deviceId,
+    onCopyDeviceID,
   } = props;
   return (
     <View style={styles.container}>
@@ -67,6 +69,17 @@ const UpdateInfo = (props) => {
               value={bankName}
               refInput={refBirth}
               clearButtonMode="while-editing"
+              canedit={false}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onCopyDeviceID}>
+            <InputRow
+              leftImage={imgs.contact}
+              containerStyle={styles.txtInput}
+              title={langs.deviceID}
+              size={16}
+              placeholder={'Nhấn sao chép'}
+              width={0}
               canedit={false}
             />
           </TouchableOpacity>
@@ -139,7 +152,7 @@ const styles = StyleSheet.create({
   txtInput: {
     width: widthPercentageToDP(80),
     borderRadius: 32,
-    backgroundColor: 'rgba(0,0,25,0.17)',
+    backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : Colors.white,
     marginVertical: 16,
   },
 });
