@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   line: {
-    height: 0.5,
+    height: StyleSheet.hairlineWidth,
     width: '85%',
     backgroundColor: 'gray',
   },

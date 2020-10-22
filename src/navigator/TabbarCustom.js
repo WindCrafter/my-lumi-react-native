@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import {Colors} from '../../utlis';
 import {TabbarIcon} from '../component';
@@ -15,22 +16,15 @@ import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
-import {getListUsers} from '../redux/actions/user';
 function TabbarCustom({
   state,
   descriptors,
   navigation,
   deviceId,
   token,
-  checkIn,
-  getListUsers,
-}) {
+  checkIn, }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-  const [type, setType] = useState(true);
-  const [test, setTest] = useState('');
-  useEffect(() => {
-    getListUsers(token);
-  }, [getListUsers, token]);
+
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -87,7 +81,7 @@ function TabbarCustom({
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
@@ -121,17 +115,17 @@ function TabbarCustom({
         route={state.routes[3]}
         tab={3}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingVertical: 12,
     borderTopWidth: 0.5,
     borderTopColor: 'gray',
     backgroundColor: Colors.white,
+    paddingBottom: 16,
   },
 });
 const mapStateToProps = (state) => {
@@ -144,7 +138,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   checkIn: checkInWifi,
-  getListUsers: getListUsers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabbarCustom);

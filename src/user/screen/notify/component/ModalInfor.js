@@ -6,14 +6,17 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  FlatList,Touch
+  FlatList,
+  LayoutAnimation,
+  Image,
+  Platform,
 } from 'react-native';
 import {TextSelect, Button, Combine} from '../../../../component';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import {Colors} from '../../../../../utlis';
+import {Colors, imgs} from '../../../../../utlis';
 const DATA = [
   {
     shift: 'Ca hành chính',
@@ -103,6 +106,10 @@ const ModalInfor = (props) => {
           style={
             DATA.length > 5 ? styles.modalviewLong : styles.modalviewShort
           }>
+          <View>
+            <Text>Thống kê đi muộn</Text>
+            <Image source={imgs.cancel} />
+          </View>
           <ScrollView horizontal={false}>
             <FlatList data={listData} renderItem={renderItem} />
           </ScrollView>

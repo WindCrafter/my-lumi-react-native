@@ -52,3 +52,7 @@ export const TAKE_LEAVE_SUCCESS = 'TAKE_LEAVE_SUCCESS';
 export const OVER_TIME = 'OVER_TIME';
 export const OVER_TIME_FAILED = 'OVER_TIME_FAILED';
 export const OVER_TIME_SUCCESS = 'OVER_TIME_SUCCESS';
+
+export const ADD_MEMBER = 'ADD_MEMBER';
+export const KICK_MEMBER = 'KICK_MEMBER';
+export const CLEAR_MEMBER = 'CLEAR_MEMBER';

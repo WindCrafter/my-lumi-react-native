@@ -5,7 +5,7 @@ const flatListData = [
     detail: 'Đơn nghỉ của bạn đã được xác nhận',
     time: '20:52',
     date: '01/01/2020',
-    type:'verify'
+    type: 'verify',
   },
   {
     key: '2',
@@ -13,7 +13,7 @@ const flatListData = [
     detail: 'Bạn chưa chấm công',
     time: '08:20',
     date: '01/01/2020',
-    type:'warning'
+    type: 'warning',
   },
   {
     key: '3',
@@ -21,7 +21,7 @@ const flatListData = [
     detail: 'Vui lòng xác nhận KPI tháng này',
     time: '20:52',
     date: '01/01/2020',
-    type:'confirm'
+    type: 'confirm',
   },
 ];
 export default flatListData;

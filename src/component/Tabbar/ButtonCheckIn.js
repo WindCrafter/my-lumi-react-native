@@ -15,8 +15,8 @@ const ButtonCheckIn = (props) => {
       onPress={onCheck}
       onLongPress={onLongPress}
       style={styles.container}>
-      <View style={styles.container}>
-        <Image source={imgs.buttoncheckin} />
+      <View style={styles.containerBt}>
+        <Image source={imgs.buttoncheckin} style={styles.img} />
       </View>
     </TouchableOpacity>
   );
@@ -33,8 +33,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 8,
+    marginTop: 8,
+  },
+  containerBt: {
+    width: 48,
+    height: 48,
+    backgroundColor: Colors.background,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 8,
   },
   text: {
     color: Colors.white,
+  },
+  img: {
+    alignSelf: 'center',
   },
 });

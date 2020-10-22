@@ -140,7 +140,7 @@ function ApplyOT(props) {
             blurOnSubmit={true}
           />
 
-          {reason && show ? (
+          {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
                 detail={'Sửa bug phát sinh.'}

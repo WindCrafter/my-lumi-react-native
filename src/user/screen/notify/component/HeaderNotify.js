@@ -1,12 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+interface Props extends TextInputProps {
+  title?: String;
+  detail?: String;
+}
+HeaderNotify.defaultProps = {
+  title: 'Thông báo',
+  detail: 'Nhắc việc và bản tin',
+};
 
-const HeaderNotifi = () => {
+const HeaderNotify = (props?: Props) => {
+  const {title, detail} = props;
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <Text style={styles.txtTitle}>Thông báo</Text>
-        <Text style={styles.txtDetail}>Nhắc việc và bản tin</Text>
+        <Text style={styles.txtTitle}>{title}</Text>
+        <Text style={styles.txtDetail}>{detail}</Text>
       </View>
       <View style={styles.line} />
       <View style={styles.bot} />
@@ -14,7 +23,7 @@ const HeaderNotifi = () => {
   );
 };
 
-export default HeaderNotifi;
+export default HeaderNotify;
 
 const styles = StyleSheet.create({
   container: {

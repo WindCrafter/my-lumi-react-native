@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const HeaderNotifi = () => {
+const HeaderNotify = () => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
@@ -14,7 +14,7 @@ const HeaderNotifi = () => {
   );
 };
 
-export default HeaderNotifi;
+export default HeaderNotify;
 
 const styles = StyleSheet.create({
   container: {

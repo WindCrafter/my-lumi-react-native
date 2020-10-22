@@ -38,3 +38,23 @@ export const getListUsersFailed = () => {
     type: types.GET_LIST_USERS_FAILED,
   };
 };
+
+export const addMember = (data) => {
+  return {
+    type: types.ADD_MEMBER,
+    payload: data,
+  };
+};
+
+export const kickMember = (data) => {
+  return {
+    type: types.KICK_MEMBER,
+    payload: data,
+  };
+};
+
+export const clearMember = (data) => {
+  return {
+    type: types.CLEAR_MEMBER,
+  };
+};

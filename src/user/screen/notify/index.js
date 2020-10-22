@@ -15,7 +15,7 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import HeaderNotifi from './component/HeaderNotifi';
+import HeaderNotify from './component/HeaderNotify';
 import ModalInfor from './component/ModalInfor';
 import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
@@ -63,7 +63,7 @@ const Notify = () => {
   return (
     <View style={styles.container}>
       <BarStatus />
-      <HeaderNotifi />
+      <HeaderNotify />
 
       <FlatList
         horizontal={false}

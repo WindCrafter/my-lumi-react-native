@@ -15,6 +15,8 @@ import langs from '../../../../common/language';
 import {Colors, imgs} from '../../../../utlis';
 import {getText} from '../../../../utlis/config/utlis';
 import {BarStatus, HeaderCustom, Input} from '../../../component';
+import Icon from 'react-native-vector-icons/Feather';
+import {_global} from '../../../../utlis/global/global';
 
 const DataTeam = [
   {name: 'Team App', id: '1'},
@@ -25,19 +27,23 @@ const DataTeam = [
 ];
 
 const DataUser = [
-  {name: 'Batman', team: ['Team App'], id: '1'},
-  {name: 'Joker', team: ['Team OS', 'Team App'], id: '2'},
-  {name: 'Supa Man', team: ['Team Test'], id: '3'},
-  {name: 'Flash', team: ['Team Back-End'], id: '4'},
-  {name: 'Wonder Boy', team: ['Team System'], id: '5'},
-  {name: 'Chạn Vương', team: ['Team System', 'Team OS'], id: '6'},
+  {name: 'Batman', tag: ['Team App'], id: '1'},
+  {name: 'Joker', tag: ['Team OS', 'Team App'], id: '2'},
+  {name: 'Supa Man', tag: ['Team Test'], id: '3'},
+  {name: 'Flash', tag: ['Team Back-End'], id: '4'},
+  {name: 'Wonder Boy', tag: ['Team System'], id: '5'},
+  {name: 'Chạn Vương', tag: ['Team System', 'Team OS'], id: '6'},
 ];
 
 const PickTeam = (props) => {
-  const {navigation} = props;
+  const {navigation, addMember, memberPicked} = props;
+  const newData = DataUser.filter(
+    (e) => !memberPicked.find((i) => i.id === e.id),
+  );
   const [search, setSearch] = useState('');
-  const [listUser, setListUser] = useState(DataUser);
+  const [listUser, setListUser] = useState(newData);
   const [tag, setTag] = useState([]);
+  const [userPicked, setUserPicked] = useState([]);
   const onGoBack = () => {
     navigation.goBack();
   };
@@ -58,7 +64,7 @@ const PickTeam = (props) => {
   const pushTag = (val) => {
     const newTag = [...tag, val];
     const newData = DataUser.filter((e) => {
-      return !newTag.find((t) => !e.team.find((ta) => ta === t));
+      return !newTag.find((t) => !e.tag.find((ta) => ta === t));
     });
     console.log(newData);
     setTag(newTag);
@@ -68,10 +74,39 @@ const PickTeam = (props) => {
   const removeTag = (val) => {
     let newTag = tag.filter((e) => !(e === val));
     const newData = DataUser.filter((e) => {
-      return !newTag.find((t) => !e.team.find((ta) => ta === t));
+      return !newTag.find((t) => !e.tag.find((ta) => ta === t));
     });
     setTag(newTag);
     setListUser(newData);
+  };
+
+  const pickedItem = (val) => {
+    setUserPicked([...userPicked, val]);
+    console.log([...userPicked, val]);
+  };
+
+  const removeItem = (val) => {
+    const newList = userPicked.filter((e) => !(e.id === val.id));
+    setUserPicked(newList);
+  };
+
+  const onPickTeam = () => {
+    addMember(userPicked);
+    navigation.goBack();
+  };
+
+  const onAlertPick = () => {
+    _global.Alert.alert({
+      title: 'Thông báo',
+      message: `Bạn muốn chọn ${userPicked.length} người dưới đây tham gia sự kiện chứ ?`,
+      messageColor: Colors.black,
+      leftButton: {
+        text: 'OK',
+        textStyle: {color: Colors.background},
+        onPress: onPickTeam,
+      },
+      rightButton: {text: 'Cancel', textStyle: {color: Colors.danger}},
+    });
   };
 
   const renderItem = ({item, index}) => {
@@ -100,15 +135,31 @@ const PickTeam = (props) => {
   const renderUser = ({item, index}) => {
     return (
       <>
-        <TouchableOpacity style={styles.rowUser}>
-          <View style={styles.viewImage}>
-            <Image
-              source={require('../../../../naruto.jpeg')}
-              style={styles.avatar}
-              resizeMode={'cover'}
-            />
+        <TouchableOpacity
+          style={styles.btUser}
+          onPress={() =>
+            userPicked.find((e) => e.id === item.id)
+              ? removeItem(item)
+              : pickedItem(item)
+          }>
+          <View style={styles.rowUser}>
+            <View style={styles.viewImage}>
+              <Image
+                source={require('../../../../naruto.jpeg')}
+                style={styles.avatar}
+                resizeMode={'cover'}
+              />
+            </View>
+            <Text style={styles.textUser}>{item.name}</Text>
           </View>
-          <Text style={styles.textUser}>{item.name}</Text>
+          {userPicked.find((e) => e.id === item.id) ? (
+            <Icon
+              name="check"
+              style={styles.icon}
+              size={36}
+              color={Colors.background}
+            />
+          ) : null}
         </TouchableOpacity>
         <View style={styles.lineUser} />
       </>
@@ -124,6 +175,9 @@ const PickTeam = (props) => {
         backgroundColor={'rgba(0,0,0,0)'}
         title={langs.pickTeam}
         goBack={onGoBack}
+        rightButton
+        textPress
+        onRight={onAlertPick}
       />
       <Input
         button
@@ -143,6 +197,7 @@ const PickTeam = (props) => {
             numColumns={2}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
+            scrollEnabled={false}
           />
         </View>
         <View style={styles.line} />
@@ -239,7 +294,7 @@ const styles = StyleSheet.create({
   },
   lineUser: {
     height: StyleSheet.hairlineWidth,
-    width: widthPercentageToDP(66),
+    width: widthPercentageToDP(80),
     alignSelf: 'center',
     backgroundColor: 'grey',
     marginVertical: 4,
@@ -249,5 +304,13 @@ const styles = StyleSheet.create({
   },
   viewUser: {
     flex: 5,
+  },
+  icon: {
+    alignSelf: 'center',
+  },
+  btUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
