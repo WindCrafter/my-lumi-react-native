@@ -13,7 +13,7 @@ import LoadInital from './src/admin/screen/loadInitial';
 import {Loading, Alert} from './src/component';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
-import Notify from './notify';
+// import Notify from './notify';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
