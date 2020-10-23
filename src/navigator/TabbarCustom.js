@@ -22,9 +22,10 @@ function TabbarCustom({
   navigation,
   deviceId,
   token,
-  checkIn, }) {
+  checkIn,
+}) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-
+  const [type, setType] = useState(true);
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -49,8 +50,8 @@ function TabbarCustom({
     }
   };
   const onCheckInWifi = () => {
-    Platform.OS === 'ios' ? initWifi() : requestLocationPermission()
-  }
+    Platform.OS === 'ios' ? initWifi() : requestLocationPermission();
+  };
   const initWifi = async () => {
     try {
       let set = await NetInfo.fetch('wifi');
@@ -71,7 +72,6 @@ function TabbarCustom({
       console.log(data);
     } catch (error) {
       navigation.navigate('CheckIn');
-      console.log(test);
 
       console.log('Cannot get current ssidUser!', {error});
     }
@@ -106,6 +106,7 @@ function TabbarCustom({
         index={2}
         route={state.routes[2]}
         tab={2}
+        
       />
       <ButtonTabbar
         state={state}

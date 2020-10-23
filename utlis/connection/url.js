@@ -17,4 +17,5 @@ export const URL = {
   LATE_EARLY: '/user/add-late-early',
   TAKE_LEAVE: '/user/add-take-leave',
   OVERTIME: '/user/add-overtime',
+  ADD_USERID_DEVICE: '/user/add-device-id'
 };

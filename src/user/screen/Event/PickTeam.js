@@ -97,7 +97,7 @@ const PickTeam = (props) => {
 
   const onAlertPick = () => {
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: 'TestNotify',
       message: `Bạn muốn chọn ${userPicked.length} người dưới đây tham gia sự kiện chứ ?`,
       messageColor: Colors.black,
       leftButton: {

@@ -57,7 +57,7 @@ const langs = {
   identity: 'CCCD/CMND:',
   inforCompany: 'Tổng quan công ty',
   staff: 'Nhân viên',
-  notify: 'Thông báo',
+  notify: 'TestNotify',
   errorNetwork: 'Lỗi mạng',
   day: 'Ngày:',
   bankAccount: 'Số tài khoản:',

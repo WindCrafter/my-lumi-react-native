@@ -5,11 +5,11 @@ interface Props extends TextInputProps {
   detail?: String;
 }
 HeaderNotify.defaultProps = {
-  title: 'Thông báo',
+  title: 'TestNotify',
   detail: 'Nhắc việc và bản tin',
 };
 
-const HeaderNotify = (props?: Props) => {
+export default function HeaderNotify (props?: Props) {
   const {title, detail} = props;
   return (
     <View style={styles.container}>
@@ -23,7 +23,6 @@ const HeaderNotify = (props?: Props) => {
   );
 };
 
-export default HeaderNotify;
 
 const styles = StyleSheet.create({
   container: {

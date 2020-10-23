@@ -5,7 +5,7 @@ const HeaderNotify = () => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
-        <Text style={styles.txtTitle}>Thông báo</Text>
+        <Text style={styles.txtTitle}>TestNotify</Text>
         <Text style={styles.txtDetail}>Nhắc việc và bản tin</Text>
       </View>
       <View style={styles.line} />
