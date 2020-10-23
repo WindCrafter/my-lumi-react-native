@@ -48,7 +48,7 @@ export default function TabbarUser() {
         name={'TestNotify'}
         component={notify}
         options={({route}) => ({
-          tabBarVisible: shouldShowTabbar(route),
+          tabBarVisible: shouldShowTabbar(3),
         })}
         
       />

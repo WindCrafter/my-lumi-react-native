@@ -11,6 +11,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Image,
+  Linking
 } from 'react-native';
 import Header from './component/header';
 import {Card} from 'native-base';
@@ -28,6 +29,7 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+const Schema = 'lumihr://';
 
 function Home(props) {
   const {navigation, nameUser, checkIn, checkInWifi, switchTo} = props;
@@ -37,7 +39,7 @@ function Home(props) {
   };
 
   const onPressLate = () => {
-    navigation.navigate('ApplyLate');
+    Linking.openURL(`${Schema}UserStack/TestNotify`)
   };
 
   const onPressBreak = () => {
