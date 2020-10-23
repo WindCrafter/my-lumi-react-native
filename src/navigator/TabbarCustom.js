@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,14 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
-import {Colors} from '../../utlis';
-import {TabbarIcon} from '../component';
+import { Colors } from '../../utlis';
+import { TabbarIcon } from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
-import {connect} from 'react-redux';
-import {checkInWifi} from '../redux/actions/check';
+import { connect } from 'react-redux';
+import { checkInWifi } from '../redux/actions/check';
 function TabbarCustom({
   state,
   descriptors,
@@ -26,7 +26,6 @@ function TabbarCustom({
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   const [type, setType] = useState(true);
-  const [test, setTest] = useState('');
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -39,8 +38,6 @@ function TabbarCustom({
         console.log('Thanh cong');
         initWifi();
         console.log(token);
-        console.log(Dimensions.get('window').width);
-        console.log(Dimensions.get('window').height);
       } else {
         initWifi();
 
@@ -51,6 +48,9 @@ function TabbarCustom({
     } catch (err) {
       console.warn(err);
     }
+  };
+  const onCheckInWifi = () => {
+    Platform.OS === 'ios' ? initWifi() : requestLocationPermission();
   };
   const initWifi = async () => {
     try {
@@ -72,9 +72,8 @@ function TabbarCustom({
       console.log(data);
     } catch (error) {
       navigation.navigate('CheckIn');
-      console.log(test);
 
-      console.log('Cannot get current ssidUser!', {error});
+      console.log('Cannot get current ssidUser!', { error });
     }
   };
   if (focusedOptions.tabBarVisible === false) {
@@ -99,10 +98,7 @@ function TabbarCustom({
         route={state.routes[1]}
         tab={1}
       />
-      <ButtonCheckIn
-        navigation={navigation}
-        onCheck={requestLocationPermission}
-      />
+      <ButtonCheckIn navigation={navigation} onCheck={onCheckInWifi} />
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
@@ -110,6 +106,7 @@ function TabbarCustom({
         index={2}
         route={state.routes[2]}
         tab={2}
+
       />
       <ButtonTabbar
         state={state}

@@ -1,6 +1,6 @@
 /**
- * Created by nghinv on Fri Feb 07 2020
- * Copyright (c) 2020 nghinv@lumi.biz
+ * Created by phongdt on Fri Feb 07 2020
+ * Copyright (c) 2020 phongdt@lumi.biz
  */
 
 import React, { useState, useEffect } from 'react';
@@ -12,7 +12,7 @@ import { _global } from './utlis/global/global';
 import LoadInital from './src/admin/screen/loadInitial';
 import { Loading, Alert } from './src/component';
 import DeviceInfo from 'react-native-device-info';
-import moment from 'moment';
+import Notify from './notify';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,6 +65,8 @@ const AppNavigator = (props) => {
           _global.Alert = ref;
         }}
       />
+      <Notify />
+
     </>
   );
 };

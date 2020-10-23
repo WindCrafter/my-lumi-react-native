@@ -10,10 +10,13 @@ target 'LumiHR' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
   target 'LumiHRTests' do
     inherit! :complete
     # Pods for testing
   end
+  
 # Add the Firebase pod for Google Analytics
 pod 'Firebase/Analytics'
 
@@ -33,7 +36,9 @@ pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.po
     flipper_post_install(installer)
   end
 end
-
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 2.9.3', '< 3.0'
+end
 target 'LumiHR-tvOS' do
   # Pods for LumiHR-tvOS
 

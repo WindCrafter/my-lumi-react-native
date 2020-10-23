@@ -33,7 +33,7 @@ function Home(props) {
   const {navigation, nameUser, checkIn, checkInWifi, switchTo} = props;
 
   const onPressNotify = () => {
-    navigation.navigate('Thông báo');
+    navigation.navigate('TestNotify');
   };
 
   const onPressLate = () => {

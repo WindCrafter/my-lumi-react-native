@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import flatListData from './data';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import HeaderNotifi from './component/HeaderNotifi';
+import HeaderNotify from './component/HeaderNotify';
 import { BarStatus } from '../../../component';
 import { Card } from 'native-base';
 
@@ -31,7 +31,7 @@ const Notify = () => {
   return (
     <View>
       <BarStatus />
-      <HeaderNotifi />
+      <HeaderNotify />
       <FlatList
         style={styles.Container8}
         horizontal={false}

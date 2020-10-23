@@ -3,6 +3,8 @@ import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
+import {Card} from 'native-base';
+
 interface Props extends Combine {
   width?: String | Number;
   height?: String | Number;
@@ -14,12 +16,12 @@ interface Props extends Combine {
   department?: String;
   defaultTimeIn?: String;
   defaultTimeOut?: String;
+  marginBottom?: String;
 }
 
 Combine.defaultProps = {
   width: '96%',
   height: 104,
-  backgroundColor: Colors.white,
   timeIn: '08:00',
   timeOut: '18:00',
   status: 'ontime',
@@ -29,6 +31,7 @@ Combine.defaultProps = {
   shift: 'Ca hành chính',
   defaultTimeIn: '08:00',
   defaultTimeOut: '18:00',
+  marginBottom: 16,
 };
 
 export default function Combine(props?: Props) {
@@ -46,6 +49,7 @@ export default function Combine(props?: Props) {
     defaultTimeOut,
     department,
     shift,
+    marginBottom,
     ...otherProps
   } = props;
 
@@ -56,15 +60,15 @@ export default function Combine(props?: Props) {
         {
           width,
           height,
-          backgroundColor,
+          marginBottom,
         },
         containerStyle,
       ]}>
-      <View style={styles.time}>
+      <Card style={styles.time}>
         <Text style={styles.day}>{day}</Text>
         <Text style={styles.day}>{date}</Text>
-      </View>
-      <View style={styles.viewDetail}>
+      </Card>
+      <Card style={styles.viewDetail}>
         <View style={styles.top}>
           <View style={styles.topDetail}>
             <Text style={styles.shift}>{shift}</Text>
@@ -98,7 +102,7 @@ export default function Combine(props?: Props) {
             )}
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 }
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     // borderBottomWidth: 0.25,
     // borderColor: Colors.black,
-    marginBottom:16
+    borderRadius: 16,
   },
   time: {
     width: 48,
@@ -190,5 +194,5 @@ const styles = StyleSheet.create({
     width: '40%',
     paddingVertical: 2,
   },
-  clock: {margin: 4},
+  clock: {margin: 4, width: 24, height: 24},
 });

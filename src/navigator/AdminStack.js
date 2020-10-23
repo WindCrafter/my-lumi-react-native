@@ -130,7 +130,7 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'Thông báo'}
+        name={'TestNotify'}
         component={notify}
         options={{
           headerBackTitleVisible: false,

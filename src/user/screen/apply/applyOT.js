@@ -242,13 +242,11 @@ function ApplyOT(props) {
           ) : null
         }
       </ScrollView>
-      <View style={styles.bottom}>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onSetOverTime}
         />
-      </View>
     </View>
   );
 }

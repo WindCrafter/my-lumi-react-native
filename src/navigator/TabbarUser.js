@@ -12,6 +12,13 @@ import { Colors } from '../../utlis';
 import notify from '../user/container/notify';
 
 const BotStack = createBottomTabNavigator();
+const shouldShowTabbar = (route) => {
+  try {
+    return route.state.routes[route.state.index].params.tabBarVisible;
+  } catch (error) {
+    return true;
+  }
+};
 StatusBar.setBarStyle('dark-content');
 export default function TabbarUser() {
   return (
@@ -23,10 +30,35 @@ export default function TabbarUser() {
         activeTintColor: Colors.background,
       }}
       tabBar={(props) => <TabbarCustom {...props} />}>
-      <BotStack.Screen name={'Home'} component={home} />
-      <BotStack.Screen name={'Book lịch'} component={book} />
-      <BotStack.Screen name='notify' component={notify} />
-      <BotStack.Screen name={'Cá nhân'} component={account} />
+      <BotStack.Screen
+        name={'Home'}
+        component={home}
+        options={({ route }) => ({
+          tabBarVisible: shouldShowTabbar(route),
+        })}
+      />
+      <BotStack.Screen
+        name={'Book lịch'}
+        component={book}
+        options={({ route }) => ({
+          tabBarVisible: shouldShowTabbar(route),
+        })}
+      />
+      <BotStack.Screen
+        name={'TestNotify'}
+        component={notify}
+        options={({ route }) => ({
+          tabBarVisible: shouldShowTabbar(route),
+        })}
+
+      />
+      <BotStack.Screen
+        name={'Cá nhân'}
+        component={account}
+        options={({ route }) => ({
+          tabBarVisible: shouldShowTabbar(route),
+        })}
+      />
     </BotStack.Navigator>
   );
 }
