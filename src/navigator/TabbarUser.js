@@ -25,7 +25,7 @@ export default function TabbarUser() {
       tabBar={(props) => <TabbarCustom {...props} />}>
       <BotStack.Screen name={'Home'} component={home} />
       <BotStack.Screen name={'Book lịch'} component={book} />
-      <BotStack.Screen name={'Thông báo'} component={notify} />
+      <BotStack.Screen name='notify' component={notify} />
       <BotStack.Screen name={'Cá nhân'} component={account} />
     </BotStack.Navigator>
   );

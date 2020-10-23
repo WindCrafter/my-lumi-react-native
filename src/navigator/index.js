@@ -5,7 +5,7 @@
 
 import React from 'react';
 // import { StatusBar } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
@@ -21,10 +21,16 @@ import firstLogin from '../admin/container/firstLogin';
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
 
+const linking = {
+  prefixes: ['lumihr://'],
+};
+
 export default function Navigator(props) {
-  const {loginSuccess, changePass, role} = props;
+  const { loginSuccess, changePass, role } = props;
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={linking}
+    >
       <RootStack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',
@@ -52,8 +58,8 @@ export default function Navigator(props) {
         ) : role === 'admin' ? (
           <RootStack.Screen name={'AdminStack'} component={AdminStack} />
         ) : (
-          <RootStack.Screen name={'UserStack'} component={UserStack} />
-        )}
+                <RootStack.Screen name={'UserStack'} component={UserStack} />
+              )}
       </RootStack.Navigator>
     </NavigationContainer>
   );

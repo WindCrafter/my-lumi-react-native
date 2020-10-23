@@ -3,14 +3,14 @@
  * Copyright (c) 2020 nghinv@lumi.biz
  */
 
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {StatusBar, Image, UIManager, LayoutAnimation} from 'react-native';
-import {autoLogin, getDeviceId} from './src/redux/actions/authen';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Linking, UIManager, LayoutAnimation } from 'react-native';
+import { autoLogin, getDeviceId } from './src/redux/actions/authen';
 import Navigator from './src/navigator';
-import {_global} from './utlis/global/global';
+import { _global } from './utlis/global/global';
 import LoadInital from './src/admin/screen/loadInitial';
-import {Loading, Alert} from './src/component';
+import { Loading, Alert } from './src/component';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 
@@ -18,7 +18,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const AppNavigator = (props) => {
-  const {token, autoLoginStatus, autoLogin, getDeviceId, deviceId} = props;
+  const { token, autoLoginStatus, autoLogin, getDeviceId, deviceId } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +29,19 @@ const AppNavigator = (props) => {
       setLoading(false);
     }, 2000);
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId]);
+
+  const handleOpenURL = () => {
+
+  };
+
+  useEffect(() => {
+    Linking.getInitialURL().then(url => handleOpenURL({ url }));
+    Linking.addEventListener('url', handleOpenURL);
+
+    () => {
+      Linking.removeEventListener('url', this.handleOpenURL);
+    }
+  }, []);
 
   if (loading) {
     return <LoadInital />;
