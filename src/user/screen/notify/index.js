@@ -48,48 +48,44 @@ const Notify = (props) => {
       }
     };
     return (
-<<<<<<< HEAD
-      <TouchableOpacity onPress={onShowModal}>
-=======
       <TouchableOpacity onPress={onShow}>
->>>>>>> 13e807f0307746561d0151e7ee2c3489da76d561
-          <Card style={styles.card}>
-            <Image style={styles.img} source={item.image} resizeMode="cover" />
-            <View style={styles.viewText}>
-              <Text numberOfLines={3}>{item.detail}</Text>
-              <Text style={styles.time}>
-                {item.time} - {item.date}
-              </Text>
-            </View>
-          </Card>
-        </TouchableOpacity>
+        <Card style={styles.card}>
+          <Image style={styles.img} source={item.image} resizeMode="cover" />
+          <View style={styles.viewText}>
+            <Text numberOfLines={3}>{item.detail}</Text>
+            <Text style={styles.time}>
+              {item.time} - {item.date}
+            </Text>
+          </View>
+        </Card>
+      </TouchableOpacity>
     );
   };
   return (
-        <View style={styles.container}>
-          <BarStatus />
-          <HeaderNotify />
+    <View style={styles.container}>
+      <BarStatus />
+      <HeaderNotify />
 
-          <FlatList
-            ref={flatListRef}
-            horizontal={false}
-            data={flatListData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.key}
-          />
-          <ModalInfor showModal={showModal} hideModal={hideModal} />
-        </View>
+      <FlatList
+        ref={flatListRef}
+        horizontal={false}
+        data={flatListData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.key}
+      />
+      <ModalInfor showModal={showModal} hideModal={hideModal} />
+    </View>
   );
 };
 
 export default Notify;
 
 const styles = StyleSheet.create({
-          container: {
-          flex: 1,
+  container: {
+    flex: 1,
   },
   card: {
-          borderRadius: 16,
+    borderRadius: 16,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
@@ -100,24 +96,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   img: {
-          width: 48,
+    width: 48,
     height: 48,
     borderRadius: 24,
   },
   viewText: {
-          flex: 4,
+    flex: 4,
     paddingLeft: 8,
     justifyContent: 'center',
   },
   time: {
-          fontSize: 10,
+    fontSize: 10,
     fontWeight: 'normal',
     fontStyle: 'normal',
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
   },
   modal: {
-          justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     margin: 0,
     width: 40,
