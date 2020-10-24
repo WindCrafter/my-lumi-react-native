@@ -47,8 +47,8 @@ export default function TabbarUser() {
       <BotStack.Screen
         name={'TestNotify'}
         component={notify}
-        options={({ route }) => ({
-          tabBarVisible: shouldShowTabbar(route),
+        options={({route}) => ({
+          tabBarVisible: shouldShowTabbar(3),
         })}
 
       />
