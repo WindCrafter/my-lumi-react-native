@@ -30,7 +30,7 @@ if (
 }
 
 function Home(props) {
-  const {navigation, nameUser, checkIn, checkInWifi, switchTo} = props;
+  const {navigation, nameUser, timeIn, timeOut, switchTo} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -63,7 +63,11 @@ function Home(props) {
               <Event />
             </Card>
             <Card style={styles.card}>
-              <HistoryWeek navigation={navigation}/>
+              <HistoryWeek
+                navigation={navigation}
+                timeIn={timeIn}
+                timeOut={timeOut}
+              />
             </Card>
           </ScrollView>
           <FloatButton

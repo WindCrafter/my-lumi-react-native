@@ -83,9 +83,9 @@ function* sagaAddUserIdDevice(action) {
     const data = {
       deviceId: action.payload.deviceId,
     };
-    const token = action.payload;
+    const token = action.payload.token;
     const response = yield _POST(URL_ADD_USERID_DEVICE, data, token);
-    console.log(response);
+    console.log('=======>', response);
     if (response.success && response.statusCode === 200) {
       yield put(addUserIdDeviceSuccess(response.data));
       _global.Alert.alert({

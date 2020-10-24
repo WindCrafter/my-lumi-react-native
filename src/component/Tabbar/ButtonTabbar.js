@@ -4,7 +4,15 @@ import {Colors} from '../../../utlis';
 import {TabbarIcon} from '..';
 import {SCREEN_WIDTH} from '../../../utlis/config/utlis';
 
-const ButtonTabbar = ({descriptors, navigation, state, route, index, tab}) => {
+const ButtonTabbar = ({
+  descriptors,
+  navigation,
+  state,
+  route,
+  index,
+  tab,
+  title,
+}) => {
   const {options} = descriptors[route.key];
 
   const isFocused = state.index === index;
@@ -40,7 +48,7 @@ const ButtonTabbar = ({descriptors, navigation, state, route, index, tab}) => {
       <TabbarIcon tab={tab} focused={isFocused} />
       <Text
         style={[styles.text, {color: isFocused ? Colors.background : 'gray'}]}>
-        {route.name}
+        {title}
       </Text>
     </TouchableOpacity>
   );
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:8,
+    marginTop: 8,
   },
   text: {
     marginVertical: 4,
