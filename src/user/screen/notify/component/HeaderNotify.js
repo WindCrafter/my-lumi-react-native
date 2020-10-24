@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-interface Props extends TextInputProps {
+interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
 }
 HeaderNotify.defaultProps = {
-  title: 'TestNotify',
+  title: 'Thông báo',
   detail: 'Nhắc việc và bản tin',
 };
 

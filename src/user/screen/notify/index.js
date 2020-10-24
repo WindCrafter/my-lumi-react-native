@@ -24,7 +24,7 @@ import { Combine } from '../../../component';
 const Notify = (props) => {
   const { navigation } = props;
   const [showModal, setShowModal] = useState(false);
-
+  const { flatListRef}  =useRef();
   const hideModal = () => {
     setShowModal(false);
   };

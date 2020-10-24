@@ -9,6 +9,9 @@ const initialState = {
   changePass: false,
   autoLoginStatus: false,
   memberPicked: [],
+  notificationDevice: {
+    deviceIds: null,
+  },
 };
 
 export default function user(state = initialState, action) {
@@ -34,6 +37,26 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         memberPicked: [],
+      };
+    case types.ADD_USER_ID_DEVICE:
+      return {
+        ...state,
+        notificationDevice: {
+          deviceIds:
+            action.payload && action.payload.deviceIds
+              ? action.payload.deviceIds
+              : state.notificationDevice.deviceIds,
+        },
+      };
+    case types.ADD_USER_ID_DEVICE_SUCCESS:
+      return {
+        ...state,
+        notificationDevice: {
+          deviceIds:
+            action.payload && action.payload.deviceIds
+              ? action.payload.deviceIds
+              : state.notificationDevice.deviceIds,
+        },
       };
     default:
       return state;

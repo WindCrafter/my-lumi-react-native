@@ -22,7 +22,7 @@ const Account = (props) => {
   const email = emailUser;
   const onLogOut = () => {
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Bạn thực sự muốn đăng xuất ?',
       messageColor: Colors.danger,
       leftButton: {

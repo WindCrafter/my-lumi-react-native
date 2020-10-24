@@ -1,7 +1,7 @@
 export const URL = {
-  LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
+  // LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
   // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
-
+  LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
   CHANGE_PASS: '/user/need-change-pass',
   ADD_USER: '/admin/add-user',
@@ -15,5 +15,6 @@ export const URL = {
   LATE_EARLY: '/user/add-late-early',
   TAKE_LEAVE: '/user/add-take-leave',
   OVERTIME: '/user/add-overtime',
-  ADD_USERID_DEVICE: '/user/add-device-id'
+  ADD_USERID_DEVICE: '/user/add-device-id',
+  REMOVE_USERID_DEVICE: '/user/remove-device-id',
 };

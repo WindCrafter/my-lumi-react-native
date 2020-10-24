@@ -185,7 +185,7 @@ function UpdateProfile(props) {
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Sai định dạng số điện thoại',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -193,7 +193,7 @@ function UpdateProfile(props) {
     }
     if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -201,7 +201,7 @@ function UpdateProfile(props) {
     }
     if (!regId.test(identity)) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Sai định dang CCCD/CMND',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},

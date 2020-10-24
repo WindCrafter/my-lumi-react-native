@@ -57,7 +57,7 @@ function Contact(props) {
       console.log('phone->>>>>', phoneNumber);
       if (phoneNumber === '') {
         _global.Alert.alert({
-          title: 'TestNotify',
+          title: 'Thông báo',
           message: 'Lumier này chưa cung cấp số điện thoại.',
           messageColor: Colors.danger,
           leftButton: {text: 'OK'},
@@ -70,7 +70,7 @@ function Contact(props) {
     const copyToClipboard = () => {
       if (!data.item.advance || !data.item.advance.bankAccount) {
         _global.Alert.alert({
-          title: 'TestNotify',
+          title: 'Thông báo',
           message: 'Lumier này chưa cung cấp số tài khoản.',
           messageColor: Colors.danger,
           leftButton: {text: 'OK'},

@@ -112,7 +112,7 @@ const FirstLogin = (props) => {
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Sai số điện thoại.\nVui lòng kiểm tra lại.',
         messageColor: 'red',
         leftButton: {text: 'OK'},

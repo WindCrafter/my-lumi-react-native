@@ -113,7 +113,7 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'TestNotify'}
+        name={'Thông báo'}
         component={notify}
         options={{
           headerBackTitleVisible: false,

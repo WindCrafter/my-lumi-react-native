@@ -52,7 +52,7 @@ function* sagaCheckIn(action) {
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -63,7 +63,7 @@ function* sagaCheckIn(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
       leftButton: {text: 'OK'},
@@ -121,7 +121,7 @@ function* sagaCheckInWifi(action) {
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {
@@ -134,7 +134,7 @@ function* sagaCheckInWifi(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
       leftButton: {text: 'OK'},
@@ -164,7 +164,7 @@ function* sagaCreateQR(action) {
     } else {
       yield put(createQRFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -175,7 +175,7 @@ function* sagaCreateQR(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
 
@@ -213,7 +213,7 @@ function* sagaSetLateEarly(action) {
     } else {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
@@ -224,7 +224,7 @@ function* sagaSetLateEarly(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
@@ -261,7 +261,7 @@ function* sagaTakeLeave(action) {
     } else {
       yield put(takeLeaveFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
@@ -273,7 +273,7 @@ function* sagaTakeLeave(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
@@ -311,7 +311,7 @@ function* sagaOverTime(action) {
     } else {
       yield put(overTimeFailed());
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -322,7 +322,7 @@ function* sagaOverTime(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Lỗi mạng',
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,

@@ -41,7 +41,7 @@ const Login = (props) => {
     }
     if (pass.length === 0) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Mật khẩu không được để trống.',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
