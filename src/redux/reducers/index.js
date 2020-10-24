@@ -28,7 +28,13 @@ const authPersistConfig = {
 const checkPersist = {
   key: 'check',
   storage: AsyncStorage,
-  whitelist: ['dateCheckIn', 'timeCheckIn', 'dateCheckOut', 'timeCheckOut'],
+  whitelist: [
+    'dateCheckIn',
+    'timeCheckIn',
+    'dateCheckOut',
+    'timeCheckOut',
+    'type',
+  ],
 };
 
 const rootReducer = combineReducers({

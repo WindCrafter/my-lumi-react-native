@@ -16,15 +16,10 @@ function HeaderCheck(props?: Props) {
       <TouchableOpacity style={styles.body} onPress={onPressBack}>
         <Image style={styles.cancel} source={imgs.cancel} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.body} onPress={onPress}>
+      <TouchableOpacity style={styles.body} disabled>
         <Text style={styles.txtName}>{type}</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.notify} onPress={pressHistory}>
-        <View style={styles.boderNotify}>
-        <Image source={imgs.information} style={styles.img} />
-        </View>
-      </TouchableOpacity>
+      <TouchableOpacity style={styles.notify} disabled />
     </View>
   );
 }
@@ -83,18 +78,16 @@ const styles = StyleSheet.create({
     width: wp(30),
     justifyContent: 'center',
     alignSelf: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   },
   boderNotify: {
     backgroundColor: Colors.white,
     height: 32,
-width:32,
+    width: 32,
     borderRadius: 20,
-    alignItems:'center',
-    justifyContent:'center'
-
-  }
-  ,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   body: {
     alignContent: 'center',
     alignSelf: 'center',

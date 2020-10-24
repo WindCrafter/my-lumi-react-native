@@ -39,28 +39,23 @@ const CheckIn = (props) => {
     checkIn,
     deviceId,
     token,
-    goHistory,
     checkInWifi,
     switchTo,
+    type,
   } = props;
   // console.log(checkInWifi)
 
   const [ssidUser, setSsidUser] = useState('');
   const [bssidUser, setBssidUser] = useState('');
   const [code, setCode] = useState('');
-  const [type, setType] = useState(true);
   const [method, setMedthod] = useState('qr');
-
-  const onChangeType = () => {
-    setType(!type);
-  };
 
   const onCheckInCode = () => {
     const data = {
       typeCheck: 'code',
       deviceId: deviceId,
       codeString: code,
-      type: type ? 'in' : 'out',
+      type: type,
       token: token,
     };
     checkIn(data);
@@ -71,9 +66,9 @@ const CheckIn = (props) => {
     try {
       let state = await NetInfo.fetch('wifi');
       const data = {
-        ssid: '122',
+        ssid: state.details.ssid,
         bssid: state.details.bssid,
-        type: type ? 'in' : 'out',
+        type: type,
         deviceId: deviceId,
         token: token,
       };
@@ -90,9 +85,9 @@ const CheckIn = (props) => {
       console.log('Cannot get current ssidUser!', {error});
     }
   };
-  const onCheckInWifi= () => {
-    Platform.OS==='ios' ? initWifi() : requestLocationPermission()
-  }
+  const onCheckInWifi = () => {
+    Platform.OS === 'ios' ? initWifi() : requestLocationPermission();
+  };
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -128,7 +123,7 @@ const CheckIn = (props) => {
     const data = {
       deviceId: deviceId,
       codeString: e.data,
-      type: type ? 'in' : 'out',
+      type: type,
       typeCheck: 'qrCode',
       token: token,
     };
@@ -197,9 +192,7 @@ const CheckIn = (props) => {
                   <Text style={styles.txtTopWifi}>{bssidUser}</Text>
                 </View>
               </Card>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={onCheckInWifi}>
+              <TouchableOpacity style={styles.button} onPress={onCheckInWifi}>
                 <Text style={styles.doneWifi}>Kết nối lại</Text>
               </TouchableOpacity>
             </View>
@@ -234,9 +227,7 @@ const CheckIn = (props) => {
       </ScrollView>
       <HeaderCheck
         title={langs.checkIn}
-        type={type ? 'Check-in' : 'Check-out'}
-        onPress={onChangeType}
-        pressHistory={goHistory}
+        type={`Check-${type}`}
         onPressBack={onPressBack}
       />
       <Bottom
@@ -392,7 +383,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   not: {flex: 0},
-  button:{
+  button: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.white,

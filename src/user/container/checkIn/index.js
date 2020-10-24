@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
   deviceId: state.authen.deviceId,
   token: state.authen.token,
   currentUser: state.user.currentUser,
+  type: state.check.type,
 });
 
 const mapDispatchToProps = {

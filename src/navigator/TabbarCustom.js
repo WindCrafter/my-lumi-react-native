@@ -23,9 +23,9 @@ function TabbarCustom({
   deviceId,
   token,
   checkIn,
+  type,
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-  const [type, setType] = useState(true);
   const requestLocationPermission = async () => {
     try {
       const granted = await request(
@@ -59,12 +59,11 @@ function TabbarCustom({
       const data = {
         ssid: set.details.ssid,
         bssid: set.details.bssid,
-        type: type ? 'in' : 'out',
+        type: type,
         deviceId: deviceId,
         token: token,
       };
       checkIn(data);
-      setType(!type);
       console.log(
         'Your current connected wifi ssidUser is ' + set.details.ssid,
       );
@@ -89,11 +88,13 @@ function TabbarCustom({
         index={0}
         route={state.routes[0]}
         tab={0}
+        title={'Trang chủ'}
       />
       <ButtonTabbar
         state={state}
         descriptors={descriptors}
         navigation={navigation}
+        title={'Lịch trình'}
         index={1}
         route={state.routes[1]}
         tab={1}
@@ -103,6 +104,7 @@ function TabbarCustom({
         state={state}
         descriptors={descriptors}
         navigation={navigation}
+        title={'Thông báo'}
         index={2}
         route={state.routes[2]}
         tab={2}
@@ -112,6 +114,7 @@ function TabbarCustom({
         state={state}
         descriptors={descriptors}
         navigation={navigation}
+        title={'Cá nhân'}
         index={3}
         route={state.routes[3]}
         tab={3}
@@ -134,6 +137,7 @@ const mapStateToProps = (state) => {
     deviceId: state.authen.deviceId,
     token: state.authen.token,
     currentUser: state.user.currentUser,
+    type: state.check.type,
   };
 };
 

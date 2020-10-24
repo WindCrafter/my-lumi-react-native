@@ -114,3 +114,9 @@ export const switchTo = () => {
     type: types.SWITCH_TO_CHECKIN,
   };
 };
+
+export const resetCheck = () => {
+  return {
+    type: types.RESET_CHECK,
+  };
+};
