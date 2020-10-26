@@ -241,12 +241,13 @@ function ApplyOT(props) {
             />
           ) : null
         }
-      </ScrollView>
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onSetOverTime}
         />
+      </ScrollView>
+     
     </View>
   );
 }
@@ -307,8 +308,6 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    position: 'absolute',
-    bottom: '10%',
   },
   row: {
     flexDirection: 'row',

@@ -441,13 +441,13 @@ function ApplyBreak(props) {
             show={show}
           />
         ) : null}
-        
+
+        <Button
+          title={'Hoàn thành '}
+          containerStyle={styles.complete}
+          onPress={onComplete}
+        />
       </ScrollView>
-      <Button
-        title={'Hoàn thành '}
-        containerStyle={styles.complete}
-        onPress={onComplete}
-      />
     </View>
   );
 }
@@ -496,11 +496,6 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-  },
-  bottom: {
-    position: 'absolute',
-    bottom: 32,
-    left: wp(12.5),
   },
   button: {
     backgroundColor: Colors.background,

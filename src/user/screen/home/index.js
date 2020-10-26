@@ -41,7 +41,7 @@ export default function Home(props) {
   };
 
   const onPressLate = () => {
-    Linking.openURL(`${Schema}UserStack/TestNotify`);
+    navigation.navigate('ApplyLate');
   };
   const onPressBreak = () => {
     navigation.navigate('ApplyBreak');
