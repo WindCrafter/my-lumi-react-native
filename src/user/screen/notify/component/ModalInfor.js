@@ -17,6 +17,8 @@ import {
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
 const DATA = [
   {
     shift: 'Ca hành chính',
@@ -106,9 +108,15 @@ const ModalInfor = (props) => {
           style={
             DATA.length > 5 ? styles.modalviewLong : styles.modalviewShort
           }>
-          <View>
-            <Text>Thống kê đi muộn</Text>
-            <Image source={imgs.cancel} />
+          <View style={styles.container}>
+            <View style={styles.body} />
+
+            <View style={styles.bodyMid}>
+              <Text style={styles.title}>Thống kê đi muộn</Text>
+            </View>
+            <TouchableOpacity style={styles.body} onPress={hideModal}>
+              <Image source={imgs.cancel} style={styles.img} />
+            </TouchableOpacity>
           </View>
           <ScrollView horizontal={false}>
             <FlatList data={listData} renderItem={renderItem} />
@@ -151,4 +159,28 @@ const styles = StyleSheet.create({
   complete: {
     backgroundColor: Colors.background,
   },
+  bodyMid: {
+    alignContent: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 48,
+    width: wp(40),
+    alignItems: 'center',
+  },
+  body: {
+    alignContent: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 48,
+    width: wp(30),
+    alignItems: 'center',
+  },
+  container: {
+    flexDirection: 'row',
+    marginBottom: 16,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  title: {fontSize: 16, fontWeight: 'bold'},
+  img: {width: 18, height: 18},
 });

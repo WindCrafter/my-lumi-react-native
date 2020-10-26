@@ -107,11 +107,16 @@ function* sagaAddUserIdDevice(action) {
 export function* watchAddUserIdDevice() {
   yield takeLatest(types.ADD_USER_ID_DEVICE, sagaAddUserIdDevice);
 }
-function* sagaRemoveUserIdDevice(action,device) {
+function* sagaRemoveUserIdDevice(action) {
   try {
     console.log(action);
+    let userId;
+    OneSignal.getPermissionSubscriptionState((status) => {
+      (userId = status.userId), console.log(1);
+    });
+    console.log(userId);
     const data = {
-      deviceId: device.userId,
+      deviceId: userId,
     };
     const token = action.payload;
     const response = yield _POST(URL_REMOVE_USERID_DEVICE, data, token);

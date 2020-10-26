@@ -24,6 +24,9 @@ import CheckIn from '../user/container/checkIn/index';
 import PickTeam from '../user/container/event/PickTeam';
 import ForgotPass from '../user/container/forgotPassword/forgotPass'
 import allHistory from '../user/container/allHistory/index'
+import Confirm from '../user/screen/notify/type/confirm'
+import Verify from '../user/screen/notify/type/verify'
+
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -115,6 +118,28 @@ export default function UserStack() {
       <Stack.Screen
         name={'Thông báo'}
         component={notify}
+        options={{
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: 'rgb(47, 172, 79)',
+          },
+          headerTintColor: 'white',
+        }}
+      />
+      <Stack.Screen
+        name={'Xác nhận'}
+        component={Confirm}
+        options={{
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: 'rgb(47, 172, 79)',
+          },
+          headerTintColor: 'white',
+        }}
+      />
+      <Stack.Screen
+        name={'Xác nhận KPI'}
+        component={Verify}
         options={{
           headerBackTitleVisible: false,
           headerStyle: {

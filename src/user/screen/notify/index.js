@@ -21,14 +21,11 @@ import {Colors} from '../../../../utlis';
 
 const Notify = (props) => {
   const {navigation} = props;
-  const [showModal, setShowModal] = useState(false);
   const [toTop, setToTop] = useState(false);
   const [position, setPosition] = useState(0);
   const refList = useRef('');
 
-  const hideModal = () => {
-    setShowModal(false);
-  };
+ 
 
   const onToTop = (e) => {
     const pos = e.nativeEvent.contentOffset.y;
@@ -45,20 +42,17 @@ const Notify = (props) => {
   };
 
   const renderItem = ({item, index}) => {
-    const onShowModal = () => {
-      setShowModal(true);
-      console.log('=======', flatListData.length);
-    };
+   
     const onShow = () => {
       switch (item.type) {
         case 'confirm':
-          onShowModal();
+          navigation.navigate('Xác nhận');
           break;
         case 'warning':
-          onShowModal();
+          navigation.navigate('CheckIn');
           break;
         case 'verify':
-          onShowModal;
+          navigation.navigate('Xác nhận KPI');
           break;
       }
     };
@@ -89,7 +83,6 @@ const Notify = (props) => {
         keyExtractor={(item) => item.key}
         onScroll={onToTop}
       />
-      <ModalInfor showModal={showModal} hideModal={hideModal} />
       {toTop ? (
         <View style={styles.toTop}>
           <TouchableOpacity style={styles.btToTop} onPress={onScrolltoTop}>

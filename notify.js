@@ -6,7 +6,7 @@ import {addUserIdDevice} from './src/redux/actions/user.js';
 const Schema = 'lumihr://';
 
 function Notify(props) {
-  const { token, addUserIdDevice, deviceIds} = props;
+  const {token, addUserIdDevice, deviceIds} = props;
   const onIds = (device) => {
     console.log('Device info: ', device.userId);
     const data = {
@@ -14,25 +14,23 @@ function Notify(props) {
       token: token,
     };
     console.log(data);
-    if (deviceIds.indexOf(device.userId)===1) {
+    if (!(deviceIds.indexOf(device.userId) > -1)) {
       addUserIdDevice(data);
-      console.log('Da thay doi thiet bi');
+      console.log('Da them thiet bi');
     }
     console.log('-----------device', deviceIds);
     console.log('-----------device ID', device.userId);
-
   };
   const onReceived = (notification) => {
     console.log('Notification received: ', notification);
   };
-  const onOpened = (openResult,device) => {
+  const onOpened = (openResult, device) => {
     console.log('Message: ', openResult.notification.payload.body);
     console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
     setTimeout(() => {
       console.log('openURL succcess--->');
-      console.log('-----------device ID', device.userId);
 
       Linking.openURL(`${Schema}UserStack/TabbarUser/TestNotify`)
         .then((res) => {})
