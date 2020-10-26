@@ -7,7 +7,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Button} from '../../../../component';
 
 const PickerCustom = (props) => {
-  const {value, onPress, onChange, mode, show, locale} = props;
+  const {value, onPress, onChange, mode, show, locale, minimumDate} = props;
   return (
     <Modal
       isVisible={show}
@@ -25,6 +25,7 @@ const PickerCustom = (props) => {
             display="default"
             onChange={onChange}
             is24Hour={true}
+            minimumDate={minimumDate}
             {...props}
             locale={locale}
           />

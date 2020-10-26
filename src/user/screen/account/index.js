@@ -17,7 +17,7 @@ import {Card} from 'native-base';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
-  const {logOut, nameUser, emailUser, navigation} = props;
+  const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
   const name = nameUser;
   const email = emailUser;
   const onLogOut = () => {
@@ -33,7 +33,11 @@ const Account = (props) => {
       rightButton: {text: 'Cancel'},
     });
   };
-  
+
+  useEffect(() => {
+    getListUsers(token);
+  }, []);
+
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');
   };

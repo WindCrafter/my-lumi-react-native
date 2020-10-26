@@ -9,6 +9,7 @@ const initialState = {
   changePass: false,
   autoLoginStatus: false,
   memberPicked: [],
+  assign: [],
 };
 
 export default function user(state = initialState, action) {
@@ -34,6 +35,17 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         memberPicked: [],
+      };
+
+    case types.ADD_ASSIGN:
+      return {
+        ...state,
+        assign: [...action.payload],
+      };
+    case types.KICK_ASSIGN:
+      return {
+        ...state,
+        assign: state.assign.filter((e) => !(e.id === action.payload.id)),
       };
     default:
       return state;

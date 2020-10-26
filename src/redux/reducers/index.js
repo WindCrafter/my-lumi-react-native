@@ -37,11 +37,17 @@ const checkPersist = {
   ],
 };
 
+const userPersist = {
+  key: 'user',
+  storage: AsyncStorage,
+  whitelist: ['assign'],
+};
+
 const rootReducer = combineReducers({
   authen: persistReducer(authPersistConfig, authen),
   admin: admin,
   check: persistReducer(checkPersist, check),
-  user: user,
+  user: persistReducer(userPersist, user),
 });
 
 // Exports

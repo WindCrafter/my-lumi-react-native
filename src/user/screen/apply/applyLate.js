@@ -13,12 +13,16 @@ import {
   Image,
   Alert,
   Keyboard,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
 import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
@@ -33,7 +37,7 @@ if (
 }
 
 function ApplyLate(props) {
-  const {navigation, route, setLateEarly, userId, token} = props;
+  const {navigation, route, setLateEarly, userId, token, assign} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
@@ -42,10 +46,10 @@ function ApplyLate(props) {
   const goBack = () => {
     navigation.goBack();
   };
+
   const onChangeTime = (value) => {
     setTime(value);
     console.log('---time', value);
-
   };
   const onComplete = () => {
     onsetLateEarly();
@@ -87,8 +91,30 @@ function ApplyLate(props) {
   const onSetEarly = () => {
     setType('early');
   };
-  
 
+  const onGoAssignment = () => {
+    navigation.navigate('Assignment');
+  };
+
+  const renderItem = ({item, index}) => {
+    return (
+      <>
+        <View style={styles.btUser}>
+          <View style={styles.rowUser}>
+            <View style={styles.viewImage}>
+              <Image
+                source={require('../../../../naruto.jpeg')}
+                style={styles.avatar}
+                resizeMode={'cover'}
+              />
+            </View>
+            <Text style={styles.textUser}>{item.name}</Text>
+          </View>
+        </View>
+        {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
+      </>
+    );
+  };
   return (
     <View style={styles.container}>
       <BarStatus
@@ -152,6 +178,41 @@ function ApplyLate(props) {
               />
             </Card>
           ) : null}
+
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.personal}
+            borderRadius={32}
+            rightImage={imgs.add}
+            height={54}
+            shadowColor={'white'}
+            title={
+              assign && assign.length > 0
+                ? `Đang chọn ${assign.length} người phê duyệt `
+                : 'Chọn người phê duyệt'
+            }
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onGoAssignment}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={
+              assign && assign.length > 0
+                ? Colors.background
+                : 'rgba(4, 4, 15, 0.45)'
+            }
+            detail={''}
+          />
+          {assign && assign.length > 0 ? (
+            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+              <FlatList
+                data={assign}
+                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
+              />
+            </Card>
+          ) : null}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
@@ -196,7 +257,6 @@ function ApplyLate(props) {
               // thumbImage={imgs.miniLogo}
               value={time}
             />
-            
           </Card>
         </View>
         <Button
@@ -282,7 +342,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 16,
-    marginTop: 16,
+    marginTop: 8,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
@@ -320,5 +380,31 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 8,
   },
-  Slider: { width: wp(72), height: 40, alignSelf: 'center' }
+  Slider: {width: wp(72), height: 40, alignSelf: 'center'},
+  btUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowUser: {
+    flexDirection: 'row',
+    marginVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  lineUser: {
+    height: StyleSheet.hairlineWidth,
+    width: widthPercentageToDP(70),
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+  },
+  textUser: {
+    marginLeft: 24,
+    fontSize: 16,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 32,
+  },
 });

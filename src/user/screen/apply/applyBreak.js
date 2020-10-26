@@ -12,12 +12,16 @@ import {
   UIManager,
   Image,
   Keyboard,
+  FlatList,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button} from '../../../component';
+import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
 import {imgs, Colors} from '../../../../utlis';
 import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
@@ -32,7 +36,7 @@ if (
 }
 
 function ApplyBreak(props) {
-  const {navigation, takeLeave, userId, token} = props;
+  const {navigation, takeLeave, userId, token, assign} = props;
   const [shift, setShift] = useState(new Date());
   const [day, setDay] = useState(new Date());
   const [dateStart, setDateStart] = useState(new Date());
@@ -52,6 +56,7 @@ function ApplyBreak(props) {
       ? onTakeLeaveDay()
       : onTakeLeaveDays();
   };
+
   const onTakeLeaveDays = () => {
     console.log(userId);
     const data = {
@@ -184,6 +189,30 @@ function ApplyBreak(props) {
     Keyboard.dismiss();
   };
 
+  const onGoAssignment = () => {
+    navigation.navigate('Assignment');
+  };
+
+  const renderItem = ({item, index}) => {
+    return (
+      <>
+        <View style={styles.btUser}>
+          <View style={styles.rowUser}>
+            <View style={styles.viewImage}>
+              <Image
+                source={require('../../../../naruto.jpeg')}
+                style={styles.avatar}
+                resizeMode={'cover'}
+              />
+            </View>
+            <Text style={styles.textUser}>{item.name}</Text>
+          </View>
+        </View>
+        {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <BarStatus
@@ -243,6 +272,41 @@ function ApplyBreak(props) {
               <Suggest
                 detail={'Lí do cá nhân.'}
                 onPress={() => onSetReason('Lí do cá nhân.')}
+              />
+            </Card>
+          ) : null}
+
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.personal}
+            borderRadius={32}
+            rightImage={imgs.add}
+            height={54}
+            shadowColor={'white'}
+            title={
+              assign && assign.length > 0
+                ? `Đang chọn ${assign.length} người phê duyệt `
+                : 'Chọn người phê duyệt'
+            }
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onGoAssignment}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={
+              assign && assign.length > 0
+                ? Colors.background
+                : 'rgba(4, 4, 15, 0.45)'
+            }
+            detail={''}
+          />
+          {assign && assign.length > 0 ? (
+            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+              <FlatList
+                data={assign}
+                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
               />
             </Card>
           ) : null}
@@ -441,13 +505,13 @@ function ApplyBreak(props) {
             show={show}
           />
         ) : null}
-        
+
+        <Button
+          title={'Hoàn thành '}
+          containerStyle={styles.complete}
+          onPress={onComplete}
+        />
       </ScrollView>
-      <Button
-        title={'Hoàn thành '}
-        containerStyle={styles.complete}
-        onPress={onComplete}
-      />
     </View>
   );
 }
@@ -497,11 +561,6 @@ const styles = StyleSheet.create({
   complete: {
     backgroundColor: Colors.background,
   },
-  bottom: {
-    position: 'absolute',
-    bottom: 32,
-    left: wp(12.5),
-  },
   button: {
     backgroundColor: Colors.background,
     alignItems: 'center',
@@ -511,7 +570,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 16,
-    marginTop: 16,
+    marginTop: 8,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
@@ -545,5 +604,31 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: 'red',
+  },
+  btUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowUser: {
+    flexDirection: 'row',
+    marginVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  lineUser: {
+    height: StyleSheet.hairlineWidth,
+    width: widthPercentageToDP(70),
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+  },
+  textUser: {
+    marginLeft: 24,
+    fontSize: 16,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 32,
   },
 });

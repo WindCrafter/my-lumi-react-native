@@ -36,19 +36,24 @@ const DataUser = [
 ];
 
 const PickTeam = (props) => {
-  const {navigation, addMember, memberPicked} = props;
+  const {navigation, addMember, memberPicked, clearMember} = props;
   const newData = DataUser.filter(
     (e) => !memberPicked.find((i) => i.id === e.id),
   );
   const [search, setSearch] = useState('');
   const [listUser, setListUser] = useState(newData);
   const [tag, setTag] = useState([]);
+  const [all, setAll] = useState(false);
   const [userPicked, setUserPicked] = useState([]);
   const onGoBack = () => {
     navigation.goBack();
   };
 
   const onSearch = () => {};
+
+  const allUser = listUser.filter(
+    (e) => !userPicked.find((i) => i.id === e.id),
+  );
 
   const onChangeSearch = (txt) => {
     const newData = DataUser.filter((item) => {
@@ -109,9 +114,21 @@ const PickTeam = (props) => {
     });
   };
 
+  const onPickAll = () => {
+    userPicked.length < listUser.length
+      ? setUserPicked(listUser)
+      : setUserPicked([]);
+    setAll(!all);
+    console.log('Here', allUser);
+  };
+
+  const onClearAll = () => {
+    clearMember();
+    setListUser(DataUser);
+  };
+
   const renderItem = ({item, index}) => {
     const picked = tag.find((e) => e === item.name);
-    console.log(item.name, picked);
     return (
       <View style={styles.btn}>
         <TouchableOpacity
@@ -189,6 +206,16 @@ const PickTeam = (props) => {
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
       />
+      <View style={styles.rowUser}>
+        <TouchableOpacity onPress={onPickAll}>
+          <Text>
+            {userPicked.length < listUser.length ? 'Chọn Tất cả' : 'Huỷ tất cả'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onClearAll}>
+          <Text> Làm mới</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.viewSuggest}>
         <Text style={styles.txtSuggest}>Gợi ý:</Text>
         <View style={styles.viewTeam}>

@@ -96,3 +96,17 @@ export const removeUserIdDeviceFailed = () => {
     type: types.REMOVE_USER_ID_DEVICE_FAILED,
   };
 };
+
+export const addAssign = (data) => {
+  return {
+    type: types.ADD_ASSIGN,
+    payload: data,
+  };
+};
+
+export const kickAssign = (data) => {
+  return {
+    type: types.KICK_ASSIGN,
+    payload: data,
+  };
+};

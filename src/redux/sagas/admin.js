@@ -23,7 +23,7 @@ function* sagaAddStaff(action) {
       password: action.payload.password,
       roleId: action.payload.roleId,
     };
-    console.log('---role', action.payload.roleId)
+    console.log('---role', action.payload.roleId);
 
     const token = action.payload.token;
     const response = yield _POST(URL_ADD_STAFF, data, token);
@@ -35,7 +35,7 @@ function* sagaAddStaff(action) {
         title: langs.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },Phong
+        leftButton: { text: 'OK' },
       });
     } else {
       yield put(addStaffFailed());
