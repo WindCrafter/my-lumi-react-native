@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PickTeam from '../../screen/Event/PickTeam';
-import {addMember} from '../../../redux/actions/user';
+import {addMember, clearMember} from '../../../redux/actions/user';
 
 const mapStateToProps = (state) => ({
   memberPicked: state.user.memberPicked,
@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   addMember,
+  clearMember,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PickTeam);

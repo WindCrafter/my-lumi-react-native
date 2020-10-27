@@ -194,7 +194,7 @@ const Event = (props) => {
                   style={[
                     styles.button,
                     {
-                      marginVertical: 20,
+                      marginVertical: 4,
                       backgroundColor: Colors.white,
                       flexDirection: 'row',
                     },
@@ -239,7 +239,7 @@ const Event = (props) => {
                     {
                       backgroundColor: Colors.white,
                       flexDirection: 'row',
-                      marginVertical: 20,
+                      marginVertical: 4,
                     },
                   ]}
                   onPress={() => onShow('timeEnd')}>

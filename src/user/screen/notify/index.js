@@ -57,7 +57,7 @@ const Notify = (props) => {
       }
     };
     return (
-      <TouchableOpacity onPress={onShow}>
+      <TouchableOpacity onPress={() => navigation.navigate('NotifyDetail')}>
         <Card style={styles.card}>
           <Image style={styles.img} source={item.image} resizeMode="cover" />
           <View style={styles.viewText}>

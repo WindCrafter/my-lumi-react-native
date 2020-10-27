@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Account from '../../screen/account';
 import {logOut} from '../../../redux/actions/authen';
-import {getListUsers} from '../../../redux/actions'
+import {getListUsers} from '../../../redux/actions/user';
 const mapStateToProps = (state) => ({
   nameUser: state.authen.userProfile.name,
   emailUser: state.authen.userProfile.email,
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   logOut,
-  getListUsers
+  getListUsers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);

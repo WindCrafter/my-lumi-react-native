@@ -26,7 +26,8 @@ import ForgotPass from '../user/container/forgotPassword/forgotPass'
 import allHistory from '../user/container/allHistory/index'
 import Confirm from '../user/screen/notify/type/confirm'
 import Verify from '../user/screen/notify/type/verify'
-
+import NotifyDetail from '../user/container/notify/notifyDetail';
+import Assignment from '../user/container/apply/Assignment';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -158,6 +159,20 @@ export default function UserStack() {
       <Stack.Screen
         name={'PickTeam'}
         component={PickTeam}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'NotifyDetail'}
+        component={NotifyDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={'Assignment'}
+        component={Assignment}
         options={{
           headerShown: false,
         }}

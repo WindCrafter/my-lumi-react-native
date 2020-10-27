@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const Suggest = (props) => {
   const { detail, onPress } = props;
@@ -21,11 +22,13 @@ const styles = StyleSheet.create({
   },
   line: {
     height: StyleSheet.hairlineWidth,
-    width: '85%',
-    backgroundColor: 'gray',
+    width: widthPercentageToDP(66),
+    alignSelf: 'center',
+    backgroundColor: 'grey',
+    marginVertical: 4,
   },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });
