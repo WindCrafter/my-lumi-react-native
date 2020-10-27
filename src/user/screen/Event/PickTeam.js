@@ -37,11 +37,11 @@ const DataUser = [
 
 const PickTeam = (props) => {
   const {navigation, addMember, memberPicked, clearMember} = props;
-  const newData = DataUser.filter(
+  const newList = DataUser.filter(
     (e) => !memberPicked.find((i) => i.id === e.id),
   );
   const [search, setSearch] = useState('');
-  const [listUser, setListUser] = useState(newData);
+  const [listUser, setListUser] = useState(newList);
   const [tag, setTag] = useState([]);
   const [all, setAll] = useState(false);
   const [userPicked, setUserPicked] = useState([]);
@@ -125,6 +125,7 @@ const PickTeam = (props) => {
   const onClearAll = () => {
     clearMember();
     setListUser(DataUser);
+    setUserPicked([]);
   };
 
   const renderItem = ({item, index}) => {
@@ -183,6 +184,13 @@ const PickTeam = (props) => {
     );
   };
 
+  const txt =
+    userPicked.length < listUser.length
+      ? 'Chọn tất cả'
+      : userPicked.length === 0
+      ? 'Chọn tất cả'
+      : 'Huỷ tất cả';
+
   return (
     <View style={styles.container}>
       <BarStatus
@@ -206,16 +214,6 @@ const PickTeam = (props) => {
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
       />
-      <View style={styles.rowUser}>
-        <TouchableOpacity onPress={onPickAll}>
-          <Text>
-            {userPicked.length < listUser.length ? 'Chọn Tất cả' : 'Huỷ tất cả'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onClearAll}>
-          <Text> Làm mới</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.viewSuggest}>
         <Text style={styles.txtSuggest}>Gợi ý:</Text>
         <View style={styles.viewTeam}>
@@ -228,6 +226,32 @@ const PickTeam = (props) => {
           />
         </View>
         <View style={styles.line} />
+        <View style={styles.row}>
+          <TouchableOpacity
+            onPress={onPickAll}
+            style={[
+              styles.resetBtn,
+              {
+                backgroundColor:
+                  txt === 'Chọn tất cả' ? Colors.background : Colors.danger,
+              },
+            ]}>
+            <Image
+              source={txt === 'Chọn tất cả' ? imgs.add : imgs.cancel}
+              style={styles.imageIcon}
+              resizeMode="cover"
+            />
+            <Text style={styles.txtBtn}>{txt}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onClearAll} style={styles.resetBtn}>
+            <Image
+              source={imgs.undo}
+              style={styles.imageIcon}
+              resizeMode="cover"
+            />
+            <Text style={styles.txtBtn}> Làm mới</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.viewUser}>
           <FlatList
             data={listUser}
@@ -302,7 +326,7 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(90),
     alignSelf: 'center',
     backgroundColor: 'gray',
-    marginVertical: 16,
+    marginVertical: 8,
   },
   avatar: {
     width: 48,
@@ -339,5 +363,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    marginVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  resetBtn: {
+    backgroundColor: Colors.background,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 16,
+    flexDirection: 'row',
+  },
+  imageIcon: {
+    width: 12,
+    height: 12,
+    tintColor: Colors.white,
+    alignSelf: 'center',
+  },
+  txtBtn: {
+    color: Colors.white,
+    alignSelf: 'center',
+    marginLeft: 4,
   },
 });
