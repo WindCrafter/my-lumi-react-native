@@ -35,17 +35,12 @@ function* sagaUpdateProfile(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(updateProfileSuccess(response.data));
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        messageColor: Colors.background,
-        leftButton: {text: 'OK'},
-      });
     } else {
       yield put(updateProfileFailed());
       _global.Alert.alert({
         title: 'Thông báo',
-        message: 'Lỗi mạng',
+        message:
+          'Thay đổi thông tin thấy bại \n Vui lòng kiểm tra kết nối mạng',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
       });

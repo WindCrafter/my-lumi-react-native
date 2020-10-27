@@ -120,3 +120,13 @@ export const resetCheck = () => {
     type: types.RESET_CHECK,
   };
 };
+export const changeToIn = () => {
+  return {
+    type: types.CHANGETO_CHECKIN,
+  };
+};
+export const changeToOut = () => {
+  return {
+    type: types.CHANGETO_CHECKOUT,
+  };
+};

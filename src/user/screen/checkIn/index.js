@@ -42,6 +42,8 @@ const CheckIn = (props) => {
     checkInWifi,
     switchTo,
     type,
+    changeToOut,
+    changeToIn,
   } = props;
   // console.log(checkInWifi)
 
@@ -49,7 +51,13 @@ const CheckIn = (props) => {
   const [bssidUser, setBssidUser] = useState('');
   const [code, setCode] = useState('');
   const [method, setMedthod] = useState('qr');
-
+  const onChangeMethod = () => {
+    if (type === 'in') {
+      changeToOut();
+    } else {
+      changeToIn();
+    }
+  };
   const onCheckInCode = () => {
     const data = {
       typeCheck: 'code',
@@ -229,6 +237,7 @@ const CheckIn = (props) => {
         title={langs.checkIn}
         type={`Check-${type}`}
         onPressBack={onPressBack}
+        onPressChange={onChangeMethod}
       />
       <Bottom
         method={method}

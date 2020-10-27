@@ -71,11 +71,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Cấp quyền truy cập để quét mã QR.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Explain why you need location permission</string>
+	<string>Cấp quyền truy cập để chấm công.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Vui lòng chọn luôn luôn để chấm công.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Explain</string>
+	<string>Cấp quyền truy cập để chấm công.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your message to user when the microsphone is accessed for the first time</string>
 	<key>NSPhotoLibraryUsageDescription</key>

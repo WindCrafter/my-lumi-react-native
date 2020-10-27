@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,13 +13,15 @@ import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
 import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
-
+import ModalInforApp from './component/ModalInforApp';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
   const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
   const name = nameUser;
   const email = emailUser;
+  const [showModal, setshowModal] = useState(false);
+
   const onLogOut = () => {
     _global.Alert.alert({
       title: 'Thông báo',
@@ -33,7 +35,12 @@ const Account = (props) => {
       rightButton: {text: 'Cancel'},
     });
   };
-
+  const onShowModal = () => {
+    setshowModal(true);
+  };
+  const onHideModal = () => {
+    setshowModal(false);
+  }; 
   useEffect(() => {
     getListUsers(token);
   }, []);
@@ -84,6 +91,7 @@ const Account = (props) => {
               rightImage={imgs.next}
               tintColor={'grey'}
               line={true}
+              onPressButton={onShowModal}
             />
             <RoundedView
               leftImage={imgs.logout}
@@ -95,6 +103,7 @@ const Account = (props) => {
             />
           </Card>
         </View>
+        <ModalInforApp showModal={showModal} hideModal={onHideModal}  />
       </View>
     </>
   );

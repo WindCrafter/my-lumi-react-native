@@ -213,19 +213,22 @@ function UpdateProfile(props) {
   };
 
   return (
+    <>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        title={'Khai báo thông tin'}
+        goBack={goBack}
+        rightButton
+        textPress={true}
+        onRight={onUpdateInfo}
+      />
     <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
+      
       <KeyboardAvoidingView style={styles.container}>
-        <BarStatus
-          backgroundColor={Colors.white}
-          height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-        />
-        <HeaderCustom
-          title={'Khai báo thông tin'}
-          goBack={goBack}
-          rightButton
-          textPress={true}
-          onRight={onUpdateInfo}
-        />
+       
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <Info
             name={name}
@@ -304,6 +307,7 @@ function UpdateProfile(props) {
         />
       </KeyboardAvoidingView>
     </ScrollView>
+    </>
   );
 }
 

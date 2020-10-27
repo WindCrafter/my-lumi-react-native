@@ -47,8 +47,6 @@ function* sagaCheckIn(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
@@ -57,8 +55,6 @@ function* sagaCheckIn(action) {
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     }
   } catch (error) {
     console.log(error);
@@ -68,8 +64,6 @@ function* sagaCheckIn(action) {
       messageColor: Colors.danger,
       leftButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 
@@ -102,8 +96,6 @@ function* sagaCheckInWifi(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else if (
       response.success &&
       response.statusCode === 200 &&
@@ -116,8 +108,6 @@ function* sagaCheckInWifi(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else {
       yield put(checkInFailed());
       _global.Alert.alert({
@@ -129,7 +119,6 @@ function* sagaCheckInWifi(action) {
           // onPress : onLongPress
         },
       });
-      setTimeout(() => _global.Alert.close(), 2000);
     }
   } catch (error) {
     console.log(error);
@@ -140,8 +129,6 @@ function* sagaCheckInWifi(action) {
       leftButton: {text: 'OK'},
       rightButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 
@@ -169,8 +156,6 @@ function* sagaCreateQR(action) {
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     }
   } catch (error) {
     console.log(error);
@@ -181,8 +166,6 @@ function* sagaCreateQR(action) {
 
       leftButton: {text: 'OK'},
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 
@@ -208,8 +191,6 @@ function* sagaSetLateEarly(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
@@ -218,8 +199,6 @@ function* sagaSetLateEarly(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     }
   } catch (error) {
     console.log(error);
@@ -229,8 +208,6 @@ function* sagaSetLateEarly(action) {
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 
@@ -256,8 +233,6 @@ function* sagaTakeLeave(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else {
       yield put(takeLeaveFailed());
       _global.Alert.alert({
@@ -267,8 +242,6 @@ function* sagaTakeLeave(action) {
         leftButton: {text: 'OK'},
         messageColor: Colors.danger,
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     }
   } catch (error) {
     console.log(error);
@@ -278,8 +251,6 @@ function* sagaTakeLeave(action) {
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 
@@ -306,8 +277,6 @@ function* sagaOverTime(action) {
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     } else {
       yield put(overTimeFailed());
       _global.Alert.alert({
@@ -316,8 +285,6 @@ function* sagaOverTime(action) {
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
       });
-      setTimeout(() => _global.Alert.close(), 2000);
-
     }
   } catch (error) {
     console.log(error);
@@ -327,8 +294,6 @@ function* sagaOverTime(action) {
       leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
-    setTimeout(() => _global.Alert.close(), 2000);
-
   }
 }
 

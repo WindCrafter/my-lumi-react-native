@@ -41,12 +41,23 @@ export default function check(state = initialState, action) {
         ...state,
         switchTo: false,
       };
+    case types.CHANGETO_CHECKIN:
+      return {
+        ...state,
+        type: 'in',
+      };
+    case types.CHANGE_TO_CHECKOUT:
+      return {
+        ...state,
+        type: 'out',
+      };
     case types.RESET_CHECK:
       return {
         ...state,
         dateCheckIn: '',
         timeCheckIn: '--:--',
         timeCheckOut: '--:--',
+        type: 'in',
       };
     default:
       return state;

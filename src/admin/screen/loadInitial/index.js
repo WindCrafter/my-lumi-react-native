@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Colors } from '../../../../utlis';
-import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP } from 'react-native-responsive-screen';
 
 const LoadInital = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../../logoloayxoay.gif')}
+        source={require('../../../../common/assets/images/logo/logoWithSlogan3x.png')}
         style={styles.logo}
       />
     </View>
@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   logo: {
-    width: 196,
-    height: 196,
-    transform: [{ rotate: '230deg' }],
+    width: wp(80),
+    // height: 196,
+    // transform: [{ rotate: '230deg' }],
+    resizeMode:'contain'
   },
 });
