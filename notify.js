@@ -13,8 +13,8 @@ function Notify(props) {
       deviceId: device.userId,
       token: token,
     };
-    console.log(data);
-    if (!(deviceIds.indexOf(device.userId) > -1)) {
+    const aye = deviceIds && deviceIds.find((e) => e === device.userId);
+    if (!aye) {
       addUserIdDevice(data);
       console.log('Da them thiet bi');
     }
