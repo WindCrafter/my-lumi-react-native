@@ -205,7 +205,10 @@ function ApplyBreak(props) {
                 resizeMode={'cover'}
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <View style={styles.column}>
+              <Text style={styles.textUser}>{item.name}</Text>
+              <Text style={styles.textPos}>{item.pos}</Text>
+            </View>
           </View>
         </View>
         {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
@@ -391,7 +394,7 @@ function ApplyBreak(props) {
               </View>
             ) : typeBreak === 'Nhiều ngày' ? (
               <View style={styles.rowBot}>
-                <View style={styles.column}>
+                <View style={styles.columnShift}>
                   <TouchableOpacity
                     style={[
                       styles.button,
@@ -430,7 +433,7 @@ function ApplyBreak(props) {
                   </TouchableOpacity>
                 </View>
                 <Image source={imgs.arrow} style={styles.icon} />
-                <View style={styles.column}>
+                <View style={styles.columnShift}>
                   <TouchableOpacity
                     style={[
                       styles.button,
@@ -479,6 +482,7 @@ function ApplyBreak(props) {
             onPress={onUnshow}
             mode={'date'}
             show={show}
+            minimumDate={new Date()}
           />
         ) : mode === 'oneday' ? (
           <PickerCustom
@@ -503,6 +507,7 @@ function ApplyBreak(props) {
             onPress={onUnshow}
             mode={'date'}
             show={show}
+            minimumDate={new Date()}
           />
         ) : null}
 
@@ -592,7 +597,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flex: 1,
   },
-  column: {
+  columnShift: {
     alignItems: 'flex-start',
     // borderWidth: 1,
     justifyContent: 'space-around',
@@ -630,5 +635,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 32,
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  textPos: {
+    marginLeft: 24,
+    fontSize: 12,
+  },
+  viewInputSelect: {
+    backgroundColor: Colors.white,
   },
 });

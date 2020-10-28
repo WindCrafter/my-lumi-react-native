@@ -8,7 +8,7 @@ import {Button} from '../../../../component';
 
 const PickerCustom = (props) => {
   const {value, onPress, onChange, mode, show, locale, minimumDate} = props;
-  return (
+  return Platform.OS === 'ios' ? (
     <Modal
       isVisible={show}
       animationIn={'slideInUp'}
@@ -19,6 +19,7 @@ const PickerCustom = (props) => {
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
         <View style={styles.picker}>
+          <Text style={styles.txtHeader}>Chọn giờ và phút</Text>
           <DateTimePicker
             value={value}
             mode={mode}
@@ -37,6 +38,19 @@ const PickerCustom = (props) => {
         </View>
       </View>
     </Modal>
+  ) : (
+    show && (
+      <DateTimePicker
+        value={value}
+        mode={mode}
+        display="default"
+        onChange={onChange}
+        is24Hour={true}
+        minimumDate={minimumDate}
+        {...props}
+        locale={locale}
+      />
+    )
   );
 };
 
@@ -45,7 +59,6 @@ export default PickerCustom;
 PickerCustom.defaultProps = {
   locale: 'vi-VI',
 };
-
 
 const styles = StyleSheet.create({
   unshow: {
@@ -83,5 +96,9 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+  },
+  txtHeader: {
+    alignSelf: 'center',
+    fontSize: 24,
   },
 });

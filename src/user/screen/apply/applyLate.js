@@ -108,7 +108,10 @@ function ApplyLate(props) {
                 resizeMode={'cover'}
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <View style={styles.column}>
+              <Text style={styles.textUser}>{item.name}</Text>
+              <Text style={styles.textPos}>{item.pos}</Text>
+            </View>
           </View>
         </View>
         {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
@@ -401,10 +404,21 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
+    fontWeight:'500',
   },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 32,
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  textPos: {
+    marginLeft: 24,
+    fontSize: 12,
+  },
+  viewInputSelect:{
+    backgroundColor: Colors.white,
   },
 });

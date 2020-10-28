@@ -51,9 +51,8 @@ function ApplyOT(props) {
   };
   const onChangeHour = (event, selectedShift) => {
     const currentShift = selectedShift || hour;
-    console.log(currentShift);
+    setShowModal(Platform.OS === 'ios');
     setHour(currentShift);
-    setShowModal(true);
   };
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -67,7 +66,7 @@ function ApplyOT(props) {
 
   const onChangeDay = (event, selectedDay) => {
     const currentDay = selectedDay || day;
-    setShowModal(true);
+    setShowModal(Platform.OS === 'ios');
     setDay(currentDay);
   };
   const onChangeReason = (val) => {
@@ -121,7 +120,10 @@ function ApplyOT(props) {
                 resizeMode={'cover'}
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <View style={styles.column}>
+              <Text style={styles.textUser}>{item.name}</Text>
+              <Text style={styles.textPos}>{item.pos}</Text>
+            </View>
           </View>
         </View>
         {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
@@ -283,24 +285,26 @@ function ApplyOT(props) {
             </View>
           </Card>
         </View>
-        {mode === 'time' ? (
-          <PickerCustom
-            value={hour}
-            onChange={onChangeHour}
-            onPress={onUnshow}
-            mode={'time'}
-            show={showModal}
-            locale={'en-GB'}
-          />
-        ) : mode === 'day' ? (
-          <PickerCustom
-            value={day}
-            onChange={onChangeDay}
-            onPress={onUnshow}
-            mode={'date'}
-            show={showModal}
-            minimumDate={new Date()}
-          />
+        {showModal ? (
+          mode === 'time' ? (
+            <PickerCustom
+              value={hour}
+              onChange={onChangeHour}
+              onPress={onUnshow}
+              mode={'time'}
+              show={showModal}
+              locale={'en-GB'}
+            />
+          ) : mode === 'day' ? (
+            <PickerCustom
+              value={day}
+              onChange={onChangeDay}
+              onPress={onUnshow}
+              mode={'date'}
+              show={showModal}
+              minimumDate={new Date()}
+            />
+          ) : null
         ) : null}
         <Button
           title={'Hoàn thành'}
@@ -445,10 +449,21 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
+    fontWeight: '500',
   },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 32,
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  textPos: {
+    marginLeft: 24,
+    fontSize: 12,
+  },
+  viewInputSelect: {
+    backgroundColor: Colors.white,
   },
 });
