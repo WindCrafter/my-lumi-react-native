@@ -51,9 +51,8 @@ function ApplyOT(props) {
   };
   const onChangeHour = (event, selectedShift) => {
     const currentShift = selectedShift || hour;
-    console.log(currentShift);
-    setHour(currentShift);
     setShowModal(Platform.OS === 'ios');
+    setHour(currentShift);
   };
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -286,24 +285,26 @@ function ApplyOT(props) {
             </View>
           </Card>
         </View>
-        {mode === 'time' ? (
-          <PickerCustom
-            value={hour}
-            onChange={onChangeHour}
-            onPress={onUnshow}
-            mode={'time'}
-            show={showModal}
-            locale={'en-GB'}
-          />
-        ) : mode === 'day' ? (
-          <PickerCustom
-            value={day}
-            onChange={onChangeDay}
-            onPress={onUnshow}
-            mode={'date'}
-            show={showModal}
-            minimumDate={new Date()}
-          />
+        {showModal ? (
+          mode === 'time' ? (
+            <PickerCustom
+              value={hour}
+              onChange={onChangeHour}
+              onPress={onUnshow}
+              mode={'time'}
+              show={showModal}
+              locale={'en-GB'}
+            />
+          ) : mode === 'day' ? (
+            <PickerCustom
+              value={day}
+              onChange={onChangeDay}
+              onPress={onUnshow}
+              mode={'date'}
+              show={showModal}
+              minimumDate={new Date()}
+            />
+          ) : null
         ) : null}
         <Button
           title={'Hoàn thành'}
