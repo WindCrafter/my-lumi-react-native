@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
-    height: hp(100),
+    height: '100%',
   },
   pagethree: {
     width: wp(100),

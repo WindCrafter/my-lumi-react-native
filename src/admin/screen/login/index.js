@@ -17,6 +17,7 @@ import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
+import { ScrollView } from 'react-native-gesture-handler';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
@@ -72,10 +73,11 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
+
       <Logo containerStyle={styles.logo} />
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
         <View style={styles.detail}>
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView >
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}

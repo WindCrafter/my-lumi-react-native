@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
-  StatusBar,
+  StatusBar,Linking
 } from 'react-native';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -40,7 +40,7 @@ const Account = (props) => {
   };
   const onHideModal = () => {
     setshowModal(false);
-  }; 
+  };
   useEffect(() => {
     getListUsers(token);
   }, []);
@@ -50,6 +50,10 @@ const Account = (props) => {
   };
   const onMoveToContact = () => {
     navigation.navigate('Contact');
+  };
+  const openUrl = () => {
+    Linking.openURL('https://lumi.vn');
+    console.log('1');
   };
   return (
     <>
@@ -103,7 +107,11 @@ const Account = (props) => {
             />
           </Card>
         </View>
-        <ModalInforApp showModal={showModal} hideModal={onHideModal}  />
+        <ModalInforApp
+          showModal={showModal}
+          hideModal={onHideModal}
+          openUrl={openUrl}
+        />
       </View>
     </>
   );
