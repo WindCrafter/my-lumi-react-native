@@ -81,6 +81,7 @@ const UpdateInfo = (props) => {
               placeholder={'Nhấn để sao chép'}
               width={0}
               canedit={false}
+              clearButtonMode="while-editing"
             />
           </TouchableOpacity>
           <View style={{height: 50}} />

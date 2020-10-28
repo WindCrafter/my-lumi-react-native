@@ -94,16 +94,7 @@ function* sagaFirstLogin(action) {
 export function* watchFirstLogin() {
   yield takeLatest(types.CHANGE_PASS, sagaFirstLogin);
 }
-function* sagaLogOut() {
-  yield put(removeUserIdDevice());
-  // disable notify when logout
-  // yield put(setNotify(true));
-  yield OneSignal.setSubscription(false);
-}
 
-export function* watchLogOutAction() {
-  yield takeLatest(types.LOG_OUT, sagaLogOut);
-}
 
 /**
  * watch login success

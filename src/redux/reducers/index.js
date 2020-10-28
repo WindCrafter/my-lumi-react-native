@@ -22,6 +22,7 @@ const authPersistConfig = {
     'currentUser',
     'userProfile',
     'roleInfo',
+    'oneSignalID',
   ],
 };
 

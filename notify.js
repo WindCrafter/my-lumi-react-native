@@ -3,16 +3,24 @@ import {Linking} from 'react-native';
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import {addUserIdDevice} from './src/redux/actions/user.js';
+import {getOneSignalID} from './src/redux/actions/authen.js';
 const Schema = 'lumihr://';
 
 function Notify(props) {
-  const {token, addUserIdDevice, deviceIds} = props;
+  const {
+    token,
+    addUserIdDevice,
+    deviceIds,
+    oneSignalID,
+    getOneSignalId,
+  } = props;
   const onIds = (device) => {
     console.log('Device info: ', device.userId);
     const data = {
       deviceId: device.userId,
       token: token,
     };
+    !oneSignalID && getOneSignalId(device.userId);
     const aye = deviceIds && deviceIds.find((e) => e === device.userId);
     if (!aye) {
       addUserIdDevice(data);
@@ -75,6 +83,7 @@ function Notify(props) {
 }
 const mapDispatchToProps = {
   addUserIdDevice,
+  getOneSignalId: getOneSignalID,
   // notificationReadNotifi
 };
 
@@ -84,6 +93,7 @@ const mapStateToProps = (state) => {
     // notify: state.config.notify
     token: state.authen.token,
     deviceIds: state.authen.userProfile.deviceIds,
+    oneSignalID: state.authen.oneSignalID,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Notify);

@@ -111,20 +111,14 @@ function* sagaRemoveUserIdDevice(action) {
     });
     console.log(userId);
     const data = {
-      deviceId: userId,
+      deviceId: action.payload.deviceId,
     };
-    const token = action.payload;
+    const token = action.payload.token;
     const response = yield _POST(URL_REMOVE_USERID_DEVICE, data, token);
     console.log('data------', data);
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(removeUserIdDeviceSuccess(response.data));
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        messageColor: Colors.background,
-        leftButton: {text: 'OK'},
-      });
     } else {
       yield put(removeUserIdDeviceFailed());
       _global.Alert.alert({

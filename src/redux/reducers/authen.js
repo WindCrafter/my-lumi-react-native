@@ -18,6 +18,7 @@ const initialState = {
   userProfile: {},
   remember: false,
   roleInfo: [],
+  oneSignalID:'',
 };
 
 export default function authen(state = initialState, action) {
@@ -63,6 +64,11 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         userProfile: action.payload,
+      };
+    case types.GET_ONE_SIGNAL_ID:
+      return {
+        ...state,
+        oneSignalID: action.payload,
       };
     default:
       return state;

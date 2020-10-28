@@ -84,11 +84,9 @@ const Book = (props) => {
       <BarStatus />
       <HeaderAccount />
       <View style={styles.header}>
-        <View style={styles.week}>
-          <Text style={styles.txtHeader}>{'Lịch tuần'}</Text>
-        </View>
+       
         <View style={styles.day}>
-          <Text style={styles.txtHeader}>{'Lịch ngày'}</Text>
+          <Text style={styles.txtDay}>{'Lịch ngày'}</Text>
         </View>
         <View style={styles.meeting}>
           <Text style={styles.txtHeader}>{'Phòng họp'}</Text>
@@ -167,6 +165,11 @@ const styles = StyleSheet.create({
   txtHeader: {
     textAlign: 'center',
   },
+  txtDay: {
+    textAlign: 'center',
+    color:'white',
+    
+},
   meeting: {
     width: '25%',
     height: 48,
@@ -194,6 +197,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 1,
     justifyContent: 'center',
+    borderBottomLeftRadius:23
+    ,borderTopLeftRadius:23
   },
   week: {
     width: '25%',

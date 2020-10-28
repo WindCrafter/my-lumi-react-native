@@ -90,3 +90,10 @@ export const getDeviceId = (data) => {
     payload: data,
   };
 };
+
+export const getOneSignalID = (data) => {
+  return {
+    type: types.GET_ONE_SIGNAL_ID,
+    payload: data,
+  };
+};
