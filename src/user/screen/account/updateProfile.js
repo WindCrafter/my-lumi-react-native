@@ -225,88 +225,88 @@ function UpdateProfile(props) {
         textPress={true}
         onRight={onUpdateInfo}
       />
-    <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
-      
-      <KeyboardAvoidingView style={styles.container}>
-       
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-          <Info
-            name={name}
-            phone={phone}
-            identity={identity}
-            nativeLand={nativeLand}
-            team={team}
-            onChangeNative={onChangeNativeLand}
-            onChangePhone={onChangePhone}
-            onChangeName={onChangeName}
-            onChangeIdentity={onChangeIdentity}
-            onChangeTeam={onShowTeam}
-          />
-
-          <UpdateInfo
-            birthday={birthday}
-            gene={gene}
-            onChangeGene={onShowGene}
-            onChangeBirthday={onShowModal}
-            onChangeBank={onPick}
-            bankName={bankName}
-            deviceId={deviceId}
-            onCopyDeviceID={onAlertCopy}
-          />
-        </ScrollView>
-        {Platform.OS === 'ios' ? (
-          <ModalTime
-            showModal={show}
-            hideModal={onHideModal}
-            picker={
-              <View style={styles.picker}>
-                <DateTimePicker
-                  value={moment(birthday, 'DD/MM/YYYY').toDate()}
-                  mode={'date'}
-                  display="default"
-                  onChange={onChangeBirthday}
-                  locale="vi-VI"
-                />
-              </View>
-            }
-          />
-        ) : (
-          showPicker && (
-            <DateTimePicker
-              value={moment(birthday, 'DD/MM/YYYY').toDate()}
-              mode={'date'}
-              display="default"
-              onChange={onChangeBirthday}
-              locale="vi-VI"
+      <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView style={styles.container}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.scroll}>
+            <Info
+              name={name}
+              phone={phone}
+              identity={identity}
+              nativeLand={nativeLand}
+              team={team}
+              onChangeNative={onChangeNativeLand}
+              onChangePhone={onChangePhone}
+              onChangeName={onChangeName}
+              onChangeIdentity={onChangeIdentity}
+              onChangeTeam={onShowTeam}
             />
-          )
-        )}
-        <ModalBank
-          showModal={showBank}
-          hideModal={onDonePick}
-          onSetVTB={onSetVTB}
-          onSetBIDV={onSetBIDV}
-          onSetTech={onSetTech}
-          onSetAgri={onSetAgri}
-          onSetVCB={onSetVCB}
-          onSetVPB={onSetVPB}
-          onBankAccount={onChangeAccount}
-          bankName={bankName}
-        />
-        <ModalGene
-          showModal={showGene}
-          hideModal={onHideGene}
-          detailGene={gene}
-          pressItem={(e) => onChangeGene(e)}
-        />
-        <ModalTeam
-          showModal={showTeam}
-          hideModal={onHideTeam}
-          detailTeam={team}
-          pressItem={(e) => onChangeTeam(e)}
-        />
-      </KeyboardAvoidingView>
-    </ScrollView>
+
+            <UpdateInfo
+              birthday={birthday}
+              gene={gene}
+              onChangeGene={onShowGene}
+              onChangeBirthday={onShowModal}
+              onChangeBank={onPick}
+              bankName={bankName}
+              deviceId={deviceId}
+              onCopyDeviceID={onAlertCopy}
+            />
+          </ScrollView>
+          {Platform.OS === 'ios' ? (
+            <ModalTime
+              showModal={show}
+              hideModal={onHideModal}
+              picker={
+                <View style={styles.picker}>
+                  <DateTimePicker
+                    value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                    mode={'date'}
+                    display="default"
+                    onChange={onChangeBirthday}
+                    locale="vi-VI"
+                  />
+                </View>
+              }
+            />
+          ) : (
+            showPicker && (
+              <DateTimePicker
+                value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                mode={'date'}
+                display="default"
+                onChange={onChangeBirthday}
+                locale="vi-VI"
+              />
+            )
+          )}
+          <ModalBank
+            showModal={showBank}
+            hideModal={onDonePick}
+            onSetVTB={onSetVTB}
+            onSetBIDV={onSetBIDV}
+            onSetTech={onSetTech}
+            onSetAgri={onSetAgri}
+            onSetVCB={onSetVCB}
+            onSetVPB={onSetVPB}
+            onBankAccount={onChangeAccount}
+            bankName={bankName}
+          />
+          <ModalGene
+            showModal={showGene}
+            hideModal={onHideGene}
+            detailGene={gene}
+            pressItem={(e) => onChangeGene(e)}
+          />
+          <ModalTeam
+            showModal={showTeam}
+            hideModal={onHideTeam}
+            detailTeam={team}
+            pressItem={(e) => onChangeTeam(e)}
+          />
+        </KeyboardAvoidingView>
+      </ScrollView>
     </>
   );
 }

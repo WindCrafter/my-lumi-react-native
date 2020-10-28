@@ -79,8 +79,8 @@ const UpdateInfo = (props) => {
               title={langs.deviceID}
               size={16}
               placeholder={'Nhấn sao chép'}
-              width={0}
               canedit={false}
+              clearButtonMode="while-editing"
             />
           </TouchableOpacity>
           <View style={{height: 50}} />

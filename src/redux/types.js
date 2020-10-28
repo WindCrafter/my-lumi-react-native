@@ -68,16 +68,15 @@ export const REMOVE_USER_ID_DEVICE_FAILED = 'REMOVE_USER_ID_DEVICE_FAILED';
 
 export const RESET_CHECK = 'RESET_CHECK';
 
+export const GET_ONE_SIGNAL_ID = 'GET_ONE_SIGNAL_ID';
+
 export const ADD_ASSIGN = 'ADD_ASSIGN';
 export const KICK_ASSIGN = 'KICK_ASSIGN';
 
-<<<<<<< HEAD
 export const GET_LIST_ASSIGN = 'GET_LIST_ASSIGN';
 export const GET_LIST_ASSIGN_FAILED = 'GET_LIST_ASSIGN_FAILED';
 export const GET_LIST_ASSIGN_SUCCESS = 'GET_LIST_ASSIGN_SUCCESS';
-=======
 //change method
 
 export const CHANGETO_CHECKIN = 'CHANGETO_CHECKIN';
 export const CHANGETO_CHECKOUT = 'CHANGETO_CHECKOUT';
->>>>>>> Hot-Fix
