@@ -10,6 +10,7 @@ const initialState = {
   autoLoginStatus: false,
   memberPicked: [],
   assign: [],
+  listAssign: [],
 };
 
 export default function user(state = initialState, action) {
@@ -18,6 +19,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case types.GET_LIST_ASSIGN_SUCCESS:
+      return {
+        ...state,
+        listAssign: action.payload,
       };
     case types.ADD_MEMBER:
       return {

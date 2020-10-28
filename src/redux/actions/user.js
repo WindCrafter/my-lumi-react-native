@@ -110,3 +110,23 @@ export const kickAssign = (data) => {
     payload: data,
   };
 };
+
+export const getListAssign = (data) => {
+  return {
+    type: types.GET_LIST_ASSIGN,
+    payload: data,
+  };
+};
+
+export const getListAssignSuccess = (data) => {
+  return {
+    type: types.GET_LIST_ASSIGN_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getListAssignFailed = () => {
+  return {
+    type: types.GET_LIST_ASSIGN_FAILED,
+  };
+};
