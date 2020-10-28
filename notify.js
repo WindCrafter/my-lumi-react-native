@@ -20,10 +20,10 @@ function Notify(props) {
       deviceId: device.userId,
       token: token,
     };
+    !oneSignalID && getOneSignalId(device.userId);
     const aye = deviceIds && deviceIds.find((e) => e === device.userId);
     if (!aye) {
       addUserIdDevice(data);
-      !oneSignalID && getOneSignalId(device.userId);
       console.log('Da them thiet bi');
     }
     console.log('-----------device', deviceIds);

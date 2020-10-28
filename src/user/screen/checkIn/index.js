@@ -157,7 +157,7 @@ const CheckIn = (props) => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <ScrollView
         ref={scrollRef}
         horizontal={true}
@@ -291,12 +291,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.background,
     height: '100%',
+    flex: 1,
   },
   pagethree: {
     width: wp(100),
     justifyContent: 'center',
     backgroundColor: Colors.background,
-    height: hp(100),
+    height: '100%',
+    flex: 1,
   },
   modalview: {
     borderRadius: 28,
@@ -314,9 +316,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   camera: {
-    height: hp(100),
+    height: hp(105),
     width: wp(100),
-    // flex:1
   },
   modalviewCode: {
     borderRadius: 24,
