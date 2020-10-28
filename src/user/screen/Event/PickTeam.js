@@ -74,6 +74,7 @@ const PickTeam = (props) => {
     console.log(newData);
     setTag(newTag);
     setListUser(newData);
+    setUserPicked([]);
   };
 
   const removeTag = (val) => {
@@ -83,6 +84,7 @@ const PickTeam = (props) => {
     });
     setTag(newTag);
     setListUser(newData);
+    setUserPicked([]);
   };
 
   const pickedItem = (val) => {
