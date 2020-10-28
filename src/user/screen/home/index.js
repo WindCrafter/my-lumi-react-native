@@ -17,10 +17,8 @@ import OneSignal from 'react-native-onesignal';
 
 import Header from './component/header';
 import {Card} from 'native-base';
-import ActionButton from 'react-native-action-button';
 import {BarStatus} from '../../../component';
 import {Colors, imgs} from '../../../../utlis';
-import RowCheck from './component/RowCheck';
 import Event from './component/event';
 import HistoryWeek from './component/Calendar';
 import FloatButton from './component/ActionButton';
