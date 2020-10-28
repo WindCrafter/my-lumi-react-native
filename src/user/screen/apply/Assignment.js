@@ -67,6 +67,7 @@ const Assignment = (props) => {
             </View>
             <View style={styles.column}>
               <Text style={styles.textUser}>{item.name}</Text>
+              <Text style={styles.textPos}>{item.pos}</Text>
             </View>
           </View>
           {userPicked.find((e) => e.id === item.id) ? (
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
+    fontWeight:'500',
   },
   lineUser: {
     height: StyleSheet.hairlineWidth,
@@ -157,5 +159,9 @@ const styles = StyleSheet.create({
   },
   column: {
     flexDirection: 'column',
+  },
+  textPos: {
+    marginLeft: 24,
+    fontSize: 12,
   },
 });

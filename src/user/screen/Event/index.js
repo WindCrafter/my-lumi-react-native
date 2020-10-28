@@ -278,6 +278,8 @@ const Event = (props) => {
                 onChange={onChangeTimeStart}
                 onPress={onUnshow}
                 mode={'time'}
+                show={show}
+                locale={'en-GB'}
               />
             ) : mode === 'timeEnd' ? (
               <PickerCustom
@@ -285,6 +287,8 @@ const Event = (props) => {
                 onChange={onChangeTimeEnd}
                 onPress={onUnshow}
                 mode={'time'}
+                show={show}
+                locale={'en-GB'}
               />
             ) : mode === 'dateStart' ? (
               <PickerCustom
@@ -292,6 +296,7 @@ const Event = (props) => {
                 onChange={onChangeDateStart}
                 onPress={onUnshow}
                 mode={'date'}
+                show={show}
               />
             ) : mode === 'dateEnd' ? (
               <PickerCustom
@@ -299,6 +304,7 @@ const Event = (props) => {
                 onChange={onChangeDateEnd}
                 onPress={onUnshow}
                 mode={'date'}
+                show={show}
               />
             ) : null
           ) : null}
