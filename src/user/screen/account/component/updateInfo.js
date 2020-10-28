@@ -78,7 +78,7 @@ const UpdateInfo = (props) => {
               containerStyle={styles.txtInput}
               title={langs.deviceID}
               size={16}
-              placeholder={'Nhấn sao chép'}
+              placeholder={'Nhấn để sao chép'}
               width={0}
               canedit={false}
             />

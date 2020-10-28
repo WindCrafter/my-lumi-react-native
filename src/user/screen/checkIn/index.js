@@ -52,11 +52,8 @@ const CheckIn = (props) => {
   const [code, setCode] = useState('');
   const [method, setMedthod] = useState('qr');
   const onChangeMethod = () => {
-    if (type === 'in') {
-      changeToOut();
-    } else {
-      changeToIn();
-    }
+    type === 'in' ? changeToOut() : changeToIn();
+    console.log(type)
   };
   const onCheckInCode = () => {
     const data = {

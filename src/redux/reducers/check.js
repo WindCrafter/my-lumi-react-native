@@ -46,7 +46,7 @@ export default function check(state = initialState, action) {
         ...state,
         type: 'in',
       };
-    case types.CHANGE_TO_CHECKOUT:
+    case types.CHANGETO_CHECKOUT:
       return {
         ...state,
         type: 'out',
