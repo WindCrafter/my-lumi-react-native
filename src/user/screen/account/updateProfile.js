@@ -185,7 +185,7 @@ function UpdateProfile(props) {
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Sai định dạng số điện thoại',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -193,7 +193,7 @@ function UpdateProfile(props) {
     }
     if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -201,7 +201,7 @@ function UpdateProfile(props) {
     }
     if (!regId.test(identity)) {
       _global.Alert.alert({
-        title: 'TestNotify',
+        title: 'Thông báo',
         message: 'Sai định dang CCCD/CMND',
         messageColor: Colors.danger,
         leftButton: {text: 'OK'},
@@ -213,19 +213,22 @@ function UpdateProfile(props) {
   };
 
   return (
+    <>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        title={'Khai báo thông tin'}
+        goBack={goBack}
+        rightButton
+        textPress={true}
+        onRight={onUpdateInfo}
+      />
     <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
+      
       <KeyboardAvoidingView style={styles.container}>
-        <BarStatus
-          backgroundColor={Colors.white}
-          height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-        />
-        <HeaderCustom
-          title={'Khai báo thông tin'}
-          goBack={goBack}
-          rightButton
-          textPress={true}
-          onRight={onUpdateInfo}
-        />
+       
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <Info
             name={name}
@@ -304,6 +307,7 @@ function UpdateProfile(props) {
         />
       </KeyboardAvoidingView>
     </ScrollView>
+    </>
   );
 }
 

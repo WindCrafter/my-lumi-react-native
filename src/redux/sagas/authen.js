@@ -1,5 +1,7 @@
-import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import {takeLatest, put, select, delay} from 'redux-saga/effects';
 import * as types from '../types';
+import OneSignal from 'react-native-onesignal';
+
 import {
   loginSuccess,
   loginFailed,
@@ -8,16 +10,16 @@ import {
   updateProfileSuccess,
   updateProfileFailed,
 } from '../actions/authen';
-import { URL } from '../../../utlis/connection/url';
-import { _POST } from '../../../utlis/connection/api';
-import { _global } from '../../../utlis/global/global';
+import {URL} from '../../../utlis/connection/url';
+import {_POST} from '../../../utlis/connection/api';
+import {_global} from '../../../utlis/global/global';
 import langs from '../../../common/language';
-import { Colors } from '../../../utlis';
-
+import {Colors} from '../../../utlis';
+import {removeUserIdDevice} from '../actions/user';
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
-
+// import { addUserIdDevice} from '../actions/user'
 function* sagaLoginAction(action) {
   try {
     const data = {
@@ -39,7 +41,7 @@ function* sagaLoginAction(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
         messageColor: Colors.danger,
       });
     }
@@ -48,7 +50,7 @@ function* sagaLoginAction(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
   }
@@ -66,16 +68,15 @@ function* sagaFirstLogin(action) {
       confirmPassword: action.payload.confirmPassword,
     };
     const response = yield _POST(URL_CHANGE_PASS, data, token);
-   console.log(response);
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
-    
     } else {
       yield put(changePassFailed());
     }
@@ -84,7 +85,7 @@ function* sagaFirstLogin(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: { text: 'OK' },
+      leftButton: {text: 'OK'},
       messageColor: Colors.danger,
     });
   }
@@ -93,4 +94,34 @@ function* sagaFirstLogin(action) {
 export function* watchFirstLogin() {
   yield takeLatest(types.CHANGE_PASS, sagaFirstLogin);
 }
+function* sagaLogOut() {
+  yield put(removeUserIdDevice());
+  // disable notify when logout
+  // yield put(setNotify(true));
+  yield OneSignal.setSubscription(false);
+}
 
+export function* watchLogOutAction() {
+  yield takeLatest(types.LOG_OUT, sagaLogOut);
+}
+
+/**
+ * watch login success
+ */
+function* sagaLoginSuccess(action) {
+  try {
+    // const notify = yield select(notifySelect);
+    // if (notify) {
+      console.log('nhan thong bao');
+    yield OneSignal.setSubscription(true);
+    // yield put(addUserIdDevice());
+
+    // }
+  } catch (error) {
+    console.log('sagaLoginSuccess::error', error);
+  }
+}
+
+export function* watchLoginSuccess() {
+  yield takeLatest(types.LOGIN_SUCCESS, sagaLoginSuccess);
+}

@@ -10,13 +10,13 @@ HeaderCheck.defaultProps = {
 };
 
 function HeaderCheck(props?: Props) {
-  const {onPress, title, type, pressHistory, onPressBack} = props;
+  const { onPress, title, type, pressHistory, onPressBack, onPressChange} = props;
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.body} onPress={onPressBack}>
         <Image style={styles.cancel} source={imgs.cancel} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.body} disabled>
+      <TouchableOpacity style={styles.body} onPress={onPressChange}>
         <Text style={styles.txtName}>{type}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.notify} disabled />

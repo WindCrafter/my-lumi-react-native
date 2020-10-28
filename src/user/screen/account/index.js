@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Image,
-  StatusBar,
+  StatusBar,Linking
 } from 'react-native';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -13,16 +13,18 @@ import HeaderAccount from './component/HeaderAccount';
 import CalendarCustom from './component/Calendar';
 import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
-
+import ModalInforApp from './component/ModalInforApp';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
   const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
   const name = nameUser;
   const email = emailUser;
+  const [showModal, setshowModal] = useState(false);
+
   const onLogOut = () => {
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'Bạn thực sự muốn đăng xuất ?',
       messageColor: Colors.danger,
       leftButton: {
@@ -33,7 +35,12 @@ const Account = (props) => {
       rightButton: {text: 'Cancel'},
     });
   };
-
+  const onShowModal = () => {
+    setshowModal(true);
+  };
+  const onHideModal = () => {
+    setshowModal(false);
+  };
   useEffect(() => {
     getListUsers(token);
   }, []);
@@ -43,6 +50,10 @@ const Account = (props) => {
   };
   const onMoveToContact = () => {
     navigation.navigate('Contact');
+  };
+  const openUrl = () => {
+    Linking.openURL('https://lumi.vn');
+    console.log('1');
   };
   return (
     <>
@@ -84,6 +95,7 @@ const Account = (props) => {
               rightImage={imgs.next}
               tintColor={'grey'}
               line={true}
+              onPressButton={onShowModal}
             />
             <RoundedView
               leftImage={imgs.logout}
@@ -95,6 +107,11 @@ const Account = (props) => {
             />
           </Card>
         </View>
+        <ModalInforApp
+          showModal={showModal}
+          hideModal={onHideModal}
+          openUrl={openUrl}
+        />
       </View>
     </>
   );

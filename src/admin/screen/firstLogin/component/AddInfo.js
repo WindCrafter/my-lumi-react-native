@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   txtInput: {
     width: widthPercentageToDP(80),
     borderRadius: 32,
-    backgroundColor: BACKGROUDNCOLOR,
+    backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : Colors.white,
     marginVertical: 16,
   },
   // viewInputSelect:{
@@ -161,6 +161,6 @@ const styles = StyleSheet.create({
   // }
   viewInputSelect: {
     marginVertical: 16,
-    backgroundColor: 'rgba(0,0,25,0.17)',
+    backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : Colors.white,
   },
 });

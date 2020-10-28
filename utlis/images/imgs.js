@@ -99,4 +99,5 @@ export const imgs = {
   time: require('../../common/assets/images/icon/Clock2-icon.png'),
   sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
   calendarWeek: require('../../common/assets/images/icon/Calendar-week.png'),
+  fine: require('../../common/assets/images/icon/Fine-icon.png'),
 };

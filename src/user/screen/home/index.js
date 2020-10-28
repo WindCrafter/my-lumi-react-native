@@ -11,7 +11,10 @@ import {
   StatusBar,
   TouchableOpacity,
   Image,
+  Linking,
 } from 'react-native';
+import OneSignal from 'react-native-onesignal';
+
 import Header from './component/header';
 import {Card} from 'native-base';
 import ActionButton from 'react-native-action-button';
@@ -28,8 +31,9 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+const Schema = 'lumihr://';
 
-function Home(props) {
+export default function Home(props) {
   const {navigation, nameUser, timeIn, timeOut, switchTo} = props;
 
   const onPressNotify = () => {
@@ -39,7 +43,6 @@ function Home(props) {
   const onPressLate = () => {
     navigation.navigate('ApplyLate');
   };
-
   const onPressBreak = () => {
     navigation.navigate('ApplyBreak');
   };
@@ -80,8 +83,6 @@ function Home(props) {
     </>
   );
 }
-
-export default Home;
 
 const styles = StyleSheet.create({
   container: {

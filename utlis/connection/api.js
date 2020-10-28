@@ -1,7 +1,7 @@
-import { _global } from '../global/global';
+import {_global} from '../global/global';
 
 export function _POST(url, data, token) {
-  console.log('POST: ',url,data,token)
+  console.log('POST: ', url, data, token);
   _global.Loading.show();
   const response = fetch(url, {
     method: 'POST',
@@ -13,7 +13,7 @@ export function _POST(url, data, token) {
   })
     .then(
       (res) => {
-        return res.json()
+        return res.json();
       },
       setTimeout(() => {
         _global.Loading.hide();
@@ -41,7 +41,7 @@ export function _PUT(url, data, token) {
 }
 
 export function _GET(url, token) {
-  console.log('GET: ', url, token)
+  console.log('GET: ', url, token);
 
   _global.Loading.show();
   const response = fetch(url, {

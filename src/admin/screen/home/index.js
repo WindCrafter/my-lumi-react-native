@@ -61,9 +61,9 @@ function Home(props) {
   };
 
   const onPressNotify = () => {
-    // navigation.navigate('TestNotify');
+    // navigation.navigate('Thông báo');
     _global.Alert.alert({
-      title: 'TestNotify',
+      title: 'Thông báo',
       message: 'hello',
       leftButton: { text: 'OK' },
     });

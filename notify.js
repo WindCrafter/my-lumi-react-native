@@ -5,20 +5,26 @@ import OneSignal from 'react-native-onesignal';
 import {addUserIdDevice} from './src/redux/actions/user.js';
 const Schema = 'lumihr://';
 
-function Notify({token, addUserIdDevice}) {
+function Notify(props) {
+  const {token, addUserIdDevice, deviceIds} = props;
   const onIds = (device) => {
     console.log('Device info: ', device.userId);
     const data = {
       deviceId: device.userId,
       token: token,
     };
-    console.log(data);
-    addUserIdDevice(data);
+    const aye = deviceIds && deviceIds.find((e) => e === device.userId);
+    if (!aye) {
+      addUserIdDevice(data);
+      console.log('Da them thiet bi');
+    }
+    console.log('-----------device', deviceIds);
+    console.log('-----------device ID', device.userId);
   };
   const onReceived = (notification) => {
     console.log('Notification received: ', notification);
   };
-  const onOpened = (openResult) => {
+  const onOpened = (openResult, device) => {
     console.log('Message: ', openResult.notification.payload.body);
     console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
@@ -49,20 +55,22 @@ function Notify({token, addUserIdDevice}) {
   OneSignal.inFocusDisplaying(2);
   OneSignal.promptForPushNotificationsWithUserResponse(myiOSPromptCallback);
 
-  // useEffect(() => {
-  //   const onId = (device) => {
-  //     console.log('Device info: ', device.userId);
-  //     const data = {
-  //       deviceId: device.userId,
-  //       token: token,
-  //     };
-  //     console.log(token);
-  //     addUserIdDevice(data);
-  //   };
-    // OneSignal.removeEventListener('received', onReceived);
-  //   OneSignal.removeEventListener('opened', onOpened);
-  //   OneSignal.removeEventListener('ids', onId);
-  // }, ['']);
+  useEffect(() => {
+    // const onIds = (device) => {
+    //   console.log('Device info: ', device.userId);
+    //   const data = {
+    //     deviceId: device.userId,
+    //     token: token,
+    //   };
+    //   console.log(token);
+    //   addUserIdDevice(data);
+    // };
+    return function cleanup() {
+      OneSignal.removeEventListener('received', onReceived);
+      OneSignal.removeEventListener('opened', onOpened);
+      OneSignal.removeEventListener('ids', onIds);
+    };
+  });
   return null;
 }
 const mapDispatchToProps = {
@@ -75,6 +83,7 @@ const mapStateToProps = (state) => {
     // notificationDevice: state.config.notificationDevice,
     // notify: state.config.notify
     token: state.authen.token,
+    deviceIds: state.authen.userProfile.deviceIds,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Notify);

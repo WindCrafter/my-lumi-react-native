@@ -42,6 +42,7 @@ const ModalBank = (props) => {
         backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
           <View style={styles.viewHeader}>
+            <TouchableOpacity style={styles.touchDone} disable />
             <Text style={styles.title}>Chọn ngân hàng</Text>
             <TouchableOpacity style={styles.touchDone} onPress={hideModal}>
               <Text style={styles.done}>Xong</Text>
@@ -105,8 +106,7 @@ const ModalBank = (props) => {
                   style={[
                     styles.img,
                     {
-                      backgroundColor:
-                        bankName === 'VPBank' ? '#E5E5E7' : null,
+                      backgroundColor: bankName === 'VPBank' ? '#E5E5E7' : null,
                     },
                   ]}
                 />
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   viewHeader: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingVertical: 20,
   },
   modal: {
@@ -209,8 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   done: {
-    paddingHorizontal: widthPercentageToDP(10),
-    position: 'absolute',
+    
     fontSize: 18,
     color: 'green',
   },
@@ -222,5 +221,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingBottom: 20,
   },
-  touchDone: {justifyContent: 'center', alignSelf: 'center'},
+  touchDone: {justifyContent: 'center', alignSelf: 'center',width:'20%'},
 });
