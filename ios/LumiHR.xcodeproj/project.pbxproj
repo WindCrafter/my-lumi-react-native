@@ -20,6 +20,7 @@
 		3906432744517F979EDEA857 /* libPods-LumiHR-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A32C5F52C6C2ED594375D326 /* libPods-LumiHR-tvOS.a */; };
 		42A9F20B719D31AC55820977 /* libPods-LumiHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D32B1F3D1D0EACE5208A441 /* libPods-LumiHR.a */; };
 		637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637181BE252BEB7A0030B72C /* ExternalAccessory.framework */; };
+		637A7C35254A586F00B1850D /* Quicksand.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 637A7C34254A586F00B1850D /* Quicksand.ttf */; };
 		63B3762E253EAA8A00CC4080 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3762D253EAA8A00CC4080 /* NotificationService.swift */; };
 		63B37632253EAA8A00CC4080 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63B3762B253EAA8A00CC4080 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -90,6 +91,7 @@
 		5B126CE1F84984CB6B0357F0 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		637181BD252BEB7A0030B72C /* LumiHR.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LumiHR.entitlements; path = LumiHR/LumiHR.entitlements; sourceTree = "<group>"; };
 		637181BE252BEB7A0030B72C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		637A7C34254A586F00B1850D /* Quicksand.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quicksand.ttf; sourceTree = "<group>"; };
 		639AAA64253EAF5500D78316 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		63B3762B253EAA8A00CC4080 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B3762D253EAA8A00CC4080 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -207,6 +209,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		637A7C33254A583700B1850D /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				637A7C34254A586F00B1850D /* Quicksand.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		63B3762C253EAA8A00CC4080 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +237,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				637A7C33254A583700B1850D /* Font */,
 				13B07FAE1A68108700A75B9A /* LumiHR */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* LumiHRTests */,
@@ -461,6 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				637A7C35254A586F00B1850D /* Quicksand.ttf in Resources */,
 				FA95319A24EB8A90007F7670 /* AppCenter-Config.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FACAF20124D7C01B0080F3E4 /* GoogleService-Info.plist in Resources */,
