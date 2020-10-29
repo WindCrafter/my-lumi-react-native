@@ -27,6 +27,7 @@ const UpdateInfo = (props) => {
     bankName,
     deviceId,
     onCopyDeviceID,
+    dataTeam,
   } = props;
   return (
     <View style={styles.container}>

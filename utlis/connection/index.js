@@ -14,6 +14,8 @@ const URL_GET_QR = `${URL.LOCAL_HOST}${URL.GET_QR}`;
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
+const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
+const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
 
 export class Connection extends Component {
   changePass(data, token) {
@@ -52,6 +54,12 @@ export class Connection extends Component {
   }
   overTime(data, token) {
     return _POST(URL_OVERTIME, data, token);
+  }
+  listTeams(token) {
+    return _POST(URL_TEAMS, token);
+  }
+  listAssign(token) {
+    return _POST(URL_ASSIGN, token);
   }
 }
 

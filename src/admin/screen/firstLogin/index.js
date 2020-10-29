@@ -17,7 +17,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import ModalTeam from './component/ModalTeam';
 const FirstLogin = (props) => {
-  const {changePass, token, updateProfile, name, deviceId} = props;
+  const {changePass, token, updateProfile, name, deviceId, teams} = props;
   const step = useRef();
   const refAlert = useRef(null);
   const [pass, setPass] = useState('');
@@ -160,13 +160,8 @@ const FirstLogin = (props) => {
       />
       <ModalTeam
         showModalPosition={showModalPosition}
-        pressApp={() => onSetPosition('Team App')}
-        pressBackEnd={() => onSetPosition('Team Back-end')}
-        pressFirmware={() => onSetPosition('Team Firm-ware')}
-        pressHR={() => onSetPosition('Team HR')}
-        pressOS={() => onSetPosition('Team OS')}
-        pressOther={() => onSetPosition('Team Khác')}
-        pressTester={() => onSetPosition('Team Tester')}
+        data={teams}
+        pressItem={(e) => onSetPosition(e)}
         detailPosition={detailPosition}
         setModalPosition={hidePosition}
       />

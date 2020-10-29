@@ -18,7 +18,8 @@ const initialState = {
   userProfile: {},
   remember: false,
   roleInfo: [],
-  oneSignalID:'',
+  oneSignalID: '',
+  teams: [],
 };
 
 export default function authen(state = initialState, action) {
@@ -33,6 +34,7 @@ export default function authen(state = initialState, action) {
         role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
         userProfile: action.payload.data.userProfile,
         roleInfo: action.payload.data.roles,
+        teams: action.payload.data.teams,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {

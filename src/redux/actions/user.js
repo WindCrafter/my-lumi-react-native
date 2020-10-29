@@ -130,3 +130,23 @@ export const getListAssignFailed = () => {
     type: types.GET_LIST_ASSIGN_FAILED,
   };
 };
+
+export const getListTeams = (data) => {
+  return {
+    type: types.GET_LIST_TEAMS,
+    payload: data,
+  };
+};
+
+export const getListTeamsSuccess = (data) => {
+  return {
+    type: types.GET_LIST_TEAMS_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getListTeamsFailed = () => {
+  return {
+    type: types.GET_LIST_TEAMS_FAILED,
+  };
+};

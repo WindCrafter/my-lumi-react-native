@@ -18,6 +18,7 @@ const ChangePass = (props) => {
           returnKeyType="done"
           value={pass}
           onChangeText={onChangePass}
+          keyboardType={'email-address'}
         />
         <Text style={styles.please}>Nhập lại mật khẩu mới :</Text>
         <InputPassword
@@ -28,6 +29,7 @@ const ChangePass = (props) => {
           returnKeyType="done"
           value={rePass}
           onChangeText={onChangeRePass}
+          keyboardType={'email-address'}
         />
         <Button
           title={'Hoàn thành'}

@@ -23,7 +23,7 @@ const HistoryWeek = (props) => {
   };
 
   const onDayPress = (e) => {
-    // navigation.navigate('allHistory');
+    navigation.navigate('allHistory');
     // console.log('newDay', moment().format('HH:mm') < '08:00');
   };
 
@@ -64,7 +64,7 @@ const HistoryWeek = (props) => {
               backgroundColor:
                 timeIn === '--:--'
                   ? 'rgb( 0 ,138 ,238)'
-                  : timeIn > '08:00'
+                  : timeIn > '08:15'
                   ? Colors.danger
                   : Colors.background,
             },
@@ -72,7 +72,7 @@ const HistoryWeek = (props) => {
           <Text style={styles.txtType}>
             {timeIn === '--:--'
               ? 'Đang chờ'
-              : timeIn > '08:00'
+              : timeIn > '08:15'
               ? 'Đi muộn'
               : 'Đúng giờ'}
           </Text>

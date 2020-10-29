@@ -14,6 +14,7 @@ const initialState = {
   },
   assign: [],
   listAssign: [],
+  teams:[],
 };
 
 export default function user(state = initialState, action) {
@@ -27,6 +28,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         listAssign: action.payload,
+      };
+    case types.GET_LIST_TEAMS_SUCCESS:
+      return {
+        ...state,
+        teams: action.payload,
       };
     case types.ADD_MEMBER:
       return {

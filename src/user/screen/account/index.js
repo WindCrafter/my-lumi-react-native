@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  StatusBar,Linking
+  StatusBar,
+  Linking,
 } from 'react-native';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -17,7 +18,15 @@ import ModalInforApp from './component/ModalInforApp';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 const Account = (props) => {
-  const {logOut, nameUser, emailUser, navigation, getListUsers, token} = props;
+  const {
+    logOut,
+    nameUser,
+    emailUser,
+    navigation,
+    getListUsers,
+    token,
+    getListTeams,
+  } = props;
   const name = nameUser;
   const email = emailUser;
   const [showModal, setshowModal] = useState(false);
@@ -43,6 +52,7 @@ const Account = (props) => {
   };
   useEffect(() => {
     getListUsers(token);
+    getListTeams(token);
   }, []);
 
   const onMoveToProfile = () => {
