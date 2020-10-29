@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './src/redux/store/store';
 import AppNavigator from './app-navigator';
 console.disableYellowBox = true;
-
+import {setFont} from './utlis/index'
+setFont('Quicksand-Regular')
 export default App = () => {
   return (
     <Provider store={store}>

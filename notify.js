@@ -15,17 +15,17 @@ function Notify(props) {
     getOneSignalId,
   } = props;
   const onIds = (device) => {
-    console.log('Device info: ', device.userId);
-    const data = {
-      deviceId: device.userId,
-      token: token,
-    };
+    // console.log('Device info: ', device.userId);
+    // const data = {
+    //   deviceId: device.userId,
+    //   token: token,
+    // };
     !oneSignalID && getOneSignalId(device.userId);
-    const aye = deviceIds && deviceIds.find((e) => e === device.userId);
-    if (!aye) {
-      addUserIdDevice(data);
-      console.log('Da them thiet bi');
-    }
+    // const aye = deviceIds && deviceIds.find((e) => e === device.userId);
+    // if (!aye) {
+    //   addUserIdDevice(data);
+    //   console.log('Da them thiet bi');
+    // }
     console.log('-----------device', deviceIds);
     console.log('-----------device ID', device.userId);
   };
@@ -48,7 +48,6 @@ function Notify(props) {
     }, 650);
   };
   function myiOSPromptCallback(permission) {
-    // do something with permission value
   }
   OneSignal.init('26be080e-5b50-4fb5-b375-0271163c8548', {
     kOSSettingsKeyAutoPrompt: true,
@@ -82,7 +81,7 @@ function Notify(props) {
   return null;
 }
 const mapDispatchToProps = {
-  addUserIdDevice,
+  // addUserIdDevice,
   getOneSignalId: getOneSignalID,
   // notificationReadNotifi
 };

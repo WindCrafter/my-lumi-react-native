@@ -50,9 +50,9 @@
 	<key>CodePushDeploymentKey</key>
 	<string>j_-7qwewXunDvzLvVKsbVR8DuUAZLKrfxoYUD</string>
 	<key>LSApplicationCat egoryType</key>
-	<string></string>
+	<string/>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -102,6 +102,11 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Quicksand.ttf</string>
+		<string>Quicksand-Bold.ttf</string>
+		<string>Quicksand-Light.ttf</string>
+		<string>Quicksand-Medium.ttf</string>
+		<string>Quicksand-Regular.ttf</string>
+		<string>Quicksand-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

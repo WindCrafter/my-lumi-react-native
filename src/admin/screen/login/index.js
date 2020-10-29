@@ -17,11 +17,20 @@ import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {loginAction, token, changeAutoLogin, autoLoginStatus} = props;
+  const {
+    loginAction,
+    token,
+    changeAutoLogin,
+    autoLoginStatus,
+    oneSignalID,
+    addUserIdDevice,
+    loginSuccess
+  } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -50,8 +59,11 @@ const Login = (props) => {
       });
       return;
     } else {
-      loginAction({email, password: pass});
+
+      loginAction({ email, password: pass, oneSignalID: oneSignalID});
       changeAutoLogin(checked);
+      // addUserIdDevice({ deviceId: oneSignalID, token: token });
+
     }
   };
 
@@ -73,11 +85,10 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
-
       <Logo containerStyle={styles.logo} />
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.detail}>
-          <KeyboardAvoidingView >
+          <KeyboardAvoidingView>
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
