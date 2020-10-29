@@ -12,6 +12,10 @@ import {
   removeUserIdDeviceFailed,
   addUserIdDeviceSuccess,
   addUserIdDeviceFailed,
+  getListTeamsSuccess,
+  getListTeamsFailed,
+  getListAssignSuccess,
+  getListAssignFailed,
 } from '../actions/user';
 import OneSignal from 'react-native-onesignal';
 
@@ -21,6 +25,8 @@ const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
 const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
 const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
+const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
+const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
 const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -102,6 +108,7 @@ function* sagaAddUserIdDevice(action) {
 export function* watchAddUserIdDevice() {
   yield takeLatest(types.ADD_USER_ID_DEVICE, sagaAddUserIdDevice);
 }
+
 function* sagaRemoveUserIdDevice(action) {
   try {
     console.log(action);
@@ -135,4 +142,44 @@ function* sagaRemoveUserIdDevice(action) {
 
 export function* watchRemoveUserIdDevice() {
   yield takeLatest(types.REMOVE_USER_ID_DEVICE, sagaRemoveUserIdDevice);
+}
+
+function* sagaGetListTeams(action) {
+  try {
+    console.log(action);
+    const token = action.payload;
+    const response = yield _GET(URL_TEAMS, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getListTeamsSuccess(response.data));
+    } else {
+      yield put(getListTeamsFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListTeams() {
+  yield takeLatest(types.GET_LIST_TEAMS, sagaGetListTeams);
+}
+
+function* sagaGetListAssign(action) {
+  try {
+    console.log(action);
+    const token = action.payload;
+    const response = yield _GET(URL_ASSIGN, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getListAssignSuccess(response.data));
+    } else {
+      yield put(getListAssignFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListAssign() {
+  yield takeLatest(types.GET_LIST_ASSIGN, sagaGetListAssign);
 }

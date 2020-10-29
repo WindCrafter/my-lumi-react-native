@@ -34,8 +34,12 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+const DATA =[
+  {name:'1', teamId:'1'}
+]
+
 const AddStaff = (props) => {
-  const {navigation, getListRoles, token, addStaff, roleInfo} = props;
+  const {navigation, getListRoles, token, addStaff, roleInfo, teams} = props;
 
   const refEmail = useRef(null);
   const refPhone = useRef(null);
@@ -231,13 +235,8 @@ const AddStaff = (props) => {
         <View>
           <ModalTeam
             showModalPosition={showModalPosition}
-            pressApp={() => onSetPosition('Team App')}
-            pressBackEnd={() => onSetPosition('Team Back-end')}
-            pressFirmware={() => onSetPosition('Team Firm-ware')}
-            pressHR={() => onSetPosition('Team HR')}
-            pressOS={() => onSetPosition('Team OS')}
-            pressOther={() => onSetPosition('Team Khác')}
-            pressTester={() => onSetPosition('Team Tester')}
+            data={teams}
+            pressItem={(e)=> onSetPosition(e)}
             detailPosition={detailPosition}
             setModalPosition={hidePosition}
           />

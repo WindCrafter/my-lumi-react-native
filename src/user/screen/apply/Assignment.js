@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   Platform,
@@ -15,22 +15,26 @@ import Icon from 'react-native-vector-icons/Feather';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Card} from 'native-base';
 
-const listUser = [
-  {name: 'Batman', pos: ['Admin'], id: '1'},
-  {name: 'Joker', pos: ['Leader'], id: '2'},
-  {name: 'Supa Man', pos: ['Leader'], id: '3'},
-  {name: 'Flash', pos: ['Leader'], id: '4'},
-  {name: 'Wonder Boy', pos: ['Leader'], id: '5'},
-  {name: 'Chạn Vương', pos: ['Leader'], id: '6'},
-];
-
 const Assignment = (props) => {
-  const {navigation, addAssign, assign} = props;
-  const newData = listUser.filter((e) => assign.find((i) => i.id === e.id));
+  const {
+    navigation,
+    addAssign,
+    assign,
+    listAssign,
+    getListAssign,
+    token,
+  } = props;
+  const newData = listAssign.filter((e) =>
+    assign.find((i) => i.userId === e.userId),
+  );
   const [userPicked, setUserPicked] = useState(newData);
   const goBack = () => {
     navigation.goBack({userPicked});
   };
+
+  useEffect(() => {
+    getListAssign(token);
+  }, []);
 
   const pickedItem = (val) => {
     setUserPicked([...userPicked, val]);
@@ -38,7 +42,7 @@ const Assignment = (props) => {
   };
 
   const removeItem = (val) => {
-    const newList = userPicked.filter((e) => !(e.id === val.id));
+    const newList = userPicked.filter((e) => !(e.userId === val.userId));
     setUserPicked(newList);
   };
 
@@ -53,7 +57,7 @@ const Assignment = (props) => {
         <TouchableOpacity
           style={styles.btUser}
           onPress={() =>
-            userPicked.find((e) => e.id === item.id)
+            userPicked.find((e) => e.userId === item.userId)
               ? removeItem(item)
               : pickedItem(item)
           }>
@@ -70,7 +74,7 @@ const Assignment = (props) => {
               <Text style={styles.textPos}>{item.pos}</Text>
             </View>
           </View>
-          {userPicked.find((e) => e.id === item.id) ? (
+          {userPicked.find((e) => e.userId === item.userId) ? (
             <Icon
               name="check"
               style={styles.icon}
@@ -79,7 +83,7 @@ const Assignment = (props) => {
             />
           ) : null}
         </TouchableOpacity>
-        {index === listUser.length - 1 ? null : (
+        {index === listAssign.length - 1 ? null : (
           <View style={styles.lineUser} />
         )}
       </>
@@ -99,13 +103,17 @@ const Assignment = (props) => {
         textPress={true}
         onRight={onDone}
       />
-      <Card style={styles.card}>
-        <FlatList
-          data={listUser}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
-      </Card>
+      {listAssign ? (
+        <Card style={styles.card}>
+          <FlatList
+            data={listAssign}
+            keyExtractor={(item) => item.userId}
+            renderItem={renderItem}
+          />
+        </Card>
+      ) : (
+        <Text style={styles.textUser}>Bạn chưa thuộc team nào!!</Text>
+      )}
     </>
   );
 };
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
-    fontWeight:'500',
+    fontWeight: '500',
   },
   lineUser: {
     height: StyleSheet.hairlineWidth,

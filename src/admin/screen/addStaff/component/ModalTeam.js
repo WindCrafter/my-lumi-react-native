@@ -6,27 +6,36 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { TextSelect, Button } from '../../../../component';
+import {TextSelect, Button} from '../../../../component';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Colors } from '../../../../../utlis';
+import {Colors} from '../../../../../utlis';
 
 const ModalTeam = (props) => {
   const {
-    pressApp,
-    pressBackEnd,
-    pressFirmware,
-    pressHR,
-    pressOS,
-    pressOther,
-    pressTester,
+    data,
     detailPosition,
     setModalPosition,
     showModalPosition,
+    pressItem,
   } = props;
+
+  const renderItem = ({item}) => {
+    return (
+      <View>
+        <TextSelect
+          title={item.name}
+          onPressButton={() => pressItem(item.name)}
+          checkTick={detailPosition === item.name ? true : false}
+        />
+      </View>
+    );
+  };
+
   return (
     <View>
       <Modal
@@ -39,43 +48,12 @@ const ModalTeam = (props) => {
         backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
           <Text style={styles.titlemodal}>Vị trí</Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <TextSelect
-              title={'App'}
-              onPressButton={pressApp}
-              checkTick={detailPosition === 'Team App' ? true : false}
-            />
-            <TextSelect
-              title={'HR'}
-              onPressButton={pressHR}
-              checkTick={detailPosition === 'Team HR' ? true : false}
-            />
-            <TextSelect
-              title={'Tester'}
-              onPressButton={pressTester}
-              checkTick={detailPosition === 'Team Tester' ? true : false}
-            />
-            <TextSelect
-              title={'OS'}
-              onPressButton={pressOS}
-              checkTick={detailPosition === 'Team OS' ? true : false}
-            />
-            <TextSelect
-              title={'Firmware'}
-              onPressButton={pressFirmware}
-              checkTick={detailPosition === 'Team Firm-ware' ? true : false}
-            />
-            <TextSelect
-              title={'Back-end'}
-              onPressButton={pressBackEnd}
-              checkTick={detailPosition === 'Team Back-end' ? true : false}
-            />
-            <TextSelect
-              title={'Khác'}
-              onPressButton={pressOther}
-              checkTick={detailPosition === 'Team Khác' ? true : false}
-            />
-          </ScrollView>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.teamId}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+          />
           <Button
             title={'Xong'}
             containerStyle={styles.complete}

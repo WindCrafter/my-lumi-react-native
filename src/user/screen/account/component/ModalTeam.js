@@ -8,17 +8,15 @@ import {
 } from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 
-const DATA = [{team: 'App'}, {team: 'System'}, {team: 'OS'}, {team: 'Test'}];
-
 const ModalTeam = (props) => {
-  const {hideModal, showModal, detailTeam, pressItem} = props;
+  const {hideModal, showModal, detailTeam, pressItem, dataTeam} = props;
 
   const renderItem = ({item}) => {
     return (
       <TextSelect
-        title={item.team}
-        onPressButton={() => pressItem(item.team)}
-        checkTick={detailTeam === item.team ? true : false}
+        title={item.name}
+        onPressButton={() => pressItem(item.name)}
+        checkTick={detailTeam === item.name ? true : false}
       />
     );
   };
@@ -35,8 +33,8 @@ const ModalTeam = (props) => {
         <View style={styles.modalview}>
           <Text style={styles.titlemodal}>Chọn team</Text>
           <FlatList
-            data={DATA}
-            keyExtractor={(item) => item.team}
+            data={dataTeam}
+            keyExtractor={(item) => item.teamId}
             renderItem={renderItem}
           />
           <Button

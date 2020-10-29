@@ -207,7 +207,7 @@ function ApplyBreak(props) {
             </View>
             <View style={styles.column}>
               <Text style={styles.textUser}>{item.name}</Text>
-              <Text style={styles.textPos}>{item.pos}</Text>
+              {/* <Text style={styles.textPos}>{item.pos}</Text> */}
             </View>
           </View>
         </View>

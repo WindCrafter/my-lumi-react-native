@@ -41,6 +41,7 @@ function UpdateProfile(props) {
     teamUser,
     birthdayUser,
     deviceId,
+    teams,
   } = props;
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
@@ -317,6 +318,7 @@ function UpdateProfile(props) {
             showModal={showTeam}
             hideModal={onHideTeam}
             detailTeam={team}
+            dataTeam={teams}
             pressItem={(e) => onChangeTeam(e)}
           />
         </KeyboardAvoidingView>

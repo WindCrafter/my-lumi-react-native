@@ -27,6 +27,7 @@ const Account = (props) => {
     token,
     oneSignalID,
     removeUserIdDevice,
+    getListTeams,
   } = props;
   const name = nameUser;
   const email = emailUser;
@@ -61,6 +62,7 @@ const Account = (props) => {
   };
   useEffect(() => {
     getListUsers(token);
+    getListTeams(token);
   }, []);
 
   const onMoveToProfile = () => {

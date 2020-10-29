@@ -22,8 +22,9 @@ const HistoryWeek = (props) => {
     };
   };
 
-  const onDayPress = () => {
+  const onDayPress = (e) => {
     navigation.navigate('allHistory');
+    // console.log('newDay', moment().format('HH:mm') < '08:00');
   };
 
   return (
@@ -55,8 +56,26 @@ const HistoryWeek = (props) => {
           <Icon color={'#008aee'} name={'arrow-left'} size={20} />
           <Text style={styles.txtTime}>{timeOut ? timeOut : '--:--'}</Text>
         </Card>
-        <View style={styles.type}>
-          <Text style={styles.txtType}>{type ? type : '????'}</Text>
+        <View
+          style={[
+            styles.type,
+            // eslint-disable-next-line react-native/no-inline-styles
+            {
+              backgroundColor:
+                timeIn === '--:--'
+                  ? 'rgb( 0 ,138 ,238)'
+                  : timeIn > '08:15'
+                  ? Colors.danger
+                  : Colors.background,
+            },
+          ]}>
+          <Text style={styles.txtType}>
+            {timeIn === '--:--'
+              ? 'Đang chờ'
+              : timeIn > '08:15'
+              ? 'Đi muộn'
+              : 'Đúng giờ'}
+          </Text>
         </View>
       </View>
     </View>
