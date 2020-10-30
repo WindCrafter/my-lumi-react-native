@@ -89,9 +89,9 @@ function ApplyOT(props) {
       date: moment().format('DD/MM/YYYY'),
       token: token,
       start: moment(hour).format('HH:mm'),
-      assignTo:assign[0].userId,
-      description:reason,
-      advance:{}
+      assignTo: assign ? assign.userId : null,
+      description: reason,
+      advance: {},
     };
     overTime(data);
   };
@@ -128,7 +128,6 @@ function ApplyOT(props) {
             </View>
           </View>
         </View>
-        {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
       </>
     );
   };
@@ -196,36 +195,28 @@ function ApplyOT(props) {
             width={'90%'}
             leftImage={imgs.personal}
             borderRadius={32}
-            rightImage={imgs.add}
+            rightImage={assign ? imgs.return : imgs.add}
             height={54}
             shadowColor={'white'}
-            title={
-              assign && assign.length > 0
-                ? `Đang chọn ${assign.length} người phê duyệt `
-                : 'Chọn người phê duyệt'
-            }
+            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
             onPressButton={onGoAssignment}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={
-              assign && assign.length > 0
-                ? Colors.background
-                : 'rgba(4, 4, 15, 0.45)'
-            }
+            color={'rgba(4, 4, 15, 0.45)'}
             detail={''}
           />
-          {assign && assign.length > 0 ? (
+          {assign && (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
-                data={assign}
+                data={[assign]}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
               />
             </Card>
-          ) : null}
+          )}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />

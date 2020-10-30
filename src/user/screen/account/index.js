@@ -28,6 +28,7 @@ const Account = (props) => {
     oneSignalID,
     removeUserIdDevice,
     getListTeams,
+    kickAssign,
   } = props;
   const name = nameUser;
   const email = emailUser;
@@ -53,6 +54,7 @@ const Account = (props) => {
       token: token,
     };
     removeUserIdDevice(data);
+    kickAssign();
   };
   const onShowModal = () => {
     setshowModal(true);

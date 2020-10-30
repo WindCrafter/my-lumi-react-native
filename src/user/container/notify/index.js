@@ -4,7 +4,7 @@ import Notify from '../../screen/notify';
 import {getListNotifys} from '../../../redux/actions/user';
 const mapStateToProps = (state) => ({
   token: state.authen.token,
-  listNotifys: state.user.listNotifys.notify,
+  listNotifys: state.user.listNotifys,
 });
 
 const mapDispatchToProps = {

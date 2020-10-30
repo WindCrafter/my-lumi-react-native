@@ -71,13 +71,12 @@ function ApplyLate(props) {
       time: time,
       date: moment().format('DD/MM/YYYY'),
       token: token,
-      description:reason,
+      description: reason,
       advance: {},
-      assignTo:assign[0].userId
-
+      assignTo: assign ? assign.userId : null,
     };
     setLateEarly(data);
-    console.log('checkkk----',data)
+    console.log('checkkk----', data);
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
@@ -118,7 +117,6 @@ function ApplyLate(props) {
             </View>
           </View>
         </View>
-        {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
       </>
     );
   };
@@ -193,33 +191,25 @@ function ApplyLate(props) {
             rightImage={imgs.add}
             height={54}
             shadowColor={'white'}
-            title={
-              assign && assign.length > 0
-                ? `Đang chọn ${assign.length} người phê duyệt `
-                : 'Chọn người phê duyệt'
-            }
+            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
             onPressButton={onGoAssignment}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={
-              assign && assign.length > 0
-                ? Colors.background
-                : 'rgba(4, 4, 15, 0.45)'
-            }
+            color={'rgba(4, 4, 15, 0.45)'}
             detail={''}
           />
-          {assign && assign.length > 0 ? (
+          {assign && (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
-                data={assign}
+                data={[assign]}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
               />
             </Card>
-          ) : null}
+          )}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
@@ -408,7 +398,7 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
-    fontWeight:'500',
+    fontWeight: '500',
   },
   avatar: {
     width: 40,
@@ -422,7 +412,7 @@ const styles = StyleSheet.create({
     marginLeft: 24,
     fontSize: 12,
   },
-  viewInputSelect:{
+  viewInputSelect: {
     backgroundColor: Colors.white,
   },
 });
