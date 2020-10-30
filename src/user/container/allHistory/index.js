@@ -3,7 +3,7 @@ import allHistory from '../../screen/allHistory';
 import {getListCheck} from '../../../redux/actions/user';
 const mapStateToProps = (state) => ({
   token: state.authen.token,
-  history: state.authen.history,
+  history: state.user.history,
 });
 
 const mapDispatchToProps = {
