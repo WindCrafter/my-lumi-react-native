@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
   emailUser: state.authen.userProfile.email,
   switchTo: state.check.switchTo,
   timeIn: state.check.timeCheckIn,
-  timeOut: state.check.timeCheckIn,
+  timeOut: state.check.timeCheckOut,
   token: state.authen.token,
 
 });

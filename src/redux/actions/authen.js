@@ -97,3 +97,61 @@ export const getOneSignalID = (data) => {
     payload: data,
   };
 };
+export const setStatusOT = (data) => {
+  return {
+    type: types.SET_STATUS_OT,
+    payload: data,
+  };
+};
+
+export const setStatusOTSuccess = (data) => {
+  return {
+    type: types.SET_STATUS_OT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const setStatusOTFailed = () => {
+  return {
+    type: types.SET_STATUS_OT_FAILED,
+  };
+};
+
+export const setStatusBreak = (data) => {
+  return {
+    type: types.SET_STATUS_BREAK,
+    payload: data,
+  };
+};
+
+export const setStatusBreakSuccess = (data) => {
+  return {
+    type: types.SET_STATUS_BREAK_SUCCESS,
+    payload: data,
+  };
+};
+
+export const setStatusBreakFailed = () => {
+  return {
+    type: types.SET_STATUS_BREAK_FAILED,
+  };
+};
+export const setStatusLateEarly = (data) => {
+  return {
+    type: types.SET_STATUS_LATE_EARLY,
+    payload: data,
+  };
+};
+
+export const setStatusLateEarlySuccess = (data) => {
+  return {
+    type: types.SET_STATUS_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const setStatusLateEarlyFailed = () => {
+  return {
+    type: types.SET_STATUS_LATE_EARLY_FAILED,
+  };
+};

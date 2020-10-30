@@ -69,7 +69,7 @@ function ApplyBreak(props) {
         date: moment(dateEnd).format('DD/MM/YYYY'),
         shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
       },
-      assignTo: assign[0].userId,
+      assignTo: assign ? assign[0].userId : null,
       description: reason,
       advance: {}
     };
@@ -77,7 +77,6 @@ function ApplyBreak(props) {
     takeLeave(data);
   };
   const onTakeLeaveDay = () => {
-    console.log(userId);
     const data = {
       token: token,
       startDate: {
@@ -88,7 +87,7 @@ function ApplyBreak(props) {
         date: moment(day).format('DD/MM/YYYY'),
         shift: 'afternoon',
       },
-      assignTo: assign[0].userId,
+      assignTo: assign ? assign[0].userId : null,
       description:reason,
       advance:{}
     };
@@ -107,7 +106,7 @@ function ApplyBreak(props) {
         date: null,
         shift: null,
       },
-      assignTo: assign[0].userId,
+      assignTo: assign ? assign[0].userId : null,
       description: reason,
       advance: {}
     };

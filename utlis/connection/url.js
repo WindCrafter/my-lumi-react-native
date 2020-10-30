@@ -19,5 +19,8 @@ export const URL = {
   REMOVE_USERID_DEVICE: '/user/remove-device-id',
   GET_LIST_TEAMS: '/user/list-teams',
   GET_LIST_ASSIGN: '/user/list-assign',
-  GET_LIST_NOTIFY:'/user/list-notify?page=1'
+  GET_LIST_NOTIFY: '/user/list-notify?page=',
+  SET_STATUS_OVERTIME: '/user/change-status-overtime',
+  SET_STATUS_BREAK: 'change-status-take-leave',
+  SET_STATUS_LATE_EARLY: '/user/change-status-late-early',
 };

@@ -169,3 +169,4 @@ export const getListNotifysFailed = () => {
     type: types.GET_LIST_NOTIFYS_FAILED,
   };
 };
+

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -18,73 +18,110 @@ import {
 import HeaderNotify from '../../component/HeaderNotify';
 import {BarStatus} from '../../../../../component';
 import {Card} from 'native-base';
-import {imgs} from '../../../../../../utlis';
-import ModalInfor from '../../component/ModalInfor';
+import moment from 'moment';
 
-const Verify = () => {
-  const [showModal, setShowModal] = useState(false);
-
-  const onShowModal = () => {
-    setShowModal(true);
+const Verify = (props) => {
+  const {
+    navigation,
+    route,
+    setStatusBreak,
+    setStatusLateEarly,
+    setStatusOT,
+    token,
+  } = props;
+  const data = route.params;
+  const onSetStatusBreak = (e) => {
+    const datapost = {
+      token: token,
+      takeLeaveId: data.data.takeLeaveId,
+      status: e,
+    };
+    setStatusBreak(datapost);
   };
-  const hideModal = () => {
-    setShowModal(false);
+  const onSetStatusOT = (e) => {
+    const datapost = {
+      token: token,
+      overtimeId: data.data.data.overtimeId,
+      status: e,
+    };
+    setStatusOT(datapost);
   };
-
+  const onSetStatusLateEarly = (e) => {
+    const datapost = {
+      token: token,
+      lateEarlyId: data.data.data.lateEarlyId,
+      status: e,
+    };
+    setStatusLateEarly(datapost);
+  };
+  const onAccept = () => {
+    switch (data.data.type) {
+      case 'late_early':
+        onSetStatusLateEarly(1);
+        break;
+      case 'overtime':
+        onSetStatusOT(1);
+        break;
+      case 'take_leave':
+        onSetStatusBreak(1);
+        break;
+    }
+  };
+  const onRefuse = () => {
+    switch (data.data.type) {
+      case 'late_early':
+        onSetStatusLateEarly(2);
+        break;
+      case 'overtime':
+        onSetStatusOT(2);
+        break;
+      case 'take_leave':
+        onSetStatusBreak(2);
+        break;
+    }
+  };
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <View style={styles.container}>
-      <BarStatus />
       <Card style={styles.card}>
         <View style={styles.viewMid}>
-          <View style={styles.front}>
-            <Image source={imgs.KPI} style={styles.img} />
-            <Text style={styles.textDetail}>Xếp loại KPI :</Text>
-          </View>
-
-          <Text style={styles.textDetail}>Xin nghỉ</Text>
+          <Text style={styles.textDetail}>Loại yêu cầu</Text>
+          <Text style={styles.textDetail}>{data.data.headings.en}</Text>
         </View>
-        <View style={styles.line} />
         <View style={styles.viewMid}>
-          <View style={styles.front}>
-            <Image source={imgs.fine} style={styles.img} />
-            <Text style={styles.textDetail}>Tiền trừ đi muộn:</Text>
-          </View>
-
-          <Text style={styles.textDetail}>-2 ngày công</Text>
+          <Text style={styles.textDetail}>Ngày làm việc :</Text>
+          <Text style={styles.textDetail}>
+            {moment(data.data.createdAt).format('DD/MM/YYYY')}
+          </Text>
         </View>
-        <View style={styles.line} />
-
-        <TouchableOpacity style={styles.viewMid} onPress={onShowModal}>
-          <View style={styles.front}>
-            <Image source={imgs.lateIcon} style={styles.img} />
-            <Text style={styles.textDetail}>Số ngày nghỉ:</Text>
-          </View>
-
-          <Text style={styles.textDetail}>4</Text>
-        </TouchableOpacity>
-        <View style={styles.line} />
-
         <View style={styles.viewMid}>
-          <View style={styles.front}>
-            <Image source={imgs.buttoncheckin} style={styles.img} />
-            <Text style={styles.textDetail}>Công thực tế :</Text>
+          <Text style={styles.textDetail}>Tình trạng :</Text>
+          <View style={styles.reason}>
+            <Text style={styles.status} numberOfLines={3}>
+              {data.data.contents.en}
+            </Text>
           </View>
-
-          <Text style={styles.textDetail}>20</Text>
         </View>
-        <View style={styles.line} />
-
-        <View style={styles.viewMid}>
-          <View style={styles.front}>
-            <Image source={imgs.stampCheck} style={styles.img} />
-            <Text style={styles.textDetail}>Công tính lương :</Text>
-          </View>
-
-          <Text style={styles.textDetail}>24</Text>
-        </View>
-        <View style={styles.line} />
       </Card>
-      <ModalInfor showModal={showModal} hideModal={hideModal} />
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          justifyContent: 'space-around',
+        }}>
+        <TouchableOpacity onPress={onAccept}>
+          <View style={{width: 50, height: 50, backgroundColor: 'blue'}}>
+            <Text>Xác nhận</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onRefuse}>
+          <View style={{width: 50, height: 50, backgroundColor: 'red'}}>
+            <Text>Từ chối</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -93,7 +130,7 @@ export default Verify;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexDirection: 'column',
   },
   card: {
     borderRadius: 16,
@@ -104,32 +141,18 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    flexDirection: 'column',
   },
 
   viewMid: {
-    paddingVertical: 8,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     height: 40,
     flexDirection: 'row',
-  },
-  front: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  img: {
-    width: 24,
-    height: 24,
-    tintColor: 'black',
-  },
-  textDetail: {
-    marginLeft: 12,
-  },
-  line: {
-    width: '80%',
-    height: 1,
-    backgroundColor: 'black',
-    alignSelf: 'center',
+    justifyContent: 'space-between',
     marginVertical: 8,
+  },
+  status: {},
+  reason: {
+    width: '60%',
+    textAlign: 'right',
   },
 });

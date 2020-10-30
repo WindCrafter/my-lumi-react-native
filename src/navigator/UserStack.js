@@ -25,7 +25,7 @@ import PickTeam from '../user/container/event/PickTeam';
 import ForgotPass from '../user/container/forgotPassword/forgotPass'
 import allHistory from '../user/container/allHistory/index'
 import Confirm from '../user/screen/notify/type/confirm'
-import Verify from '../user/screen/notify/type/verify'
+import verify from '../user/container/notify/verify'
 import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 const Stack = createStackNavigator();
@@ -139,8 +139,8 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Xác nhận KPI'}
-        component={Verify}
+        name={'Xác nhận đơn'}
+        component={verify}
         options={{
           headerBackTitleVisible: false,
           headerStyle: {

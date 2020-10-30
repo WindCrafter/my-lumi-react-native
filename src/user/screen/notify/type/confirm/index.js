@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -18,22 +18,34 @@ import {
 import HeaderNotify from '../../component/HeaderNotify';
 import {BarStatus} from '../../../../../component';
 import {Card} from 'native-base';
+import moment from 'moment';
 
-const Confirm = () => {
+const Confirm = (props) => {
+  const {navigation, route} = props;
+  const data = route.params;
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
         <View style={styles.viewMid}>
           <Text style={styles.textDetail}>Loại yêu cầu</Text>
-          <Text style={styles.textDetail}>Xin nghỉ</Text>
+          <Text style={styles.textDetail}>{data.data.headings.en}</Text>
         </View>
         <View style={styles.viewMid}>
           <Text style={styles.textDetail}>Ngày làm việc :</Text>
-          <Text style={styles.textDetail}>20/08/2020</Text>
+          <Text style={styles.textDetail}>
+            {moment(data.data.createdAt).format('DD/MM/YYYY')}
+          </Text>
         </View>
         <View style={styles.viewMid}>
           <Text style={styles.textDetail}>Tình trạng :</Text>
-          <Text style={styles.textDetail}>Đã duyệt</Text>
+          <View style={styles.reason}>
+            <Text style={styles.status} numberOfLines={3}>
+              {data.data.contents.en}
+            </Text>
+          </View>
         </View>
         <View style={styles.viewMid}>
           <Text style={styles.textDetail}>Người duyệt :</Text>
@@ -66,5 +78,12 @@ const styles = StyleSheet.create({
     height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 8,
+  },
+  status: {},
+  reason: {
+    width: '60%',
+    textAlign: 'right',
+    
   },
 });

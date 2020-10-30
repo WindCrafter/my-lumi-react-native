@@ -65,7 +65,6 @@ function ApplyLate(props) {
     unFocus();
   };
   const onsetLateEarly = () => {
-    console.log(userId);
     const data = {
       type: type,
       time: time,

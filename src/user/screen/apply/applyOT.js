@@ -83,7 +83,6 @@ function ApplyOT(props) {
     unFocus();
   };
   const onSetOverTime = () => {
-    console.log(userId);
     const data = {
       time: time,
       date: moment().format('DD/MM/YYYY'),
