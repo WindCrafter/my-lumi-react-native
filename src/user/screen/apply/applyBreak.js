@@ -60,7 +60,6 @@ function ApplyBreak(props) {
   const onTakeLeaveDays = () => {
     console.log(userId);
     const data = {
-      userId: userId,
       token: token,
       startDate: {
         date: moment(dateStart).format('DD/MM/YYYY'),
@@ -70,13 +69,16 @@ function ApplyBreak(props) {
         date: moment(dateEnd).format('DD/MM/YYYY'),
         shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
       },
+      assignTo: assign[0].userId,
+      description: reason,
+      advance: {}
     };
+    console.log('dataaaaaa', data);
     takeLeave(data);
   };
   const onTakeLeaveDay = () => {
     console.log(userId);
     const data = {
-      userId: userId,
       token: token,
       startDate: {
         date: moment(day).format('DD/MM/YYYY'),
@@ -86,13 +88,16 @@ function ApplyBreak(props) {
         date: moment(day).format('DD/MM/YYYY'),
         shift: 'afternoon',
       },
+      assignTo: assign[0].userId,
+      description:reason,
+      advance:{}
     };
+    console.log('dataaaaaa',data);
     takeLeave(data);
   };
   const onTakeLeaveShift = () => {
     console.log(userId);
     const data = {
-      userId: userId,
       token: token,
       startDate: {
         date: moment(shift).format('DD/MM/YYYY'),
@@ -102,7 +107,11 @@ function ApplyBreak(props) {
         date: null,
         shift: null,
       },
+      assignTo: assign[0].userId,
+      description: reason,
+      advance: {}
     };
+    console.log('dataaaaaa', data);
     takeLeave(data);
   };
   const goBack = () => {

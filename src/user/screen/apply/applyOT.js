@@ -85,11 +85,13 @@ function ApplyOT(props) {
   const onSetOverTime = () => {
     console.log(userId);
     const data = {
-      userId: userId,
       time: time,
       date: moment().format('DD/MM/YYYY'),
       token: token,
-      start: moment(hour).format('hh:mm'),
+      start: moment(hour).format('HH:mm'),
+      assignTo:assign[0].userId,
+      description:reason,
+      advance:{}
     };
     overTime(data);
   };

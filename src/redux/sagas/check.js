@@ -48,7 +48,6 @@ function* sagaCheckIn(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      yield put(checkInFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
@@ -57,6 +56,7 @@ function* sagaCheckIn(action) {
       });
     }
   } catch (error) {
+    yield put(checkInFailed());
     console.log(error);
     _global.Alert.alert({
       title: 'Thông báo',
@@ -109,7 +109,6 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      yield put(checkInFailed());
       _global.Alert.alert({
         title: 'Thông báo',
         message: response.message,
@@ -121,6 +120,8 @@ function* sagaCheckInWifi(action) {
       });
     }
   } catch (error) {
+    yield put(checkInFailed());
+
     console.log(error);
     _global.Alert.alert({
       title: 'Thông báo',
@@ -177,8 +178,11 @@ function* sagaSetLateEarly(action) {
     const data = {
       date: action.payload.date,
       type: action.payload.type,
-      userId: action.payload.userId,
       time: action.payload.time,
+      assignTo: action.payload.assignTo,
+      advance: action.payload.advance,
+      description: action.payload.description
+
     };
     const token = action.payload.token;
     const response = yield _POST(URL_LATE_EARLY, data, token);
@@ -219,8 +223,10 @@ function* sagaTakeLeave(action) {
   try {
     const data = {
       startDate: action.payload.startDate,
-      userId: action.payload.userId,
       endDate: action.payload.endDate,
+      assignTo: action.payload.assignTo,
+      advance: action.payload.advance,
+      description: action.payload.description,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);
@@ -262,9 +268,11 @@ function* sagaOverTime(action) {
   try {
     const data = {
       start: action.payload.start,
-      userId: action.payload.userId,
       date: action.payload.date,
       time: action.payload.time,
+      assignTo: action.payload.assignTo,
+      advance: action.payload.advance,
+      description: action.payload.description,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_OVERTIME, data, token);

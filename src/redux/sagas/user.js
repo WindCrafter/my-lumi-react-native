@@ -16,6 +16,8 @@ import {
   getListTeamsFailed,
   getListAssignSuccess,
   getListAssignFailed,
+  getListNotifysFailed,
+  getListNotifysSuccess
 } from '../actions/user';
 import OneSignal from 'react-native-onesignal';
 
@@ -27,6 +29,7 @@ const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
 const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
 const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
+const URL_NOTIFY =`${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}`
 const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -182,4 +185,23 @@ function* sagaGetListAssign(action) {
 
 export function* watchGetListAssign() {
   yield takeLatest(types.GET_LIST_ASSIGN, sagaGetListAssign);
+}
+function* sagaGetListNotifys(action) {
+  try {
+    console.log(action);
+    const token = action.payload;
+    const response = yield _GET(URL_NOTIFY, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getListNotifysSuccess(response.data));
+    } else {
+      yield put(getListNotifysFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListNotifys() {
+  yield takeLatest(types.GET_LIST_NOTIFYS, sagaGetListNotifys);
 }

@@ -17,13 +17,17 @@ import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
 import {Combine} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {Colors} from '../../../../utlis';
+import {Colors, imgs} from '../../../../utlis';
 
 const Notify = (props) => {
-  const {navigation} = props;
+  useEffect(() => {
+    getListNotifys(token);
+  }, []);
+  const { navigation, getListNotifys, token, listNotifys} = props;
   const [toTop, setToTop] = useState(false);
   const [position, setPosition] = useState(0);
   const refList = useRef('');
+  const [listData, setListData] = useState(listNotifys);
 
  
 
@@ -41,17 +45,17 @@ const Notify = (props) => {
     refList.current.scrollToOffset({animated: true, offset: 0});
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = (data) => {
    
     const onShow = () => {
-      switch (item.type) {
+      switch (data.type) {
         case 'confirm':
-          navigation.navigate('Xác nhận');
+          navigation.navigate('confirm_overtime');
           break;
-        case 'warning':
+        case 'late_early':
           navigation.navigate('CheckIn');
           break;
-        case 'verify':
+        case 'confirm_take_leave':
           navigation.navigate('Xác nhận KPI');
           break;
       }
@@ -59,11 +63,11 @@ const Notify = (props) => {
     return (
       <TouchableOpacity onPress={onShow}>
         <Card style={styles.card}>
-          <Image style={styles.img} source={item.image} resizeMode="cover" />
+          <Image style={styles.img} source={imgs.DOB} resizeMode="cover" />
           <View style={styles.viewText}>
-            <Text numberOfLines={3}>{item.detail}</Text>
+            <Text numberOfLines={3}>{data.contents.en}</Text>
             <Text style={styles.time}>
-              {item.time} - {item.date}
+              {11} - {12}
             </Text>
           </View>
         </Card>
@@ -78,7 +82,7 @@ const Notify = (props) => {
       <FlatList
         ref={refList}
         horizontal={false}
-        data={flatListData}
+        data={listData}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         onScroll={onToTop}

@@ -150,3 +150,22 @@ export const getListTeamsFailed = () => {
     type: types.GET_LIST_TEAMS_FAILED,
   };
 };
+export const getListNotifys = (data) => {
+  return {
+    type: types.GET_LIST_NOTIFYS,
+    payload: data,
+  };
+};
+
+export const getListNotifysSuccess = (data) => {
+  return {
+    type: types.GET_LIST_NOTIFYS_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getListNotifysFailed = () => {
+  return {
+    type: types.GET_LIST_NOTIFYS_FAILED,
+  };
+};

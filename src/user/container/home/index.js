@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import HomeComponent from '../../screen/home';
+import { getListNotifys } from '../../../redux/actions/user';
 
 const mapStateToProps = (state) => ({
   nameUser: state.authen.userProfile.name,
@@ -8,8 +9,11 @@ const mapStateToProps = (state) => ({
   switchTo: state.check.switchTo,
   timeIn: state.check.timeCheckIn,
   timeOut: state.check.timeCheckOut,
+  token: state.authen.token,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getListNotifys,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

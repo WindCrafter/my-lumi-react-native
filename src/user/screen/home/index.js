@@ -32,7 +32,15 @@ if (
 const Schema = 'lumihr://';
 
 export default function Home(props) {
-  const {navigation, nameUser, timeIn, timeOut, switchTo} = props;
+  const {
+    navigation,
+    nameUser,
+    timeIn,
+    timeOut,
+    switchTo,
+    token,
+    getListNotifys,
+  } = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -50,8 +58,12 @@ export default function Home(props) {
   };
 
   useEffect(() => {
+    const data = {
+      token: token,
+    };
     switchTo ? navigation.navigate('CheckIn') : null,
       console.log('------,check', switchTo);
+    getListNotifys(data);
   });
   return (
     <>
