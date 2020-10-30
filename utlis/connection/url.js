@@ -19,4 +19,5 @@ export const URL = {
   REMOVE_USERID_DEVICE: '/user/remove-device-id',
   GET_LIST_TEAMS: '/user/list-teams',
   GET_LIST_ASSIGN: '/user/list-assign',
+  GET_LIST_NOTIFY:'/user/list-notify?page=1'
 };

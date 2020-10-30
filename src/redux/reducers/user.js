@@ -81,6 +81,11 @@ export default function user(state = initialState, action) {
         ...state,
         assign: state.assign.filter((e) => !(e.id === action.payload.id)),
       };
+    case types.GET_LIST_NOTIFYS_SUCCESS:
+      return {
+        ...state,
+        listNotifys: action.payload,
+      };
     default:
       return state;
   }

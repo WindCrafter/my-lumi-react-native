@@ -67,13 +67,17 @@ function ApplyLate(props) {
   const onsetLateEarly = () => {
     console.log(userId);
     const data = {
-      userId: userId,
       type: type,
       time: time,
       date: moment().format('DD/MM/YYYY'),
       token: token,
+      description:reason,
+      advance: {},
+      assignTo:assign[0].userId
+
     };
     setLateEarly(data);
+    console.log('checkkk----',data)
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
