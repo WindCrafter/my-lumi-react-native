@@ -1,6 +1,6 @@
 export const URL = {
-  // LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
-  LOCAL_HOST: 'http://10.10.0.163:4000/backend',
+  LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
+  // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
   CHANGE_PASS: '/user/need-change-pass',

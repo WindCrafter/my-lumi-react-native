@@ -17,29 +17,27 @@ const ModalInforApp = (props) => {
   const {hideModal, showModal, openUrl} = props;
 
   return (
-    <View>
-      <Modal
-        isVisible={showModal}
-        animationIn={'slideInUp'}
-        animationOutTiming={500}
-        animationOut={'slideOutDown'}
-        onBackdropPress={hideModal}
-        style={styles.modal}
-        backdropTransitionOutTiming={0}>
-        <View style={styles.modalview}>
-          <Image source={imgs.logo} />
-          <Text style={styles.title}>LumiStaff</Text>
-          <Text style={styles.detailmodal}>
-            Giải pháp chấm công cho doanh nghiệp.
-          </Text>
-          <Text style={styles.version}>V1.0 - 1/10/2020</Text>
-          <TouchableOpacity onPress={openUrl} style={styles.URL}>
-            <Text style={styles.website}>Website: </Text>
-            <Text style={styles.link}>https://lumi.vn</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    </View>
+    <Modal
+      isVisible={showModal}
+      animationIn={'slideInUp'}
+      animationOutTiming={500}
+      animationOut={'slideOutDown'}
+      onBackdropPress={hideModal}
+      style={styles.modal}
+      backdropTransitionOutTiming={0}>
+      <View style={styles.modalview}>
+        <Image source={imgs.logo} />
+        <Text style={styles.title}>LumiStaff</Text>
+        <Text style={styles.detailmodal}>
+          Giải pháp chấm công cho doanh nghiệp.
+        </Text>
+        <Text style={styles.version}>V1.0 - 1/10/2020</Text>
+        <TouchableOpacity onPress={openUrl} style={styles.URL}>
+          <Text style={styles.website}>Website: </Text>
+          <Text style={styles.link}>https://lumi.vn</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
   );
 };
 

@@ -226,12 +226,7 @@ const Event = (props) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <Icon
-                name="chevron-right"
-                size={96}
-                color={'gray'}
-                style={styles.icon}
-              />
+              <Image source={imgs.arrow}></Image>
               <View style={styles.column}>
                 <TouchableOpacity
                   style={[

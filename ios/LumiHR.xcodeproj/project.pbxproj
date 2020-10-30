@@ -12,6 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		13E9E89593FC4DCB91A9DAB8 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 165F60C1EC9F4B0FADFA6447 /* Quicksand-SemiBold.ttf */; };
+		1E40AAFAED9D4A04B086C163 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 237A8649C7714B519DA468C2 /* Quicksand-Medium.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -19,10 +21,13 @@
 		38CCADEC34F1358F3EFBDA54 /* libPods-LumiHR-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B47A9EEBE8C01026A53CF86 /* libPods-LumiHR-tvOSTests.a */; };
 		3906432744517F979EDEA857 /* libPods-LumiHR-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A32C5F52C6C2ED594375D326 /* libPods-LumiHR-tvOS.a */; };
 		42A9F20B719D31AC55820977 /* libPods-LumiHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D32B1F3D1D0EACE5208A441 /* libPods-LumiHR.a */; };
+		467EA4E0D35446A999B060BA /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DFFBF7E4BF34C01B489656B /* Quicksand-Light.ttf */; };
 		637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637181BE252BEB7A0030B72C /* ExternalAccessory.framework */; };
 		63B3762E253EAA8A00CC4080 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3762D253EAA8A00CC4080 /* NotificationService.swift */; };
 		63B37632253EAA8A00CC4080 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63B3762B253EAA8A00CC4080 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7218DDA5920748A48E3994BF /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F30C0E1EBEA47FC899A62CB /* Quicksand-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A9085BDBF890487493742DBC /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7D953AB03E44EFB817AEC8B /* Quicksand-Regular.ttf */; };
 		F3317DC6943835227DD1F675 /* libPods-LumiHR-LumiHRTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71857B2C02000A0BAF70EEE8 /* libPods-LumiHR-LumiHRTests.a */; };
 		FA95319A24EB8A90007F7670 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA95319924EB8A8F007F7670 /* AppCenter-Config.plist */; };
 		FACAF20124D7C01B0080F3E4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FACAF20024D7C01B0080F3E4 /* GoogleService-Info.plist */; };
@@ -78,7 +83,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LumiHR/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LumiHR/main.m; sourceTree = "<group>"; };
 		1440FCB35B0E17963EDECC92 /* Pods-LumiHR-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-OneSignalNotificationServiceExtension/Pods-LumiHR-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
+		165F60C1EC9F4B0FADFA6447 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-SemiBold.ttf"; path = "../common/assets/fonts/Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		1AB1651625061DEF5B60E452 /* Pods-LumiHR-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		237A8649C7714B519DA468C2 /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Medium.ttf"; path = "../common/assets/fonts/Quicksand-Medium.ttf"; sourceTree = "<group>"; };
 		2426C84F6ACD04CC05E7F53B /* Pods-LumiHR-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-OneSignalNotificationServiceExtension/Pods-LumiHR-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		2756E94EC292D955CD7C6C16 /* Pods-LumiHR-LumiHRTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.release.xcconfig"; sourceTree = "<group>"; };
 		2B47A9EEBE8C01026A53CF86 /* libPods-LumiHR-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,11 +104,14 @@
 		65C2B270EC09DD232CF84A0C /* Pods-LumiHR-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		686CAD86BDCFBB53F32C0C2F /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71857B2C02000A0BAF70EEE8 /* libPods-LumiHR-LumiHRTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-LumiHRTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DFFBF7E4BF34C01B489656B /* Quicksand-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Light.ttf"; path = "../common/assets/fonts/Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		7F30C0E1EBEA47FC899A62CB /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../common/assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LumiHR/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9153FC23BC4E27D08803EF62 /* Pods-LumiHR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.release.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.release.xcconfig"; sourceTree = "<group>"; };
 		9894770D6B51ED4341C369D5 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		A32C5F52C6C2ED594375D326 /* libPods-LumiHR-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A911933204AB335EEB060C25 /* Pods-LumiHR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.debug.xcconfig"; sourceTree = "<group>"; };
+		B7D953AB03E44EFB817AEC8B /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Regular.ttf"; path = "../common/assets/fonts/Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		C59A5F2A67C18E95234CB510 /* Pods-LumiHR-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -256,6 +266,11 @@
 		9E98663275AC435AA747A350 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7F30C0E1EBEA47FC899A62CB /* Quicksand-Bold.ttf */,
+				7DFFBF7E4BF34C01B489656B /* Quicksand-Light.ttf */,
+				237A8649C7714B519DA468C2 /* Quicksand-Medium.ttf */,
+				B7D953AB03E44EFB817AEC8B /* Quicksand-Regular.ttf */,
+				165F60C1EC9F4B0FADFA6447 /* Quicksand-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -464,6 +479,11 @@
 				FA95319A24EB8A90007F7670 /* AppCenter-Config.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FACAF20124D7C01B0080F3E4 /* GoogleService-Info.plist in Resources */,
+				7218DDA5920748A48E3994BF /* Quicksand-Bold.ttf in Resources */,
+				467EA4E0D35446A999B060BA /* Quicksand-Light.ttf in Resources */,
+				1E40AAFAED9D4A04B086C163 /* Quicksand-Medium.ttf in Resources */,
+				A9085BDBF890487493742DBC /* Quicksand-Regular.ttf in Resources */,
+				13E9E89593FC4DCB91A9DAB8 /* Quicksand-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,7 +917,7 @@
 				CODE_SIGN_ENTITLEMENTS = LumiHR/LumiHR.entitlements;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = W829PZX392;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = LumiHR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -924,6 +944,7 @@
 				CODE_SIGN_ENTITLEMENTS = LumiHR/LumiHR.entitlements;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = W829PZX392;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = LumiHR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

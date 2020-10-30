@@ -19,7 +19,7 @@ import {removeUserIdDevice} from '../actions/user';
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
-// import { addUserIdDevice} from '../actions/user'
+import {addUserIdDevice} from '../actions/user';
 function* sagaLoginAction(action) {
   try {
     const data = {
@@ -34,7 +34,12 @@ function* sagaLoginAction(action) {
           token: response.data.token,
           changePass: response.data.userProfile.needChangePass,
           data: response.data,
+          deviceId: action.payload.oneSignalID,
         }),
+        // addUserIdDevice({
+        //   token: response.data.token,
+        //   devideId: action.payload.oneSignalID,
+        // }),
       );
     } else {
       yield put(loginFailed());
@@ -94,16 +99,6 @@ function* sagaFirstLogin(action) {
 export function* watchFirstLogin() {
   yield takeLatest(types.CHANGE_PASS, sagaFirstLogin);
 }
-function* sagaLogOut() {
-  yield put(removeUserIdDevice());
-  // disable notify when logout
-  // yield put(setNotify(true));
-  yield OneSignal.setSubscription(false);
-}
-
-export function* watchLogOutAction() {
-  yield takeLatest(types.LOG_OUT, sagaLogOut);
-}
 
 /**
  * watch login success
@@ -112,13 +107,18 @@ function* sagaLoginSuccess(action) {
   try {
     // const notify = yield select(notifySelect);
     // if (notify) {
-      console.log('nhan thong bao');
-    yield OneSignal.setSubscription(true);
-    // yield put(addUserIdDevice());
+    console.log('nhan thong bao');
 
+    yield OneSignal.setSubscription(true);
+    yield put(
+      addUserIdDevice({
+        deviceId: action.payload.deviceId,
+        token: action.payload.token,
+      }),
+    );
     // }
   } catch (error) {
-    console.log('sagaLoginSuccess::error', error);
+    console.log('sagaLoginSuccess:error', error);
   }
 }
 

@@ -147,7 +147,21 @@ function UpdateProfile(props) {
     setShowBank(true);
   };
   const onDonePick = () => {
-    setShowBank(!showBank);
+    // if (bankAccount === '1') {
+    //   _global.Alert.alert({
+    //     title: 'DeviceID',
+    //     message: deviceId,
+    //     messageColor: Colors.black,
+    //     leftButton: {
+    //       text: 'Copy',
+    //       onPress: onCopyDeviceID,
+    //       textStyle: {color: Colors.background},
+    //     },
+    //   });
+    // } else {
+    //   console.log('bank    ',bankAccount)
+      setShowBank(!showBank);
+    // }
   };
   const onHideModal = () => {
     setShow(false);

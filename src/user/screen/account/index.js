@@ -25,6 +25,8 @@ const Account = (props) => {
     navigation,
     getListUsers,
     token,
+    oneSignalID,
+    removeUserIdDevice,
     getListTeams,
   } = props;
   const name = nameUser;
@@ -38,11 +40,19 @@ const Account = (props) => {
       messageColor: Colors.danger,
       leftButton: {
         text: 'Đăng xuất',
-        onPress: () => logOut(),
+        onPress: () =>  onRemoveUserId(),
         textStyle: {color: Colors.danger},
       },
       rightButton: {text: 'Cancel'},
     });
+  };
+  const onRemoveUserId = () => {
+    logOut();
+    const data = {
+      deviceId: oneSignalID,
+      token: token,
+    };
+    removeUserIdDevice(data);
   };
   const onShowModal = () => {
     setshowModal(true);
