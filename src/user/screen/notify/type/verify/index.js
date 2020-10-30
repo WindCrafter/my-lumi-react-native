@@ -33,7 +33,7 @@ const Verify = (props) => {
   const onSetStatusBreak = (e) => {
     const datapost = {
       token: token,
-      takeLeaveId: data.data.takeLeaveId,
+      takeLeaveId: data.data.data.takeLeaveId,
       status: e,
     };
     setStatusBreak(datapost);

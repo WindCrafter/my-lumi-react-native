@@ -187,7 +187,7 @@ function* sagaSetStatusLateEarly(action) {
   try {
     const data = {
       status: action.payload.status,
-      lateEarlyId: action.payloadlateEarlyId,
+      lateEarlyId: action.payload.lateEarlyId,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_SET_STATUS_LATE_EARLY, data, token);

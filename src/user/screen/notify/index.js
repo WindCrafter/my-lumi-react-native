@@ -50,11 +50,26 @@ const Notify = (props) => {
   const renderItem = ({item}) => {
     const onShow = () => {
       switch (item.type) {
-        case ('confirm_overtime', 'confirm_take_leave', 'confirm_late_early'):
+        case 'confirm_late_early':
           navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
           break;
-        case ('late_early', 'take_leave', 'overtime'):
-          navigation.navigate('Xác nhận đơn', { data: item });
+        case 'confirm_take_leave':
+          navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
+          break;
+        case 'confirm_overtime':
+          navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
+          break;
+        case 'overtime':
+          navigation.navigate('Xác nhận đơn', {data: item});
+          break;
+        case 'take_leave':
+          navigation.navigate('Xác nhận đơn', {data: item});
+          break;
+        case 'late_early':
+          navigation.navigate('Xác nhận đơn', {data: item});
           break;
         case 'verify':
           navigation.navigate('Xác nhận Kpi', {data: item});
