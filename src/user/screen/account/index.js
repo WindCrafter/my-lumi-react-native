@@ -29,6 +29,7 @@ const Account = (props) => {
     removeUserIdDevice,
     getListTeams,
     kickAssign,
+    resetCheck,
   } = props;
   const name = nameUser;
   const email = emailUser;
@@ -55,6 +56,7 @@ const Account = (props) => {
     };
     removeUserIdDevice(data);
     kickAssign();
+    resetCheck();
   };
   const onShowModal = () => {
     setshowModal(true);
