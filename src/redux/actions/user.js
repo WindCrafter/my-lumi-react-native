@@ -170,3 +170,22 @@ export const getListNotifysFailed = () => {
   };
 };
 
+export const getListCheck = (data) => {
+  return {
+    type: types.GET_LIST_CHECK,
+    payload: data,
+  };
+};
+
+export const getListCheckSuccess = (data) => {
+  return {
+    type: types.GET_LIST_CHECK_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getListCheckFailed = () => {
+  return {
+    type: types.GET_LIST_CHECK_FAILED,
+  };
+};

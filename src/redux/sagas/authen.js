@@ -205,5 +205,5 @@ function* sagaSetStatusLateEarly(action) {
 }
 
 export function* watchSetStatusLateEarly() {
-  yield takeLatest(types.SET_LATE_EARLY, sagaSetStatusLateEarly);
+  yield takeLatest(types.SET_STATUS_LATE_EARLY, sagaSetStatusLateEarly);
 }

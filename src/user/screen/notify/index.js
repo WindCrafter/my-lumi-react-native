@@ -81,8 +81,7 @@ const Notify = (props) => {
         <Card style={styles.card}>
           <Image
             style={styles.img}
-            source={imgs.inforblack}
-            resizeMode="contain"
+            source={require('../../../../naruto.jpeg')}
           />
           <View style={styles.viewText}>
             <Text numberOfLines={3}>{item ? item.contents.en : null}</Text>
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
   img: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: 1000,
   },
   viewText: {
     flex: 4,

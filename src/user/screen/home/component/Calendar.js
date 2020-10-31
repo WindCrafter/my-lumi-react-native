@@ -23,8 +23,7 @@ const HistoryWeek = (props) => {
   };
 
   const onDayPress = (e) => {
-    navigation.navigate('allHistory');
-    // console.log('newDay', moment().format('HH:mm') < '08:00');
+    navigation.navigate('allHistory', e);
   };
 
   return (

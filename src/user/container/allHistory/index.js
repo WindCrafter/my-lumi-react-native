@@ -1,8 +1,13 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import allHistory from '../../screen/allHistory';
-const mapStateToProps = (state) => ({});
+import {getListCheck} from '../../../redux/actions/user';
+const mapStateToProps = (state) => ({
+  token: state.authen.token,
+  history: state.user.history,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getListCheck,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(allHistory);

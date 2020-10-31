@@ -100,4 +100,5 @@ export const imgs = {
   sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
   calendarWeek: require('../../common/assets/images/icon/Calendar-week.png'),
   fine: require('../../common/assets/images/icon/Fine-icon.png'),
+  logoMyLumi: require('../../common/assets/images/logo/logo_MyLumi.png')
 };

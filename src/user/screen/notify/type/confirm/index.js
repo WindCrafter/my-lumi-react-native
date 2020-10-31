@@ -47,10 +47,6 @@ const Confirm = (props) => {
             </Text>
           </View>
         </View>
-        <View style={styles.viewMid}>
-          <Text style={styles.textDetail}>Người duyệt :</Text>
-          <Text style={styles.textDetail}>Pham Thanh Mai</Text>
-        </View>
       </Card>
     </View>
   );

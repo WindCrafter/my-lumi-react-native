@@ -24,10 +24,10 @@ const Assignment = (props) => {
     getListAssign,
     token,
   } = props;
-  const newData = listAssign.filter((e) =>
-    assign.find((i) => i.userId === e.userId),
-  );
-  const [userPicked, setUserPicked] = useState(newData);
+  // const newData = listAssign.filter((e) =>
+  //   assign.find((i) => i.userId === e.userId),
+  // );
+  const [userPicked, setUserPicked] = useState(assign);
   const goBack = () => {
     navigation.goBack({userPicked});
   };
@@ -36,15 +36,15 @@ const Assignment = (props) => {
     getListAssign(token);
   }, []);
 
-  const pickedItem = (val) => {
-    setUserPicked([...userPicked, val]);
-    console.log([...userPicked, val]);
-  };
+  // const pickedItem = (val) => {
+  //   setUserPicked([...userPicked, val]);
+  //   console.log([...userPicked, val]);
+  // };
 
-  const removeItem = (val) => {
-    const newList = userPicked.filter((e) => !(e.userId === val.userId));
-    setUserPicked(newList);
-  };
+  // const removeItem = (val) => {
+  //   const newList = userPicked.filter((e) => !(e.userId === val.userId));
+  //   setUserPicked(newList);
+  // };
 
   const onDone = () => {
     addAssign(userPicked);
@@ -56,11 +56,7 @@ const Assignment = (props) => {
       <>
         <TouchableOpacity
           style={styles.btUser}
-          onPress={() =>
-            userPicked.find((e) => e.userId === item.userId)
-              ? removeItem(item)
-              : pickedItem(item)
-          }>
+          onPress={() => setUserPicked(item)}>
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
@@ -74,7 +70,7 @@ const Assignment = (props) => {
               <Text style={styles.textPos}>{item.pos}</Text>
             </View>
           </View>
-          {userPicked.find((e) => e.userId === item.userId) ? (
+          {userPicked && userPicked.userId === item.userId ? (
             <Icon
               name="check"
               style={styles.icon}
@@ -156,11 +152,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: widthPercentageToDP(80),
   },
   card: {
     width: widthPercentageToDP(90),
-    paddingVertical: 16,
-    paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
     alignSelf: 'center',

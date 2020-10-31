@@ -19,6 +19,7 @@ import HeaderNotify from '../../component/HeaderNotify';
 import {BarStatus} from '../../../../../component';
 import {Card} from 'native-base';
 import moment from 'moment';
+import {Colors} from '../../../../../../utlis';
 
 const Verify = (props) => {
   const {
@@ -97,7 +98,7 @@ const Verify = (props) => {
           </Text>
         </View>
         <View style={styles.viewMid}>
-          <Text style={styles.textDetail}>Tình trạng :</Text>
+          <Text style={styles.textDetail}>Mô tả :</Text>
           <View style={styles.reason}>
             <Text style={styles.status} numberOfLines={3}>
               {data.data.contents.en}
@@ -105,20 +106,15 @@ const Verify = (props) => {
           </View>
         </View>
       </Card>
-      <View
-        style={{
-          flexDirection: 'row',
-          width: '100%',
-          justifyContent: 'space-around',
-        }}>
-        <TouchableOpacity onPress={onAccept}>
-          <View style={{width: 50, height: 50, backgroundColor: 'blue'}}>
-            <Text>Xác nhận</Text>
+      <View style={styles.touchable}>
+        <TouchableOpacity onPress={onRefuse}>
+          <View style={styles.refuse}>
+            <Text style={styles.statusText}>Từ chối</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onRefuse}>
-          <View style={{width: 50, height: 50, backgroundColor: 'red'}}>
-            <Text>Từ chối</Text>
+        <TouchableOpacity onPress={onAccept}>
+          <View style={styles.accept}>
+            <Text style={styles.statusText}>Xác nhận</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -144,7 +140,7 @@ const styles = StyleSheet.create({
   },
 
   viewMid: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -154,5 +150,32 @@ const styles = StyleSheet.create({
   reason: {
     width: '60%',
     textAlign: 'right',
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    alignContent: 'flex-end',
   },
+  refuse: {
+    width: 96,
+    height: 48,
+    backgroundColor: Colors.danger,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+  },
+  accept: {
+    width: 96,
+    height: 48,
+    backgroundColor: Colors.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+  },
+  touchable: {
+    flexDirection: 'row',
+    width: '80%',
+    justifyContent: 'space-evenly',
+    alignSelf: 'center',
+    marginTop:16
+  },
+  statusText: {color: 'white'},
 });

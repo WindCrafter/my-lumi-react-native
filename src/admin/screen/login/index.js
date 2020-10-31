@@ -18,7 +18,11 @@ import langs from '../../../../common/language';
 import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
 import {ScrollView} from 'react-native-gesture-handler';
-
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
@@ -29,7 +33,7 @@ const Login = (props) => {
     autoLoginStatus,
     oneSignalID,
     addUserIdDevice,
-    loginSuccess
+    loginSuccess,
   } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
@@ -59,11 +63,9 @@ const Login = (props) => {
       });
       return;
     } else {
-
-      loginAction({ email, password: pass, oneSignalID: oneSignalID});
+      loginAction({email, password: pass, oneSignalID: oneSignalID});
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
-
     }
   };
 

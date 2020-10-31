@@ -18,6 +18,8 @@ import {
   getListAssignFailed,
   getListNotifysFailed,
   getListNotifysSuccess,
+  getListCheckSuccess,
+  getListCheckFailed,
 } from '../actions/user';
 import OneSignal from 'react-native-onesignal';
 
@@ -29,11 +31,12 @@ const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
 const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
 const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
-const URL_NOTIFY = (e)=>{
-  return(
-    `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`
-  )
-}
+const URL_NOTIFY = (e) => {
+  return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
+};
+const URL_LIST_CHECK = (e) => {
+  return `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}${e}`;
+};
 const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -209,4 +212,24 @@ function* sagaGetListNotifys(action) {
 
 export function* watchGetListNotifys() {
   yield takeLatest(types.GET_LIST_NOTIFYS, sagaGetListNotifys);
+}
+
+function* sagaGetListCheck(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(URL_LIST_CHECK(action.payload.page), token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getListCheckSuccess(response.data));
+    } else {
+      yield put(getListCheckFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListCheck() {
+  yield takeLatest(types.GET_LIST_CHECK, sagaGetListCheck);
 }

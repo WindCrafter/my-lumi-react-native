@@ -13,6 +13,7 @@ import {TextSelect} from './Text';
 import Loading from './Loading';
 import Bottom from './BottomCustom/BottomCustom'
 import Combine from './Combine'
+import Gradient from './Gradient'
 export {
   Input,
   InputPassword,
@@ -33,4 +34,5 @@ export {
   Loading,
   Bottom,
   Combine,
+  Gradient
 };

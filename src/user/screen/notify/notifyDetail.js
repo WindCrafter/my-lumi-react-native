@@ -1,14 +1,14 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 const NotifyDetail = () => {
-    return (
-        <View>
-            <Text></Text>
-        </View>
-    )
-}
+  return (
+    <View style={{flex: 1, backgroundColor: 'red'}}>
+      <Text />
+    </View>
+  );
+};
 
-export default NotifyDetail
+export default NotifyDetail;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

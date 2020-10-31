@@ -79,12 +79,14 @@ const Book = (props) => {
     console.log('----- < > ______');
     navigation.navigate('Sự kiện mới');
   };
+  const buttonIcon = () => {
+    return <Image source={imgs.add} style={styles.note} />;
+  };
   return (
     <>
       <BarStatus />
       <HeaderAccount />
       <View style={styles.header}>
-       
         <View style={styles.day}>
           <Text style={styles.txtDay}>{'Lịch ngày'}</Text>
         </View>
@@ -103,7 +105,8 @@ const Book = (props) => {
         pastScrollRange={3}
         futureScrollRange={3}
       />
-      <ActionButton buttonColor="rgba(231,76,60,1)">
+      <ActionButton buttonColor="rgba(231,76,60,1)" renderIcon={buttonIcon}>
+        >
         <ActionButton.Item
           inputX={[0, 0]}
           inputY={[0, 1]}
@@ -167,9 +170,8 @@ const styles = StyleSheet.create({
   },
   txtDay: {
     textAlign: 'center',
-    color:'white',
-    
-},
+    color: 'white',
+  },
   meeting: {
     width: '25%',
     height: 48,
@@ -197,8 +199,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 1,
     justifyContent: 'center',
-    borderBottomLeftRadius:23
-    ,borderTopLeftRadius:23
+    borderBottomLeftRadius: 23,
+    borderTopLeftRadius: 23,
   },
   week: {
     width: '25%',
@@ -220,5 +222,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 27,
   },
+  note: {alignSelf: 'center', height: 16, width: 16, tintColor: 'white'},
 });
 export default Book;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import HomeComponent from '../../screen/home';
-import { getListNotifys } from '../../../redux/actions/user'
+import { getListNotifys } from '../../../redux/actions/user';
 
 const mapStateToProps = (state) => ({
   nameUser: state.authen.userProfile.name,
@@ -10,11 +10,10 @@ const mapStateToProps = (state) => ({
   timeIn: state.check.timeCheckIn,
   timeOut: state.check.timeCheckOut,
   token: state.authen.token,
-
 });
 
 const mapDispatchToProps = {
-  getListNotifys
+  getListNotifys,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

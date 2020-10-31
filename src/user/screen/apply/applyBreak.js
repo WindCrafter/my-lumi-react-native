@@ -49,6 +49,9 @@ function ApplyBreak(props) {
   const [shiftEnd, setShiftEnd] = useState('Ca sáng');
   const [typeBreak, setTypeBreak] = useState('Theo ca');
   const [reason, setReason] = useState('');
+  // const assignTo = assign.map((e) => {
+  //   return e.userId;
+  // });
   const onComplete = () => {
     typeBreak === 'Theo ca'
       ? onTakeLeaveShift()
@@ -71,7 +74,7 @@ function ApplyBreak(props) {
       },
       assignTo: assign ? assign[0].userId : null,
       description: reason,
-      advance: {}
+      advance: {},
     };
     console.log('dataaaaaa', data);
     takeLeave(data);
@@ -87,11 +90,11 @@ function ApplyBreak(props) {
         date: moment(day).format('DD/MM/YYYY'),
         shift: 'afternoon',
       },
-      assignTo: assign ? assign[0].userId : null,
-      description:reason,
-      advance:{}
+      assignTo: assign ? assign.userId : null,
+      description: reason,
+      advance: {},
     };
-    console.log('dataaaaaa',data);
+    console.log('dataaaaaa', data);
     takeLeave(data);
   };
   const onTakeLeaveShift = () => {
@@ -106,9 +109,9 @@ function ApplyBreak(props) {
         date: null,
         shift: null,
       },
-      assignTo: assign ? assign[0].userId : null,
+      assignTo: assign ? assign.userId : null,
       description: reason,
-      advance: {}
+      advance: {},
     };
     console.log('dataaaaaa', data);
     takeLeave(data);
@@ -219,7 +222,6 @@ function ApplyBreak(props) {
             </View>
           </View>
         </View>
-        {index === assign.length - 1 ? null : <View style={styles.lineUser} />}
       </>
     );
   };
@@ -294,33 +296,25 @@ function ApplyBreak(props) {
             rightImage={imgs.add}
             height={54}
             shadowColor={'white'}
-            title={
-              assign && assign.length > 0
-                ? `Đang chọn ${assign.length} người phê duyệt `
-                : 'Chọn người phê duyệt'
-            }
+            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
             onPressButton={onGoAssignment}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={
-              assign && assign.length > 0
-                ? Colors.background
-                : 'rgba(4, 4, 15, 0.45)'
-            }
+            color={'rgba(4, 4, 15, 0.45)'}
             detail={''}
           />
-          {assign && assign.length > 0 ? (
+          {assign && (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
-                data={assign}
+                data={[assign]}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
               />
             </Card>
-          ) : null}
+          )}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />

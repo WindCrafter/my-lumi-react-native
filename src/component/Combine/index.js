@@ -21,7 +21,6 @@ interface Props extends Combine {
 
 Combine.defaultProps = {
   width: '96%',
-  height: 104,
   timeIn: '08:00',
   timeOut: '18:00',
   status: 'ontime',
@@ -31,7 +30,7 @@ Combine.defaultProps = {
   shift: 'Ca hành chính',
   defaultTimeIn: '08:00',
   defaultTimeOut: '18:00',
-  marginBottom: 16,
+  marginBottom:0,
 };
 
 export default function Combine(props?: Props) {
@@ -50,6 +49,7 @@ export default function Combine(props?: Props) {
     department,
     shift,
     marginBottom,
+    punish,
     ...otherProps
   } = props;
 
@@ -65,11 +65,10 @@ export default function Combine(props?: Props) {
         containerStyle,
       ]}>
       <Card style={styles.time}>
-        <Text style={styles.day}>{day}</Text>
         <Text style={styles.day}>{date}</Text>
       </Card>
       <Card style={styles.viewDetail}>
-        <View style={styles.top}>
+        {/* <View style={styles.top}>
           <View style={styles.topDetail}>
             <Text style={styles.shift}>{shift}</Text>
             <Text style={styles.department}>{department}</Text>
@@ -81,7 +80,7 @@ export default function Combine(props?: Props) {
             </Text>
           </View>
         </View>
-        <View style={styles.line} />
+        <View style={styles.line} /> */}
 
         <View style={styles.bot}>
           <View style={styles.detail}>
@@ -95,11 +94,12 @@ export default function Combine(props?: Props) {
             </View>
           </View>
           <View style={styles.viewTime}>
-            {status === 'ontime' ? (
+            {status ? (
               <Text style={styles.statusTrue}>Đúng giờ</Text>
             ) : (
               <Text style={styles.statusFalse}>Muộn giờ</Text>
             )}
+            {/* {status ? null : <Text style={styles.punish}>Phạt: {punish}</Text>} */}
           </View>
         </View>
       </Card>
@@ -131,11 +131,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
+    // paddingVertical: 12,
   },
   viewDetail: {
     width: '80%',
-    height: 104,
+    paddingVertical: 16,
     borderRadius: 16,
     backgroundColor: '#ffffff',
     shadowColor: 'rgba(0, 0, 0, 0.16)',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   viewTime: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
@@ -194,5 +194,9 @@ const styles = StyleSheet.create({
     width: '40%',
     paddingVertical: 2,
   },
-  clock: {margin: 4, width: 24, height: 24},
+  punish: {
+    color: '#ff5353',
+    fontSize: 14,
+    fontWeight: '400',
+  },
 });

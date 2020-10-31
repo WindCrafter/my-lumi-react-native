@@ -109,18 +109,31 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: response.message,
-        messageColor: Colors.danger,
-        leftButton: {
-          text: 'OK',
-          // onPress : onLongPress
-        },
-      });
+      if(!response.success && response.statusCode===400) {
+        yield put(checkInFailed());
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: response.message,
+          messageColor: Colors.danger,
+          leftButton: {
+            text: 'OK',
+            // onPress : onLongPress
+          },
+        });
+      } else {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: response.message,
+          messageColor: Colors.danger,
+          leftButton: {
+            text: 'OK',
+            // onPress : onLongPress
+          },
+        });
+      }
+     
     }
   } catch (error) {
-    yield put(checkInFailed());
 
     console.log(error);
     _global.Alert.alert({

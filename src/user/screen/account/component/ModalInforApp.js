@@ -26,11 +26,14 @@ const ModalInforApp = (props) => {
       style={styles.modal}
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
-        <Image source={imgs.logo} />
-        <Text style={styles.title}>LumiStaff</Text>
+        <Image source={imgs.logoMyLumi} style={{}}/>
+        <Text style={styles.title}>My Lumi</Text>
         <Text style={styles.detailmodal}>
-          Giải pháp chấm công cho doanh nghiệp.
+          Giải pháp phần mềm cho doanh nghiệp.
         </Text>
+        {/* <Text style={styles.titleDescription}>
+          Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
+        </Text> */}
         <Text style={styles.version}>V1.0 - 1/10/2020</Text>
         <TouchableOpacity onPress={openUrl} style={styles.URL}>
           <Text style={styles.website}>Website: </Text>
@@ -99,4 +102,12 @@ const styles = StyleSheet.create({
   URL: {flexDirection: 'row', marginTop: 48},
   website: {},
   link: {textDecorationLine: 'underline'},
+  titleDescription: {
+    fontWeight: '400',
+    fontSize: 14,
+    marginTop: 20,
+    marginBottom: 10,
+    color:'black',
+    width:'80%'
+  }
 });

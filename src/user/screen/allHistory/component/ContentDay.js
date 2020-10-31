@@ -14,20 +14,8 @@ import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import {Combine} from '../../../../component'
-const DATA = [
-  {
-        shift: 'Ca hành chính',
-        department: 'R&D',
-        timeIn: '08:00',
-        timeOut: '18:00',
-        status: 'ontime',
-        day: 'T2',
-        date: '09',
-  },
-   
-   
-];
+import {Combine} from '../../../../component';
+import moment from 'moment';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -36,37 +24,32 @@ if (
 }
 
 function ContentDay(props) {
-  const [listData, setListData] = useState(DATA);
-
-  const [search, setSearch] = useState('');
-  const {navigation} = props;
-
-  const renderItem = (data) => {
+  const {data, day, ref} = props;
+  const renderItem = ({item, index}) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     return (
-        <Combine
-        day={data.item.day}
-            date={data.item.date}
-        department={data.item.department}
-        status={data.item.status}
-        shift={data.item.shift}
-        timeIn={data.item.timeIn}
-        timeOut={data.item.timeOut}
+      <Combine
+        date={moment(item.date, 'DD/MM/YYYY').format('DD/MM')}
+        department={item.department}
+        status={item.checkIn > '08:15' ? false : true}
+        shift={item.shift}
+        timeIn={moment(item.checkIn, 'HH:mm:ss').format('HH:mm')}
+        timeOut={moment(item.checkOut, 'HH:mm:ss').format('HH:mm')}
+        punish={item.advance.punishment}
       />
     );
   };
 
- 
-
-  
-
   return (
     <View style={styles.container}>
-      
-
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        ref={ref}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => `${item.index}`}
+      />
     </View>
   );
 }
@@ -79,6 +62,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: widthPercentageToDP(100),
   },
- 
- 
+  txt: {
+    alignSelf: 'center',
+  },
 });

@@ -21,6 +21,7 @@ export const URL = {
   GET_LIST_ASSIGN: '/user/list-assign',
   GET_LIST_NOTIFY: '/user/list-notify?page=',
   SET_STATUS_OVERTIME: '/user/change-status-overtime',
-  SET_STATUS_BREAK: 'change-status-take-leave',
+  SET_STATUS_BREAK: '/user/change-status-take-leave',
   SET_STATUS_LATE_EARLY: '/user/change-status-late-early',
+  GET_LIST_CHECK: '/user/timekeeping-by-user?page=',
 };

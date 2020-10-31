@@ -12,9 +12,10 @@ const initialState = {
   notificationDevice: {
     deviceIds: null,
   },
-  assign: [],
+  assign: null,
   listAssign: [],
-  teams:[],
+  teams: null,
+  history: null,
 };
 
 export default function user(state = initialState, action) {
@@ -74,17 +75,22 @@ export default function user(state = initialState, action) {
     case types.ADD_ASSIGN:
       return {
         ...state,
-        assign: [...action.payload],
+        assign: action.payload,
       };
     case types.KICK_ASSIGN:
       return {
         ...state,
-        assign: state.assign.filter((e) => !(e.id === action.payload.id)),
+        assign: null,
       };
     case types.GET_LIST_NOTIFYS_SUCCESS:
       return {
         ...state,
         listNotifys: action.payload,
+      };
+    case types.GET_LIST_CHECK_SUCCESS:
+      return {
+        ...state,
+        history: action.payload.timeKeepings,
       };
     default:
       return state;

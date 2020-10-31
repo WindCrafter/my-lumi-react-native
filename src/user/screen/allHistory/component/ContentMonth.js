@@ -70,24 +70,24 @@ const DATA = [
     day: 'T7',
     date: '09',
   },
-    {
-        shift: 'Ca hành chính',
-        department: 'R&D',
-        timeIn: '08:00',
-        timeOut: '18:00',
-        status: 'ontime',
-        day: 'T2',
-        date: '09',
-    },
-    {
-        shift: 'Ca hành chính',
-        department: 'R&D',
-        timeIn: '08:00',
-        timeOut: '18:00',
-        status: 'ontime',
-        day: 'T2',
-        date: '09',
-    },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
+  {
+    shift: 'Ca hành chính',
+    department: 'R&D',
+    timeIn: '08:00',
+    timeOut: '18:00',
+    status: 'ontime',
+    day: 'T2',
+    date: '09',
+  },
 ];
 if (
   Platform.OS === 'android' &&
@@ -102,26 +102,30 @@ function ContentMonth(props) {
   const [search, setSearch] = useState('');
   const {navigation} = props;
 
-  const renderItem = (data) => {
+  const renderItem = ({item, index}) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     return (
       <Combine
-        day={data.item.day}
-        date={data.item.date}
-        department={data.item.department}
-        status={data.item.status}
-        shift={data.item.shift}
-        timeIn={data.item.timeIn}
-        timeOut={data.item.timeOut}
+        day={item.day}
+        date={item.date}
+        department={item.department}
+        status={item.status}
+        shift={item.shift}
+        timeIn={item.timeIn}
+        timeOut={item.timeOut}
       />
     );
   };
 
   return (
     <View style={styles.container}>
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        data={listData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.index}
+      />
     </View>
   );
 }
