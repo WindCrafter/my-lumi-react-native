@@ -28,6 +28,7 @@ import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 import Slider from '@react-native-community/slider';
+import PickerCustom from './component/PickerCustom';
 
 if (
   Platform.OS === 'android' &&
@@ -46,6 +47,7 @@ function ApplyLate(props) {
   const goBack = () => {
     navigation.goBack();
   };
+  const [showModal, setShowModal] = useState(false);
 
   const onChangeTime = (value) => {
     setTime(value);
@@ -54,7 +56,11 @@ function ApplyLate(props) {
   const onComplete = () => {
     onsetLateEarly();
   };
-
+  const onChangeDay = (event, selectedDay) => {
+    const currentDay = selectedDay || day;
+    setShowModal(Platform.OS === 'ios');
+    setDay(currentDay);
+  };
   const onChangeReason = (val) => {
     setReason(val);
     setShow(!show);
@@ -64,11 +70,23 @@ function ApplyLate(props) {
     setReason(val);
     unFocus();
   };
+  const [day, setDay] = useState(new Date());
+  const [mode, setMode] = useState('');
+  const onUnshow = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(false);
+    setMode('');
+  };
+  const onShowPicker = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowModal(true);
+    setMode(m);
+  };
   const onsetLateEarly = () => {
     const data = {
       type: type,
       time: time,
-      date: moment().format('DD/MM/YYYY'),
+      date: moment(day).format('DD/MM/YYYY'),
       token: token,
       description: reason,
       advance: {},
@@ -134,7 +152,6 @@ function ApplyLate(props) {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="interactive">
-        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -213,7 +230,7 @@ function ApplyLate(props) {
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
+            <Text style={styles.txtStatus}>{'Thông tin đơn nghỉ :'}</Text>
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
@@ -253,8 +270,36 @@ function ApplyLate(props) {
               // thumbImage={imgs.miniLogo}
               value={time}
             />
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+              <View style={styles.imgContainer}>
+                <Image
+                  source={imgs.startDate}
+                  style={[styles.imageStamp, {marginRight: 8}]}
+                />
+                <Text style={styles.txtStatus}>{langs.day}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.time}
+                onPress={() => onShowPicker('day')}>
+                <Text style={styles.txtTime}>
+                  {moment(day).format('DD/MM/yyyy')}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </Card>
         </View>
+        {showModal ? (
+          mode === 'day' ? (
+            <PickerCustom
+              value={day}
+              onChange={onChangeDay}
+              onPress={onUnshow}
+              mode={'date'}
+              show={showModal}
+              minimumDate={new Date()}
+            />
+          ) : null
+        ) : null}
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
@@ -413,5 +458,15 @@ const styles = StyleSheet.create({
   },
   viewInputSelect: {
     backgroundColor: Colors.white,
+  }, imgContainer: {
+    padding: 8,
+    borderRadius: 16,
+    alignSelf: 'center',
+    marginRight: 8,
+    flexDirection: 'row',
+  },
+  time: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

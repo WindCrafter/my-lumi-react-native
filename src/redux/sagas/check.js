@@ -13,6 +13,7 @@ import {
   takeLeaveFailed,
   overTimeSuccess,
   overTimeFailed,
+  checkOutSuccess
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -101,7 +102,7 @@ function* sagaCheckInWifi(action) {
       response.statusCode === 200 &&
       action.payload.type === 'out'
     ) {
-      yield put(checkInSuccess(response.data));
+      yield put(checkOutSuccess(response.data));
       _global.Alert.alert({
         title: 'YEAH! CHECK-OUT THÀNH CÔNG',
         message: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé!',

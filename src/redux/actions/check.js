@@ -20,6 +20,12 @@ export const checkInSuccess = (data) => {
   };
 };
 
+export const checkOutSuccess = (data) => {
+  return {
+    type: types.CHECK_OUT_SUCCESS,
+    payload: data,
+  };
+};
 export const checkInFailed = () => {
   return {
     type: types.CHECK_IN_FAILED,

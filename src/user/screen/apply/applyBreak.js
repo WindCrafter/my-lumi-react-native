@@ -27,7 +27,7 @@ import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-
+import {_global} from '../../../../utlis/global/global';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -62,22 +62,35 @@ function ApplyBreak(props) {
 
   const onTakeLeaveDays = () => {
     console.log(userId);
+    const DateStart = moment(dateStart).format('DD/MM/YYYY')
+    const DateEnd = moment(dateEnd).format('DD/MM/YYYY')
     const data = {
       token: token,
       startDate: {
-        date: moment(dateStart).format('DD/MM/YYYY'),
+        date: DateStart,
         shift: shiftStart === 'Ca sáng' ? 'morning' : 'afternoon',
       },
       endDate: {
-        date: moment(dateEnd).format('DD/MM/YYYY'),
+        date: DateEnd,
         shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
       },
-      assignTo: assign ? assign[0].userId : null,
+      assignTo: assign ? assign.userId : null,
       description: reason,
       advance: {},
     };
     console.log('dataaaaaa', data);
-    takeLeave(data);
+    if (DateEnd>=DateStart) {
+      takeLeave(data);
+
+    }
+    else {
+      _global.Alert.alert({
+        title: 'Vui lòng kiểm tra lại',
+        message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
+        messageColor: Colors.danger,
+        leftButton: { text: 'OK' },
+      });
+    }
   };
   const onTakeLeaveDay = () => {
     const data = {
@@ -95,6 +108,7 @@ function ApplyBreak(props) {
       advance: {},
     };
     console.log('dataaaaaa', data);
+    
     takeLeave(data);
   };
   const onTakeLeaveShift = () => {
@@ -144,6 +158,7 @@ function ApplyBreak(props) {
   const onChangeDateEnd = (event, selectedDateEnd) => {
     const currentDateEnd = selectedDateEnd || dateEnd;
     setShow(Platform.OS === 'ios');
+
     setDateEnd(currentDateEnd);
   };
 
@@ -241,7 +256,6 @@ function ApplyBreak(props) {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag">
-        <Text style={styles.extend}>{langs.enterInfo} </Text>
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>

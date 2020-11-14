@@ -27,6 +27,8 @@ export const CHECK_IN_WIFI = 'CHECK_IN_WIFI';
 export const CHECK_IN_SUCCESS = 'CHECK_IN_SUCCESS';
 export const CHECK_IN_FAILED = 'CHECK_IN_FAILED';
 
+export const CHECK_OUT_SUCCESS ='CHECK_OUT_SUCCESS'
+
 export const CREATE_QR = 'CREATE_QR';
 export const CREATE_QR_SUCCESS = 'CREATE_QR_SUCCESS';
 export const CREATE_QR_FAILED = 'CREATE_QR_FAILED';

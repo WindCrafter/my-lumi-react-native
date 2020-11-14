@@ -1,6 +1,6 @@
 /* eslint-disable no-catch-shadow */
 /* eslint-disable no-shadow */
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,20 +11,20 @@ import {
   Dimensions,
   StatusBar,
 } from 'react-native';
-import { Logo, Input, InputPassword, Checkbox, Button } from '../../../component';
+import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const { loginAction, token, changeAutoLogin, autoLoginStatus } = props;
+  const {loginAction, token, changeAutoLogin, autoLoginStatus} = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
-  const { navigation } = props;
+  const {navigation} = props;
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const onLogin = () => {
     Keyboard.dismiss();
@@ -36,7 +36,7 @@ const Login = (props) => {
       Alert.alert('password invalid');
       return;
     } else {
-      loginAction({ email, password: pass });
+      loginAction({email, password: pass});
       console.log('', token);
     }
   };
@@ -62,6 +62,7 @@ const Login = (props) => {
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />
       <View style={styles.detail}>
+        <Text>Version 1.0.1</Text>
         <Input
           // leftImage={}
           // backgroundColor={'rgba(0,0,25,0.22)'}
