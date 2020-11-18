@@ -28,7 +28,7 @@ const AppNavigator = (props) => {
     dateCheckIn,
   } = props;
   const [loading, setLoading] = useState(true);
-
+  let titleVersion = `${DeviceInfo.getVersion()}`;
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     dateCheckIn < new Date() ? resetCheck() : null;
@@ -38,7 +38,7 @@ const AppNavigator = (props) => {
       setLoading(false);
     }, 500);
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
-
+  console.log('Titleversion', titleVersion);
   const handleOpenURL = () => {};
 
   useEffect(() => {

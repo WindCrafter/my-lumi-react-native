@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     textAlign: 'right',
+
+
   },
   textTitle: {
     // flex: 1,

@@ -14,6 +14,7 @@ import Loading from './Loading';
 import Bottom from './BottomCustom/BottomCustom'
 import Combine from './Combine'
 import Gradient from './Gradient'
+import KeyBoardScroll from './KeyBoardScroll'
 export {
   Input,
   InputPassword,
@@ -34,5 +35,6 @@ export {
   Loading,
   Bottom,
   Combine,
-  Gradient
+  Gradient,
+  KeyBoardScroll
 };

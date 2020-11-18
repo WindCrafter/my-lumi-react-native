@@ -99,6 +99,8 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     fontSize: 16,
     color: 'black',
+    fontFamily: 'quicksand',
+
   },
   btnShowHidePass: {
     justifyContent: 'center',

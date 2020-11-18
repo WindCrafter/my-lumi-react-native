@@ -13,7 +13,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../../../utlis';
 import {Card} from 'native-base';
 
-interface Props extends TextInputProps {
+interface Props extends RoundedView {
   leftImage?: String | Number;
   rightImage?: String | Number;
   width?: String | Number;
@@ -55,6 +55,7 @@ RoundedView.defaultProps = {
     height: 24,
     alignSelf: 'center',
   },
+  // tintColorLeft :''
 };
 
 export default function RoundedView(props?: Props) {

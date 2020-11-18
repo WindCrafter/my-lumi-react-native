@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import admin from './admin';
 import check from './check';
 import user from './user';
+import codepush from './codepush';
 
 // Redux: Root Reducer
 const authPersistConfig = {
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   admin: admin,
   check: persistReducer(checkPersist, check),
   user: persistReducer(userPersist, user),
+  codepush,
 });
 
 // Exports

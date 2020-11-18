@@ -19,6 +19,7 @@ import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -42,7 +43,9 @@ const Login = (props) => {
   const {navigation} = props;
 
   useEffect(() => {}, []);
-
+  const onRegister = () => {
+    navigation.navigate('Register');
+  };
   const onLogin = () => {
     Keyboard.dismiss();
     if (email.trim().length === 0) {
@@ -87,14 +90,16 @@ const Login = (props) => {
 
   return (
     <View style={styles.container}>
-      <Logo containerStyle={styles.logo} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.detail}>
-          <KeyboardAvoidingView>
+          <KeyboardAwareScrollView
+            contentContainerStyle={styles.keyBoardScroll}>
+            <Logo containerStyle={styles.logo} />
+
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={langs.user}
+              placeholder={'Tên đăng nhập'}
               testID="test_Username"
               containerStyle={styles.textInput}
               returnKeyType="next"
@@ -104,6 +109,7 @@ const Login = (props) => {
               onSubmitEditing={() => refPassword.current.focus()}
               value={email}
               onChangeText={onChangeEmail}
+              rightIcon
             />
             <InputPassword
               testID="test_Password"
@@ -128,11 +134,14 @@ const Login = (props) => {
               onPress={onLogin}
               testID="test_Login"
             />
-
+            <TouchableOpacity onPress={onRegister} style={styles.bottom}>
+              <Text style={styles.register}>Đăng kí tài khoản</Text>
+              {/* <Text>Vui lòng tạo</Text> */}
+            </TouchableOpacity>
             {/* <TouchableOpacity onPress={onPressForgot} testID="test_ForgotPass" style={styles.forgotPass}>
           <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
         </TouchableOpacity> */}
-          </KeyboardAvoidingView>
+          </KeyboardAwareScrollView>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -150,13 +159,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   detail: {
-    flex: 1.75,
-    justifyContent: 'flex-start',
-    paddingVertical: 32,
+    flex: 2,
   },
-  logo: {
-    flex: 1,
-  },
+  logo: {},
   textInput: {
     height: 50,
     justifyContent: 'center',
@@ -187,6 +192,12 @@ const styles = StyleSheet.create({
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
+  },
+  register: {color: '#178CEB', },
+  bottom: {justifyContent: 'center', alignItems: 'center'},
+  keyBoardScroll: {
+    justifyContent: 'center',
+    flex: 2,
   },
 });
 

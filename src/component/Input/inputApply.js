@@ -93,6 +93,8 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: 16,
     width: '90%',
+    fontFamily: 'quicksand',
+
   },
   left: {
     flexDirection: 'row',

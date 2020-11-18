@@ -17,6 +17,7 @@ import login from '../admin/container/login';
 import AdminStack from './AdminStack';
 import UserStack from './UserStack';
 import firstLogin from '../admin/container/firstLogin';
+import Register from '../admin/container/register/index'
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
@@ -39,6 +40,13 @@ export default function Navigator(props) {
             <RootStack.Screen
               name={'Login'}
               component={login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name={'Register'}
+              component={Register}
               options={{
                 headerShown: false,
               }}

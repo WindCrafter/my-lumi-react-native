@@ -62,7 +62,6 @@ const Login = (props) => {
     <View style={styles.container}>
       <Logo containerStyle={styles.logo} />
       <View style={styles.detail}>
-        <Text>Version 1.0.1</Text>
         <Input
           // leftImage={}
           // backgroundColor={'rgba(0,0,25,0.22)'}
@@ -96,12 +95,11 @@ const Login = (props) => {
           onChange={onChangeRememberLogin}
         />
         <Button
-          backgroundColor={'rgb(0,138,238)'}
+          backgroundColor={'#FD993B'}
           title={langs.login}
           onPress={onLogin}
           testID="test_Login"
         />
-
         {/* <TouchableOpacity testID="test_ForgotPass" style={styles.forgotPass} onPress={onPressForgot}>
           <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
         </TouchableOpacity> */}

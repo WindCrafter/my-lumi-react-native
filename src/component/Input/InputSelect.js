@@ -9,10 +9,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Colors, imgs } from '../../../utlis';
-import { Button, Touchable } from '../../component';
-import { Card } from 'native-base';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Colors, imgs} from '../../../utlis';
+import {Button, Touchable} from '../../component';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -53,8 +53,7 @@ InputSelect.defaultProps = {
   alignSelf: 'center',
   alignItems: 'center',
   padding: 6,
-  color:'black'
-
+  color: 'black',
 };
 
 export default function InputSelect(props?: Props) {
@@ -79,7 +78,8 @@ export default function InputSelect(props?: Props) {
     alignItems,
     padding,
     paddingVertical,
-    marginRight, color,
+    marginRight,
+    color,
   } = props;
   const ViewCard = Platform.OS === 'ios' ? Card : Card;
 
@@ -97,7 +97,7 @@ export default function InputSelect(props?: Props) {
           paddingHorizontal,
           justifyContent,
           alignSelf,
-          paddingVertical
+          paddingVertical,
         },
         containerStyle,
       ]}>
@@ -110,7 +110,7 @@ export default function InputSelect(props?: Props) {
           style={[
             {
               padding,
-              color
+              color,
             },
             styles.textTitle,
           ]}>
@@ -120,7 +120,7 @@ export default function InputSelect(props?: Props) {
           <Text
             style={[
               {
-                marginRight
+                marginRight,
               },
               styles.textDetail,
             ]}>

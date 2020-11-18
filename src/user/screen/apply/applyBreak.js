@@ -621,11 +621,7 @@ const styles = StyleSheet.create({
   icon: {
     alignSelf: 'center',
   },
-  test: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'red',
-  },
+  
   btUser: {
     flexDirection: 'row',
     justifyContent: 'space-between',

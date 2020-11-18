@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const { Value } = Animated;
+const {Value} = Animated;
 
 class Loading extends PureComponent {
   constructor(props) {
@@ -34,7 +34,7 @@ class Loading extends PureComponent {
         Animated.spring(this._anim, {
           toValue: 1,
           useNativeDriver: true,
-        }).start(() => { });
+        }).start(() => {});
       },
     );
   };
@@ -61,8 +61,8 @@ class Loading extends PureComponent {
   };
 
   render() {
-    const { backgroundColor, colorIndicator, loadingRef } = this.props;
-    const { isLoading } = this.state || {};
+    const {backgroundColor, colorIndicator, loadingRef} = this.props;
+    const {isLoading} = this.state || {};
 
     if (loadingRef) {
       if (!isLoading) {
@@ -83,8 +83,8 @@ class Loading extends PureComponent {
             },
           ]}>
           <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 1}}
             locations={[0, 1]}
             colors={['rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.6)']}
             style={styles.viewContent}>
@@ -102,8 +102,8 @@ class Loading extends PureComponent {
           },
         ]}>
         <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
+          start={{x: 0, y: 0}}
+          end={{x: 0, y: 1}}
           locations={[0, 1]}
           colors={['rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.6)']}
           style={styles.viewContent}>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 Loading.defaultProps = {
   backgroundColor: 'transparent',
   colorIndicator: 'white',
-  springConfig: { tension: 30, friction: 7 },
+  springConfig: {tension: 30, friction: 7},
   loadingRef: false,
 };
 
