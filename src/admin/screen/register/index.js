@@ -211,7 +211,7 @@ const Register = (props) => {
               placeholder={'Mật khẩu mới'}
               // refInput={refPassword}
               maxLength={20}
-              returnKeyType="done"
+              returnKeyType="next"
               value={newPassword}
               onChangeText={onChangePass}
               refInput={refPassword}
@@ -224,7 +224,7 @@ const Register = (props) => {
               placeholder={'Nhập lại mật khẩu'}
               refInput={refRePassword}
               maxLength={20}
-              returnKeyType="done"
+              returnKeyType="next"
               value={confirmPassword}
               onChangeText={onChangeConfirmPassword}
               onSubmitEditing={() => refVerifyCode.current.focus()}
@@ -387,10 +387,6 @@ const styles = StyleSheet.create({
   viewInButton: {
     borderColor: 'rgb(0,138,238)',
     borderWidth: 1,
-    shadowColor: 'rgba(0, 0, 0, 0.96)',
-
-    shadowRadius: 6,
-    shadowOpacity: 1,
   },
   bottom: {height: 1, width: '100%', backgroundColor: '#E4E4E4'},
   goBack: {alignSelf: 'center', marginTop: 8},
@@ -398,7 +394,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-  }
+    position:'absolute'
+    ,top:hp(95)
+  },
 });
 export default Register;

@@ -14,20 +14,21 @@ const RePass = (props) => {
   } = props;
   return (
     <View style={styles.container}>
-      <Text style={styles.please}>Please enter your new password </Text>
+      <Text style={styles.please}>Vui lòng nhập mật khẩu mới :</Text>
       <InputPassword
         testID="test_Password"
-        placeholder={'Enter your password'}
+        placeholder={'Mật khẩu mới'}
         containerStyle={styles.textInput}
         maxLength={20}
         returnKeyType="done"
         value={pass}
+        
         onChangeText={onChangePass}
       />
-      <Text style={styles.please}>Please enter your new password again </Text>
+      <Text style={styles.please}>Vui lòng nhập lại mật khẩu :</Text>
       <InputPassword
         testID="test_Password"
-        placeholder={'Enter your password'}
+        placeholder={'Nhập lại mật khẩu'}
         containerStyle={styles.textInput}
         refInput={refPassword}
         maxLength={20}
@@ -55,14 +56,14 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 25,
+    borderRadius: 8,
     paddingHorizontal: 16,
     marginVertical: 8,
   },
   please: {
     marginLeft: wp(12.5),
-    fontSize: 20,
-    marginBottom: 8,
+    fontSize: 18,
+    marginVertical: 12,
   },
   button: {},
 });
