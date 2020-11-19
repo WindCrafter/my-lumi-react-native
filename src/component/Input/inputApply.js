@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import {
   TextInputProps,
   TextInput,
@@ -8,6 +8,7 @@ import {
   ViewStyle,
   Text,
   Platform,
+  TouchableOpacity
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../utlis';
@@ -23,11 +24,16 @@ interface Props extends TextInputProps {
   refInput?: React.Ref;
   title?: String;
   paddingLeft?: String;
+  onChangeText?: Function;
+  value?: String;
+
+  rightIcon?: Boolean;
 }
 
 InputApply.defaultProps = {
   borderRadius: 12,
   backgroundColor: Colors.background,
+  rightIcon: false,
 };
 
 export default function InputApply(props?: Props) {
@@ -43,9 +49,32 @@ export default function InputApply(props?: Props) {
     refInput,
     testID,
     paddingLeft,
+    rightIcon,
+    value,
+
+    onChangeText,
     ...otherProps
   } = props;
+  const [isFocus, setIsFocus] = useState(false);
+  const [text, setText] = useState(value || '');
+  const onRightButton = () => {
+    onChangeText && onChangeText('');
+    setIsFocus(true);
+    setText('');
+  };
+  const onFocus = () => {
+    setIsFocus(true);
+  };
+  const onChangeTextInput = (input) => {
+    onChangeText && onChangeText(input);
 
+    setIsFocus(true);
+    setText(input);
+  };
+  const onBlur = () => {
+    setIsFocus(false);
+    console.log('blur');
+  };
   return (
     <Card
       style={[
@@ -69,14 +98,25 @@ export default function InputApply(props?: Props) {
             paddingLeft,
           },
           styles.textInput,
+          rightIcon ? {paddingRight: 8} : undefined,
         ]}
         placeholder={'Vui lòng nhập....'}
         autoCorrect={false}
         clearButtonMode="while-editing"
         maxLength={100}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChangeText={(txtValue) => onChangeTextInput(txtValue)}
+        value={text}
+
         keyboardType="email-address"
         {...otherProps}
       />
+      {rightIcon && isFocus && text !== '' && (
+        <TouchableOpacity onPress={onRightButton} style={styles.rightButton}>
+          <Image style={styles.icon} source={imgs.cancel} />
+        </TouchableOpacity>
+      )}
     </Card>
   );
 }
@@ -94,9 +134,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: '90%',
     fontFamily: 'quicksand',
-
   },
   left: {
     flexDirection: 'row',
+  },
+  icon: {
+    width: 14,
+    height: 14,
   },
 });

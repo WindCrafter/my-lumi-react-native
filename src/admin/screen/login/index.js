@@ -17,6 +17,7 @@ import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
+import {KeyBoardScroll} from '../../../component';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -81,7 +82,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('ForgotPass');
+    navigation.navigate('Forgot Password');
   };
 
   const onChangeRememberLogin = () => {
@@ -89,13 +90,11 @@ const Login = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.detail}>
-          <KeyboardAwareScrollView
-            contentContainerStyle={styles.keyBoardScroll}>
+    <KeyBoardScroll>
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.detail}>
             <Logo containerStyle={styles.logo} />
-
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
@@ -138,29 +137,31 @@ const Login = (props) => {
               <Text style={styles.register}>Đăng kí tài khoản</Text>
               {/* <Text>Vui lòng tạo</Text> */}
             </TouchableOpacity>
-            {/* <TouchableOpacity onPress={onPressForgot} testID="test_ForgotPass" style={styles.forgotPass}>
-          <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
-        </TouchableOpacity> */}
-          </KeyboardAwareScrollView>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+            <TouchableOpacity
+              onPress={onPressForgot}
+              testID="test_ForgotPass"
+              style={styles.forgotPass}>
+              <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </KeyBoardScroll>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
+    height: hp(100),
+    backgroundColor: 'white',
+    justifyContent:'center'
   },
   textStyle: {
     alignSelf: 'center',
     color: '#fff',
     fontSize: 16,
   },
-  detail: {
-    flex: 2,
-  },
+  detail: {},
   logo: {},
   textInput: {
     height: 50,
@@ -193,11 +194,13 @@ const styles = StyleSheet.create({
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
   },
-  register: {color: '#178CEB', },
+  register: {color: '#178CEB'},
   bottom: {justifyContent: 'center', alignItems: 'center'},
   keyBoardScroll: {
     justifyContent: 'center',
-    flex: 2,
+    // flex: 1,
+    // borderWidth: 1,
+    height: hp(80),
   },
 });
 

@@ -167,6 +167,7 @@ function ApplyOT(props) {
             onSubmitEditing={unFocus}
             onBlur={unFocus}
             blurOnSubmit={true}
+            rightIcon
           />
 
           {!reason && show ? (

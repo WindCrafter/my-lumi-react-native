@@ -277,6 +277,7 @@ function ApplyBreak(props) {
             onSubmitEditing={unFocus}
             onBlur={unFocus}
             blurOnSubmit={true}
+            rightIcon
           />
           {!reason && showModal ? (
             <Card style={styles.card}>

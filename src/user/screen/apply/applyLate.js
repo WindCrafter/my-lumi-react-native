@@ -148,6 +148,8 @@ function ApplyLate(props) {
         height={60}
         goBack={goBack}
         fontSize={24}
+        containerStyle={{backgroundColor:'grey'}}
+        
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -173,6 +175,7 @@ function ApplyLate(props) {
             onSubmitEditing={unFocus}
             onBlur={unFocus}
             blurOnSubmit={true}
+            rightIcon
           />
 
           {!reason && show ? (
@@ -264,7 +267,7 @@ function ApplyLate(props) {
               maximumValue={60}
               minimumTrackTintColor="#4BBF70"
               maximumTrackTintColor="grey"
-              step={5}
+              step={15}
               onValueChange={onChangeTime}
               onSlidingComplete={onChangeTime}
               // thumbImage={imgs.miniLogo}

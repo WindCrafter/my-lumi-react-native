@@ -73,7 +73,7 @@ const Book = (props) => {
     '2020-10-01': [{name: 'item 1 - any js object'}],
     '2020-10-02': [{name: 'item 2 - any js object', height: 80}],
     '2020-10-03': [],
-    '2020-10-04': [{name: 'item 3 - any js object'}],
+    '2020-11-26': [{name: 'item 3 - any js object'}],
   };
   const onMoveToEvent = () => {
     console.log('----- < > ______');
@@ -86,14 +86,14 @@ const Book = (props) => {
     <>
       <BarStatus />
       <HeaderAccount />
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <View style={styles.day}>
           <Text style={styles.txtDay}>{'Lịch ngày'}</Text>
         </View>
         <View style={styles.meeting}>
           <Text style={styles.txtHeader}>{'Phòng họp'}</Text>
         </View>
-      </View>
+      </View> */}
       <Agenda
         items={item}
         firstDay={1}
@@ -106,7 +106,6 @@ const Book = (props) => {
         futureScrollRange={3}
       />
       <ActionButton buttonColor="rgba(231,76,60,1)" renderIcon={buttonIcon}>
-        >
         <ActionButton.Item
           inputX={[0, 0]}
           inputY={[0, 1]}
