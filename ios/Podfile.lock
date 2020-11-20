@@ -443,7 +443,7 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
-  - OneSignal (2.15.2)
+  - OneSignal (2.15.4)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
@@ -632,8 +632,8 @@ PODS:
     - React
   - react-native-network-info (5.2.1):
     - React
-  - react-native-onesignal (3.9.1):
-    - OneSignal (= 2.15.2)
+  - react-native-onesignal (3.9.2):
+    - OneSignal (= 2.15.4)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.1.1):
     - React
@@ -978,7 +978,7 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
-  CodePush: 18dd72e6176d261832d036f22c70f910370d6b64
+  CodePush: 69186fd1143f7e5e5c6f65383cf14f4927e28213
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: a50434c875bd42f2b1c99c712bda892a1dc659c7
   FBReactNativeSpec: 393853a536428e05a9da00b6290042f09809b15b
@@ -1006,14 +1006,14 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
-  Interactable: 334971ca372efcb6791bb47f81f3265963c47f3e
+  Interactable: 411887c89fa16ac41f8e7898aca06dcad55e5f22
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
-  OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
+  OneSignal: 6647275955d0f06d9e17c90dc93af9d85ecfd2b9
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
-  Permission-LocationAlways: 14ec76aa2912ea3a7ddc5b564d781bff51a5f3c8
+  Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
+  Permission-LocationAlways: 155e6251b757b380f6354737cae8e8d59c472495
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   RCTRequired: d9b1a9e6fa097744ca3ede59f86a35096df7202b
   RCTTypeSafety: c227cd061983e9e964115afbc4e8730d6a6f1395
@@ -1026,12 +1026,12 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7ab9cdcdd18d57652fb041f8a147fe9658d4e00a
   React-jsinspector: 2e28bb487e42dda6c94dbfa0c648d1343767a0fb
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: 8a63c369af9383fcedea9a73fe234c7efb234d24
-  react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
+  react-native-camera: 8016138a8348b889e22c95b23f668a234f124335
+  react-native-netinfo: 38a1e0b3e89b48e4b5833ed475d8df5f049f6f90
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
-  react-native-onesignal: 4d82a09492e4937c1b6eb22dcd602b0b26a9e4b0
-  react-native-safe-area-context: 4c3249e4840225c61fcd215b136af0a737bccb79
-  react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
+  react-native-onesignal: ab5bd48dfc62d6f502ee2087cef317cd1c2b72f7
+  react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
+  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   React-RCTActionSheet: 1702a1a85e550b5c36e2e03cb2bd3adea053de95
   React-RCTAnimation: ddda576010a878865a4eab83a78acd92176ef6a1
   React-RCTBlob: 34334384284c81577409d5205bd2b9ff594d8ab6
@@ -1042,23 +1042,23 @@ SPEC CHECKSUMS:
   React-RCTText: 4f95d322b7e6da72817284abf8a2cdcec18b9cd8
   React-RCTVibration: f3a9123c244f35c40d3c9f3ec3f0b9e5717bb292
   ReactCommon: 2905859f84a94a381bb0d8dd3921ccb1a0047cb8
-  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
-  RNCClipboard: ce9b77f2881948e9e04af84bd70262ab37adb1c1
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
+  RNCClipboard: a1dd5a278566666ac8f9c9b517b7922c801bcd98
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: 55b9b4240d0a9eba8733d02616775d4040de2e7d
-  RNDateTimePicker: f13c2d8c4cd1ea6d1a1f9ea7ddcdd24e82060770
-  RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
+  RNDateTimePicker: 83540fb5d71f28bd34990d8fabccb8d91e5d957e
+  RNDeviceInfo: c5f8f3a456adcbba405ace475254b08febc4c095
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
-  RNPermissions: 1888705aebcc81714efa5dbff94351e4388ae012
+  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  RNWifi: 67f9bb00dd1361a941f5697027111107bc748dc8
+  RNWifi: 4fc05916e21464d665e8f03e8162e38f16185502
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: d5bd05a2b6b94c52323745c2c2b64557c8c66f64
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: ce0122185bab5fdd64334311d24d024b09eedcb8
+PODFILE CHECKSUM: 53f66c5fd13368fa4b883b32a2858b8478f55410
 
 COCOAPODS: 1.9.3

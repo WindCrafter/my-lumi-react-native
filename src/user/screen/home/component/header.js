@@ -54,8 +54,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
-    borderBottomRightRadius: 48,
-    borderBottomLeftRadius: 48,
   },
   detail: {
     flexDirection: 'row',
