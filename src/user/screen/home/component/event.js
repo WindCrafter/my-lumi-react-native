@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   viewItem: {
-    paddingVertical: 8,
+    paddingVertical: 2,
     width: '100%',
     marginTop: 8,
     flexDirection: 'row',

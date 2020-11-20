@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 16,
-    marginTop: 16,
+    marginTop: 11,
     width: widthPercentageToDP(100) - 32,
-    height: 250,
+    height: 200,
     alignSelf: 'center',
     backgroundColor: '#ffffff',
     overflow: 'hidden',
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   top: {
-    height: 40,
+    height: 30,
     width: '100%',
     backgroundColor: Colors.background,
     position: 'absolute',
@@ -192,5 +192,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
+    marginBottom:5,
   },
 });

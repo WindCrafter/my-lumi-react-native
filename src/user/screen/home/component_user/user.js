@@ -36,7 +36,7 @@ export default CardUser;
 
 const styles = StyleSheet.create({
   container: {
-    height: 80,
+    height: 60,
     width: widthPercentageToDP(50) - 28,
     borderRadius: 16,
     flexDirection: 'row',
