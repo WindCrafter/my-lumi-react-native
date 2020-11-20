@@ -50,9 +50,9 @@
 	<key>CodePushDeploymentKey</key>
 	<string>j_-7qwewXunDvzLvVKsbVR8DuUAZLKrfxoYUD</string>
 	<key>LSApplicationCat egoryType</key>
-	<string/>
+	<string></string>
 	<key>LSApplicationCategoryType</key>
-	<string/>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -128,5 +128,11 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppF</key>
+	<string></string>
+	<key>CFBundleGetInfoString</key>
+	<array>
+		<string></string>
+	</array>
 </dict>
 </plist>

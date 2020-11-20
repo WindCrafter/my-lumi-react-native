@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
   },
   txtHeader: {
     color: Colors.background,
+    // fontFamily: "Quicksand",
   },
   row: {
     flexDirection: 'row',

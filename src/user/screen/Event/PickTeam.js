@@ -378,6 +378,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 16,
     flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'center',
+    textAlign:'center',
   },
   imageIcon: {
     width: 12,

@@ -36,7 +36,7 @@ const AppNavigator = (props) => {
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
-    }, 500);
+    }, 50);
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
 
   const handleOpenURL = () => {};
