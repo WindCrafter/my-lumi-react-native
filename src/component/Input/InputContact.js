@@ -5,7 +5,18 @@ import langs from '../../../common/language';
 import {Colors, imgs} from '../../../utlis';
 
 export default function ContactRow(props?: Props) {
-  const { leftImage, name, dob, team, role, work, kpi, kpi_6m, onCall, onCopyBankAccount} = props;
+  const {
+    leftImage,
+    name,
+    dob,
+    team,
+    role,
+    work,
+    kpi,
+    kpi_6m,
+    onCall,
+    onCopyBankAccount,
+  } = props;
 
   return (
     <View style={styles.container}>

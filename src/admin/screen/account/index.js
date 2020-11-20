@@ -53,14 +53,14 @@ const Account = (props) => {
               leftImage={imgs.KPI}
               title={'Quản lí KPI'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#7CE3BF'}
               line={true}
             />
             <RoundedView
               leftImage={imgs.meeting}
               title={'Danh sách Lumier'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#3E30B2'}
               line={true}
               onPressButton={onMoveTContact}
             />
@@ -68,14 +68,14 @@ const Account = (props) => {
               leftImage={imgs.inforsolidblack}
               title={'Thông tin ứng dụng'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#DE6D2E'}
               line={true}
             />
             <RoundedView
               leftImage={imgs.logout}
               title={'Đăng xuất'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#EA4074'}
               line={true}
               onPressButton={onLogOut}
             />

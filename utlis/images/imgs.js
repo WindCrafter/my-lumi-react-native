@@ -92,7 +92,7 @@ export const imgs = {
   notificationGrey: require('../../common/assets/images/icon/Notifications-grey-icon.png'),
   breakMoreDay: require('../../common/assets/images/icon/Calendar-breakdays-icon2x.png'),
   breakOneDay: require('../../common/assets/images/icon/Calendar-breakday-icon2x.png'),
-  breakShift   : require('../../common/assets/images/icon/Clock-shift-icon2x.png'),
+  breakShift: require('../../common/assets/images/icon/Clock-shift-icon2x.png'),
   miniLogo: require('../../common/assets/images/logo/mini-logo.png'),
   clockEarly: require('../../common/assets/images/icon/Clock-early-icon.png'),
   arrow: require('../../common/assets/images/icon/Arrow-icon.png'),
@@ -100,4 +100,6 @@ export const imgs = {
   sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
   calendarWeek: require('../../common/assets/images/icon/Calendar-week.png'),
   fine: require('../../common/assets/images/icon/Fine-icon.png'),
+  logoMyLumi: require('../../common/assets/images/logo/logo_MyLumi.png'),
+  changeIcon: require('../../common/assets/images/icon/Change-icon.png'),
 };

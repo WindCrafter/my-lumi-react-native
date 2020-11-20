@@ -7,9 +7,9 @@ const ConfirmCode = (props) => {
   const { code, onChangeCode, onConfirms } = props;
   return (
     <View style={styles.container}>
-      <Text style={styles.please}>Please enter your code </Text>
+      <Text style={styles.please}>Điền mã đã được gửi tới email của bạn :</Text>
       <Input
-        placeholder={'Enter your code'}
+        placeholder={'Mã xác minh'}
         testID="test_Code"
         containerStyle={styles.textInput}
         returnKeyType="next"
@@ -18,9 +18,10 @@ const ConfirmCode = (props) => {
         maxLength={50}
         value={code}
         onChangeText={onChangeCode}
+        rightIcon
       />
       <Button
-        title={'Next'}
+        title={'Tiếp tục'}
         onPress={onConfirms}
         testID="test_Next"
         containerStyle={styles.button}
@@ -39,13 +40,13 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 25,
+    borderRadius: 8,
     paddingHorizontal: 16,
   },
   please: {
-    marginLeft: wp(12.5),
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 32,
+    alignSelf:'center'
   },
   button: {},
 });

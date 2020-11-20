@@ -17,7 +17,6 @@ import {
 import {BarStatus, HeaderCustom} from '../../../component';
 import {
   widthPercentageToDP as wp,
-  widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
 import Info from './component/info';

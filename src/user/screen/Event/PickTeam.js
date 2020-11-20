@@ -247,7 +247,7 @@ const PickTeam = (props) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={onClearAll} style={styles.resetBtn}>
             <Image
-              source={imgs.undo}
+              source={imgs.changeIcon     }
               style={styles.imageIcon}
               resizeMode="cover"
             />
@@ -378,8 +378,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 16,
     flexDirection: 'row',
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: 'center',
     textAlign:'center',
   },
   imageIcon: {

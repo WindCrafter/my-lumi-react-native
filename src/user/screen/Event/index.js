@@ -208,23 +208,7 @@ const Event = (props) => {
                     {moment(timeStart).format('HH:mm')}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                    },
-                  ]}
-                  onPress={() => onShow('dateStart')}>
-                  <Image
-                    source={imgs.breakDay}
-                    style={[styles.imageStamp, {tintColor: '#455997'}]}
-                  />
-
-                  <Text style={[styles.txtTime, {color: '#455997'}]}>
-                    {moment(dateStart).format('DD/MM/yyyy')}
-                  </Text>
-                </TouchableOpacity>
+                
               </View>
               <Image source={imgs.arrow}></Image>
               <View style={styles.column}>
@@ -247,22 +231,7 @@ const Event = (props) => {
                     {moment(timeEnd).format('HH:mm')}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                    },
-                  ]}
-                  onPress={() => onShow('dateEnd')}>
-                  <Image
-                    source={imgs.breakDay}
-                    style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                  />
-                  <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                    {moment(dateEnd).format('DD/MM/yyyy')}
-                  </Text>
-                </TouchableOpacity>
+                
               </View>
             </View>
           </Card>

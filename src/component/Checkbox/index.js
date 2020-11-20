@@ -8,7 +8,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { imgs } from '../../../utlis';
+import {imgs} from '../../../utlis';
 
 interface Props {
   checked?: Boolean;
@@ -50,7 +50,7 @@ export default function Checkbox(props?: Props) {
         resizeMode="contain"
       />
       {title !== undefined && (
-        <Text style={[styles.txtTitle, { color: titleColor }, titleStyle]}>
+        <Text style={[styles.txtTitle, {color: titleColor}, titleStyle]}>
           {title}
         </Text>
       )}
@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width:120
-    
+    width: 120,
   },
   checkImage: {
     width: 20,

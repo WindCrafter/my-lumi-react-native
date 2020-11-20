@@ -9,7 +9,7 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import {TextSelect, Button} from '../../../../component';
+import {TextSelect, Button, Logo} from '../../../../component';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 import {imgs} from '../../../../../utlis';
@@ -26,12 +26,21 @@ const ModalInforApp = (props) => {
       style={styles.modal}
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
-        <Image source={imgs.logo} />
-        <Text style={styles.title}>LumiStaff</Text>
+        {/* <Image source={imgs.logoMyLumi} style={{}}/> */}
+        <Logo />
+        <Text style={styles.title}>My Lumi</Text>
         <Text style={styles.detailmodal}>
-          Giải pháp chấm công cho doanh nghiệp.
+          Giải pháp phần mềm cho doanh nghiệp.
         </Text>
+        {/* <Text style={styles.titleDescription}>
+          Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
+        </Text> */}
         <Text style={styles.version}>V1.0 - 1/10/2020</Text>
+        <Text style={styles.website}>Công ty cổ phần Lumi</Text>
+        <Text style={styles.website}>
+          6th Floor, New Skyline Building, 19/5 Str,Ha Dong Dist, HN
+        </Text>
+
         <TouchableOpacity onPress={openUrl} style={styles.URL}>
           <Text style={styles.website}>Website: </Text>
           <Text style={styles.link}>https://lumi.vn</Text>
@@ -93,10 +102,18 @@ const styles = StyleSheet.create({
   title: {
     color: Colors.background,
     fontSize: 28,
-    marginTop:8
+    marginTop: 8,
   },
-  version: {color: 'grey', fontSize: 12},
-  URL: {flexDirection: 'row', marginTop: 48},
+  version: { color: 'grey', fontSize: 12, marginBottom: 48},
+  URL: {flexDirection: 'row',marginTop:8},
   website: {},
   link: {textDecorationLine: 'underline'},
+  titleDescription: {
+    fontWeight: '400',
+    fontSize: 14,
+    marginTop: 20,
+    marginBottom: 10,
+    color: 'black',
+    width: '80%',
+  },
 });

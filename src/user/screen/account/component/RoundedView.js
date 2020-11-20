@@ -13,7 +13,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../../../utlis';
 import {Card} from 'native-base';
 
-interface Props extends TextInputProps {
+interface Props extends RoundedView {
   leftImage?: String | Number;
   rightImage?: String | Number;
   width?: String | Number;
@@ -34,6 +34,7 @@ interface Props extends TextInputProps {
   fontSize?: String;
   tintColor?: String;
   line?: Boolean;
+  tintColorLeft?: String;
 }
 
 RoundedView.defaultProps = {
@@ -50,10 +51,11 @@ RoundedView.defaultProps = {
   tintColor: 'black',
   line: false,
   styleImg: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
     alignSelf: 'center',
   },
+  // tintColorLeft :''
 };
 
 export default function RoundedView(props?: Props) {
@@ -76,6 +78,7 @@ export default function RoundedView(props?: Props) {
     fontSize,
     tintColor,
     line,
+    tintColorLeft,
   } = props;
 
   return (
@@ -92,8 +95,12 @@ export default function RoundedView(props?: Props) {
           style={styles.container}
           onPress={onPressButton}
           disabled={disabled}>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Image source={leftImage} style={styleImg} resizeMode="cover" />
+          <View style={styles.middle}>
+            <Image
+              source={leftImage}
+              style={[{tintColorLeft}, styleImg]}
+              resizeMode="cover"
+            />
             <View style={styles.viewTitle}>
               <Text
                 style={[
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 18,
     color: 'black',
-    alignSelf:'center',
+    alignSelf: 'center',
   },
 
   textDetail: {
@@ -147,8 +154,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 25, 0.22)',
     alignSelf: 'center',
   },
-  viewTitle:{
+  viewTitle: {
     marginLeft: 12,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
+  middle: {flexDirection: 'row', justifyContent: 'center'},
 });

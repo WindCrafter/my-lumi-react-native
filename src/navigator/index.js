@@ -5,7 +5,7 @@
 
 import React from 'react';
 // import { StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
@@ -17,6 +17,7 @@ import login from '../admin/container/login';
 import AdminStack from './AdminStack';
 import UserStack from './UserStack';
 import firstLogin from '../admin/container/firstLogin';
+import Register from '../admin/container/register/index'
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
@@ -26,11 +27,9 @@ const linking = {
 };
 
 export default function Navigator(props) {
-  const { loginSuccess, changePass, role } = props;
+  const {loginSuccess, changePass, role} = props;
   return (
-    <NavigationContainer
-      linking={linking}
-    >
+    <NavigationContainer linking={linking}>
       <RootStack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',
@@ -41,6 +40,13 @@ export default function Navigator(props) {
             <RootStack.Screen
               name={'Login'}
               component={login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <RootStack.Screen
+              name={'Register'}
+              component={Register}
               options={{
                 headerShown: false,
               }}
@@ -58,8 +64,8 @@ export default function Navigator(props) {
         ) : role === 'admin' ? (
           <RootStack.Screen name={'AdminStack'} component={AdminStack} />
         ) : (
-                <RootStack.Screen name={'UserStack'} component={UserStack} />
-              )}
+          <RootStack.Screen name={'UserStack'} component={UserStack} />
+        )}
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -9,6 +9,12 @@ import {
   changePassFailed,
   updateProfileSuccess,
   updateProfileFailed,
+  setStatusBreakFailed,
+  setStatusBreakSuccess,
+  setStatusLateEarlySuccess,
+  setStatusLateEarlyFailed,
+  setStatusOTFailed,
+  setStatusOTSuccess,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
 import {_POST} from '../../../utlis/connection/api';
@@ -19,6 +25,9 @@ import {removeUserIdDevice} from '../actions/user';
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
+const URL_SET_STATUS_OVERTIME = `${URL.LOCAL_HOST}${URL.SET_STATUS_OVERTIME}`;
+const URL_SET_STATUS_BREAK = `${URL.LOCAL_HOST}${URL.SET_STATUS_BREAK}`;
+const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}`;
 import {addUserIdDevice} from '../actions/user';
 function* sagaLoginAction(action) {
   try {
@@ -124,4 +133,77 @@ function* sagaLoginSuccess(action) {
 
 export function* watchLoginSuccess() {
   yield takeLatest(types.LOGIN_SUCCESS, sagaLoginSuccess);
+}
+function* sagaSetStatusOT(action) {
+  try {
+    const data = {
+      status: action.payload.status,
+      overtimeId: action.payload.overtimeId,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_SET_STATUS_OVERTIME, data, token);
+    console.log('response', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(setStatusOTSuccess(data));
+      console.log('thanh cong');
+    } else {
+      yield put(setStatusOTFailed());
+      console.log('THAT BAI');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchSetStatusOT() {
+  yield takeLatest(types.SET_STATUS_OT, sagaSetStatusOT);
+}
+function* sagaSetStatusBreak(action) {
+  try {
+    const data = {
+      status: action.payload.status,
+      takeLeaveId: action.payload.takeLeaveId,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_SET_STATUS_BREAK, data, token);
+    console.log('response', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(setStatusBreakSuccess(data));
+      console.log('thanh cong');
+    } else {
+      yield put(setStatusBreakFailed());
+      console.log('THAT BAI');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchSetStatusBreak() {
+  yield takeLatest(types.SET_STATUS_BREAK, sagaSetStatusBreak);
+}
+
+function* sagaSetStatusLateEarly(action) {
+  try {
+    const data = {
+      status: action.payload.status,
+      lateEarlyId: action.payload.lateEarlyId,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_SET_STATUS_LATE_EARLY, data, token);
+    console.log('response', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(setStatusLateEarlySuccess(data));
+      console.log('thanh cong');
+    } else {
+      yield put(setStatusLateEarlyFailed());
+      console.log('THAT BAI');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchSetStatusLateEarly() {
+  yield takeLatest(types.SET_STATUS_LATE_EARLY, sagaSetStatusLateEarly);
 }

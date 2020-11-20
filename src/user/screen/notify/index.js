@@ -10,6 +10,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import moment from 'moment';
+
 import flatListData from './data';
 import HeaderNotify from './component/HeaderNotify';
 import ModalInfor from './component/ModalInfor';
@@ -20,16 +22,16 @@ import Icon from 'react-native-vector-icons/Feather';
 import {Colors, imgs} from '../../../../utlis';
 
 const Notify = (props) => {
-  useEffect(() => {
-    getListNotifys(token);
-  }, []);
-  const { navigation, getListNotifys, token, listNotifys} = props;
+  // useEffect(() => {
+  //   getListNotifys(token);
+  // }, []);
+  const {navigation, getListNotifys, token, listNotifys} = props;
   const [toTop, setToTop] = useState(false);
   const [position, setPosition] = useState(0);
   const refList = useRef('');
-  const [listData, setListData] = useState(listNotifys);
-
- 
+  const [listData, setListData] = useState(
+    listNotifys ? listNotifys.notify : null,
+  );
 
   const onToTop = (e) => {
     const pos = e.nativeEvent.contentOffset.y;
@@ -45,29 +47,46 @@ const Notify = (props) => {
     refList.current.scrollToOffset({animated: true, offset: 0});
   };
 
-  const renderItem = (data) => {
-   
+  const renderItem = ({item}) => {
     const onShow = () => {
-      switch (data.type) {
-        case 'confirm':
-          navigation.navigate('confirm_overtime');
-          break;
-        case 'late_early':
-          navigation.navigate('CheckIn');
+      switch (item.type) {
+        case 'confirm_late_early':
+          navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
           break;
         case 'confirm_take_leave':
-          navigation.navigate('Xác nhận KPI');
+          navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
+          break;
+        case 'confirm_overtime':
+          navigation.navigate('Xác nhận', {data: item});
+          console.log('checkkkkkk');
+          break;
+        case 'overtime':
+          navigation.navigate('Xác nhận đơn', {data: item});
+          break;
+        case 'take_leave':
+          navigation.navigate('Xác nhận đơn', {data: item});
+          break;
+        case 'late_early':
+          navigation.navigate('Xác nhận đơn', {data: item});
+          break;
+        case 'verify':
+          navigation.navigate('Xác nhận Kpi', {data: item});
           break;
       }
     };
     return (
       <TouchableOpacity onPress={onShow}>
         <Card style={styles.card}>
-          <Image style={styles.img} source={imgs.DOB} resizeMode="cover" />
+          <Image
+            style={styles.img}
+            source={require('../../../../naruto.jpeg')}
+          />
           <View style={styles.viewText}>
-            <Text numberOfLines={3}>{data.contents.en}</Text>
+            <Text numberOfLines={3}>{item ? item.contents.en : null}</Text>
             <Text style={styles.time}>
-              {11} - {12}
+              {moment(item.createdAt).format('HH:mm - DD/MM/YYYY')}
             </Text>
           </View>
         </Card>
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
   img: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: 1000,
   },
   viewText: {
     flex: 4,

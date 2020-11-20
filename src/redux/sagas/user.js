@@ -31,7 +31,9 @@ const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
 const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
 const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
-const URL_NOTIFY = `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}`;
+const URL_NOTIFY = (e) => {
+  return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
+};
 const URL_LIST_CHECK = (e) => {
   return `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}${e}`;
 };
@@ -194,8 +196,9 @@ export function* watchGetListAssign() {
 function* sagaGetListNotifys(action) {
   try {
     console.log(action);
-    const token = action.payload;
-    const response = yield _GET(URL_NOTIFY, token);
+    const token = action.payload.token;
+    const page = 1;
+    const response = yield _GET(URL_NOTIFY(page), token);
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getListNotifysSuccess(response.data));

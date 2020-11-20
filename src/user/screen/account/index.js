@@ -98,18 +98,12 @@ const Account = (props) => {
         </Card>
         <View style={styles.detail}>
           <Card style={styles.cardMid}>
-            <RoundedView
-              leftImage={imgs.KPI}
-              title={'Quản lí KPI'}
-              rightImage={imgs.next}
-              tintColor={'grey'}
-              line={true}
-            />
+            
             <RoundedView
               leftImage={imgs.meeting}
               title={'Danh sách Lumier'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#3E30B2'}
               line={true}
               onPressButton={onMoveToContact}
             />
@@ -117,7 +111,7 @@ const Account = (props) => {
               leftImage={imgs.inforsolidblack}
               title={'Thông tin ứng dụng'}
               rightImage={imgs.next}
-              tintColor={'grey'}
+              tintColor={'#DE6D2E'}
               line={true}
               onPressButton={onShowModal}
             />
@@ -125,8 +119,8 @@ const Account = (props) => {
               leftImage={imgs.logout}
               title={'Đăng xuất'}
               rightImage={imgs.next}
-              tintColor={'grey'}
-              line={true}
+              tintColor={'#EA4074'}
+              line={false}
               onPressButton={onLogOut}
             />
           </Card>
@@ -187,7 +181,7 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(0, 0, 0, 0.16)',
     justifyContent: 'space-evenly',
     borderRadius: 24,
-    height: 282,
+    height: 240,
   },
   image: {
     height: 36,

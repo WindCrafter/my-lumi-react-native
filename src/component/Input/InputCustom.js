@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ViewStyle,
   Text,
+  Platform
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../utlis';
@@ -102,6 +103,8 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
     textAlign: 'right',
+    fontFamily: 'quicksand',
+
   },
   left: {
     flexDirection: 'row',

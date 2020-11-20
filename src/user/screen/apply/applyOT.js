@@ -83,10 +83,9 @@ function ApplyOT(props) {
     unFocus();
   };
   const onSetOverTime = () => {
-    console.log(userId);
     const data = {
       time: time,
-      date: moment().format('DD/MM/YYYY'),
+      date: moment(day).format('DD/MM/YYYY'),
       token: token,
       start: moment(hour).format('HH:mm'),
       assignTo: assign ? assign.userId : null,
@@ -168,6 +167,7 @@ function ApplyOT(props) {
             onSubmitEditing={unFocus}
             onBlur={unFocus}
             blurOnSubmit={true}
+            rightIcon
           />
 
           {!reason && show ? (

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,13 +15,15 @@ import {
 import SendCode from './component/sendCode';
 import ConfirmCode from './component/confirmCode';
 import RePass from './component/rePass';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Logo } from '../../../component';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {Logo, KeyBoardScroll} from '../../../component';
 let deviceWidth = Dimensions.get('window').width;
 
-
 const ForgotPass = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
   const step = useRef();
   const [code, setCode] = useState('');
   const [email, setEmail] = useState('');
@@ -35,7 +37,7 @@ const ForgotPass = (props) => {
   };
 
   const onConfirms = () => {
-    step.current.scrollTo({ x: wp(200), y: 0, animated: true });
+    step.current.scrollTo({x: wp(200), y: 0, animated: true});
   };
 
   const onSend = () => {
@@ -47,51 +49,49 @@ const ForgotPass = (props) => {
   };
 
   const onGetCode = () => {
-    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
+    step.current.scrollTo({x: wp(100), y: 0, animated: true});
   };
 
   return (
-    <View style={styles.container}>
-      <Logo containerStyle={styles.logo} />
-      <KeyboardAvoidingView
-        style={styles.detail}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          ref={step}>
-          <SendCode
-            email={email}
-            onChangeEmail={onChangeEmail}
-            onSend={onSend}
-          />
-          <ConfirmCode
-            code={code}
-            onChangeCode={onChangeCode}
-            onConfirms={onConfirms}
-          />
-          <RePass />
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <TouchableOpacity testID="test_Back" onPress={onBack} style={styles.back}>
-        <Text style={styles.textBack}>← Back</Text>
-      </TouchableOpacity>
-      <Alert
-        title={'Notification'}
-        message={'This message'}
-        leftButton={{ text: 'OK', onPress: onGetCode }}
-        ref={(ref) => (this.alert = ref)}
-      />
-    </View>
+    <KeyBoardScroll>
+      <View style={styles.container}>
+        <Logo containerStyle={styles.logo} />
+        <KeyboardAvoidingView
+          style={styles.detail}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            ref={step}>
+            <SendCode
+              email={email}
+              onChangeEmail={onChangeEmail}
+              onSend={onSend}
+            />
+            <ConfirmCode
+              code={code}
+              onChangeCode={onChangeCode}
+              onConfirms={onConfirms}
+            />
+            <RePass />
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <View testID="test_Back" style={styles.back}>
+          <TouchableOpacity onPress={onBack}>
+            <Text style={styles.textBack}>Quay lại trang đăng nhập</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </KeyBoardScroll>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#ffffff',
-    justifyContent: 'space-between',
+    height: hp(100),
+    justifyContent: 'center',
   },
   textStyle: {
     alignSelf: 'center',
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   detail: {
-    flex: 1.5,
+    flex: 1,
   },
   logo: {
     flex: 1,
@@ -112,14 +112,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   back: {
-    flex: 0.5,
-    width: deviceWidth / 2,
+    width: 250,
     alignSelf: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   textBack: {
     alignSelf: 'center',
-    color: 'rgb(12, 235, 41)',
-    fontSize: 20,
+    color: 'black',
+    fontSize: 16,
   },
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,

@@ -17,8 +17,14 @@ import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 import {_global} from '../../../../utlis/global/global';
 import {Colors} from '../../../../utlis';
+import {KeyBoardScroll} from '../../../component';
 import {ScrollView} from 'react-native-gesture-handler';
-
+import LinearGradient from 'react-native-linear-gradient';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
@@ -29,7 +35,7 @@ const Login = (props) => {
     autoLoginStatus,
     oneSignalID,
     addUserIdDevice,
-    loginSuccess
+    loginSuccess,
   } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
@@ -38,7 +44,9 @@ const Login = (props) => {
   const {navigation} = props;
 
   useEffect(() => {}, []);
-
+  const onRegister = () => {
+    navigation.navigate('Register');
+  };
   const onLogin = () => {
     Keyboard.dismiss();
     if (email.trim().length === 0) {
@@ -59,11 +67,9 @@ const Login = (props) => {
       });
       return;
     } else {
-
-      loginAction({ email, password: pass, oneSignalID: oneSignalID});
+      loginAction({email, password: pass, oneSignalID: oneSignalID});
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
-
     }
   };
 
@@ -76,7 +82,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('ForgotPass');
+    navigation.navigate('Forgot Password');
   };
 
   const onChangeRememberLogin = () => {
@@ -84,15 +90,15 @@ const Login = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Logo containerStyle={styles.logo} />
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.detail}>
-          <KeyboardAvoidingView>
+    <KeyBoardScroll>
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.detail}>
+            <Logo containerStyle={styles.logo} />
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={langs.user}
+              placeholder={'Tên đăng nhập'}
               testID="test_Username"
               containerStyle={styles.textInput}
               returnKeyType="next"
@@ -102,6 +108,7 @@ const Login = (props) => {
               onSubmitEditing={() => refPassword.current.focus()}
               value={email}
               onChangeText={onChangeEmail}
+              rightIcon
             />
             <InputPassword
               testID="test_Password"
@@ -126,35 +133,36 @@ const Login = (props) => {
               onPress={onLogin}
               testID="test_Login"
             />
-
-            {/* <TouchableOpacity onPress={onPressForgot} testID="test_ForgotPass" style={styles.forgotPass}>
-          <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
-        </TouchableOpacity> */}
-          </KeyboardAvoidingView>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+            <TouchableOpacity onPress={onRegister} style={styles.bottom}>
+              <Text style={styles.register}>Đăng kí tài khoản</Text>
+              {/* <Text>Vui lòng tạo</Text> */}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPressForgot}
+              testID="test_ForgotPass"
+              style={styles.forgotPass}>
+              <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </KeyBoardScroll>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
+    height: hp(100),
+    backgroundColor: 'white',
+    justifyContent:'center'
   },
   textStyle: {
     alignSelf: 'center',
     color: '#fff',
     fontSize: 16,
   },
-  detail: {
-    flex: 1.75,
-    justifyContent: 'flex-start',
-    paddingVertical: 32,
-  },
-  logo: {
-    flex: 1,
-  },
+  detail: {},
+  logo: {},
   textInput: {
     height: 50,
     justifyContent: 'center',
@@ -185,6 +193,14 @@ const styles = StyleSheet.create({
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
+  },
+  register: {color: '#178CEB'},
+  bottom: {justifyContent: 'center', alignItems: 'center'},
+  keyBoardScroll: {
+    justifyContent: 'center',
+    // flex: 1,
+    // borderWidth: 1,
+    height: hp(80),
   },
 });
 
