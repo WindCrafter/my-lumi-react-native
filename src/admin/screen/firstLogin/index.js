@@ -177,6 +177,7 @@ const FirstLogin = (props) => {
                 display="default"
                 onChange={onChangeBirthday}
                 locale="vi-VI"
+                maximumDate={new Date()}
               />
             </View>
           }
@@ -190,6 +191,7 @@ const FirstLogin = (props) => {
               display="spinner"
               onChange={onChangeBirthday}
               locale="vi-VI"
+              maximumDate={new Date()}
             />
           </View>
         )

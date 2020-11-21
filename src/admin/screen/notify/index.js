@@ -1,44 +1,104 @@
-import React, { Component } from 'react';
+import React, {Component, useState, useEffect, useRef} from 'react';
 import {
-  FlatList,
   StyleSheet,
   Text,
   View,
   Image,
   StatusBare,
   StatusBar,
+  Dimensions,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import flatListData from './data';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import HeaderNotify from './component/HeaderNotify';
-import { BarStatus } from '../../../component';
-import { Card } from 'native-base';
+import ModalInfor from './component/ModalInfor';
+import {BarStatus} from '../../../component';
+import {Card} from 'native-base';
+import {Combine} from '../../../component';
+import Icon from 'react-native-vector-icons/Feather';
+import {Colors, imgs} from '../../../../utlis';
 
-const Notify = () => {
-  const renderItem = ({ item, index }) => {
+const Notify = (props) => {
+  useEffect(() => {
+    getListNotifys(token);
+  }, []);
+  const { navigation, getListNotifys, token, listNotifys} = props;
+  const [toTop, setToTop] = useState(false);
+  const [position, setPosition] = useState(0);
+  const refList = useRef('');
+  const [listData, setListData] = useState(listNotifys);
+
+ 
+
+  const onToTop = (e) => {
+    const pos = e.nativeEvent.contentOffset.y;
+    setPosition(pos);
+    position - pos > 0
+      ? setToTop(true)
+      : position === pos
+      ? null
+      : setToTop(false);
+  };
+
+  const onScrolltoTop = () => {
+    refList.current.scrollToOffset({animated: true, offset: 0});
+  };
+
+  const renderItem = (data) => {
+   
+    const onShow = () => {
+      switch (data.type) {
+        case 'confirm':
+          navigation.navigate('confirm_overtime');
+          break;
+        case 'late_early':
+          navigation.navigate('CheckIn');
+          break;
+        case 'confirm_take_leave':
+          navigation.navigate('Xác nhận KPI');
+          break;
+      }
+    };
     return (
-      <Card style={styles.card}>
-        <Image style={styles.img} source={item.image} resizeMode="cover" />
-        <View style={styles.viewText}>
-          <Text numberOfLines={3}>{item.detail}</Text>
-          <Text style={styles.time}>
-            {item.time} - {item.date}
-          </Text>
-        </View>
-      </Card>
+      <TouchableOpacity onPress={onShow}>
+        <Card style={styles.card}>
+          <Image style={styles.img} source={imgs.DOB} resizeMode="cover" />
+          <View style={styles.viewText}>
+            <Text numberOfLines={3}>{data.contents.en}</Text>
+            <Text style={styles.time}>
+              {11} - {12}
+            </Text>
+          </View>
+        </Card>
+      </TouchableOpacity>
     );
   };
   return (
-    <View>
+    <View style={styles.container}>
       <BarStatus />
       <HeaderNotify />
+
       <FlatList
-        style={styles.Container8}
+        ref={refList}
         horizontal={false}
-        data={flatListData}
+        data={listData}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
+        onScroll={onToTop}
       />
+      {toTop ? (
+        <View style={styles.toTop}>
+          <TouchableOpacity style={styles.btToTop} onPress={onScrolltoTop}>
+            <Icon
+              name={'arrow-up'}
+              color={Colors.white}
+              size={24}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -46,9 +106,11 @@ const Notify = () => {
 export default Notify;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   card: {
     borderRadius: 16,
-    marginTop: 16,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
@@ -75,4 +137,33 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
   },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+    width: 40,
+    height: 40,
+  },
+  toTop: {
+    position: 'absolute',
+    bottom: 32,
+    right: 32,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.background,
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+  },
+  btToTop: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {},
 });

@@ -8,6 +8,7 @@ import {
   removeUserIdDevice,
   kickAssign,
 } from '../../../redux/actions/user';
+import {resetCheck} from '../../../redux/actions/check';
 const mapStateToProps = (state) => ({
   nameUser: state.authen.userProfile.name,
   emailUser: state.authen.userProfile.email,
@@ -22,6 +23,7 @@ const mapDispatchToProps = {
   getListUsers,
   getListTeams,
   removeUserIdDevice,
+  resetCheck,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
