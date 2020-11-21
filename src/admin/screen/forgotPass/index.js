@@ -56,9 +56,7 @@ const ForgotPass = (props) => {
     <KeyBoardScroll>
       <View style={styles.container}>
         <Logo containerStyle={styles.logo} />
-        <KeyboardAvoidingView
-          style={styles.detail}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      
           <ScrollView
             horizontal
             pagingEnabled
@@ -76,7 +74,6 @@ const ForgotPass = (props) => {
             />
             <RePass />
           </ScrollView>
-        </KeyboardAvoidingView>
         <View testID="test_Back" style={styles.back}>
           <TouchableOpacity onPress={onBack}>
             <Text style={styles.textBack}>Quay lại trang đăng nhập</Text>

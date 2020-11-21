@@ -49,8 +49,9 @@ const RePass = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: wp(100),
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignSelf: 'center',
+    height:200
   },
   textInput: {
     height: 50,

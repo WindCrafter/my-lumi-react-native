@@ -91,8 +91,9 @@ const Login = (props) => {
 
   return (
     <KeyBoardScroll>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.detail}>
             <Logo containerStyle={styles.logo} />
             <Input
@@ -144,8 +145,9 @@ const Login = (props) => {
               <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
             </TouchableOpacity>
           </View>
-        </TouchableWithoutFeedback>
       </View>
+      </TouchableWithoutFeedback>
+
     </KeyBoardScroll>
   );
 };
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  
   forgotPass: {
     marginVertical: 8,
     padding: 4,
@@ -188,14 +191,14 @@ const styles = StyleSheet.create({
   textForgot: {
     alignSelf: 'center',
     color: 'tomato',
-    fontSize: 14,
+    fontSize: 16,
   },
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
   },
-  register: {color: '#178CEB'},
-  bottom: {justifyContent: 'center', alignItems: 'center'},
+  register: {color: '#178CEB',fontSize:18},
+  bottom: {justifyContent: 'center', alignItems: 'center',marginVertical:16},
   keyBoardScroll: {
     justifyContent: 'center',
     // flex: 1,
