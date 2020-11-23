@@ -46,7 +46,8 @@ const FloatButton = (props) => {
         outputY={[140, 70]}
         buttonColor="#2fac4f"
         title="Xin nghỉ"
-        onPress={onPressBreak}>
+        onPress={onPressBreak}
+        >
         <Image source={imgs.dayOff} />
 
       </ActionButton.Item>

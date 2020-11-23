@@ -14,6 +14,7 @@ import {
   Linking,
 } from 'react-native';
 import OneSignal from 'react-native-onesignal';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './component/header';
 import {Card} from 'native-base';
@@ -87,11 +88,16 @@ export default function Home(props) {
   });
   return (
     <>
-      <BarStatus backgroundColor={Colors.background} />
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} name={nameUser} />
+
         <View style={{flex: 6}}>
-          <View style={styles.top} />
+          <LinearGradient
+            style={styles.top}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#216632', '#2FAC4F']}
+          />
           <ScrollView>
             <View style={styles.groupCard}>
               <CardUser
@@ -192,6 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
-    marginBottom:5,
+    marginBottom: 5,
   },
 });
