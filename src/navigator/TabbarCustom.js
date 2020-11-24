@@ -16,6 +16,7 @@ import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
+import {_global} from '../../utlis/global/global';
 function TabbarCustom({
   state,
   descriptors,
@@ -26,55 +27,29 @@ function TabbarCustom({
   type,
 }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-  const requestLocationPermission = async () => {
-    try {
-      const granted = await request(
-        Platform.select({
-          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
-        }),
-      );
-      if (granted === RESULTS.GRANTED) {
-        console.log('Thanh cong');
-        initWifi();
-        console.log(token);
-      } else {
-        initWifi();
 
-        navigation.navigate('CheckIn');
-        console.log('Yêu cầu vị trí bị từ chối');
-        console.log(RESULTS.GRANTED);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
   const onCheckInWifi = () => {
-    Platform.OS === 'ios' ? initWifi() : requestLocationPermission();
+    const data = {
+      type: type,
+      deviceId: deviceId,
+      token: token,
+    };
+    type === 'in'
+      ? checkIn(data)
+      : _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Bạn có chắc chắn muốn kết thúc phiên làm việc không? ',
+          messageColor: Colors.danger,
+          leftButton: {
+            text: 'Có',
+            onPress: () => checkIn(data),
+          },
+          rightButton: {
+            text: 'Không',
+          },
+        });
   };
-  const initWifi = async () => {
-    try {
-      let set = await NetInfo.fetch('wifi');
 
-      const data = {
-        ssid: set.details.ssid,
-        bssid: set.details.bssid,
-        type: type,
-        deviceId: deviceId,
-        token: token,
-      };
-      checkIn(data);
-      console.log(
-        'Your current connected wifi ssidUser is ' + set.details.ssid,
-      );
-      console.log('Your current BssidUser is ' + set.details.bssid);
-      console.log(data);
-    } catch (error) {
-      navigation.navigate('CheckIn');
-
-      console.log('Cannot get current ssidUser!', {error});
-    }
-  };
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }

@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
@@ -14,7 +15,7 @@ const HistoryCheck = (props) => {
   const {data} = props;
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.viewItem}>
+      <TouchableOpacity style={styles.viewItem}>
         <View
           style={[
             styles.column,
@@ -56,7 +57,7 @@ const HistoryCheck = (props) => {
             </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -66,13 +67,12 @@ const HistoryCheck = (props) => {
         <Text style={styles.txtManager}>{langs.dayWeek}</Text>
       </View>
       <View style={styles.line} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
-      </ScrollView>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        scrollEnabled
+      />
     </>
   );
 };
@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
   },
   viewType: {
     flex: 1,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
 });

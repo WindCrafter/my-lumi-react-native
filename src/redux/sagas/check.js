@@ -13,10 +13,14 @@ import {
   takeLeaveFailed,
   overTimeSuccess,
   overTimeFailed,
-  checkOutSuccess
+  checkOutSuccess,
+  checkInWifi,
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
+import langs from '../../../common/language';
+import * as CustomNavigation from '../../navigator/CustomNavigation';
+import {store} from '../store/store.js';
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
@@ -69,21 +73,18 @@ function* sagaCheckIn(action) {
 }
 
 function* sagaCheckInWifi(action) {
-  console.log('action', action);
-  const alert = () => {};
   try {
     const data = {
-      ssid: action.payload.ssid,
       type: action.payload.type,
-      bssid: action.payload.bssid,
       deviceId: action.payload.deviceId,
     };
 
     const token = action.payload.token;
-    console.log('-------->', token);
-    const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
-    console.log('CHECK=>>>', response);
-    console.log('CHECK=>>>', action.payload.type);
+    // const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
+    const response = {
+      success: false,
+      statusCode: 400,
+    };
 
     if (
       response.success &&
@@ -110,15 +111,22 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: 'OK'},
       });
     } else {
-      if(!response.success && response.statusCode===400) {
+      if (!response.success && response.statusCode === 400) {
         yield put(checkInFailed());
         _global.Alert.alert({
           title: 'Thông báo',
-          message: response.message,
+          message: 'Hiện tại chưa thể chấm công thành công',
           messageColor: Colors.danger,
           leftButton: {
-            text: 'OK',
-            // onPress : onLongPress
+            text: langs.tryAgain,
+            onPress: () => store.dispatch(checkInWifi(data)),
+          },
+          middleButton: {
+            text: langs.code,
+            onPress: () => CustomNavigation.navigate('CheckIn'),
+          },
+          rightButton: {
+            text: 'Thoát',
           },
         });
       } else {
@@ -132,10 +140,8 @@ function* sagaCheckInWifi(action) {
           },
         });
       }
-     
     }
   } catch (error) {
-
     console.log(error);
     _global.Alert.alert({
       title: 'Thông báo',
@@ -195,8 +201,7 @@ function* sagaSetLateEarly(action) {
       time: action.payload.time,
       assignTo: action.payload.assignTo,
       advance: action.payload.advance,
-      description: action.payload.description
-
+      description: action.payload.description,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_LATE_EARLY, data, token);
@@ -260,7 +265,6 @@ function* sagaTakeLeave(action) {
         message: response.message,
         messageColor: Colors.background,
         leftButton: {text: 'OK'},
-        messageColor: Colors.danger,
       });
     }
   } catch (error) {

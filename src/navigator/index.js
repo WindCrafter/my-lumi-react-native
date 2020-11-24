@@ -17,7 +17,8 @@ import login from '../admin/container/login';
 import AdminStack from './AdminStack';
 import UserStack from './UserStack';
 import firstLogin from '../admin/container/firstLogin';
-import Register from '../admin/container/register/index'
+import Register from '../admin/container/register/index';
+import {navigationRef} from './CustomNavigation';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
@@ -29,7 +30,7 @@ const linking = {
 export default function Navigator(props) {
   const {loginSuccess, changePass, role} = props;
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer linking={linking} ref={navigationRef}>
       <RootStack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',

@@ -65,6 +65,8 @@ const langs = {
   pickTeam: 'Chọn người tham gia',
   newEvent: 'Sự kiện mới',
   deviceID: 'DeviceID:',
+  tryAgain:'Thử lại',
+  code:'Dùng mã',
 };
 
 export default langs;

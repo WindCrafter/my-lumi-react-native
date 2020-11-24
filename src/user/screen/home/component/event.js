@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import langs from '../../../../../common/language';
 import {imgs} from '../../../../../utlis';
@@ -14,7 +15,7 @@ const Event = (props) => {
   const {data} = props;
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.viewItem}>
+      <TouchableOpacity style={styles.viewItem}>
         <View
           style={[
             styles.column,
@@ -27,7 +28,7 @@ const Event = (props) => {
           <Text style={styles.txtDetail}>{item.detail}</Text>
           <Text style={styles.txtTime}>{item.time}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -37,13 +38,12 @@ const Event = (props) => {
         <Text style={styles.txtManager}>{langs.event}</Text>
       </View>
       <View style={styles.line} />
-      <ScrollView showsVerticalScrollIndicator={false}>
         <FlatList
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
+          scrollEnabled
         />
-      </ScrollView>
     </>
   );
 };

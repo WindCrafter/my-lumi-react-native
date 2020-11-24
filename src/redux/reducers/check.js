@@ -7,7 +7,6 @@ const initialState = {
   dateCheckIn: '',
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
-  switchTo: '',
   type: 'in',
 };
 
@@ -34,12 +33,10 @@ export default function check(state = initialState, action) {
     case types.CHECK_IN_FAILED:
       return {
         ...state,
-        switchTo: true,
       };
     case types.SWITCH_TO_CHECKIN:
       return {
         ...state,
-        switchTo: false,
       };
     case types.CHANGETO_CHECKIN:
       return {

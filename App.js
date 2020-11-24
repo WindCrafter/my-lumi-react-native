@@ -7,6 +7,8 @@ import AppNavigator from './app-navigator';
 console.disableYellowBox = true;
 import {setFont} from './utlis/index';
 import {ChangeState} from './src/redux/actions/codepush';
+import { LogBox } from 'react-native';
+
 
 setFont('Quicksand-Regular');
 const App = () => {
@@ -39,8 +41,8 @@ const App = () => {
     //   console.log(token);
     //   addUserIdDevice(data);
     // };
-    codePush.notifyAppReady()
-
+    codePush.notifyAppReady();
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     return function cleanup() {
       codePushStatusDidChange();
       codePushDownloadDidProgress();
