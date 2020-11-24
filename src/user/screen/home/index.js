@@ -22,10 +22,7 @@ import {Colors, imgs} from '../../../../utlis';
 import Event from './component/event';
 import HistoryWeek from './component/Calendar';
 import FloatButton from './component/ActionButton';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
 
@@ -81,8 +78,6 @@ export default function Home(props) {
     const data = {
       token: token,
     };
-    switchTo ? navigation.navigate('CheckIn') : null,
-      console.log('------,check', switchTo);
     getListNotifys(data);
   });
   return (
@@ -192,6 +187,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
-    marginBottom:5,
+    marginBottom: 5,
   },
 });

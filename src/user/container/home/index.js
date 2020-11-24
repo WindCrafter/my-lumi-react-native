@@ -6,7 +6,6 @@ import { getListNotifys } from '../../../redux/actions/user';
 const mapStateToProps = (state) => ({
   nameUser: state.authen.userProfile.name,
   emailUser: state.authen.userProfile.email,
-  switchTo: state.check.switchTo,
   timeIn: state.check.timeCheckIn,
   timeOut: state.check.timeCheckOut,
   token: state.authen.token,
