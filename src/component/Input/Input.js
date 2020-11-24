@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../utlis';
-import {MKButton} from 'react-native-material-kit';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
