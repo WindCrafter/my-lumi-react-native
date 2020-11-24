@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 
 import {
@@ -11,23 +11,34 @@ import {
   Alert,
   Button,
 } from 'react-native';
-import {Colors} from '../../../../utlis';
-import {BarStatus} from '../../../component';
-import {Agenda} from 'react-native-calendars';
+import { Colors } from '../../../../utlis';
+import { BarStatus } from '../../../component';
+import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import HeaderAccount from './component/HeaderAccount';
 import ActionButton from 'react-native-action-button';
-import {imgs} from '../../../../utlis';
+import { imgs } from '../../../../utlis';
 const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
 const dates = [fastDate, today].concat(futureDates);
-import {Card} from 'native-base';
+
+//test calendar
+
+// const _format = 'YYYY-MM-DD';
+// const today = moment().format(format);
+// const maxDate = moment().add(15, 'days').format(format);
+
+///
+import { Card } from 'native-base';
 
 function getFutureDates(days) {
+  //test calendar
+
+  ///
   const array = [];
   for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + 864e5 * index); // 864e5 == 86400000 == 24*60*60*1000
+    const date = new Date(Date.now() + 864e5  ); // 864e5 == 86400000 == 2460601000
     const dateString = date.toISOString().split('T')[0];
     array.push(dateString);
   }
@@ -39,11 +50,100 @@ function getPastDate(days) {
 }
 
 const Book = (props) => {
-  const {navigation} = props;
+
+
+  ///calendar
+  // const initialState = {
+  //   [today]: {selected: true, day: today},
+  // };
+  // const [_markedDates, setMarkedDates] = useState(initialState);
+  // const [choosenDate, setChoosenDate] = useState({});
+
+  ///calendar 
+  // const onDaySelect = (day) => {
+    // const exsits = _markedDates[day.dateString];
+    // let newMark = _markedDates;
+    // if (!exsits) {
+    //   newMark[day.dateString] = {day: day.dateString, selected: true};
+    //   setMarkedDates(newMark);
+
+    // } else {
+    //   delete newMark[day.dateString];
+    //   setMarkedDates(newMark);
+    //   console.log(newMark)
+    // }
+    // setMarkedDates({
+    //   ..._markedDates,
+    //   [day.dateString]: {
+    //     day: day.dateString,
+    //     selected: !_markedDates[day.dateString].selected,
+    //   },
+    // });
+
+    // const selectedDay = moment(day.dateString).format(format);
+    // let daySelect = {};
+    // let selected = true;
+    // if (markedDates[selectedDay]) {
+    //   selected = !markedDates[selectedDay].selected;
+    // }
+    // console.log(markedDates[selectedDay]);
+
+    // const updatedMarkedDates = {
+    //   ..._markedDates,
+    //   ...{[day]: day, [_selectedDay]: {selected}},
+    // };
+    // // if (!markedDates[selectedDay].selected) {
+    // //   daySelect = [ Object.keys(_markedDates)];
+    // // }
+
+    // const array = Object.keys(_markedDates);
+    // // console.log('111111',.find(markedDates, ['selected', false]),_markedDates)
+    // console.log('aaa', array);
+    // // daySelect= {
+    // //   ...daySelect,
+    // //   test: .find(markedDates, ['active', false])
+    // // }
+    // // Triggers component to render again, picking up the new state
+    // setMarkedDates(newMark);
+    // setChoosenDate(newMark);
+
+
+
+
+
+
+
+    ///test calendar
+
+    // const selectedDay = moment(day.dateString).format(format);
+
+    // let selected = true;
+    // if (markedDates[selectedDay]) {
+    //   selected = !markedDates[selectedDay].selected;
+    // }
+    // const updatedMarkedDates = {
+    //   ..._markedDates,
+    //   ...{[selectedDay]: {selected, day: selectedDay}},
+    // };
+    // //
+    // const newarray = [];
+    // let array = Object.keys(updatedMarkedDates);
+    // array.forEach((element) => {
+    //   if (updatedMarkedDates[element].selected) {
+    //     newarray.push(updatedMarkedDates[element].day);
+    //   }
+    // });
+
+    // console.log('hey', newarray);
+    // setMarkedDates(updatedMarkedDates);
+
+
+   // };
+  ////
+  const { navigation } = props;
   const rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
   };
-  const [today, setToday] = useState(new Date());
 
   const renderEmptyItem = () => {
     return (
@@ -53,6 +153,10 @@ const Book = (props) => {
     );
   };
   const renderItem = (item) => {
+    // if (_.isEmpty(item)) {
+    //   return renderEmptyItem();
+    // }
+
     return (
       <TouchableOpacity style={styles.item}>
         <View>
@@ -61,60 +165,60 @@ const Book = (props) => {
       </TouchableOpacity>
     );
   };
-
-  const onGoToday = () => {
-    setToday(new Date());
-  };
   const item = {
-    '2020-09-22': [{name: 'item 1 - any js object'}],
-    '2020-09-23': [{name: 'item 2 - any js object', height: 80}],
-    '2020-09-24': [],
-    '2020-09-25': [{name: 'item 3 - any js object'}],
-    '2020-10-01': [{name: 'item 1 - any js object'}],
-    '2020-10-02': [{name: 'item 2 - any js object', height: 80}],
-    '2020-10-03': [],
-    '2020-11-26': [{name: 'item 3 - any js object'}],
+    '2020-11-28': { day: '2020-11-28', selected: true },
+    '2020-12-23': [{ name: 'item 2 - any js object', height: 80 }],
+    '2020-11-24': [],
+    '2020-11-25': [{ name: 'item 3 - any js object' }],
+    '2020-11-01': [{ name: 'item 1 - any js object' }],
+    '2020-11-02': [{ name: 'item 2 - any js object', height: 80 }],
+    '2020-11-03': [],
+    '2020-12-04': [{ name: 'item 3 - any js object' }],
   };
   const onMoveToEvent = () => {
-    console.log('----- < > ______');
+    console.log('----- < > __');
     navigation.navigate('Sự kiện mới');
+
   };
-  const buttonIcon = () => {
-    return <Image source={imgs.add} style={styles.note} />;
-  };
+
   return (
     <>
       <BarStatus />
       <HeaderAccount />
-      {/* <View style={styles.header}>
+      <View style={styles.header}>
+        <View style={styles.week}>
+          <Text style={styles.txtHeader}>{'Lịch tuần'}</Text>
+        </View>
         <View style={styles.day}>
-          <Text style={styles.txtDay}>{'Lịch ngày'}</Text>
+          <Text style={styles.txtHeader}>{'Lịch ngày'}</Text>
         </View>
         <View style={styles.meeting}>
           <Text style={styles.txtHeader}>{'Phòng họp'}</Text>
         </View>
-      </View> */}
+      </View>
       <Agenda
         items={item}
         firstDay={1}
-        selected={moment(today).format('YYYY-MM-DD')}
+        selected={moment().format('YYYY-MM-DD')}
         renderItem={renderItem}
         rowHasChanged={rowHasChanged}
         renderEmptyData={renderEmptyItem}
-        hideKnob={false}
-        pastScrollRange={3}
-        futureScrollRange={3}
       />
-      <ActionButton buttonColor="rgba(231,76,60,1)" renderIcon={buttonIcon}>
+
+      {/* <Calendar
+        minDate={_today}
+        maxDate={_maxDate}
+        // hideArrows={true}
+
+        onDayPress={onDaySelect}
+        markedDates={_markedDates}
+      /> */}
+      <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButton.Item
-          inputX={[0, 0]}
-          inputY={[0, 1]}
-          outputX={[0, 0]}
-          outputY={[0, -20]}
           buttonColor="white"
           title="Tạo phòng họp"
           onPress={onMoveToEvent}>
-          <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
+          <Image source={imgs.meeting} style={{ tintColor: '#008aee' }} />
         </ActionButton.Item>
       </ActionButton>
     </>
@@ -167,10 +271,6 @@ const styles = StyleSheet.create({
   txtHeader: {
     textAlign: 'center',
   },
-  txtDay: {
-    textAlign: 'center',
-    color: 'white',
-  },
   meeting: {
     width: '25%',
     height: 48,
@@ -198,8 +298,6 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 1,
     justifyContent: 'center',
-    borderBottomLeftRadius: 23,
-    borderTopLeftRadius: 23,
   },
   week: {
     width: '25%',
@@ -221,6 +319,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 27,
   },
-  note: {alignSelf: 'center', height: 16, width: 16, tintColor: 'white'},
 });
 export default Book;
