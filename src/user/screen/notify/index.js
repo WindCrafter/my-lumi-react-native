@@ -1,31 +1,25 @@
-import React, {Component, useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  StatusBare,
-  StatusBar,
-  Dimensions,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
 import moment from 'moment';
 
-import flatListData from './data';
 import HeaderNotify from './component/HeaderNotify';
-import ModalInfor from './component/ModalInfor';
 import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
-import {Combine} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {Colors, imgs} from '../../../../utlis';
+import {Colors} from '../../../../utlis';
 
 const Notify = (props) => {
   // useEffect(() => {
   //   getListNotifys(token);
   // }, []);
-  const {navigation, getListNotifys, token, listNotifys} = props;
+  const {navigation, listNotifys} = props;
   const [toTop, setToTop] = useState(false);
   const [position, setPosition] = useState(0);
   const refList = useRef('');

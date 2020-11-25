@@ -1,19 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {Agenda} from 'react-native-calendars';
-import {
-  ExpandableCalendar,
-  AgendaList,
-  CalendarProvider,
-} from 'react-native-calendars';
+import {ExpandableCalendar, CalendarProvider} from 'react-native-calendars';
 import {Colors, imgs} from '../../../../../utlis';
-import moment from 'moment';
 import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 
 const HistoryWeek = (props) => {
-  const today = moment().format('YYYY-MM-DD');
-  const {item, timeIn, timeOut, type, navigation} = props;
+  const {timeIn, timeOut, navigation} = props;
   const getTheme = () => {
     return {
       // selected date
@@ -46,7 +39,7 @@ const HistoryWeek = (props) => {
           monthFormat={'MMMM - yyyy'}
         />
       </CalendarProvider>
-      <View style={[styles.row, {justifyContent: 'space-between'}]}>
+      <View style={[styles.row, styles.flex]}>
         <Card style={styles.card}>
           <Icon color={Colors.background} name={'arrow-right'} size={20} />
           <Text style={styles.txtTime}>{timeIn ? timeIn : '--:--'}</Text>
@@ -143,5 +136,8 @@ const styles = StyleSheet.create({
   txtType: {
     color: Colors.white,
     fontSize: 12,
+  },
+  flex: {
+    justifyContent: 'space-between',
   },
 });

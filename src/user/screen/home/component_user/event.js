@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import langs from '../../../../../common/language';
-import { imgs } from '../../../../../utlis';
+import {imgs} from '../../../../../utlis';
 const Event = (props) => {
   return (
     <>
@@ -28,12 +28,10 @@ const styles = StyleSheet.create({
   checkInOut: {
     flexDirection: 'row',
     height: 72,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   checkInIcon: {
-    margin: 28
+    margin: 28,
   },
-  rowIcon: {
-
-  }
+  rowIcon: {},
 });

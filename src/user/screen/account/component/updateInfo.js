@@ -1,12 +1,9 @@
 import React, {useRef} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
@@ -17,7 +14,6 @@ import {imgs, Colors} from '../../../../../utlis';
 const UpdateInfo = (props) => {
   const refPhone = useRef('');
   const refBirth = useRef('');
-  const refTeam = useRef('');
   const {
     gene,
     onChangeGene,
@@ -25,9 +21,7 @@ const UpdateInfo = (props) => {
     onChangeBirthday,
     onChangeBank,
     bankName,
-    deviceId,
     onCopyDeviceID,
-    dataTeam,
   } = props;
   return (
     <View style={styles.container}>
@@ -85,7 +79,7 @@ const UpdateInfo = (props) => {
               clearButtonMode="while-editing"
             />
           </TouchableOpacity>
-          <View style={{height: 50}} />
+          <View style={styles.height} />
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -156,5 +150,8 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : Colors.white,
     marginVertical: 16,
+  },
+  height: {
+    height: 50,
   },
 });

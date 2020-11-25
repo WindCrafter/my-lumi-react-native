@@ -2,10 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import langs from '../../../../../common/language';
 import {imgs} from '../../../../../utlis';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const InfoWeek = (props) => {
-  const {addStaff, extendContract, resignStaff, genaralInfo, addOT} = props;
   return (
     <>
       <View style={styles.manager}>
@@ -18,8 +16,8 @@ const InfoWeek = (props) => {
             <Image source={imgs.lateIcon} />
           </View>
           <View>
-          <Text style={styles.txtOnTime}>{langs.late}</Text>
-          </View>       
+            <Text style={styles.txtOnTime}>{langs.late}</Text>
+          </View>
         </View>
         <View styles={styles.comp}>
           <View style={styles.detail}>
@@ -49,7 +47,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   comp: {
-   left:10,height:1,width:20,borderWidth:1
+    left: 10,
+    height: 1,
+    width: 20,
+    borderWidth: 1,
   },
 
   txtOnTime: {

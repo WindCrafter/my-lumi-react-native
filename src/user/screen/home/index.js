@@ -1,27 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  ScrollView,
-  Platform,
-  UIManager,
-  LayoutAnimation,
-  StatusBar,
-  TouchableOpacity,
-  Image,
-  Linking,
-} from 'react-native';
-import OneSignal from 'react-native-onesignal';
+import React, {useEffect} from 'react';
+import {StyleSheet, View, ScrollView, Platform, UIManager} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './component/header';
 import {Card} from 'native-base';
-import {BarStatus} from '../../../component';
 import {Colors, imgs} from '../../../../utlis';
 import Event from './component/event';
-import HistoryWeek from './component/Calendar';
 import FloatButton from './component/ActionButton';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
@@ -47,18 +31,9 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-const Schema = 'lumihr://';
 
 export default function Home(props) {
-  const {
-    navigation,
-    nameUser,
-    timeIn,
-    timeOut,
-    switchTo,
-    token,
-    getListNotifys,
-  } = props;
+  const {navigation, nameUser, token, getListNotifys} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -86,7 +61,7 @@ export default function Home(props) {
       <View style={styles.container}>
         <Header pressNotify={onPressNotify} name={nameUser} />
 
-        <View style={{flex: 6}}>
+        <View style={styles.flex}>
           <LinearGradient
             style={styles.top}
             start={{x: 0, y: 0}}
@@ -156,6 +131,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  flex: {flex: 6},
   card: {
     borderRadius: 16,
     marginTop: 11,

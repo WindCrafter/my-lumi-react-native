@@ -1,27 +1,11 @@
 import React, {useState} from 'react';
-import _ from 'lodash';
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-  Alert,
-  Button,
-} from 'react-native';
-import {Colors} from '../../../../utlis';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {BarStatus} from '../../../component';
-import {Agenda, Calendar} from 'react-native-calendars';
+import {Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import HeaderAccount from './component/HeaderAccount';
 import ActionButton from 'react-native-action-button';
 import {imgs} from '../../../../utlis';
-const today = new Date().toISOString().split('T')[0];
-const fastDate = getPastDate(3);
-const futureDates = getFutureDates(9);
-const dates = [fastDate, today].concat(futureDates);
 
 //test calendar
 
@@ -30,24 +14,6 @@ const dates = [fastDate, today].concat(futureDates);
 // const maxDate = moment().add(15, 'days').format(format);
 
 ///
-import {Card} from 'native-base';
-
-function getFutureDates(days) {
-  //test calendar
-
-  ///
-  const array = [];
-  for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + 864e5); // 864e5 == 86400000 == 2460601000
-    const dateString = date.toISOString().split('T')[0];
-    array.push(dateString);
-  }
-  return array;
-}
-
-function getPastDate(days) {
-  return new Date(Date.now() - 864e5 * days).toISOString().split('T')[0];
-}
 
 const Book = (props) => {
   ///calendar
@@ -208,7 +174,7 @@ const Book = (props) => {
           buttonColor="white"
           title="Tạo phòng họp"
           onPress={onMoveToEvent}>
-          <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
+          <Image source={imgs.meeting} style={styles.img} />
         </ActionButton.Item>
       </ActionButton>
     </>
@@ -308,6 +274,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     marginBottom: 27,
+  },
+  img: {
+    tintColor: '#008aee',
   },
 });
 export default Book;

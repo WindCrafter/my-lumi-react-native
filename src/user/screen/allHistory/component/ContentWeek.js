@@ -1,19 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Platform,
-  StatusBar,
   FlatList,
-  TouchableOpacity,
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Combine} from '../../../../component';
 const DATA = [
   {

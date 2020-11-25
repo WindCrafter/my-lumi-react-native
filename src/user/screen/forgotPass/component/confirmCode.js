@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Input, Button } from '../../../../component';
+import {View, Text, StyleSheet} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Input, Button} from '../../../../component';
 
 const ConfirmCode = (props) => {
-  const { code, onChangeCode, onConfirms } = props;
+  const {code, onChangeCode, onConfirms} = props;
   return (
     <View style={styles.container}>
       <Text style={styles.please}>Please enter your code </Text>

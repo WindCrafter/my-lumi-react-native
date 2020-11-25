@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,6 @@ import {
   LayoutAnimation,
   UIManager,
   Image,
-  Alert,
   Keyboard,
   FlatList,
 } from 'react-native';
@@ -38,7 +37,7 @@ if (
 }
 
 function ApplyLate(props) {
-  const {navigation, route, setLateEarly, userId, token, assign} = props;
+  const {navigation, setLateEarly, token, assign} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(30);
@@ -148,8 +147,7 @@ function ApplyLate(props) {
         height={60}
         goBack={goBack}
         fontSize={24}
-        containerStyle={{backgroundColor:'grey'}}
-        
+        containerStyle={{backgroundColor: 'grey'}}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -461,7 +459,8 @@ const styles = StyleSheet.create({
   },
   viewInputSelect: {
     backgroundColor: Colors.white,
-  }, imgContainer: {
+  },
+  imgContainer: {
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',

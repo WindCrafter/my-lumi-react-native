@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../../common/language';
-import { imgs } from '../../../../../utlis';
+import {imgs} from '../../../../../utlis';
 const RowCheck = (props) => {
-  const { down } = props;
+  const {down} = props;
   return (
     <View style={styles.manager}>
       <View style={styles.row}>

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   View,
   Image,
   FlatList,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import langs from '../../../../../common/language';
@@ -20,7 +20,8 @@ const Event = (props) => {
           style={[
             styles.column,
             {
-              backgroundColor: index%2===0?'rgb(252, 163, 125)':'rgb(46, 114, 249)',
+              backgroundColor:
+                index % 2 === 0 ? 'rgb(252, 163, 125)' : 'rgb(46, 114, 249)',
             },
           ]}
         />
@@ -34,16 +35,16 @@ const Event = (props) => {
   return (
     <>
       <View style={styles.manager}>
-        <Image source={imgs.calendarWeek} style={styles.imgs}/>
+        <Image source={imgs.calendarWeek} style={styles.imgs} />
         <Text style={styles.txtManager}>{langs.event}</Text>
       </View>
       <View style={styles.line} />
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          scrollEnabled
-        />
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        scrollEnabled
+      />
     </>
   );
 };
@@ -89,8 +90,8 @@ const styles = StyleSheet.create({
     color: 'gray',
     // fontFamily: 'Quicksand-Italic',
   },
-  imgs:{
-    width:24,
-    height:24,
-}
+  imgs: {
+    width: 24,
+    height: 24,
+  },
 });

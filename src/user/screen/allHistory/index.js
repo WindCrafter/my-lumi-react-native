@@ -3,14 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  KeyboardAvoidingView,
   Platform,
-  TextInput,
   LayoutAnimation,
   StatusBar,
   ScrollView,
-  TouchableOpacity,
   UIManager,
 } from 'react-native';
 import {
@@ -18,10 +14,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
-import {Card} from 'native-base';
 import ContentDay from './component/ContentDay';
-import ContentWeek from './component/ContentWeek';
-import ContentMonth from './component/ContentMonth';
 import {
   BarStatus,
   Combine,
@@ -40,10 +33,9 @@ if (
 const AllHistory = (props) => {
   const {navigation, getListCheck, token, history, route} = props;
   const item = route.params;
-  const [method, setMedthod] = useState('day');
   const [page, setPage] = useState(1);
   const [title, setTitle] = useState(`${item.day}/${item.month}/${item.year}`);
-  const [day, setDay]= useState(new Date());
+  const [day, setDay] = useState(new Date());
   const [show, setShow] = useState(false);
   const flatRef = useRef();
   const scrollRef = useRef();
@@ -51,7 +43,7 @@ const AllHistory = (props) => {
 
   useEffect(() => {
     getListCheck({token, page});
-  }, [token]);
+  }, [getListCheck, page, token]);
 
   const onUnshow = () => {
     Platform.OS === 'ios'

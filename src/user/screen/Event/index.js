@@ -20,13 +20,11 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
 import {
   InputRow,
-  Button,
   InputSelect,
   HeaderCustom,
   BarStatus,
 } from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {_global} from '../../../../utlis/global/global';
 import {Card} from 'native-base';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
@@ -54,7 +52,6 @@ const Event = (props) => {
   const onChangeTitle = (val) => {
     setTitle(val);
   };
-  const onChangeBirthDay = () => {};
   const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(true);
@@ -144,9 +141,6 @@ const Event = (props) => {
   const onBlur = () => {
     Keyboard.dismiss();
   };
-  const onDone = () => {
-    Alert.alert('end');
-  };
   return (
     <>
       <BarStatus
@@ -191,47 +185,31 @@ const Event = (props) => {
             <View style={styles.rowBot}>
               <View style={styles.column}>
                 <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      marginVertical: 4,
-                      backgroundColor: Colors.white,
-                      flexDirection: 'row',
-                    },
-                  ]}
+                  style={[styles.button, styles.firstButton]}
                   onPress={() => onShow('timeStart')}>
                   <Image
                     source={imgs.startTime}
-                    style={[styles.imageStamp, {tintColor: '#455997'}]}
+                    style={[styles.imageStamp, styles.tintColor2]}
                   />
-                  <Text style={[styles.txtTime, {color: '#455997'}]}>
+                  <Text style={[styles.txtTime, styles.color2]}>
                     {moment(timeStart).format('HH:mm')}
                   </Text>
                 </TouchableOpacity>
-                
               </View>
-              <Image source={imgs.arrow}></Image>
+              <Image source={imgs.arrow} />
               <View style={styles.column}>
                 <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                      flexDirection: 'row',
-                      marginVertical: 4,
-                    },
-                  ]}
+                  style={[styles.button, styles.secButton]}
                   onPress={() => onShow('timeEnd')}>
                   <Image
                     source={imgs.startTime}
-                    style={[styles.imageStamp, {tintColor: '#00821c'}]}
+                    style={[styles.imageStamp, styles.tintColor]}
                   />
 
-                  <Text style={[styles.txtTime, {color: '#00821c'}]}>
+                  <Text style={[styles.txtTime, styles.color]}>
                     {moment(timeEnd).format('HH:mm')}
                   </Text>
                 </TouchableOpacity>
-                
               </View>
             </View>
           </Card>
@@ -459,5 +437,23 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
+  },
+  color: {
+    color: '#00821c',
+  },
+  color2: {color: '#455997'},
+  tintColor: {
+    tintColor: '#00821c',
+  },
+  tintColor2: {tintColor: '#455997'},
+  firstButton: {
+    marginVertical: 4,
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+  },
+  secButton: {
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+    marginVertical: 4,
   },
 });

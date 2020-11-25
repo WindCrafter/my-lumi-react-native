@@ -1,9 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import {StyleSheet, Text, View, Image, Platform} from 'react-native';
-import {TextSelect, Button} from '../../../../component';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors} from '../../../../../utlis';
 import {imgs} from '../../../../../utlis';
 const ModalInforBank = (props) => {
   const {hideModal, showModal, BankAccount, bankName} = props;
@@ -31,7 +29,7 @@ const ModalInforBank = (props) => {
             <Text style={styles.detailmodal}>{BankAccount}</Text>
           </View>
           <View style={styles.detailView}>
-            <Image source={imgs.bank}  />
+            <Image source={imgs.bank} />
             <Text style={styles.description}>Ngân Hàng :</Text>
 
             <Text style={styles.detailmodal}>{bankName}</Text>
@@ -71,8 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 20,
     marginBottom: 10,
-      width: '40%',
-
+    width: '40%',
   },
   description: {
     fontWeight: '500',
@@ -88,6 +85,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginLeft:32
+    marginLeft: 32,
   },
 });

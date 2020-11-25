@@ -160,7 +160,7 @@ function UpdateProfile(props) {
     //   });
     // } else {
     //   console.log('bank    ',bankAccount)
-      setShowBank(!showBank);
+    setShowBank(!showBank);
     // }
   };
   const onHideModal = () => {

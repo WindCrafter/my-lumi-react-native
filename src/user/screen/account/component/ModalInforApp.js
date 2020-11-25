@@ -1,18 +1,9 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Platform,
-  Linking,
-  TouchableOpacity,
-} from 'react-native';
-import {TextSelect, Button, Logo} from '../../../../component';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Logo} from '../../../../component';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
-import {imgs} from '../../../../../utlis';
 const ModalInforApp = (props) => {
   const {hideModal, showModal, openUrl} = props;
 
@@ -40,7 +31,6 @@ const ModalInforApp = (props) => {
         <Text style={styles.website}>
           6th Floor, New Skyline Building, 19/5 Str,Ha Dong Dist, HN
         </Text>
-
         <TouchableOpacity onPress={openUrl} style={styles.URL}>
           <Text style={styles.website}>Website: </Text>
           <Text style={styles.link}>https://lumi.vn</Text>
@@ -104,8 +94,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 8,
   },
-  version: { color: 'grey', fontSize: 12, marginBottom: 48},
-  URL: {flexDirection: 'row',marginTop:8},
+  version: {color: 'grey', fontSize: 12, marginBottom: 48},
+  URL: {flexDirection: 'row', marginTop: 8},
   website: {},
   link: {textDecorationLine: 'underline'},
   titleDescription: {

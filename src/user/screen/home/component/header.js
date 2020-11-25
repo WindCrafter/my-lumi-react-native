@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import {imgs, Colors} from '../../../../../utlis';
-import langs from '../../../../../common/language';
+// import langs from '../../../../../common/language';
 import {SCREEN_WIDTH} from '../../../../../utlis/config/utlis';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -32,15 +25,13 @@ const currentDayInWeek =
     : 'Chủ Nhật';
 
 const Header = (props) => {
-  const {pressNotify, onPress, name} = props;
+  const {pressNotify, name} = props;
   return (
     <LinearGradient
       style={styles.container}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
       colors={['#185628', '#2FAC4F']}>
-      <SafeAreaView></SafeAreaView>
-
       <View style={styles.detail}>
         <View style={styles.avatar}>
           <Image
@@ -57,10 +48,7 @@ const Header = (props) => {
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
           <Image source={imgs.notification} />
         </TouchableOpacity>
-        
       </View>
-
-
     </LinearGradient>
   );
 };
@@ -69,7 +57,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    flex:1.5,
+    flex: 1.5,
   },
   detail: {
     flexDirection: 'row',

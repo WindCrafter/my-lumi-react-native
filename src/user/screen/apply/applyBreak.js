@@ -62,8 +62,8 @@ function ApplyBreak(props) {
 
   const onTakeLeaveDays = () => {
     console.log(userId);
-    const DateStart = moment(dateStart).format('DD/MM/YYYY')
-    const DateEnd = moment(dateEnd).format('DD/MM/YYYY')
+    const DateStart = moment(dateStart).format('DD/MM/YYYY');
+    const DateEnd = moment(dateEnd).format('DD/MM/YYYY');
     const data = {
       token: token,
       startDate: {
@@ -79,16 +79,14 @@ function ApplyBreak(props) {
       advance: {},
     };
     console.log('dataaaaaa', data);
-    if (DateEnd>=DateStart) {
+    if (DateEnd >= DateStart) {
       takeLeave(data);
-
-    }
-    else {
+    } else {
       _global.Alert.alert({
         title: 'Vui lòng kiểm tra lại',
         message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: 'OK'},
       });
     }
   };
@@ -108,7 +106,7 @@ function ApplyBreak(props) {
       advance: {},
     };
     console.log('dataaaaaa', data);
-    
+
     takeLeave(data);
   };
   const onTakeLeaveShift = () => {
@@ -622,7 +620,7 @@ const styles = StyleSheet.create({
   icon: {
     alignSelf: 'center',
   },
-  
+
   btUser: {
     flexDirection: 'row',
     justifyContent: 'space-between',
