@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import _ from 'lodash';
 
 import {
@@ -11,18 +11,18 @@ import {
   Alert,
   Button,
 } from 'react-native';
-import { Colors } from '../../../../utlis';
-import { BarStatus } from '../../../component';
-import { Agenda } from 'react-native-calendars';
+import {Colors} from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import {Agenda} from 'react-native-calendars';
 import moment from 'moment';
 import HeaderAccount from './component/HeaderAccount';
 import ActionButton from 'react-native-action-button';
-import { imgs } from '../../../../utlis';
+import {imgs} from '../../../../utlis';
 const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
 const dates = [fastDate, today].concat(futureDates);
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 
 function getFutureDates(days) {
   const array = [];
@@ -39,7 +39,7 @@ function getPastDate(days) {
 }
 
 const Book = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
   const rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
   };
@@ -65,17 +65,17 @@ const Book = (props) => {
     );
   };
   const item = {
-    '2020-09-22': [{ name: 'item 1 - any js object' }],
-    '2020-09-23': [{ name: 'item 2 - any js object', height: 80 }],
+    '2020-09-22': [{name: 'item 1 - any js object'}],
+    '2020-09-23': [{name: 'item 2 - any js object', height: 80}],
     '2020-09-24': [],
-    '2020-09-25': [{ name: 'item 3 - any js object' }],
-    '2020-10-01': [{ name: 'item 1 - any js object' }],
-    '2020-10-02': [{ name: 'item 2 - any js object', height: 80 }],
+    '2020-09-25': [{name: 'item 3 - any js object'}],
+    '2020-10-01': [{name: 'item 1 - any js object'}],
+    '2020-10-02': [{name: 'item 2 - any js object', height: 80}],
     '2020-10-03': [],
-    '2020-10-04': [{ name: 'item 3 - any js object' }],
+    '2020-10-04': [{name: 'item 3 - any js object'}],
   };
   const onMoveToEvent = () => {
-    console.log('----- < > ______')
+    console.log('----- < > ______');
     navigation.navigate('Sự kiện mới');
   };
   return (

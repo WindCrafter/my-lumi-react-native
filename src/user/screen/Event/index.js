@@ -187,91 +187,23 @@ const Event = (props) => {
               onBlur={onBlur}
             />
           </Card>
-          <Card style={styles.card}>
-            <View style={styles.rowBot}>
-              <View style={styles.column}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      marginVertical: 4,
-                      backgroundColor: Colors.white,
-                      flexDirection: 'row',
-                    },
-                  ]}
-                  onPress={() => onShow('timeStart')}>
-                  <Image
-                    source={imgs.startTime}
-                    style={[styles.imageStamp, {tintColor: '#455997'}]}
-                  />
-                  <Text style={[styles.txtTime, {color: '#455997'}]}>
-                    {moment(timeStart).format('HH:mm')}
-                  </Text>
-                </TouchableOpacity>
-                
-              </View>
-              <Image source={imgs.arrow}></Image>
-              <View style={styles.column}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                      flexDirection: 'row',
-                      marginVertical: 4,
-                    },
-                  ]}
-                  onPress={() => onShow('timeEnd')}>
-                  <Image
-                    source={imgs.startTime}
-                    style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                  />
-
-                  <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                    {moment(timeEnd).format('HH:mm')}
-                  </Text>
-                </TouchableOpacity>
-                
-              </View>
-            </View>
-          </Card>
-          {show ? (
-            mode === 'timeStart' ? (
-              <PickerCustom
-                value={timeStart}
-                onChange={onChangeTimeStart}
-                onPress={onUnshow}
-                mode={'time'}
-                show={show}
-                locale={'en-GB'}
-              />
-            ) : mode === 'timeEnd' ? (
-              <PickerCustom
-                value={timeEnd}
-                onChange={onChangeTimeEnd}
-                onPress={onUnshow}
-                mode={'time'}
-                show={show}
-                locale={'en-GB'}
-              />
-            ) : mode === 'dateStart' ? (
-              <PickerCustom
-                value={dateStart}
-                onChange={onChangeDateStart}
-                onPress={onUnshow}
-                mode={'date'}
-                show={show}
-              />
-            ) : mode === 'dateEnd' ? (
-              <PickerCustom
-                value={dateEnd}
-                onChange={onChangeDateEnd}
-                onPress={onUnshow}
-                mode={'date'}
-                show={show}
-              />
-            ) : null
-          ) : null}
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.location}
+            borderRadius={32}
+            height={54}
+            shadowColor={'white'}
+            title={'Chọn thời gian'}
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onChangeLocation}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={location}
+          />
+          
           <InputSelect
             width={'90%'}
             leftImage={imgs.location}
