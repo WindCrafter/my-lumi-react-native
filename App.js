@@ -4,11 +4,9 @@ import {Provider} from 'react-redux';
 import codePush from 'react-native-code-push';
 import {store, persistor} from './src/redux/store/store';
 import AppNavigator from './app-navigator';
-console.disableYellowBox = true;
 import {setFont} from './utlis/index';
 import {ChangeState} from './src/redux/actions/codepush';
-import { LogBox } from 'react-native';
-
+import {LogBox} from 'react-native';
 
 setFont('Quicksand-Regular');
 const App = () => {

@@ -212,7 +212,7 @@ function* sagaSetLateEarly(action) {
         title: 'Đơn của bạn đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
       });
     } else {
       yield put(setLateEarlyFailed());
@@ -256,7 +256,7 @@ function* sagaTakeLeave(action) {
         title: 'Đơn xin nghỉ đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
       });
     } else {
       yield put(takeLeaveFailed());
@@ -293,7 +293,11 @@ function* sagaOverTime(action) {
       description: action.payload.description,
     };
     const token = action.payload.token;
-    const response = yield _POST(URL_OVERTIME, data, token);
+    // const response = yield _POST(URL_OVERTIME, data, token);
+    const response = {
+      success: true,
+      statusCode: 200,
+    };
     console.log('take leave=>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(overTimeSuccess(response.data));
@@ -301,7 +305,7 @@ function* sagaOverTime(action) {
         title: 'Đơn tăng ca đã được gửi đi',
         message: 'Vui lòng đợi trong khi duyệt.',
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
       });
     } else {
       yield put(overTimeFailed());
@@ -309,7 +313,9 @@ function* sagaOverTime(action) {
         title: 'Thông báo',
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {
+          text: 'OK',
+        },
       });
     }
   } catch (error) {
