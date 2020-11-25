@@ -18,7 +18,6 @@ import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import _ from 'lodash';
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
@@ -28,8 +27,8 @@ import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-import {_global} from '../../../../utlis/global/global';
-import {Agenda, Calendar} from 'react-native-calendars';
+// import {_global} from '../../../../utlis/global/global';
+import {Calendar} from 'react-native-calendars';
 
 if (
   Platform.OS === 'android' &&
@@ -45,23 +44,20 @@ function ApplyBreak(props) {
 
   const {navigation, takeLeave, userId, token, assign} = props;
   const [shift, setShift] = useState(new Date());
-  const [dateStart, setDateStart] = useState(new Date());
-  const [dateEnd, setDateEnd] = useState(new Date());
+
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [typeShift, setTypeShift] = useState('Ca sáng');
-  const [shiftStart, setShiftStart] = useState('Ca sáng');
-  const [shiftEnd, setShiftEnd] = useState('Ca sáng');
   const [typeBreak, setTypeBreak] = useState('Theo ca');
   const [reason, setReason] = useState('');
 
-  const DISABLED_DAYS = ['Saturday', 'Sunday'];
+  const DISABLED_DAYS = ['Sunday'];
   const getDaysInMonth = (month, year, days) => {
     let pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
 
-    let dates = {};
+    let dates = {..._markedDates};
     const disabled = {disabled: true};
     while (pivot.isBefore(end)) {
       days.forEach((day) => {
@@ -73,19 +69,15 @@ function ApplyBreak(props) {
     return dates;
   };
 
-  const [markedDates, setDates] = useState(
-    getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
-  );
   const initialState = {
-    ...markedDates,
+    ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
     [_today]: {
       selected: true,
       day: _today,
     },
   };
-  console.log('initialState : ', initialState);
+  // console.log('initialState : ', initialState);
   const [_markedDates, setMarkedDates] = useState(initialState);
-
   // const assignTo = assign.map((e) => {
   //   return e.userId;
   // });
@@ -97,38 +89,15 @@ function ApplyBreak(props) {
       : null;
   };
 
-  const onTakeLeaveDays = () => {
-    console.log(userId);
-    const DateStart = moment(dateStart).format('DD/MM/YYYY');
-    const DateEnd = moment(dateEnd).format('DD/MM/YYYY');
-
-    const data = {
-      token: token,
-      startDate: {
-        date: DateStart,
-        shift: shiftStart === 'Ca sáng' ? 'morning' : 'afternoon',
-      },
-      endDate: {
-        date: DateEnd,
-        shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
-      },
-      assignTo: assign ? assign.userId : null,
-      description: reason,
-      advance: {},
-    };
-    console.log('dataaaaaa', data);
-    if (DateEnd >= DateStart) {
-      takeLeave(data);
-    } else {
-      _global.Alert.alert({
-        title: 'Vui lòng kiểm tra lại',
-        message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
-        messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
-      });
-    }
-  };
   const onTakeLeaveDay = () => {
+    const newarray = [];
+    let array = Object.keys(_markedDates);
+    array.forEach((element) => {
+      if (_markedDates[element].selected) {
+        newarray.push(_markedDates[element].day);
+      }
+    });
+    console.log(newarray);
     const data = {
       token: token,
       startDate: {
@@ -186,7 +155,6 @@ function ApplyBreak(props) {
     setTypeBreak(val);
     onUnshow();
     unFocus();
-    console.log('markedDates :', markedDates);
   };
   const onShow = (m) => {
     Platform.OS === 'ios'
@@ -234,37 +202,37 @@ function ApplyBreak(props) {
     const selectedDay = moment(day.dateString).format(_format);
     console.log('dayselect', selectedDay);
 
-    if (_.find(_markedDates, ['disabled', true])===undefined) {
-      console.log('find',_markedDates[selectedDay])
-      console.log('finding', _.find(_markedDates, ['disabled', true]));
+    if (!_markedDates[selectedDay]) {
+      // console.log('find', _markedDates[selectedDay]);
+      // console.log(
+      //   'finding',
+      //   _.find(_markedDates[selectedDay], ['disabled', true]),
+      // );
       let selected = true;
-      if (_markedDates[selectedDay]) {
-        selected = !_markedDates[selectedDay].selected;
-      }
+      // if (_markedDates[selectedDay]) {
+      //   selected = !_markedDates[selectedDay].selected;
+      // }
       const updatedMarkedDates = {
         ..._markedDates,
         ...{[selectedDay]: {selected, day: selectedDay}},
       };
       console.log('updatedMarkedDates', updatedMarkedDates);
       //
-      const newarray = [];
-      let array = Object.keys(updatedMarkedDates);
-      array.forEach((element) => {
-        if (updatedMarkedDates[element].selected) {
-          newarray.push(updatedMarkedDates[element].day);
-        }
-      });
 
-      console.log('newarray', newarray);
       setMarkedDates(updatedMarkedDates);
-      console.log('_markedDates :', _markedDates);
     } else {
-      setMarkedDates(_markedDates);
-      console.log('setMarkedDates(_markedDates)', _markedDates);
+      if (!_markedDates[selectedDay].disabled) {
+        let selected = !_markedDates[selectedDay].selected;
+        const updatedMarkedDates = {
+          ..._markedDates,
+          ...{[selectedDay]: {selected, day: selectedDay}},
+        };
+        setMarkedDates(updatedMarkedDates);
+      }
     }
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({item}) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -442,10 +410,12 @@ function ApplyBreak(props) {
                   marginTop: 8,
                 }}
                 onMonthChange={(date) => {
-                  setDates(
+                  setMarkedDates(
                     getDaysInMonth(date.month - 1, date.year, DISABLED_DAYS),
+                    _markedDates,
                   );
                 }}
+                enableSwipeMonths={true}
                 theme={{
                   textDayFontFamily: 'quicksand',
                   textMonthFontFamily: 'quicksand',
