@@ -2,10 +2,7 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import {TextSelect, Button} from '../../../../component';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 
 const ModalTeam = (props) => {

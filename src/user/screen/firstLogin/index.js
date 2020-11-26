@@ -1,22 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Keyboard,
-  ScrollView,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Logo, InputPassword, Button } from '../../../component';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Logo, InputPassword, Button} from '../../../component';
 let deviceWidth = Dimensions.get('window').width;
 
 const FirstLogin = (props) => {
-  const { changePass, token } = props;
+  const {changePass, token} = props;
   const refAlert = useRef();
   const [pass, setPass] = useState('');
   const [rePass, setRePass] = useState('');
@@ -52,7 +48,7 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     } else {
-      changePass({ pass, confirmPassword: rePass, token });
+      changePass({pass, confirmPassword: rePass, token});
     }
   };
 
@@ -90,7 +86,7 @@ const FirstLogin = (props) => {
       <Alert
         title={'Warning'}
         message={error}
-        leftButton={{ text: 'OK' }}
+        leftButton={{text: 'OK'}}
         ref={refAlert}
       />
     </View>

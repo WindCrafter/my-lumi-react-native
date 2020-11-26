@@ -30,7 +30,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '5',
@@ -39,7 +38,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '6',
@@ -48,7 +46,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '7',
@@ -57,7 +54,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '8',
@@ -66,7 +62,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '9',
@@ -75,7 +70,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '10',
@@ -84,7 +78,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '11',
@@ -93,7 +86,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
   {
     key: '12',
@@ -102,7 +94,6 @@ const flatListData = [
     time: '20:52',
     date: '01/01/2020',
     type: 'confirm',
-
   },
 ];
 export default flatListData;

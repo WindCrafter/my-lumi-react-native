@@ -93,8 +93,8 @@ const PickTeam = (props) => {
   };
 
   const removeItem = (val) => {
-    const newList = userPicked.filter((e) => !(e.id === val.id));
-    setUserPicked(newList);
+    const n = userPicked.filter((e) => !(e.id === val.id));
+    setUserPicked(n);
   };
 
   const onPickTeam = () => {
@@ -247,7 +247,7 @@ const PickTeam = (props) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={onClearAll} style={styles.resetBtn}>
             <Image
-              source={imgs.changeIcon     }
+              source={imgs.changeIcon}
               style={styles.imageIcon}
               resizeMode="cover"
             />
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    textAlign:'center',
+    textAlign: 'center',
   },
   imageIcon: {
     width: 12,

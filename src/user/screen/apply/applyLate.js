@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,13 +11,13 @@ import {
   LayoutAnimation,
   UIManager,
   Image,
-  Alert,
   Keyboard,
   FlatList,
 } from 'react-native';
 import moment from 'moment';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {
-  widthPercentageToDP,
+  heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
@@ -27,7 +27,6 @@ import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
-import Slider from '@react-native-community/slider';
 import PickerCustom from './component/PickerCustom';
 
 if (
@@ -38,12 +37,18 @@ if (
 }
 
 function ApplyLate(props) {
-  const {navigation, route, setLateEarly, userId, token, assign} = props;
+  const {navigation, setLateEarly, token, assign} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(30);
-
+  const [time, setTime] = useState(15);
+  const [isVisible, setVisible] = useState(false);
   const [type, setType] = useState('late');
+  const onSetVisible = () => {
+    setVisible(!isVisible);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
   const goBack = () => {
     navigation.goBack();
   };
@@ -148,8 +153,7 @@ function ApplyLate(props) {
         height={60}
         goBack={goBack}
         fontSize={24}
-        containerStyle={{backgroundColor:'grey'}}
-        
+        containerStyle={{backgroundColor: 'grey'}}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -221,7 +225,7 @@ function ApplyLate(props) {
             detail={''}
           />
           {assign && (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+            <Card style={[styles.card, {width: wp(90) - 32}]}>
               <FlatList
                 data={[assign]}
                 keyExtractor={(item) => item.id}
@@ -253,26 +257,7 @@ function ApplyLate(props) {
                 color={type === 'early' ? 'green' : 'grey'}
               />
             </View>
-            <View
-              style={[
-                styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
-              <Image source={imgs.startTime} style={styles.icon} />
-              <Text style={styles.txtTime}>{time} phút</Text>
-            </View>
-            <Slider
-              style={styles.Slider}
-              minimumValue={0}
-              maximumValue={60}
-              minimumTrackTintColor="#4BBF70"
-              maximumTrackTintColor="grey"
-              step={15}
-              onValueChange={onChangeTime}
-              onSlidingComplete={onChangeTime}
-              // thumbImage={imgs.miniLogo}
-              value={time}
-            />
+
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.imgContainer}>
                 <Image
@@ -287,6 +272,56 @@ function ApplyLate(props) {
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
+              <TouchableOpacity
+                style={{
+                  flexDirection: 'row',
+
+                  width: 148,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={onSetVisible}>
+                <Image source={imgs.startTime} style={styles.icon} />
+
+                <DropDownPicker
+                  items={[
+                    {label: '15 phút', value: '15'},
+                    {label: '30 phút', value: '30'},
+                    {label: '45 phút', value: '45'},
+                    {label: '60 phút', value: '60'},
+                  ]}
+                  onClose={onClose}
+                  isVisible={isVisible}
+                  containerStyle={{
+                    height: 40,
+                    width: 100,
+                    borderColor: 'white',
+                  }}
+                  onChangeItem={(item) => setTime(item.value)}
+                  placeholder={'15 phút'}
+                  defaultValue={null}
+                  customTickIcon={() => <Image source={imgs.arrow} />}
+                  style={{
+                    borderWidth: 0,
+                    paddingRight: 0,
+                    paddingLeft: 10,
+                    paddingHorizontal: 0,
+                  }}
+                  itemStyle={{alignItems: 'flex-end'}}
+                  dropDownStyle={styles.dropDownStyle}
+                  labelStyle={{fontSize: 18}}
+                  arrowSize={19}
+                  activeLabelStyle={{color: Colors.background}}
+                  dropDownMaxHeight={200}
+                />
               </TouchableOpacity>
             </View>
           </Card>
@@ -368,6 +403,8 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+    position: 'absolute',
+    top: hp(70),
   },
   bottom: {
     position: 'absolute',
@@ -438,7 +475,7 @@ const styles = StyleSheet.create({
   },
   lineUser: {
     height: StyleSheet.hairlineWidth,
-    width: widthPercentageToDP(70),
+    width: wp(70),
     alignSelf: 'center',
     backgroundColor: 'grey',
   },
@@ -461,7 +498,8 @@ const styles = StyleSheet.create({
   },
   viewInputSelect: {
     backgroundColor: Colors.white,
-  }, imgContainer: {
+  },
+  imgContainer: {
     padding: 8,
     borderRadius: 16,
     alignSelf: 'center',
@@ -472,4 +510,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  dropDownStyle: {width: 148, left: -36, height: hp(18)},
 });

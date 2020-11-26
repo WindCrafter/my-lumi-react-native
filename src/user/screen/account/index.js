@@ -11,7 +11,6 @@ import {
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
-import CalendarCustom from './component/Calendar';
 import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
 import ModalInforApp from './component/ModalInforApp';
@@ -21,7 +20,6 @@ const Account = (props) => {
   const {
     logOut,
     nameUser,
-    emailUser,
     navigation,
     getListUsers,
     token,
@@ -31,8 +29,6 @@ const Account = (props) => {
     kickAssign,
     resetCheck,
   } = props;
-  const name = nameUser;
-  const email = emailUser;
   const [showModal, setshowModal] = useState(false);
 
   const onLogOut = () => {
@@ -42,7 +38,7 @@ const Account = (props) => {
       messageColor: Colors.danger,
       leftButton: {
         text: 'Đăng xuất',
-        onPress: () =>  onRemoveUserId(),
+        onPress: () => onRemoveUserId(),
         textStyle: {color: Colors.danger},
       },
       rightButton: {text: 'Cancel'},
@@ -67,7 +63,7 @@ const Account = (props) => {
   useEffect(() => {
     getListUsers(token);
     getListTeams(token);
-  }, []);
+  }, [getListTeams, getListUsers, token]);
 
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');
@@ -98,7 +94,6 @@ const Account = (props) => {
         </Card>
         <View style={styles.detail}>
           <Card style={styles.cardMid}>
-            
             <RoundedView
               leftImage={imgs.meeting}
               title={'Danh sách Lumier'}

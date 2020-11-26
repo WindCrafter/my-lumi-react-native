@@ -1,12 +1,6 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Button} from '../../../../component';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';

@@ -1,26 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Keyboard,
   ScrollView,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
   Alert,
-  StatusBar,
 } from 'react-native';
 import SendCode from './component/sendCode';
 import ConfirmCode from './component/confirmCode';
 import RePass from './component/rePass';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Logo } from '../../../component';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Logo} from '../../../component';
 let deviceWidth = Dimensions.get('window').width;
 
 const ForgotPass = (props) => {
-  const { navigation } = props;
+  const {navigation} = props;
   const step = useRef();
   const [code, setCode] = useState('');
   const [email, setEmail] = useState('');
@@ -34,7 +32,7 @@ const ForgotPass = (props) => {
   };
 
   const onConfirms = () => {
-    step.current.scrollTo({ x: wp(200), y: 0, animated: true });
+    step.current.scrollTo({x: wp(200), y: 0, animated: true});
   };
 
   const onSend = () => {
@@ -46,7 +44,7 @@ const ForgotPass = (props) => {
   };
 
   const onGetCode = () => {
-    step.current.scrollTo({ x: wp(100), y: 0, animated: true });
+    step.current.scrollTo({x: wp(100), y: 0, animated: true});
   };
 
   return (
@@ -79,7 +77,7 @@ const ForgotPass = (props) => {
       <Alert
         title={'Notification'}
         message={'This message'}
-        leftButton={{ text: 'OK', onPress: onGetCode }}
+        leftButton={{text: 'OK', onPress: onGetCode}}
         ref={(ref) => (this.alert = ref)}
       />
     </View>

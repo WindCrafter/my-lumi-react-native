@@ -1,15 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import langs from '../../../../../common/language';
-import { imgs } from '../../../../../utlis';
-import { Card } from 'native-base';
+import {StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import {Card} from 'native-base';
 
 const Usage = (props) => {
-  const { source, text, tintColor, onPressButton } = props;
+  const {source, text, tintColor, onPressButton} = props;
   return (
     <TouchableOpacity style={styles.container} onPress={onPressButton}>
       <Card style={styles.manager}>
-        <Image source={source} style={[styles.img, { tintColor: tintColor }]} />
+        <Image source={source} style={[styles.img, {tintColor: tintColor}]} />
         <Text style={styles.txt}>{text}</Text>
       </Card>
     </TouchableOpacity>

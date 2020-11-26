@@ -1,17 +1,13 @@
 import React from 'react';
 import {
-  TextInputProps,
   Image,
   View,
   StyleSheet,
   ViewStyle,
   Text,
-  Platform,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs} from '../../../../../utlis';
-import {Card} from 'native-base';
 
 interface Props extends RoundedView {
   leftImage?: String | Number;
@@ -63,19 +59,13 @@ export default function RoundedView(props?: Props) {
     leftImage,
     rightImage,
     width,
-    height,
-    detail,
     containerStyle,
     title,
     onPressButton,
     disabled,
-    paddingHorizontal,
-    justifyContent,
     alignSelf,
-    alignItems,
     padding,
     styleImg,
-    fontSize,
     tintColor,
     line,
     tintColorLeft,
@@ -158,5 +148,8 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     justifyContent: 'center',
   },
-  middle: {flexDirection: 'row', justifyContent: 'center'},
+  middle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });

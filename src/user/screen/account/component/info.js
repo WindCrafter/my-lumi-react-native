@@ -1,15 +1,12 @@
 import React, {useRef} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Card} from 'native-base';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {InputRow} from '../../../../component';
 import langs from '../../../../../common/language';

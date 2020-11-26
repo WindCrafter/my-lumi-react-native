@@ -1,8 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import langs from '../../../../../common/language';
-import {imgs} from '../../../../../utlis';
 
 const CardUser = (props) => {
   const {
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
-    alignSelf:'flex-end',
+    alignSelf: 'flex-end',
   },
   viewDetail: {
     flexDirection: 'column',

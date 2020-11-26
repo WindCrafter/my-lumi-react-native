@@ -11,11 +11,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import {TextSelect, Button, Combine} from '../../../../component';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {Combine} from '../../../../component';
 import {Colors, imgs} from '../../../../../utlis';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
@@ -77,7 +73,7 @@ const DATA = [
 ];
 const ModalInfor = (props) => {
   const [listData, setListData] = useState(DATA);
-  const {hideModal, showModal, picker} = props;
+  const {hideModal, showModal} = props;
   const renderItem = (data) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)

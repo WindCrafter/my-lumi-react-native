@@ -202,23 +202,13 @@ function ApplyBreak(props) {
     const selectedDay = moment(day.dateString).format(_format);
     console.log('dayselect', selectedDay);
 
-    if (!_markedDates[selectedDay]) {
-      // console.log('find', _markedDates[selectedDay]);
-      // console.log(
-      //   'finding',
-      //   _.find(_markedDates[selectedDay], ['disabled', true]),
-      // );
+    if (!_markedDates[selectedDay]) { 
       let selected = true;
-      // if (_markedDates[selectedDay]) {
-      //   selected = !_markedDates[selectedDay].selected;
-      // }
       const updatedMarkedDates = {
         ..._markedDates,
         ...{[selectedDay]: {selected, day: selectedDay}},
       };
       console.log('updatedMarkedDates', updatedMarkedDates);
-      //
-
       setMarkedDates(updatedMarkedDates);
     } else {
       if (!_markedDates[selectedDay].disabled) {
@@ -403,7 +393,7 @@ function ApplyBreak(props) {
                 minDate={_today}
                 maxDate={_maxDate}
                 // hideArrows={true}
-
+                
                 onDayPress={onDaySelect}
                 markedDates={_markedDates}
                 style={{

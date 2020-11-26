@@ -1,23 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Platform,
   StatusBar,
   FlatList,
-  TouchableOpacity,
   LayoutAnimation,
   UIManager,
   Linking,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 import ContactRow from '../../../component/Input/InputContact';
-import {BarStatus, HeaderCustom, Input, Alert} from '../../../component';
+import {BarStatus, HeaderCustom, Input} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 import Clipboard from '@react-native-community/clipboard';

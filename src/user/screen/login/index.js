@@ -1,16 +1,5 @@
-/* eslint-disable no-catch-shadow */
-/* eslint-disable no-shadow */
 import React, {useState, useRef, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  Keyboard,
-  Dimensions,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, View, Alert, Keyboard, Dimensions} from 'react-native';
 import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
 
@@ -22,7 +11,6 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
-  const {navigation} = props;
 
   useEffect(() => {}, []);
 
@@ -47,10 +35,6 @@ const Login = (props) => {
 
   const onChangePass = (value) => {
     setPass(value);
-  };
-
-  const onPressForgot = () => {
-    navigation.navigate('ForgotPass');
   };
 
   const onChangeRememberLogin = () => {

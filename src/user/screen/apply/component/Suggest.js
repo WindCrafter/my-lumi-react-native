@@ -1,9 +1,9 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 
 const Suggest = (props) => {
-  const { detail, onPress } = props;
+  const {detail, onPress} = props;
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Text style={styles.txt}>{detail}</Text>

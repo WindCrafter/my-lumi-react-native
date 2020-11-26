@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 // import langs from '../../../../../common/language';
 import {imgs} from '../../../../../utlis';
 import ActionButton from 'react-native-action-button';
@@ -46,10 +46,8 @@ const FloatButton = (props) => {
         outputY={[140, 70]}
         buttonColor="#2fac4f"
         title="Xin nghỉ"
-        onPress={onPressBreak}
-        >
+        onPress={onPressBreak}>
         <Image source={imgs.dayOff} />
-
       </ActionButton.Item>
       <ActionButton.Item
         outputX={[0, -120]}

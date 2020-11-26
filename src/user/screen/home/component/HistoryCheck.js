@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+
 import React from 'react';
 import {
   StyleSheet,
@@ -5,7 +7,6 @@ import {
   View,
   Image,
   FlatList,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import langs from '../../../../../common/language';

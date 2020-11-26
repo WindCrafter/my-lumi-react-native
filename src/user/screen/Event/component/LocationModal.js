@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth:1
   },
   titlemodal: {
     fontWeight: '500',

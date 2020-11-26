@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   TextInputProps,
   Image,
@@ -33,9 +33,14 @@ interface Props extends TextInputProps {
   paddingVertical?: String;
   marginRight?: String;
   color?: String;
+  select?: Boolean;
+  loop?: String;
+  onSetWeek?: Function;
+  onSetMonth?: Function;
+  onSetYear?: Function;
 }
 
-InputSelect.defaultProps = {
+InputPick.defaultProps = {
   width: wp(90),
   height: 70,
   borderRadius: 16,
@@ -54,9 +59,10 @@ InputSelect.defaultProps = {
   alignItems: 'center',
   padding: 6,
   color: 'black',
+  select: false,
 };
 
-export default function InputSelect(props?: Props) {
+export default function InputPick(props?: Props) {
   const {
     shadowColor,
     shadowOpacity,
@@ -79,8 +85,14 @@ export default function InputSelect(props?: Props) {
     padding,
     paddingVertical,
     marginRight,
+    select,
     color,
+    onSetWeek,
+    onSetMonth,
+    onSetYear,
+    loop,
   } = props;
+
   const ViewCard = Platform.OS === 'ios' ? Card : Card;
 
   return (
@@ -129,6 +141,34 @@ export default function InputSelect(props?: Props) {
         </View>
         <Image source={rightImage} style={styles.img} resizeMode="contain" />
       </TouchableOpacity>
+      {select ? (
+        <View style={styles.viewSelect}>
+          <View style={styles.line} />
+          <View style={styles.containerWeek}>
+            <TouchableOpacity onPress={onSetWeek} style={styles.viewWeek}>
+              <Image
+                style={styles.timeImage}
+                source={loop === 'week' ? imgs.correct : imgs.uncorrect}
+              />
+              <Text>Theo tuần</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onSetMonth} style={styles.viewWeek}>
+              <Image
+                style={styles.timeImage}
+                source={loop === 'month' ? imgs.correct : imgs.uncorrect}
+              />
+              <Text>Theo tháng</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onSetYear} style={styles.viewWeek}>
+              <Image
+                style={styles.timeImage}
+                source={loop === 'year' ? imgs.correct : imgs.uncorrect}
+              />
+              <Text>Theo năm</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
     </ViewCard>
   );
 }
@@ -137,14 +177,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     textAlignVertical: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignSelf: 'center',
   },
   image: {
     width: 24,
     height: 24,
     alignSelf: 'center',
-    tintColor:'black'
+    tintColor: 'black',
   },
   img: {
     width: 16,
@@ -166,4 +206,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
+  viewWeek: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  line: {
+    height: 1,
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 25, 0.22)',
+    alignSelf: 'center',
+    marginBottom: 24,
+  },
+  containerWeek: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: wp(90),
+    alignSelf: 'center',
+  },
+  timeImage: {
+    marginRight: 4,
+    width: 24,
+    height: 24,
+  },
+  viewSelect: {height: 80},
 });

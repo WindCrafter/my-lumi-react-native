@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Button, Input } from '../../../../component';
+import {View, Text, StyleSheet} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Button, Input} from '../../../../component';
 
 const SendCode = (props) => {
-  const { email, onChangeEmail, onSend } = props;
+  const {email, onChangeEmail, onSend} = props;
   return (
     <View style={styles.container}>
       <Text style={styles.please}>Please enter your email </Text>
@@ -47,9 +47,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 32,
   },
-  button: {
-
-  },
+  button: {},
 });
 
 export default SendCode;

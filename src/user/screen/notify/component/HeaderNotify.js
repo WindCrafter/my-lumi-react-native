@@ -9,7 +9,7 @@ HeaderNotify.defaultProps = {
   detail: 'Nhắc việc và bản tin',
 };
 
-export default function HeaderNotify (props?: Props) {
+export default function HeaderNotify(props?: Props) {
   const {title, detail} = props;
   return (
     <View style={styles.container}>
@@ -21,26 +21,22 @@ export default function HeaderNotify (props?: Props) {
       <View style={styles.bot} />
     </View>
   );
-};
-
+}
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
   },
-
   info: {
     flexDirection: 'column',
     justifyContent: 'center',
     marginHorizontal: 24,
   },
-
   txtTitle: {
     fontSize: 24,
     fontWeight: '700',
     color: 'black',
   },
-
   txtDetail: {
     fontSize: 16,
     fontWeight: '300',

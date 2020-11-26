@@ -23,11 +23,15 @@ const HeaderAccount = (props) => {
 export default HeaderAccount;
 
 const styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
+
   info: {
     flexDirection: 'column',
+    flex: 2.25,
     justifyContent: 'center',
     marginHorizontal: 24,
-    marginTop: 16,
   },
 
   txtTitle: {
@@ -40,8 +44,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
     color: 'black',
-    marginVertical: 3.5,
+    marginVertical: 4,
   },
   line: {height: 1, width: '100%', backgroundColor: 'black'},
-  bot: {},
+  bot: {
+    flex: 1,
+    paddingBottom: 16,
+  },
 });

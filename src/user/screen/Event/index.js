@@ -20,17 +20,18 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
 import {
   InputRow,
-  Button,
   InputSelect,
   HeaderCustom,
   BarStatus,
+  InputPick,
 } from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {_global} from '../../../../utlis/global/global';
 import {Card} from 'native-base';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
+import TimeModal from './component/TimeModal';
+
 import langs from '../../../../common/language';
 
 if (
@@ -50,11 +51,39 @@ const Event = (props) => {
   const [mode, setMode] = useState('');
   const [show, setShow] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showModalTime, setShowModalTime] = useState(false);
+
   const [location, setLocation] = useState('');
+  const [select, onSelect] = useState(false);
+  const [loop, setLoop] = useState('');
+  const onSetSelect = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    onSelect(!select);
+  };
+  const onSetWeek = () => {
+    if (loop === 'week') {
+      setLoop('');
+    } else {
+      setLoop('week');
+    }
+  };
+  const onSetMonth = () => {
+    if (loop === 'month') {
+      setLoop('');
+    } else {
+      setLoop('month');
+    }
+  };
+  const onSetYear = () => {
+    if (loop === 'year') {
+      setLoop('');
+    } else {
+      setLoop('year');
+    }
+  };
   const onChangeTitle = (val) => {
     setTitle(val);
   };
-  const onChangeBirthDay = () => {};
   const onShow = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShow(true);
@@ -88,11 +117,17 @@ const Event = (props) => {
   const hideModal = () => {
     setShowModal(false);
   };
+  const hideModalTime = () => {
+    setShowModalTime(false);
+  };
   const onChangeLocation = () => {
     setShowModal(true);
     Keyboard.dismiss();
   };
-
+  const onChangeTime = () => {
+    setShowModalTime(true);
+    Keyboard.dismiss();
+  };
   const onGoPickTeam = () => {
     navigation.navigate('PickTeam');
   };
@@ -144,9 +179,6 @@ const Event = (props) => {
   const onBlur = () => {
     Keyboard.dismiss();
   };
-  const onDone = () => {
-    Alert.alert('end');
-  };
   return (
     <>
       <BarStatus
@@ -189,7 +221,7 @@ const Event = (props) => {
           </Card>
           <InputSelect
             width={'90%'}
-            leftImage={imgs.location}
+            leftImage={imgs.startTime}
             borderRadius={32}
             height={54}
             shadowColor={'white'}
@@ -197,13 +229,13 @@ const Event = (props) => {
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
-            onPressButton={onChangeLocation}
+            onPressButton={onChangeTime}
             shadowOpacity={0.1}
             marginRight={-30}
             color={'rgba(4, 4, 15, 0.45)'}
             detail={location}
           />
-          
+
           <InputSelect
             width={'90%'}
             leftImage={imgs.location}
@@ -241,6 +273,28 @@ const Event = (props) => {
             color={'rgba(4, 4, 15, 0.45)'}
             detail={''}
           />
+          <InputPick
+            width={'90%'}
+            leftImage={imgs.calendarWeek}
+            rightImage={select ? imgs.down : imgs.rightIcon}
+            borderRadius={32}
+            height={select ? 148 : 54}
+            shadowColor={'white'}
+            title={'Lặp lại'}
+            padding={16}
+            marginVertical={18}
+            containerStyle={styles.viewInputPick}
+            onPressButton={onSetSelect}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={''}
+            select={select}
+            loop={loop}
+            onSetWeek={onSetWeek}
+            onSetMonth={onSetMonth}
+            onSetYear={onSetYear}
+          />
           {memberPicked.length > 0 ? (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
@@ -257,6 +311,12 @@ const Event = (props) => {
         setModal={hideModal}
         onPress={(e) => setLocation(e)}
         detail={location}
+      />
+      <TimeModal 
+        showModal={showModalTime}
+        setModal={hideModalTime}
+        onPress={(e) => setLocation(e)}
+        detail={location} 
       />
     </>
   );
@@ -307,6 +367,12 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     backgroundColor: 'white',
     borderRadius: 16,
+  },
+  viewInputPick: {
+    marginVertical: 16,
+    backgroundColor: 'white',
+    borderRadius: 16,
+    justifyContent: 'space-between',
   },
   Description: {
     width: '90%',
@@ -391,5 +457,23 @@ const styles = StyleSheet.create({
   textUser: {
     marginLeft: 24,
     fontSize: 16,
+  },
+  color: {
+    color: '#00821c',
+  },
+  color2: {color: '#455997'},
+  tintColor: {
+    tintColor: '#00821c',
+  },
+  tintColor2: {tintColor: '#455997'},
+  firstButton: {
+    marginVertical: 4,
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+  },
+  secButton: {
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+    marginVertical: 4,
   },
 });

@@ -1,15 +1,14 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import Modal from 'react-native-modal';
 import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TouchableOpacity,
   Image,
   TextInput,
 } from 'react-native';
-import {TextSelect, Button} from '../../../../component';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
@@ -209,7 +208,6 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   done: {
-    
     fontSize: 18,
     color: 'green',
   },
@@ -221,5 +219,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingBottom: 20,
   },
-  touchDone: {justifyContent: 'center', alignSelf: 'center',width:'20%'},
+  touchDone: {justifyContent: 'center', alignSelf: 'center', width: '20%'},
 });
