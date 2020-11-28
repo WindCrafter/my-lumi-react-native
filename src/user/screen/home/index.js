@@ -117,7 +117,7 @@ export default function Home(props) {
             </Card>
           </ScrollView>
           <FloatButton
-            onPressLate={onPressLate}
+                         onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
           />
