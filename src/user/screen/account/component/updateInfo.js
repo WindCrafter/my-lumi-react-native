@@ -67,18 +67,7 @@ const UpdateInfo = (props) => {
               canedit={false}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onCopyDeviceID}>
-            <InputRow
-              leftImage={imgs.contact}
-              containerStyle={styles.txtInput}
-              title={langs.deviceID}
-              size={16}
-              placeholder={'Nhấn để sao chép'}
-              width={0}
-              canedit={false}
-              clearButtonMode="while-editing"
-            />
-          </TouchableOpacity>
+          
           <View style={styles.height} />
         </View>
       </KeyboardAvoidingView>

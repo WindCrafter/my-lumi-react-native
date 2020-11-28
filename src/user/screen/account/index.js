@@ -41,7 +41,7 @@ const Account = (props) => {
         onPress: () => onRemoveUserId(),
         textStyle: {color: Colors.danger},
       },
-      rightButton: {text: 'Cancel'},
+      rightButton: {text: 'Huỷ'},
     });
   };
   const onRemoveUserId = () => {
