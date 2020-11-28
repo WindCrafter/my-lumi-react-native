@@ -23,12 +23,15 @@ import {
   InputSelect,
   HeaderCustom,
   BarStatus,
+  InputPick,
 } from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
 import {Card} from 'native-base';
 import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
+import TimeModal from './component/TimeModal';
+
 import langs from '../../../../common/language';
 
 if (
@@ -48,7 +51,36 @@ const Event = (props) => {
   const [mode, setMode] = useState('');
   const [show, setShow] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showModalTime, setShowModalTime] = useState(false);
+
   const [location, setLocation] = useState('');
+  const [select, onSelect] = useState(false);
+  const [loop, setLoop] = useState('');
+  const onSetSelect = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    onSelect(!select);
+  };
+  const onSetWeek = () => {
+    if (loop === 'week') {
+      setLoop('');
+    } else {
+      setLoop('week');
+    }
+  };
+  const onSetMonth = () => {
+    if (loop === 'month') {
+      setLoop('');
+    } else {
+      setLoop('month');
+    }
+  };
+  const onSetYear = () => {
+    if (loop === 'year') {
+      setLoop('');
+    } else {
+      setLoop('year');
+    }
+  };
   const onChangeTitle = (val) => {
     setTitle(val);
   };
@@ -85,11 +117,17 @@ const Event = (props) => {
   const hideModal = () => {
     setShowModal(false);
   };
+  const hideModalTime = () => {
+    setShowModalTime(false);
+  };
   const onChangeLocation = () => {
     setShowModal(true);
     Keyboard.dismiss();
   };
-
+  const onChangeTime = () => {
+    setShowModalTime(true);
+    Keyboard.dismiss();
+  };
   const onGoPickTeam = () => {
     navigation.navigate('PickTeam');
   };
@@ -181,75 +219,23 @@ const Event = (props) => {
               onBlur={onBlur}
             />
           </Card>
-          <Card style={styles.card}>
-            <View style={styles.rowBot}>
-              <View style={styles.column}>
-                <TouchableOpacity
-                  style={[styles.button, styles.firstButton]}
-                  onPress={() => onShow('timeStart')}>
-                  <Image
-                    source={imgs.startTime}
-                    style={[styles.imageStamp, styles.tintColor2]}
-                  />
-                  <Text style={[styles.txtTime, styles.color2]}>
-                    {moment(timeStart).format('HH:mm')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <Image source={imgs.arrow} />
-              <View style={styles.column}>
-                <TouchableOpacity
-                  style={[styles.button, styles.secButton]}
-                  onPress={() => onShow('timeEnd')}>
-                  <Image
-                    source={imgs.startTime}
-                    style={[styles.imageStamp, styles.tintColor]}
-                  />
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.startTime}
+            borderRadius={32}
+            height={54}
+            shadowColor={'white'}
+            title={'Chọn thời gian'}
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onChangeTime}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={location}
+          />
 
-                  <Text style={[styles.txtTime, styles.color]}>
-                    {moment(timeEnd).format('HH:mm')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Card>
-          {show ? (
-            mode === 'timeStart' ? (
-              <PickerCustom
-                value={timeStart}
-                onChange={onChangeTimeStart}
-                onPress={onUnshow}
-                mode={'time'}
-                show={show}
-                locale={'en-GB'}
-              />
-            ) : mode === 'timeEnd' ? (
-              <PickerCustom
-                value={timeEnd}
-                onChange={onChangeTimeEnd}
-                onPress={onUnshow}
-                mode={'time'}
-                show={show}
-                locale={'en-GB'}
-              />
-            ) : mode === 'dateStart' ? (
-              <PickerCustom
-                value={dateStart}
-                onChange={onChangeDateStart}
-                onPress={onUnshow}
-                mode={'date'}
-                show={show}
-              />
-            ) : mode === 'dateEnd' ? (
-              <PickerCustom
-                value={dateEnd}
-                onChange={onChangeDateEnd}
-                onPress={onUnshow}
-                mode={'date'}
-                show={show}
-              />
-            ) : null
-          ) : null}
           <InputSelect
             width={'90%'}
             leftImage={imgs.location}
@@ -287,6 +273,28 @@ const Event = (props) => {
             color={'rgba(4, 4, 15, 0.45)'}
             detail={''}
           />
+          <InputPick
+            width={'90%'}
+            leftImage={imgs.calendarWeek}
+            rightImage={select ? imgs.down : imgs.rightIcon}
+            borderRadius={32}
+            height={select ? 148 : 54}
+            shadowColor={'white'}
+            title={'Lặp lại'}
+            padding={16}
+            marginVertical={18}
+            containerStyle={styles.viewInputPick}
+            onPressButton={onSetSelect}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={''}
+            select={select}
+            loop={loop}
+            onSetWeek={onSetWeek}
+            onSetMonth={onSetMonth}
+            onSetYear={onSetYear}
+          />
           {memberPicked.length > 0 ? (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
@@ -303,6 +311,12 @@ const Event = (props) => {
         setModal={hideModal}
         onPress={(e) => setLocation(e)}
         detail={location}
+      />
+      <TimeModal 
+        showModal={showModalTime}
+        setModal={hideModalTime}
+        onPress={(e) => setLocation(e)}
+        detail={location} 
       />
     </>
   );
@@ -353,6 +367,12 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     backgroundColor: 'white',
     borderRadius: 16,
+  },
+  viewInputPick: {
+    marginVertical: 16,
+    backgroundColor: 'white',
+    borderRadius: 16,
+    justifyContent: 'space-between',
   },
   Description: {
     width: '90%',

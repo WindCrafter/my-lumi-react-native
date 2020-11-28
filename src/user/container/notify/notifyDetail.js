@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import NotifyDetail from '../../screen/notify/notifyDetail';
+import NotifyDetail from '../../../user/screen/notify/notifyDetail';
 
 const mapStateToProps = (state) => ({});
 

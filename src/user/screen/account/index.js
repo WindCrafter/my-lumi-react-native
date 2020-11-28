@@ -11,7 +11,6 @@ import {
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
-import CalendarCustom from './component/Calendar';
 import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
 import ModalInforApp from './component/ModalInforApp';

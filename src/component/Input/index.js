@@ -5,5 +5,14 @@ import InputInfor from './InputInformation';
 import InputSelect from './InputSelect';
 import InputApply from './inputApply';
 import InputCustom from './InputCustom';
-
-export { Input, InputPassword, InputInfor, InputRow, InputSelect, InputApply,InputCustom };
+import InputPick from './InputPick';
+export {
+  Input,
+  InputPassword,
+  InputInfor,
+  InputRow,
+  InputSelect,
+  InputApply,
+  InputCustom,
+  InputPick,
+};

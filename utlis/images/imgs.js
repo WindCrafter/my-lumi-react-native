@@ -102,4 +102,5 @@ export const imgs = {
   fine: require('../../common/assets/images/icon/Fine-icon.png'),
   logoMyLumi: require('../../common/assets/images/logo/logo_MyLumi.png'),
   changeIcon: require('../../common/assets/images/icon/Change-icon.png'),
+  rightIcon: require('../../common/assets/images/icon/Right-icon.png')
 };

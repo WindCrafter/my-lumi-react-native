@@ -27,7 +27,9 @@ import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-import {_global} from '../../../../utlis/global/global';
+// import {_global} from '../../../../utlis/global/global';
+import {Calendar} from 'react-native-calendars';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -36,69 +38,74 @@ if (
 }
 
 function ApplyBreak(props) {
+  const _format = 'YYYY-MM-DD';
+  const _today = moment().format(_format);
+  const _maxDate = moment().add(90, 'days').format(_format);
+
   const {navigation, takeLeave, userId, token, assign} = props;
   const [shift, setShift] = useState(new Date());
-  const [day, setDay] = useState(new Date());
-  const [dateStart, setDateStart] = useState(new Date());
-  const [dateEnd, setDateEnd] = useState(new Date());
+
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [typeShift, setTypeShift] = useState('Ca sáng');
-  const [shiftStart, setShiftStart] = useState('Ca sáng');
-  const [shiftEnd, setShiftEnd] = useState('Ca sáng');
   const [typeBreak, setTypeBreak] = useState('Theo ca');
   const [reason, setReason] = useState('');
+
+  const DISABLED_DAYS = ['Sunday'];
+  const getDaysInMonth = (month, year, days) => {
+    let pivot = moment().month(month).year(year).startOf('month');
+    const end = moment().month(month).year(year).endOf('month');
+
+    let dates = {..._markedDates};
+    const disabled = {disabled: true};
+    while (pivot.isBefore(end)) {
+      days.forEach((day) => {
+        dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
+      });
+      pivot.add(7, 'days');
+    }
+
+    return dates;
+  };
+
+  const initialState = {
+    ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
+    [_today]: {
+      selected: true,
+      day: _today,
+    },
+  };
+  // console.log('initialState : ', initialState);
+  const [_markedDates, setMarkedDates] = useState(initialState);
   // const assignTo = assign.map((e) => {
   //   return e.userId;
   // });
   const onComplete = () => {
     typeBreak === 'Theo ca'
       ? onTakeLeaveShift()
-      : typeBreak === 'Một  ngày'
+      : typeBreak === 'Theo ngày'
       ? onTakeLeaveDay()
-      : onTakeLeaveDays();
+      : null;
   };
 
-  const onTakeLeaveDays = () => {
-    console.log(userId);
-    const DateStart = moment(dateStart).format('DD/MM/YYYY');
-    const DateEnd = moment(dateEnd).format('DD/MM/YYYY');
-    const data = {
-      token: token,
-      startDate: {
-        date: DateStart,
-        shift: shiftStart === 'Ca sáng' ? 'morning' : 'afternoon',
-      },
-      endDate: {
-        date: DateEnd,
-        shift: shiftEnd === 'Ca sáng' ? 'morning' : 'afternoon',
-      },
-      assignTo: assign ? assign.userId : null,
-      description: reason,
-      advance: {},
-    };
-    console.log('dataaaaaa', data);
-    if (DateEnd >= DateStart) {
-      takeLeave(data);
-    } else {
-      _global.Alert.alert({
-        title: langs.alert.plscheck,
-        message: langs.alert.afterDaymustmore,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
-      });
-    }
-  };
   const onTakeLeaveDay = () => {
+    const newarray = [];
+    let array = Object.keys(_markedDates);
+    array.forEach((element) => {
+      if (_markedDates[element].selected) {
+        newarray.push(_markedDates[element].day);
+      }
+    });
+    console.log(newarray);
     const data = {
       token: token,
       startDate: {
-        date: moment(day).format('DD/MM/YYYY'),
+        date: moment().format('DD/MM/YYYY'),
         shift: 'morning',
       },
       endDate: {
-        date: moment(day).format('DD/MM/YYYY'),
+        date: moment().format('DD/MM/YYYY'),
         shift: 'afternoon',
       },
       assignTo: assign ? assign.userId : null,
@@ -143,22 +150,6 @@ function ApplyBreak(props) {
     setShow(Platform.OS === 'ios');
     setShift(currentShift);
   };
-  const onChangeDay = (event, selectedDay) => {
-    const currentDay = selectedDay || day;
-    setShow(Platform.OS === 'ios');
-    setDay(currentDay);
-  };
-  const onChangeDateStart = (event, selectedDateStart) => {
-    const currentDateStart = selectedDateStart || dateStart;
-    setShow(Platform.OS === 'ios');
-    setDateStart(currentDateStart);
-  };
-  const onChangeDateEnd = (event, selectedDateEnd) => {
-    const currentDateEnd = selectedDateEnd || dateEnd;
-    setShow(Platform.OS === 'ios');
-
-    setDateEnd(currentDateEnd);
-  };
 
   const onSetTypeBreak = (val) => {
     setTypeBreak(val);
@@ -188,16 +179,6 @@ function ApplyBreak(props) {
       : setTypeShift('Ca sáng');
   };
 
-  const onSetShiftStart = () => {
-    shiftStart === 'Ca sáng'
-      ? setShiftStart('Ca chiều')
-      : setShiftStart('Ca sáng');
-  };
-
-  const onSetShiftEnd = () => {
-    shiftEnd === 'Ca sáng' ? setShiftEnd('Ca chiều') : setShiftEnd('Ca sáng');
-  };
-
   const onFocus = () => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -217,7 +198,31 @@ function ApplyBreak(props) {
     navigation.navigate('Assignment');
   };
 
-  const renderItem = ({item, index}) => {
+  const onDaySelect = (day) => {
+    const selectedDay = moment(day.dateString).format(_format);
+    console.log('dayselect', selectedDay);
+
+    if (!_markedDates[selectedDay]) { 
+      let selected = true;
+      const updatedMarkedDates = {
+        ..._markedDates,
+        ...{[selectedDay]: {selected, day: selectedDay}},
+      };
+      console.log('updatedMarkedDates', updatedMarkedDates);
+      setMarkedDates(updatedMarkedDates);
+    } else {
+      if (!_markedDates[selectedDay].disabled) {
+        let selected = !_markedDates[selectedDay].selected;
+        const updatedMarkedDates = {
+          ..._markedDates,
+          ...{[selectedDay]: {selected, day: selectedDay}},
+        };
+        setMarkedDates(updatedMarkedDates);
+      }
+    }
+  };
+
+  const renderItem = ({item}) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -343,20 +348,12 @@ function ApplyBreak(props) {
                 source={imgs.breakShift}
               />
               <ApplyIcon
-                title={'Một ngày'}
-                onPress={() => onSetTypeBreak('Một ngày')}
+                title={'Theo ngày'}
+                onPress={() => onSetTypeBreak('Theo ngày')}
                 tintColor={
-                  typeBreak === 'Một ngày' ? Colors.background : 'grey'
+                  typeBreak === 'Theo ngày' ? Colors.background : 'grey'
                 }
                 source={imgs.breakOneDay}
-              />
-              <ApplyIcon
-                title={'Nhiều ngày'}
-                onPress={() => onSetTypeBreak('Nhiều ngày')}
-                tintColor={
-                  typeBreak === 'Nhiều ngày' ? Colors.background : 'grey'
-                }
-                source={imgs.breakMoreDay}
               />
             </View>
             {typeBreak === 'Theo ca' ? (
@@ -391,102 +388,37 @@ function ApplyBreak(props) {
                   </Text>
                 </TouchableOpacity>
               </View>
-            ) : typeBreak === 'Một ngày' ? (
-              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                    },
-                  ]}
-                  onPress={() => onShow('oneday')}>
-                  <Image source={imgs.breakDay} style={styles.imageStamp} />
-                  <Text style={styles.txtTime}>
-                    {moment(day).format('DD/MM/YYYY')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : typeBreak === 'Nhiều ngày' ? (
-              <View style={styles.rowBot}>
-                <View style={styles.columnShift}>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        // marginVertical: 24,
-                        backgroundColor: Colors.white,
-                        flexDirection: 'row',
-                      },
-                    ]}
-                    onPress={onSetShiftStart}>
-                    <Image
-                      source={imgs.startTime}
-                      style={[styles.imageStamp, {tintColor: '#455997'}]}
-                    />
-
-                    <Text style={[styles.txtTime, {color: '#455997'}]}>
-                      {shiftStart}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: Colors.white,
-                      },
-                    ]}
-                    onPress={() => onShow('datestart')}>
-                    <Image
-                      source={imgs.breakDay}
-                      style={[styles.imageStamp, {tintColor: '#455997'}]}
-                    />
-
-                    <Text style={[styles.txtTime, {color: '#455997'}]}>
-                      {moment(dateStart).format('DD/MM/YYYY')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <Image source={imgs.arrow} style={styles.icon} />
-                <View style={styles.columnShift}>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: Colors.white,
-                        flexDirection: 'row',
-                        // marginVertical: 24,
-                      },
-                    ]}
-                    onPress={onSetShiftEnd}>
-                    <Image
-                      source={imgs.startTime}
-                      style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                    />
-
-                    <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                      {shiftEnd}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: Colors.white,
-                      },
-                    ]}
-                    onPress={() => onShow('dateend')}>
-                    <Image
-                      source={imgs.breakDay}
-                      style={[styles.imageStamp, {tintColor: '#00821c'}]}
-                    />
-
-                    <Text style={[styles.txtTime, {color: '#00821c'}]}>
-                      {moment(dateEnd).format('DD/MM/YYYY')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+            ) : typeBreak === 'Theo ngày' ? (
+              <Calendar
+                minDate={_today}
+                maxDate={_maxDate}
+                // hideArrows={true}
+                
+                onDayPress={onDaySelect}
+                markedDates={_markedDates}
+                style={{
+                  marginTop: 8,
+                }}
+                onMonthChange={(date) => {
+                  setMarkedDates(
+                    getDaysInMonth(date.month - 1, date.year, DISABLED_DAYS),
+                    _markedDates,
+                  );
+                }}
+                enableSwipeMonths={true}
+                theme={{
+                  textDayFontFamily: 'quicksand',
+                  textMonthFontFamily: 'quicksand',
+                  textDayHeaderFontFamily: 'quicksand',
+                  textDayFontWeight: '600',
+                  textMonthFontWeight: '400',
+                  textDayHeaderFontWeight: '500',
+                  textDayFontSize: 18,
+                  textMonthFontSize: 22,
+                  textDayHeaderFontSize: 18,
+                  selectedDayTextColor: 'white',
+                }}
+              />
             ) : null}
           </Card>
         </View>
@@ -494,31 +426,6 @@ function ApplyBreak(props) {
           <PickerCustom
             value={shift}
             onChange={onChangeShift}
-            onPress={onUnshow}
-            mode={'date'}
-            show={show}
-            minimumDate={new Date()}
-          />
-        ) : mode === 'oneday' ? (
-          <PickerCustom
-            value={day}
-            onChange={onChangeDay}
-            onPress={onUnshow}
-            mode={'date'}
-            show={show}
-          />
-        ) : mode === 'datestart' ? (
-          <PickerCustom
-            value={dateStart}
-            onChange={onChangeDateStart}
-            onPress={onUnshow}
-            mode={'date'}
-            show={show}
-          />
-        ) : mode === 'dateend' ? (
-          <PickerCustom
-            value={dateEnd}
-            onChange={onChangeDateEnd}
             onPress={onUnshow}
             mode={'date'}
             show={show}

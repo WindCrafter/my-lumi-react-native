@@ -1,4 +1,4 @@
-import {Input, InputPassword, InputRow, InputInfor, InputSelect} from './Input';
+import {Input, InputPassword, InputRow, InputInfor, InputSelect,InputPick} from './Input';
 import {Button} from './Button';
 import Checkbox from './Checkbox';
 import Logo from './Logo';
@@ -21,6 +21,7 @@ export {
   InputInfor,
   InputSelect,
   InputRow,
+  InputPick,
   Button,
   Checkbox,
   Logo,

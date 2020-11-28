@@ -1,102 +1,43 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import _ from 'lodash';
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+  Alert,
+  Button,
+} from 'react-native';
+import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
-import {Agenda} from 'react-native-calendars';
+import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import HeaderAccount from './component/HeaderAccount';
 import ActionButton from 'react-native-action-button';
 import {imgs} from '../../../../utlis';
+import {Card} from 'native-base';
 
-//test calendar
+function getFutureDates(days) {
+  //test calendar
 
-// const _format = 'YYYY-MM-DD';
-// const today = moment().format(format);
-// const maxDate = moment().add(15, 'days').format(format);
+  ///
+  const array = [];
+  for (let index = 1; index <= days; index++) {
+    const date = new Date(Date.now() + 864e5); // 864e5 == 86400000 == 2460601000
+    const dateString = date.toISOString().split('T')[0];
+    array.push(dateString);
+  }
+  return array;
+}
 
-///
+function getPastDate(days) {
+  return new Date(Date.now() - 864e5 * days).toISOString().split('T')[0];
+}
 
 const Book = (props) => {
-  ///calendar
-  // const initialState = {
-  //   [today]: {selected: true, day: today},
-  // };
-  // const [_markedDates, setMarkedDates] = useState(initialState);
-  // const [choosenDate, setChoosenDate] = useState({});
-
-  ///calendar
-  // const onDaySelect = (day) => {
-  // const exsits = _markedDates[day.dateString];
-  // let newMark = _markedDates;
-  // if (!exsits) {
-  //   newMark[day.dateString] = {day: day.dateString, selected: true};
-  //   setMarkedDates(newMark);
-
-  // } else {
-  //   delete newMark[day.dateString];
-  //   setMarkedDates(newMark);
-  //   console.log(newMark)
-  // }
-  // setMarkedDates({
-  //   ..._markedDates,
-  //   [day.dateString]: {
-  //     day: day.dateString,
-  //     selected: !_markedDates[day.dateString].selected,
-  //   },
-  // });
-
-  // const selectedDay = moment(day.dateString).format(format);
-  // let daySelect = {};
-  // let selected = true;
-  // if (markedDates[selectedDay]) {
-  //   selected = !markedDates[selectedDay].selected;
-  // }
-  // console.log(markedDates[selectedDay]);
-
-  // const updatedMarkedDates = {
-  //   ..._markedDates,
-  //   ...{[day]: day, [_selectedDay]: {selected}},
-  // };
-  // // if (!markedDates[selectedDay].selected) {
-  // //   daySelect = [ Object.keys(_markedDates)];
-  // // }
-
-  // const array = Object.keys(_markedDates);
-  // // console.log('111111',.find(markedDates, ['selected', false]),_markedDates)
-  // console.log('aaa', array);
-  // // daySelect= {
-  // //   ...daySelect,
-  // //   test: .find(markedDates, ['active', false])
-  // // }
-  // // Triggers component to render again, picking up the new state
-  // setMarkedDates(newMark);
-  // setChoosenDate(newMark);
-
-  ///test calendar
-
-  // const selectedDay = moment(day.dateString).format(format);
-
-  // let selected = true;
-  // if (markedDates[selectedDay]) {
-  //   selected = !markedDates[selectedDay].selected;
-  // }
-  // const updatedMarkedDates = {
-  //   ..._markedDates,
-  //   ...{[selectedDay]: {selected, day: selectedDay}},
-  // };
-  // //
-  // const newarray = [];
-  // let array = Object.keys(updatedMarkedDates);
-  // array.forEach((element) => {
-  //   if (updatedMarkedDates[element].selected) {
-  //     newarray.push(updatedMarkedDates[element].day);
-  //   }
-  // });
-
-  // console.log('hey', newarray);
-  // setMarkedDates(updatedMarkedDates);
-
-  // };
-  ////
   const {navigation} = props;
   const rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
@@ -110,10 +51,6 @@ const Book = (props) => {
     );
   };
   const renderItem = (item) => {
-    // if (_.isEmpty(item)) {
-    //   return renderEmptyItem();
-    // }
-
     return (
       <TouchableOpacity style={styles.item}>
         <View>
@@ -174,7 +111,7 @@ const Book = (props) => {
           buttonColor="white"
           title="Tạo phòng họp"
           onPress={onMoveToEvent}>
-          <Image source={imgs.meeting} style={styles.img} />
+          <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
         </ActionButton.Item>
       </ActionButton>
     </>

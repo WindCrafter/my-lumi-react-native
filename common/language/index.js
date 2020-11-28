@@ -139,7 +139,6 @@ const langs = {
     signOut: 'Đăng xuất',
     questSignOut: 'Bạn thực sự muốn đăng xuất ?',
     plscheck:'Vui lòng kiểm tra lại',
-    afterDaymustmore:'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
     dontImportPhone:'Lumier này chưa cung cấp số điện thoại.',
     dontImportUser:'Lumier này chưa cung cấp số tài khoản.',
   },
