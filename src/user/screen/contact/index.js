@@ -17,6 +17,7 @@ import {imgs} from '../../../../utlis';
 import Clipboard from '@react-native-community/clipboard';
 import {_global} from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
+import langs from '../../../../common/language';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -51,10 +52,10 @@ function Contact(props) {
       console.log('phone->>>>>', phoneNumber);
       if (phoneNumber === '') {
         _global.Alert.alert({
-          title: 'Thông báo',
-          message: 'Lumier này chưa cung cấp số điện thoại.',
+          title: langs.alert.notify,
+          message: langs.alert.dontImportPhone,
           messageColor: Colors.danger,
-          leftButton: {text: 'OK'},
+          leftButton: {text: langs.alert.ok},
         });
       } else {
         Linking.openURL(phone);
@@ -64,10 +65,10 @@ function Contact(props) {
     const copyToClipboard = () => {
       if (!data.item.advance || !data.item.advance.bankAccount) {
         _global.Alert.alert({
-          title: 'Thông báo',
-          message: 'Lumier này chưa cung cấp số tài khoản.',
+          title: langs.alert.notify,
+          message: langs.alert.dontImportUser,
           messageColor: Colors.danger,
-          leftButton: {text: 'OK'},
+          leftButton: {text: langs.alert.ok},
         });
       } else {
         setBankAccount(data.item.advance.bankAccount);

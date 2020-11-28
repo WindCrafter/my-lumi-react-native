@@ -73,7 +73,7 @@ const CheckIn = (props) => {
   };
 
   const onGoHistory = () => {
-    navigation.navigate('History');
+    navigation.navigate(langs.navigator.history);
   };
 
   const onCreateQR = () => {

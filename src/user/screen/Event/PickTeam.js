@@ -104,15 +104,18 @@ const PickTeam = (props) => {
 
   const onAlertPick = () => {
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: `Bạn muốn chọn ${userPicked.length} người dưới đây tham gia sự kiện chứ ?`,
       messageColor: Colors.black,
       leftButton: {
-        text: 'OK',
+        text: langs.alert.ok,
         textStyle: {color: Colors.background},
         onPress: onPickTeam,
       },
-      rightButton: {text: 'Cancel', textStyle: {color: Colors.danger}},
+      rightButton: {
+        text: langs.alert.cancel,
+        textStyle: {color: Colors.danger},
+      },
     });
   };
 

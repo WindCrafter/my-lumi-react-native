@@ -14,8 +14,9 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {_global} from '../../../../utlis/global/global';
 import ModalTime from '../../../user/screen/account/component/ModalTime';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
+import moment, { lang } from 'moment';
 import ModalTeam from './component/ModalTeam';
+import langs from '../../../../common/language';
 const FirstLogin = (props) => {
   const {changePass, token, updateProfile, name, deviceId, teams} = props;
   const step = useRef();
@@ -64,22 +65,22 @@ const FirstLogin = (props) => {
   const onConfirms = () => {
     Keyboard.dismiss();
     if (pass.trim().length === 0) {
-      setError('Mật khẩu không được để trống.');
+      setError(langs.alert.invalidPassword);
       refAlert.current.open();
       return;
     }
     if (pass.trim().length < 6) {
-      setError('Mật khẩu không được dưới 6 kí tự.');
+      setError(langs.alert.lessPassword);
       refAlert.current.open();
       return;
     }
     if (rePass.length === 0) {
-      setError('Mật khẩu không được để trống.');
+      setError(langs.alert.invalidPassword);
       refAlert.current.open();
       return;
     }
     if (!(rePass === pass)) {
-      setError('Mật khẩu nhập lại không đúng.');
+      setError(langs.alert.wrongRepass);
       refAlert.current.open();
       return;
     } else {
@@ -112,10 +113,10 @@ const FirstLogin = (props) => {
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Sai số điện thoại.\nVui lòng kiểm tra lại.',
+        title: langs.alert.notify,
+        message: langs.alert.wrongVinaphone,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       updateProfile(data);
@@ -155,7 +156,7 @@ const FirstLogin = (props) => {
       <Alert
         title={'Warning'}
         message={error}
-        leftButton={{text: 'OK'}}
+        leftButton={{text: langs.alert.ok}}
         ref={refAlert}
       />
       <ModalTeam

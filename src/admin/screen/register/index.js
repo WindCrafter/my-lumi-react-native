@@ -68,103 +68,90 @@ const Register = (props) => {
   const onRegister = () => {
     if (email.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Email không được để trống.\nVui lòng kiểm tra lại.',
+        title: langs.alert.notify,
+        message: langs.alert.invalidEmail,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (!isValidEmail(email)) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Sai định dạng email.',
+        title: langs.alert.notify,
+        message: langs.alert.wrongEmail,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (newPassword.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mật khẩu không được để trống.',
+        title: langs.alert.notify,
+        message: langs.alert.invalidEmail,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (newPassword.trim().length < 6) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mật khẩu phải có ít nhất 6 kí tự',
+        title: langs.alert.notify,
+        message: langs.alert.lessPassword,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (confirmPassword.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Nhập lại mật khẩu không được để trống',
+        title: langs.alert.notify,
+        message: langs.alert.invalidPassword,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
-      });
-
-      return;
-    }
-
-    if (confirmPassword.trim().length < 6) {
-      _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mật khẩu nhập lại phải có ít nhất 6 kí tự',
-        messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (newPassword !== confirmPassword) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Nhập lại mật khẩu không đúng',
+        title: langs.alert.notify,
+        message: langs.alert.wrongRepass,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (verifyCode.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mã xác nhận không được để trống.',
+        title: langs.alert.notify,
+        message: langs.alert.wrongVerifyCode,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (!termOfService) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message:
-          'Bạn cần đồng ý với những điều khoản dịch vụ của chúng tôi để tiếp tục đăng ký',
+        title: langs.alert.notify,
+        message: langs.alert.termOfService,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;
     }
     if (!privacyPolicy) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message:
-          'Bạn cần đồng ý với những chính sách về quyền riêng tư của chúng tôi để tiếp tục đăng ký',
+        title: langs.alert.notify,
+        message: langs.alert.privacyPolicy,
         messageColor: 'red',
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
 
       return;

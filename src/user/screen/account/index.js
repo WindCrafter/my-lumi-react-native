@@ -17,6 +17,7 @@ import {Card} from 'native-base';
 import ModalInforApp from './component/ModalInforApp';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
+import langs from '../../../../common/language';
 const Account = (props) => {
   const {
     logOut,
@@ -34,15 +35,15 @@ const Account = (props) => {
 
   const onLogOut = () => {
     _global.Alert.alert({
-      title: 'Thông báo',
-      message: 'Bạn thực sự muốn đăng xuất ?',
+      title: langs.alert.notify,
+      message: langs.alert.questSignOut,
       messageColor: Colors.danger,
       leftButton: {
-        text: 'Đăng xuất',
+        text: langs.alert.signOut,
         onPress: () => onRemoveUserId(),
         textStyle: {color: Colors.danger},
       },
-      rightButton: {text: 'Cancel'},
+      rightButton: {text: langs.alert.cancel},
     });
   };
   const onRemoveUserId = () => {

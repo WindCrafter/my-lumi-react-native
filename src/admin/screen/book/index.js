@@ -23,6 +23,7 @@ const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
 const dates = [fastDate, today].concat(futureDates);
 import { Card } from 'native-base';
+import langs from '../../../../common/language';
 
 function getFutureDates(days) {
   const array = [];
@@ -76,7 +77,7 @@ const Book = (props) => {
   };
   const onMoveToEvent = () => {
     console.log('----- < > ______')
-    navigation.navigate('Sự kiện mới');
+    navigation.navigate(langs.navigator.event);
   };
   return (
     <>

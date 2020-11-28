@@ -15,6 +15,7 @@ import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
 
 import {imgs} from '../../../../utlis';
+import langs from '../../../../common/language';
 const Account = (props) => {
   const {logOut, nameUser, emailUser, navigation} = props;
   const name = nameUser;
@@ -23,10 +24,10 @@ const Account = (props) => {
     logOut();
   };
   const onMoveToProfile = () => {
-    navigation.navigate('UpdateProfile');
+    navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveTContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
   return (
     <>

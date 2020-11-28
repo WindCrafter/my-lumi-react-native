@@ -10,6 +10,7 @@ import TabbarCustom from './TabbarCustom';
 
 import {Colors} from '../../utlis';
 import notify from '../user/container/notify';
+import langs from '../../common/language';
 
 const BotStack = createBottomTabNavigator();
 const shouldShowTabbar = (route) => {
@@ -31,28 +32,28 @@ export default function TabbarUser() {
       }}
       tabBar={(props) => <TabbarCustom {...props} />}>
       <BotStack.Screen
-        name={'Home'}
+        name={langs.navigator.home}
         component={home}
         options={({route}) => ({
           tabBarVisible: shouldShowTabbar(route),
         })}
       />
       <BotStack.Screen
-        name={'Book lịch'}
+        name={langs.navigator.book}
         component={book}
         options={({route}) => ({
           tabBarVisible: shouldShowTabbar(route),
         })}
       />
       <BotStack.Screen
-        name={'TestNotify'}
+        name={langs.navigator.testNotify}
         component={notify}
         options={() => ({
           tabBarLabel: 'Thong bao',
         })}
       />
       <BotStack.Screen
-        name={'Cá nhân'}
+        name={langs.navigator.account}
         component={account}
         options={({route}) => ({
           tabBarVisible: shouldShowTabbar(route),

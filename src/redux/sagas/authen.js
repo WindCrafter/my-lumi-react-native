@@ -55,7 +55,7 @@ function* sagaLoginAction(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
         messageColor: Colors.danger,
       });
     }
@@ -64,7 +64,7 @@ function* sagaLoginAction(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }
@@ -89,7 +89,7 @@ function* sagaFirstLogin(action) {
         title: langs.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       yield put(changePassFailed());
@@ -99,7 +99,7 @@ function* sagaFirstLogin(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }

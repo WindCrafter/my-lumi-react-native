@@ -51,19 +51,19 @@ const Login = (props) => {
     Keyboard.dismiss();
     if (email.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Nhắc bạn',
-        message: 'Vui lòng điền tên đăng nhập.',
+        title: langs.alert.remind,
+        message: langs.alert.enterUsername,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
     if (pass.length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mật khẩu không được để trống.',
+        title: langs.alert.notify,
+        message: langs.alert.invalidPassword,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
       return;
     } else {

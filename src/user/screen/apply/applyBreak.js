@@ -83,10 +83,10 @@ function ApplyBreak(props) {
       takeLeave(data);
     } else {
       _global.Alert.alert({
-        title: 'Vui lòng kiểm tra lại',
-        message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
+        title: langs.alert.plscheck,
+        message: langs.alert.afterDaymustmore,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   };
