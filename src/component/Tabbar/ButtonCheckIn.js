@@ -16,7 +16,10 @@ const ButtonCheckIn = (props) => {
       onLongPress={onLongPress}
       style={styles.container}>
       <View style={styles.containerBt}>
-        <Image source={imgs.ssid} style={styles.img} />
+        <Image
+          source={require('../../../common/assets/images/V2/72.gif')}
+          style={styles.img}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -49,7 +52,6 @@ const styles = StyleSheet.create({
   },
   img: {
     alignSelf: 'center',
-    tintColor:'white',
-    
+    height:36,width:36
   },
 });
