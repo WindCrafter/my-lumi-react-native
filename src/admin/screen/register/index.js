@@ -167,6 +167,7 @@ const Register = (props) => {
     };
     console.log(data);
     console.log('pass');
+
   };
 
   return (
@@ -179,7 +180,7 @@ const Register = (props) => {
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Tên đăng nhập'}
+              placeholder={'Email'}
               testID="test_Username"
               returnKeyType="next"
               keyboardType="email-address"
@@ -220,7 +221,7 @@ const Register = (props) => {
               testID="test_Password"
               containerStyle={styles.textInput}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Mã xác nhận'}
+              placeholder={'Mã nhân viên'}
               // refInput={refPassword}
               maxLength={20}
               returnKeyType="done"

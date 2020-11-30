@@ -3,6 +3,7 @@ export const URL = {
   // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
+  REGISTER: '/site/register',
   CHANGE_PASS: '/user/need-change-pass',
   ADD_USER: '/admin/add-user',
   LIST_ROLES: '/user/list-roles',

@@ -15,6 +15,8 @@ import {
   setStatusLateEarlyFailed,
   setStatusOTFailed,
   setStatusOTSuccess,
+  registerSuccess,
+  registerFailed,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
 import {_POST} from '../../../utlis/connection/api';
@@ -28,6 +30,8 @@ const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_SET_STATUS_OVERTIME = `${URL.LOCAL_HOST}${URL.SET_STATUS_OVERTIME}`;
 const URL_SET_STATUS_BREAK = `${URL.LOCAL_HOST}${URL.SET_STATUS_BREAK}`;
 const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}`;
+const URL_REGISTER = `${URL.LOCAL_HOST}${URL.REGISTER}`;
+
 import {addUserIdDevice} from '../actions/user';
 function* sagaLoginAction(action) {
   try {
@@ -206,4 +210,40 @@ function* sagaSetStatusLateEarly(action) {
 
 export function* watchSetStatusLateEarly() {
   yield takeLatest(types.SET_STATUS_LATE_EARLY, sagaSetStatusLateEarly);
+}
+
+function* sagaRegisterAction(action) {
+  try {
+    const data = {
+      email: action.payload.email,
+      password: action.payload.password,
+      confirm_password: action.payload.confirm_password,
+      code_staff: action.payload.code_staff,
+    };
+    const response = yield _POST(URL_REGISTER, data);
+    console.log('=>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(registerSuccess());
+    } else {
+      yield put(registerFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+        messageColor: Colors.danger,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: {text: langs.alert.ok},
+      messageColor: Colors.danger,
+    });
+  }
+}
+
+export function* watchRegisterAction() {
+  yield takeLatest(types.REGISTER, sagaRegisterAction);
 }

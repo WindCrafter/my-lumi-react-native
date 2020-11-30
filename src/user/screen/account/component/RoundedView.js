@@ -88,7 +88,7 @@ export default function RoundedView(props?: Props) {
           <View style={styles.middle}>
             <Image
               source={leftImage}
-              style={[{tintColorLeft}, styleImg]}
+              style={[{tintColor: tintColorLeft}, styleImg]}
               resizeMode="cover"
             />
             <View style={styles.viewTitle}>

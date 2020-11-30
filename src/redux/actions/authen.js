@@ -155,3 +155,23 @@ export const setStatusLateEarlyFailed = () => {
     type: types.SET_STATUS_LATE_EARLY_FAILED,
   };
 };
+
+export const register = (data) => {
+  return {
+    type: types.REGISTER,
+    payload: data,
+  };
+};
+
+export const registerSuccess = (data) => {
+  return {
+    type: types.REGISTER_SUCCESS,
+    payload: data,
+  };
+};
+
+export const registerFailed = () => {
+  return {
+    type: types.REGISTER_FAILED,
+  };
+};
