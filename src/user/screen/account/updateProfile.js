@@ -22,6 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalGene from './component/ModalGene';
 import ModalTeam from './component/ModalTeam';
 import Clipboard from '@react-native-community/clipboard';
+import langs from '../../../../common/language';
 
 if (
   Platform.OS === 'android' &&
@@ -169,11 +170,11 @@ function UpdateProfile(props) {
 
   const onAlertCopy = () => {
     _global.Alert.alert({
-      title: 'DeviceID',
+      title: langs.alert.deviceID,
       message: deviceId,
       messageColor: Colors.black,
       leftButton: {
-        text: 'Copy',
+        text: langs.alert.copy,
         onPress: onCopyDeviceID,
         textStyle: {color: Colors.background},
       },
@@ -200,26 +201,26 @@ function UpdateProfile(props) {
     };
     if (!isVNPhoneMobile.test(phone)) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Sai định dạng số điện thoại',
+        title: langs.alert.notify,
+        message: langs.alert.wrongVinaphone,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
     if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
+        title: langs.alert.notify,
+        message: langs.alert.invalidGene,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
     if (!regId.test(identity)) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Sai định dang CCCD/CMND',
+        title: langs.alert.notify,
+        message: langs.alert.wrongIdentity,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       updateProfile(data);

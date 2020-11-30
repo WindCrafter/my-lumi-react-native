@@ -17,9 +17,9 @@ const initialState = {
   deviceId: '',
   userProfile: {},
   remember: false,
-  roleInfo: [],
   oneSignalID: '',
   teams: [],
+  refresh_token: '',
 };
 
 export default function authen(state = initialState, action) {
@@ -28,13 +28,21 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         loginSuccess: true,
-        changePass: action.payload.changePass,
+        // changePass: action.payload.changePass,
         // changePass: true,
         token: action.payload.token,
-        role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
-        userProfile: action.payload.data.userProfile,
-        roleInfo: action.payload.data.roles,
-        teams: action.payload.data.teams,
+        // role: action.payload.data.roles[0].roleType === 1 ? 'admin' : 'user',
+        // userProfile: action.payload.data.userProfile,
+        // roleInfo: action.payload.data.roles,
+        // teams: action.payload.data.teams,
+        refresh_token: action.payload.refresh_token,
+        user_id: action.payload.user_id,
+        // userProfile: action.payload.userProfile,
+      };
+    case types.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        userProfile: action.payload.userProfile
       };
     case types.CHANGE_PASS_SUCCESS:
       return {

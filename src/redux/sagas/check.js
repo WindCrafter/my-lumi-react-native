@@ -47,27 +47,27 @@ function* sagaCheckIn(action) {
     if (response.success && response.statusCode === 200) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
-        title: 'YEAH! CHECK-IN THÀNH CÔNG',
-        message: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
+        title: langs.alert.checkinSuccess,
+        message: langs.alert.wishIn,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
     yield put(checkInFailed());
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
     });
   }
 }
@@ -93,10 +93,10 @@ function* sagaCheckInWifi(action) {
     ) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
-        title: 'YEAH! CHECK-IN THÀNH CÔNG',
-        message: 'Chấm công thành công',
+        title: langs.alert.checkinSuccess,
+        message: langs.alert.wishIn,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else if (
       response.success &&
@@ -105,17 +105,17 @@ function* sagaCheckInWifi(action) {
     ) {
       yield put(checkOutSuccess(response.data));
       _global.Alert.alert({
-        title: 'YEAH! CHECK-OUT THÀNH CÔNG',
-        message: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé!',
+        title: langs.alert.checkoutSuccess,
+        message: langs.alert.wishOut,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       if (!response.success && response.statusCode === 400) {
         yield put(checkInFailed());
         _global.Alert.alert({
-          title: 'Thông báo',
-          message: 'Hiện tại chưa thể chấm công thành công',
+          title: langs.alert.notify,
+          message: langs.alert.cantCheck,
           messageColor: Colors.danger,
           leftButton: {
             text: langs.tryAgain,
@@ -131,11 +131,11 @@ function* sagaCheckInWifi(action) {
         });
       } else {
         _global.Alert.alert({
-          title: 'Thông báo',
+          title: langs.alert.notify,
           message: response.message,
           messageColor: Colors.danger,
           leftButton: {
-            text: 'OK',
+            text: langs.alert.ok,
             // onPress : onLongPress
           },
         });
@@ -144,11 +144,11 @@ function* sagaCheckInWifi(action) {
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
-      leftButton: {text: 'OK'},
-      rightButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
+      rightButton: {text: langs.alert.ok},
     });
   }
 }
@@ -172,20 +172,20 @@ function* sagaCreateQR(action) {
     } else {
       yield put(createQRFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
       messageColor: Colors.danger,
 
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
     });
   }
 }
@@ -209,26 +209,29 @@ function* sagaSetLateEarly(action) {
     if (response.success && response.statusCode === 200) {
       yield put(setLateEarlySuccess(response.data));
       _global.Alert.alert({
-        title: 'Đơn của bạn đã được gửi đi',
-        message: 'Vui lòng đợi trong khi duyệt.',
+        title: langs.alert.applydone,
+        message: langs.alert.waitConfirm,
         messageColor: Colors.background,
-        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
     } else {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }
@@ -253,26 +256,29 @@ function* sagaTakeLeave(action) {
     if (response.success && response.statusCode === 200) {
       yield put(takeLeaveSuccess(response.data));
       _global.Alert.alert({
-        title: 'Đơn xin nghỉ đã được gửi đi',
-        message: 'Vui lòng đợi trong khi duyệt.',
+        title: langs.alert.applydone,
+        message: langs.alert.waitConfirm,
         messageColor: Colors.background,
-        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
     } else {
       yield put(takeLeaveFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }
@@ -302,28 +308,31 @@ function* sagaOverTime(action) {
     if (response.success && response.statusCode === 200) {
       yield put(overTimeSuccess(response.data));
       _global.Alert.alert({
-        title: 'Đơn tăng ca đã được gửi đi',
-        message: 'Vui lòng đợi trong khi duyệt.',
+        title: langs.alert.applyOTdone,
+        message: langs.alert.waitConfirm,
         messageColor: Colors.background,
-        leftButton: {text: 'OK', onPress: () => CustomNavigation.goBack()},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
     } else {
       yield put(overTimeFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.danger,
         leftButton: {
-          text: 'OK',
+          text: langs.alert.ok,
         },
       });
     }
   } catch (error) {
     console.log(error);
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'Lỗi mạng',
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }

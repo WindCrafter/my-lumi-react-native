@@ -17,7 +17,7 @@ const ButtonCheckIn = (props) => {
       style={styles.container}>
       <View style={styles.containerBt}>
         <Image
-          source={require('../../../common/assets/images/V2/72.gif')}
+          source={require('../../../common/assets/images/V2/24.gif')}
           style={styles.img}
         />
       </View>

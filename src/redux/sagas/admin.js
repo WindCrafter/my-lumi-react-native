@@ -35,7 +35,7 @@ function* sagaAddStaff(action) {
         title: langs.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       yield put(addStaffFailed());
@@ -43,7 +43,7 @@ function* sagaAddStaff(action) {
         title: langs.notify,
         message: response.message,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
@@ -52,7 +52,7 @@ function* sagaAddStaff(action) {
       title: langs.notify,
       message: langs.errorNetwork,
       messageColor: Colors.danger,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
     });
   }
 }

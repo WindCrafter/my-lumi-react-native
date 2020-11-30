@@ -28,6 +28,7 @@ import Confirm from '../user/screen/notify/type/confirm'
 import verify from '../user/container/notify/verify'
 import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
+import langs from '../../common/language';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -40,76 +41,73 @@ export default function UserStack() {
         headerTitleAlign: 'center',
       }}>
       <Stack.Screen
-        name={'TabbarUser'}
+        name={langs.navigator.tabbarUser}
         component={TabbarUser}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'ForgotPass'}
+        name={langs.navigator.forgotPassword}
         component={ForgotPass}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'Contact'}
+        name={langs.navigator.contact}
         component={contact}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'ApplyLate'}
+        name={langs.navigator.applyLate}
         component={applyLate}
         options={{
           headerShown: false,
           gestureEnabled: false,
-
         }}
       />
       <Stack.Screen
-        name={'ApplyBreak'}
+        name={langs.navigator.applyBreak}
         component={applyBreak}
         options={{
           headerShown: false,
           gestureEnabled: false,
-
         }}
       />
       <Stack.Screen
-        name={'ApplyOT'}
+        name={langs.navigator.applyOT}
         component={applyOT}
         options={{
           headerShown: false,
           gestureEnabled: false,
-
         }}
       />
       <Stack.Screen
-        name={'UpdateProfile'}
+        name={langs.navigator.updateProfile}
         component={updateProfile}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'allHistory'}
+        name={langs.navigator.allHistory}
         component={allHistory}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'History'}
+        name={langs.navigator.history}
         component={history}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'CheckIn'}
+        name={langs.navigator.checkIn}
         component={CheckIn}
         options={{
           gestureEnabled: false,
@@ -117,7 +115,7 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Thông báo'}
+        name={langs.navigator.notify}
         component={notify}
         options={{
           headerBackTitleVisible: false,
@@ -128,7 +126,7 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Xác nhận'}
+        name={langs.navigator.confirm}
         component={Confirm}
         options={{
           headerBackTitleVisible: false,
@@ -139,7 +137,7 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Xác nhận đơn'}
+        name={langs.navigator.verify}
         component={verify}
         options={{
           headerBackTitleVisible: false,
@@ -150,28 +148,28 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
-        name={'Sự kiện mới'}
+        name={langs.navigator.event}
         component={Event}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'PickTeam'}
+        name={langs.navigator.pickTeam}
         component={PickTeam}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'NotifyDetail'}
+        name={langs.navigator.notifyDetail}
         component={NotifyDetail}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'Assignment'}
+        name={langs.navigator.assignment}
         component={Assignment}
         options={{
           headerShown: false,

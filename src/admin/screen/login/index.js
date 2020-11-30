@@ -51,23 +51,25 @@ const Login = (props) => {
     Keyboard.dismiss();
     if (email.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Nhắc bạn',
-        message: 'Vui lòng điền tên đăng nhập.',
+        title: langs.alert.remind,
+        message: langs.alert.enterUsername,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
     if (pass.length === 0) {
       _global.Alert.alert({
-        title: 'Thông báo',
-        message: 'Mật khẩu không được để trống.',
+        title: langs.alert.notify,
+        message: langs.alert.invalidPassword,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
       return;
     } else {
-      loginAction({email, password: pass, oneSignalID: oneSignalID});
+      // loginAction({email, password: pass, oneSignalID: oneSignalID});
+      loginAction({email, password: pass});
+
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
     }
@@ -92,8 +94,7 @@ const Login = (props) => {
   return (
     <KeyBoardScroll>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-
-      <View style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.detail}>
             <Logo containerStyle={styles.logo} />
             <Input
@@ -145,9 +146,8 @@ const Login = (props) => {
               <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
             </TouchableOpacity>
           </View>
-      </View>
+        </View>
       </TouchableWithoutFeedback>
-
     </KeyBoardScroll>
   );
 };
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   container: {
     height: hp(100),
     backgroundColor: 'white',
-    justifyContent:'center'
+    justifyContent: 'center',
   },
   textStyle: {
     alignSelf: 'center',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  
+
   forgotPass: {
     marginVertical: 8,
     padding: 4,
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
   },
-  register: {color: '#178CEB',fontSize:18},
-  bottom: {justifyContent: 'center', alignItems: 'center',marginVertical:16},
+  register: {color: '#178CEB', fontSize: 18},
+  bottom: {justifyContent: 'center', alignItems: 'center', marginVertical: 16},
   keyBoardScroll: {
     justifyContent: 'center',
     // flex: 1,

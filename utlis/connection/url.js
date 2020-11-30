@@ -1,8 +1,9 @@
 export const URL = {
-  LOCAL_HOST: 'https://staff.lumi.com.vn/backend',
+  LOCAL_HOST: 'http://api.lumier.lumi.com.vn:8091',
   // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
+  REGISTER: '/site/register',
   CHANGE_PASS: '/user/need-change-pass',
   ADD_USER: '/admin/add-user',
   LIST_ROLES: '/user/list-roles',
@@ -24,4 +25,5 @@ export const URL = {
   SET_STATUS_BREAK: '/user/change-status-take-leave',
   SET_STATUS_LATE_EARLY: '/user/change-status-late-early',
   GET_LIST_CHECK: '/user/timekeeping-by-user?page=',
+  GET_PROFILE: 'site/get-profile',
 };

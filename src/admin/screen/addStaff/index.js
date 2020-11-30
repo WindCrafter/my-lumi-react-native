@@ -26,7 +26,8 @@ import {imgs, Colors} from '../../../../utlis';
 import ModalRank from './component/ModalRank';
 import ModalTeam from './component/ModalTeam';
 import {Item} from 'native-base';
-import {_global} from '../../../../utlis/global/global'
+import {_global} from '../../../../utlis/global/global';
+import langs from '../../../../common/language';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -34,9 +35,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA =[
-  {name:'1', teamId:'1'}
-]
+const DATA = [{name: '1', teamId: '1'}];
 
 const AddStaff = (props) => {
   const {navigation, getListRoles, token, addStaff, roleInfo, teams} = props;
@@ -58,39 +57,37 @@ const AddStaff = (props) => {
     const data = {name, email, password, roleId, token};
     if (email.trim().length === 0) {
       _global.Alert.alert({
-        title: 'Nhắc bạn',
-        message: 'Vui lòng điền tên đăng nhập.',
+        title: langs.alert.remind,
+        message: langs.alert.enterUsername,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
     if (password.length === 0) {
       _global.Alert.alert({
-        title: 'Lưu ý!',
-        message: 'Mật khẩu không được để trống.',
+        title: langs.alert.notice,
+        message: langs.alert.invalidPassword,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
-    if (
-      !(email.indexOf('@lumi.biz') > -1) 
-    ) {
+    if (!(email.indexOf('@lumi.biz') > -1)) {
       _global.Alert.alert({
-        title: 'Lưu ý!',
-        message: 'Định dạng email không đúng.',
+        title: langs.alert.notice,
+        message: langs.alert.wrongEmail,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
     if (password.length < 6) {
       _global.Alert.alert({
-        title: 'Lưu ý!',
-        message: 'Mật khẩu không được dưới 6 kí tự.',
+        title: langs.alert.notice,
+        message: langs.alert.lessPassword,
         messageColor: Colors.danger,
-        leftButton: { text: 'OK' },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     } else {
@@ -236,7 +233,7 @@ const AddStaff = (props) => {
           <ModalTeam
             showModalPosition={showModalPosition}
             data={teams}
-            pressItem={(e)=> onSetPosition(e)}
+            pressItem={(e) => onSetPosition(e)}
             detailPosition={detailPosition}
             setModalPosition={hidePosition}
           />

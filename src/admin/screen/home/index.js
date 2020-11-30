@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,16 +11,17 @@ import {
   StatusBar,
 } from 'react-native';
 import Header from './component/header';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import Admin from './component/admin';
 import InfoDays from './component/infoDays';
 import DeadLine from './component/deadLine';
 import Schedule from './component/schedule';
-import { BarStatus } from '../../../component';
-import { Colors } from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import {Colors} from '../../../../utlis';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
+import langs from '../../../../common/language';
 
 if (
   Platform.OS === 'android' &&
@@ -30,8 +31,7 @@ if (
 }
 
 function Home(props) {
-
-  const { navigation, nameUser } = props;
+  const {navigation, nameUser} = props;
   const onAddStaff = () => {
     navigation.navigate('Thêm nhân viên');
   };
@@ -40,11 +40,11 @@ function Home(props) {
     navigation.navigate('Information');
   };
   const onGetContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
 
   const goAddOT = () => {
-    navigation.navigate('OT');
+    navigation.navigate(langs.navigator.ot);
   };
 
   const onResignStaff = () => {
@@ -61,11 +61,10 @@ function Home(props) {
   };
 
   const onPressNotify = () => {
-    // navigation.navigate('Thông báo');
     _global.Alert.alert({
-      title: 'Thông báo',
+      title: langs.alert.notify,
       message: 'hello',
-      leftButton: { text: 'OK' },
+      leftButton: {text: langs.alert.ok},
     });
   };
 
@@ -78,7 +77,7 @@ function Home(props) {
           onPress={onCheckin}
           name={nameUser}
         />
-        <View style={{ flex: 5 }}>
+        <View style={{flex: 5}}>
           <ScrollView>
             <Card style={styles.card}>
               <Admin

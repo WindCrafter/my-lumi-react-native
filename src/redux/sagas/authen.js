@@ -15,6 +15,11 @@ import {
   setStatusLateEarlyFailed,
   setStatusOTFailed,
   setStatusOTSuccess,
+  registerSuccess,
+  registerFailed,
+  getProfileSuccess,
+  getProfileFailed,
+  getProfile,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
 import {_POST} from '../../../utlis/connection/api';
@@ -28,6 +33,8 @@ const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_SET_STATUS_OVERTIME = `${URL.LOCAL_HOST}${URL.SET_STATUS_OVERTIME}`;
 const URL_SET_STATUS_BREAK = `${URL.LOCAL_HOST}${URL.SET_STATUS_BREAK}`;
 const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}`;
+const URL_REGISTER = `${URL.LOCAL_HOST}${URL.REGISTER}`;
+const URL_GET_PROFILE = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
 import {addUserIdDevice} from '../actions/user';
 function* sagaLoginAction(action) {
   try {
@@ -38,24 +45,46 @@ function* sagaLoginAction(action) {
     const response = yield _POST(URL_LOGIN, data);
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
+      // const data2 = {
+      //   token: response.data.access_token,
+      // };
+      // const response2 = yield _POST(URL_LOGIN, data2);
+
       yield put(
         loginSuccess({
-          token: response.data.token,
-          changePass: response.data.userProfile.needChangePass,
+          token: response.data.access_token,
+          // changePass: response.data.userProfile.needChangePass,
           data: response.data,
-          deviceId: action.payload.oneSignalID,
+          // deviceId: action.payload.oneSignalID,
+          refresh_token: response.data.refresh_token,
+          user_id: response.data.user_id,
         }),
         // addUserIdDevice({
         //   token: response.data.token,
         //   devideId: action.payload.oneSignalID,
         // }),
       );
+      // if (response2.success && response2.statusCode === 200) {
+      //   yield put(
+      //     getProfileSuccess({
+      //       userProfile: response2.data.data,
+      //     }),
+      //   );
+      // } else {
+      //   yield put(getProfileFailed());
+      //   _global.Alert.alert({
+      //     title: langs.notify,
+      //     message: response2.message,
+      //     leftButton: {text: langs.alert.ok},
+      //     messageColor: Colors.danger,
+      //   });
+      // }
     } else {
       yield put(loginFailed());
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
         messageColor: Colors.danger,
       });
     }
@@ -64,7 +93,7 @@ function* sagaLoginAction(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }
@@ -89,7 +118,7 @@ function* sagaFirstLogin(action) {
         title: langs.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     } else {
       yield put(changePassFailed());
@@ -99,7 +128,7 @@ function* sagaFirstLogin(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: 'OK'},
+      leftButton: {text: langs.alert.ok},
       messageColor: Colors.danger,
     });
   }
@@ -206,4 +235,40 @@ function* sagaSetStatusLateEarly(action) {
 
 export function* watchSetStatusLateEarly() {
   yield takeLatest(types.SET_STATUS_LATE_EARLY, sagaSetStatusLateEarly);
+}
+
+function* sagaRegisterAction(action) {
+  try {
+    const data = {
+      email: action.payload.email,
+      password: action.payload.password,
+      confirm_password: action.payload.confirm_password,
+      code_staff: action.payload.code_staff,
+    };
+    const response = yield _POST(URL_REGISTER, data);
+    console.log('=>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(registerSuccess());
+    } else {
+      yield put(registerFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+        messageColor: Colors.danger,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: {text: langs.alert.ok},
+      messageColor: Colors.danger,
+    });
+  }
+}
+
+export function* watchRegisterAction() {
+  yield takeLatest(types.REGISTER, sagaRegisterAction);
 }

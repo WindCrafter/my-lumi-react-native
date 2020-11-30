@@ -22,7 +22,8 @@ const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3);
 const futureDates = getFutureDates(9);
 const dates = [fastDate, today].concat(futureDates);
-import {Card} from 'native-base';
+import { Card } from 'native-base';
+import langs from '../../../../common/language';
 
 function getFutureDates(days) {
   const array = [];
@@ -75,8 +76,8 @@ const Book = (props) => {
     '2020-10-04': [{name: 'item 3 - any js object'}],
   };
   const onMoveToEvent = () => {
-    console.log('----- < > ______');
-    navigation.navigate('Sự kiện mới');
+    console.log('----- < > ______')
+    navigation.navigate(langs.navigator.event);
   };
   return (
     <>

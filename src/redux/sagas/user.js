@@ -24,6 +24,7 @@ import {
 import OneSignal from 'react-native-onesignal';
 
 import {Colors} from '../../../utlis';
+import langs from '../../../common/language';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
@@ -54,11 +55,10 @@ function* sagaUpdateProfile(action) {
     } else {
       yield put(updateProfileFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
-        message:
-          'Thay đổi thông tin thấy bại \n Vui lòng kiểm tra kết nối mạng',
+        title: langs.alert.notify,
+        message: langs.alert.updateProfileFailed,
         messageColor: Colors.danger,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {
@@ -139,10 +139,10 @@ function* sagaRemoveUserIdDevice(action) {
     } else {
       yield put(removeUserIdDeviceFailed());
       _global.Alert.alert({
-        title: 'Thông báo',
+        title: langs.alert.notify,
         message: response.message,
         messageColor: Colors.background,
-        leftButton: {text: 'OK'},
+        leftButton: {text: langs.alert.ok},
       });
     }
   } catch (error) {

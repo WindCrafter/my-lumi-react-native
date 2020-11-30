@@ -26,6 +26,7 @@ import contact from '../admin/container/contact';
 import history from '../admin/container/checkIn/history';
 import event from '../admin/container/event';
 import ForgotPass from '../user/container/forgotPassword/forgotPass'
+import langs from '../../common/language';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function AdminStack() {
@@ -38,7 +39,7 @@ export default function AdminStack() {
         headerTitleAlign: 'center',
       }}>
       <Stack.Screen
-        name={'TabbarAdmin'}
+        name={langs.navigator.tabbarAdmin}
         component={TabbarAdmin}
         options={{
           headerShown: false,
@@ -81,7 +82,7 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'Contact'}
+        name={langs.navigator.contact}
         component={contact}
         options={{
           headerShown: false,
@@ -109,7 +110,7 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'History'}
+        name={langs.navigator.history}
         component={history}
         options={{
           headerShown: false,
@@ -123,14 +124,14 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'UpdateProfile'}
+        name={langs.navigator.updateProfile}
         component={updateProfile}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name={'TestNotify'}
+        name={langs.navigator.testNotify}
         component={notify}
         options={{
           headerBackTitleVisible: false,
@@ -141,7 +142,7 @@ export default function AdminStack() {
         }}
       />
       <Stack.Screen
-        name={'Sự kiện mới'}
+        name={langs.navigator.event}
         component={event}
         options={{
           headerBackTitleVisible: false,

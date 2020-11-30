@@ -19,6 +19,7 @@ import UserStack from './UserStack';
 import firstLogin from '../admin/container/firstLogin';
 import Register from '../admin/container/register/index';
 import {navigationRef} from './CustomNavigation';
+import langs from '../../common/language';
 
 const RootStack = createStackNavigator();
 // const BotStack = createBottomTabNavigator();
@@ -39,21 +40,21 @@ export default function Navigator(props) {
         {!loginSuccess ? (
           <>
             <RootStack.Screen
-              name={'Login'}
+              name={langs.navigator.login}
               component={login}
               options={{
                 headerShown: false,
               }}
             />
             <RootStack.Screen
-              name={'Register'}
+              name={langs.navigator.register}
               component={Register}
               options={{
                 headerShown: false,
               }}
             />
             <RootStack.Screen
-              name={'Forgot Password'}
+              name={langs.navigator.forgotPass}
               component={forgotPass}
               options={{
                 title: false,
@@ -61,11 +62,20 @@ export default function Navigator(props) {
             />
           </>
         ) : changePass ? (
-          <RootStack.Screen name={'FirstLogin'} component={firstLogin} />
+          <RootStack.Screen
+            name={langs.navigator.firstLogin}
+            component={firstLogin}
+          />
         ) : role === 'admin' ? (
-          <RootStack.Screen name={'AdminStack'} component={AdminStack} />
+          <RootStack.Screen
+            name={langs.navigator.adminStack}
+            component={AdminStack}
+          />
         ) : (
-          <RootStack.Screen name={'UserStack'} component={UserStack} />
+          <RootStack.Screen
+            name={langs.navigator.userStack}
+            component={UserStack}
+          />
         )}
       </RootStack.Navigator>
     </NavigationContainer>

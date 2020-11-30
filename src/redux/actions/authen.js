@@ -155,3 +155,43 @@ export const setStatusLateEarlyFailed = () => {
     type: types.SET_STATUS_LATE_EARLY_FAILED,
   };
 };
+
+export const register = (data) => {
+  return {
+    type: types.REGISTER,
+    payload: data,
+  };
+};
+
+export const registerSuccess = (data) => {
+  return {
+    type: types.REGISTER_SUCCESS,
+    payload: data,
+  };
+};
+
+export const registerFailed = () => {
+  return {
+    type: types.REGISTER_FAILED,
+  };
+};
+export const getProfile = (data) => {
+  return {
+    type: types.GET_PROFILE,
+    payload: data,
+  };
+};
+
+export const getProfileSuccess = (data) => {
+  return {
+    type: types.GET_PROFILE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getProfileFailed = () => {
+  return {
+    type: types.GET_PROFILE_FAILED,
+  };
+};
+
