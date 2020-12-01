@@ -3,4 +3,5 @@ export const Colors = {
   white: '#ffffff',
   black: 'black',
   danger: 'tomato',
+  blue: "rgb(0,138,238)"
 };

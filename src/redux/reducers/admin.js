@@ -12,7 +12,7 @@ const initialState = {
   loginSuccess: false,
   token: '',
   changePass: false,
-  autoLoginStatus: false,
+  autoLoginStatus: true,
   roleIdUser: {},
   roleIdAdmin: {},
 };

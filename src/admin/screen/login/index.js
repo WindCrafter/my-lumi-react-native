@@ -99,7 +99,7 @@ const Login = (props) => {
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Tên đăng nhập'}
+              placeholder={'Email công ty'}
               testID="test_Username"
               containerStyle={styles.textInput}
               returnKeyType="next"
