@@ -1,5 +1,5 @@
 export const URL = {
-  LOCAL_HOST: 'http://api.lumier.lumi.com.vn:8091',
+  LOCAL_HOST: 'https://api.lumier.lumi.com.vn',
   // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',

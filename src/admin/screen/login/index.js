@@ -34,7 +34,6 @@ const Login = (props) => {
     changeAutoLogin,
     autoLoginStatus,
     oneSignalID,
-    addUserIdDevice,
     loginSuccess,
   } = props;
   const refPassword = useRef(null);

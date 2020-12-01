@@ -22,11 +22,10 @@ const Account = (props) => {
     logOut,
     nameUser,
     navigation,
-    getListUsers,
+    // getListUsers,
     token,
     oneSignalID,
-    removeUserIdDevice,
-    getListTeams,
+    // getListTeams,
     kickAssign,
     resetCheck,
   } = props;
@@ -51,7 +50,6 @@ const Account = (props) => {
       deviceId: oneSignalID,
       token: token,
     };
-    removeUserIdDevice(data);
     kickAssign();
     resetCheck();
   };
@@ -61,10 +59,6 @@ const Account = (props) => {
   const onHideModal = () => {
     setshowModal(false);
   };
-  useEffect(() => {
-    getListUsers(token);
-    getListTeams(token);
-  }, [getListTeams, getListUsers, token]);
 
   const onMoveToProfile = () => {
     navigation.navigate('UpdateProfile');

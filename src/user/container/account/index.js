@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Account from '../../screen/account';
 import {logOut} from '../../../redux/actions/authen';
 import {
-  getListUsers,
-  getListTeams,
-  removeUserIdDevice,
+  // getListUsers,
+  // getListTeams,
   kickAssign,
 } from '../../../redux/actions/user';
 import {resetCheck} from '../../../redux/actions/check';
@@ -20,9 +18,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   kickAssign,
   logOut,
-  getListUsers,
-  getListTeams,
-  removeUserIdDevice,
+  // getListUsers,
+  // getListTeams,
   resetCheck,
 };
 

@@ -32,11 +32,10 @@ const AppNavigator = (props) => {
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     dateCheckIn < new Date() ? resetCheck() : null;
-    deviceId === '' ? getDeviceId(`${DeviceInfo.getUniqueId()}`) : null;
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
-    }, 50);
+    }, 200);
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
   console.log('Titleversion', titleVersion);
   const handleOpenURL = () => {};

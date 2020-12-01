@@ -34,8 +34,8 @@ const Register = (props) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
-  const [termOfService, setTermOfService] = useState(false);
-  const [privacyPolicy, setPrivacyPolicy] = useState(false);
+  const [termOfService, setTermOfService] = useState(true);
+  const [privacyPolicy, setPrivacyPolicy] = useState(true);
   const [confirmCode, setConfirmCode] = useState(false);
   const [confirmData, setConfirmData] = useState(null);
   const [email, setEmail] = useState('');
@@ -176,7 +176,7 @@ const Register = (props) => {
             <Input
               // leftImage={}
               // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Email'}
+              placeholder={'Email công ty'}
               testID="test_Username"
               returnKeyType="next"
               keyboardType="email-address"
@@ -257,12 +257,9 @@ const Register = (props) => {
             titleColor={'rgb(0,138,238)'}
           />
         </View>
-        <View style={styles.containerBottom}>
-          <View style={styles.bottom} />
           <TouchableOpacity style={styles.goBack} onPress={onGoBack}>
             <Text>Bạn đã có tài khoản ?</Text>
           </TouchableOpacity>
-        </View>
       </SafeAreaView>
     </KeyBoardScroll>
   );
@@ -379,7 +376,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: hp(95),
+    top: hp(90),
   },
 });
 export default Register;

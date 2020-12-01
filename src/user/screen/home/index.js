@@ -33,7 +33,7 @@ if (
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token, getListNotifys} = props;
+  const {navigation, nameUser, token} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -54,7 +54,6 @@ export default function Home(props) {
     const data = {
       token: token,
     };
-    getListNotifys(data);
   });
   return (
     <>
@@ -110,14 +109,18 @@ export default function Home(props) {
               />
             </View>
             <Card style={styles.card}>
-              <Event data={DATA_EVENT} />
+              <View>
+                <Event data={DATA_EVENT} />
+              </View>
             </Card>
             <Card style={styles.card}>
-              <HistoryCheck data={DATA_CHECK} />
+              <View>
+                <HistoryCheck data={DATA_CHECK} />
+              </View>
             </Card>
           </ScrollView>
           <FloatButton
-                         onPressLate={onPressLate}
+            onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
           />

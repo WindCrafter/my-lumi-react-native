@@ -26,6 +26,7 @@ import {_POST} from '../../../utlis/connection/api';
 import {_global} from '../../../utlis/global/global';
 import langs from '../../../common/language';
 import {Colors} from '../../../utlis';
+import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {removeUserIdDevice} from '../actions/user';
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -45,40 +46,14 @@ function* sagaLoginAction(action) {
     const response = yield _POST(URL_LOGIN, data);
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
-      // const data2 = {
-      //   token: response.data.access_token,
-      // };
-      // const response2 = yield _POST(URL_LOGIN, data2);
-
       yield put(
         loginSuccess({
           token: response.data.access_token,
-          // changePass: response.data.userProfile.needChangePass,
           data: response.data,
-          // deviceId: action.payload.oneSignalID,
           refresh_token: response.data.refresh_token,
           user_id: response.data.user_id,
         }),
-        // addUserIdDevice({
-        //   token: response.data.token,
-        //   devideId: action.payload.oneSignalID,
-        // }),
       );
-      // if (response2.success && response2.statusCode === 200) {
-      //   yield put(
-      //     getProfileSuccess({
-      //       userProfile: response2.data.data,
-      //     }),
-      //   );
-      // } else {
-      //   yield put(getProfileFailed());
-      //   _global.Alert.alert({
-      //     title: langs.notify,
-      //     message: response2.message,
-      //     leftButton: {text: langs.alert.ok},
-      //     messageColor: Colors.danger,
-      //   });
-      // }
     } else {
       yield put(loginFailed());
       _global.Alert.alert({
@@ -143,18 +118,9 @@ export function* watchFirstLogin() {
  */
 function* sagaLoginSuccess(action) {
   try {
-    // const notify = yield select(notifySelect);
-    // if (notify) {
     console.log('nhan thong bao');
 
     yield OneSignal.setSubscription(true);
-    yield put(
-      addUserIdDevice({
-        deviceId: action.payload.deviceId,
-        token: action.payload.token,
-      }),
-    );
-    // }
   } catch (error) {
     console.log('sagaLoginSuccess:error', error);
   }
@@ -249,6 +215,15 @@ function* sagaRegisterAction(action) {
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(registerSuccess());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: 'Đăng kí thành công. Vui lòng quay lại để đăng nhập',
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.navigate('Login'),
+        },
+        messageColor: Colors.background,
+      });
     } else {
       yield put(registerFailed());
       _global.Alert.alert({
