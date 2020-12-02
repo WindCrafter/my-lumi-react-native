@@ -29,6 +29,8 @@ import verify from '../user/container/notify/verify'
 import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
+import HistoryLate from '../user/container/apply/HistoryLate';
+import ApproveLate from '../user/screen/apply/ApproveLate';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -171,6 +173,20 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.assignment}
         component={Assignment}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.historyLate}
+        component={HistoryLate}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.approveLate}
+        component={ApproveLate}
         options={{
           headerShown: false,
         }}

@@ -17,6 +17,7 @@ import {
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {
+  heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
@@ -117,31 +118,6 @@ function ApplyLate(props) {
     setType('early');
   };
 
-  const onGoAssignment = () => {
-    navigation.navigate('Assignment');
-  };
-
-  const renderItem = ({item, index}) => {
-    return (
-      <>
-        <View style={styles.btUser}>
-          <View style={styles.rowUser}>
-            <View style={styles.viewImage}>
-              <Image
-                source={require('../../../../naruto.jpeg')}
-                style={styles.avatar}
-                resizeMode={'cover'}
-              />
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.textUser}>{item.name}</Text>
-              {/* <Text style={styles.textPos}>{item.pos}</Text> */}
-            </View>
-          </View>
-        </View>
-      </>
-    );
-  };
   return (
     <View style={styles.container}>
       <BarStatus
@@ -153,10 +129,10 @@ function ApplyLate(props) {
         height={60}
         goBack={goBack}
         fontSize={24}
-        containerStyle={{backgroundColor: 'grey'}}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{paddingBottom: 40}}
         keyboardDismissMode="interactive">
         <View style={styles.detail}>
           <View style={styles.row}>
@@ -206,33 +182,6 @@ function ApplyLate(props) {
               />
             </Card>
           ) : null}
-
-          <InputSelect
-            width={'90%'}
-            leftImage={imgs.personal}
-            borderRadius={32}
-            rightImage={imgs.add}
-            height={54}
-            shadowColor={'white'}
-            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onGoAssignment}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
-          />
-          {assign && (
-            <Card style={[styles.card, {width: wp(90) - 32}]}>
-              <FlatList
-                data={[assign]}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-              />
-            </Card>
-          )}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
@@ -274,20 +223,19 @@ function ApplyLate(props) {
                 </Text>
               </TouchableOpacity>
             </View>
-
             <View
               style={[
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
               <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-
-                  width: 148,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
+                style={[
+                  styles.buttonTime,
+                  {
+                    borderBottomRightRadius: isVisible ? 0 : 16,
+                    borderBottomLeftRadius: isVisible ? 0 : 16,
+                  },
+                ]}
                 onPress={onSetVisible}>
                 <Image source={imgs.startTime} style={styles.icon} />
 
@@ -321,30 +269,31 @@ function ApplyLate(props) {
                   arrowSize={19}
                   activeLabelStyle={{color: Colors.background}}
                   dropDownMaxHeight={200}
+                  onOpen={onSetVisible}
+                  zIndex={100}
                 />
               </TouchableOpacity>
             </View>
           </Card>
         </View>
-        {showModal ? (
-          mode === 'day' ? (
-            <PickerCustom
-              value={day}
-              onChange={onChangeDay}
-              onPress={onUnshow}
-              mode={'date'}
-              show={showModal}
-              minimumDate={new Date()}
-            />
-          ) : null
-        ) : null}
         <Button
           title={'Hoàn thành'}
           containerStyle={styles.complete}
           onPress={onComplete}
         />
       </ScrollView>
-      <View style={styles.bottom} />
+      {showModal ? (
+        mode === 'day' ? (
+          <PickerCustom
+            value={day}
+            onChange={onChangeDay}
+            onPress={onUnshow}
+            mode={'date'}
+            show={showModal}
+            minimumDate={new Date()}
+          />
+        ) : null
+      ) : null}
     </View>
   );
 }
@@ -354,7 +303,8 @@ export default ApplyLate;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
-    height: '100%',
+    flex: 1,
+    zIndex: 0
   },
   image: {
     width: 56,
@@ -370,6 +320,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginHorizontal: 12,
+    flex: 1,
   },
   status: {
     flexDirection: 'row',
@@ -403,17 +354,18 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    position: 'absolute',
-    top: hp(70),
+    marginTop: 150,
   },
   bottom: {
     position: 'absolute',
     bottom: 32,
     left: wp(12.5),
+
   },
   row: {
     flexDirection: 'row',
     marginVertical: 8,
+    flex: 1,
   },
   txtTime: {
     fontSize: 16,
@@ -433,35 +385,6 @@ const styles = StyleSheet.create({
   icon: {
     alignSelf: 'center',
   },
-  slider: {
-    width: '90%',
-    alignSelf: 'center',
-  },
-  add: {
-    fontSize: 24,
-    color: 'white',
-  },
-  btnSubtract: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-    width: 32,
-    height: 32,
-    borderRadius: 24,
-    alignSelf: 'center',
-    marginRight: 8,
-  },
-  btnAdd: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.background,
-    width: 32,
-    height: 32,
-    borderRadius: 24,
-    alignSelf: 'center',
-    marginLeft: 8,
-  },
-  Slider: {width: wp(72), height: 40, alignSelf: 'center'},
   btUser: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -510,5 +433,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  dropDownStyle: {width: 148, left: -36, height: hp(18)},
+  dropDownStyle: {
+    width: 148,
+    left: -36,
+    height: hp(18),
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    borderColor: 'grey',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  buttonTime: {
+    flexDirection: 'row',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderColor: 'grey',
+    borderWidth: StyleSheet.hairlineWidth,
+    width: 148,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
 });

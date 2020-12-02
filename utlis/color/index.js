@@ -3,5 +3,6 @@ export const Colors = {
   white: '#ffffff',
   black: 'black',
   danger: 'tomato',
-  blue: "rgb(0,138,238)"
+  blue: 'rgb(0,138,238)',
+  waiting: 'rgb(69,89,151)',
 };

@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   img: {
     width: 20,
     height: 20,
+    tintColor: Colors.background,
   },
   txtBt: {
     fontSize: 18,

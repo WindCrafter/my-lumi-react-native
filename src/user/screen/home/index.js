@@ -10,6 +10,7 @@ import FloatButton from './component/ActionButton';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
+import langs from '../../../../common/language';
 
 const DATA_EVENT = [
   {id: '1', detail: 'Nay là 1 ngày trọng đại', time: '10:00   20/11/2020'},
@@ -40,7 +41,7 @@ export default function Home(props) {
   };
 
   const onPressLate = () => {
-    navigation.navigate('ApplyLate');
+    navigation.navigate(langs.navigator.historyLate);
   };
   const onPressBreak = () => {
     navigation.navigate('ApplyBreak');
