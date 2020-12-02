@@ -37,23 +37,22 @@ const AppNavigator = (props) => {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
     }, 450);
+    SplashScreen.close({
+      animationType: SplashScreen.animationType.scale,
+      duration: 850,
+      delay: 0,
+    });
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
   console.log('Titleversion', titleVersion);
   const handleOpenURL = () => {};
 
-  useEffect(() => { 
-    
+  useEffect(() => {
     Linking.getInitialURL().then((url) => handleOpenURL({url}));
     Linking.addEventListener('url', handleOpenURL);
 
     () => {
       Linking.removeEventListener('url', this.handleOpenURL);
     };
-    // SplashScreen.close({
-    //   animationType: SplashScreen.animationType.scale,
-    //   duration: 850,
-    //   delay: 500
-    // });
   }, []);
 
   if (loading) {

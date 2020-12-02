@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iPhone 6, 7, 8.png" translatesAutoresizingMaskIntoConstraints="NO" id="gYG-2P-nYw">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="gYG-2P-nYw">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                         </subviews>
@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="iPhone 6, 7, 8.png" width="750" height="1334"/>
+        <image name="splash.png" width="750" height="1334"/>
     </resources>
 </document>

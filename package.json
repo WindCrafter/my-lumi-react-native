@@ -51,7 +51,7 @@
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
     "react-native-scrollable-tab-view": "^1.0.0",
-    "react-native-smart-splash-screen": "^2.3.5",
+    "react-native-smart-splash-screen": "https://github.com/Nghi-NV/react-native-smart-splash-screen.git",
     "react-native-swipe-list-view": "^3.2.4",
     "react-native-vector-icons": "^7.0.0",
     "react-native-wifi-reborn": "^4.2.2",
