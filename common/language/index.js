@@ -67,6 +67,10 @@ const langs = {
   deviceID: 'DeviceID:',
   tryAgain: 'Thử lại',
   code: 'Dùng mã',
+  titleListOT: 'Lịch sử xin OT',
+  writeOT: 'Viết đơn',
+  confirmOT: 'Duyệt đơn',
+  filter: 'Bộ lọc',
   navigator: {
     login: 'Login',
     register: 'Register',
@@ -88,6 +92,7 @@ const langs = {
     applyLate: 'ApplyLate',
     applyBreak: 'ApplyBreak',
     applyOT: 'ApplyOT',
+    listOT: 'listOT',
     updateProfile: 'UpdareProdile',
     allHistory: 'allHistory',
     history: 'History',

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Alert,
-  StatusBar,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {StatusBar} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -14,6 +8,7 @@ import {
 import contact from '../user/container/contact';
 import applyLate from '../user/container/apply/applyLate';
 import applyOT from '../user/container/apply/applyOT';
+import ListOT from '../user/container/apply/ListOT';
 import applyBreak from '../user/container/apply/applyBreak';
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
@@ -22,10 +17,10 @@ import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
 import CheckIn from '../user/container/checkIn/index';
 import PickTeam from '../user/container/event/PickTeam';
-import ForgotPass from '../user/container/forgotPassword/forgotPass'
-import allHistory from '../user/container/allHistory/index'
-import Confirm from '../user/screen/notify/type/confirm'
-import verify from '../user/container/notify/verify'
+import ForgotPass from '../user/container/forgotPassword/forgotPass';
+import allHistory from '../user/container/allHistory/index';
+import Confirm from '../user/screen/notify/type/confirm';
+import verify from '../user/container/notify/verify';
 import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
@@ -80,6 +75,14 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.applyOT}
         component={applyOT}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.listOT}
+        component={ListOT}
         options={{
           headerShown: false,
           gestureEnabled: false,
@@ -178,10 +181,3 @@ export default function UserStack() {
     </Stack.Navigator>
   );
 }
-const styles = StyleSheet.create({
-  txtDetail: {
-    color: '#008aee',
-    fontSize: 16,
-  },
-  container: {paddingHorizontal:16},
-});

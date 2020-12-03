@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'center',
     borderBottomWidth: 0.25,
-    borderColor: Colors.black,
+    borderColor: Colors.gray,
   },
   button: {
     position: 'absolute',

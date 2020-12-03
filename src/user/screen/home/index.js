@@ -47,7 +47,7 @@ export default function Home(props) {
   };
 
   const onPressOT = () => {
-    navigation.navigate('ApplyOT');
+    navigation.navigate('listOT');
   };
 
   useEffect(() => {
