@@ -28,7 +28,8 @@ const FloatButton = (props) => {
     <ActionButton
       buttonColor="white"
       backdrop={blurView()}
-      renderIcon={buttonIcon}>
+      renderIcon={buttonIcon}
+      fixNativeFeedbackRadius={true}>
       <ActionButton.Item
         inputX={[0, 0]}
         outputX={[0, 0]}
@@ -73,29 +74,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: heightPercentageToDP(100),
     width: widthPercentageToDP(100),
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
   },
   note: {alignSelf: 'center', height: 24, width: 24},
 });
-
-// actionButtonIcon: {
-//   fontSize: 20,
-//   height: 22,
-//   color: 'white',
-//   bottom: 120,
-// },
-// absolute: {
-//   position: 'absolute',
-//   height: heightPercentageToDP(100),
-//   width: widthPercentageToDP(100),
-
-//   bottom: 120,
-// },
-// note: {
-//   position: 'absolute',
-//   bottom: 120,
-// },
-// container: {flex: 1, backgroundColor: '#f3f3f3'},

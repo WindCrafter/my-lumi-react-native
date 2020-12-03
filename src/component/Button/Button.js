@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: 16,
+    marginVertical: 8,
   },
   txtTitle: {
     fontSize: 16,

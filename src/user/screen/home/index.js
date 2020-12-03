@@ -10,6 +10,7 @@ import FloatButton from './component/ActionButton';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
+import langs from '../../../../common/language';
 
 const DATA_EVENT = [
   {id: '1', detail: 'Nay là 1 ngày trọng đại', time: '10:00   20/11/2020'},
@@ -33,17 +34,17 @@ if (
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token, getListNotifys} = props;
+  const {navigation, nameUser, token} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
   };
 
   const onPressLate = () => {
-    navigation.navigate('ApplyLate');
+    navigation.navigate(langs.navigator.historyLate);
   };
   const onPressBreak = () => {
-    navigation.navigate('ApplyBreak');
+    navigation.navigate('History Break');
   };
 
   const onPressOT = () => {
@@ -54,7 +55,6 @@ export default function Home(props) {
     const data = {
       token: token,
     };
-    getListNotifys(data);
   });
   return (
     <>
@@ -110,14 +110,18 @@ export default function Home(props) {
               />
             </View>
             <Card style={styles.card}>
-              <Event data={DATA_EVENT} />
+              <View>
+                <Event data={DATA_EVENT} />
+              </View>
             </Card>
             <Card style={styles.card}>
-              <HistoryCheck data={DATA_CHECK} />
+              <View>
+                <HistoryCheck data={DATA_CHECK} />
+              </View>
             </Card>
           </ScrollView>
           <FloatButton
-                         onPressLate={onPressLate}
+            onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
           />

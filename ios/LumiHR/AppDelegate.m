@@ -9,6 +9,7 @@
 #import <AppCenterReactNativeCrashes.h>
 #import <CodePush/CodePush.h>
 #import <React/RCTLinkingManager.h>
+#import "RCTSplashScreen.h" //import interface
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -61,7 +62,7 @@ static void InitializeFlipper(UIApplication *application) {
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"LumiHR"
                                             initialProperties:nil];
-
+ [RCTSplashScreen open:rootView withImageNamed:@"splash"];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

@@ -102,5 +102,12 @@ export const imgs = {
   fine: require('../../common/assets/images/icon/Fine-icon.png'),
   logoMyLumi: require('../../common/assets/images/logo/logo_MyLumi.png'),
   changeIcon: require('../../common/assets/images/icon/Change-icon.png'),
-  rightIcon: require('../../common/assets/images/icon/Right-icon.png')
+  rightIcon: require('../../common/assets/images/icon/Right-icon.png'),
+  clockKeeping: require('../../common/assets/images/icon/Clock-keeping.png'),
+  settingICon: require('../../common/assets/images/icon/Setting-icon.png'),
+  changePassIcon: require('../../common/assets/images/icon/ChangePass-icon.png'),
+  roundedInfor: require('../../common/assets/images/icon/Rounded-moreInfor.png'),
+  manageIcon: require('../../common/assets/images/icon/Manage-icon.png'),
+  exchangeIcon: require('../../common/assets/images/icon/Exchange-icon.png')
+
 };

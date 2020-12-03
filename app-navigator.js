@@ -14,6 +14,7 @@ import LoadInital from './src/admin/screen/loadInitial';
 import {Loading, Alert} from './src/component';
 import DeviceInfo from 'react-native-device-info';
 import Notify from './notify';
+import SplashScreen from 'react-native-smart-splash-screen';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -32,11 +33,15 @@ const AppNavigator = (props) => {
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     dateCheckIn < new Date() ? resetCheck() : null;
-    deviceId === '' ? getDeviceId(`${DeviceInfo.getUniqueId()}`) : null;
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
-    }, 50);
+    }, 450);
+    SplashScreen.close({
+      animationType: SplashScreen.animationType.scale,
+      duration: 850,
+      delay: 0,
+    });
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
   console.log('Titleversion', titleVersion);
   const handleOpenURL = () => {};

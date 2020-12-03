@@ -309,6 +309,8 @@ PODS:
     - React
   - react-native-slider (3.0.3):
     - React
+  - react-native-smart-splash-screen (2.3.5):
+    - React
   - React-RCTActionSheet (0.63.1):
     - React-Core/RCTActionSheetHeaders (= 0.63.1)
   - React-RCTAnimation (0.63.1):
@@ -464,6 +466,7 @@ DEPENDENCIES:
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-smart-splash-screen (from `../node_modules/react-native-smart-splash-screen`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -577,6 +580,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-smart-splash-screen:
+    :path: "../node_modules/react-native-smart-splash-screen"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -679,6 +684,7 @@ SPEC CHECKSUMS:
   react-native-onesignal: ab5bd48dfc62d6f502ee2087cef317cd1c2b72f7
   react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
+  react-native-smart-splash-screen: f92fe23ccc150f650fdab47c37ac70a6ddcaaab2
   React-RCTActionSheet: 1702a1a85e550b5c36e2e03cb2bd3adea053de95
   React-RCTAnimation: ddda576010a878865a4eab83a78acd92176ef6a1
   React-RCTBlob: 34334384284c81577409d5205bd2b9ff594d8ab6
@@ -708,6 +714,6 @@ SPEC CHECKSUMS:
   Yoga: d5bd05a2b6b94c52323745c2c2b64557c8c66f64
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 220c961b2e20953b29815dc208472327cbdec7ca
+PODFILE CHECKSUM: c23fb51771b24960410131b3ee06a0a50a7f917e
 
 COCOAPODS: 1.9.3

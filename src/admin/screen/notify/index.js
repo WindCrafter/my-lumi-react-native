@@ -21,9 +21,8 @@ import {Colors, imgs} from '../../../../utlis';
 
 const Notify = (props) => {
   useEffect(() => {
-    getListNotifys(token);
   }, []);
-  const { navigation, getListNotifys, token, listNotifys} = props;
+  const { navigation, token, listNotifys} = props;
   const [toTop, setToTop] = useState(false);
   const [position, setPosition] = useState(0);
   const refList = useRef('');

@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {
   TextInputProps,
   TextInput,
@@ -8,7 +8,7 @@ import {
   ViewStyle,
   Text,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../utlis';
@@ -51,7 +51,6 @@ export default function InputApply(props?: Props) {
     paddingLeft,
     rightIcon,
     value,
-
     onChangeText,
     ...otherProps
   } = props;
@@ -107,9 +106,10 @@ export default function InputApply(props?: Props) {
         onFocus={onFocus}
         onBlur={onBlur}
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
-        value={text}
-
-        keyboardType="email-address"
+        value={value}
+        keyboardType={
+          Platform.OS === 'ios' ? 'email-address' : 'visible-password'
+        }
         {...otherProps}
       />
       {rightIcon && isFocus && text !== '' && (
@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 16,
+    paddingBottom: 8,
+    paddingTop: 4,
   },
   textInput: {
     fontSize: 16,
