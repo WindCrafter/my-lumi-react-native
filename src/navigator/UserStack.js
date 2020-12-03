@@ -29,6 +29,7 @@ import verify from '../user/container/notify/verify'
 import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
+import HistoryBreak from '../user/container/apply/HistoryBreak'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
