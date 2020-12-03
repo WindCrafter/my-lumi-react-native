@@ -31,6 +31,8 @@ import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
 import HistoryLate from '../user/container/apply/HistoryLate';
 import ApproveLate from '../user/screen/apply/ApproveLate';
+import HistoryBreak from '../user/container/apply/HistoryBreak'
+import ApproveBreak from '../user/container/apply/ApproveBreak'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -80,8 +82,24 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
+        name={langs.navigator.approveBreak}
+        component={ApproveBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
         name={langs.navigator.applyOT}
         component={applyOT}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.historyBreak}
+        component={HistoryBreak}
         options={{
           headerShown: false,
           gestureEnabled: false,

@@ -44,7 +44,7 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.historyLate);
   };
   const onPressBreak = () => {
-    navigation.navigate('ApplyBreak');
+    navigation.navigate('History Break');
   };
 
   const onPressOT = () => {
