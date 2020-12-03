@@ -15,6 +15,7 @@ import {imgs, Colors} from '../../../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
 // import langs from '../../../../../common/language';
 import ModalTime from '../../account/component/ModalTime';
+import PickerCustom from './PickerCustom';
 
 const HeaderCustom = (props?: Props) => {
   const {width} = props || wp(100);
@@ -51,12 +52,20 @@ const HeaderCustom = (props?: Props) => {
   };
 
   const onChangeDatetime = (event, selectedDay) => {
-    setDate(selectedDay);
-    onChangeDate(selectedDay);
+    if (Platform.OS === 'ios') {
+      setDate(selectedDay);
+      onChangeDate(selectedDay);
+    } else {
+      if (event.type === 'set') {
+        setDate(selectedDay);
+        onChangeDate(selectedDay);
+      }
+      setShow(false);
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {zIndex: 50}]}>
       <View
         style={[
           styles.row,
@@ -118,7 +127,13 @@ const HeaderCustom = (props?: Props) => {
           <Text>{show ? '▲' : '▼'}</Text>
         </TouchableOpacity>
       </View>
-      {Platform.OS === 'ios'
+      <PickerCustom
+        show={show}
+        value={date || new Date()}
+        onChange={onChangeDatetime}
+        onPress={onHideModal}
+      />
+      {/* {Platform.OS === 'ios'
         ? show && (
             <ModalTime
               showModal={show}
@@ -126,6 +141,7 @@ const HeaderCustom = (props?: Props) => {
               picker={
                 <View style={styles.picker}>
                   <DateTimePicker
+                    isV
                     value={date || new Date()}
                     mode={'date'}
                     display="default"
@@ -142,7 +158,7 @@ const HeaderCustom = (props?: Props) => {
               display="default"
               onChange={onChangeDatetime}
             />
-          )}
+          )} */}
     </View>
   );
 };
@@ -151,7 +167,6 @@ const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0.25,
     borderColor: Colors.gray,
-    zIndex: 50,
   },
   row: {
     flexDirection: 'row',

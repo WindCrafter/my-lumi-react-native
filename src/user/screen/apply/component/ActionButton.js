@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, Platform} from 'react-native';
 // import langs from '../../../../../common/language';
 import {imgs} from '../../../../../utlis';
 import ActionButton from 'react-native-action-button';
@@ -31,7 +31,10 @@ const FloatButton = (props) => {
       backdrop={blurView()}
       renderIcon={buttonIcon}
       offsetY={60}
-      style={styles.actonButton}
+      style={[
+        styles.actonButton,
+        Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},
+      ]}
       degrees={90}>
       <ActionButton.Item
         inputX={[0, 0]}
@@ -74,6 +77,6 @@ const styles = StyleSheet.create({
     width: 24,
   },
   actionButton: {
-    zIndex: 101,
+    elevation: 101,
   },
 });

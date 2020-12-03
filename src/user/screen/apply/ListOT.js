@@ -86,6 +86,7 @@ function ListOT(props) {
   };
 
   const onChangeStatus = (item) => {
+    console.log(item);
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);

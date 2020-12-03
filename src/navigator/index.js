@@ -61,16 +61,6 @@ export default function Navigator(props) {
               }}
             />
           </>
-        ) : changePass ? (
-          <RootStack.Screen
-            name={langs.navigator.firstLogin}
-            component={firstLogin}
-          />
-        ) : role === 'admin' ? (
-          <RootStack.Screen
-            name={langs.navigator.adminStack}
-            component={AdminStack}
-          />
         ) : (
           <RootStack.Screen
             name={langs.navigator.userStack}
