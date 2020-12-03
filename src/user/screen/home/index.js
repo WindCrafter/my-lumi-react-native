@@ -43,7 +43,7 @@ export default function Home(props) {
     navigation.navigate('ApplyLate');
   };
   const onPressBreak = () => {
-    navigation.navigate('ApplyBreak');
+    navigation.navigate('History Break');
   };
 
   const onPressOT = () => {

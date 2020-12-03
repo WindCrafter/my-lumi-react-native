@@ -99,6 +99,8 @@ const langs = {
     notifyDetail: 'NotifyDetail',
     assignment: 'Assignment',
     ot: 'OT',
+    historyBreak: 'History Break',
+    approveBreak: 'Approve Break',
   },
   alert: {
     ok: 'OK',

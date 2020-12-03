@@ -87,6 +87,14 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
+        name={langs.navigator.historyBreak}
+        component={HistoryBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
         name={langs.navigator.updateProfile}
         component={updateProfile}
         options={{

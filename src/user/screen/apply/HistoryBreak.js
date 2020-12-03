@@ -30,7 +30,7 @@ const HistoryBreak = (props) => {
     navigation.goBack();
   };
   const onApplyLate = () => {
-    navigation.navigate(langs.navigator.applyLate);
+    navigation.navigate(langs.navigator.applyBreak);
   };
 
   const renderItem = ({item, index}) => {
@@ -43,7 +43,7 @@ const HistoryBreak = (props) => {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Lịch sử xin đi muộn/về sớm'}
+        title={'Lịch sử xin nghỉ phép'}
         rightButton
         goBack={goBack}
         rightImage={imgs.document}
