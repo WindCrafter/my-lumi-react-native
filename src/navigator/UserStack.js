@@ -30,6 +30,7 @@ import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
 import HistoryBreak from '../user/container/apply/HistoryBreak'
+import ApproveBreak from '../user/container/apply/ApproveBreak'
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -73,6 +74,14 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.applyBreak}
         component={applyBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.approveBreak}
+        component={ApproveBreak}
         options={{
           headerShown: false,
           gestureEnabled: false,

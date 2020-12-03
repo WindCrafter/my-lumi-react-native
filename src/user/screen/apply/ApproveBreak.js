@@ -4,11 +4,16 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
+  Text,
   View,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus, HeaderCustom} from '../../../component';
+import Icon from 'react-native-vector-icons/Feather';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {Card} from 'native-base';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 
@@ -24,17 +29,24 @@ const DATA = [
   {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
 ];
 
-const HistoryBreak = (props) => {
+const ApproveBreak = (props) => {
   const {navigation} = props;
   const goBack = () => {
     navigation.goBack();
   };
   const onApplyLate = () => {
-    navigation.navigate(langs.navigator.approveBreak);
+    navigation.navigate(langs.navigator.applyLate);
   };
 
   const renderItem = ({item, index}) => {
-    return <CardBreak leader={false} status={item.status} type={item.type} />;
+    return (
+      <CardBreak
+        leader={true}
+        status={item.status}
+        type={item.type}
+        name={item.name}
+      />
+    );
   };
   return (
     <>
@@ -60,6 +72,6 @@ const HistoryBreak = (props) => {
   );
 };
 
-export default HistoryBreak;
+export default ApproveBreak;
 
 const styles = StyleSheet.create({});

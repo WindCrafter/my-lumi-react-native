@@ -12,11 +12,12 @@ const CardBreak = (props) => {
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {type === 1 ? langs.goLate : langs.backSoon}
+            {type === 1 ? langs.breakShift : langs.breakDay}
           </Text>
         </View>
-        <View style={styles.rightHeader}>
-          <Text style={styles.txtDay}>day</Text>
+        <View style={styles.viewDay}>
+          <Image source={imgs.startTime} style={styles.clock} />
+          <Text style={styles.time}>20/202/2020</Text>
         </View>
       </View>
       <View style={styles.detail}>
@@ -61,9 +62,8 @@ const CardBreak = (props) => {
               </Text>
             </View>
           )}
-          <View style={styles.viewDay}>
-            <Image source={imgs.startTime} style={styles.clock} />
-            <Text style={styles.time}>30 phut</Text>
+          <View style={styles.rightHeader}>
+            <Text style={styles.txtDay}>day</Text>
           </View>
         </View>
       </View>
