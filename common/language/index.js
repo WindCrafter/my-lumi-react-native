@@ -68,6 +68,7 @@ const langs = {
   tryAgain: 'Thử lại',
   code: 'Dùng mã',
   titleListOT: 'Lịch sử xin OT',
+  titleApproveOT: 'Đơn xin OT',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',
@@ -78,6 +79,7 @@ const langs = {
   accept: 'Chấp thuận',
   goLate: 'Đi muộn',
   backSoon: 'Về Sớm',
+  confirm: 'Xác nhận',
   navigator: {
     login: 'Login',
     register: 'Register',
@@ -98,6 +100,7 @@ const langs = {
     contact: 'Contact',
     applyLate: 'ApplyLate',
     applyBreak: 'ApplyBreak',
+    approveOT: 'ApproveOT',
     applyOT: 'ApplyOT',
     listOT: 'listOT',
     updateProfile: 'UpdareProdile',

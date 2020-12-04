@@ -11,9 +11,8 @@ import moment from 'moment';
 import langs from '../../../../common/language';
 import {BarStatus} from '../../../component';
 import {Colors} from '../../../../utlis';
-import ItemOT from './component/ItemOT';
+import ItemOT from './component/ItemApproveOT';
 import {FlatList} from 'react-native-gesture-handler';
-import ActionButton from './component/ActionButton';
 // import {URL} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 
@@ -24,7 +23,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function ListOT(props) {
+function ApproveOT(props) {
   const {navigation} = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -43,17 +42,10 @@ function ListOT(props) {
     return <ItemOT item={item} />;
   };
 
-  const onPressCreate = () => {
-    console.log('create');
-  };
-
-  const onPressConfirm = () => {
-    navigation.navigate('ApproveOT');
-  };
-
   const getData = async (callback) => {
     // const status = filter.status || '';
     // const date = filter.date || '';
+    // const name = filter.name || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
@@ -93,6 +85,14 @@ function ListOT(props) {
     getData();
   };
 
+  const onChangeName = (item) => {
+    console.log(item);
+    setFilter({...filter, name: item});
+    setData([]);
+    setPage(1);
+    getData();
+  };
+
   return (
     <View style={styles.container}>
       <BarStatus
@@ -100,12 +100,14 @@ function ListOT(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={langs.titleListOT}
-        height={60}
+        title={langs.titleApproveOT}
+        height={40}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
+        onChangeName={onChangeName}
+        search
       />
       <View style={styles.detail}>
         <FlatList
@@ -117,12 +119,11 @@ function ListOT(props) {
           ListFooterComponent={renderFooterComponent}
         />
       </View>
-      <ActionButton onPressLate={onPressCreate} onPressOT={onPressConfirm} />
     </View>
   );
 }
 
-export default ListOT;
+export default ApproveOT;
 
 const styles = StyleSheet.create({
   container: {

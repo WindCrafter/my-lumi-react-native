@@ -35,7 +35,8 @@ const FloatButton = (props) => {
         styles.actonButton,
         Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},
       ]}
-      degrees={90}>
+      degrees={90}
+      fixNativeFeedbackRadius={true}>
       <ActionButton.Item
         inputX={[0, 0]}
         outputX={[0, 0]}
@@ -50,7 +51,7 @@ const FloatButton = (props) => {
         outputX={[0, 0]}
         inputY={[0, 1]}
         outputY={[0, -70]}
-        title={langs.confirmOT}
+        title={langs.approveOT}
         onPress={onPressOT}>
         <Image source={imgs.stampCheck} />
       </ActionButton.Item>

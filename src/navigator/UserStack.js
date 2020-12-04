@@ -9,6 +9,7 @@ import contact from '../user/container/contact';
 import applyLate from '../user/container/apply/applyLate';
 import applyOT from '../user/container/apply/applyOT';
 import ListOT from '../user/container/apply/ListOT';
+import ApproveOT from '../user/container/apply/ApproveOT';
 import applyBreak from '../user/container/apply/applyBreak';
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
@@ -63,6 +64,14 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.applyLate}
         component={applyLate}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.approveOT}
+        component={ApproveOT}
         options={{
           headerShown: false,
           gestureEnabled: false,

@@ -1,11 +1,18 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {Card} from 'native-base';
-// import langs from '../../../../../common/language';
+import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
 
 const item = {
-  status: 1,
+  name: 'Đỗ Tuấn Phong',
   date: '21/09/2020',
   time: '0.5',
   content: 'Sửa lỗi phát sinh trên UI',
@@ -13,47 +20,43 @@ const item = {
 
 const {width} = Dimensions.get('window');
 
-const ItemOT = (props) => {
+const ItemApproveOT = (props) => {
+  const onDeny = () => {
+    console.log('Deny', item);
+  };
+
+  const onConfirm = () => {
+    console.log('Confirm', item);
+  };
+
   const renderStatus = () => {
-    if (item.status === 1) {
-      return (
-        <View style={styles.img}>
-          <Image
-            source={imgs.roundedInfor}
-            style={[styles.imageStamp, styles.imageExtend]}
-          />
-          <Text style={[styles.txtStatus, styles.waiting]}>Đang chờ</Text>
-        </View>
-      );
-    }
-    if (item.status === 2) {
-      return (
-        <View style={styles.img}>
-          <Image
-            source={imgs.tick}
-            style={[styles.imageStamp, styles.marginRight]}
-          />
-          <Text style={[styles.txtStatus, styles.approve]}>Đã duyệt</Text>
-        </View>
-      );
-    }
-    if (item.status === 3) {
-      return (
-        <View style={styles.img}>
-          <Image
-            source={imgs.cancel}
-            style={[styles.imageStamp, styles.imageCancel]}
-          />
-          <Text style={[styles.txtStatus, styles.colorCancel]}>Bị từ chối</Text>
-        </View>
-      );
-    }
+    return (
+      <View
+        style={[styles.row, {marginTop: 8, justifyContent: 'space-around'}]}>
+        <TouchableOpacity onPress={onDeny}>
+          <View style={styles.refuse}>
+            <Text style={[styles.statusText, {color: Colors.white}]}>
+              {langs.deny}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onConfirm}>
+          <View style={styles.accept}>
+            <Text style={[styles.statusText, {color: Colors.white}]}>
+              {langs.confirm}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
     <Card style={styles.card}>
-      <View style={[styles.row]}>{renderStatus()}</View>
-      <View style={[styles.row]}>
+      <View style={[styles.row, {marginHorizontal: 8}]}>
+        <Text style={styles.name}>{item.name}</Text>
+      </View>
+      <View style={[styles.row, {marginTop: 16}]}>
         <View style={[styles.img, {width: (width - 32) / 2}]}>
           <Image
             source={imgs.startDate}
@@ -69,7 +72,15 @@ const ItemOT = (props) => {
           <Text style={styles.txtStatus}>{`${item.time} giờ`}</Text>
         </View>
       </View>
-      <View style={[styles.row]}>
+      <View
+        style={[
+          styles.row,
+          {
+            paddingVertical: 8,
+            borderBottomColor: Colors.gray,
+            borderBottomWidth: 0.25,
+          },
+        ]}>
         <View style={styles.img}>
           <Image
             source={imgs.note}
@@ -78,6 +89,7 @@ const ItemOT = (props) => {
           <Text style={styles.txtStatus}>{item.content}</Text>
         </View>
       </View>
+      {renderStatus()}
     </Card>
   );
 };
@@ -100,6 +112,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    paddingHorizontal: 16,
   },
   txtTime: {
     fontSize: 16,
@@ -112,8 +125,8 @@ const styles = StyleSheet.create({
     width: width - 32,
     alignSelf: 'center',
     backgroundColor: '#ffffff',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   time: {
     justifyContent: 'center',
@@ -139,6 +152,26 @@ const styles = StyleSheet.create({
   approve: {
     color: Colors.background,
   },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  refuse: {
+    width: 73,
+    height: 27,
+    backgroundColor: Colors.danger,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  accept: {
+    width: 73,
+    height: 27,
+    backgroundColor: Colors.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
 });
 
-export default ItemOT;
+export default ItemApproveOT;

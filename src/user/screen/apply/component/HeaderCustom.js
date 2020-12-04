@@ -6,16 +6,17 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
 // import langs from '../../../../../common/language';
-import ModalTime from '../../account/component/ModalTime';
 import PickerCustom from './PickerCustom';
+import {Input, SelectButton} from '../../../../component';
+import {FlatList} from 'react-native-gesture-handler';
 
 const HeaderCustom = (props?: Props) => {
   const {width} = props || wp(100);
@@ -34,6 +35,9 @@ const HeaderCustom = (props?: Props) => {
     onRight,
     onChangeStatus,
     onChangeDate,
+    onChangeName,
+    search,
+    onSearch,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
@@ -58,14 +62,46 @@ const HeaderCustom = (props?: Props) => {
     } else {
       if (event.type === 'set') {
         setDate(selectedDay);
+        setShow(false);
         onChangeDate(selectedDay);
+      } else {
+        setShow(false);
       }
-      setShow(false);
     }
   };
 
+  const renderDropdown = (hideOverlay) => {
+    return (
+      <FlatList
+        data={status}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+      />
+    );
+  };
+
+  const onPressItem = (item, hideOverlay) => {
+    hideOverlay && hideOverlay();
+    onChangeStatus(item.value);
+  };
+
+  const renderItem = (item, hideOverlay) => {
+    return (
+      <TouchableOpacity onPress={() => onPressItem(item, hideOverlay)}>
+        <Text>{item.label}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const status = [
+    {label: 'Tất cả', value: '0'},
+    {label: 'Đang chờ', value: '1'},
+    {label: 'Đã duyệt', value: '2'},
+    {label: 'Bị từ chối', value: '3'},
+  ];
+
   return (
-    <View style={[styles.container, {zIndex: 50}]}>
+    <View style={[styles.container]}>
       <View
         style={[
           styles.row,
@@ -93,12 +129,24 @@ const HeaderCustom = (props?: Props) => {
           </TouchableOpacity>
         ) : null}
       </View>
+      {search && (
+        <Input
+          button
+          leftImage={imgs.search}
+          containerStyle={styles.search}
+          onPress={onSearch}
+          value={search}
+          onChangeText={onChangeName}
+          autoCapitalize={'none'}
+          placeholder={'Bạn muốn tìm lumier nào?'}
+        />
+      )}
       <View
         style={[
           styles.row,
           {marginBottom: 16, justifyContent: 'space-around'},
         ]}>
-        <DropDownPicker
+        {/* <DropDownPicker
           items={[
             {label: 'Tất cả', value: '0'},
             {label: 'Đang chờ', value: '1'},
@@ -119,7 +167,16 @@ const HeaderCustom = (props?: Props) => {
           arrowSize={19}
           activeLabelStyle={{color: Colors.background}}
           dropDownMaxHeight={200}
-        />
+        /> */}
+        <SelectButton
+          dropdownHeight={40}
+          dropdownWidth={260}
+          renderDropdown={renderDropdown}>
+          <View style={styles.filterStatus}>
+            <Text>Tất cả</Text>
+            <Text>▼</Text>
+          </View>
+        </SelectButton>
         <TouchableOpacity style={styles.filterDate} onPress={onShow}>
           <Text style={styles.txtRole}>
             {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
@@ -133,32 +190,6 @@ const HeaderCustom = (props?: Props) => {
         onChange={onChangeDatetime}
         onPress={onHideModal}
       />
-      {/* {Platform.OS === 'ios'
-        ? show && (
-            <ModalTime
-              showModal={show}
-              hideModal={onHideModal}
-              picker={
-                <View style={styles.picker}>
-                  <DateTimePicker
-                    isV
-                    value={date || new Date()}
-                    mode={'date'}
-                    display="default"
-                    onChange={onChangeDatetime}
-                  />
-                </View>
-              }
-            />
-          )
-        : show && (
-            <DateTimePicker
-              value={date || new Date()}
-              mode={'date'}
-              display="default"
-              onChange={onChangeDatetime}
-            />
-          )} */}
     </View>
   );
 };
@@ -209,7 +240,17 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     fontSize: 16,
   },
-  filterStatus: {},
+  filterStatus: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderColor: Colors.gray,
+    borderWidth: 0.25,
+    width: 150,
+    height: 40,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
   filterDate: {
     flexDirection: 'row',
     borderWidth: 0.25,
@@ -223,6 +264,22 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: wp(100),
+  },
+  search: {
+    alignSelf: 'center',
+    borderRadius: 32,
+    height: 40,
+    width: Dimensions.get('window').width - 64,
+    marginVertical: 8,
+    backgroundColor: '#ffffff',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
   },
 });
 
