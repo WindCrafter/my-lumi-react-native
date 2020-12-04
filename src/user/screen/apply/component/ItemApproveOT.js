@@ -14,28 +14,20 @@ import {imgs, Colors} from '../../../../../utlis';
 const {width} = Dimensions.get('window');
 
 const ItemApproveOT = (props) => {
-  const {item} = props;
-  const onDeny = () => {
-    console.log('Deny', item);
-  };
-
-  const onConfirm = () => {
-    console.log('Confirm', item);
-  };
-
+  const {item, onConfirm, onDeny} = props;
   const renderStatus = () => {
     if (item.status === 1) {
       return (
         <View
           style={[styles.row, {marginTop: 8, justifyContent: 'space-around'}]}>
-          <TouchableOpacity onPress={onDeny}>
+          <TouchableOpacity onPress={() => onDeny(item)}>
             <View style={styles.refuse}>
               <Text style={[styles.statusText, {color: Colors.white}]}>
                 {langs.deny}
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onConfirm}>
+          <TouchableOpacity onPress={() => onConfirm(item)}>
             <View style={styles.accept}>
               <Text style={[styles.statusText, {color: Colors.white}]}>
                 {langs.confirm}

@@ -24,6 +24,7 @@ if (
 }
 
 const item = {
+  id: Math.random().toString(36).substr(2, 9),
   name: 'Đỗ Tuấn Phong',
   date: '21/09/2020',
   time: '0.5',
@@ -32,6 +33,7 @@ const item = {
 };
 
 const item1 = {
+  id: Math.random().toString(36).substr(2, 9),
   name: 'Đỗ Tuấn Phong',
   date: '21/09/2020',
   time: '0.5',
@@ -40,6 +42,7 @@ const item1 = {
 };
 
 const item2 = {
+  id: Math.random().toString(36).substr(2, 9),
   name: 'Đỗ Tuấn Phong',
   date: '21/09/2020',
   time: '0.5',
@@ -63,7 +66,15 @@ function ApproveOT(props) {
   };
 
   const renderItem = ({item}) => {
-    return <ItemOT item={item} />;
+    return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
+  };
+
+  const onConfirm = (item) => {
+    setData(data.map((i) => (i.id === item.id ? {...i, status: 2} : i)));
+  };
+
+  const onDeny = (item) => {
+    setData(data.map((i) => (i.id === item.id ? {...i, status: 3} : i)));
   };
 
   const getData = async (callback) => {
@@ -74,7 +85,13 @@ function ApproveOT(props) {
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
     fetch(apiURL).then((res) => {
-      setData(data.concat([item1, item, item2]));
+      setData(
+        data.concat([
+          {...item1, id: Math.random().toString(36).substr(2, 9)},
+          {...item, id: Math.random().toString(36).substr(2, 9)},
+          {...item2, id: Math.random().toString(36).substr(2, 9)},
+        ]),
+      );
       setLoading(false);
     });
   };
@@ -102,7 +119,6 @@ function ApproveOT(props) {
   };
 
   const onChangeStatus = (item) => {
-    console.log(item);
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
@@ -110,7 +126,6 @@ function ApproveOT(props) {
   };
 
   const onChangeName = (item) => {
-    console.log(item);
     setFilter({...filter, name: item});
     setData([]);
     setPage(1);
