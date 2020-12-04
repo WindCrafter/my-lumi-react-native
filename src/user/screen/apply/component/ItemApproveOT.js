@@ -11,17 +11,10 @@ import {Card} from 'native-base';
 import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
 
-const item = {
-  name: 'Đỗ Tuấn Phong',
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-  status: 3,
-};
-
 const {width} = Dimensions.get('window');
 
 const ItemApproveOT = (props) => {
+  const {item} = props;
   const onDeny = () => {
     console.log('Deny', item);
   };

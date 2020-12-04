@@ -80,6 +80,7 @@ const langs = {
   goLate: 'Đi muộn',
   backSoon: 'Về Sớm',
   confirm: 'Xác nhận',
+  timeOT: 'Thời gian ước tính',
   navigator: {
     login: 'Login',
     register: 'Register',

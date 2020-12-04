@@ -23,6 +23,30 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+const item = {
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 1,
+};
+
+const item1 = {
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 2,
+};
+
+const item2 = {
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 3,
+};
+
 function ApproveOT(props) {
   const {navigation} = props;
   const [page, setPage] = useState(1);
@@ -50,7 +74,7 @@ function ApproveOT(props) {
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
     fetch(apiURL).then((res) => {
-      setData(data.concat([1, 2, 3, 4, 1, 1, 1, 1, 1, 1]));
+      setData(data.concat([item1, item, item2]));
       setLoading(false);
     });
   };
@@ -115,7 +139,7 @@ function ApproveOT(props) {
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />
       </View>
