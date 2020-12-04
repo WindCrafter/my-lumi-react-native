@@ -44,7 +44,7 @@ function ListOT(props) {
   };
 
   const onPressCreate = () => {
-    console.log('create');
+    navigation.navigate('ApplyOT');
   };
 
   const onPressConfirm = () => {

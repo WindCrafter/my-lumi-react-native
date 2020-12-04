@@ -16,6 +16,7 @@ const item = {
   date: '21/09/2020',
   time: '0.5',
   content: 'Sửa lỗi phát sinh trên UI',
+  status: 3,
 };
 
 const {width} = Dimensions.get('window');
@@ -30,25 +31,49 @@ const ItemApproveOT = (props) => {
   };
 
   const renderStatus = () => {
-    return (
-      <View
-        style={[styles.row, {marginTop: 8, justifyContent: 'space-around'}]}>
-        <TouchableOpacity onPress={onDeny}>
-          <View style={styles.refuse}>
-            <Text style={[styles.statusText, {color: Colors.white}]}>
-              {langs.deny}
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onConfirm}>
-          <View style={styles.accept}>
-            <Text style={[styles.statusText, {color: Colors.white}]}>
-              {langs.confirm}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+    if (item.status === 1) {
+      return (
+        <View
+          style={[styles.row, {marginTop: 8, justifyContent: 'space-around'}]}>
+          <TouchableOpacity onPress={onDeny}>
+            <View style={styles.refuse}>
+              <Text style={[styles.statusText, {color: Colors.white}]}>
+                {langs.deny}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onConfirm}>
+            <View style={styles.accept}>
+              <Text style={[styles.statusText, {color: Colors.white}]}>
+                {langs.confirm}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    if (item.status === 2) {
+      return (
+        <View style={[styles.row, {marginTop: 8, justifyContent: 'center'}]}>
+          <Image
+            source={imgs.tick}
+            style={[styles.imageStamp, styles.marginRight]}
+          />
+          <Text style={[styles.txtStatus, styles.approve]}>Đã duyệt</Text>
+        </View>
+      );
+    }
+    if (item.status === 3) {
+      return (
+        <View style={[styles.row, {marginTop: 8, justifyContent: 'center'}]}>
+          <Image
+            source={imgs.cancel}
+            style={[styles.imageStamp, styles.imageCancel]}
+          />
+          <Text style={[styles.txtStatus, styles.colorCancel]}>Bị từ chối</Text>
+        </View>
+      );
+    }
   };
 
   return (
@@ -145,12 +170,16 @@ const styles = StyleSheet.create({
   },
   colorCancel: {
     color: '#ff3b30',
+    fontSize: 18,
+    fontWeight: '800',
   },
   marginRight: {
     marginRight: 8,
   },
   approve: {
     color: Colors.background,
+    fontWeight: '800',
+    fontSize: 18,
   },
   name: {
     fontSize: 18,
