@@ -108,6 +108,5 @@ export const imgs = {
   changePassIcon: require('../../common/assets/images/icon/ChangePass-icon.png'),
   roundedInfor: require('../../common/assets/images/icon/Rounded-moreInfor.png'),
   manageIcon: require('../../common/assets/images/icon/Manage-icon.png'),
-  exchangeIcon: require('../../common/assets/images/icon/Exchange-icon.png')
-
+  exchangeIcon: require('../../common/assets/images/icon/Exchange-icon.png'),
 };

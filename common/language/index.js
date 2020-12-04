@@ -49,6 +49,7 @@ const langs = {
   timeBreak: 'Thời gian nghỉ',
   breakShift: 'Theo buổi',
   breakDay: 'Theo ngày',
+  halfDay:'Nửa ngày',
   breakMoreDay: 'Nghỉ nhiều ngày',
   morningShift: 'Ca sáng',
   afternoonShift: 'Ca chiều',
