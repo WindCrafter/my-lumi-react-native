@@ -234,6 +234,8 @@ function ApplyOT(props) {
   };
 
   const onSetOverTime = () => {
+    const _day = moment(day).format('DD/MM/YYYY');
+    const _start = moment(hour).format('HH:mm');
     console.log(
       splitTime(
         moment(day).format('DD/MM/YYYY'),
@@ -242,6 +244,9 @@ function ApplyOT(props) {
       ),
       reason,
     );
+    if (!splitTime(_day, _start, time)) {
+      Alert.alert('Ngoài thời gian đăng kí!');
+    }
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
