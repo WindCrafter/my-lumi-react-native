@@ -7,7 +7,16 @@ import AppNavigator from './app-navigator';
 import {setFont} from './utlis/index';
 import {ChangeState} from './src/redux/actions/codepush';
 import {LogBox} from 'react-native';
+import * as Sentry from '@sentry/react-native';
+const DSN_SENTRY =
+  'https://fc0d9122795948ee93aa4e34e28d776c@o486792.ingest.sentry.io/5544590';
 
+Sentry.init({
+  dsn: DSN_SENTRY,
+  enableAutoSessionTracking: true,
+  // Sessions close after app is 10 seconds in the background.
+  sessionTrackingIntervalMillis: 10000,
+});
 setFont('Quicksand-Regular');
 const App = () => {
   const CodePushState = {
