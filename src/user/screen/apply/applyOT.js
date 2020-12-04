@@ -201,6 +201,9 @@ function ApplyOT(props) {
     let ruleStart;
     while (_time > 0) {
       ruleStart = getStartTimeInRule(_start, _rule);
+      if (!ruleStart) {
+        return false;
+      }
       _hour =
         _time - (ruleStart.end - _start) > 0 ? ruleStart.end - _start : _time;
       result.push({
