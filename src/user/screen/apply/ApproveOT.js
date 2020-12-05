@@ -14,7 +14,7 @@ import {Colors} from '../../../../utlis';
 import ItemOT from './component/ItemApproveOT';
 import {FlatList} from 'react-native-gesture-handler';
 // import {URL} from '../../../../utlis/connection/url';
-import HeaderCustom from './component/HeaderCustom';
+import HeaderCustom from './component/HeaderCustom';
 
 if (
   Platform.OS === 'android' &&
@@ -22,6 +22,33 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+
+const item = {
+  id: Math.random().toString(36).substr(2, 9),
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 1,
+};
+
+const item1 = {
+  id: Math.random().toString(36).substr(2, 9),
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 2,
+};
+
+const item2 = {
+  id: Math.random().toString(36).substr(2, 9),
+  name: 'Đỗ Tuấn Phong',
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+  status: 3,
+};
 
 function ApproveOT(props) {
   const {navigation} = props;
@@ -39,7 +66,15 @@ function ApproveOT(props) {
   };
 
   const renderItem = ({item}) => {
-    return <ItemOT item={item} />;
+    return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
+  };
+
+  const onConfirm = (item) => {
+    setData(data.map((i) => (i.id === item.id ? {...i, status: 2} : i)));
+  };
+
+  const onDeny = (item) => {
+    setData(data.map((i) => (i.id === item.id ? {...i, status: 3} : i)));
   };
 
   const getData = async (callback) => {
@@ -50,7 +85,13 @@ function ApproveOT(props) {
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
     fetch(apiURL).then((res) => {
-      setData(data.concat([1, 2, 3, 4, 1, 1, 1, 1, 1, 1]));
+      setData(
+        data.concat([
+          {...item1, id: Math.random().toString(36).substr(2, 9)},
+          {...item, id: Math.random().toString(36).substr(2, 9)},
+          {...item2, id: Math.random().toString(36).substr(2, 9)},
+        ]),
+      );
       setLoading(false);
     });
   };
@@ -78,7 +119,6 @@ function ApproveOT(props) {
   };
 
   const onChangeStatus = (item) => {
-    console.log(item);
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
@@ -86,7 +126,6 @@ function ApproveOT(props) {
   };
 
   const onChangeName = (item) => {
-    console.log(item);
     setFilter({...filter, name: item});
     setData([]);
     setPage(1);
@@ -115,7 +154,7 @@ function ApproveOT(props) {
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />
       </View>

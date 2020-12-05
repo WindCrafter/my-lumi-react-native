@@ -12,12 +12,48 @@ const CardBreak = (props) => {
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {type === 1 ? langs.breakShift : langs.breakDay}
+            {type === 1 ? langs.halfDay : langs.breakDay}
           </Text>
         </View>
         <View style={styles.viewDay}>
-          <Image source={imgs.startTime} style={styles.clock} />
-          <Text style={styles.time}>20/202/2020</Text>
+          <Image
+            source={
+              status === 1
+                ? imgs.roundedInfor
+                : status === 2
+                ? imgs.tick
+                : imgs.cancel
+            }
+            style={[
+              styles.imgs,
+              {
+                tintColor:
+                  status === 1
+                    ? Colors.waiting
+                    : status === 2
+                    ? Colors.background
+                    : Colors.danger,
+              },
+            ]}
+          />
+          <Text
+            style={[
+              styles.time,
+              {
+                color:
+                  status === 1
+                    ? Colors.waiting
+                    : status === 2
+                    ? Colors.background
+                    : Colors.danger,
+              },
+            ]}>
+            {status === 1
+              ? langs.waiting
+              : status === 2
+              ? langs.approve
+              : langs.denied}
+          </Text>
         </View>
       </View>
       <View style={styles.detail}>
@@ -28,41 +64,14 @@ const CardBreak = (props) => {
             </View>
           ) : (
             <View style={styles.viewDay}>
-              <Image
-                source={imgs.startTime}
-                style={[
-                  styles.imgs,
-                  {
-                    tintColor:
-                      status === 1
-                        ? Colors.waiting
-                        : status === 2
-                        ? Colors.background
-                        : Colors.danger,
-                  },
-                ]}
-              />
-              <Text
-                style={[
-                  styles.time,
-                  {
-                    color:
-                      status === 1
-                        ? Colors.waiting
-                        : status === 2
-                        ? Colors.background
-                        : Colors.danger,
-                  },
-                ]}>
-                {status === 1
-                  ? langs.waiting
-                  : status === 2
-                  ? langs.approve
-                  : langs.denied}
-              </Text>
+              <Image source={imgs.selectCalendar} style={styles.calendarDay} />
+
+              <Text style={styles.time}>20/202/2020</Text>
             </View>
           )}
           <View style={styles.rightHeader}>
+            <Image source={imgs.startTime} style={styles.clock} />
+
             <Text style={styles.txtDay}>day</Text>
           </View>
         </View>
@@ -143,6 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 8,
+    flexDirection: 'row',
   },
   txttype: {
     color: Colors.white,
@@ -230,5 +240,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     alignItems: 'center',
+  },
+  calendarDay: {
+    height: 16,
+    width: 16,
+    marginRight: 4,
+    tintColor: Colors.background,
   },
 });

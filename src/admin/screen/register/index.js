@@ -169,9 +169,11 @@ const Register = (props) => {
   return (
     <KeyBoardScroll>
       <SafeAreaView style={styles.container}>
-        <Logo containerStyle={styles.logo} />
+        
 
         <View style={styles.viewMiddle}>
+          <Logo containerStyle={styles.logo} />
+<View>
           <View style={styles.viewInput}>
             <Input
               // leftImage={}
@@ -246,7 +248,7 @@ const Register = (props) => {
               // onPressTitle={onOpenPrivacyPolicy}
             />
           </View>
-
+          </View>
           <Button
             title={'Tạo tài khoản'}
             style={styles.button}
@@ -256,6 +258,7 @@ const Register = (props) => {
             containerStyle={styles.viewInButton}
             titleColor={'rgb(0,138,238)'}
           />
+          
         </View>
         <TouchableOpacity style={styles.goBack} onPress={onGoBack}>
           <Text>Bạn đã có tài khoản?</Text>
@@ -267,7 +270,8 @@ const Register = (props) => {
 };
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: hp(100),
+
   },
   viewLogo: {
     justifyContent: 'center',
@@ -277,6 +281,8 @@ const styles = StyleSheet.create({
   viewMiddle: {
     alignItems: 'center',
     flex: 6,
+    justifyContent:'space-around'
+
   },
   viewFooter: {
     flex: 1,
@@ -379,5 +385,6 @@ const styles = StyleSheet.create({
     top: hp(90),
   },
   logIn: {color: Colors.blue,marginLeft:4},
+  
 });
 export default Register;

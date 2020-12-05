@@ -218,7 +218,7 @@ function* sagaRegisterAction(action) {
       yield put(registerSuccess());
       _global.Alert.alert({
         title: langs.notify,
-        message: 'Đăng kí thành công. Vui lòng quay lại để đăng nhập',
+        message: 'Đăng ký thành công. Vui lòng quay lại để đăng nhập',
         leftButton: {
           text: langs.alert.ok,
           onPress: () => CustomNavigation.navigate('Login'),

@@ -15,7 +15,7 @@ import ItemOT from './component/ItemOT';
 import {FlatList} from 'react-native-gesture-handler';
 import ActionButton from './component/ActionButton';
 // import {URL} from '../../../../utlis/connection/url';
-import HeaderCustom from './component/HeaderCustom';
+import HeaderCustom from './component/HeaderCustom';
 
 if (
   Platform.OS === 'android' &&
@@ -23,6 +23,25 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+
+const item = {
+  status: 1,
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+};
+const item1 = {
+  status: 2,
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+};
+const item2 = {
+  status: 3,
+  date: '21/09/2020',
+  time: '0.5',
+  content: 'Sửa lỗi phát sinh trên UI',
+};
 
 function ListOT(props) {
   const {navigation} = props;
@@ -44,7 +63,7 @@ function ListOT(props) {
   };
 
   const onPressCreate = () => {
-    console.log('create');
+    navigation.navigate('ApplyOT');
   };
 
   const onPressConfirm = () => {
@@ -58,7 +77,7 @@ function ListOT(props) {
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
     fetch(apiURL).then((res) => {
-      setData(data.concat([1, 2, 3, 4, 1, 1, 1, 1, 1, 1]));
+      setData(data.concat([item, item1, item2]));
       setLoading(false);
     });
   };
@@ -113,7 +132,7 @@ function ListOT(props) {
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />
       </View>

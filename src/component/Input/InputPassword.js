@@ -22,7 +22,7 @@ interface Props extends TextInputProps {
 }
 
 InputPassword.defaultProps = {
-  width: wp(75),
+  width: wp(80),
   height: 50,
   borderRadius: 8,
   backgroundColor: 'rgb(227, 230, 229)',

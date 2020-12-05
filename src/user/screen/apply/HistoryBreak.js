@@ -29,8 +29,8 @@ const HistoryBreak = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
-  const onApplyLate = () => {
-    navigation.navigate(langs.navigator.approveBreak);
+  const onApplyBreak = () => {
+    navigation.navigate(langs.navigator.applyBreak);
   };
 
   const renderItem = ({item, index}) => {
@@ -47,7 +47,7 @@ const HistoryBreak = (props) => {
         rightButton
         goBack={goBack}
         rightImage={imgs.document}
-        onRight={onApplyLate}
+        onRight={onApplyBreak}
       />
       <View>
         <FlatList

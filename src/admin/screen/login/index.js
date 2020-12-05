@@ -135,7 +135,7 @@ const Login = (props) => {
               testID="test_Login"
             />
             <TouchableOpacity onPress={onRegister} style={styles.bottom}>
-              <Text style={styles.register}>Đăng kí tài khoản</Text>
+              <Text style={styles.register}>Đăng ký tài khoản</Text>
               {/* <Text>Vui lòng tạo</Text> */}
             </TouchableOpacity>
             <TouchableOpacity
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     marginLeft: (deviceWidth * 12.5) / 100,
     marginVertical: 8,
   },
-  register: {color: '#178CEB', fontSize: 18},
+  register: {color: '#178CEB', fontSize: 16},
   bottom: {justifyContent: 'center', alignItems: 'center', marginVertical: 16},
   keyBoardScroll: {
     justifyContent: 'center',
