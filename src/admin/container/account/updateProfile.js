@@ -4,12 +4,10 @@ import { updateProfile } from '../../../redux/actions/user';
 import UpdateProfile from '../../screen/account/updateProfile';
 
 const mapStateToProps = (state) => ({
-  nameUser: state.authen.userProfile.name,
-  emailUser: state.authen.userProfile.email,
-  phoneNumber: state.authen.userProfile.phoneNumber,
+  nameUser: state.authen.fullname,
+  emailUser: state.authen.email,
+  phoneNumber: state.authen.phone_number,
   token: state.authen.token,
-  advance: state.authen.userProfile.advance,
-  birthdayUser: state.authen.userProfile.birthday,
 });
 
 const mapDispatchToProps = {

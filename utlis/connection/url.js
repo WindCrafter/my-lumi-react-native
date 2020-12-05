@@ -10,7 +10,7 @@ export const URL = {
   CHECK_IN: '/check-in/qr',
   CREATE_QR: '/admin/qr-code',
   GET_QR: '/admin/qr-code?date=',
-  UPDATE_PROFILE: '/user/update-profile',
+  UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/check-in/wifi',
   LIST_USERS: '/user/list-users',
   LATE_EARLY: '/user/add-late-early',
@@ -25,7 +25,7 @@ export const URL = {
   SET_STATUS_BREAK: '/user/change-status-take-leave',
   SET_STATUS_LATE_EARLY: '/user/change-status-late-early',
   GET_LIST_CHECK: '/user/timekeeping-by-user?page=',
-  GET_PROFILE: 'site/get-profile',
+  GET_PROFILE: '/site/get-profile',
 
   //
   GET_LIST_OVERTIME: '',

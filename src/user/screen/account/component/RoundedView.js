@@ -1,3 +1,4 @@
+import {Card} from 'native-base';
 import React from 'react';
 import {
   Image,
@@ -36,7 +37,7 @@ interface Props extends RoundedView {
 RoundedView.defaultProps = {
   width: '100%',
   leftImage: imgs.personal,
-  rightImage: imgs.down,
+  rightImage: null,
   shadowColor: '#000000',
   shadowOpacity: 0.16,
   paddingHorizontal: 16,
@@ -67,52 +68,35 @@ export default function RoundedView(props?: Props) {
     padding,
     styleImg,
     tintColor,
-    line,
+    team,
     tintColorLeft,
+    styleName,
   } = props;
 
   return (
-    <>
-      <View
-        style={[
-          {
-            width,
-            alignSelf,
-          },
-          containerStyle,
-        ]}>
-        <TouchableOpacity
-          style={styles.container}
-          onPress={onPressButton}
-          disabled={disabled}>
-          <View style={styles.middle}>
-            <Image
-              source={leftImage}
-              style={[{tintColor: tintColorLeft}, styleImg]}
-              resizeMode="cover"
-            />
-            <View style={styles.viewTitle}>
-              <Text
-                style={[
-                  {
-                    padding,
-                  },
-                  styles.textTitle,
-                ]}>
-                {title}
-              </Text>
-            </View>
-          </View>
-
+    <Card style={[styles.container, containerStyle]}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onPressButton}
+        disabled={disabled}>
+        <View style={styles.middle}>
           <Image
-            source={rightImage}
-            style={[{tintColor}, styles.image]}
-            resizeMode="contain"
+            source={leftImage}
+            style={[{tintColor: tintColorLeft}, styleImg]}
+            resizeMode="cover"
           />
-        </TouchableOpacity>
-      </View>
-      {line ? <View style={styles.line} /> : null}
-    </>
+          <View style={styles.viewTitle}>
+            <Text style={[styles.textTitle, styleName]}>{title}</Text>
+            {team && <Text style={[styles.textTeam]}>{team}</Text>}
+          </View>
+        </View>
+        <Image
+          source={rightImage ? rightImage : null}
+          style={[{tintColor}, styles.image]}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
+    </Card>
   );
 }
 
@@ -123,6 +107,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     width: '90%',
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    marginTop: 8,
+  },
+  button: {
+    flexDirection: 'row',
+    textAlignVertical: 'center',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    width: '100%',
   },
   image: {
     width: 18,
@@ -151,5 +146,8 @@ const styles = StyleSheet.create({
   middle: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  textTeam: {
+    fontSize: 14,
   },
 });

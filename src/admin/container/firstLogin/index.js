@@ -4,7 +4,7 @@ import { changePass, updateProfile } from '../../../redux/actions/authen';
 
 const mapStateToProps = (state) => ({
   token: state.authen.token,
-  name: state.authen.userProfile.name,
+  name: state.authen.fullname,
   deviceId: state.authen.deviceId,
   teams: state.authen.teams,
 });

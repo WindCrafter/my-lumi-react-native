@@ -11,6 +11,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {InputRow} from '../../../../component';
 import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
+import InforRow from './InfoRow';
 
 const Info = (props) => {
   const refPhone = useRef('');
@@ -19,16 +20,14 @@ const Info = (props) => {
   const refNative = useRef('');
   const refIdentity = useRef('');
   const {
-    phone,
-    onChangePhone,
     name,
     onChangeName,
     team,
     onChangeTeam,
-    nativeLand,
-    onChangeNative,
     identity,
     onChangeIdentity,
+    birthday,
+    onChangeBirthday,
   } = props;
   return (
     <View style={styles.container}>
@@ -42,7 +41,7 @@ const Info = (props) => {
         style={styles.info}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.detail}>
-          <InputRow
+          <InforRow
             containerStyle={styles.txtInput}
             title={langs.name}
             size={16}
@@ -52,20 +51,8 @@ const Info = (props) => {
             clearButtonMode="while-editing"
             onSubmitEditing={() => refBirth.current.focus()}
           />
-          <InputRow
-            leftImage={imgs.phone}
-            containerStyle={styles.txtInput}
-            title={langs.phone}
-            size={16}
-            value={phone}
-            keyboardType={'number-pad'}
-            onChangeText={onChangePhone}
-            refInput={refBirth}
-            clearButtonMode="while-editing"
-            onSubmitEditing={() => refTeam.current.focus()}
-          />
           <TouchableOpacity onPress={onChangeTeam}>
-            <InputRow
+            <InforRow
               leftImage={imgs.setPerson}
               containerStyle={styles.txtInput}
               title={langs.team}
@@ -74,22 +61,23 @@ const Info = (props) => {
               refInput={refTeam}
               clearButtonMode="while-editing"
               placeholder="Chọn team"
-              onSubmitEditing={() => refNative.current.focus()}
               editable={false}
             />
           </TouchableOpacity>
-          <InputRow
-            leftImage={imgs.location}
-            containerStyle={styles.txtInput}
-            title={langs.nativeLand}
-            size={16}
-            value={nativeLand}
-            onChangeText={onChangeNative}
-            clearButtonMode="while-editing"
-            refInput={refNative}
-            onSubmitEditing={() => refIdentity.current.focus()}
-          />
-          <InputRow
+
+          <TouchableOpacity onPress={onChangeBirthday}>
+            <InforRow
+              containerStyle={styles.txtInput}
+              leftImage={imgs.DOB}
+              title={langs.birthday}
+              size={16}
+              value={birthday}
+              refInput={refPhone}
+              editable={false}
+              clearButtonMode="never"
+            />
+          </TouchableOpacity>
+          <InforRow
             leftImage={imgs.identityCard}
             containerStyle={styles.txtInput}
             title={langs.identity}

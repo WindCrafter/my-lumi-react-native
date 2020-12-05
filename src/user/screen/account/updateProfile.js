@@ -8,8 +8,11 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import {BarStatus, HeaderCustom} from '../../../component';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {BarStatus, Button, HeaderCustom} from '../../../component';
+import {
+  widthPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import {Colors} from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
@@ -23,6 +26,7 @@ import ModalGene from './component/ModalGene';
 import ModalTeam from './component/ModalTeam';
 import Clipboard from '@react-native-community/clipboard';
 import langs from '../../../../common/language';
+import {Card} from 'native-base';
 
 if (
   Platform.OS === 'android' &&
@@ -43,6 +47,7 @@ function UpdateProfile(props) {
     birthdayUser,
     deviceId,
     teams,
+    addressUser,
   } = props;
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
@@ -58,15 +63,10 @@ function UpdateProfile(props) {
   const [birthday, setBirthDay] = useState(
     birthdayUser ? birthdayUser : moment(new Date()).format('DD/MM/YYYY'),
   );
-  const [gene, setGene] = useState(
-    advance && advance.gene ? advance.gene : null,
-  );
   const [identity, setIdentity] = useState(
     advance && advance.identity ? advance.identity : null,
   );
-  const [nativeLand, setNativeLand] = useState(
-    advance && advance.nativeLand ? advance.nativeLand : null,
-  );
+  const [nativeLand, setNativeLand] = useState(addressUser);
   const [bankAccount, setBankAccount] = useState(
     advance && advance.bankAccount ? advance.bankAccount : null,
   );
@@ -111,15 +111,8 @@ function UpdateProfile(props) {
     console.log('=>>>>>>>', pickDate);
     setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
   };
-
-  const onShowGene = (val) => {
-    setShowGene(true);
-  };
   const onHideGene = () => {
     setShowGene(false);
-  };
-  const onChangeGene = (value) => {
-    setGene(value);
   };
 
   const onShowTeam = (val) => {
@@ -187,44 +180,38 @@ function UpdateProfile(props) {
 
   const onUpdateInfo = () => {
     const data = {
-      name: name,
-      phoneNumber: phone,
+      fullname: name,
+      phone_number: phone,
       birthday: birthday,
-      advance: {
-        identity: identity,
-        nativeLand: nativeLand,
-        gene: gene,
-        bankAccount: bankAccount,
-        bankName: bankName,
-      },
+      address: nativeLand,
       token: token,
     };
-    if (!isVNPhoneMobile.test(phone)) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.wrongVinaphone,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
-      });
-    }
-    if (update && !(gene === 'Nam' || gene === 'Nữ' || gene === 'Khác')) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.invalidGene,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
-      });
-    }
-    if (!regId.test(identity)) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.wrongIdentity,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
-      });
-    } else {
-      updateProfile(data);
+    if (
+      name === nameUser &&
+      phone === phoneNumber &&
+      birthday === birthdayUser &&
+      nativeLand === addressUser
+    ) {
       navigation.goBack();
+    } else {
+      if (!isVNPhoneMobile.test(phone)) {
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: langs.alert.wrongVinaphone,
+          messageColor: Colors.danger,
+          leftButton: {text: langs.alert.ok},
+        });
+        // if (!regId.test(identity)) {
+        //   _global.Alert.alert({
+        //     title: langs.alert.notify,
+        //     message: langs.alert.wrongIdentity,
+        //     messageColor: Colors.danger,
+        //     leftButton: {text: langs.alert.ok},
+        //   });
+        // }
+      } else {
+        updateProfile(data);
+      }
     }
   };
 
@@ -241,89 +228,83 @@ function UpdateProfile(props) {
         textPress={true}
         onRight={onUpdateInfo}
       />
-      <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView style={styles.container}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles.scroll}>
+      <KeyboardAvoidingView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+          <Card style={styles.card}>
             <Info
               name={name}
-              phone={phone}
               identity={identity}
-              nativeLand={nativeLand}
               team={team}
-              onChangeNative={onChangeNativeLand}
-              onChangePhone={onChangePhone}
+              birthday={birthday}
+              onChangeBirthday={onShowModal}
               onChangeName={onChangeName}
               onChangeIdentity={onChangeIdentity}
               onChangeTeam={onShowTeam}
             />
-
             <UpdateInfo
-              birthday={birthday}
-              gene={gene}
-              onChangeGene={onShowGene}
-              onChangeBirthday={onShowModal}
+              nativeLand={nativeLand}
+              phone={phone}
+              onChangeNative={onChangeNativeLand}
+              onChangePhone={onChangePhone}
               onChangeBank={onPick}
               bankName={bankName}
               deviceId={deviceId}
               onCopyDeviceID={onAlertCopy}
             />
-          </ScrollView>
-          {Platform.OS === 'ios' ? (
-            <ModalTime
-              showModal={show}
-              hideModal={onHideModal}
-              picker={
-                <View style={styles.picker}>
-                  <DateTimePicker
-                    value={moment(birthday, 'DD/MM/YYYY').toDate()}
-                    mode={'date'}
-                    display="default"
-                    onChange={onChangeBirthday}
-                    locale="vi-VI"
-                  />
-                </View>
-              }
+          </Card>
+          <Button
+            title={langs.update}
+            containerStyle={styles.complete}
+            onPress={onUpdateInfo}
+          />
+        </ScrollView>
+        {Platform.OS === 'ios' ? (
+          <ModalTime
+            showModal={show}
+            hideModal={onHideModal}
+            picker={
+              <View style={styles.picker}>
+                <DateTimePicker
+                  value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                  mode={'date'}
+                  display="default"
+                  onChange={onChangeBirthday}
+                  locale="vi-VI"
+                />
+              </View>
+            }
+          />
+        ) : (
+          showPicker && (
+            <DateTimePicker
+              value={moment(birthday, 'DD/MM/YYYY').toDate()}
+              mode={'date'}
+              display="default"
+              onChange={onChangeBirthday}
+              locale="vi-VI"
             />
-          ) : (
-            showPicker && (
-              <DateTimePicker
-                value={moment(birthday, 'DD/MM/YYYY').toDate()}
-                mode={'date'}
-                display="default"
-                onChange={onChangeBirthday}
-                locale="vi-VI"
-              />
-            )
-          )}
-          <ModalBank
-            showModal={showBank}
-            hideModal={onDonePick}
-            onSetVTB={onSetVTB}
-            onSetBIDV={onSetBIDV}
-            onSetTech={onSetTech}
-            onSetAgri={onSetAgri}
-            onSetVCB={onSetVCB}
-            onSetVPB={onSetVPB}
-            onBankAccount={onChangeAccount}
-            bankName={bankName}
-          />
-          <ModalGene
-            showModal={showGene}
-            hideModal={onHideGene}
-            detailGene={gene}
-            pressItem={(e) => onChangeGene(e)}
-          />
-          <ModalTeam
-            showModal={showTeam}
-            hideModal={onHideTeam}
-            detailTeam={team}
-            dataTeam={teams}
-            pressItem={(e) => onChangeTeam(e)}
-          />
-        </KeyboardAvoidingView>
-      </ScrollView>
+          )
+        )}
+        <ModalBank
+          showModal={showBank}
+          hideModal={onDonePick}
+          onSetVTB={onSetVTB}
+          onSetBIDV={onSetBIDV}
+          onSetTech={onSetTech}
+          onSetAgri={onSetAgri}
+          onSetVCB={onSetVCB}
+          onSetVPB={onSetVPB}
+          onBankAccount={onChangeAccount}
+          bankName={bankName}
+        />
+        <ModalTeam
+          showModal={showTeam}
+          hideModal={onHideTeam}
+          detailTeam={team}
+          dataTeam={teams}
+          pressItem={(e) => onChangeTeam(e)}
+        />
+      </KeyboardAvoidingView>
     </>
   );
 }
@@ -364,5 +345,22 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     backgroundColor: Colors.white,
+  },
+  card: {
+    width: widthPercentageToDP(100) - 32,
+    alignSelf: 'center',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 24,
+    marginTop: 16,
+    paddingVertical: 16,
+  },
+  complete: {
+    backgroundColor: Colors.background,
   },
 });

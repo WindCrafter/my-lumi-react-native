@@ -8,7 +8,7 @@ import {
 import Assignment from '../../screen/apply/Assignment';
 
 const mapStateToProps = (state) => ({
-  userId: state.authen.userProfile.userId,
+  userId: state.authen.userId,
   token: state.authen.token,
   assign: state.user.assign,
   listAssign: state.user.listAssign,

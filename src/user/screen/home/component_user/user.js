@@ -35,7 +35,7 @@ export default CardUser;
 const styles = StyleSheet.create({
   container: {
     height: 60,
-    width: widthPercentageToDP(50) - 28,
+    width: widthPercentageToDP(50) - 24,
     borderRadius: 16,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -62,15 +62,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
-    alignSelf: 'flex-end',
+    marginLeft: 16,
   },
   viewDetail: {
     flexDirection: 'column',
-    flex: 1,
+    flex: 1.5,
   },
   txtDetail: {
     fontSize: 10,
-    width: 64,
+    width:'100%',
   },
   txtNumber: {
     fontSize: 19,

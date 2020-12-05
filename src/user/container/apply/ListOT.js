@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import ListOT from '../../screen/apply/ListOT';
 
 const mapStateToProps = (state) => ({
-  userId: state.authen.userProfile.userId,
+  userId: state.authen.userId,
   token: state.authen.token,
   assign: state.user.assign,
 });

@@ -22,7 +22,7 @@ import {
   getProfile,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
-import {_POST} from '../../../utlis/connection/api';
+import {_GET, _POST} from '../../../utlis/connection/api';
 import {_global} from '../../../utlis/global/global';
 import langs from '../../../common/language';
 import {Colors} from '../../../utlis';
@@ -54,13 +54,14 @@ function* sagaLoginAction(action) {
           user_id: response.data.user_id,
         }),
       );
+      yield put(getProfile({access_token: response.data.access_token}));
     } else {
       yield put(loginFailed());
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
         leftButton: {text: langs.alert.ok},
-        messageColor: Colors.danger,
+        messageColor: Colors.background,
       });
     }
   } catch (error) {
@@ -246,4 +247,35 @@ function* sagaRegisterAction(action) {
 
 export function* watchRegisterAction() {
   yield takeLatest(types.REGISTER, sagaRegisterAction);
+}
+
+function* sagaGetProfile(action) {
+  try {
+    const token = action.payload.access_token;
+    const response = yield _GET(URL_GET_PROFILE, token);
+    console.log('=>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getProfileSuccess(response));
+    } else {
+      yield put(getProfileFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: 'Lấy thông tin user thất bại',
+        leftButton: {text: langs.alert.ok},
+        messageColor: Colors.danger,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: {text: langs.alert.ok},
+      messageColor: Colors.danger,
+    });
+  }
+}
+
+export function* watchgetProfile() {
+  yield takeLatest(types.GET_PROFILE, sagaGetProfile);
 }

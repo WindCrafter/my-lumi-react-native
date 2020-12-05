@@ -42,9 +42,9 @@ const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
     const data = {
-      name: action.payload.name,
-      phoneNumber: action.payload.phoneNumber,
-      advance: action.payload.advance,
+      fullname: action.payload.fullname,
+      phone_number: action.payload.phone_number,
+      address: action.payload.address,
       birthday: action.payload.birthday,
     };
     const token = action.payload.token;
@@ -52,6 +52,12 @@ function* sagaUpdateProfile(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(updateProfileSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.updateProfileSuccess,
+        messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
     } else {
       yield put(updateProfileFailed());
       _global.Alert.alert({

@@ -61,7 +61,7 @@ const Account = (props) => {
   };
 
   const onMoveToProfile = () => {
-    navigation.navigate('UpdateProfile');
+    navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveToContact = () => {
     navigation.navigate('Contact');
@@ -75,45 +75,44 @@ const Account = (props) => {
       <BarStatus />
       <View style={styles.container}>
         <HeaderAccount />
-        <Card style={styles.cardTop}>
-          <RoundedView
-            leftImage={require('../../../../naruto.jpeg')}
-            title={nameUser}
-            rightImage={imgs.next}
-            tintColor={'grey'}
-            detail={'Team App'}
-            fontSize={16}
-            onPressButton={onMoveToProfile}
-            styleImg={styles.image}
-          />
-        </Card>
+        <RoundedView
+          leftImage={require('../../../../naruto.jpeg')}
+          title={nameUser}
+          rightImage={imgs.next}
+          tintColor={'grey'}
+          detail={'Team App'}
+          fontSize={16}
+          onPressButton={onMoveToProfile}
+          styleImg={styles.image}
+          styleName={styles.name}
+          team={'Team App'}
+        />
         <View style={styles.detail}>
-          <Card style={styles.cardMid}>
-            <RoundedView
-              leftImage={imgs.meeting}
-              title={'Danh sách Lumier'}
-              rightImage={imgs.next}
-              tintColor={'#3E30B2'}
-              line={true}
-              onPressButton={onMoveToContact}
-            />
-            <RoundedView
-              leftImage={imgs.inforsolidblack}
-              title={'Thông tin ứng dụng'}
-              rightImage={imgs.next}
-              tintColor={'#DE6D2E'}
-              line={true}
-              onPressButton={onShowModal}
-            />
-            <RoundedView
-              leftImage={imgs.logout}
-              title={'Đăng xuất'}
-              rightImage={imgs.next}
-              tintColor={'#EA4074'}
-              line={false}
-              onPressButton={onLogOut}
-            />
-          </Card>
+          <RoundedView
+            leftImage={imgs.meeting}
+            title={langs.lumier}
+            onPressButton={onMoveToContact}
+          />
+          <RoundedView
+            leftImage={imgs.changePassIcon}
+            title={langs.changePass}
+            onPressButton={onShowModal}
+          />
+          <RoundedView
+            leftImage={imgs.inforsolidblack}
+            title={langs.infoApp}
+            onPressButton={onShowModal}
+          />
+          <RoundedView
+            leftImage={imgs.KPI}
+            title={langs.kpiConfirm}
+            onPressButton={onShowModal}
+          />
+          <RoundedView
+            leftImage={imgs.logout}
+            title={langs.logOut}
+            onPressButton={onLogOut}
+          />
         </View>
         <ModalInforApp
           showModal={showModal}
@@ -141,6 +140,7 @@ const styles = StyleSheet.create({
   detail: {
     flex: 3,
     alignItems: 'center',
+    marginTop: 16,
   },
   bot: {
     flexDirection: 'row',
@@ -174,9 +174,13 @@ const styles = StyleSheet.create({
     height: 240,
   },
   image: {
-    height: 36,
-    width: 36,
-    borderRadius: 18,
+    height: 40,
+    width: 40,
+    borderRadius: 20,
     alignSelf: 'center',
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

@@ -22,11 +22,11 @@ const CardLate = (props) => {
       <View style={styles.detail}>
         <View style={styles.row}>
           {leader ? (
-            <View style={styles.viewDay}>
+            <View style={styles.viewName}>
               <Text style={styles.name}> {name} </Text>
             </View>
           ) : (
-            <View style={styles.viewDay}>
+            <View style={styles.viewName}>
               <Image
                 source={imgs.startTime}
                 style={[
@@ -85,7 +85,7 @@ const CardLate = (props) => {
                 <TouchableOpacity
                   style={styles.buttonAccept}
                   onPress={onAccept}>
-                  <Text style={styles.txtButton}>{langs.accept}</Text>
+                  <Text style={styles.txtButton}>{langs.confirm}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -169,6 +169,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
+  },
+  viewName: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+    paddingLeft: 24,
   },
   name: {
     fontWeight: '600',

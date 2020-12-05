@@ -24,6 +24,15 @@ const authPersistConfig = {
     'userProfile',
     'roleInfo',
     'oneSignalID',
+    'userID',
+    'fullname',
+    'phone_number',
+    'birthday',
+    'email',
+    'avatar',
+    'address',
+    'team_id',
+    'staff_type',
   ],
 };
 

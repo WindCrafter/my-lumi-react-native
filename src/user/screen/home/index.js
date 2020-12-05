@@ -13,7 +13,7 @@ import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
 
 const DATA_EVENT = [
-  {id: '1', detail: 'Nay là 1 ngày trọng đại', time: '10:00   20/11/2020'},
+  {id: '1', detail: 'Nay là 1 ngày trọng đại Mai là 1 ngày trọng đại Mai là 1 ngày trọng đại Mai là 1 ngày trọng đại', time: '10:00   20/11/2020'},
   {id: '2', detail: 'Mai là 1 ngày trọng đại', time: '13:45   21/11/2020'},
   {id: '3', detail: 'Kia là 1 ngày trọng đại', time: '15:45   22/11/2020'},
   {id: '4', detail: 'Kìa là 1 ngày trọng đại', time: '17:45   23/11/2020'},
@@ -102,7 +102,7 @@ export default function Home(props) {
               <CardUser
                 backgroundColor={'rgb(246, 243, 255)'}
                 number={5}
-                detail={'Giờ đi muộn'}
+                detail={'Đi muộn/về sớm'}
                 source={imgs.clockAlert}
                 imgBackground={'rgb(217, 211, 253)'}
                 numberColor={'rgb(108, 74, 248)'}
@@ -111,12 +111,12 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <Event data={DATA_EVENT} />
+                <HistoryCheck data={DATA_CHECK} />
               </View>
             </Card>
             <Card style={styles.card}>
               <View>
-                <HistoryCheck data={DATA_CHECK} />
+                <Event data={DATA_EVENT} />
               </View>
             </Card>
           </ScrollView>
@@ -139,13 +139,13 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     marginTop: 11,
-    width: widthPercentageToDP(100) - 32,
+    width: widthPercentageToDP(100) - 24,
     height: 200,
     alignSelf: 'center',
     backgroundColor: '#ffffff',
     overflow: 'hidden',
     shadowColor: 'black',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingVertical: 16,
   },
   row: {
@@ -163,13 +163,13 @@ const styles = StyleSheet.create({
   },
   groupCard: {
     width: '100%',
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   botCard: {
     width: '100%',
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,

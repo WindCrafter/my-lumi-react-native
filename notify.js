@@ -91,7 +91,6 @@ const mapStateToProps = (state) => {
     // notificationDevice: state.config.notificationDevice,
     // notify: state.config.notify
     token: state.authen.token,
-    deviceIds: state.authen.userProfile.deviceIds,
     oneSignalID: state.authen.oneSignalID,
   };
 };

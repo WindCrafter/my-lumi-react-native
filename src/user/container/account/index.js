@@ -8,8 +8,8 @@ import {
 } from '../../../redux/actions/user';
 import {resetCheck} from '../../../redux/actions/check';
 const mapStateToProps = (state) => ({
-  nameUser: state.authen.userProfile.name,
-  emailUser: state.authen.userProfile.email,
+  nameUser: state.authen.fullname,
+  emailUser: state.authen.email,
   token: state.authen.token,
   currentUser: state.user.currentUser,
   oneSignalID: state.authen.oneSignalID,

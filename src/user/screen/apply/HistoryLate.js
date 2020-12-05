@@ -11,6 +11,7 @@ import {Colors, imgs} from '../../../../utlis';
 import {BarStatus, HeaderCustom} from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
+import ActionButton from './component/ActionButton';
 
 const DATA = [
   {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
@@ -36,19 +37,18 @@ const HistoryLate = (props) => {
   const renderItem = ({item, index}) => {
     return <CardLate leader={false} status={item.status} type={item.type} />;
   };
+
+  const onPressCreate = () => {
+    navigation.navigate(langs.navigator.approveLate);
+  };
+
   return (
     <>
       <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom
-        title={'Lịch sử xin đi muộn/về sớm'}
-        rightButton
-        goBack={goBack}
-        rightImage={imgs.document}
-        onRight={onApplyLate}
-      />
+      <HeaderCustom title={'Lịch sử xin đi muộn/về sớm'} goBack={goBack} />
       <View>
         <FlatList
           data={DATA}
@@ -56,11 +56,11 @@ const HistoryLate = (props) => {
           renderItem={renderItem}
         />
       </View>
+      <ActionButton onPressLate={onApplyLate} onPressOT={onPressCreate} />
     </>
   );
 };
 
 export default HistoryLate;
 
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create({});

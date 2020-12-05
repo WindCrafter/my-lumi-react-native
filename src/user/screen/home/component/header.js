@@ -74,10 +74,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   avt: {
-    height: SCREEN_WIDTH > 500 ? 64 : 48,
-    width: SCREEN_WIDTH > 500 ? 64 : 48,
-    borderRadius: 32,
-    marginLeft: 24,
+    height: SCREEN_WIDTH > 400 ? 64 : 56,
+    width: SCREEN_WIDTH > 400 ? 64 : 56,
+    borderRadius: 40,
+    marginLeft: 12,
   },
   txtName: {
     fontSize: 16,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   notify: {
-    marginTop: 24,
+    marginTop: 48,
     marginRight: 32,
     height: 28,
     width: 28,

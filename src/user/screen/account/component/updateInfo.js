@@ -10,18 +10,18 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {InputRow} from '../../../../component';
 import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
+import InforRow from './InfoRow';
 
 const UpdateInfo = (props) => {
   const refPhone = useRef('');
   const refBirth = useRef('');
   const {
-    gene,
-    onChangeGene,
-    birthday,
-    onChangeBirthday,
+    phone,
+    onChangePhone,
     onChangeBank,
     bankName,
-    onCopyDeviceID,
+    nativeLand,
+    onChangeNative,
   } = props;
   return (
     <View style={styles.container}>
@@ -29,34 +29,28 @@ const UpdateInfo = (props) => {
         style={styles.info}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.detail}>
-          <TouchableOpacity onPress={onChangeBirthday}>
-            <InputRow
-              containerStyle={styles.txtInput}
-              leftImage={imgs.DOB}
-              title={langs.birthday}
-              size={16}
-              value={birthday}
-              refInput={refPhone}
-              editable={false}
-              clearButtonMode="never"
-              onSubmitEditing={() => refBirth.current.focus()}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onChangeGene}>
-            <InputRow
-              leftImage={imgs.person}
-              containerStyle={styles.txtInput}
-              title={langs.gene}
-              size={16}
-              value={gene}
-              editable={false}
-              refInput={refBirth}
-              clearButtonMode="while-editing"
-              placeholder={'Nam/Nữ/Khác'}
-            />
-          </TouchableOpacity>
+          <InforRow
+            leftImage={imgs.location}
+            containerStyle={styles.txtInput}
+            title={langs.nativeLand}
+            size={16}
+            value={nativeLand}
+            onChangeText={onChangeNative}
+            clearButtonMode="while-editing"
+          />
+          <InforRow
+            leftImage={imgs.phone}
+            containerStyle={styles.txtInput}
+            title={langs.phone}
+            size={16}
+            value={phone}
+            keyboardType={'number-pad'}
+            onChangeText={onChangePhone}
+            refInput={refBirth}
+            clearButtonMode="while-editing"
+          />
           <TouchableOpacity onPress={onChangeBank}>
-            <InputRow
+            <InforRow
               leftImage={imgs.bank}
               containerStyle={styles.txtInput}
               title={langs.bank}
@@ -67,8 +61,6 @@ const UpdateInfo = (props) => {
               canedit={false}
             />
           </TouchableOpacity>
-          
-          <View style={styles.height} />
         </View>
       </KeyboardAvoidingView>
     </View>

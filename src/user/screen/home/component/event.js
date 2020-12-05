@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
   },
   viewItem: {
     paddingVertical: 2,
-    width: '100%',
     marginTop: 8,
     flexDirection: 'row',
+    paddingRight: 16,
   },
   viewDetail: {
     justifyContent: 'center',

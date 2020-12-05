@@ -95,7 +95,6 @@ const mapStateToProps = (state) => {
     token: state.authen.token,
     role: state.authen.role,
     autoLoginStatus: state.authen.autoLoginStatus,
-    deviceId: state.authen.deviceId,
     dateCheckIn: state.authen.check,
   };
 };

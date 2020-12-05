@@ -4,8 +4,8 @@ import HomeComponent from '../../screen/home';
 import { getListNotifys } from '../../../redux/actions/user';
 
 const mapStateToProps = (state) => ({
-  nameUser: state.authen.userProfile.name,
-  emailUser: state.authen.userProfile.email,
+  nameUser: state.authen.fullname,
+  emailUser: state.authen.email,
   timeIn: state.check.timeCheckIn,
   timeOut: state.check.timeCheckOut,
   token: state.authen.token,

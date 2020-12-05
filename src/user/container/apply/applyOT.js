@@ -3,7 +3,7 @@ import ApplyOT from '../../screen/apply/applyOT';
 import {overTime} from '../../../redux/actions/check';
 
 const mapStateToProps = (state) => ({
-  userId: state.authen.userProfile.userId,
+  userId: state.authen.userId,
   token: state.authen.token,
   assign: state.user.assign,
 });

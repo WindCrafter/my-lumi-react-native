@@ -65,7 +65,7 @@ const HistoryCheck = (props) => {
     <>
       <View style={styles.manager}>
         <Image source={imgs.selectCalendar} style={styles.imgs} />
-        <Text style={styles.txtManager}>{langs.dayWeek}</Text>
+        <Text style={styles.txtManager}>{langs.historyCheck}</Text>
       </View>
       <View style={styles.line} />
       <FlatList
