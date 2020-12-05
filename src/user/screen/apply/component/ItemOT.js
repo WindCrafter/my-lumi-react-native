@@ -4,16 +4,10 @@ import {Card} from 'native-base';
 // import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
 
-const item = {
-  status: 1,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
-
 const {width} = Dimensions.get('window');
 
 const ItemOT = (props) => {
+  const {item} = props;
   const renderStatus = () => {
     if (item.status === 1) {
       return (

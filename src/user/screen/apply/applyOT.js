@@ -15,6 +15,7 @@ import {
   Keyboard,
   FlatList,
 } from 'react-native';
+import _ from 'lodash';
 import moment from 'moment';
 import PickerCustom from './component/PickerCustom';
 import {
@@ -23,12 +24,16 @@ import {
 } from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  Button,
+  SelectButton,
+} from '../../../component';
 import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
-import Slider from '@react-native-community/slider';
 
 if (
   Platform.OS === 'android' &&
@@ -37,36 +42,105 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+const ruleOT = {
+  normalDay: {
+    1: {
+      start: 0,
+      end: 8,
+      level: 210,
+    },
+    2: {
+      start: 18,
+      end: 22,
+      level: 150,
+    },
+    3: {
+      start: 22,
+      end: 24,
+      level: 210,
+    },
+    type: 0,
+  },
+  dayOff: {
+    1: {
+      start: 0,
+      end: 8,
+      level: 270,
+    },
+    2: {
+      start: 8,
+      end: 22,
+      level: 200,
+    },
+    3: {
+      start: 22,
+      end: 24,
+      level: 270,
+    },
+    type: 1,
+  },
+  holiday: {
+    1: {
+      start: 0,
+      end: 8,
+      level: 390,
+    },
+    2: {
+      start: 8,
+      end: 22,
+      level: 300,
+    },
+    3: {
+      start: 22,
+      end: 24,
+      level: 390,
+    },
+    type: 2,
+  },
+};
+
+const convertHour = (date) => {
+  const minute = moment(date).format('mm');
+  if (minute >= 0 && minute < 15) {
+    return moment(date).subtract(minute, 'minutes');
+  }
+  if (minute < 30) {
+    return moment(date).add(30 - minute, 'minutes');
+  }
+  if (minute < 45) {
+    return moment(date).subtract(minute - 30, 'minutes');
+  }
+  return moment(date).subtract(minute, 'minutes');
+};
+
 function ApplyOT(props) {
   const {navigation, route, userId, token, overTime, assign} = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(30);
-  const [hour, setHour] = useState(new Date());
+  const [time, setTime] = useState(0.5);
+  const [hour, setHour] = useState(convertHour(new Date())._d);
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const goBack = () => {
     navigation.goBack();
   };
+
   const onChangeHour = (event, selectedShift) => {
     const currentShift = selectedShift || hour;
     setShowModal(Platform.OS === 'ios');
-    setHour(currentShift);
+    setHour(convertHour(currentShift)._d);
   };
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowModal(false);
     setMode('');
   };
-  const onChangeTime = (value) => {
-    setTime(value);
-    console.log('---time', value);
-  };
 
   const onChangeDay = (event, selectedDay) => {
     const currentDay = selectedDay || day;
     setShowModal(Platform.OS === 'ios');
+    console.log(currentDay);
     setDay(currentDay);
   };
   const onChangeReason = (val) => {
@@ -82,17 +156,113 @@ function ApplyOT(props) {
     setReason(val);
     unFocus();
   };
+
+  const ngayle = ['04/02/2021', '02/09/2021', '03/02/2021', '01/01/2021'];
+  const checkDay = (date) => {
+    if (_.includes(ngayle, date)) {
+      return 2;
+    }
+    const currentMoment = moment(date, 'DD/MM/YYYY').format('dddd');
+    switch (currentMoment) {
+      case 'Sunday':
+      case 'Saturday':
+        return 1;
+      default:
+        return 0;
+    }
+  };
+
+  const getRuleDate = (date) => {
+    const typeDate = checkDay(date);
+    switch (typeDate) {
+      case 2:
+        return ruleOT.holiday;
+      case 1:
+        return ruleOT.dayOff;
+      default:
+        return ruleOT.normalDay;
+    }
+  };
+
+  const getStartTimeInRule = (start, rule) => {
+    return _.find(rule, function (o) {
+      return o.start <= start && o.end > start;
+    });
+  };
+
+  const splitTime = (date, start, time) => {
+    const result = [];
+    const convert = convertTime(start);
+    let _time = time;
+    let _start = convert;
+    let _day = date;
+    let _hour;
+    let _rule = getRuleDate(date);
+    let ruleStart;
+    while (_time > 0) {
+      ruleStart = getStartTimeInRule(_start, _rule);
+      if (!ruleStart) {
+        return false;
+      }
+      _hour =
+        _time - (ruleStart.end - _start) > 0 ? ruleStart.end - _start : _time;
+      result.push({
+        start: _start,
+        level: ruleStart.level,
+        time: _hour,
+        date: _day,
+      });
+      _time =
+        _time - (ruleStart.end - _start) > 0
+          ? _time - (ruleStart.end - _start)
+          : 0;
+      _start = ruleStart.end;
+      if (ruleStart.end === 24) {
+        _day = moment(date, 'DD/MM/YYYY').add(1, 'days').format('DD/MM/YYYY');
+        _rule = getRuleDate(_day);
+        _start = 0;
+      }
+    }
+    return result;
+  };
+
+  const convertTime = (time) => {
+    if (moment(time, 'HH:mm').format('mm') > 0) {
+      return parseInt(moment(time, 'HH:mm').format('H')) + 0.5;
+    }
+    return parseInt(moment(time, 'HH:mm').format('H'));
+  };
+
   const onSetOverTime = () => {
-    const data = {
-      time: time,
-      date: moment(day).format('DD/MM/YYYY'),
-      token: token,
-      start: moment(hour).format('HH:mm'),
-      assignTo: assign ? assign.userId : null,
-      description: reason,
-      advance: {},
-    };
-    overTime(data);
+    if (!day) {
+      Alert.alert('Chưa điền ngày đăng kí OT!');
+      return;
+    }
+    if (!hour) {
+      Alert.alert('Chưa điền giờ đăng kí OT!');
+      return;
+    }
+    if (!time) {
+      Alert.alert('Chưa điền thời gian đăng kí OT!');
+      return;
+    }
+    if (!reason) {
+      Alert.alert('Chưa điền lý do đăng kí OT!');
+      return;
+    }
+    const _day = moment(day).format('DD/MM/YYYY');
+    const _start = moment(hour).format('HH:mm');
+    console.log(
+      splitTime(
+        moment(day).format('DD/MM/YYYY'),
+        moment(hour).format('HH:mm'),
+        time,
+      ),
+      reason,
+    );
+    if (!splitTime(_day, _start, time)) {
+      Alert.alert('Thời gian đăng kí không chính xác!');
+    }
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
@@ -105,30 +275,46 @@ function ApplyOT(props) {
     Keyboard.dismiss();
   };
 
-  const onGoAssignment = () => {
-    navigation.navigate('Assignment');
+  const renderDropdown = (hideOverlay) => {
+    return (
+      <FlatList
+        data={status}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+      />
+    );
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = (item, hideOverlay) => {
     return (
-      <>
-        <View style={styles.btUser}>
-          <View style={styles.rowUser}>
-            <View style={styles.viewImage}>
-              <Image
-                source={require('../../../../naruto.jpeg')}
-                style={styles.avatar}
-                resizeMode={'cover'}
-              />
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.textUser}>{item.name}</Text>
-              {/* <Text style={styles.textPos}>{item.pos}</Text> */}
-            </View>
-          </View>
-        </View>
-      </>
+      <TouchableOpacity onPress={() => onPressItem(item, hideOverlay)}>
+        <Text>{item.label}</Text>
+      </TouchableOpacity>
     );
+  };
+
+  const status = [
+    {label: '0.5 giờ', value: 0.5},
+    {label: '1 giờ', value: 1},
+    {label: '1.5 giờ', value: 1.5},
+    {label: '2 giờ', value: 2},
+    {label: '2.5 giờ', value: 2.5},
+    {label: '3 giờ', value: 3},
+    {label: '3.5 giờ', value: 3.5},
+    {label: '4 giờ', value: 4},
+    {label: '4.5 giờ', value: 4.5},
+    {label: '5 giờ', value: 5},
+    {label: '5.5 giờ', value: 5.5},
+    {label: '6 giờ', value: 6},
+    {label: '6.5 giờ', value: 6.5},
+    {label: '7 giờ', value: 7},
+    {label: '7.5 giờ', value: 7.5},
+    {label: '8 giờ', value: 8},
+  ];
+
+  const onPressItem = (item, hideOverlay) => {
+    hideOverlay && hideOverlay();
+    setTime(item.value);
   };
 
   return (
@@ -151,7 +337,7 @@ function ApplyOT(props) {
             <View style={styles.img}>
               <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
+            <Text style={styles.txtStatus}>Nội dung</Text>
           </View>
           <InputApply
             borderRadius={12}
@@ -191,59 +377,7 @@ function ApplyOT(props) {
             </Card>
           ) : null}
 
-          <InputSelect
-            width={'90%'}
-            leftImage={imgs.personal}
-            borderRadius={32}
-            rightImage={assign ? imgs.return : imgs.add}
-            height={54}
-            shadowColor={'white'}
-            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onGoAssignment}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
-          />
-          {assign && (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
-              <FlatList
-                data={[assign]}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-              />
-            </Card>
-          )}
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.startTime} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>{langs.timeStart}</Text>
-          </View>
           <Card style={styles.card}>
-            <View
-              style={[
-                styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
-              <Image source={imgs.startTime} style={styles.icon} />
-              <Text style={styles.txtTime}>{time} phút</Text>
-            </View>
-            <Slider
-              style={styles.Slider}
-              minimumValue={0}
-              maximumValue={240}
-              minimumTrackTintColor="#4BBF70"
-              maximumTrackTintColor="grey"
-              step={5}
-              onValueChange={onChangeTime}
-              onSlidingComplete={onChangeTime}
-              // thumbImage={imgs.miniLogo}
-              value={time}
-            />
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
                 <Image
@@ -259,6 +393,28 @@ function ApplyOT(props) {
                   {moment(hour).format('HH:mm')}
                 </Text>
               </TouchableOpacity>
+            </View>
+            <View
+              style={[
+                styles.row,
+                {justifyContent: 'space-between', alignItems: 'center'},
+              ]}>
+              <View style={styles.img}>
+                <Image
+                  source={imgs.startTime}
+                  style={[styles.imageStamp, {marginRight: 8}]}
+                />
+                <Text style={styles.txtStatus}>{langs.timeOT}</Text>
+              </View>
+              <SelectButton
+                dropdownHeight={40}
+                dropdownWidth={260}
+                renderDropdown={renderDropdown}>
+                <View style={styles.filter}>
+                  <Text>{`${time} giờ`}</Text>
+                  <Text>▼</Text>
+                </View>
+              </SelectButton>
             </View>
             <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.img}>
@@ -458,5 +614,9 @@ const styles = StyleSheet.create({
   },
   viewInputSelect: {
     backgroundColor: Colors.white,
+  },
+  filter: {
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
 });

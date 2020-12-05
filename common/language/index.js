@@ -92,6 +92,7 @@ const langs = {
   account:'Tài khoản',
   setting:'Điều chỉnh và cài đặt',
   comunicate:'Thông tin liên hệ',
+  timeOT: 'Thời gian ước tính',
   navigator: {
     login: 'Login',
     register: 'Register',
