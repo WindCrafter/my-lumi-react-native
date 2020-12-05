@@ -76,6 +76,8 @@ const HeaderCustom = (props?: Props) => {
         data={status}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        contentContainerStyle={{backgroundColor: 'white', width: Dimensions.get('window').width/2 - 64, alignItems: 'flex-end'}}
+        style={{height: 200}}
       />
     );
   };
@@ -169,8 +171,8 @@ const HeaderCustom = (props?: Props) => {
           dropDownMaxHeight={200}
         /> */}
         <SelectButton
-          dropdownHeight={40}
-          dropdownWidth={260}
+          dropdownHeight={200}
+          dropdownWidth={Dimensions.get('window').width/2 - 64}
           renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
             <Text>Tất cả</Text>

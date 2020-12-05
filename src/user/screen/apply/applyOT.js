@@ -281,13 +281,21 @@ function ApplyOT(props) {
         data={status}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          width: 100,
+          alignItems: 'flex-end',
+        }}
+        style={{height: 200}}
       />
     );
   };
 
   const renderItem = (item, hideOverlay) => {
     return (
-      <TouchableOpacity onPress={() => onPressItem(item, hideOverlay)}>
+      <TouchableOpacity
+        style={{paddingVertical: 5}}
+        onPress={() => onPressItem(item, hideOverlay)}>
         <Text>{item.label}</Text>
       </TouchableOpacity>
     );
@@ -407,10 +415,10 @@ function ApplyOT(props) {
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
               <SelectButton
-                dropdownHeight={40}
-                dropdownWidth={260}
+                dropdownHeight={200}
+                dropdownWidth={100}
                 renderDropdown={renderDropdown}>
-                <View style={styles.filter}>
+                <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>

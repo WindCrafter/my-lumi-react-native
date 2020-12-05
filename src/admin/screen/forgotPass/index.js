@@ -61,6 +61,8 @@ const ForgotPass = (props) => {
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
+            keyboardShouldPersistTaps='handled'
+            keyboardDismissMode='on-drag'
             ref={step}>
             <SendCode
               email={email}
