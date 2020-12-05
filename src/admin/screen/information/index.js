@@ -19,7 +19,7 @@ import InfoRow from './component/InfoRow';
 import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
 import { Colors } from '../../../../utlis';
 import { imgs } from '../../../../utlis';
-
+import langs from '../../../../common/language'
 const DATA = [
   {
     name: 'Nguyễn Văn Nghị',
@@ -181,7 +181,7 @@ function Information(props) {
           onPress: () => deleteRow(rowMap, key),
         }}
         rightButton={{
-          text: 'Cancel',
+          text: langs.cancel,
         }}
         ref={refAlert}
       />

@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     flex: 5,
+    marginTop:8
   },
   avatar: {
     flex: 1,

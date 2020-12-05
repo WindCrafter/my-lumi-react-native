@@ -25,7 +25,7 @@ interface Props extends TextInputProps {
 }
 
 Input.defaultProps = {
-  width: wp(75),
+  width: wp(80),
   height: 50,
   borderRadius: 8,
   backgroundColor: 'rgb(227, 230, 229)',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     fontSize: 16,
     color: 'black',
-    fontFamily: 'quicksand',
+    fontFamily: 'Quicksand-Regular',
   },
   icon: {
     width: 14,

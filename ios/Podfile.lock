@@ -118,9 +118,9 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
-  - Permission-Camera (2.1.5):
+  - Permission-Camera (2.2.2):
     - RNPermissions
-  - Permission-LocationAlways (2.1.5):
+  - Permission-LocationAlways (2.2.2):
     - RNPermissions
   - RCTRequired (0.63.1)
   - RCTTypeSafety (0.63.1):
@@ -397,8 +397,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNPermissions (2.1.5):
-    - React
+  - RNPermissions (2.2.2):
+    - React-Core
   - RNReanimated (1.13.0):
     - React
   - RNScreens (2.9.0):
@@ -406,7 +406,7 @@ PODS:
   - RNSentry (2.0.2):
     - React-Core
     - Sentry (= 6.0.9)
-  - RNVectorIcons (7.0.0):
+  - RNVectorIcons (7.1.0):
     - React
   - RNWifi (4.2.2):
     - React
@@ -655,7 +655,7 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
-  CodePush: 69186fd1143f7e5e5c6f65383cf14f4927e28213
+  CodePush: 18dd72e6176d261832d036f22c70f910370d6b64
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: a50434c875bd42f2b1c99c712bda892a1dc659c7
   FBReactNativeSpec: 393853a536428e05a9da00b6290042f09809b15b
@@ -671,12 +671,12 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
-  Interactable: 411887c89fa16ac41f8e7898aca06dcad55e5f22
+  Interactable: 334971ca372efcb6791bb47f81f3265963c47f3e
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   OneSignal: 6647275955d0f06d9e17c90dc93af9d85ecfd2b9
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
-  Permission-LocationAlways: 155e6251b757b380f6354737cae8e8d59c472495
+  Permission-Camera: 375576c57ea625c88137d2cc52ba6dfeb21db036
+  Permission-LocationAlways: 265e9242ca29cce84f537381fe514f986aeabec2
   RCTRequired: d9b1a9e6fa097744ca3ede59f86a35096df7202b
   RCTTypeSafety: c227cd061983e9e964115afbc4e8730d6a6f1395
   React: 86e972a20967ee4137aa19dc48319405927c2e94
@@ -688,13 +688,13 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7ab9cdcdd18d57652fb041f8a147fe9658d4e00a
   React-jsinspector: 2e28bb487e42dda6c94dbfa0c648d1343767a0fb
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: 8016138a8348b889e22c95b23f668a234f124335
-  react-native-netinfo: 38a1e0b3e89b48e4b5833ed475d8df5f049f6f90
+  react-native-camera: 8a63c369af9383fcedea9a73fe234c7efb234d24
+  react-native-netinfo: d2c312fa4b151214e1d5c8456ddb5f28ff24a576
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
-  react-native-onesignal: ab5bd48dfc62d6f502ee2087cef317cd1c2b72f7
-  react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
-  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
-  react-native-smart-splash-screen: f92fe23ccc150f650fdab47c37ac70a6ddcaaab2
+  react-native-onesignal: 9fdf8cf885105266960a75567a38823bd824a22b
+  react-native-safe-area-context: 4c3249e4840225c61fcd215b136af0a737bccb79
+  react-native-slider: b733e17fdd31186707146debf1f04b5d94aa1a93
+  react-native-smart-splash-screen: 6e916ad789414b7becdd1bd231a13e22db9308ba
   React-RCTActionSheet: 1702a1a85e550b5c36e2e03cb2bd3adea053de95
   React-RCTAnimation: ddda576010a878865a4eab83a78acd92176ef6a1
   React-RCTBlob: 34334384284c81577409d5205bd2b9ff594d8ab6
@@ -705,21 +705,21 @@ SPEC CHECKSUMS:
   React-RCTText: 4f95d322b7e6da72817284abf8a2cdcec18b9cd8
   React-RCTVibration: f3a9123c244f35c40d3c9f3ec3f0b9e5717bb292
   ReactCommon: 2905859f84a94a381bb0d8dd3921ccb1a0047cb8
-  RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
-  RNCClipboard: a1dd5a278566666ac8f9c9b517b7922c801bcd98
-  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
+  RNCClipboard: ce9b77f2881948e9e04af84bd70262ab37adb1c1
+  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPicker: 55b9b4240d0a9eba8733d02616775d4040de2e7d
-  RNDateTimePicker: 83540fb5d71f28bd34990d8fabccb8d91e5d957e
-  RNDeviceInfo: c5f8f3a456adcbba405ace475254b08febc4c095
+  RNDateTimePicker: f13c2d8c4cd1ea6d1a1f9ea7ddcdd24e82060770
+  RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 16951bc02411f50c4d197488ed6406a23dc3b5f1
-  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
+  RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNSentry: 5ebc2926dbcbb9b77857ba6df0754a869037123d
-  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  RNWifi: 4fc05916e21464d665e8f03e8162e38f16185502
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  RNWifi: 67f9bb00dd1361a941f5697027111107bc748dc8
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
