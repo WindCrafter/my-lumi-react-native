@@ -41,6 +41,7 @@ const App = () => {
     // };
     codePush.notifyAppReady();
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    // codePush.disallowRestart();
   });
   return (
     <Provider store={store}>
