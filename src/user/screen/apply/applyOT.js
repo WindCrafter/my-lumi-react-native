@@ -157,7 +157,7 @@ function ApplyOT(props) {
     unFocus();
   };
 
-  const ngayle = ['01/01/2020', '02/09/2020', '03/02/2020', '01/01/2021'];
+  const ngayle = ['04/02/2021', '02/09/2021', '03/02/2021', '01/01/2021'];
   const checkDay = (date) => {
     if (_.includes(ngayle, date)) {
       return 2;
@@ -234,6 +234,22 @@ function ApplyOT(props) {
   };
 
   const onSetOverTime = () => {
+    if (!day) {
+      Alert.alert('Chưa điền ngày đăng kí OT!');
+      return;
+    }
+    if (!hour) {
+      Alert.alert('Chưa điền giờ đăng kí OT!');
+      return;
+    }
+    if (!time) {
+      Alert.alert('Chưa điền thời gian đăng kí OT!');
+      return;
+    }
+    if (!reason) {
+      Alert.alert('Chưa điền lý do đăng kí OT!');
+      return;
+    }
     const _day = moment(day).format('DD/MM/YYYY');
     const _start = moment(hour).format('HH:mm');
     console.log(
@@ -245,7 +261,7 @@ function ApplyOT(props) {
       reason,
     );
     if (!splitTime(_day, _start, time)) {
-      Alert.alert('Ngoài thời gian đăng kí!');
+      Alert.alert('Thời gian đăng kí không chính xác!');
     }
   };
   const onFocus = () => {
