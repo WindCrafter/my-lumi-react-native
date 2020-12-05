@@ -23,9 +23,6 @@ export default function ContactRow(props?: Props) {
       <Image source={leftImage} style={styles.image} resizeMode="contain" />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.dob}>
-          {langs.dob} {dob}
-        </Text>
         <Text style={styles.team}>
           {langs.team} {team} -{' '}
           <Text
@@ -34,12 +31,12 @@ export default function ContactRow(props?: Props) {
           </Text>
         </Text>
       </View>
-      <TouchableOpacity style={styles.work} onPress={onCall}>
-        <Image source={imgs.phone} />
-      </TouchableOpacity>
 
       <TouchableOpacity style={styles.work} onPress={onCopyBankAccount}>
-        <Image source={imgs.banking} />
+        <Image source={imgs.banking} style={styles.imgs} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.work} onPress={onCall}>
+        <Image source={imgs.phone} style={styles.imgs} />
       </TouchableOpacity>
     </View>
   );
@@ -51,7 +48,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
-    backgroundColor: 'rgb(241,251,245)',
+    backgroundColor: Colors.white,
     width: wp(95),
     paddingVertical: 8,
     borderRadius: 8,
@@ -113,5 +110,9 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  imgs: {
+    width: 32,
+    height: 32,
   },
 });

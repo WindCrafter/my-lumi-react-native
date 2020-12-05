@@ -74,7 +74,7 @@ const Account = (props) => {
     <>
       <BarStatus />
       <View style={styles.container}>
-        <HeaderAccount />
+        <HeaderAccount title={langs.account} sub={langs.setting} />
         <RoundedView
           leftImage={require('../../../../naruto.jpeg')}
           title={nameUser}

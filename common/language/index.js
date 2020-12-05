@@ -88,6 +88,9 @@ const langs = {
   changePass: 'Đổi mật khẩu',
   update: 'Cập nhật',
   address: 'Địa chỉ',
+  account:'Tài khoản',
+  setting:'Điều chỉnh và cài đặt',
+  comunicate:'Thông tin liên hệ',
   navigator: {
     login: 'Login',
     register: 'Register',

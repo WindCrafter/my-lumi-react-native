@@ -12,6 +12,7 @@ import {BarStatus, HeaderCustom} from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import ActionButton from './component/ActionButton';
+import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 const DATA = [
   {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
@@ -49,11 +50,12 @@ const HistoryLate = (props) => {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Lịch sử xin đi muộn/về sớm'} goBack={goBack} />
-      <View>
+      <View style={styles.container}>
         <FlatList
           data={DATA}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
+          style={styles.flatList}
         />
       </View>
       <ActionButton onPressLate={onApplyLate} onPressOT={onPressCreate} />
@@ -63,4 +65,12 @@ const HistoryLate = (props) => {
 
 export default HistoryLate;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+  },
+  flatList: {
+    marginBottom: heightPercentageToDP(12),
+    flexGrow: 1,
+  },
+});

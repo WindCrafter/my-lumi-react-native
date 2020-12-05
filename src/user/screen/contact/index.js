@@ -18,12 +18,17 @@ import Clipboard from '@react-native-community/clipboard';
 import {_global} from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
+import HeaderAccount from '../account/component/HeaderAccount';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+
+const DATA=[
+  {name: 'Do Tun Phon', team: 'APP', role:'Leader'}
+]
 
 function Contact(props) {
   const {navigation, currentUser} = props;
@@ -115,11 +120,8 @@ function Contact(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom title={'Thông tin liên hệ'} height={60} goBack={goBack} />
+      <BarStatus />
+      <HeaderAccount title={langs.lumier} sub={langs.comunicate} />
       <Input
         button
         leftImage={imgs.search}
@@ -132,9 +134,9 @@ function Contact(props) {
       />
 
       <FlatList
-        data={listData}
+        data={DATA}
         renderItem={renderItem}
-        keyExtractor={(item) => item.userId}
+        keyExtractor={(index) => index.toString()}
       />
       <ModalInforBank
         bankName={bankName}
