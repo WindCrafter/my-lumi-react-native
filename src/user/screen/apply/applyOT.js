@@ -514,11 +514,11 @@ const styles = StyleSheet.create({
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '300',
   },
   extend: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
     marginHorizontal: 27,
     marginTop: 16,
