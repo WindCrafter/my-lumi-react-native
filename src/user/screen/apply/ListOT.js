@@ -46,7 +46,7 @@ const item2 = {
 function ListOT(props) {
   const {navigation} = props;
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
 
@@ -131,7 +131,7 @@ function ListOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          onEndReached={handleLoadMore}
+          onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />

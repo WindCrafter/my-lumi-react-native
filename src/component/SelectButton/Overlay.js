@@ -145,15 +145,15 @@ class Overlay extends PureComponent {
       y: 0,
     };
 
-    if (origin.x < (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 3) {
+    if (origin.x < (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
       // goc phan tu top left
-      targetStart.x = origin.x - dropdownWidth / 2;
-      targetStart.y = origin.y - dropdownHeight / 2;
-      targetEnd.x = origin.x;
-      targetEnd.y = origin.y;
+      targetStart.x = origin.x + origin.width - dropdownWidth / 2;
+      targetStart.y = origin.y + origin.height - dropdownHeight / 2;
+      targetEnd.x = origin.x + origin.width - dropdownWidth;
+      targetEnd.y = origin.y + origin.height;
     }
 
-    if (origin.x < (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 3) {
+    if (origin.x < (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
       // goc phan tu bottom left
       targetStart.x = origin.x - dropdownWidth / 2;
       targetStart.y = origin.y - dropdownHeight / 2;
@@ -161,15 +161,15 @@ class Overlay extends PureComponent {
       targetEnd.y = origin.y - dropdownHeight;
     }
 
-    if (origin.x > (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 3) {
+    if (origin.x > (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
       // goc phan tu top right
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
-      targetStart.y = origin.y - dropdownHeight / 2;
+      targetStart.y = origin.y + origin.height - dropdownHeight / 2;
       targetEnd.x = origin.x + origin.width - dropdownWidth;
-      targetEnd.y = origin.y;
+      targetEnd.y = origin.y + origin.height;
     }
 
-    if (origin.x > (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 3) {
+    if (origin.x > (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
       // goc phan tu bottom right
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
       targetStart.y = origin.y - dropdownHeight / 2;
