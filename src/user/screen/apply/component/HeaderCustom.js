@@ -214,10 +214,12 @@ const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0.25,
     borderColor: Colors.gray,
+    backgroundColor: Colors.white,
   },
   row: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    backgroundColor: Colors.white,
   },
   button: {
     position: 'absolute',

@@ -244,11 +244,10 @@ export function* watchSetLateEarly() {
 function* sagaTakeLeave(action) {
   try {
     const data = {
-      startDate: action.payload.startDate,
-      endDate: action.payload.endDate,
-      assignTo: action.payload.assignTo,
-      advance: action.payload.advance,
-      description: action.payload.description,
+      date: action.payload.date,
+      type: action.payload.type,
+      content: action.payload.content,
+      status: action.payload.status,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);

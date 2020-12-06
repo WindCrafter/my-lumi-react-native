@@ -70,6 +70,8 @@ const langs = {
   code: 'Dùng mã',
   titleListOT: 'Lịch sử xin OT',
   titleApproveOT: 'Đơn xin OT',
+  titleHistoryBreak: 'Lịch sử nghỉ phép',
+  titleApproveBreak: 'Đơn xin nghỉ phép',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',

@@ -14,7 +14,7 @@ export const URL = {
   CHECK_IN_WIFI: '/check-in/wifi',
   LIST_USERS: '/user/list-users',
   LATE_EARLY: '/user/add-late-early',
-  TAKE_LEAVE: '/user/add-take-leave',
+  TAKE_LEAVE: '/take-leave/create',
   OVERTIME: '/user/add-overtime',
   ADD_USERID_DEVICE: '/user/add-device-id',
   REMOVE_USERID_DEVICE: '/user/remove-device-id',

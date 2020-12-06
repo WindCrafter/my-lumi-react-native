@@ -153,7 +153,7 @@ function ListOT(props) {
           ListFooterComponent={renderFooterComponent}
         />
       </View>
-      <ActionButton onPressLate={onPressCreate} onPressOT={onPressConfirm} />
+      <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>
   );
 }
