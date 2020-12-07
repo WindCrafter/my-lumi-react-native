@@ -89,7 +89,7 @@ const Register = (props) => {
     if (newPassword.trim().length === 0) {
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: langs.alert.invalidEmail,
+        message: langs.alert.invalidPassword,
         messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
@@ -109,7 +109,7 @@ const Register = (props) => {
     if (confirmPassword.trim().length === 0) {
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: langs.alert.invalidPassword,
+        message: langs.alert.invalidRePassword,
         messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
