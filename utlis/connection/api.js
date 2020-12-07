@@ -7,6 +7,7 @@ export function _POST(url, data, token) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
       Authorization: ' Bearer ' + token,
     },
     body: JSON.stringify(data),
@@ -24,6 +25,7 @@ export function _POST(url, data, token) {
       _global.Loading.hide();
       return error;
     });
+
   return response;
 }
 
