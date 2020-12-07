@@ -11,6 +11,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  Keyboard
 } from 'react-native';
 import {
   KeyBoardScroll,
@@ -66,6 +67,7 @@ const Register = (props) => {
 
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
   const onRegister = () => {
+    Keyboard.dismiss();
     if (email.trim().length === 0) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -167,7 +169,10 @@ const Register = (props) => {
   };
 
   return (
-    <KeyBoardScroll>
+    <KeyBoardScroll
+     keyboardShouldPersistTaps='handled'
+      keyboardDismissMode='on-drag'
+>
       <SafeAreaView style={styles.container}>
         
 
