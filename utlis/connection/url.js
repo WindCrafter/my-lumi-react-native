@@ -30,4 +30,5 @@ export const URL = {
   //
   GET_LIST_OVERTIME: '',
   GET_LIST_TAKE_LEAVE: '/take-leave/self-list',
+  GET_LIST_ADMIN_TAKE_LEAVE: '/take-leave/manager-list'
 };

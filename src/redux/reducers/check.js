@@ -9,6 +9,7 @@ const initialState = {
   timeCheckOut: '--:--',
   type: 'in',
   listTakeLeave: '',
+  historyAdminTakeLeave:''
 };
 
 export default function check(state = initialState, action) {
@@ -17,6 +18,11 @@ export default function check(state = initialState, action) {
       return {
         ...state,
         historyTakeLeave: action.payload,
+      };
+    case types.GET_LIST_ADMIN_TAKE_LEAVE_SUCCESS:
+      return {
+        ...state,
+        historyAdminTakeLeave: action.payload,
       };
     case types.CHECK_IN_SUCCESS:
       return {

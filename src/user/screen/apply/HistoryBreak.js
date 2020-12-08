@@ -16,17 +16,7 @@ import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
 import {_GET} from '../../../../utlis/connection/api';
 import moment from 'moment';
-const DATA = [
-  {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
-  {name: 'Do Tuan Phong', id: '3', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '4', status: 1, type: 2},
-  {name: 'Do Tuan Phong', id: '5', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '6', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '7', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '8', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
-];
+
 const item0 = {
   status: 1,
   date: '21/09/2020',
@@ -52,11 +42,11 @@ const HistoryBreak = (props) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
-
+  const [status, setStatus] = useState(0);
   useEffect(() => {
     getData();
   }, [page]);
-  const getData = async (callback) => {
+  const getData = () => {
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
@@ -68,11 +58,12 @@ const HistoryBreak = (props) => {
       page: page,
       token: token,
     };
+    console.log(dataLeave);
     listTakeLeave(dataLeave);
   };
   const handleLoadMore = () => {
-    setPage(page + 1);
-    setLoading(true);
+    // setPage(page + 1);
+    setLoading(false);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -106,12 +97,22 @@ const HistoryBreak = (props) => {
   const onApproveBreak = () => {
     navigation.navigate(langs.navigator.approveBreak);
   };
+  const onSetStatus = (status) => {
+    setStatus(status);
+  };
   const onChangeStatus = (item) => {
-    console.log(item);
+    const dataLeave = {
+      status: item,
+      page: page,
+      token: token,
+    };
+    onSetStatus(item);
+    console.log('checkkkkkkk', item);
     setFilter({...filter, status: item});
+    console.log('checkkkkkkk2', status);
     setData([]);
-    setPage(1);
-    getData();
+    console.log(dataLeave);
+    listTakeLeave(dataLeave);
     onSetType(item);
   };
   const onChangeDate = (date) => {
@@ -120,11 +121,18 @@ const HistoryBreak = (props) => {
     setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
     setData([]);
     setPage(1);
-    getData();
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+      date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
+    };
+    listTakeLeave(dataLeave);
   };
   const renderItem = ({item, index}) => {
-    const _listDate = item.date.map(i => (moment(i, 'DD/MM/YYYY').format('DD/MM')))
-    console.log(_listDate)
+    const _listDate = item.date.map((i) =>
+      moment(i, 'DD/MM/YYYY').format('DD/MM'),
+    );
     return (
       <CardBreak
         leader={false}
@@ -162,7 +170,7 @@ const HistoryBreak = (props) => {
         type={type}
         backgroundColor={Colors.white}
       />
-      <View>
+      <View style={{flex: 1}}>
         <FlatList
           data={historyTakeLeave}
           keyExtractor={(item) => item.id}

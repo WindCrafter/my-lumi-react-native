@@ -46,6 +46,7 @@ const HeaderCustom = (props?: Props) => {
   const [date, setDate] = useState('');
   const onClear = () => {
     setDate('');
+    onChangeDate('');
   };
   const onClose = () => {
     setVisible(false);

@@ -12,7 +12,7 @@ const CardBreak = (props) => {
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {type === 1 ? langs.halfDay : langs.breakDay}
+            {typeBreak}
           </Text>
         </View>
         <View style={styles.viewDay}>
@@ -69,11 +69,16 @@ const CardBreak = (props) => {
               <Text style={styles.time}>{date}</Text>
             </View>
           )}
+          {leader ? (
+          <View style={styles.rightHeader}>
+            <Image source={imgs.selectCalendar} style={styles.clock} />
+            <Text style={styles.txtDay}>{date}</Text>
+          </View>) : (
           <View style={styles.rightHeader}>
             <Image source={imgs.startTime} style={styles.clock} />
-
             <Text style={styles.txtDay}>{typeBreak}</Text>
-          </View>
+          </View>)}
+          
         </View>
       </View>
       <View style={styles.reason}>

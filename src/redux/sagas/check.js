@@ -17,6 +17,8 @@ import {
   checkInWifi,
   listTakeLeaveSuccess,
   listTakeLeaveFailed,
+  listAdminTakeLeaveFailed,
+  listAdminTakeLeaveSuccess
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -30,8 +32,19 @@ const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
-const LIST_URL_TAKE_LEAVE = (STATUS, DATE, PAGE) => {
-  return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
+  if (!DATE) {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  }
+};
+const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
+  if (!DATE) {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  }
 };
 function* sagaCheckIn(action) {
   try {
@@ -352,7 +365,7 @@ function* sagaGetListTakeLeave(action) {
       LIST_URL_TAKE_LEAVE(
         action.payload.status,
         action.payload.page,
-        
+        action.payload.date,
       ),
       token,
     );
@@ -370,3 +383,31 @@ function* sagaGetListTakeLeave(action) {
 export function* watchGetListTakeLeave() {
   yield takeLatest(types.GET_LIST_TAKE_LEAVE, sagaGetListTakeLeave);
 }
+
+function* sagaGetListAdminTakeLeave(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(
+      LIST_URL_ADMIN_TAKE_LEAVE(
+        action.payload.status,
+        action.payload.page,
+        action.payload.date,
+      ),
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(listAdminTakeLeaveSuccess(response.data));
+    } else {
+      yield put(listAdminTakeLeaveFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListAdminTakeLeave() {
+  yield takeLatest(types.GET_LIST_ADMIN_TAKE_LEAVE, sagaGetListAdminTakeLeave);
+}
+
