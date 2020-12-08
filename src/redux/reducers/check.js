@@ -8,10 +8,16 @@ const initialState = {
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
   type: 'in',
+  listTakeLeave: '',
 };
 
 export default function check(state = initialState, action) {
   switch (action.type) {
+    case types.GET_LIST_TAKE_LEAVE_SUCCESS:
+      return {
+        ...state,
+        historyTakeLeave: action.payload,
+      };
     case types.CHECK_IN_SUCCESS:
       return {
         ...state,

@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
     textAlign: 'right',
-    fontFamily: 'quicksand',
+    fontFamily: 'Quicksand-Regular',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'grey',
   },

@@ -136,3 +136,23 @@ export const changeToOut = () => {
     type: types.CHANGETO_CHECKOUT,
   };
 };
+
+export const listTakeLeave = (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const listTakeLeaveSuccess = (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const listTakeLeaveFailed= (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE_FAILED,
+    payload: data,
+  };
+};

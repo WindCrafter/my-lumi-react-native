@@ -15,6 +15,8 @@ import {
   overTimeFailed,
   checkOutSuccess,
   checkInWifi,
+  listTakeLeaveSuccess,
+  listTakeLeaveFailed,
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -28,7 +30,9 @@ const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
-
+const LIST_URL_TAKE_LEAVE = (STATUS, DATE, PAGE) => {
+  return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+};
 function* sagaCheckIn(action) {
   try {
     const data = {
@@ -247,7 +251,7 @@ function* sagaTakeLeave(action) {
       date: action.payload.date,
       type: action.payload.type,
       content: action.payload.content,
-      status: action.payload.status,
+      morning: action.payload.morning,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);
@@ -339,4 +343,30 @@ function* sagaOverTime(action) {
 
 export function* watchOverTime() {
   yield takeLatest(types.OVER_TIME, sagaOverTime);
+}
+function* sagaGetListTakeLeave(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(
+      LIST_URL_TAKE_LEAVE(
+        action.payload.status,
+        action.payload.page,
+        
+      ),
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(listTakeLeaveSuccess(response.data));
+    } else {
+      yield put(listTakeLeaveFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListTakeLeave() {
+  yield takeLatest(types.GET_LIST_TAKE_LEAVE, sagaGetListTakeLeave);
 }

@@ -172,7 +172,7 @@ function ApproveOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          onEndReached={handleLoadMore}
+          onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />

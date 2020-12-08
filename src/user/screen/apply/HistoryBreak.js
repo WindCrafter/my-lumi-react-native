@@ -14,7 +14,8 @@ import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
-
+import {_GET} from '../../../../utlis/connection/api';
+import moment from 'moment';
 const DATA = [
   {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
   {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
@@ -45,7 +46,7 @@ const item2 = {
   content: 'Sửa lỗi phát sinh trên UI',
 };
 const HistoryBreak = (props) => {
-  const {navigation} = props;
+  const {navigation, token, listTakeLeave, historyTakeLeave} = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -59,12 +60,15 @@ const HistoryBreak = (props) => {
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
-    console.log(apiURL);
-    fetch(apiURL).then((res) => {
-      setData(data.concat([item0, item1, item2]));
-      setLoading(false);
-    });
+    // const apiURL = `https://api.lumier.lumi.com.vn/take-leave/self-list?status=0&page_size=2&page=${page}`;
+    // await _GET(apiURL, token).then((response) => console.log(response));
+
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+    };
+    listTakeLeave(dataLeave);
   };
   const handleLoadMore = () => {
     setPage(page + 1);
@@ -119,7 +123,28 @@ const HistoryBreak = (props) => {
     getData();
   };
   const renderItem = ({item, index}) => {
-    return <CardBreak leader={false} status={item.status} type={item.type} />;
+    const _listDate = item.date.map(i => (moment(i, 'DD/MM/YYYY').format('DD/MM')))
+    console.log(_listDate)
+    return (
+      <CardBreak
+        leader={false}
+        status={item.status}
+        type={item.type}
+        date={_listDate.toString()}
+        reason={item.content}
+        typeBreak={
+          (item.date.length > 1 && item.morning) === 0
+            ? 'Nhiều ngày'
+            : item.date.length === 1 && item.morning === 0
+            ? 'Một ngày'
+            : item.date.length === 1 && item.morning === 1
+            ? 'Buổi sáng'
+            : item.date.length === 1 && item.morning === 2
+            ? 'Buổi chiều'
+            : 'Đơn thiếu '
+        }
+      />
+    );
   };
   return (
     <>
@@ -139,7 +164,7 @@ const HistoryBreak = (props) => {
       />
       <View>
         <FlatList
-          data={DATA}
+          data={historyTakeLeave}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           onEndReached={!loading ? handleLoadMore : null}
