@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import {StyleSheet, View, Alert, Keyboard, Dimensions} from 'react-native';
 import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
 import langs from '../../../../common/language';
+import { _global } from '../../../../utlis/global/global';
 
 let deviceWidth = Dimensions.get('window').width;
 
@@ -17,11 +18,19 @@ const Login = (props) => {
   const onLogin = () => {
     Keyboard.dismiss();
     if (email.trim().length === 0) {
-      Alert.alert('email invalid');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.emailInvalid,
+        leftButton: {text: langs.alert.ok},
+      });
       return;
     }
     if (pass.length === 0) {
-      Alert.alert('password invalid');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.passInvalid,
+        leftButton: {text: langs.alert.ok},
+      });
       return;
     } else {
       loginAction({email, password: pass});

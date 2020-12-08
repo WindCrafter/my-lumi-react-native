@@ -56,6 +56,7 @@ function ApproveOT(props) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
+  const [type, setType] = useState('Tất cả');
 
   useEffect(() => {
     getData();
@@ -64,7 +65,22 @@ function ApproveOT(props) {
   const goBack = () => {
     navigation.goBack();
   };
-
+  const onSetType = (item) => {
+    switch (item) {
+      case '0':
+        setType('Tất cả');
+        break;
+      case '1':
+        setType('Đang chờ');
+        break;
+      case '2':
+        setType('Đã duyệt');
+        break;
+      case '3':
+        setType('Bị từ chối');
+        break;
+    }
+  };
   const renderItem = ({item}) => {
     return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
   };
@@ -123,6 +139,7 @@ function ApproveOT(props) {
     setData([]);
     setPage(1);
     getData();
+    onSetType(item);
   };
 
   const onChangeName = (item) => {
@@ -147,6 +164,7 @@ function ApproveOT(props) {
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
         search
+        type={type}
       />
       <View style={styles.detail}>
         <FlatList

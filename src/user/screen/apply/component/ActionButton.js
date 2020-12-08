@@ -11,7 +11,7 @@ import {
 import langs from '../../../../../common/language';
 
 const FloatButton = (props) => {
-  const {onPressLate, onPressOT} = props;
+  const {onApply, onApprove} = props;
   const blurView = () => {
     return (
       <BlurView
@@ -43,7 +43,7 @@ const FloatButton = (props) => {
         inputY={[0, 1]}
         outputY={[160, 80]}
         title={langs.writeOT}
-        onPress={onPressLate}>
+        onPress={onApply}>
         <Image source={imgs.note} />
       </ActionButton.Item>
       <ActionButton.Item
@@ -52,7 +52,7 @@ const FloatButton = (props) => {
         inputY={[0, 1]}
         outputY={[0, -70]}
         title={langs.approveOT}
-        onPress={onPressOT}>
+        onPress={onApprove}>
         <Image source={imgs.stampCheck} />
       </ActionButton.Item>
     </ActionButton>

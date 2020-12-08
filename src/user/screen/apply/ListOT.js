@@ -24,7 +24,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const item = {
+const item0 = {
   status: 1,
   date: '21/09/2020',
   time: '0.5',
@@ -49,7 +49,7 @@ function ListOT(props) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
-
+  const [type, setType] = useState('Tất cả');
   useEffect(() => {
     getData();
   }, [page]);
@@ -77,7 +77,7 @@ function ListOT(props) {
     const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
     console.log(apiURL);
     fetch(apiURL).then((res) => {
-      setData(data.concat([item, item1, item2]));
+      setData(data.concat([item0, item1, item2]));
       setLoading(false);
     });
   };
@@ -103,13 +103,29 @@ function ListOT(props) {
     setPage(1);
     getData();
   };
-
+  const onSetType = (item) => {
+    switch (item) {
+      case '0':
+        setType('Tất cả');
+        break;
+      case '1':
+        setType('Đang chờ');
+        break;
+      case '2':
+        setType('Đã duyệt');
+        break;
+      case '3':
+        setType('Bị từ chối');
+        break;
+    }
+  };
   const onChangeStatus = (item) => {
     console.log(item);
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
     getData();
+    onSetType(item);
   };
 
   return (
@@ -125,6 +141,7 @@ function ListOT(props) {
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
+        type={type}
       />
       <View style={styles.detail}>
         <FlatList
@@ -136,7 +153,7 @@ function ListOT(props) {
           ListFooterComponent={renderFooterComponent}
         />
       </View>
-      <ActionButton onPressLate={onPressCreate} onPressOT={onPressConfirm} />
+      <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>
   );
 }

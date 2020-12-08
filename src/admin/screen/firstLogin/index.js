@@ -115,7 +115,6 @@ const FirstLogin = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongVinaphone,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
     } else {

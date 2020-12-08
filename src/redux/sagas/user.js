@@ -22,7 +22,7 @@ import {
   getListCheckFailed,
 } from '../actions/user';
 import OneSignal from 'react-native-onesignal';
-
+import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {Colors} from '../../../utlis';
 import langs from '../../../common/language';
 
@@ -55,16 +55,20 @@ function* sagaUpdateProfile(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.updateProfileSuccess,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
     } else {
       yield put(updateProfileFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.updateProfileFailed,
-        messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
     }
   } catch (error) {
@@ -147,7 +151,6 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     }

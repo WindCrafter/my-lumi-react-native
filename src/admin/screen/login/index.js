@@ -52,7 +52,6 @@ const Login = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.enterUsername,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;
@@ -61,7 +60,6 @@ const Login = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.invalidPassword,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;

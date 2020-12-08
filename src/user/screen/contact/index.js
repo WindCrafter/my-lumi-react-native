@@ -59,7 +59,6 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportPhone,
-          messageColor: Colors.danger,
           leftButton: {text: langs.alert.ok},
         });
       } else {
@@ -72,7 +71,6 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportUser,
-          messageColor: Colors.danger,
           leftButton: {text: langs.alert.ok},
         });
       } else {

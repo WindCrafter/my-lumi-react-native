@@ -17,7 +17,7 @@ const ButtonCheckIn = (props) => {
       style={styles.container}>
       <View style={styles.containerBt}>
         <Image
-          source={require('../../../common/assets/images/gif/Sever.gif')}
+          source={require('../../../common/assets/images/gif/Sever1.gif')}
           style={styles.img}
         />
       </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   img: {
     alignSelf: 'center',
-    height: 48,
-    width: 48,
+    height: 32,
+    width: 32,
   },
 });

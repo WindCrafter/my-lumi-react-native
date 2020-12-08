@@ -161,7 +161,6 @@ function UpdateProfile(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongPhone,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -169,7 +168,6 @@ function UpdateProfile(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.invalidGene,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -177,7 +175,6 @@ function UpdateProfile(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.w,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     } else {

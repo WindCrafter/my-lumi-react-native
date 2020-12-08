@@ -59,11 +59,11 @@ const CardBreak = (props) => {
       <View style={styles.detail}>
         <View style={styles.row}>
           {leader ? (
-            <View style={styles.viewDay}>
+            <View style={styles.viewName}>
               <Text style={styles.name}> {name} </Text>
             </View>
           ) : (
-            <View style={styles.viewDay}>
+            <View style={styles.viewName}>
               <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
               <Text style={styles.time}>20/202/2020</Text>
@@ -173,6 +173,12 @@ const styles = StyleSheet.create({
   },
   viewText: {
     justifyContent: 'space-between',
+  },
+  viewName: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+    paddingLeft: 24,
   },
   viewDay: {
     alignItems: 'center',

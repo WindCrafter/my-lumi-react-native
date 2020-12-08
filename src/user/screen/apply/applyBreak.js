@@ -13,6 +13,7 @@ import {
   Image,
   Keyboard,
   FlatList,
+  Alert
 } from 'react-native';
 import {
   widthPercentageToDP,
@@ -41,7 +42,7 @@ function ApplyBreak(props) {
   const _format = 'YYYY-MM-DD';
   const _today = moment().format(_format);
   const _maxDate = moment().add(90, 'days').format(_format);
-
+  const [exception, setException] = useState(true);
   const {navigation, takeLeave, userId, token, assign} = props;
   const [shift, setShift] = useState(new Date());
 
@@ -68,7 +69,11 @@ function ApplyBreak(props) {
 
     return dates;
   };
-
+  // const checkToday = () => {
+  //   var myDate = new Date();
+  //   if ( myDate.getDay() == 0) setException(false);
+  // console.log('checkexception')
+  // }
   const initialState = {
     ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
     [_today]: {
@@ -82,6 +87,10 @@ function ApplyBreak(props) {
   //   return e.userId;
   // });
   const onComplete = () => {
+    if (!reason) {
+      Alert.alert('Chưa điền lí do!');
+      return;
+    } 
     typeBreak === 'Theo ca'
       ? onTakeLeaveShift()
       : typeBreak === 'Theo ngày'
@@ -117,20 +126,12 @@ function ApplyBreak(props) {
     takeLeave(data);
   };
   const onTakeLeaveShift = () => {
-    console.log(userId);
     const data = {
       token: token,
-      startDate: {
-        date: moment(shift).format('DD/MM/YYYY'),
-        shift: typeShift === 'Ca sáng' ? 'morning' : 'afternoon',
-      },
-      endDate: {
-        date: null,
-        shift: null,
-      },
-      assignTo: assign ? assign.userId : null,
-      description: reason,
-      advance: {},
+      date: moment(shift).format('DD/MM/YYYY'),
+      type: 1,
+      content: reason,
+      status: 1,
     };
     console.log('dataaaaaa', data);
     takeLeave(data);
@@ -202,7 +203,7 @@ function ApplyBreak(props) {
     const selectedDay = moment(day.dateString).format(_format);
     console.log('dayselect', selectedDay);
 
-    if (!_markedDates[selectedDay]) { 
+    if (!_markedDates[selectedDay]) {
       let selected = true;
       const updatedMarkedDates = {
         ..._markedDates,
@@ -307,23 +308,6 @@ function ApplyBreak(props) {
             </Card>
           ) : null}
 
-          <InputSelect
-            width={'90%'}
-            leftImage={imgs.personal}
-            borderRadius={32}
-            rightImage={imgs.add}
-            height={54}
-            shadowColor={'white'}
-            title={assign ? 'Đổi người phê duyệt ' : 'Chọn người phê duyệt'}
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onGoAssignment}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
-          />
           {assign && (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
@@ -393,7 +377,7 @@ function ApplyBreak(props) {
                 minDate={_today}
                 maxDate={_maxDate}
                 // hideArrows={true}
-                
+
                 onDayPress={onDaySelect}
                 markedDates={_markedDates}
                 style={{

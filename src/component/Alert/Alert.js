@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   txtTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '700',
     color: 'black',
     textAlign: 'center',
   },
   txtMessage: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     color: 'black',
     textAlign: 'center',

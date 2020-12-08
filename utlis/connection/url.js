@@ -13,13 +13,26 @@ export const URL = {
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/check-in/wifi',
   LIST_USERS: '/user/list-users',
+
+  //
   LATE_EARLY: '/late-early/create',
   LIST_LATE_EARLY: '/late-early/self-list',
   LIST_MANAGER_LATE_EARLY: '/late-early/manager-list',
   APPROVE_LATE_EARLY: '/late-early/approved-canceled',
   UPDATE_LATE_EARLY: '/late-early/update',
   DELETE_LATE_EARLY: '/late-early/delete',
-  TAKE_LEAVE: '/user/add-take-leave',
+  //
+
+  //
+  TAKE_LEAVE: '/take-leave/create',
+  LIST_TAKE_LEAVE: '/take-leave/self-list',
+  LIST_BY_ID_TAKE_LEAVE: '/take-leave/get-by-id',
+  LIST_MANAGER_TAKE_LEAVE: '/take-leave/manager-list',
+  APPROVE_TAKE_LEAVE: '/take-leave/approved-canceled',
+  UPDATE_TAKE_LEAVE: '/take-leave/update',
+  DELETE_TAKE_LEAVE: '/take-leave/delete',
+  //
+
   OVERTIME: '/user/add-overtime',
   ADD_USERID_DEVICE: '/user/add-device-id',
   REMOVE_USERID_DEVICE: '/user/remove-device-id',

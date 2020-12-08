@@ -198,7 +198,6 @@ function UpdateProfile(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.wrongVinaphone,
-          messageColor: Colors.danger,
           leftButton: {text: langs.alert.ok},
         });
         // if (!regId.test(identity)) {
@@ -221,13 +220,7 @@ function UpdateProfile(props) {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom
-        title={'Khai báo thông tin'}
-        goBack={goBack}
-        rightButton
-        textPress={true}
-        onRight={onUpdateInfo}
-      />
+      <HeaderCustom title={'Khai báo thông tin'} goBack={goBack} />
       <KeyboardAvoidingView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <Card style={styles.card}>

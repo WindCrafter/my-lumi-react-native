@@ -35,7 +35,6 @@ const Account = (props) => {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: langs.alert.questSignOut,
-      messageColor: Colors.danger,
       leftButton: {
         text: langs.alert.signOut,
         onPress: () => onRemoveUserId(),

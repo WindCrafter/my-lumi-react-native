@@ -134,6 +134,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: '90%',
     fontFamily: 'Quicksand-Regular',
+    justifyContent:'center',height:'100%'
+    
   },
   left: {
     flexDirection: 'row',

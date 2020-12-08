@@ -34,7 +34,6 @@ function* sagaAddStaff(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     } else {
@@ -42,7 +41,6 @@ function* sagaAddStaff(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -51,7 +49,6 @@ function* sagaAddStaff(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      messageColor: Colors.danger,
       leftButton: {text: langs.alert.ok},
     });
   }

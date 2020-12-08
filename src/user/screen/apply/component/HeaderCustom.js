@@ -38,11 +38,15 @@ const HeaderCustom = (props?: Props) => {
     onChangeName,
     search,
     onSearch,
+    type,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState('');
+  const onClear = () => {
+    setDate('');
+  };
   const onClose = () => {
     setVisible(false);
   };
@@ -73,6 +77,7 @@ const HeaderCustom = (props?: Props) => {
   const renderDropdown = (hideOverlay) => {
     return (
       <FlatList
+        style={{backgroundColor: 'white', borderRadius: 8}}
         data={status}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => renderItem(item, hideOverlay)}
@@ -87,9 +92,20 @@ const HeaderCustom = (props?: Props) => {
 
   const renderItem = (item, hideOverlay) => {
     return (
-      <TouchableOpacity onPress={() => onPressItem(item, hideOverlay)}>
-        <Text>{item.label}</Text>
-      </TouchableOpacity>
+      <View>
+        {item.value === '0' ? null : <View style={styles.line} />}
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => onPressItem(item, hideOverlay)}>
+          <Text
+            style={[
+              styles.text,
+              {color: type === item.label ? Colors.background : 'black'},
+            ]}>
+            {item.label}
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -146,43 +162,33 @@ const HeaderCustom = (props?: Props) => {
           styles.row,
           {marginBottom: 16, justifyContent: 'space-around'},
         ]}>
-        {/* <DropDownPicker
-          items={[
-            {label: 'Tất cả', value: '0'},
-            {label: 'Đang chờ', value: '1'},
-            {label: 'Đã duyệt', value: '2'},
-            {label: 'Bị từ chối', value: '3'},
-          ]}
-          onClose={onClose}
-          isVisible={isVisible}
-          containerStyle={styles.contentStatus}
-          onChangeItem={(item) => onChangeStatus(item.value)}
-          placeholder={'Tất cả'}
-          defaultValue={null}
-          customTickIcon={() => <Image source={imgs.arrow} />}
-          style={styles.filterStatus}
-          itemStyle={{justifyContent: 'flex-start'}}
-          dropDownStyle={styles.dropDownStyle}
-          labelStyle={{fontSize: 18}}
-          arrowSize={19}
-          activeLabelStyle={{color: Colors.background}}
-          dropDownMaxHeight={200}
-        /> */}
         <SelectButton
-          dropdownHeight={40}
-          dropdownWidth={260}
+          dropdownHeight={20}
+          dropdownWidth={100}
           renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
-            <Text>Tất cả</Text>
+            <Text>{type}</Text>
             <Text>▼</Text>
           </View>
         </SelectButton>
-        <TouchableOpacity style={styles.filterDate} onPress={onShow}>
-          <Text style={styles.txtRole}>
-            {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
-          </Text>
-          <Text>{show ? '▲' : '▼'}</Text>
-        </TouchableOpacity>
+        <View
+          style={[
+            styles.filterDate,
+            {justifyContent: !date ? 'center' : 'space-between'},
+          ]}>
+          <TouchableOpacity style={styles.txtDay} onPress={onShow}>
+            <Text style={styles.txtRole}>
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+            </Text>
+            <Text>{show ? '▲' : '▼'}</Text>
+          </TouchableOpacity>
+          {date ? (
+            <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
+              <View style={styles.column} />
+              <Image source={imgs.cancel} style={styles.imgClear} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
       <PickerCustom
         show={show}
@@ -198,10 +204,12 @@ const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0.25,
     borderColor: Colors.gray,
+    backgroundColor: Colors.white,
   },
   row: {
     flexDirection: 'row',
     paddingHorizontal: 16,
+    backgroundColor: Colors.white,
   },
   button: {
     position: 'absolute',
@@ -246,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: Colors.gray,
     borderWidth: 0.25,
-    width: 150,
+    width: 100,
     height: 40,
     paddingHorizontal: 16,
     borderRadius: 6,
@@ -256,7 +264,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.25,
     borderColor: Colors.gray,
     alignItems: 'center',
-    justifyContent: 'space-between',
+
     borderRadius: 6,
     paddingHorizontal: 16,
     width: 150,
@@ -280,6 +288,37 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
+  },
+  txtDay: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    height: '100%',
+    width: '75%',
+    alignItems: 'center',
+  },
+  touchableClear: {
+    width: '35%',
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  imgClear: {alignSelf: 'center', width: 16, height: 16},
+  coulumn: {
+    width: 1,
+    height: '100%',
+    backgroundColor: 'black',
+  },
+  touchable: {
+    width: 100,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  line: {
+    width: 100,
+    height: 1,
+    backgroundColor: '#EBEBEB',
+    alignSelf: 'center',
   },
 });
 

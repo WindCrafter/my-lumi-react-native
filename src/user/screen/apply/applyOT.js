@@ -284,7 +284,7 @@ function ApplyOT(props) {
         contentContainerStyle={{
           backgroundColor: 'white',
           width: 100,
-          alignItems: 'flex-end',
+          borderRadius: 8,
         }}
         style={{height: 200}}
       />
@@ -293,11 +293,24 @@ function ApplyOT(props) {
 
   const renderItem = (item, hideOverlay) => {
     return (
-      <TouchableOpacity
-        style={{paddingVertical: 5}}
-        onPress={() => onPressItem(item, hideOverlay)}>
-        <Text>{item.label}</Text>
-      </TouchableOpacity>
+      <View>
+        {item.value === '0' ? null : <View style={styles.line} />}
+        <TouchableOpacity
+          style={{
+            paddingVertical: 5,
+            alignSelf: 'flex-end',
+            paddingHorizontal: 8,
+          }}
+          onPress={() => onPressItem(item, hideOverlay)}>
+          <Text
+            style={[
+              styles.text,
+              {color: time == item.value ? Colors.background : 'black'},
+            ]}>
+            {item.label}
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -514,11 +527,11 @@ const styles = StyleSheet.create({
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '300',
   },
   extend: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
     marginHorizontal: 27,
     marginTop: 16,
@@ -626,5 +639,11 @@ const styles = StyleSheet.create({
   filter: {
     flexDirection: 'row',
     alignSelf: 'center',
+  },
+  line: {
+    width: 100,
+    height: 1,
+    backgroundColor: '#EBEBEB',
+    alignSelf: 'flex-end',
   },
 });

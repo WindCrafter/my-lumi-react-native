@@ -59,7 +59,6 @@ const AddStaff = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.enterUsername,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;
@@ -68,7 +67,6 @@ const AddStaff = (props) => {
       _global.Alert.alert({
         title: langs.alert.notice,
         message: langs.alert.invalidPassword,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;
@@ -77,7 +75,6 @@ const AddStaff = (props) => {
       _global.Alert.alert({
         title: langs.alert.notice,
         message: langs.alert.wrongEmail,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;
@@ -86,7 +83,6 @@ const AddStaff = (props) => {
       _global.Alert.alert({
         title: langs.alert.notice,
         message: langs.alert.lessPassword,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
       return;
