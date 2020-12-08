@@ -6,6 +6,7 @@ import {
   StatusBar,
   UIManager,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -53,14 +54,14 @@ const item2 = {
 function ApproveOT(props) {
   const {navigation} = props;
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
-  const [type, setType] = useState('Tất cả');
+  const [type, setType] = useState('Đang chờ');
 
   useEffect(() => {
-    getData();
-  }, [page]);
+    getData(1);
+  }, []);
 
   const goBack = () => {
     navigation.goBack();
@@ -93,34 +94,52 @@ function ApproveOT(props) {
     setData(data.map((i) => (i.id === item.id ? {...i, status: 3} : i)));
   };
 
-  const getData = async (callback) => {
+  const getData = async (pageNumber) => {
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const name = filter.name || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
+    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${pageNumber}`;
     console.log(apiURL);
-    fetch(apiURL).then((res) => {
-      setData(
-        data.concat([
-          {...item1, id: Math.random().toString(36).substr(2, 9)},
-          {...item, id: Math.random().toString(36).substr(2, 9)},
-          {...item2, id: Math.random().toString(36).substr(2, 9)},
-        ]),
-      );
-      setLoading(false);
-    });
+    fetch(apiURL)
+      .then((res) => {
+        setData(
+          data.concat([
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item, id: Math.random().toString(36).substr(2, 9)},
+            {...item2, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item, id: Math.random().toString(36).substr(2, 9)},
+            {...item2, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item, id: Math.random().toString(36).substr(2, 9)},
+            {...item2, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+            {...item, id: Math.random().toString(36).substr(2, 9)},
+            {...item2, id: Math.random().toString(36).substr(2, 9)},
+            {...item1, id: Math.random().toString(36).substr(2, 9)},
+          ]),
+        );
+        setPage(pageNumber);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+      });
   };
 
   const handleLoadMore = () => {
-    setPage(page + 1);
     setLoading(true);
+    getData(page + 1);
   };
 
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     ) : null;
   };
@@ -131,7 +150,7 @@ function ApproveOT(props) {
     setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
     setData([]);
     setPage(1);
-    getData();
+    getData(1);
   };
 
   const onChangeStatus = (item) => {
@@ -140,14 +159,13 @@ function ApproveOT(props) {
     setPage(1);
     getData();
     onSetType(item);
-
   };
 
   const onChangeName = (item) => {
     setFilter({...filter, name: item});
     setData([]);
     setPage(1);
-    getData();
+    getData(1);
   };
 
   return (
@@ -172,7 +190,7 @@ function ApproveOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          onEndReached={handleLoadMore}
+          onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
         />
@@ -199,9 +217,9 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   detail: {
-    flexDirection: 'column',
     justifyContent: 'space-around',
-    marginTop: 32,
+    marginVertical: 32,
+    flex: 1,
   },
   status: {
     flexDirection: 'row',

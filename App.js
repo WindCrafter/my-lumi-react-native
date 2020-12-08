@@ -8,6 +8,7 @@ import {setFont} from './utlis/index';
 import {ChangeState} from './src/redux/actions/codepush';
 import {LogBox} from 'react-native';
 import * as Sentry from '@sentry/react-native';
+console.disableYellowBox = true;
 // const DSN_SENTRY =
 //   'https://fc0d9122795948ee93aa4e34e28d776c@o486792.ingest.sentry.io/5544590';
 

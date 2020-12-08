@@ -51,7 +51,7 @@ const checkPersist = {
 const userPersist = {
   key: 'user',
   storage: AsyncStorage,
-  whitelist: ['assign'],
+  whitelist: ['assign, demoMode'],
 };
 
 const rootReducer = combineReducers({

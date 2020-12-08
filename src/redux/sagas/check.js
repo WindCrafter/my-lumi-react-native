@@ -25,6 +25,7 @@ import {store} from '../store/store.js';
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
+const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
@@ -74,18 +75,17 @@ function* sagaCheckIn(action) {
 
 function* sagaCheckInWifi(action) {
   try {
-    const data = {
-      type: action.payload.type,
-      deviceId: action.payload.deviceId,
-    };
-
+    const data = {...action.payload};
+    delete data.type;
+    delete data.token;
     const token = action.payload.token;
-    // const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
-    const response = {
-      success: false,
-      statusCode: 400,
-    };
 
+    const response = yield _POST(
+      action.payload.type === 'in' ? URL_CHECK_IN_WIFI : URL_CHECK_OUT_WIFI,
+      data,
+      token,
+    );
+    console.log(response);
     if (
       response.success &&
       response.statusCode === 200 &&

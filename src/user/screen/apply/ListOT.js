@@ -51,8 +51,8 @@ function ListOT(props) {
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
   useEffect(() => {
-    getData();
-  }, [page]);
+    getData(1);
+  }, []);
 
   const goBack = () => {
     navigation.goBack();
@@ -70,38 +70,46 @@ function ListOT(props) {
     navigation.navigate('ApproveOT');
   };
 
-  const getData = async (callback) => {
+  const getData = async (pageNumber) => {
+    console.log('1', filter.date);
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
+    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${pageNumber}`;
     console.log(apiURL);
-    fetch(apiURL).then((res) => {
-      setData(data.concat([item0, item1, item2]));
-      setLoading(false);
-    });
+    await fetch(apiURL)
+      .then((res) => {
+        setData(data.concat([item0, item1, item2, item0]));
+        setPage(pageNumber);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+      });
   };
 
   const handleLoadMore = () => {
-    setPage(page + 1);
+    getData(page + 1);
     setLoading(true);
   };
 
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     ) : null;
   };
 
   const onChangeDate = (date) => {
-    const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    console.log(moment(pickDate).format('DD/MM/YYYY'));
-    setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
+    console.log(moment(date).format('DD/MM/YYYY'));
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
     setData([]);
     setPage(1);
-    getData();
+    getData(1);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -124,7 +132,7 @@ function ListOT(props) {
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
-    getData();
+    getData(1);
     onSetType(item);
   };
 
@@ -176,9 +184,9 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   detail: {
-    flexDirection: 'column',
     justifyContent: 'space-around',
-    marginTop: 32,
+    marginVertical: 32,
+    flex: 1,
   },
   status: {
     flexDirection: 'row',
