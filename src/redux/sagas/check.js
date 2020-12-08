@@ -26,6 +26,8 @@ const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
+const URL_LIST_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}`;
+
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
 
@@ -340,4 +342,45 @@ function* sagaOverTime(action) {
 
 export function* watchOverTime() {
   yield takeLatest(types.OVER_TIME, sagaOverTime);
+}
+
+function* sagaListLateEarly(action) {
+  try {
+    const data = {
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_LIST_LATE_EARLY, data, token);
+    if (response.success && response.statusCode === 200) {
+      yield put(setLateEarlySuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.applydone,
+        message: langs.alert.waitConfirm,
+        messageColor: Colors.background,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+    } else {
+      yield put(setLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        messageColor: Colors.background,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+      messageColor: Colors.danger,
+    });
+  }
+}
+
+export function* watchListLateEarly() {
+  yield takeLatest(types.LIST_LATE_EARLY, sagaListLateEarly);
 }

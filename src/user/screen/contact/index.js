@@ -19,6 +19,8 @@ import {_global} from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
 import HeaderAccount from '../account/component/HeaderAccount';
+import {getText} from '../../../../utlis/config/utlis';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -26,17 +28,15 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA=[
-  {name: 'Do Tun Phon', team: 'APP', role:'Leader'}
-]
+const DATA = [{name: 'Do Tun Phon', team: 'APP', role: 'Leader'}];
 
 function Contact(props) {
   const {navigation, currentUser} = props;
-  const [listData, setListData] = useState(currentUser);
   const [search, setSearch] = useState('');
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [listData, setListData] = useState(DATA);
   const hideModal = () => {
     setShowModal(false);
   };
@@ -101,11 +101,11 @@ function Contact(props) {
   const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
-    const newData = currentUser.filter((item) => {
+    const newData = DATA.filter((item) => {
       // console.log('----->>>>.',item.name)
-      const itemData = `${item.name.toLowerCase()}`;
+      const itemData = getText(item.name);
 
-      const textData = txt.toLowerCase();
+      const textData = getText(txt);
 
       return itemData.indexOf(textData) > -1;
     });
@@ -134,7 +134,7 @@ function Contact(props) {
       />
 
       <FlatList
-        data={DATA}
+        data={listData}
         renderItem={renderItem}
         keyExtractor={(index) => index.toString()}
       />
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   search: {
     alignSelf: 'center',
-    borderRadius: 32,
+    borderRadius: 12,
     height: 50,
     width: widthPercentageToDP(90),
     marginVertical: 8,

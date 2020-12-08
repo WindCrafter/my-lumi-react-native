@@ -54,13 +54,7 @@ const ApproveLate = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom
-        title={'Lịch sử xin đi muộn/về sớm'}
-        rightButton
-        goBack={goBack}
-        rightImage={imgs.document}
-        onRight={onApplyLate}
-      />
+      <HeaderCustom title={'Lịch sử xin đi muộn/về sớm'} goBack={goBack} />
       <View>
         <FlatList
           data={DATA}
