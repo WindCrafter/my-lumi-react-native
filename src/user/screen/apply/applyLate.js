@@ -23,7 +23,13 @@ import {
 } from 'react-native-responsive-screen';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  Button,
+  InputSelect,
+  SelectButton,
+} from '../../../component';
 import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
@@ -44,6 +50,7 @@ function ApplyLate(props) {
   const [time, setTime] = useState(15);
   const [isVisible, setVisible] = useState(false);
   const [type, setType] = useState('late');
+  const [status, setStatus] = useState(1);
   const onSetVisible = () => {
     setVisible(!isVisible);
   };
@@ -90,16 +97,14 @@ function ApplyLate(props) {
   };
   const onsetLateEarly = () => {
     const data = {
-      type: type,
+      type: type === 'late' ? 1 : 2,
       time: time,
       date: moment(day).format('DD/MM/YYYY'),
       token: token,
-      description: reason,
-      advance: {},
-      assignTo: assign ? assign.userId : null,
+      content: reason,
+      status: status,
     };
     setLateEarly(data);
-    console.log('checkkk----', data);
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
@@ -117,6 +122,57 @@ function ApplyLate(props) {
   const onSetEarly = () => {
     setType('early');
   };
+
+  const renderDropdown = (hideOverlay) => {
+    return (
+      <FlatList
+        data={choose}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          width: 120,
+          borderRadius: 8,
+        }}
+        style={{height: 300}}
+      />
+    );
+  };
+
+  const renderItem = (item, hideOverlay) => {
+    return (
+      <View>
+        {item.value === '0' ? null : <View style={styles.line} />}
+        <TouchableOpacity
+          style={{
+            paddingVertical: 5,
+            alignSelf: 'center',
+            paddingHorizontal: 8,
+          }}
+          onPress={() => onPressItem(item, hideOverlay)}>
+          <Text
+            style={[
+              styles.txtTime,
+              {color: time === item.value ? Colors.background : 'black'},
+            ]}>
+            {item.label}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const onPressItem = (item, hideOverlay) => {
+    hideOverlay && hideOverlay();
+    setTime(item.value);
+  };
+
+  const choose = [
+    {label: '15 phút', value: 15},
+    {label: '30 phút', value: 30},
+    {label: '45 phút', value: 45},
+    {label: '60 phút', value: 60},
+  ];
 
   return (
     <View style={styles.container}>
@@ -228,50 +284,18 @@ function ApplyLate(props) {
                 styles.row,
                 {justifyContent: 'center', alignItems: 'center'},
               ]}>
-              <TouchableOpacity
-                style={[
-                  styles.buttonTime,
-                  {
-                    borderBottomRightRadius: isVisible ? 0 : 16,
-                    borderBottomLeftRadius: isVisible ? 0 : 16,
-                  },
-                ]}
-                onPress={onSetVisible}>
+              <TouchableOpacity style={[styles.buttonTime]} disabled={true}>
                 <Image source={imgs.startTime} style={styles.icon} />
-
-                <DropDownPicker
-                  items={[
-                    {label: '15 phút', value: '15'},
-                    {label: '30 phút', value: '30'},
-                    {label: '45 phút', value: '45'},
-                    {label: '60 phút', value: '60'},
-                  ]}
-                  onClose={onClose}
-                  isVisible={isVisible}
-                  containerStyle={{
-                    height: 40,
-                    width: 100,
-                    borderColor: 'white',
-                  }}
-                  onChangeItem={(item) => setTime(item.value)}
-                  placeholder={'15 phút'}
-                  defaultValue={null}
-                  customTickIcon={() => <Image source={imgs.arrow} />}
-                  style={{
-                    borderWidth: 0,
-                    paddingRight: 0,
-                    paddingLeft: 10,
-                    paddingHorizontal: 0,
-                  }}
-                  itemStyle={{alignItems: 'flex-end'}}
-                  dropDownStyle={styles.dropDownStyle}
-                  labelStyle={{fontSize: 18}}
-                  arrowSize={19}
-                  activeLabelStyle={{color: Colors.background}}
-                  dropDownMaxHeight={200}
-                  onOpen={onSetVisible}
-                  zIndex={100}
-                />
+                <SelectButton
+                  dropdownHeight={120}
+                  dropdownWidth={128}
+                  customY={10}
+                  renderDropdown={renderDropdown}>
+                  <View style={[styles.filter]}>
+                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
+                    <Text style={styles.icon}>▼</Text>
+                  </View>
+                </SelectButton>
               </TouchableOpacity>
             </View>
           </Card>
@@ -304,7 +328,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
-    zIndex: 0
+    zIndex: 0,
   },
   image: {
     width: 56,
@@ -360,7 +384,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 32,
     left: wp(12.5),
-
   },
   row: {
     flexDirection: 'row',
@@ -384,6 +407,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
+    marginHorizontal: 8,
   },
   btUser: {
     flexDirection: 'row',
@@ -444,13 +468,17 @@ const styles = StyleSheet.create({
   },
   buttonTime: {
     flexDirection: 'row',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    borderRadius: 16,
     borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
-    width: 148,
+    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    paddingVertical: 8,
+  },
+  filter: {
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
 });

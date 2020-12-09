@@ -6,41 +6,124 @@ import {
   StyleSheet,
   View,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
-import {BarStatus, HeaderCustom} from '../../../component';
+import {BarStatus} from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import ActionButton from './component/ActionButton';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-
-const DATA = [
-  {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
-  {name: 'Do Tuan Phong', id: '3', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '4', status: 1, type: 2},
-  {name: 'Do Tuan Phong', id: '5', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '6', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '7', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '8', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
-];
+import moment from 'moment';
+import HeaderCustom from './component/HeaderCustom';
+import {_global} from '../../../../utlis/global/global';
 
 const HistoryLate = (props) => {
-  const {navigation} = props;
+  const {navigation, listLateEarly, token, dataLateEarly, removeList} = props;
+  const [type, setType] = useState('Tất cả');
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(0);
+  const [date, setDate] = useState('');
   const goBack = () => {
     navigation.goBack();
+    removeList();
   };
+  useEffect(() => {
+    const data = {
+      token: token,
+      status: status,
+      page: page,
+      page_size: 10,
+    };
+    listLateEarly(data);
+  }, []);
+
   const onApplyLate = () => {
     navigation.navigate(langs.navigator.applyLate);
   };
 
   const renderItem = ({item, index}) => {
-    return <CardLate leader={false} status={item.status} type={item.type} />;
+    return (
+      <CardLate
+        leader={false}
+        status={item.status}
+        type={item.type}
+        reason={item.content}
+        day={item.date}
+        time={item.time}
+      />
+    );
   };
 
   const onPressCreate = () => {
     navigation.navigate(langs.navigator.approveLate);
+  };
+
+  const onChangeDate = (pickDay) => {
+    const pickDate = moment(date, 'DD/MM/YYYY').toDate();
+    const data = {
+      token: token,
+      status: status,
+      date: moment(pickDay).format('DD/MM/YYYY'),
+      page: 1,
+      page_size: 10,
+      reload: true,
+    };
+    setPage(1);
+    listLateEarly(data);
+    setDate(pickDate);
+  };
+  const onSetType = (item) => {
+    switch (item) {
+      case '0':
+        setType('Tất cả');
+        break;
+      case '1':
+        setType('Đang chờ');
+        break;
+      case '2':
+        setType('Đã duyệt');
+        break;
+      case '3':
+        setType('Bị từ chối');
+        break;
+    }
+  };
+  const onChangeStatus = (item) => {
+    const data = {
+      token: token,
+      status: item,
+      page: 1,
+      page_size: 10,
+      reload: true,
+    };
+    setPage(1);
+    listLateEarly(data);
+    onSetType(item);
+    setStatus(item);
+  };
+
+  const handleLoadMore = () => {
+    const data = {
+      token: token,
+      status: status,
+      page: page + 1,
+      page_size: 10,
+      date: date,
+      reload: false,
+    };
+    setPage(page + 1);
+    listLateEarly(data);
+    _global.Loading.show();
+  };
+
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="grey" />
+      </View>
+    ) : null;
   };
 
   return (
@@ -49,16 +132,27 @@ const HistoryLate = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
-      <HeaderCustom title={'Lịch sử xin đi muộn/về sớm'} goBack={goBack} />
+      <HeaderCustom
+        title={langs.titleHistoryLate}
+        height={60}
+        goBack={goBack}
+        fontSize={24}
+        onChangeStatus={onChangeStatus}
+        onChangeDate={onChangeDate}
+        type={type}
+      />
       <View style={styles.container}>
         <FlatList
-          data={DATA}
-          keyExtractor={(item) => item.id}
+          data={dataLateEarly}
+          keyExtractor={(item, index) => `${item.id}`}
           renderItem={renderItem}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
           style={styles.flatList}
+          ListFooterComponent={renderFooterComponent}
         />
       </View>
-      <ActionButton onPressLate={onApplyLate} onPressOT={onPressCreate} />
+      <ActionButton onApprove={onPressCreate} onApply={onApplyLate} />
     </>
   );
 };
@@ -67,10 +161,10 @@ export default HistoryLate;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
   },
   flatList: {
-    marginBottom: heightPercentageToDP(12),
-    flexGrow: 1,
+    // marginBottom: heightPercentageToDP(12),
+    // flexGrow: 1,
   },
 });

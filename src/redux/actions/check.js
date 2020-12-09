@@ -51,7 +51,7 @@ export const createQRFailed = () => {
     type: types.CREATE_QR_FAILED,
   };
 };
-
+//
 export const setLateEarly = (data) => {
   return {
     type: types.SET_LATE_EARLY,
@@ -70,6 +70,96 @@ export const setLateEarlySuccess = (data) => {
   };
 };
 
+export const listLateEarly = (data) => {
+  return {
+    type: types.LIST_LATE_EARLY,
+    payload: data,
+  };
+};
+export const listLateEarlyFailed = () => {
+  return {
+    type: types.LIST_LATE_EARLY_FAILED,
+  };
+};
+export const listLateEarlySuccess = (data) => {
+  return {
+    type: types.LIST_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const listManagerLateEarly = (data) => {
+  return {
+    type: types.LIST_MANAGER_LATE_EARLY,
+    payload: data,
+  };
+};
+export const listManagerLateEarlyFailed = () => {
+  return {
+    type: types.LIST_MANAGER_LATE_EARLY_FAILED,
+  };
+};
+export const listManagerLateEarlySuccess = (data) => {
+  return {
+    type: types.LIST_MANAGER_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const approveLateEarly = (data) => {
+  return {
+    type: types.APPROVE_LATE_EARLY,
+    payload: data,
+  };
+};
+export const approveLateEarlyFailed = () => {
+  return {
+    type: types.APPROVE_LATE_EARLY_FAILED,
+  };
+};
+export const approveLateEarlySuccess = (data) => {
+  return {
+    type: types.APPROVE_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const updateLateEarly = (data) => {
+  return {
+    type: types.UPDATE_LATE_EARLY,
+    payload: data,
+  };
+};
+export const updateLateEarlyFailed = () => {
+  return {
+    type: types.UPDATE_LATE_EARLY_FAILED,
+  };
+};
+export const updateLateEarlySuccess = (data) => {
+  return {
+    type: types.UPDATE_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const deleteLateEarly = (data) => {
+  return {
+    type: types.DELETE_LATE_EARLY,
+    payload: data,
+  };
+};
+export const deleteLateEarlyFailed = () => {
+  return {
+    type: types.DELETE_LATE_EARLY_FAILED,
+  };
+};
+export const deleteLateEarlySuccess = (data) => {
+  return {
+    type: types.DELETE_LATE_EARLY_SUCCESS,
+    payload: data,
+  };
+};
+//
 export const takeLeave = (data) => {
   return {
     type: types.TAKE_LEAVE,
@@ -184,5 +274,10 @@ export const confirmDenyTakeLeaveFailed = (data) => {
   return {
     type: types.CONFIRM_DENY_TAKE_LEAVE_FAILED,
     payload: data,
+  };
+};
+export const removeList = () => {
+  return {
+    type: types.REMOVE_LIST,
   };
 };

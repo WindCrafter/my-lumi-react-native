@@ -15,6 +15,16 @@ import {
   overTimeFailed,
   checkOutSuccess,
   checkInWifi,
+  listLateEarlySuccess,
+  listLateEarlyFailed,
+  listManagerLateEarlySuccess,
+  listManagerLateEarlyFailed,
+  approveLateEarlySuccess,
+  approveLateEarlyFailed,
+  updateLateEarlySuccess,
+  updateLateEarlyFailed,
+  deleteLateEarlySuccess,
+  deleteLateEarlyFailed,
   listTakeLeaveSuccess,
   listTakeLeaveFailed,
   listAdminTakeLeaveFailed,
@@ -31,8 +41,27 @@ import {store} from '../store/store.js';
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
-const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
+
+//////////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
+const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
+  if (DATE) {
+    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  }
+};
+const URL_LIST_MANAGER_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
+  if (DATE) {
+    return `${URL.LOCAL_HOST}${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  }
+};
+const URL_APPROVE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.APPROVE_LATE_EARLY}`;
+const URL_UPDATE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.UPDATE_LATE_EARLY}`;
+const URL_DELETE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
+/////////////////////////////////////////////////////////////////////////////////////////
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
 const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
@@ -50,6 +79,7 @@ const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
     return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
   }
 };
+//////////////////////////////////////////////////////////////////////////////////////////
 function* sagaCheckIn(action) {
   try {
     const data = {
@@ -70,14 +100,12 @@ function* sagaCheckIn(action) {
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
         message: langs.alert.wishIn,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -87,7 +115,6 @@ function* sagaCheckIn(action) {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',
-      messageColor: Colors.danger,
       leftButton: {text: langs.alert.ok},
     });
   }
@@ -115,7 +142,6 @@ function* sagaCheckInWifi(action) {
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
         message: langs.alert.wishIn,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     } else if (
@@ -127,7 +153,6 @@ function* sagaCheckInWifi(action) {
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
         message: langs.alert.wishOut,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     } else {
@@ -136,7 +161,6 @@ function* sagaCheckInWifi(action) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.cantCheck,
-          messageColor: Colors.danger,
           leftButton: {
             text: langs.tryAgain,
             onPress: () => store.dispatch(checkInWifi(data)),
@@ -153,7 +177,6 @@ function* sagaCheckInWifi(action) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: response.message,
-          messageColor: Colors.danger,
           leftButton: {
             text: langs.alert.ok,
             // onPress : onLongPress
@@ -166,7 +189,6 @@ function* sagaCheckInWifi(action) {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',
-      messageColor: Colors.danger,
       leftButton: {text: langs.alert.ok},
       rightButton: {text: langs.alert.ok},
     });
@@ -194,7 +216,6 @@ function* sagaCreateQR(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -203,8 +224,6 @@ function* sagaCreateQR(action) {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',
-      messageColor: Colors.danger,
-
       leftButton: {text: langs.alert.ok},
     });
   }
@@ -219,9 +238,8 @@ function* sagaSetLateEarly(action) {
       date: action.payload.date,
       type: action.payload.type,
       time: action.payload.time,
-      assignTo: action.payload.assignTo,
-      advance: action.payload.advance,
-      description: action.payload.description,
+      content: action.payload.content,
+      status: action.payload.status,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_LATE_EARLY, data, token);
@@ -231,7 +249,6 @@ function* sagaSetLateEarly(action) {
       _global.Alert.alert({
         title: langs.alert.applydone,
         message: langs.alert.waitConfirm,
-        messageColor: Colors.background,
         leftButton: {
           text: langs.alert.ok,
           onPress: () => CustomNavigation.goBack(),
@@ -242,7 +259,6 @@ function* sagaSetLateEarly(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -252,7 +268,6 @@ function* sagaSetLateEarly(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
@@ -277,7 +292,6 @@ function* sagaTakeLeave(action) {
       _global.Alert.alert({
         title: langs.alert.applydone,
         message: langs.alert.waitConfirm,
-        messageColor: Colors.background,
         leftButton: {
           text: langs.alert.ok,
           onPress: () => CustomNavigation.goBack(),
@@ -288,7 +302,6 @@ function* sagaTakeLeave(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     }
@@ -298,7 +311,6 @@ function* sagaTakeLeave(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
@@ -325,7 +337,6 @@ function* sagaOverTime(action) {
       _global.Alert.alert({
         title: langs.alert.applyOTdone,
         message: langs.alert.waitConfirm,
-        messageColor: Colors.background,
         leftButton: {
           text: langs.alert.ok,
           onPress: () => CustomNavigation.goBack(),
@@ -336,7 +347,6 @@ function* sagaOverTime(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        messageColor: Colors.danger,
         leftButton: {
           text: langs.alert.ok,
         },
@@ -348,13 +358,193 @@ function* sagaOverTime(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
 
 export function* watchOverTime() {
   yield takeLatest(types.OVER_TIME, sagaOverTime);
+}
+
+function* sagaListLateEarly(action) {
+  try {
+    const token = action.payload.token;
+    const status = action.payload.status;
+    const date = action.payload.date;
+    const page_size = action.payload.page_size;
+    const page = action.payload.page;
+    const reload = action.payload.reload;
+    const response = yield _GET(
+      URL_LIST_LATE_EARLY(status, date, page, page_size),
+      token,
+    );
+    console.log('=.......', response);
+    if (response.success && response.statusCode === 200) {
+      const DATA = {
+        reload: reload,
+        data: response.data,
+      };
+      yield put(listLateEarlySuccess(DATA));
+    } else {
+      yield put(listLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchListLateEarly() {
+  yield takeLatest(types.LIST_LATE_EARLY, sagaListLateEarly);
+}
+
+function* sagaListManagerLateEarly(action) {
+  try {
+    const token = action.payload.token;
+    const status = action.payload.status;
+    const date = action.payload.date;
+    const page_size = action.payload.page_size;
+    const page = action.payload.page;
+    const reload = action.payload.reload;
+    const response = yield _GET(
+      URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
+      token,
+    );
+    console.log(URL_LIST_MANAGER_LATE_EARLY);
+    if (response.success && response.statusCode === 200) {
+      const DATA = {
+        reload: reload,
+        data: response.data,
+      };
+      yield put(listManagerLateEarlySuccess(DATA));
+      _global.Loading.hide();
+    } else {
+      yield put(listManagerLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchListManagerLateEarly() {
+  yield takeLatest(types.LIST_MANAGER_LATE_EARLY, sagaListManagerLateEarly);
+}
+
+function* sagaApproveLateEarly(action) {
+  try {
+    const data = {
+      id: action.payload.id,
+      status: action.payload.status,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_APPROVE_LATE_EARLY, data, token);
+    console.log('>>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(approveLateEarlySuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      yield put(approveLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchApproveLateEarly() {
+  yield takeLatest(types.APPROVE_LATE_EARLY, sagaApproveLateEarly);
+}
+
+function* sagaUpdateLateEarly(action) {
+  try {
+    const data = {};
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_LATE_EARLY, data, token);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateLateEarlySuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      yield put(updateLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchUpdateLateEarly() {
+  yield takeLatest(types.UPDATE_LATE_EARLY, sagaUpdateLateEarly);
+}
+
+function* sagaDeleteLateEarly(action) {
+  try {
+    const data = {};
+    const token = action.payload.token;
+    const response = yield _POST(URL_DELETE_LATE_EARLY, data, token);
+    if (response.success && response.statusCode === 200) {
+      yield put(deleteLateEarlySuccess(response.data));
+      _global.Alert.alert({
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+    } else {
+      yield put(deleteLateEarlyFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchDeleteLateEarly() {
+  yield takeLatest(types.DELETE_LATE_EARLY, sagaDeleteLateEarly);
 }
 function* sagaGetListTakeLeave(action) {
   try {

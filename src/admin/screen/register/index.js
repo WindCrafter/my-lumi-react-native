@@ -11,7 +11,7 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 import {
   KeyBoardScroll,
@@ -72,7 +72,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.invalidEmail,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -82,7 +81,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongEmail,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -92,7 +90,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.invalidPassword,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -102,7 +99,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.lessPassword,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -112,7 +108,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.invalidRePassword,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -122,7 +117,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongRepass,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -132,7 +126,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongVerifyCode,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -142,7 +135,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.termOfService,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -152,7 +144,6 @@ const Register = (props) => {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.privacyPolicy,
-        messageColor: 'red',
         leftButton: {text: langs.alert.ok},
       });
 
@@ -170,89 +161,86 @@ const Register = (props) => {
 
   return (
     <KeyBoardScroll
-     keyboardShouldPersistTaps='handled'
-      keyboardDismissMode='on-drag'
->
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag">
       <SafeAreaView style={styles.container}>
-        
-
         <View style={styles.viewMiddle}>
           <Logo containerStyle={styles.logo} />
-<View>
-          <View style={styles.viewInput}>
-            <Input
-              // leftImage={}
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Email công ty'}
-              testID="test_Username"
-              returnKeyType="next"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              maxLength={50}
-              containerStyle={styles.textInput}
-              onSubmitEditing={() => refPassword.current.focus()}
-              value={email}
-              onChangeText={onChangeEmail}
-              rightIcon
-            />
-            <InputPassword
-              testID="test_Password"
-              containerStyle={styles.textInput}
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Mật khẩu mới'}
-              // refInput={refPassword}
-              maxLength={20}
-              returnKeyType="next"
-              value={newPassword}
-              onChangeText={onChangePass}
-              refInput={refPassword}
-              onSubmitEditing={() => refRePassword.current.focus()}
-            />
-            <InputPassword
-              testID="test_Password"
-              containerStyle={styles.textInput}
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Nhập lại mật khẩu'}
-              refInput={refRePassword}
-              maxLength={20}
-              returnKeyType="next"
-              value={confirmPassword}
-              onChangeText={onChangeConfirmPassword}
-              onSubmitEditing={() => refVerifyCode.current.focus()}
-            />
-            <InputPassword
-              testID="test_Password"
-              containerStyle={styles.textInput}
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Mã nhân viên'}
-              // refInput={refPassword}
-              maxLength={20}
-              returnKeyType="done"
-              value={verifyCode}
-              onChangeText={onChangeVerifyCode}
-              leftImage={imgs.key}
-              refInput={refVerifyCode}
-            />
-          </View>
-          <View style={[styles.viewCheckbox, {marginBottom: 8}]}>
-            <Checkbox
-              title={'Điều khoản dịch vụ'}
-              // title2={`(${langs.link})`}
-              checked={termOfService}
-              onChange={onAcceptTermOfService}
-              containerStyle={styles.checkBox}
+          <View>
+            <View style={styles.viewInput}>
+              <Input
+                // leftImage={}
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={'Email công ty'}
+                testID="test_Username"
+                returnKeyType="next"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                maxLength={50}
+                containerStyle={styles.textInput}
+                onSubmitEditing={() => refPassword.current.focus()}
+                value={email}
+                onChangeText={onChangeEmail}
+                rightIcon
+              />
+              <InputPassword
+                testID="test_Password"
+                containerStyle={styles.textInput}
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={'Mật khẩu mới'}
+                // refInput={refPassword}
+                maxLength={20}
+                returnKeyType="next"
+                value={newPassword}
+                onChangeText={onChangePass}
+                refInput={refPassword}
+                onSubmitEditing={() => refRePassword.current.focus()}
+              />
+              <InputPassword
+                testID="test_Password"
+                containerStyle={styles.textInput}
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={'Nhập lại mật khẩu'}
+                refInput={refRePassword}
+                maxLength={20}
+                returnKeyType="next"
+                value={confirmPassword}
+                onChangeText={onChangeConfirmPassword}
+                onSubmitEditing={() => refVerifyCode.current.focus()}
+              />
+              <InputPassword
+                testID="test_Password"
+                containerStyle={styles.textInput}
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={'Mã nhân viên'}
+                // refInput={refPassword}
+                maxLength={20}
+                returnKeyType="done"
+                value={verifyCode}
+                onChangeText={onChangeVerifyCode}
+                leftImage={imgs.key}
+                refInput={refVerifyCode}
+              />
+            </View>
+            <View style={[styles.viewCheckbox, {marginBottom: 8}]}>
+              <Checkbox
+                title={'Điều khoản dịch vụ'}
+                // title2={`(${langs.link})`}
+                checked={termOfService}
+                onChange={onAcceptTermOfService}
+                containerStyle={styles.checkBox}
 
-              // onPressTitle={onOpenTermOfService}
-            />
-            <Checkbox
-              containerStyle={styles.checkBox}
-              title={'Chính sách quyền riêng tư'}
-              // title2={`(${langs.link})`}
-              checked={privacyPolicy}
-              onChange={onAcceptPrivacyPolicy}
-              // onPressTitle={onOpenPrivacyPolicy}
-            />
-          </View>
+                // onPressTitle={onOpenTermOfService}
+              />
+              <Checkbox
+                containerStyle={styles.checkBox}
+                title={'Chính sách quyền riêng tư'}
+                // title2={`(${langs.link})`}
+                checked={privacyPolicy}
+                onChange={onAcceptPrivacyPolicy}
+                // onPressTitle={onOpenPrivacyPolicy}
+              />
+            </View>
           </View>
           <Button
             title={'Tạo tài khoản'}
@@ -263,7 +251,6 @@ const Register = (props) => {
             containerStyle={styles.viewInButton}
             titleColor={'rgb(0,138,238)'}
           />
-          
         </View>
         <TouchableOpacity style={styles.goBack} onPress={onGoBack}>
           <Text>Bạn đã có tài khoản?</Text>
@@ -276,7 +263,6 @@ const Register = (props) => {
 const styles = StyleSheet.create({
   container: {
     height: hp(100),
-
   },
   viewLogo: {
     justifyContent: 'center',
@@ -286,8 +272,7 @@ const styles = StyleSheet.create({
   viewMiddle: {
     alignItems: 'center',
     flex: 6,
-    justifyContent:'space-around'
-
+    justifyContent: 'space-around',
   },
   viewFooter: {
     flex: 1,
@@ -389,7 +374,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: hp(90),
   },
-  logIn: {color: Colors.blue,marginLeft:4},
-  
+  logIn: {color: Colors.blue, marginLeft: 4},
 });
 export default Register;

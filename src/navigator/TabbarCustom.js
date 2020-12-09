@@ -42,7 +42,6 @@ function TabbarCustom({
       : _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.endShift,
-          messageColor: Colors.danger,
           leftButton: {
             text: langs.alert.yes,
             onPress: () => onCheck(),

@@ -19,6 +19,7 @@ import ContactRow from '../../../component/Input/InputContact';
 import { BarStatus, HeaderCustom, Input, Alert } from '../../../component';
 import { Colors } from '../../../../utlis';
 import { imgs } from '../../../../utlis';
+import {getText} from '../../../../utlis/config/utlis';
 const DATA = [
   {
     name: 'Nguyễn Văn Nghị',
@@ -90,9 +91,9 @@ function Contact(props) {
 
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
-      const itemData = `${item.name.toLowerCase()}`;
+      const itemData = getText(item.name);
 
-      const textData = txt.toLowerCase();
+      const textData = getText(txt);
 
       return itemData.indexOf(textData) > -1;
     });

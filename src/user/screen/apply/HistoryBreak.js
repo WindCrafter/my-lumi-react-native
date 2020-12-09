@@ -17,24 +17,6 @@ import HeaderCustom from './component/HeaderCustom';
 import {_GET} from '../../../../utlis/connection/api';
 import moment from 'moment';
 
-const item0 = {
-  status: 1,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
-const item1 = {
-  status: 2,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
-const item2 = {
-  status: 3,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
 const HistoryBreak = (props) => {
   const {navigation, token, listTakeLeave, historyTakeLeave} = props;
   const [loading, setLoading] = useState(false);
@@ -47,11 +29,6 @@ const HistoryBreak = (props) => {
     getData();
   }, [page]);
   const getData = () => {
-    // const status = filter.status || '';
-    // const date = filter.date || '';
-    // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    // const apiURL = `https://api.lumier.lumi.com.vn/take-leave/self-list?status=0&page_size=2&page=${page}`;
-    // await _GET(apiURL, token).then((response) => console.log(response));
 
     const dataLeave = {
       status: 0,

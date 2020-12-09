@@ -1,4 +1,6 @@
 const langs = {
+  emailInvalid:'Email đang để trống!',
+  passInvalid:'Mật khẩu đang để trống',
   user: 'Tên đăng nhập hoặc email',
   passWord: 'Mật khẩu',
   login: 'Đăng nhập',
@@ -74,6 +76,8 @@ const langs = {
   titleApproveOT: 'Đơn xin OT',
   titleHistoryBreak: 'Lịch sử nghỉ phép',
   titleApproveBreak: 'Đơn xin nghỉ phép',
+  titleHistoryLate: 'Lịch sử đi muộn/về sớm',
+  titleApproveLate: 'Đơn xin đi muộn/về sớm',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',

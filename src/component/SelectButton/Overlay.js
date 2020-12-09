@@ -116,10 +116,12 @@ class Overlay extends PureComponent {
       Animated.timing(this.state.scale, {
         toValue: 0,
         duration: 250,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.openVal, {
         toValue: 0,
         duration: 250,
+        useNativeDriver: false,
       }),
     ]).start(() => {
       this.setState({

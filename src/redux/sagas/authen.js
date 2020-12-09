@@ -61,7 +61,6 @@ function* sagaLoginAction(action) {
         title: langs.notify,
         message: response.message,
         leftButton: {text: langs.alert.ok},
-        messageColor: Colors.background,
       });
     }
   } catch (error) {
@@ -70,7 +69,6 @@ function* sagaLoginAction(action) {
       title: langs.notify,
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
@@ -93,7 +91,6 @@ function* sagaFirstLogin(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        messageColor: Colors.background,
         leftButton: {text: langs.alert.ok},
       });
     } else {
@@ -105,7 +102,6 @@ function* sagaFirstLogin(action) {
       title: langs.notify,
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
@@ -223,7 +219,6 @@ function* sagaRegisterAction(action) {
           text: langs.alert.ok,
           onPress: () => CustomNavigation.navigate('Login'),
         },
-        messageColor: Colors.background,
       });
     } else {
       yield put(registerFailed());
@@ -231,7 +226,6 @@ function* sagaRegisterAction(action) {
         title: langs.notify,
         message: response.message,
         leftButton: {text: langs.alert.ok},
-        messageColor: Colors.danger,
       });
     }
   } catch (error) {
@@ -240,7 +234,6 @@ function* sagaRegisterAction(action) {
       title: langs.notify,
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }
@@ -262,7 +255,6 @@ function* sagaGetProfile(action) {
         title: langs.notify,
         message: 'Lấy thông tin user thất bại',
         leftButton: {text: langs.alert.ok},
-        messageColor: Colors.danger,
       });
     }
   } catch (error) {
@@ -271,7 +263,6 @@ function* sagaGetProfile(action) {
       title: langs.notify,
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
-      messageColor: Colors.danger,
     });
   }
 }

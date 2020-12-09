@@ -9,11 +9,39 @@ const initialState = {
   timeCheckOut: '--:--',
   type: 'in',
   listTakeLeave: '',
-  historyAdminTakeLeave:''
+  historyAdminTakeLeave: '',
+  dataLateEarly: '',
+  dataManagerLateEarly: '',
 };
 
 export default function check(state = initialState, action) {
   switch (action.type) {
+    case types.LIST_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataLateEarly: action.payload.reload
+          ? action.payload.data
+          : Array.isArray(state.dataLateEarly)
+          ? [...state.dataLateEarly, ...action.payload.data]
+          : action.payload.data,
+      };
+    case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataManagerLateEarly: action.payload.reload
+          ? action.payload.data
+          : Array.isArray(state.dataManagerLateEarly)
+          ? [...state.dataManagerLateEarly, ...action.payload.data]
+          : action.payload.data,
+      };
+    case types.APPROVE_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataManagerLateEarly: state.dataManagerLateEarly.map((item) => {
+          return item.id === action.payload.id ? action.payload : item;
+        }),
+      };
+
     case types.GET_LIST_TAKE_LEAVE_SUCCESS:
       return {
         ...state,
@@ -68,6 +96,12 @@ export default function check(state = initialState, action) {
         timeCheckIn: '--:--',
         timeCheckOut: '--:--',
         type: 'in',
+      };
+    case types.REMOVE_LIST:
+      return {
+        ...state,
+        dataLateEarly: '',
+        dataManagerLateEarly: '',
       };
     default:
       return state;
