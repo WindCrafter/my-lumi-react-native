@@ -33,24 +33,29 @@ function TabbarCustom({
   checked,
 }) {
   const [show, setShow] = useState(false);
+  const [dateIOS, setDateIOS] = useState(new Date());
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
   const onCheckInWifi = () => {
+    type === 'in'
+      ? onCheck()
+      : _global.Alert.alert({
+          title: langs.alert.notify,
+          message: langs.alert.endShift,
+          messageColor: Colors.danger,
+          leftButton: {
+            text: langs.alert.yes,
+            onPress: () => onCheck(),
+          },
+          rightButton: {
+            text: langs.alert.no,
+          },
+        });
+  };
+
+  const onCheck = () => {
     if (!demoMode) {
-      type === 'in'
-        ? checkIn({type, token})
-        : _global.Alert.alert({
-            title: langs.alert.notify,
-            message: langs.alert.endShift,
-            messageColor: Colors.danger,
-            leftButton: {
-              text: langs.alert.yes,
-              onPress: () => checkIn({type, token}),
-            },
-            rightButton: {
-              text: langs.alert.no,
-            },
-          });
+      checkIn({type, token});
     } else {
       setShow(true);
     }
@@ -60,19 +65,23 @@ function TabbarCustom({
     return null;
   }
 
+  const onConfirm = () => {
+    const data = {
+      type,
+      time: moment(dateIOS).format('HH:mm:ss'),
+      date: moment(dateIOS).format('DD/MM/YYYY'),
+      token,
+    };
+    setShow(false);
+    checkIn(data);
+  };
+
   const onHideModal = () => {
     setShow(false);
   };
 
   const onChangeIOS = (item, selected) => {
-    const data = {
-      type,
-      date: moment(selected).format('HH:mm:ss'),
-      time: moment(selected).format('DD/MM/YYYY'),
-      token,
-    };
-    console.log(data);
-    checkIn(data);
+    setDateIOS(selected);
   };
 
   let _date;
@@ -105,10 +114,11 @@ function TabbarCustom({
             title="Chọn thời gian"
             showModal={show}
             hideModal={onHideModal}
+            onConfirm={onConfirm}
             picker={
               <View style={styles.picker}>
                 <DateTimePicker
-                  value={new Date()}
+                  value={dateIOS}
                   mode={'datetime'}
                   display="default"
                   onChange={onChangeIOS}

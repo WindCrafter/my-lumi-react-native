@@ -290,20 +290,16 @@ export function* watchTakeLeave() {
 function* sagaOverTime(action) {
   try {
     const data = {
-      start: action.payload.start,
-      date: action.payload.date,
-      time: action.payload.time,
-      assignTo: action.payload.assignTo,
-      advance: action.payload.advance,
-      description: action.payload.description,
+      ...action.payload,
     };
+    delete data.token;
     const token = action.payload.token;
-    // const response = yield _POST(URL_OVERTIME, data, token);
-    const response = {
-      success: true,
-      statusCode: 200,
-    };
-    console.log('take leave=>>>', response);
+    const response = yield _POST(URL_OVERTIME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('over time=>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(overTimeSuccess(response.data));
       _global.Alert.alert({

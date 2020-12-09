@@ -6,7 +6,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 
 const ModalTime = (props) => {
-  const {hideModal, showModal, picker, title} = props;
+  const {hideModal, showModal, picker, title, onConfirm} = props;
   return (
     <View>
       <Modal
@@ -23,7 +23,7 @@ const ModalTime = (props) => {
           <Button
             title={'Xong'}
             containerStyle={styles.complete}
-            onPress={hideModal}
+            onPress={onConfirm}
           />
         </View>
       </Modal>

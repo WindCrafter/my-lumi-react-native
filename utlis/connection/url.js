@@ -16,7 +16,7 @@ export const URL = {
   LIST_USERS: '/user/list-users',
   LATE_EARLY: '/user/add-late-early',
   TAKE_LEAVE: '/take-leave/create',
-  OVERTIME: '/user/add-overtime',
+  OVERTIME: '/overtime/create',
   ADD_USERID_DEVICE: '/user/add-device-id',
   REMOVE_USERID_DEVICE: '/user/remove-device-id',
   GET_LIST_TEAMS: '/user/list-teams',
