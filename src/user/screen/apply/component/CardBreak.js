@@ -6,13 +6,13 @@ import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const CardBreak = (props) => {
-  const {leader, status, onAccept, onDeny, type, name} = props;
+  const { leader, status, onAccept, onDeny, type, name, date, reason,typeBreak} = props;
   return (
     <Card style={styles.container}>
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {type === 1 ? langs.halfDay : langs.breakDay}
+            {typeBreak}
           </Text>
         </View>
         <View style={styles.viewDay}>
@@ -66,19 +66,24 @@ const CardBreak = (props) => {
             <View style={styles.viewName}>
               <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.time}>20/202/2020</Text>
+              <Text style={styles.time}>{date}</Text>
             </View>
           )}
+          {leader ? (
+          <View style={styles.rightHeader}>
+            <Image source={imgs.selectCalendar} style={styles.clock} />
+            <Text style={styles.txtDay}>{date}</Text>
+          </View>) : (
           <View style={styles.rightHeader}>
             <Image source={imgs.startTime} style={styles.clock} />
-
-            <Text style={styles.txtDay}>day</Text>
-          </View>
+            <Text style={styles.txtDay}>{typeBreak}</Text>
+          </View>)}
+          
         </View>
       </View>
       <View style={styles.reason}>
         <Image source={imgs.note} style={styles.clock} />
-        <Text style={styles.time}>reason</Text>
+        <Text style={styles.time}>{reason}</Text>
       </View>
       {leader && (
         <>

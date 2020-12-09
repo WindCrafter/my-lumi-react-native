@@ -13,7 +13,7 @@ import {
   Image,
   Keyboard,
   FlatList,
-  Alert
+  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP,
@@ -49,8 +49,8 @@ function ApplyBreak(props) {
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [typeShift, setTypeShift] = useState('Ca sáng');
-  const [typeBreak, setTypeBreak] = useState('Theo ca');
+  const [typeShift, setTypeShift] = useState('Buổi sáng');
+  const [typeBreak, setTypeBreak] = useState('Theo buổi');
   const [reason, setReason] = useState('');
 
   const DISABLED_DAYS = ['Sunday'];
@@ -90,8 +90,8 @@ function ApplyBreak(props) {
     if (!reason) {
       Alert.alert('Chưa điền lí do!');
       return;
-    } 
-    typeBreak === 'Theo ca'
+    }
+    typeBreak === 'Theo buổi'
       ? onTakeLeaveShift()
       : typeBreak === 'Theo ngày'
       ? onTakeLeaveDay()
@@ -103,23 +103,16 @@ function ApplyBreak(props) {
     let array = Object.keys(_markedDates);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
-        newarray.push(_markedDates[element].day);
+        newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
       }
     });
     console.log(newarray);
     const data = {
       token: token,
-      startDate: {
-        date: moment().format('DD/MM/YYYY'),
-        shift: 'morning',
-      },
-      endDate: {
-        date: moment().format('DD/MM/YYYY'),
-        shift: 'afternoon',
-      },
-      assignTo: assign ? assign.userId : null,
-      description: reason,
-      advance: {},
+      content: reason,
+      date: newarray,
+      type: 2,
+      morning: 0,
     };
     console.log('dataaaaaa', data);
 
@@ -128,10 +121,10 @@ function ApplyBreak(props) {
   const onTakeLeaveShift = () => {
     const data = {
       token: token,
-      date: moment(shift).format('DD/MM/YYYY'),
+      date: moment(shift).format('DD/MM/YYYY').split(' '),
       type: 1,
       content: reason,
-      status: 1,
+      morning: typeShift === 'Buổi sáng' ? 1 : 2,
     };
     console.log('dataaaaaa', data);
     takeLeave(data);
@@ -175,9 +168,9 @@ function ApplyBreak(props) {
   };
 
   const onSetTypeShift = () => {
-    typeShift === 'Ca sáng'
-      ? setTypeShift('Ca chiều')
-      : setTypeShift('Ca sáng');
+    typeShift === 'Buổi sáng'
+      ? setTypeShift('Buổi chiều')
+      : setTypeShift('Buổi sáng');
   };
 
   const onFocus = () => {
@@ -265,7 +258,7 @@ function ApplyBreak(props) {
             <View style={styles.img}>
               <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
+            <Text style={styles.txtStatus}>{langs.reasonWhyBreak}</Text>
           </View>
           <InputApply
             borderRadius={12}
@@ -321,14 +314,16 @@ function ApplyBreak(props) {
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>{langs.timeBreak}</Text>
+            <Text style={styles.txtStatus}>{langs.howLongBreak}</Text>
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
               <ApplyIcon
-                title={'Theo Ca'}
-                onPress={() => onSetTypeBreak('Theo ca')}
-                tintColor={typeBreak === 'Theo ca' ? Colors.background : 'grey'}
+                title={'Theo buổi'}
+                onPress={() => onSetTypeBreak('Theo buổi')}
+                tintColor={
+                  typeBreak === 'Theo buổi' ? Colors.background : 'grey'
+                }
                 source={imgs.breakShift}
               />
               <ApplyIcon
@@ -340,7 +335,7 @@ function ApplyBreak(props) {
                 source={imgs.breakOneDay}
               />
             </View>
-            {typeBreak === 'Theo ca' ? (
+            {typeBreak === 'Theo buổi' ? (
               <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
                 <TouchableOpacity
                   style={[

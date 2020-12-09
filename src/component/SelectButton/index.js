@@ -20,7 +20,14 @@ SelectButton.defaultProps = {
 };
 
 export default function SelectButton(props?: SelectButtonProps) {
-  const {renderDropdown, dropdownWidth, dropdownHeight, onPress} = props;
+  const {
+    renderDropdown,
+    dropdownWidth,
+    dropdownHeight,
+    onPress,
+    customX,
+    customY,
+  } = props;
   const buttonRef = React.createRef();
   const overlayRef = React.createRef();
 
@@ -31,7 +38,12 @@ export default function SelectButton(props?: SelectButtonProps) {
         console.log('onPressButton', width, height, px, py);
         if (overlayRef) {
           overlayRef.current.show({
-            origin: {x: px, y: py, width, height},
+            origin: {
+              x: customX ? customX + px : px,
+              y: customY ? customY + py : py,
+              width,
+              height,
+            },
           });
         }
       });

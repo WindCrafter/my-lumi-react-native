@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   },
   note: {
     alignSelf: 'center',
-    height: 24,
-    width: 24,
+    height: 16,
+    width: 16,
   },
   actionButton: {
     elevation: 101,

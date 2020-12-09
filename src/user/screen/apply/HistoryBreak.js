@@ -14,61 +14,38 @@ import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
+import {_GET} from '../../../../utlis/connection/api';
+import moment from 'moment';
 
-const DATA = [
-  {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
-  {name: 'Do Tuan Phong', id: '3', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '4', status: 1, type: 2},
-  {name: 'Do Tuan Phong', id: '5', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '6', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '7', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '8', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
-];
-const item0 = {
-  status: 1,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
-const item1 = {
-  status: 2,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
-const item2 = {
-  status: 3,
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-};
 const HistoryBreak = (props) => {
-  const {navigation} = props;
+  const {navigation, token, listTakeLeave, historyTakeLeave} = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
-
+  const [status, setStatus] = useState(0);
   useEffect(() => {
     getData();
   }, [page]);
-  const getData = async (callback) => {
+  const getData = () => {
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
-    console.log(apiURL);
-    fetch(apiURL).then((res) => {
-      setData(data.concat([item0, item1, item2]));
-      setLoading(false);
-    });
+    // const apiURL = `https://api.lumier.lumi.com.vn/take-leave/self-list?status=0&page_size=2&page=${page}`;
+    // await _GET(apiURL, token).then((response) => console.log(response));
+
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+    };
+    console.log(dataLeave);
+    listTakeLeave(dataLeave);
   };
   const handleLoadMore = () => {
-    setPage(page + 1);
-    setLoading(true);
+    // setPage(page + 1);
+    setLoading(false);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -102,12 +79,22 @@ const HistoryBreak = (props) => {
   const onApproveBreak = () => {
     navigation.navigate(langs.navigator.approveBreak);
   };
+  const onSetStatus = (status) => {
+    setStatus(status);
+  };
   const onChangeStatus = (item) => {
-    console.log(item);
+    const dataLeave = {
+      status: item,
+      page: page,
+      token: token,
+    };
+    onSetStatus(item);
+    console.log('checkkkkkkk', item);
     setFilter({...filter, status: item});
+    console.log('checkkkkkkk2', status);
     setData([]);
-    setPage(1);
-    getData();
+    console.log(dataLeave);
+    listTakeLeave(dataLeave);
     onSetType(item);
   };
   const onChangeDate = (date) => {
@@ -116,10 +103,38 @@ const HistoryBreak = (props) => {
     setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
     setData([]);
     setPage(1);
-    getData();
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+      date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
+    };
+    listTakeLeave(dataLeave);
   };
   const renderItem = ({item, index}) => {
-    return <CardBreak leader={false} status={item.status} type={item.type} />;
+    const _listDate = item.date.map((i) =>
+      moment(i, 'DD/MM/YYYY').format('DD/MM'),
+    );
+    return (
+      <CardBreak
+        leader={false}
+        status={item.status}
+        type={item.type}
+        date={_listDate.toString()}
+        reason={item.content}
+        typeBreak={
+          (item.date.length > 1 && item.morning) === 0
+            ? 'Nhiều ngày'
+            : item.date.length === 1 && item.morning === 0
+            ? 'Một ngày'
+            : item.date.length === 1 && item.morning === 1
+            ? 'Buổi sáng'
+            : item.date.length === 1 && item.morning === 2
+            ? 'Buổi chiều'
+            : 'Đơn thiếu '
+        }
+      />
+    );
   };
   return (
     <>
@@ -137,9 +152,9 @@ const HistoryBreak = (props) => {
         type={type}
         backgroundColor={Colors.white}
       />
-      <View>
+      <View style={{flex: 1}}>
         <FlatList
-          data={DATA}
+          data={historyTakeLeave}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           onEndReached={!loading ? handleLoadMore : null}

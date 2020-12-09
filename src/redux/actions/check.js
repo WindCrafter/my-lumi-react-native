@@ -217,3 +217,48 @@ export const changeToOut = () => {
     type: types.CHANGETO_CHECKOUT,
   };
 };
+
+export const listTakeLeave = (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const listTakeLeaveSuccess = (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const listTakeLeaveFailed = (data) => {
+  return {
+    type: types.GET_LIST_TAKE_LEAVE_FAILED,
+    payload: data,
+  };
+};
+export const listAdminTakeLeave = (data) => {
+  return {
+    type: types.GET_LIST_ADMIN_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const listAdminTakeLeaveSuccess = (data) => {
+  return {
+    type: types.GET_LIST_ADMIN_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const listAdminTakeLeaveFailed = (data) => {
+  return {
+    type: types.GET_LIST_ADMIN_TAKE_LEAVE_FAILED,
+    payload: data,
+  };
+};
+
+export const removeList = () => {
+  return {
+    type: types.REMOVE_LIST,
+  };
+};

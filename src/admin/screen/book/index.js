@@ -79,6 +79,9 @@ const Book = (props) => {
     console.log('----- < > ______')
     navigation.navigate(langs.navigator.event);
   };
+  const buttonIcon = () => {
+    return <Image source={imgs.add} style={styles.note} />;
+  };
   return (
     <>
       <BarStatus />
@@ -106,7 +109,9 @@ const Book = (props) => {
         <ActionButton.Item
           buttonColor="white"
           title="Tạo phòng họp"
-          onPress={onMoveToEvent}>
+          onPress={onMoveToEvent}
+          renderIcon={buttonIcon}
+          >
           <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
         </ActionButton.Item>
       </ActionButton>
@@ -207,6 +212,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     marginBottom: 27,
+
+  },
+  note: {
+    alignSelf: 'center',
+    height: 16,
+    width: 16,
   },
 });
 export default Book;

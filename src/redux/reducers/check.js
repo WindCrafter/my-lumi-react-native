@@ -8,10 +8,38 @@ const initialState = {
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
   type: 'in',
+  listTakeLeave: '',
+  historyAdminTakeLeave: '',
+  dataLateEarly: '',
+  dataManagerLateEarly: '',
 };
 
 export default function check(state = initialState, action) {
   switch (action.type) {
+    case types.LIST_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataLateEarly: Array.isArray(state.dataLateEarly)
+          ? [...state.dataLateEarly, ...action.payload]
+          : action.payload,
+      };
+    case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataManagerLateEarly: Array.isArray(state.dataManagerLateEarly)
+          ? [...state.dataManagerLateEarly, ...action.payload]
+          : action.payload,
+      };
+    case types.GET_LIST_TAKE_LEAVE_SUCCESS:
+      return {
+        ...state,
+        historyTakeLeave: action.payload,
+      };
+    case types.GET_LIST_ADMIN_TAKE_LEAVE_SUCCESS:
+      return {
+        ...state,
+        historyAdminTakeLeave: action.payload,
+      };
     case types.CHECK_IN_SUCCESS:
       return {
         ...state,
@@ -56,6 +84,12 @@ export default function check(state = initialState, action) {
         timeCheckIn: '--:--',
         timeCheckOut: '--:--',
         type: 'in',
+      };
+    case types.REMOVE_LIST:
+      return {
+        ...state,
+        dataLateEarly: '',
+        dataManagerLateEarly: '',
       };
     default:
       return state;

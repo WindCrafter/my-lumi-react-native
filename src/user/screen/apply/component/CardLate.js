@@ -6,7 +6,17 @@ import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const CardLate = (props) => {
-  const {leader, status, onAccept, onDeny, type, name} = props;
+  const {
+    leader,
+    status,
+    onAccept,
+    onDeny,
+    type,
+    name,
+    day,
+    time,
+    reason,
+  } = props;
   return (
     <Card style={styles.container}>
       <View style={styles.header}>
@@ -16,7 +26,7 @@ const CardLate = (props) => {
           </Text>
         </View>
         <View style={styles.rightHeader}>
-          <Text style={styles.txtDay}>day</Text>
+          <Text style={styles.txtDay}>{day}</Text>
         </View>
       </View>
       <View style={styles.detail}>
@@ -63,13 +73,13 @@ const CardLate = (props) => {
           )}
           <View style={styles.viewDay}>
             <Image source={imgs.startTime} style={styles.clock} />
-            <Text style={styles.time}>30 phut</Text>
+            <Text style={styles.time}>{time} phút</Text>
           </View>
         </View>
       </View>
       <View style={styles.reason}>
         <Image source={imgs.note} style={styles.clock} />
-        <Text style={styles.time}>reason</Text>
+        <Text style={styles.time}>{reason}</Text>
       </View>
       {leader && (
         <>

@@ -19,6 +19,8 @@ const langs = {
   onTime: 'Đúng giờ',
   checkOut: 'Check out',
   break: 'Nghỉ làm',
+  reasonWhyBreak: 'Lí do bạn nghỉ là gì',
+  howLongBreak: 'Lí do bạn nghỉ là gì ?',
   late: 'Đi muộn',
   addWork: 'Thêm công việc',
   creMeeting: 'Tạo lịch họp',
@@ -51,7 +53,7 @@ const langs = {
   timeBreak: 'Thời gian nghỉ',
   breakShift: 'Theo buổi',
   breakDay: 'Theo ngày',
-  halfDay:'Nửa ngày',
+  halfDay: 'Nửa ngày',
   breakMoreDay: 'Nghỉ nhiều ngày',
   morningShift: 'Ca sáng',
   afternoonShift: 'Ca chiều',
@@ -95,9 +97,9 @@ const langs = {
   changePass: 'Đổi mật khẩu',
   update: 'Cập nhật',
   address: 'Địa chỉ',
-  account:'Tài khoản',
-  setting:'Điều chỉnh và cài đặt',
-  comunicate:'Thông tin liên hệ',
+  account: 'Tài khoản',
+  setting: 'Điều chỉnh và cài đặt',
+  comunicate: 'Thông tin liên hệ',
   timeOT: 'Thời gian ước tính',
   navigator: {
     login: 'Login',
@@ -157,9 +159,11 @@ const langs = {
     wrongRepass: 'Mật khẩu nhập lại không đúng.\nVui lòng kiểm tra lại.',
     lessPassword: 'Mật khẩu không được dưới 6 kí tự.\nVui lòng kiểm tra lại.',
     invalidPassword: 'Mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
-    invalidRePassword: 'Nhập lại mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
+    invalidRePassword:
+      'Nhập lại mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
     invalidEmail: 'Email không được để trống.\nVui lòng kiểm tra lại.',
-    wrongVerifyCode: 'Mã nhân viên không được để trống.\nVui lòng kiểm tra lại.',
+    wrongVerifyCode:
+      'Mã nhân viên không được để trống.\nVui lòng kiểm tra lại.',
     termOfService:
       'Bạn cần đồng ý với những điều khoản dịch vụ của chúng tôi để tiếp tục đăng ký',
     privacyPolicy:

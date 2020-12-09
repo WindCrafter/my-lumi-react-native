@@ -32,12 +32,15 @@ const DATA = [
 ];
 
 const ApproveBreak = (props) => {
-  const {navigation} = props;
+  const {navigation, listAdminTakeLeave, token, historyAdminTakeLeave} = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
+  useEffect(() => {
+    getData();
+  }, [page]);
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -57,23 +60,29 @@ const ApproveBreak = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
-  const getData = async (callback) => {
+  const getData = () => {
     // const status = filter.status || '';
     // const date = filter.date || '';
     // const name = filter.name || '';
     // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
-    console.log(apiURL);
-    fetch(apiURL).then((res) => {
-      setData(
-        data.concat([
-          {...item1, id: Math.random().toString(36).substr(2, 9)},
-          {...item, id: Math.random().toString(36).substr(2, 9)},
-          {...item2, id: Math.random().toString(36).substr(2, 9)},
-        ]),
-      );
-      setLoading(false);
-    });
+    // const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
+    // console.log(apiURL);
+    // fetch(apiURL).then((res) => {
+    //   setData(
+    //     data.concat([
+    //       { ...item1, id: Math.random().toString(36).substr(2, 9) },
+    //       { ...item, id: Math.random().toString(36).substr(2, 9) },
+    //       { ...item2, id: Math.random().toString(36).substr(2, 9) },
+    //     ]),
+    //   );
+    //   setLoading(false);
+    // });
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+    };
+    listAdminTakeLeave(dataLeave);
   };
   const onApplyLate = () => {
     navigation.navigate(langs.navigator.applyLate);
@@ -84,7 +93,13 @@ const ApproveBreak = (props) => {
     setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
     setData([]);
     setPage(1);
-    getData();
+    const dataLeave = {
+      status: 0,
+      page: page,
+      token: token,
+      date: date ? moment(pickDate).format('DD/MM/YYYY') : null,
+    };
+    listAdminTakeLeave(dataLeave);
   };
   const onChangeName = (item) => {
     setFilter({...filter, name: item});
@@ -96,16 +111,38 @@ const ApproveBreak = (props) => {
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
-    getData();
+    const dataLeave = {
+      status: item,
+      page: page,
+      token: token,
+    };
+    listAdminTakeLeave(dataLeave);
     onSetType(item);
   };
   const renderItem = ({item, index}) => {
+    const _listDate = item.date.map((i) =>
+      moment(i, 'DD/MM/YYYY').format('DD/MM '),
+    );
+    console.log(item.date);
+    console.log(item.date.length)
     return (
       <CardBreak
         leader={true}
         status={item.status}
         type={item.type}
-        name={item.name}
+        date={_listDate.toString()}
+        reason={item.content}
+        typeBreak={
+          item.date.length > 1 && item.morning === 0
+            ? 'Nhiều ngày'
+            : item.date.length === 1 && item.morning === 0
+            ? 'Một ngày'
+            : item.date.length === 1 && item.morning === 1
+            ? 'Buổi sáng'
+            : item.date.length === 1 && item.morning === 2
+            ? 'Buổi chiều'
+            : 'Đơn thiếu '
+        }
       />
     );
   };
@@ -127,9 +164,9 @@ const ApproveBreak = (props) => {
         type={type}
         search
       />
-      <View>
+      <View style={{flex:1}}>
         <FlatList
-          data={DATA}
+          data={historyAdminTakeLeave}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
         />

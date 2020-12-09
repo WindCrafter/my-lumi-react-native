@@ -11,13 +11,11 @@ import * as Sentry from '@sentry/react-native';
 console.disableYellowBox = true;
 // const DSN_SENTRY =
 //   'https://fc0d9122795948ee93aa4e34e28d776c@o486792.ingest.sentry.io/5544590';
-
 // Sentry.init({
 //   dsn: DSN_SENTRY,
 //   enableAutoSessionTracking: true,
 //   // Sessions close after app is 10 seconds in the background.
 //   sessionTrackingIntervalMillis: 10000,
-//   release:'LumiHR@0.0.1'
 // });
 setFont('Quicksand-Regular');
 const App = () => {

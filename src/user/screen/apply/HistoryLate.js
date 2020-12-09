@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -15,54 +16,62 @@ import ActionButton from './component/ActionButton';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
-
-const DATA = [
-  {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
-  {name: 'Do Tuan Phong', id: '3', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '4', status: 1, type: 2},
-  {name: 'Do Tuan Phong', id: '5', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '6', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '7', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '8', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
-];
+import {_global} from '../../../../utlis/global/global';
 
 const HistoryLate = (props) => {
-  const {navigation, listLateEarly, token} = props;
+  const {navigation, listLateEarly, token, dataLateEarly, removeList} = props;
   const [type, setType] = useState('Tất cả');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
+  const [status, setStatus] = useState(0);
+  const [date, setDate] = useState('');
   const goBack = () => {
     navigation.goBack();
+    removeList();
   };
   useEffect(() => {
     const data = {
       token: token,
-      status: 0,
+      status: status,
+      page: page,
+      page_size: 10,
     };
     listLateEarly(data);
-  }, [page]);
+  }, []);
+
   const onApplyLate = () => {
     navigation.navigate(langs.navigator.applyLate);
   };
 
   const renderItem = ({item, index}) => {
-    return <CardLate leader={false} status={item.status} type={item.type} />;
+    return (
+      <CardLate
+        leader={false}
+        status={item.status}
+        type={item.type}
+        reason={item.content}
+        day={item.date}
+        time={item.time}
+      />
+    );
   };
 
   const onPressCreate = () => {
     navigation.navigate(langs.navigator.approveLate);
   };
 
-  const onChangeDate = (date) => {
+  const onChangeDate = (pickDay) => {
     const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    console.log(moment(pickDate).format('DD/MM/YYYY'));
-    setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-    setData([]);
+    const data = {
+      token: token,
+      status: status,
+      date: moment(pickDay).format('DD/MM/YYYY'),
+      page: 1,
+      page_size: 10,
+    };
     setPage(1);
+    listLateEarly(data);
+    setDate(pickDate);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -81,11 +90,37 @@ const HistoryLate = (props) => {
     }
   };
   const onChangeStatus = (item) => {
-    console.log(item);
-    setFilter({...filter, status: item});
-    setData([]);
+    const data = {
+      token: token,
+      status: item,
+      page: 1,
+      page_size: 10,
+    };
     setPage(1);
+    listLateEarly(data);
     onSetType(item);
+    setStatus(item);
+  };
+
+  const handleLoadMore = () => {
+    const data = {
+      token: token,
+      status: status,
+      page: page + 1,
+      page_size: 10,
+      date: date,
+    };
+    setPage(page + 1);
+    listLateEarly(data);
+    _global.Loading.show();
+  };
+
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="grey" />
+      </View>
+    ) : null;
   };
 
   return (
@@ -105,13 +140,16 @@ const HistoryLate = (props) => {
       />
       <View style={styles.container}>
         <FlatList
-          data={DATA}
-          keyExtractor={(item) => item.id}
+          data={dataLateEarly}
+          keyExtractor={(item, index) => `${item.id}`}
           renderItem={renderItem}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
           style={styles.flatList}
+          ListFooterComponent={renderFooterComponent}
         />
       </View>
-      <ActionButton onApprove={onApplyLate} onApply={onPressCreate} />
+      <ActionButton onApprove={onPressCreate} onApply={onApplyLate} />
     </>
   );
 };

@@ -25,6 +25,10 @@ import {
   updateLateEarlyFailed,
   deleteLateEarlySuccess,
   deleteLateEarlyFailed,
+  listTakeLeaveSuccess,
+  listTakeLeaveFailed,
+  listAdminTakeLeaveFailed,
+  listAdminTakeLeaveSuccess,
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -36,13 +40,13 @@ const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 
-//
+//////////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
   if (DATE) {
-    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size`;
+    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   } else {
-    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size`;
+    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   }
 };
 const URL_LIST_MANAGER_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
@@ -55,10 +59,24 @@ const URL_LIST_MANAGER_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
 const URL_APPROVE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.APPROVE_LATE_EARLY}`;
 const URL_UPDATE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.UPDATE_LATE_EARLY}`;
 const URL_DELETE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
-
+const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
+  if (!DATE) {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  }
+};
+const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
+  if (!DATE) {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+  } else {
+    return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  }
+};
+//////////////////////////////////////////////////////////////////////////////////////////
 function* sagaCheckIn(action) {
   try {
     const data = {
@@ -217,9 +235,8 @@ function* sagaSetLateEarly(action) {
       date: action.payload.date,
       type: action.payload.type,
       time: action.payload.time,
-      assignTo: action.payload.assignTo,
-      advance: action.payload.advance,
-      description: action.payload.description,
+      content: action.payload.content,
+      status: action.payload.status,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_LATE_EARLY, data, token);
@@ -262,7 +279,7 @@ function* sagaTakeLeave(action) {
       date: action.payload.date,
       type: action.payload.type,
       content: action.payload.content,
-      status: action.payload.status,
+      morning: action.payload.morning,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);
@@ -357,13 +374,9 @@ function* sagaListLateEarly(action) {
       URL_LIST_LATE_EARLY(status, date, page, page_size),
       token,
     );
+    console.log('=.......', response);
     if (response.success && response.statusCode === 200) {
       yield put(listLateEarlySuccess(response.data));
-      _global.Alert.alert({
-        leftButton: {
-          text: langs.alert.ok,
-        },
-      });
     } else {
       yield put(listLateEarlyFailed());
       _global.Alert.alert({
@@ -388,16 +401,19 @@ export function* watchListLateEarly() {
 
 function* sagaListManagerLateEarly(action) {
   try {
-    const data = {};
     const token = action.payload.token;
-    const response = yield _POST(URL_LIST_MANAGER_LATE_EARLY, data, token);
+    const status = action.payload.status;
+    const date = action.payload.date;
+    const page_size = action.payload.page_size;
+    const page = action.payload.page;
+    const response = yield _GET(
+      URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
+      token,
+    );
+    console.log(URL_LIST_MANAGER_LATE_EARLY);
     if (response.success && response.statusCode === 200) {
       yield put(listManagerLateEarlySuccess(response.data));
-      _global.Alert.alert({
-        leftButton: {
-          text: langs.alert.ok,
-        },
-      });
+      _global.Loading.hide();
     } else {
       yield put(listManagerLateEarlyFailed());
       _global.Alert.alert({
@@ -521,3 +537,57 @@ function* sagaDeleteLateEarly(action) {
 export function* watchDeleteLateEarly() {
   yield takeLatest(types.DELETE_LATE_EARLY, sagaDeleteLateEarly);
 }
+function* sagaGetListTakeLeave(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(
+      LIST_URL_TAKE_LEAVE(
+        action.payload.status,
+        action.payload.page,
+        action.payload.date,
+      ),
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(listTakeLeaveSuccess(response.data));
+    } else {
+      yield put(listTakeLeaveFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListTakeLeave() {
+  yield takeLatest(types.GET_LIST_TAKE_LEAVE, sagaGetListTakeLeave);
+}
+
+function* sagaGetListAdminTakeLeave(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(
+      LIST_URL_ADMIN_TAKE_LEAVE(
+        action.payload.status,
+        action.payload.page,
+        action.payload.date,
+      ),
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(listAdminTakeLeaveSuccess(response.data));
+    } else {
+      yield put(listAdminTakeLeaveFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetListAdminTakeLeave() {
+  yield takeLatest(types.GET_LIST_ADMIN_TAKE_LEAVE, sagaGetListAdminTakeLeave);
+}
+
