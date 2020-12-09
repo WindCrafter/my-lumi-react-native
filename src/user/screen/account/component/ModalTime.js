@@ -6,7 +6,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Colors} from '../../../../../utlis';
 
 const ModalTime = (props) => {
-  const {hideModal, showModal, picker} = props;
+  const {hideModal, showModal, picker, title, onConfirm} = props;
   return (
     <View>
       <Modal
@@ -18,12 +18,12 @@ const ModalTime = (props) => {
         style={styles.modal}
         backdropTransitionOutTiming={0}>
         <View style={styles.modalview}>
-          <Text style={styles.titlemodal}>Chọn ngày sinh</Text>
+          <Text style={styles.titlemodal}>{title || 'Chọn ngày sinh'}</Text>
           {picker}
           <Button
             title={'Xong'}
             containerStyle={styles.complete}
-            onPress={hideModal}
+            onPress={onConfirm}
           />
         </View>
       </Modal>

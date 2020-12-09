@@ -181,6 +181,9 @@ const langs = {
     plscheck: 'Vui lòng kiểm tra lại',
     dontImportPhone: 'Lumier này chưa cung cấp số điện thoại.',
     dontImportUser: 'Lumier này chưa cung cấp số tài khoản.',
+    missingContentOT: 'Bạn chưa điền nột dung OT',
+    wrongTimeOT: 'Thời gian đăng kí OT không hợp lệ',
+    approveFail: 'Duyệt đơn không thành công!',
   },
 };
 

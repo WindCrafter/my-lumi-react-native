@@ -7,21 +7,30 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Button} from '../../../../component';
 
 const PickerCustom = (props) => {
-  const {value, onPress, onChange, mode, show, locale, minimumDate} = props;
+  const {
+    value,
+    onPress,
+    onChange,
+    mode,
+    show,
+    locale,
+    minimumDate,
+    onHideModal,
+    title,
+  } = props;
+
   return Platform.OS === 'ios' ? (
     <Modal
       isVisible={show}
       animationIn={'slideInUp'}
       animationOutTiming={500}
       animationOut={'slideOutDown'}
-      onBackdropPress={onPress}
+      onBackdropPress={onHideModal}
       style={styles.modal}
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
         <View style={styles.picker}>
-          <Text style={styles.txtHeader}>
-            {mode === 'date' ? 'Chọn ngày' : 'Chọn giờ và phút'}
-          </Text>
+          <Text style={styles.txtHeader}>{title || 'Chọn giờ và phút'}</Text>
           <DateTimePicker
             value={value}
             mode={mode}

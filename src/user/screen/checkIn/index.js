@@ -5,14 +5,14 @@ import {
   View,
   TouchableOpacity,
   Image,
-  StatusBar,
   Keyboard,
   Platform,
   KeyboardAvoidingView,
   TextInput,
   ScrollView,
 } from 'react-native';
-import {Card} from 'native-base';
+import moment from 'moment';
+import LinearGradient from 'react-native-linear-gradient';
 import langs from '../../../../common/language';
 import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
@@ -53,7 +53,7 @@ const CheckIn = (props) => {
   const [method, setMedthod] = useState('qr');
   const onChangeMethod = () => {
     type === 'in' ? changeToOut() : changeToIn();
-    console.log(type)
+    console.log(type);
   };
   const onCheckInCode = () => {
     const data = {
@@ -136,7 +136,6 @@ const CheckIn = (props) => {
   };
   const onPressBack = () => {
     navigation.goBack();
-    switchTo();
   };
   const scrollRef = useRef();
 
@@ -153,250 +152,144 @@ const CheckIn = (props) => {
     setMedthod('wifi');
   };
 
+  const onPressCheck = () => {
+    console.log('check');
+  };
+
+  // const onBlur = () => {
+  //   console.log('blur');
+  //   Keyboard.dismiss();
+  // };
+
   return (
-    <View style={{flex: 1}}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.headerLeft} onPress={onChangeMethod}>
+          <Text style={styles.titleHeader}>{`Check-${type}`}</Text>
+          <Image source={imgs.exchangeIcon} style={[styles.changeIcon]} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cancel} onPress={onPressBack}>
+          <Image source={imgs.cancel} style={[styles.iconCancel]} />
+        </TouchableOpacity>
+      </View>
       <ScrollView
-        ref={scrollRef}
-        horizontal={true}
-        pagingEnabled={true}
-        scrollEnabled={false}
-        showsHorizontalScrollIndicator={false}
-        onScrollAnimationEnd={false}
-        // style={{flex:1}}
-      >
-        <QRCodeScanner
-          onRead={onCheckIn}
-          reactivate={true}
-          reactivateTimeout={3000}
-          flashMode={RNCamera.Constants.FlashMode.off}
-          cameraStyle={styles.camera}
-          topViewStyle={styles.not}
-          showMarker={true}
-          // cameraProps={{ratio: '1:1'}}
-          customMarker={<CusMarker />}
-          bottomContent={
-            <Text style={styles.titlemodal}>
-              Di chuyển Camera vào vùng chứa mã bạn nhé.
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+        <View style={styles.card}>
+          <View style={styles.headerCard}>
+            <Text style={styles.txtTitleCard}>Ngày 20/11/2020</Text>
+            <View style={styles.inputCode}>
+              <Image source={imgs.key} style={[styles.iconKey]} />
+              <TextInput placeholder="Nhập mã tại đây" style={styles.input} Î />
+            </View>
+            <Text style={styles.note}>
+              Vui lòng thiên hệ với Leader/Hr để nhận mã.
             </Text>
-          }
-        />
-
-        <View style={styles.pagetwo}>
-          <View style={styles.viewMid}>
-            <View style={styles.modalviewWifi}>
-              <Card style={styles.cardWifi}>
-                <View style={{flexDirection: 'row'}}>
-                  <Image source={imgs.ssid} style={styles.iconWifi} />
-                  <Text style={styles.txtTopWifi}>Tên wifi:</Text>
-
-                  <Text style={styles.txtTopWifi}>{ssidUser}</Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Image source={imgs.bssid} style={styles.iconWifi} />
-                  <Text style={styles.txtTopWifi}>Mã MAC:</Text>
-                  <Text style={styles.txtTopWifi}>{bssidUser}</Text>
-                </View>
-              </Card>
-              <TouchableOpacity style={styles.button} onPress={onCheckInWifi}>
-                <Text style={styles.doneWifi}>Kết nối lại</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </View>
-
-        <View style={styles.pagethree}>
-          <View style={styles.viewMid}>
-            <View style={styles.modalviewCode}>
-              <Card style={styles.card}>
-                <KeyboardAvoidingView style={styles.bodyCode}>
-                  <Image source={imgs.key} style={styles.imageInputCode} />
-                  <TextInput
-                    style={styles.txtInputCode}
-                    textAlign={'left'}
-                    placeholder={'Nhập mã chấm công'}
-                    placeholderTextColor={'gray'}
-                    onChangeText={onChangeCode}
-                    clearButtonMode={'while-editing'}
-                    value={code}
-                  />
-                </KeyboardAvoidingView>
-              </Card>
-              <TouchableOpacity
-                style={styles.touchableCode}
-                onPress={onCheckInCode}>
-                <Text style={styles.doneCode}>Xác nhận</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <LinearGradient
+            style={styles.footerCard}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['rgb(13, 177, 75)', 'rgb(17, 153, 142)']}>
+            <TouchableOpacity style={styles.footerCard} onPress={onPressCheck}>
+              <Text style={styles.txtCheck}>Chấm công</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </ScrollView>
-      <HeaderCheck
-        title={langs.checkIn}
-        type={`Check-${type}`}
-        onPressBack={onPressBack}
-        onPressChange={onChangeMethod}
-      />
-      <Bottom
-        method={method}
-        onPressOne={PageQr}
-        onPressTwo={PageWifi}
-        onPressThree={PageCode}
-      />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 export default CheckIn;
 
 const styles = StyleSheet.create({
-  detail: {
-    width: wp(100),
+  container: {
+    marginTop: 30,
+    paddingHorizontal: 24,
+    flex: 1,
   },
-  viewMid: {
+  header: {
+    flexDirection: 'row',
+    marginTop: 22,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  txtTop: {
-    fontSize: 16,
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  changeIcon: {
+    tintColor: '#32ac4f',
+  },
+  titleHeader: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#32ac4f',
+    width: 120,
+  },
+  iconCancel: {
+    tintColor: Colors.white,
+    width: 16,
+    height: 16,
+    resizeMode: 'stretch',
+  },
+  cancel: {
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    overflow: 'hidden',
+    backgroundColor: Colors.gray,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    flex: 1,
+    // justifyContent: 'center',
   },
   card: {
-    borderRadius: 24,
-    width: '80%',
-    alignSelf: 'center',
-    backgroundColor: '#ffffff',
-    overflow: 'hidden',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  image: {width: 24, height: 24, alignSelf: 'center'},
-  body: {flexDirection: 'row'},
-  pageone: {
-    width: wp(100),
-    justifyContent: 'center',
-    backgroundColor: Colors.background,
-  },
-  pagetwo: {
-    width: wp(100),
-    justifyContent: 'center',
-    backgroundColor: Colors.background,
-    height: '100%',
-    flex: 1,
-  },
-  pagethree: {
-    width: wp(100),
-    justifyContent: 'center',
-    backgroundColor: Colors.background,
-    height: '100%',
-    flex: 1,
-  },
-  modalview: {
-    borderRadius: 28,
-    width: widthPercentageToDP(100),
-    height: heightPercentageToDP(60),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  titlemodal: {
-    fontWeight: '500',
-    fontSize: 16,
-    marginBottom: -20,
-    color: 'white',
-    width: '80%',
-    textAlign: 'center',
-  },
-  camera: {
-    height: hp(105),
-    width: wp(100),
-  },
-  modalviewCode: {
-    borderRadius: 24,
-    width: widthPercentageToDP(85),
-    height: heightPercentageToDP(35),
-    paddingVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 30,
-  },
-  touchableCode: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    resizeMode: 'contain',
-    width: 132,
-    height: 49,
     borderRadius: 16,
-    backgroundColor: '#ffffff',
-  },
-  doneCode: {
-    color: '#008aee',
-    fontSize: 17,
-    fontWeight: '500',
-  },
-  bodyCode: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    width: widthPercentageToDP(40),
-  },
-  imageInputCode: {
-    alignSelf: 'center',
-    marginRight: 8,
-  },
-  txtInputCode: {
-    width: widthPercentageToDP(50),
-  },
-  modalviewWifi: {
-    borderRadius: 24,
-    width: 85,
-    height: heightPercentageToDP(35),
-    paddingVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  txtTopWifi: {
-    fontSize: 18,
-    alignSelf: 'center',
-  },
-  cardWifi: {
-    width: widthPercentageToDP(80),
-    alignSelf: 'center',
-    paddingVertical: 2,
-    overflow: 'hidden',
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    height: 159,
-    borderRadius: 16,
-    backgroundColor: '#ffffff',
-    justifyContent: 'space-evenly',
-  },
-  doneWifi: {
-    color: '#008aee',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  iconWifi: {
-    marginHorizontal: 16,
-  },
-  not: {flex: 0},
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: Colors.white,
-    width: 132,
-    height: 49,
-    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  headerCard: {
+    paddingVertical: 50,
+    paddingHorizontal: 16,
+  },
+  txtTitleCard: {
+    fontSize: 24,
+    color: '#0db14b',
+    fontWeight: '500',
+  },
+  inputCode: {
+    flexDirection: 'row',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.gray,
     marginTop: 70,
+  },
+  iconKey: {
+    tintColor: '#0db14b',
+  },
+  input: {
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    fontFamily: 'Quicksand-Regular',
+    flex: 1,
+  },
+  note: {
+    marginTop: 50,
+    color: 'rgba(0,0,0,0.6)',
+  },
+  footerCard: {
+    alignItems: 'center',
+    height: 50,
+    justifyContent: 'center',
+  },
+  txtCheck: {
+    color: Colors.white,
+    fontSize: 20,
   },
 });

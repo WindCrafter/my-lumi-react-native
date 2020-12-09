@@ -44,6 +44,7 @@ const HeaderCustom = (props?: Props) => {
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState('');
+  const [_date, setDateChange] = useState('');
   const onClear = () => {
     setDate('');
     onChangeDate('');
@@ -109,7 +110,11 @@ const HeaderCustom = (props?: Props) => {
       </View>
     );
   };
-
+  const onPressConfirmIOS = () => {
+    setDate(_date);
+    onChangeDate(_date);
+    setShow(false);
+  };
   const status = [
     {label: 'Tất cả', value: '0'},
     {label: 'Đang chờ', value: '1'},
@@ -192,10 +197,12 @@ const HeaderCustom = (props?: Props) => {
         </View>
       </View>
       <PickerCustom
+        title="Chọn ngày"
         show={show}
-        value={date || new Date()}
+        value={_date || new Date()}
         onChange={onChangeDatetime}
-        onPress={onHideModal}
+        onHideModal={onHideModal}
+        onPress={onPressConfirmIOS}
       />
     </View>
   );

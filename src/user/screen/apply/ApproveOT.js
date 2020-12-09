@@ -13,8 +13,10 @@ import {BarStatus} from '../../../component';
 import {Colors} from '../../../../utlis';
 import ItemOT from './component/ItemApproveOT';
 import {FlatList} from 'react-native-gesture-handler';
-// import {URL} from '../../../../utlis/connection/url';
+import {URL} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
+import {_GET, _POST} from '../../../../utlis/connection/api';
+import {_global} from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -23,44 +25,44 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const item = {
-  id: Math.random().toString(36).substr(2, 9),
-  name: 'Đỗ Tuấn Phong',
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-  status: 1,
-};
+// const item = {
+//   id: Math.random().toString(36).substr(2, 9),
+//   name: 'Đỗ Tuấn Phong',
+//   date: '21/09/2020',
+//   time: '0.5',
+//   content: 'Sửa lỗi phát sinh trên UI',
+//   status: 1,
+// };
 
-const item1 = {
-  id: Math.random().toString(36).substr(2, 9),
-  name: 'Đỗ Tuấn Phong',
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-  status: 2,
-};
+// const item1 = {
+//   id: Math.random().toString(36).substr(2, 9),
+//   name: 'Đỗ Tuấn Phong',
+//   date: '21/09/2020',
+//   time: '0.5',
+//   content: 'Sửa lỗi phát sinh trên UI',
+//   status: 2,
+// };
 
-const item2 = {
-  id: Math.random().toString(36).substr(2, 9),
-  name: 'Đỗ Tuấn Phong',
-  date: '21/09/2020',
-  time: '0.5',
-  content: 'Sửa lỗi phát sinh trên UI',
-  status: 3,
-};
+// const item2 = {
+//   id: Math.random().toString(36).substr(2, 9),
+//   name: 'Đỗ Tuấn Phong',
+//   date: '21/09/2020',
+//   time: '0.5',
+//   content: 'Sửa lỗi phát sinh trên UI',
+//   status: 3,
+// };
 
 function ApproveOT(props) {
-  const {navigation} = props;
+  const {navigation, token} = props;
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
-  const [type, setType] = useState('Tất cả');
+  const [type, setType] = useState('Đang chờ');
 
   useEffect(() => {
-    getData();
-  }, [page]);
+    getData(1, '', '', [], '');
+  }, []);
 
   const goBack = () => {
     navigation.goBack();
@@ -85,69 +87,116 @@ function ApproveOT(props) {
     return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
   };
 
-  const onConfirm = (item) => {
-    setData(data.map((i) => (i.id === item.id ? {...i, status: 2} : i)));
-  };
-
-  const onDeny = (item) => {
-    setData(data.map((i) => (i.id === item.id ? {...i, status: 3} : i)));
-  };
-
-  const getData = async (callback) => {
-    // const status = filter.status || '';
-    // const date = filter.date || '';
-    // const name = filter.name || '';
-    // const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${page}&?status=${status}&?date=${date}`;
-    const apiURL = `https://jsonplaceholder.typicode.com/photos?_limit=10&page=${page}`;
-    console.log(apiURL);
-    fetch(apiURL).then((res) => {
+  const onConfirm = async (item) => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_OVERTIME}`;
+    const body = {
+      _id: item._id,
+      status: 2,
+    };
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_OT =============>', response);
+    if (response.success && response.statusCode === 200 && response.data) {
       setData(
-        data.concat([
-          {...item1, id: Math.random().toString(36).substr(2, 9)},
-          {...item, id: Math.random().toString(36).substr(2, 9)},
-          {...item2, id: Math.random().toString(36).substr(2, 9)},
-        ]),
+        data.map((i) => (i._id === response.data._id ? response.data : i)),
       );
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  };
+
+  const onDeny = async (item) => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_OVERTIME}`;
+    const body = {
+      _id: item._id,
+      status: 3,
+    };
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_OT =============>', response);
+    if (response.success && response.statusCode === 200 && response.data) {
+      setData(
+        data.map((i) => (i._id === response.data._id ? response.data : i)),
+      );
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  };
+
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
+    const _name = nameN || '';
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}`;
+    console.log(apiURL);
+    const response = await _GET(apiURL, token);
+    console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
       setLoading(false);
-    });
+    } else {
+      setLoading(false);
+    }
   };
 
   const handleLoadMore = () => {
-    setPage(page + 1);
     setLoading(true);
+    getData(page + 1, filter.date, filter.status, data, filter.name);
   };
 
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     ) : null;
   };
 
   const onChangeDate = (date) => {
-    const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    console.log(moment(pickDate).format('DD/MM/YYYY'));
-    setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
+    console.log(moment(date).format('DD/MM/YYYY'));
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
     setData([]);
     setPage(1);
-    getData();
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      filter.status,
+      [],
+      filter.name,
+    );
   };
 
   const onChangeStatus = (item) => {
     setFilter({...filter, status: item});
     setData([]);
     setPage(1);
-    getData();
+    getData(1, filter.date, item, [], filter.name);
     onSetType(item);
-
   };
 
   const onChangeName = (item) => {
     setFilter({...filter, name: item});
     setData([]);
     setPage(1);
-    getData();
+    getData(1, filter.date, filter.status, [], item);
   };
 
   return (
@@ -199,9 +248,9 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   detail: {
-    flexDirection: 'column',
     justifyContent: 'space-around',
-    marginTop: 32,
+    marginVertical: 32,
+    flex: 1,
   },
   status: {
     flexDirection: 'row',

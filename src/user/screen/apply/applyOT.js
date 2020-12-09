@@ -34,6 +34,7 @@ import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
+import {_global} from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -207,7 +208,6 @@ function ApplyOT(props) {
       _hour =
         _time - (ruleStart.end - _start) > 0 ? ruleStart.end - _start : _time;
       result.push({
-        start: _start,
         level: ruleStart.level,
         time: _hour,
         date: _day,
@@ -234,34 +234,38 @@ function ApplyOT(props) {
   };
 
   const onSetOverTime = () => {
-    if (!day) {
-      Alert.alert('Chưa điền ngày đăng kí OT!');
-      return;
-    }
-    if (!hour) {
-      Alert.alert('Chưa điền giờ đăng kí OT!');
-      return;
-    }
-    if (!time) {
-      Alert.alert('Chưa điền thời gian đăng kí OT!');
-      return;
-    }
     if (!reason) {
-      Alert.alert('Chưa điền lý do đăng kí OT!');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.missingContentOT,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
       return;
     }
     const _day = moment(day).format('DD/MM/YYYY');
+    const _month = moment(day).format('MM/YYYY');
     const _start = moment(hour).format('HH:mm');
-    console.log(
-      splitTime(
-        moment(day).format('DD/MM/YYYY'),
-        moment(hour).format('HH:mm'),
-        time,
-      ),
-      reason,
-    );
     if (!splitTime(_day, _start, time)) {
-      Alert.alert('Thời gian đăng kí không chính xác!');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.wrongTimeOT,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    } else {
+      const data = {
+        start_date: _day,
+        start: _start,
+        data: splitTime(_day, _start, time),
+        total_time: time,
+        month: _month,
+        content: reason,
+        status: 1,
+        token,
+      };
+      console.log(data);
+      overTime(data);
     }
   };
   const onFocus = () => {
@@ -367,7 +371,6 @@ function ApplyOT(props) {
               width: '90%',
               justifyContent: 'center',
               alignSelf: 'center',
-              
             }}
             value={reason}
             onChangeText={onChangeReason}

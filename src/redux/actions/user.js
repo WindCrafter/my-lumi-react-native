@@ -189,3 +189,9 @@ export const getListCheckFailed = () => {
     type: types.GET_LIST_CHECK_FAILED,
   };
 };
+
+export const changeDemoMode = () => {
+  return {
+    type: types.CHANGE_DEMO_MODE,
+  };
+};

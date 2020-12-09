@@ -5,6 +5,7 @@ import {
   // getListUsers,
   // getListTeams,
   kickAssign,
+  changeDemoMode,
 } from '../../../redux/actions/user';
 import {resetCheck} from '../../../redux/actions/check';
 const mapStateToProps = (state) => ({
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({
   token: state.authen.token,
   currentUser: state.user.currentUser,
   oneSignalID: state.authen.oneSignalID,
+  demoMode: state.user.demoMode,
 });
 
 const mapDispatchToProps = {
@@ -21,6 +23,7 @@ const mapDispatchToProps = {
   // getListUsers,
   // getListTeams,
   resetCheck,
+  changeDemoMode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
