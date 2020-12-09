@@ -16,6 +16,7 @@ import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
 import {_GET} from '../../../../utlis/connection/api';
 import moment from 'moment';
+import { URL } from '../../../../utlis/connection/url';
 
 const HistoryBreak = (props) => {
   const {navigation, token, listTakeLeave, historyTakeLeave} = props;
@@ -24,23 +25,47 @@ const HistoryBreak = (props) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
+  const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
   useEffect(() => {
-    getData();
-  }, [page]);
-  const getData = () => {
+    getData(1, '', '', []);
+  }, []);
+//saga
+  // const getData = () => {
 
-    const dataLeave = {
-      status: 0,
-      page: page,
-      token: token,
-    };
-    console.log(dataLeave);
-    listTakeLeave(dataLeave);
+  //   const dataLeave = {
+  //     status: 0,
+  //     page: page,
+  //     token: token,
+  //   };
+  //   console.log(dataLeave);
+  //   listTakeLeave(dataLeave);
+  // };
+  const getData = async (pageNumber, dateN, statusN, dataN) => {
+    console.log('date', dateN, 'status', statusN);
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _dataN = dataN || [];
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    console.log(apiURL);
+    const response = await _GET(apiURL, token);
+    console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+      setPage(pageNumber);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
   };
   const handleLoadMore = () => {
-    // setPage(page + 1);
-    setLoading(false);
+    getData(page + 1, date, status, data);
+    setLoading(true);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -78,33 +103,50 @@ const HistoryBreak = (props) => {
     setStatus(status);
   };
   const onChangeStatus = (item) => {
-    const dataLeave = {
-      status: item,
-      page: page,
-      token: token,
-    };
-    onSetStatus(item);
-    console.log('checkkkkkkk', item);
-    setFilter({...filter, status: item});
-    console.log('checkkkkkkk2', status);
-    setData([]);
-    console.log(dataLeave);
-    listTakeLeave(dataLeave);
-    onSetType(item);
-  };
-  const onChangeDate = (date) => {
-    const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    console.log(moment(pickDate).format('DD/MM/YYYY'));
-    setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
+    setStatus(item);
     setData([]);
     setPage(1);
-    const dataLeave = {
-      status: 0,
-      page: page,
-      token: token,
-      date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
-    };
-    listTakeLeave(dataLeave);
+    getData(1, date, item, []);
+    onSetType(item);
+    onSetStatus(item);
+  };
+  //SAGA
+  // const onChangeStatus = (item) => {
+  //   const dataLeave = {
+  //     status: item,
+  //     page: page,
+  //     token: token,
+  //   };
+  //   onSetStatus(item);
+  //   console.log('checkkkkkkk', item);
+  //   setFilter({...filter, status: item});
+  //   console.log('checkkkkkkk2', status);
+  //   setData([]);
+  //   console.log(dataLeave);
+  //   listTakeLeave(dataLeave);
+  //   onSetType(item);
+  // };
+  //SAGA
+  // const onChangeDate = (date) => {
+  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
+  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
+  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
+  //   setData([]);
+  //   setPage(1);
+  //   const dataLeave = {
+  //     status: 0,
+  //     page: page,
+  //     token: token,
+  //     date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
+  //   };
+  //   listTakeLeave(dataLeave);
+  // };
+  const onChangeDate = (date) => {
+    console.log(moment(date).format('DD/MM/YYYY'));
+    setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+    setData([]);
+    setPage(1);
+    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
   };
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
@@ -149,7 +191,7 @@ const HistoryBreak = (props) => {
       />
       <View style={{flex: 1}}>
         <FlatList
-          data={historyTakeLeave}
+          data={data}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           onEndReached={!loading ? handleLoadMore : null}

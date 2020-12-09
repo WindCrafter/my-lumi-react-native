@@ -20,7 +20,7 @@ const langs = {
   checkOut: 'Check out',
   break: 'Nghỉ làm',
   reasonWhyBreak: 'Lí do bạn nghỉ là gì',
-  howLongBreak: 'Lí do bạn nghỉ là gì ?',
+  howLongBreak: 'Bạn nghỉ bao lâu?',
   late: 'Đi muộn',
   addWork: 'Thêm công việc',
   creMeeting: 'Tạo lịch họp',

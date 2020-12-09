@@ -22,66 +22,10 @@ const CardBreak = (props) => {
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {type === 1 ? langs.halfDay : langs.breakDay}
+            {typeBreak}
           </Text>
         </View>
-        { (leader && status === 1) ?
-        
-          (<View style={styles.viewDay}>
-            <Image
-              source={imgs.roundedInfor}
-              style={[styles.imgs, {tintColor: Colors.waiting}]}
-            />
-            <Text style={[styles.time, {color: Colors.waiting}]}>
-              {langs.waiting}
-            </Text>
-          </View>)
-        
-        : (!leader) ?
-        
-          (<View style={styles.viewDay}>
-            <Image
-              source={
-                status === 1
-                  ? imgs.roundedInfor
-                  : status === 2
-                  ? imgs.tick
-                  : imgs.cancel
-              }
-              style={[
-                styles.imgs,
-                {
-                  tintColor:
-                    status === 1
-                      ? Colors.waiting
-                      : status === 2
-                      ? Colors.background
-                      : Colors.danger,
-                },
-              ]}
-            />
-            <Text
-              style={[
-                styles.time,
-                {
-                  color:
-                    status === 1
-                      ? Colors.waiting
-                      : status === 2
-                      ? Colors.background
-                      : Colors.danger,
-                },
-              ]}>
-              {status === 1
-                ? langs.waiting
-                : status === 2
-                ? langs.approve
-                : langs.denied}
-            </Text>
-            </View>) : (<View style={styles.viewDay}>
-            
-            </View>)
-        }
+       
       </View>
       <View style={styles.detail}>
         <View style={styles.row}>
@@ -93,22 +37,56 @@ const CardBreak = (props) => {
             <View style={styles.viewName}>
               <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.time}>20/202/2020</Text>
+              <Text style={styles.time}>{date}</Text>
             </View>
           )}
-          {leader ? (
-            <View style={styles.rightHeader}>
-              <Image source={imgs.startTime} style={styles.clock} />
-
-              <Text style={styles.txtDay}>{typeBreak}</Text>
-            </View>
+          {!leader ? (<View style={styles.viewDay}>
+            <Image
+              source={
+                status === 1
+                  ? imgs.roundedInfor
+                  : status === 2
+                    ? imgs.tick
+                    : imgs.cancel
+              }
+              style={[
+                styles.imgs,
+                {
+                  tintColor:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                        ? Colors.background
+                        : Colors.danger,
+                },
+              ]}
+            />
+            <Text
+              style={[
+                styles.time,
+                {
+                  color:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                        ? Colors.background
+                        : Colors.danger,
+                },
+              ]}>
+              {status === 1
+                ? langs.waiting
+                : status === 2
+                  ? langs.approve
+                  : langs.denied}
+            </Text>
+          </View>
           ) : (
-            <View style={styles.rightHeader}>
-              <Image source={imgs.startTime} style={styles.clock} />
+              <View style={styles.viewName}>
+                <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.txtDay}>{date}</Text>
-            </View>
-          )}
+                <Text style={styles.date}>{date}</Text>
+              </View>
+            )}
         </View>
       </View>
       <View style={styles.reason}>
@@ -181,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopLeftRadius: 16,
     paddingVertical: 8,
+    borderTopRightRadius: 16,
   },
   rightHeader: {
     flex: 1,
@@ -223,11 +202,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 16,
   },
   time: {
     color: Colors.background,
     fontWeight: '500',
+   
   },
   imgs: {
     width: 16,
@@ -288,4 +268,8 @@ const styles = StyleSheet.create({
     marginRight: 4,
     tintColor: Colors.background,
   },
+  date : {
+    width:90,
+    fontSize:16
+  }
 });

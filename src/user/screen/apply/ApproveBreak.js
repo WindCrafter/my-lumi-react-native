@@ -204,7 +204,7 @@ const ApproveBreak = (props) => {
 
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format('DD/MM '),
+      moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
     );
     return (
       <CardBreak
