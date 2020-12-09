@@ -29,7 +29,7 @@ import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
 import {_global} from '../../../../utlis/global/global';
-import {Calendar} from 'react-native-calendars';
+import { Calendar, LocaleConfig} from 'react-native-calendars';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 if (
@@ -38,7 +38,40 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
+LocaleConfig.locales.vn = {
+  monthNames: [
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12',
+  ],
+  monthNamesShort: [
+    'TH1',
+    'TH2',
+    'TH3',
+    'TH4',
+    'TH5',
+    'TH6',
+    'TH7',
+    'TH8',
+    'TH9',
+    'TH10',
+    'TH11',
+    'TH12',
+  ],
+  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+  today: 'Hôm nay',
+};
+LocaleConfig.defaultLocale = 'vn';
 function ApplyBreak(props) {
   const _format = 'YYYY-MM-DD';
   const _today = moment().format(_format);
