@@ -29,7 +29,7 @@ const ApproveBreak = (props) => {
     historyAdminTakeLeave,
     confirmDenyTakeLeave,
   } = props;
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(3);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
@@ -121,26 +121,25 @@ const ApproveBreak = (props) => {
     const _listDate = item.date.map((i) =>
       moment(i, 'DD/MM/YYYY').format('DD/MM '),
     );
-    console.log(item.date);
-    console.log(item.date.length);
-    const onConfirmTakeLeave = (item) => {
-      const dataApprove = {
-        token: token,
-        id: item._id,
-        status: 2,
-      };
-      console.log(dataApprove);
-      // confirmDenyTakeLeave(dataApprove)
-    }
-    const onDenyTakeLeave = (item) => {
-      const dataDeny = {
-        token: token,
-        id: item._id,
+    const onDeny = (_id) => {
+      const dataleave = {
+        _id,
         status: 3,
+        token,
       };
-      console.log(dataDeny);
-      // confirmDenyTakeLeave(dataDeny)
-    }
+      confirmDenyTakeLeave(dataleave);
+    };
+
+    const onAccept = (_id) => {
+      const dataleave = {
+        _id,
+        status: 2,
+        token,
+      };
+      console.log(dataleave);
+      confirmDenyTakeLeave(dataleave);
+    };
+
     return (
       <CardBreak
         leader={true}
@@ -149,8 +148,8 @@ const ApproveBreak = (props) => {
         type={item.type}
         date={_listDate.toString()}
         reason={item.content}
-        onDeny={onDenyTakeLeave(item)}
-        onAccept={onConfirmTakeLeave(item)}
+        onDeny={() => onDeny(item._id)}
+        onAccept={() => onAccept(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'

@@ -6,7 +6,17 @@ import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const CardBreak = (props) => {
-  const { leader, status, onAccept, onDeny, type, name, date, typeBreak} = props;
+  const {
+    leader,
+    status,
+    onAccept,
+    onDeny,
+    type,
+    name,
+    date,
+    typeBreak,
+    reason,
+  } = props;
   return (
     <Card style={styles.container}>
       <View style={styles.header}>
@@ -15,46 +25,63 @@ const CardBreak = (props) => {
             {type === 1 ? langs.halfDay : langs.breakDay}
           </Text>
         </View>
-        <View style={styles.viewDay}>
-          <Image
-            source={
-              status === 1
-                ? imgs.roundedInfor
+        { (leader && status === 1) ?
+        
+          (<View style={styles.viewDay}>
+            <Image
+              source={imgs.roundedInfor}
+              style={[styles.imgs, {tintColor: Colors.waiting}]}
+            />
+            <Text style={[styles.time, {color: Colors.waiting}]}>
+              {langs.waiting}
+            </Text>
+          </View>)
+        
+        : (!leader) ?
+        
+          (<View style={styles.viewDay}>
+            <Image
+              source={
+                status === 1
+                  ? imgs.roundedInfor
+                  : status === 2
+                  ? imgs.tick
+                  : imgs.cancel
+              }
+              style={[
+                styles.imgs,
+                {
+                  tintColor:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                      ? Colors.background
+                      : Colors.danger,
+                },
+              ]}
+            />
+            <Text
+              style={[
+                styles.time,
+                {
+                  color:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                      ? Colors.background
+                      : Colors.danger,
+                },
+              ]}>
+              {status === 1
+                ? langs.waiting
                 : status === 2
-                ? imgs.tick
-                : imgs.cancel
-            }
-            style={[
-              styles.imgs,
-              {
-                tintColor:
-                  status === 1
-                    ? Colors.waiting
-                    : status === 2
-                    ? Colors.background
-                    : Colors.danger,
-              },
-            ]}
-          />
-          <Text
-            style={[
-              styles.time,
-              {
-                color:
-                  status === 1
-                    ? Colors.waiting
-                    : status === 2
-                    ? Colors.background
-                    : Colors.danger,
-              },
-            ]}>
-            {status === 1
-              ? langs.waiting
-              : status === 2
-              ? langs.approve
-              : langs.denied}
-          </Text>
-        </View>
+                ? langs.approve
+                : langs.denied}
+            </Text>
+            </View>) : (<View style={styles.viewDay}>
+            
+            </View>)
+        }
       </View>
       <View style={styles.detail}>
         <View style={styles.row}>
@@ -69,20 +96,24 @@ const CardBreak = (props) => {
               <Text style={styles.time}>20/202/2020</Text>
             </View>
           )}
-          {leader ? (<View style={styles.rightHeader}>
-            <Image source={imgs.startTime} style={styles.clock} />
+          {leader ? (
+            <View style={styles.rightHeader}>
+              <Image source={imgs.startTime} style={styles.clock} />
 
-            <Text style={styles.txtDay}>{typeBreak}</Text>
-          </View>) :( <View style={styles.rightHeader}>
-            <Image source={imgs.startTime} style={styles.clock} />
+              <Text style={styles.txtDay}>{typeBreak}</Text>
+            </View>
+          ) : (
+            <View style={styles.rightHeader}>
+              <Image source={imgs.startTime} style={styles.clock} />
 
-            <Text style={styles.txtDay}>{date}</Text>
-          </View>)}
+              <Text style={styles.txtDay}>{date}</Text>
+            </View>
+          )}
         </View>
       </View>
       <View style={styles.reason}>
         <Image source={imgs.note} style={styles.clock} />
-        <Text style={styles.time}>reason</Text>
+        <Text style={styles.time}>{reason}</Text>
       </View>
       {leader && (
         <>
@@ -90,17 +121,14 @@ const CardBreak = (props) => {
           {status === 1 ? (
             <View style={styles.viewLeader}>
               <View style={styles.viewButton}>
-                <TouchableOpacity style={styles.buttonDeny}
-                // onPress={onDeny}
-                >
+                <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
                   <Text style={styles.txtButton}>{langs.deny}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.viewButton}>
                 <TouchableOpacity
                   style={styles.buttonAccept}
-                  // onPress={onAccept}
-                  >
+                  onPress={onAccept}>
                   <Text style={styles.txtButton}>{langs.accept}</Text>
                 </TouchableOpacity>
               </View>

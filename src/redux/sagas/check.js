@@ -412,7 +412,7 @@ export function* watchGetListAdminTakeLeave() {
 function* sagaConfirmDenyTakeLeave(action) {
   try {
     const data = {
-      id: action.payload.id,
+      _id: action.payload._id,
       status: action.payload.status,
     };
     const token = action.payload.token;
