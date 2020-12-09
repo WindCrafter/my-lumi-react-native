@@ -7,6 +7,8 @@ import {
   Image,
   StatusBar,
   Linking,
+  ScrollView,
+  Switch,
 } from 'react-native';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -28,6 +30,8 @@ const Account = (props) => {
     // getListTeams,
     kickAssign,
     resetCheck,
+    changeDemoMode,
+    demoMode,
   } = props;
   const [showModal, setshowModal] = useState(false);
 
@@ -69,50 +73,67 @@ const Account = (props) => {
     Linking.openURL('https://lumi.vn');
     console.log('1');
   };
+
+  const onDemo = () => {};
   return (
     <>
       <BarStatus />
       <View style={styles.container}>
         <HeaderAccount title={langs.account} sub={langs.setting} />
-        <RoundedView
-          leftImage={require('../../../../naruto.jpeg')}
-          title={nameUser}
-          rightImage={imgs.next}
-          tintColor={'grey'}
-          detail={'Team App'}
-          fontSize={16}
-          onPressButton={onMoveToProfile}
-          styleImg={styles.image}
-          styleName={styles.name}
-          team={'Team App'}
-        />
-        <View style={styles.detail}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
-            leftImage={imgs.meeting}
-            title={langs.lumier}
-            onPressButton={onMoveToContact}
+            leftImage={require('../../../../naruto.jpeg')}
+            title={nameUser}
+            rightImage={imgs.next}
+            tintColor={'grey'}
+            detail={'Team App'}
+            fontSize={16}
+            onPressButton={onMoveToProfile}
+            styleImg={styles.image}
+            styleName={styles.name}
+            team={'Team App'}
           />
-          <RoundedView
-            leftImage={imgs.changePassIcon}
-            title={langs.changePass}
-            onPressButton={onShowModal}
-          />
-          <RoundedView
-            leftImage={imgs.inforsolidblack}
-            title={langs.infoApp}
-            onPressButton={onShowModal}
-          />
-          <RoundedView
-            leftImage={imgs.KPI}
-            title={langs.kpiConfirm}
-            onPressButton={onShowModal}
-          />
-          <RoundedView
-            leftImage={imgs.logout}
-            title={langs.logOut}
-            onPressButton={onLogOut}
-          />
-        </View>
+          <View style={styles.detail}>
+            <RoundedView
+              leftImage={imgs.meeting}
+              title={langs.lumier}
+              onPressButton={onMoveToContact}
+            />
+            <RoundedView
+              leftImage={imgs.changePassIcon}
+              title={langs.changePass}
+              onPressButton={onShowModal}
+            />
+            <RoundedView
+              leftImage={imgs.inforsolidblack}
+              title={langs.infoApp}
+              onPressButton={onShowModal}
+            />
+            <RoundedView
+              leftImage={imgs.KPI}
+              title={langs.kpiConfirm}
+              onPressButton={onShowModal}
+            />
+            <View style={styles.row}>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={imgs.KPI} style={styles.imgClear} />
+                <Text style={styles.txtDemo}>Demo</Text>
+              </View>
+              <Switch
+                trackColor={{false: '#767577', true: '#0db14b'}}
+                thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={changeDemoMode}
+                value={demoMode}
+              />
+            </View>
+            <RoundedView
+              leftImage={imgs.logout}
+              title={langs.logOut}
+              onPressButton={onLogOut}
+            />
+          </View>
+        </ScrollView>
         <ModalInforApp
           showModal={showModal}
           hideModal={onHideModal}
@@ -137,7 +158,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   detail: {
-    flex: 3,
+    flex: 1,
     alignItems: 'center',
     marginTop: 16,
   },
@@ -181,5 +202,26 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: '600',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    textAlignVertical: 'center',
+    width: '90%',
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    marginTop: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.16,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.gray,
+    backgroundColor: 'white',
+  },
+  txtDemo: {
+    fontSize: 18,
+    color: 'black',
+    marginLeft: 10,
   },
 });

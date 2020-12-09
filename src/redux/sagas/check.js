@@ -101,18 +101,17 @@ function* sagaCheckIn(action) {
 
 function* sagaCheckInWifi(action) {
   try {
-    const data = {
-      type: action.payload.type,
-      deviceId: action.payload.deviceId,
-    };
-
+    const data = {...action.payload};
+    delete data.type;
+    delete data.token;
     const token = action.payload.token;
-    // const response = yield _POST(URL_CHECK_IN_WIFI, data, token);
-    const response = {
-      success: false,
-      statusCode: 400,
-    };
 
+    const response = yield _POST(
+      action.payload.type === 'in' ? URL_CHECK_IN_WIFI : URL_CHECK_OUT_WIFI,
+      data,
+      token,
+    );
+    console.log(response);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -303,20 +302,16 @@ export function* watchTakeLeave() {
 function* sagaOverTime(action) {
   try {
     const data = {
-      start: action.payload.start,
-      date: action.payload.date,
-      time: action.payload.time,
-      assignTo: action.payload.assignTo,
-      advance: action.payload.advance,
-      description: action.payload.description,
+      ...action.payload,
     };
+    delete data.token;
     const token = action.payload.token;
-    // const response = yield _POST(URL_OVERTIME, data, token);
-    const response = {
-      success: true,
-      statusCode: 200,
-    };
-    console.log('take leave=>>>', response);
+    const response = yield _POST(URL_OVERTIME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('over time=>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(overTimeSuccess(response.data));
       _global.Alert.alert({

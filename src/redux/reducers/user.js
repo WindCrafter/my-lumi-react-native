@@ -16,6 +16,7 @@ const initialState = {
   listAssign: [],
   teams: null,
   history: null,
+  demoMode: false,
 };
 
 export default function user(state = initialState, action) {
@@ -91,6 +92,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         history: action.payload.timeKeepings,
+      };
+    case types.CHANGE_DEMO_MODE:
+      return {
+        ...state,
+        demoMode: !state.demoMode,
       };
     default:
       return state;
