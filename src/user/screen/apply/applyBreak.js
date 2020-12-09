@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,14 +22,14 @@ import {
 import moment from 'moment';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
-import {Card} from 'native-base';
+import { BarStatus, HeaderCustom, Button, InputSelect } from '../../../component';
+import { imgs, Colors } from '../../../../utlis';
+import { Card } from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-// import {_global} from '../../../../utlis/global/global';
-import {Calendar} from 'react-native-calendars';
+import { _global } from '../../../../utlis/global/global';
+import { Calendar } from 'react-native-calendars';
 
 if (
   Platform.OS === 'android' &&
@@ -43,7 +43,7 @@ function ApplyBreak(props) {
   const _today = moment().format(_format);
   const _maxDate = moment().add(90, 'days').format(_format);
   const [exception, setException] = useState(true);
-  const {navigation, takeLeave, userId, token, assign} = props;
+  const { navigation, takeLeave, userId, token, assign } = props;
   const [shift, setShift] = useState(new Date());
 
   const [mode, setMode] = useState('');
@@ -53,13 +53,13 @@ function ApplyBreak(props) {
   const [typeBreak, setTypeBreak] = useState('Theo buổi');
   const [reason, setReason] = useState('');
 
-  const DISABLED_DAYS = ['Sunday'];
+  const DISABLED_DAYS = ['Saturday','Sunday'];
   const getDaysInMonth = (month, year, days) => {
     let pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
 
-    let dates = {..._markedDates};
-    const disabled = {disabled: true};
+    let dates = { ..._markedDates };
+    const disabled = { disabled: true };
     while (pivot.isBefore(end)) {
       days.forEach((day) => {
         dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
@@ -88,14 +88,24 @@ function ApplyBreak(props) {
   // });
   const onComplete = () => {
     if (!reason) {
-      Alert.alert('Chưa điền lí do!');
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Vui lòng điền lí do xin nghỉ',
+        messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
       return;
     }
-    typeBreak === 'Theo buổi'
+    typeBreak === 'Theo buổi' && moment(shift).format('dddd') !== 'Sunday'
       ? onTakeLeaveShift()
       : typeBreak === 'Theo ngày'
-      ? onTakeLeaveDay()
-      : null;
+        ? onTakeLeaveDay()
+        : _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Chủ nhật không cần xin nghỉ ^^',
+          messageColor: Colors.black,
+          leftButton: { text: langs.alert.ok },
+        });;
   };
 
   const onTakeLeaveDay = () => {
@@ -168,9 +178,13 @@ function ApplyBreak(props) {
   };
 
   const onSetTypeShift = () => {
-    typeShift === 'Buổi sáng'
-      ? setTypeShift('Buổi chiều')
-      : setTypeShift('Buổi sáng');
+    if (moment().format('dddd') !== 'Saturday') {
+      typeShift === 'Buổi sáng'
+        ? setTypeShift('Buổi chiều')
+        : setTypeShift('Buổi sáng');
+    } else {
+      setTypeShift('Buổi sáng');
+    }
   };
 
   const onFocus = () => {
@@ -200,7 +214,7 @@ function ApplyBreak(props) {
       let selected = true;
       const updatedMarkedDates = {
         ..._markedDates,
-        ...{[selectedDay]: {selected, day: selectedDay}},
+        ...{ [selectedDay]: { selected, day: selectedDay } },
       };
       console.log('updatedMarkedDates', updatedMarkedDates);
       setMarkedDates(updatedMarkedDates);
@@ -209,14 +223,14 @@ function ApplyBreak(props) {
         let selected = !_markedDates[selectedDay].selected;
         const updatedMarkedDates = {
           ..._markedDates,
-          ...{[selectedDay]: {selected, day: selectedDay}},
+          ...{ [selectedDay]: { selected, day: selectedDay } },
         };
         setMarkedDates(updatedMarkedDates);
       }
     }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -302,7 +316,7 @@ function ApplyBreak(props) {
           ) : null}
 
           {assign && (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+            <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={[assign]}
                 keyExtractor={(item) => item.id}
@@ -336,7 +350,7 @@ function ApplyBreak(props) {
               />
             </View>
             {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
+              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
                 <TouchableOpacity
                   style={[
                     styles.button,

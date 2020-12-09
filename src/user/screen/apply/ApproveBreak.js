@@ -19,20 +19,16 @@ import CardBreak from './component/CardBreak';
 import HeaderCustom from './component/HeaderCustom';
 import moment from 'moment';
 
-const DATA = [
-  {name: 'Do Tuan Phong', id: '1', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '2', status: 2, type: 2},
-  {name: 'Do Tuan Phong', id: '3', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '4', status: 1, type: 2},
-  {name: 'Do Tuan Phong', id: '5', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '6', status: 3, type: 1},
-  {name: 'Do Tuan Phong', id: '7', status: 2, type: 1},
-  {name: 'Do Tuan Phong', id: '8', status: 1, type: 1},
-  {name: 'Do Tuan Phong', id: '9', status: 1, type: 1},
-];
+
 
 const ApproveBreak = (props) => {
-  const {navigation, listAdminTakeLeave, token, historyAdminTakeLeave} = props;
+  const {
+    navigation,
+    listAdminTakeLeave,
+    token,
+    historyAdminTakeLeave,
+    confirmDenyTakeLeave,
+  } = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -107,6 +103,7 @@ const ApproveBreak = (props) => {
     setPage(1);
     getData();
   };
+
   const onChangeStatus = (item) => {
     setFilter({...filter, status: item});
     setData([]);
@@ -119,19 +116,41 @@ const ApproveBreak = (props) => {
     listAdminTakeLeave(dataLeave);
     onSetType(item);
   };
+  
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
       moment(i, 'DD/MM/YYYY').format('DD/MM '),
     );
     console.log(item.date);
-    console.log(item.date.length)
+    console.log(item.date.length);
+    const onConfirmTakeLeave = (item) => {
+      const dataApprove = {
+        token: token,
+        id: item._id,
+        status: 2,
+      };
+      console.log(dataApprove);
+      // confirmDenyTakeLeave(dataApprove)
+    }
+    const onDenyTakeLeave = (item) => {
+      const dataDeny = {
+        token: token,
+        id: item._id,
+        status: 3,
+      };
+      console.log(dataDeny);
+      // confirmDenyTakeLeave(dataDeny)
+    }
     return (
       <CardBreak
         leader={true}
+        name={item.fullname}
         status={item.status}
         type={item.type}
         date={_listDate.toString()}
         reason={item.content}
+        onDeny={onDenyTakeLeave(item)}
+        onAccept={onConfirmTakeLeave(item)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'
@@ -164,7 +183,7 @@ const ApproveBreak = (props) => {
         type={type}
         search
       />
-      <View style={{flex:1}}>
+      <View style={{flex: 1}}>
         <FlatList
           data={historyAdminTakeLeave}
           keyExtractor={(item) => item.id}

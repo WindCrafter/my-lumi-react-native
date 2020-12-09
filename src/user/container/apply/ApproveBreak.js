@@ -1,6 +1,9 @@
 import {connect} from 'react-redux';
 import ApproveBreak from '../../screen/apply/ApproveBreak';
-import {listAdminTakeLeave} from '../../../redux/actions/check';
+import {
+  listAdminTakeLeave,
+  confirmDenyTakeLeave,
+} from '../../../redux/actions/check';
 const mapStateToProps = (state) => ({
   token: state.authen.token,
   historyAdminTakeLeave: state.check.historyAdminTakeLeave,
@@ -8,6 +11,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   listAdminTakeLeave,
+  confirmDenyTakeLeave,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveBreak);
