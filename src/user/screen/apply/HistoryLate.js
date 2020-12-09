@@ -29,7 +29,7 @@ const DATA = [
 ];
 
 const HistoryLate = (props) => {
-  const {navigation} = props;
+  const {navigation, listLateEarly, token} = props;
   const [type, setType] = useState('Tất cả');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -38,6 +38,13 @@ const HistoryLate = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
+  useEffect(() => {
+    const data = {
+      token: token,
+      status: 0,
+    };
+    listLateEarly(data);
+  }, [page]);
   const onApplyLate = () => {
     navigation.navigate(langs.navigator.applyLate);
   };
