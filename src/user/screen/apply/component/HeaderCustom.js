@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
@@ -44,6 +43,7 @@ const HeaderCustom = (props?: Props) => {
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState('');
+  const [_date, setDateChange] = useState('');
   const onClear = () => {
     setDate('');
     onChangeDate('');
@@ -62,12 +62,11 @@ const HeaderCustom = (props?: Props) => {
 
   const onChangeDatetime = (event, selectedDay) => {
     if (Platform.OS === 'ios') {
-      setDate(selectedDay);
-      onChangeDate(selectedDay);
+      setDateChange(selectedDay);
     } else {
       if (event.type === 'set') {
-        setDate(selectedDay);
         setShow(false);
+        setDate(selectedDay);
         onChangeDate(selectedDay);
       } else {
         setShow(false);
@@ -108,6 +107,12 @@ const HeaderCustom = (props?: Props) => {
         </TouchableOpacity>
       </View>
     );
+  };
+
+  const onPressConfirmIOS = () => {
+    setDate(_date);
+    onChangeDate(_date);
+    setShow(false);
   };
 
   const status = [
@@ -192,10 +197,12 @@ const HeaderCustom = (props?: Props) => {
         </View>
       </View>
       <PickerCustom
+        title="Chọn ngày"
         show={show}
-        value={date || new Date()}
+        value={_date || new Date()}
         onChange={onChangeDatetime}
-        onPress={onHideModal}
+        onHideModal={onHideModal}
+        onPress={onPressConfirmIOS}
       />
     </View>
   );
