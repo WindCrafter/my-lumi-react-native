@@ -370,13 +370,18 @@ function* sagaListLateEarly(action) {
     const date = action.payload.date;
     const page_size = action.payload.page_size;
     const page = action.payload.page;
+    const reload = action.payload.reload;
     const response = yield _GET(
       URL_LIST_LATE_EARLY(status, date, page, page_size),
       token,
     );
     console.log('=.......', response);
     if (response.success && response.statusCode === 200) {
-      yield put(listLateEarlySuccess(response.data));
+      const DATA = {
+        reload: reload,
+        data: response.data,
+      };
+      yield put(listLateEarlySuccess(DATA));
     } else {
       yield put(listLateEarlyFailed());
       _global.Alert.alert({
@@ -406,13 +411,18 @@ function* sagaListManagerLateEarly(action) {
     const date = action.payload.date;
     const page_size = action.payload.page_size;
     const page = action.payload.page;
+    const reload = action.payload.reload;
     const response = yield _GET(
       URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
       token,
     );
     console.log(URL_LIST_MANAGER_LATE_EARLY);
     if (response.success && response.statusCode === 200) {
-      yield put(listManagerLateEarlySuccess(response.data));
+      const DATA = {
+        reload: reload,
+        data: response.data,
+      };
+      yield put(listManagerLateEarlySuccess(DATA));
       _global.Loading.hide();
     } else {
       yield put(listManagerLateEarlyFailed());
@@ -438,16 +448,16 @@ export function* watchListManagerLateEarly() {
 
 function* sagaApproveLateEarly(action) {
   try {
-    const data = {};
+    const data = {
+      id: action.payload.id,
+      status: action.payload.status,
+    };
     const token = action.payload.token;
     const response = yield _POST(URL_APPROVE_LATE_EARLY, data, token);
+    console.log('>>>>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(approveLateEarlySuccess(response.data));
-      _global.Alert.alert({
-        leftButton: {
-          text: langs.alert.ok,
-        },
-      });
+      _global.Loading.hide();
     } else {
       yield put(approveLateEarlyFailed());
       _global.Alert.alert({
@@ -477,11 +487,7 @@ function* sagaUpdateLateEarly(action) {
     const response = yield _POST(URL_UPDATE_LATE_EARLY, data, token);
     if (response.success && response.statusCode === 200) {
       yield put(updateLateEarlySuccess(response.data));
-      _global.Alert.alert({
-        leftButton: {
-          text: langs.alert.ok,
-        },
-      });
+      _global.Loading.hide();
     } else {
       yield put(updateLateEarlyFailed());
       _global.Alert.alert({
@@ -590,4 +596,3 @@ function* sagaGetListAdminTakeLeave(action) {
 export function* watchGetListAdminTakeLeave() {
   yield takeLatest(types.GET_LIST_ADMIN_TAKE_LEAVE, sagaGetListAdminTakeLeave);
 }
-

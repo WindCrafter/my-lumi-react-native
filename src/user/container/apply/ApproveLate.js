@@ -1,6 +1,10 @@
 import {connect} from 'react-redux';
 import ApproveLate from '../../screen/apply/ApproveLate';
-import {listManagerLateEarly} from '../../../redux/actions/check';
+import {
+  listManagerLateEarly,
+  removeList,
+  approveLateEarly,
+} from '../../../redux/actions/check';
 
 const mapStateToProps = (state) => ({
   token: state.authen.token,
@@ -9,6 +13,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   listManagerLateEarly,
+  removeList,
+  approveLateEarly,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveLate);

@@ -19,17 +19,29 @@ export default function check(state = initialState, action) {
     case types.LIST_LATE_EARLY_SUCCESS:
       return {
         ...state,
-        dataLateEarly: Array.isArray(state.dataLateEarly)
-          ? [...state.dataLateEarly, ...action.payload]
-          : action.payload,
+        dataLateEarly: action.payload.reload
+          ? action.payload.data
+          : Array.isArray(state.dataLateEarly)
+          ? [...state.dataLateEarly, ...action.payload.data]
+          : action.payload.data,
       };
     case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
       return {
         ...state,
-        dataManagerLateEarly: Array.isArray(state.dataManagerLateEarly)
-          ? [...state.dataManagerLateEarly, ...action.payload]
-          : action.payload,
+        dataManagerLateEarly: action.payload.reload
+          ? action.payload.data
+          : Array.isArray(state.dataManagerLateEarly)
+          ? [...state.dataManagerLateEarly, ...action.payload.data]
+          : action.payload.data,
       };
+    case types.APPROVE_LATE_EARLY_SUCCESS:
+      return {
+        ...state,
+        dataManagerLateEarly: state.dataManagerLateEarly.map((item) => {
+          return item.id === action.payload.id ? action.payload : item;
+        }),
+      };
+
     case types.GET_LIST_TAKE_LEAVE_SUCCESS:
       return {
         ...state,

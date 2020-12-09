@@ -14,10 +14,17 @@ import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 
 const ApproveLate = (props) => {
-  const {navigation, listManagerLateEarly, token, dataManager} = props;
+  const {
+    navigation,
+    listManagerLateEarly,
+    token,
+    dataManager,
+    approveLateEarly,
+    removeList,
+  } = props;
   const [type, setType] = useState('Tất cả');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -25,6 +32,7 @@ const ApproveLate = (props) => {
   const [date, setDate] = useState('');
   const goBack = () => {
     navigation.goBack();
+    removeList();
   };
   useEffect(() => {
     const data = {
@@ -33,8 +41,7 @@ const ApproveLate = (props) => {
       page: page,
       page_size: 10,
     };
-    console.log('.....-------.', data);
-    // listManagerLateEarly(data);
+    listManagerLateEarly(data);
   }, []);
 
   const renderItem = ({item, index}) => {
@@ -46,8 +53,29 @@ const ApproveLate = (props) => {
         reason={item.content}
         day={item.date}
         time={item.time}
+        name={item.fullname}
+        onDeny={() => onDeny(item.id)}
+        onAccept={() => onAccept(item.id)}
       />
     );
+  };
+
+  const onDeny = (id) => {
+    const data = {
+      id,
+      status: 3,
+      token,
+    };
+    approveLateEarly(data);
+  };
+
+  const onAccept = (id) => {
+    const data = {
+      id,
+      status: 2,
+      token,
+    };
+    approveLateEarly(data);
   };
 
   const onChangeDate = (pickDay) => {
@@ -56,12 +84,12 @@ const ApproveLate = (props) => {
       token: token,
       status: status,
       date: moment(pickDay).format('DD/MM/YYYY'),
-      page: 0,
+      page: 1,
       page_size: 10,
+      reload: true,
     };
-    setPage(0);
     listManagerLateEarly(data);
-    setPage(0);
+    setPage(1);
     setDate(pickDate);
   };
   const onSetType = (item) => {
@@ -84,8 +112,9 @@ const ApproveLate = (props) => {
     const data = {
       token: token,
       status: item,
-      page: 0,
+      page: 1,
       page_size: 10,
+      reload: true,
     };
     setPage(0);
     listManagerLateEarly(data);
@@ -97,8 +126,9 @@ const ApproveLate = (props) => {
     const data = {
       token: token,
       status: status,
-      page: page,
+      page: page + 1,
       page_size: 10,
+      reload: false,
     };
     setPage(page + 1);
     listManagerLateEarly(data);

@@ -68,6 +68,7 @@ const HistoryLate = (props) => {
       date: moment(pickDay).format('DD/MM/YYYY'),
       page: 1,
       page_size: 10,
+      reload: true,
     };
     setPage(1);
     listLateEarly(data);
@@ -95,6 +96,7 @@ const HistoryLate = (props) => {
       status: item,
       page: 1,
       page_size: 10,
+      reload: true,
     };
     setPage(1);
     listLateEarly(data);
@@ -109,6 +111,7 @@ const HistoryLate = (props) => {
       page: page + 1,
       page_size: 10,
       date: date,
+      reload: false,
     };
     setPage(page + 1);
     listLateEarly(data);

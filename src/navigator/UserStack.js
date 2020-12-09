@@ -26,9 +26,9 @@ import NotifyDetail from '../user/container/notify/notifyDetail';
 import Assignment from '../user/container/apply/Assignment';
 import langs from '../../common/language';
 import HistoryLate from '../user/container/apply/HistoryLate';
-import ApproveLate from '../user/screen/apply/ApproveLate';
-import HistoryBreak from '../user/container/apply/HistoryBreak'
-import ApproveBreak from '../user/container/apply/ApproveBreak'
+import ApproveLate from '../user/container/apply/ApproveLate';
+import HistoryBreak from '../user/container/apply/HistoryBreak';
+import ApproveBreak from '../user/container/apply/ApproveBreak';
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
