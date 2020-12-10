@@ -116,7 +116,7 @@ const ApproveLate = (props) => {
       page_size: 10,
       reload: true,
     };
-    setPage(0);
+    setPage(1);
     listManagerLateEarly(data);
     onSetType(item);
     setStatus(item);
