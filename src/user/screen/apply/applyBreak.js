@@ -28,8 +28,9 @@ import {Card} from 'native-base';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-// import {_global} from '../../../../utlis/global/global';
-import {Calendar} from 'react-native-calendars';
+import {_global} from '../../../../utlis/global/global';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 if (
   Platform.OS === 'android' &&
@@ -37,7 +38,40 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
+LocaleConfig.locales.vn = {
+  monthNames: [
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12',
+  ],
+  monthNamesShort: [
+    'TH1',
+    'TH2',
+    'TH3',
+    'TH4',
+    'TH5',
+    'TH6',
+    'TH7',
+    'TH8',
+    'TH9',
+    'TH10',
+    'TH11',
+    'TH12',
+  ],
+  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+  today: 'Hôm nay',
+};
+LocaleConfig.defaultLocale = 'vn';
 function ApplyBreak(props) {
   const _format = 'YYYY-MM-DD';
   const _today = moment().format(_format);
@@ -53,7 +87,7 @@ function ApplyBreak(props) {
   const [typeBreak, setTypeBreak] = useState('Theo buổi');
   const [reason, setReason] = useState('');
 
-  const DISABLED_DAYS = ['Sunday'];
+  const DISABLED_DAYS = ['Saturday', 'Sunday'];
   const getDaysInMonth = (month, year, days) => {
     let pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
@@ -88,14 +122,24 @@ function ApplyBreak(props) {
   // });
   const onComplete = () => {
     if (!reason) {
-      Alert.alert('Chưa điền lí do!');
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Vui lòng điền lí do xin nghỉ',
+        messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
       return;
     }
-    typeBreak === 'Theo buổi'
+    typeBreak === 'Theo buổi' && moment(shift).format('dddd') !== 'Sunday'
       ? onTakeLeaveShift()
       : typeBreak === 'Theo ngày'
       ? onTakeLeaveDay()
-      : null;
+      : _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Chủ nhật không cần xin nghỉ ^^',
+          messageColor: Colors.black,
+          leftButton: {text: langs.alert.ok},
+        });
   };
 
   const onTakeLeaveDay = () => {
@@ -168,9 +212,13 @@ function ApplyBreak(props) {
   };
 
   const onSetTypeShift = () => {
-    typeShift === 'Buổi sáng'
-      ? setTypeShift('Buổi chiều')
-      : setTypeShift('Buổi sáng');
+    if (moment().format('dddd') !== 'Saturday') {
+      typeShift === 'Buổi sáng'
+        ? setTypeShift('Buổi chiều')
+        : setTypeShift('Buổi sáng');
+    } else {
+      setTypeShift('Buổi sáng');
+    }
   };
 
   const onFocus = () => {
@@ -265,8 +313,9 @@ function ApplyBreak(props) {
             backgroundColor={'white'}
             containerStyle={{
               width: '90%',
+              height: 72,
               justifyContent: 'center',
-              alignSelf: 'center',
+              alignItems: 'center',
             }}
             value={reason}
             onChangeText={onChangeReason}
@@ -301,15 +350,6 @@ function ApplyBreak(props) {
             </Card>
           ) : null}
 
-          {assign && (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
-              <FlatList
-                data={[assign]}
-                keyExtractor={(item) => item.id}
-                renderItem={renderItem}
-              />
-            </Card>
-          )}
           <View style={styles.row}>
             <View style={styles.img}>
               <Image source={imgs.startDate} style={styles.imageStamp} />
@@ -319,7 +359,7 @@ function ApplyBreak(props) {
           <Card style={styles.card}>
             <View style={styles.row}>
               <ApplyIcon
-                title={'Theo buổi'}
+                title={'Nửa ngày'}
                 onPress={() => onSetTypeBreak('Theo buổi')}
                 tintColor={
                   typeBreak === 'Theo buổi' ? Colors.background : 'grey'
@@ -389,12 +429,11 @@ function ApplyBreak(props) {
                   textDayFontFamily: 'quicksand',
                   textMonthFontFamily: 'quicksand',
                   textDayHeaderFontFamily: 'quicksand',
-                  textDayFontWeight: '600',
-                  textMonthFontWeight: '400',
+                  textDayFontWeight: '400',
                   textDayHeaderFontWeight: '500',
-                  textDayFontSize: 18,
-                  textMonthFontSize: 22,
-                  textDayHeaderFontSize: 18,
+                  textDayFontSize: 16,
+                  textMonthFontSize: 20,
+                  textDayHeaderFontSize: 16,
                   selectedDayTextColor: 'white',
                 }}
               />
@@ -426,7 +465,6 @@ export default ApplyBreak;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
     height: '100%',
   },
   image: {
@@ -436,8 +474,9 @@ const styles = StyleSheet.create({
   },
   detail: {
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginHorizontal: 12,
+    marginVertical: 32,
   },
   img: {
     padding: 8,

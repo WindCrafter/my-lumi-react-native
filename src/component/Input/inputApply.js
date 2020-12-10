@@ -88,7 +88,6 @@ export default function InputApply(props?: Props) {
       ]}>
       <TextInput
         multiline
-        textAlignVertical={'top'}
         numberOfLines={3}
         testID={testID}
         ref={refInput}
@@ -112,7 +111,7 @@ export default function InputApply(props?: Props) {
         }
         {...otherProps}
       />
-      {rightIcon && isFocus && text !== '' && (
+      {rightIcon &&  value !==''  && (
         <TouchableOpacity onPress={onRightButton} style={styles.rightButton}>
           <Image style={styles.icon} source={imgs.cancel} />
         </TouchableOpacity>
@@ -134,7 +133,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: '90%',
     fontFamily: 'Quicksand-Regular',
-    justifyContent:'center',height:'100%'
+    height:'100%',
+    justifyContent:'center',alignItems:'center'
+   
     
   },
   left: {

@@ -26,6 +26,7 @@
     "appcenter": "3.1.1",
     "appcenter-analytics": "3.1.1",
     "appcenter-crashes": "3.1.1",
+    "lodash": "^4.17.20",
     "metro-react-native-babel-transformer": "^0.63.0",
     "moment": "^2.27.0",
     "native-base": "^2.13.13",

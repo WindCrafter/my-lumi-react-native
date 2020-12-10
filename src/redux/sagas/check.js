@@ -29,6 +29,8 @@ import {
   listTakeLeaveFailed,
   listAdminTakeLeaveFailed,
   listAdminTakeLeaveSuccess,
+  confirmDenyTakeLeaveSuccess,
+  confirmDenyTakeLeaveFailed,
 } from '../actions/check';
 import {_global} from '../../../utlis/global/global';
 import {Colors} from '../../../utlis';
@@ -62,6 +64,7 @@ const URL_DELETE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
 /////////////////////////////////////////////////////////////////////////////////////////
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
+const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
 const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
     return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
@@ -449,7 +452,7 @@ export function* watchListManagerLateEarly() {
 function* sagaApproveLateEarly(action) {
   try {
     const data = {
-      id: action.payload.id,
+      _id: action.payload._id,
       status: action.payload.status,
     };
     const token = action.payload.token;
@@ -595,4 +598,39 @@ function* sagaGetListAdminTakeLeave(action) {
 
 export function* watchGetListAdminTakeLeave() {
   yield takeLatest(types.GET_LIST_ADMIN_TAKE_LEAVE, sagaGetListAdminTakeLeave);
+}
+function* sagaConfirmDenyTakeLeave(action) {
+  try {
+    const data = {
+      _id: action.payload._id,
+      status: action.payload.status,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_CONFIRM_DENY_TAKE_LEAVE, data, token);
+    console.log('CONFIRM DENY TAKE LEAVE', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(confirmDenyTakeLeaveSuccess(response.data));
+    } else {
+      yield put(confirmDenyTakeLeaveSuccess());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      messageColor: Colors.danger,
+
+      leftButton: {text: langs.alert.ok},
+    });
+  }
+}
+
+export function* watchConfirmDenyTakeLeave() {
+  yield takeLatest(types.CONFIRM_DENY_TAKE_LEAVE, sagaConfirmDenyTakeLeave);
 }

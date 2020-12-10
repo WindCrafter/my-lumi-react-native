@@ -257,6 +257,25 @@ export const listAdminTakeLeaveFailed = (data) => {
   };
 };
 
+export const confirmDenyTakeLeave = (data) => {
+  return {
+    type: types.CONFIRM_DENY_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const confirmDenyTakeLeaveSuccess = (data) => {
+  return {
+    type: types.CONFIRM_DENY_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const confirmDenyTakeLeaveFailed = (data) => {
+  return {
+    type: types.CONFIRM_DENY_TAKE_LEAVE_FAILED,
+    payload: data,
+  };
+};
 export const removeList = () => {
   return {
     type: types.REMOVE_LIST,

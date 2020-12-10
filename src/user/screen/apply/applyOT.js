@@ -34,6 +34,7 @@ import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
 import Suggest from './component/Suggest';
+import {_global} from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android' &&
@@ -234,25 +235,38 @@ function ApplyOT(props) {
 
   const onSetOverTime = () => {
     if (!reason) {
-      Alert.alert('Chưa điền lý do đăng kí OT!');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.missingContentOT,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
       return;
     }
     const _day = moment(day).format('DD/MM/YYYY');
+    const _month = moment(day).format('MM/YYYY');
     const _start = moment(hour).format('HH:mm');
     if (!splitTime(_day, _start, time)) {
-      Alert.alert('Thời gian đăng kí không chính xác!');
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.wrongTimeOT,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    } else {
+      const data = {
+        start_date: _day,
+        start: _start,
+        data: splitTime(_day, _start, time),
+        total_time: time,
+        month: _month,
+        content: reason,
+        status: 1,
+        token,
+      };
+      console.log(data);
+      overTime(data);
     }
-    const data = {
-      start_date: _day,
-      start: _start,
-      data: splitTime(_day, _start, time),
-      total_time: time,
-      content: reason,
-      status: 1,
-      token,
-    };
-    console.log(data);
-    overTime(data);
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);

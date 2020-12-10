@@ -45,9 +45,11 @@ export const URL = {
   SET_STATUS_LATE_EARLY: '/user/change-status-late-early',
   GET_LIST_CHECK: '/user/timekeeping-by-user?page=',
   GET_PROFILE: '/site/get-profile',
-
+  APPROVE_OVERTIME: '/overtime/approved-canceled',
   //
-  GET_LIST_OVERTIME: '',
   GET_LIST_TAKE_LEAVE: '/take-leave/self-list',
-  GET_LIST_ADMIN_TAKE_LEAVE: '/take-leave/manager-list'
+  GET_LIST_ADMIN_TAKE_LEAVE: '/take-leave/manager-list',
+  CONFIRM_DENY_TAKE_LEAVE: '/take-leave/approved-canceled',
+  GET_LIST_OVERTIME: '/overtime/self-list',
+  GET_LIST_OVERTIME_MANAGER: '/overtime/manager-list',
 };

@@ -20,7 +20,7 @@ const langs = {
   checkOut: 'Check out',
   break: 'Nghỉ làm',
   reasonWhyBreak: 'Lí do bạn nghỉ là gì',
-  howLongBreak: 'Lí do bạn nghỉ là gì ?',
+  howLongBreak: 'Bạn nghỉ bao lâu?',
   late: 'Đi muộn',
   addWork: 'Thêm công việc',
   creMeeting: 'Tạo lịch họp',
@@ -186,6 +186,9 @@ const langs = {
     plscheck: 'Vui lòng kiểm tra lại',
     dontImportPhone: 'Lumier này chưa cung cấp số điện thoại.',
     dontImportUser: 'Lumier này chưa cung cấp số tài khoản.',
+    missingContentOT: 'Bạn chưa điền nột dung OT',
+    wrongTimeOT: 'Thời gian đăng kí OT không hợp lệ',
+    approveFail: 'Duyệt đơn không thành công!',
   },
 };
 

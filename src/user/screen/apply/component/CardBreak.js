@@ -6,7 +6,17 @@ import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const CardBreak = (props) => {
-  const { leader, status, onAccept, onDeny, type, name, date, reason,typeBreak} = props;
+  const {
+    leader,
+    status,
+    onAccept,
+    onDeny,
+    type,
+    name,
+    date,
+    typeBreak,
+    reason,
+  } = props;
   return (
     <Card style={styles.container}>
       <View style={styles.header}>
@@ -15,46 +25,7 @@ const CardBreak = (props) => {
             {typeBreak}
           </Text>
         </View>
-        <View style={styles.viewDay}>
-          <Image
-            source={
-              status === 1
-                ? imgs.roundedInfor
-                : status === 2
-                ? imgs.tick
-                : imgs.cancel
-            }
-            style={[
-              styles.imgs,
-              {
-                tintColor:
-                  status === 1
-                    ? Colors.waiting
-                    : status === 2
-                    ? Colors.background
-                    : Colors.danger,
-              },
-            ]}
-          />
-          <Text
-            style={[
-              styles.time,
-              {
-                color:
-                  status === 1
-                    ? Colors.waiting
-                    : status === 2
-                    ? Colors.background
-                    : Colors.danger,
-              },
-            ]}>
-            {status === 1
-              ? langs.waiting
-              : status === 2
-              ? langs.approve
-              : langs.denied}
-          </Text>
-        </View>
+       
       </View>
       <View style={styles.detail}>
         <View style={styles.row}>
@@ -66,19 +37,56 @@ const CardBreak = (props) => {
             <View style={styles.viewName}>
               <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.time}>{date}</Text>
+              <Text style={styles.date}>{date}</Text>
             </View>
           )}
-          {leader ? (
-          <View style={styles.rightHeader}>
-            <Image source={imgs.selectCalendar} style={styles.clock} />
-            <Text style={styles.txtDay}>{date}</Text>
-          </View>) : (
-          <View style={styles.rightHeader}>
-            <Image source={imgs.startTime} style={styles.clock} />
-            <Text style={styles.txtDay}>{typeBreak}</Text>
-          </View>)}
-          
+          {!leader ? (<View style={styles.viewDay}>
+            <Image
+              source={
+                status === 1
+                  ? imgs.roundedInfor
+                  : status === 2
+                    ? imgs.tick
+                    : imgs.cancel
+              }
+              style={[
+                styles.imgs,
+                {
+                  tintColor:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                        ? Colors.background
+                        : Colors.danger,
+                },
+              ]}
+            />
+            <Text
+              style={[
+                styles.time,
+                {
+                  color:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                        ? Colors.background
+                        : Colors.danger,
+                },
+              ]}>
+              {status === 1
+                ? langs.waiting
+                : status === 2
+                  ? langs.approve
+                  : langs.denied}
+            </Text>
+          </View>
+          ) : (
+              <View style={styles.viewName}>
+                <Image source={imgs.selectCalendar} style={styles.calendarDay} />
+
+                <Text style={styles.date}>{date}</Text>
+              </View>
+            )}
         </View>
       </View>
       <View style={styles.reason}>
@@ -151,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopLeftRadius: 16,
     paddingVertical: 8,
+    borderTopRightRadius: 16,
   },
   rightHeader: {
     flex: 1,
@@ -193,11 +202,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 16,
   },
   time: {
     color: Colors.background,
     fontWeight: '500',
+   
   },
   imgs: {
     width: 16,
@@ -258,4 +268,8 @@ const styles = StyleSheet.create({
     marginRight: 4,
     tintColor: Colors.background,
   },
+  date : {
+    width:90,
+    fontSize:16
+  }
 });
