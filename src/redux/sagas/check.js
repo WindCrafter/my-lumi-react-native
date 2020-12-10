@@ -41,7 +41,7 @@ import {store} from '../store/store.js';
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
-
+const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
 //////////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
 const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
@@ -115,7 +115,6 @@ function* sagaCheckIn(action) {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',
-      leftButton: {text: langs.alert.ok},
     });
   }
 }
