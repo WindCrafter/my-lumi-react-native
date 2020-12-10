@@ -37,7 +37,7 @@ const CardBreak = (props) => {
             <View style={styles.viewName}>
               <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.time}>{date}</Text>
+              <Text style={styles.date}>{date}</Text>
             </View>
           )}
           {!leader ? (<View style={styles.viewDay}>

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Colors, imgs} from '../../../../utlis';
@@ -16,7 +17,7 @@ import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
 import {_GET} from '../../../../utlis/connection/api';
 import moment from 'moment';
-import { URL } from '../../../../utlis/connection/url';
+import {URL} from '../../../../utlis/connection/url';
 
 const HistoryBreak = (props) => {
   const {navigation, token, listTakeLeave, historyTakeLeave} = props;
@@ -30,7 +31,7 @@ const HistoryBreak = (props) => {
   useEffect(() => {
     getData(1, '', '', []);
   }, []);
-//saga
+  //saga
   // const getData = () => {
 
   //   const dataLeave = {
@@ -150,7 +151,7 @@ const HistoryBreak = (props) => {
   };
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format('DD/MM'),
+      moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
     );
     return (
       <CardBreak
@@ -190,14 +191,18 @@ const HistoryBreak = (props) => {
         backgroundColor={Colors.white}
       />
       <View style={{flex: 1}}>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          onEndReached={!loading ? handleLoadMore : null}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {data.length === 0 ? (
+          <Text style={styles.noData}>Không có lịch sử.</Text>
+        ) : (
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            onEndReached={!loading ? handleLoadMore : null}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooterComponent}
+          />
+        )}
       </View>
       <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
     </>
@@ -206,4 +211,6 @@ const HistoryBreak = (props) => {
 
 export default HistoryBreak;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+});

@@ -29,7 +29,7 @@ import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
 import {_global} from '../../../../utlis/global/global';
-import { Calendar, LocaleConfig} from 'react-native-calendars';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 if (
@@ -302,158 +302,155 @@ function ApplyBreak(props) {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag">
         <View style={styles.detail}>
-          <View>
-            <View style={styles.row}>
-              <View style={styles.img}>
-                <Image source={imgs.reason} style={styles.imageStamp} />
-              </View>
-              <Text style={styles.txtStatus}>{langs.reasonWhyBreak}</Text>
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <InputApply
-              borderRadius={12}
-              backgroundColor={'white'}
-              containerStyle={{
-                width: '90%',
-                height: 72,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              value={reason}
-              onChangeText={onChangeReason}
-              onFocus={onFocus}
-              onSubmitEditing={unFocus}
-              onBlur={unFocus}
-              blurOnSubmit={true}
-              rightIcon
-            />
-            {!reason && showModal ? (
-              <Card style={styles.card}>
-                <Suggest
-                  detail={'Bị ốm.'}
-                  onPress={() => onSetReason('Bị ốm.')}
-                />
-                <Suggest
-                  detail={'Đi công tác.'}
-                  onPress={() => onSetReason('Đi công tác.')}
-                />
-                <Suggest
-                  detail={'Đi chơi.'}
-                  onPress={() => onSetReason('Đi chơi.')}
-                />
-                <Suggest
-                  detail={'Đi khảo sát công trình.'}
-                  onPress={() => onSetReason('Đi khảo sát công trình.')}
-                />
-                <Suggest
-                  detail={'Lí do cá nhân.'}
-                  onPress={() => onSetReason('Lí do cá nhân.')}
-                />
-              </Card>
-            ) : null}
-
-            <View style={styles.row}>
-              <View style={styles.img}>
-                <Image source={imgs.startDate} style={styles.imageStamp} />
-              </View>
-              <Text style={styles.txtStatus}>{langs.howLongBreak}</Text>
-            </View>
-            <Card style={styles.card}>
-              <View style={styles.row}>
-                <ApplyIcon
-                  title={'Nửa ngày'}
-                  onPress={() => onSetTypeBreak('Theo buổi')}
-                  tintColor={
-                    typeBreak === 'Theo buổi' ? Colors.background : 'grey'
-                  }
-                  source={imgs.breakShift}
-                />
-                <ApplyIcon
-                  title={'Theo ngày'}
-                  onPress={() => onSetTypeBreak('Theo ngày')}
-                  tintColor={
-                    typeBreak === 'Theo ngày' ? Colors.background : 'grey'
-                  }
-                  source={imgs.breakOneDay}
-                />
-              </View>
-              {typeBreak === 'Theo buổi' ? (
-                <View
-                  style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        width: wp(35),
-                        marginRight: 10,
-                        backgroundColor: Colors.white,
-                        flexDirection: 'row',
-                      },
-                    ]}
-                    onPress={onSetTypeShift}>
-                    <Image source={imgs.startTime} style={styles.imageStamp} />
-
-                    <Text style={styles.txtTime}>{typeShift}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: Colors.white,
-                      },
-                    ]}
-                    onPress={() => onShow('shift')}>
-                    <Image source={imgs.breakDay} style={styles.imageStamp} />
-
-                    <Text style={styles.txtTime}>
-                      {moment(shift).format('DD/MM/YYYY')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              ) : typeBreak === 'Theo ngày' ? (
-                <Calendar
-                  minDate={_today}
-                  maxDate={_maxDate}
-                  // hideArrows={true}
-
-                  onDayPress={onDaySelect}
-                  markedDates={_markedDates}
-                  style={{
-                    marginTop: 8,
-                  }}
-                  onMonthChange={(date) => {
-                    setMarkedDates(
-                      getDaysInMonth(date.month - 1, date.year, DISABLED_DAYS),
-                      _markedDates,
-                    );
-                  }}
-                  enableSwipeMonths={true}
-                  theme={{
-                    textDayFontFamily: 'quicksand',
-                    textMonthFontFamily: 'quicksand',
-                    textDayHeaderFontFamily: 'quicksand',
-                    textDayFontWeight: '600',
-                    textMonthFontWeight: '400',
-                    textDayHeaderFontWeight: '500',
-                    textDayFontSize: 18,
-                    textMonthFontSize: 22,
-                    textDayHeaderFontSize: 18,
-                    selectedDayTextColor: 'white',
-                  }}
-                />
-              ) : null}
-            </Card>
+            <Text style={styles.txtStatus}>{langs.reasonWhyBreak}</Text>
           </View>
-          {mode === 'shift' ? (
-            <PickerCustom
-              value={shift}
-              onChange={onChangeShift}
-              onPress={onUnshow}
-              mode={'date'}
-              show={show}
-              minimumDate={new Date()}
-            />
+          <InputApply
+            borderRadius={12}
+            backgroundColor={'white'}
+            containerStyle={{
+              width: '90%',
+              height: 72,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            value={reason}
+            onChangeText={onChangeReason}
+            onFocus={onFocus}
+            onSubmitEditing={unFocus}
+            onBlur={unFocus}
+            blurOnSubmit={true}
+            rightIcon
+          />
+          {!reason && showModal ? (
+            <Card style={styles.card}>
+              <Suggest
+                detail={'Bị ốm.'}
+                onPress={() => onSetReason('Bị ốm.')}
+              />
+              <Suggest
+                detail={'Đi công tác.'}
+                onPress={() => onSetReason('Đi công tác.')}
+              />
+              <Suggest
+                detail={'Đi chơi.'}
+                onPress={() => onSetReason('Đi chơi.')}
+              />
+              <Suggest
+                detail={'Đi khảo sát công trình.'}
+                onPress={() => onSetReason('Đi khảo sát công trình.')}
+              />
+              <Suggest
+                detail={'Lí do cá nhân.'}
+                onPress={() => onSetReason('Lí do cá nhân.')}
+              />
+            </Card>
           ) : null}
+
+          <View style={styles.row}>
+            <View style={styles.img}>
+              <Image source={imgs.startDate} style={styles.imageStamp} />
+            </View>
+            <Text style={styles.txtStatus}>{langs.howLongBreak}</Text>
+          </View>
+          <Card style={styles.card}>
+            <View style={styles.row}>
+              <ApplyIcon
+                title={'Nửa ngày'}
+                onPress={() => onSetTypeBreak('Theo buổi')}
+                tintColor={
+                  typeBreak === 'Theo buổi' ? Colors.background : 'grey'
+                }
+                source={imgs.breakShift}
+              />
+              <ApplyIcon
+                title={'Theo ngày'}
+                onPress={() => onSetTypeBreak('Theo ngày')}
+                tintColor={
+                  typeBreak === 'Theo ngày' ? Colors.background : 'grey'
+                }
+                source={imgs.breakOneDay}
+              />
+            </View>
+            {typeBreak === 'Theo buổi' ? (
+              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      width: wp(35),
+                      marginRight: 10,
+                      backgroundColor: Colors.white,
+                      flexDirection: 'row',
+                    },
+                  ]}
+                  onPress={onSetTypeShift}>
+                  <Image source={imgs.startTime} style={styles.imageStamp} />
+
+                  <Text style={styles.txtTime}>{typeShift}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: Colors.white,
+                    },
+                  ]}
+                  onPress={() => onShow('shift')}>
+                  <Image source={imgs.breakDay} style={styles.imageStamp} />
+
+                  <Text style={styles.txtTime}>
+                    {moment(shift).format('DD/MM/YYYY')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : typeBreak === 'Theo ngày' ? (
+              <Calendar
+                minDate={_today}
+                maxDate={_maxDate}
+                // hideArrows={true}
+
+                onDayPress={onDaySelect}
+                markedDates={_markedDates}
+                style={{
+                  marginTop: 8,
+                }}
+                onMonthChange={(date) => {
+                  setMarkedDates(
+                    getDaysInMonth(date.month - 1, date.year, DISABLED_DAYS),
+                    _markedDates,
+                  );
+                }}
+                enableSwipeMonths={true}
+                theme={{
+                  textDayFontFamily: 'quicksand',
+                  textMonthFontFamily: 'quicksand',
+                  textDayHeaderFontFamily: 'quicksand',
+                  textDayFontWeight: '400',
+                  textDayHeaderFontWeight: '500',
+                  textDayFontSize: 16,
+                  textMonthFontSize: 20,
+                  textDayHeaderFontSize: 16,
+                  selectedDayTextColor: 'white',
+                }}
+              />
+            ) : null}
+          </Card>
         </View>
+        {mode === 'shift' ? (
+          <PickerCustom
+            value={shift}
+            onChange={onChangeShift}
+            onPress={onUnshow}
+            mode={'date'}
+            show={show}
+            minimumDate={new Date()}
+          />
+        ) : null}
+
         <Button
           title={'Hoàn thành '}
           containerStyle={styles.complete}
@@ -480,7 +477,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 12,
     marginVertical: 32,
-    height:hp(70)
   },
   img: {
     padding: 8,
