@@ -55,7 +55,7 @@ const HistoryBreak = (props) => {
     const _dataN = dataN || [];
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     console.log(apiURL);
-    const response = await _GET(apiURL, token);
+    const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
     if (
       response.success &&
@@ -202,7 +202,8 @@ const HistoryBreak = (props) => {
         ) : (
           <FlatList
             data={data}
-              keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
             renderItem={renderItem}
             onEndReached={!loading ? handleLoadMore : null}
             onEndReachedThreshold={0.5}

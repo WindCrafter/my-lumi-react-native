@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {imgs, Colors} from '../../../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
@@ -63,12 +62,11 @@ const HeaderCustom = (props?: Props) => {
 
   const onChangeDatetime = (event, selectedDay) => {
     if (Platform.OS === 'ios') {
-      setDate(selectedDay);
-      onChangeDate(selectedDay);
+      setDateChange(selectedDay);
     } else {
       if (event.type === 'set') {
-        setDate(selectedDay);
         setShow(false);
+        setDate(selectedDay);
         onChangeDate(selectedDay);
       } else {
         setShow(false);
@@ -110,11 +108,13 @@ const HeaderCustom = (props?: Props) => {
       </View>
     );
   };
+
   const onPressConfirmIOS = () => {
     setDate(_date);
     onChangeDate(_date);
     setShow(false);
   };
+
   const status = [
     {label: 'Tất cả', value: '0'},
     {label: 'Đang chờ', value: '1'},

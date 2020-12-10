@@ -26,7 +26,7 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.0 - 1/10/2020</Text>
+        <Text style={styles.version}>V1.0.1 - 10/12/2020 11:00</Text>
         <Text style={styles.website}>Công ty cổ phần Lumi</Text>
         <Text style={styles.website}>
           6th Floor, New Skyline Building, 19/5 Str,Ha Dong Dist, HN

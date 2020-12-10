@@ -75,7 +75,7 @@ const ApproveBreak = (props) => {
     const _name = nameN || '';
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}`;
     console.log(apiURL);
-    const response = await _GET(apiURL, token);
+    const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
     if (
       response.success &&
