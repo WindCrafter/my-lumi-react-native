@@ -6,7 +6,7 @@ import {
   StatusBar,
   UIManager,
   ActivityIndicator,
-  ScrollView,
+  Text,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -55,8 +55,14 @@ function ListOT(props) {
   const [status, setStatus] = useState(0);
   const [onScroll, setOnScroll] = useState(true);
   useEffect(() => {
-    getData(1, '', '', []);
-  }, []);
+    // getData(1, '', '', []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(1, '', '', []);
+    });
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
 
   const goBack = () => {
     navigation.goBack();
@@ -80,8 +86,7 @@ function ListOT(props) {
     const _status = statusN || 0;
     const _dataN = dataN || [];
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
-    console.log(apiURL);
-    const response = await _GET(apiURL, token);
+    const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_OVERTIME ===========>', response);
     if (
       response.success &&
@@ -157,17 +162,21 @@ function ListOT(props) {
         type={type}
       />
       <View style={styles.detail}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          // onRefresh={() => getData(1, date, status, [])}
-          onMomentumScrollBegin={() => setOnScroll(false)}
-          onMomentumScrollEnd={() => setOnScroll(true)}
-          onEndReached={!onScroll ? handleLoadMore : null}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {data.length > 0 ? (
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            // onRefresh={() => getData(1, date, status, [])}
+            onMomentumScrollBegin={() => setOnScroll(false)}
+            onMomentumScrollEnd={() => setOnScroll(true)}
+            onEndReached={!onScroll ? handleLoadMore : null}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooterComponent}
+          />
+        ) : (
+          <Text style={styles.noData}>Không có lịch sử</Text>
+        )}
       </View>
       <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>
@@ -192,7 +201,7 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   detail: {
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     marginVertical: 32,
     flex: 1,
   },
@@ -222,5 +231,10 @@ const styles = StyleSheet.create({
   loader: {
     marginTop: 10,
     alignItems: 'center',
+  },
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
 });

@@ -1,8 +1,10 @@
 import {_global} from '../global/global';
 
-export function _POST(url, data, token) {
+export function _POST(url, data, token, loading = true) {
   console.log('POST: ', url, data, token);
-  _global.Loading.show();
+  if (loading) {
+    _global.Loading.show();
+  }
   const response = fetch(url, {
     method: 'POST',
     headers: {
@@ -42,10 +44,12 @@ export function _PUT(url, data, token) {
   return response;
 }
 
-export function _GET(url, token) {
+export function _GET(url, token, loading = true) {
   console.log('GET: ', url, token);
 
-  _global.Loading.show();
+  if (loading) {
+    _global.Loading.show();
+  }
   const response = fetch(url, {
     method: 'GET',
     headers: {

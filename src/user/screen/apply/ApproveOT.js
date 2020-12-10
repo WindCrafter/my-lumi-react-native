@@ -6,6 +6,7 @@ import {
   StatusBar,
   UIManager,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -138,7 +139,7 @@ function ApproveOT(props) {
     const _name = nameN || '';
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}`;
     console.log(apiURL);
-    const response = await _GET(apiURL, token);
+    const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
     if (
       response.success &&
@@ -217,14 +218,18 @@ function ApproveOT(props) {
         type={type}
       />
       <View style={styles.detail}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          onEndReached={!loading ? handleLoadMore : null}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {data.length > 0 ? (
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={!loading ? handleLoadMore : null}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooterComponent}
+          />
+        ) : (
+          <Text style={styles.noData}>Không có đơn cần duyệt</Text>
+        )}
       </View>
     </View>
   );
@@ -278,5 +283,10 @@ const styles = StyleSheet.create({
   loader: {
     marginTop: 10,
     alignItems: 'center',
+  },
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
 });

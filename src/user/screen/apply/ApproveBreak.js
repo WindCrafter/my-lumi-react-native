@@ -181,7 +181,7 @@ const ApproveBreak = (props) => {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.AD}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
       _id: item,
       status: 3,
