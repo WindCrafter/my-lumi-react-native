@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -159,15 +160,19 @@ const ApproveLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        <FlatList
-          data={dataManager}
-          keyExtractor={(item, index) => `${item.id}`}
-          renderItem={renderItem}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          style={styles.flatList}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {dataManager.length === 0 ? (
+          <Text style={styles.noData}>Không có lịch sử.</Text>
+        ) : (
+          <FlatList
+            data={dataManager}
+            keyExtractor={(item, index) => `${item.id}`}
+            renderItem={renderItem}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            style={styles.flatList}
+            ListFooterComponent={renderFooterComponent}
+          />
+        )}
       </View>
     </>
   );
@@ -183,4 +188,5 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
 });

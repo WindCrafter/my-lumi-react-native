@@ -17,6 +17,7 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
 import {_global} from '../../../../utlis/global/global';
+import {Text} from 'native-base';
 
 const HistoryLate = (props) => {
   const {navigation, listLateEarly, token, dataLateEarly, removeList} = props;
@@ -36,8 +37,21 @@ const HistoryLate = (props) => {
       page: page,
       page_size: 10,
     };
+    const dataBack = {
+      token: token,
+      status: status,
+      page: page,
+      page_size: 10,
+      reload: true,
+    };
+    const unsubscribe = navigation.addListener('focus', () => {
+      listLateEarly(dataBack);
+    });
     listLateEarly(data);
-  }, []);
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
 
   const onApplyLate = () => {
     navigation.navigate(langs.navigator.applyLate);
@@ -62,14 +76,22 @@ const HistoryLate = (props) => {
 
   const onChangeDate = (pickDay) => {
     const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    const data = {
-      token: token,
-      status: status,
-      date: moment(pickDay).format('DD/MM/YYYY'),
-      page: 1,
-      page_size: 10,
-      reload: true,
-    };
+    const data = pickDay
+      ? {
+          token: token,
+          status: status,
+          date: moment(pickDay).format('DD/MM/YYYY'),
+          page: 1,
+          page_size: 10,
+          reload: true,
+        }
+      : {
+          token: token,
+          status: status,
+          page: 1,
+          page_size: 10,
+          reload: true,
+        };
     setPage(1);
     listLateEarly(data);
     setDate(pickDate);
@@ -142,15 +164,19 @@ const HistoryLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        <FlatList
-          data={dataLateEarly}
-          keyExtractor={(item, index) => `${item.id}`}
-          renderItem={renderItem}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          style={styles.flatList}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {dataLateEarly.length === 0 ? (
+          <Text style={styles.noData}>Không có lịch sử.</Text>
+        ) : (
+          <FlatList
+            data={dataLateEarly}
+            keyExtractor={(item, index) => `${item.id}`}
+            renderItem={renderItem}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            style={styles.flatList}
+            ListFooterComponent={renderFooterComponent}
+          />
+        )}
       </View>
       <ActionButton onApprove={onPressCreate} onApply={onApplyLate} />
     </>
@@ -167,4 +193,5 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
 });
