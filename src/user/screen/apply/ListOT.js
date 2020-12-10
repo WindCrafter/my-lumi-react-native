@@ -177,7 +177,6 @@ function ListOT(props) {
         ) : (
           <Text style={styles.noData}>Không có lịch sử</Text>
         )}
-        Ï
       </View>
       <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>
