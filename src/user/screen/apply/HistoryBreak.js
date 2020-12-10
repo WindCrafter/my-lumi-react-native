@@ -202,7 +202,7 @@ const HistoryBreak = (props) => {
         ) : (
           <FlatList
             data={data}
-            keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
             onEndReached={!loading ? handleLoadMore : null}
             onEndReachedThreshold={0.5}

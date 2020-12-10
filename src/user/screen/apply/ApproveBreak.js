@@ -159,9 +159,9 @@ const ApproveBreak = (props) => {
     ) : null;
   };
   const onConfirm = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.AD}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
-      _id: item._id,
+      _id: item,
       status: 2,
     };
     const response = await _POST(apiURL, body, token);
@@ -181,9 +181,9 @@ const ApproveBreak = (props) => {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_OVERTIME}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.AD}`;
     const body = {
-      _id: item._id,
+      _id: item,
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
@@ -245,7 +245,7 @@ const ApproveBreak = (props) => {
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
-        type={type}
+        type={type} CONFIRM_DENY_TAKE_LEAVE
         search
       />
       <View style={{flex: 1}}>
