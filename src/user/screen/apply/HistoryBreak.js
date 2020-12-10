@@ -29,8 +29,14 @@ const HistoryBreak = (props) => {
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
   useEffect(() => {
-    getData(1, '', '', []);
-  }, []);
+    // getData(1, '', '', []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(1, '', '', []);
+    });
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
   //saga
   // const getData = () => {
 
@@ -151,14 +157,14 @@ const HistoryBreak = (props) => {
   };
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
+      moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),
     );
     return (
       <CardBreak
         leader={false}
         status={item.status}
         type={item.type}
-        date={_listDate.toString()}
+        date={_listDate.toString().trim()}
         reason={item.content}
         typeBreak={
           (item.date.length > 1 && item.morning) === 0
