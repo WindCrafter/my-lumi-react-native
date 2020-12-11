@@ -171,6 +171,7 @@ const ApproveLate = (props) => {
             onEndReachedThreshold={0.5}
             style={styles.flatList}
             ListFooterComponent={renderFooterComponent}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>

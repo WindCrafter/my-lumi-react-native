@@ -31,12 +31,6 @@ const HistoryLate = (props) => {
     removeList();
   };
   useEffect(() => {
-    const data = {
-      token: token,
-      status: status,
-      page: page,
-      page_size: 10,
-    };
     const dataBack = {
       token: token,
       status: status,
@@ -47,7 +41,6 @@ const HistoryLate = (props) => {
     const unsubscribe = navigation.addListener('focus', () => {
       listLateEarly(dataBack);
     });
-    listLateEarly(data);
     return () => {
       unsubscribe;
     };
@@ -175,6 +168,7 @@ const HistoryLate = (props) => {
             onEndReachedThreshold={0.5}
             style={styles.flatList}
             ListFooterComponent={renderFooterComponent}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>

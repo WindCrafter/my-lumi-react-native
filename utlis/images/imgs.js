@@ -109,4 +109,5 @@ export const imgs = {
   roundedInfor: require('../../common/assets/images/icon/Rounded-moreInfor.png'),
   manageIcon: require('../../common/assets/images/icon/Manage-icon.png'),
   exchangeIcon: require('../../common/assets/images/icon/Exchange-icon.png'),
+  event: require('../../common/assets/images/example/event.jpeg'),
 };

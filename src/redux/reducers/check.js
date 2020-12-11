@@ -21,18 +21,14 @@ export default function check(state = initialState, action) {
         ...state,
         dataLateEarly: action.payload.reload
           ? action.payload.data
-          : Array.isArray(state.dataLateEarly)
-          ? [...state.dataLateEarly, ...action.payload.data]
-          : action.payload.data,
+          : [...state.dataLateEarly, ...action.payload.data],
       };
     case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
       return {
         ...state,
         dataManagerLateEarly: action.payload.reload
           ? action.payload.data
-          : Array.isArray(state.dataManagerLateEarly)
-          ? [...state.dataManagerLateEarly, ...action.payload.data]
-          : action.payload.data,
+          : [...state.dataManagerLateEarly, ...action.payload.data],
       };
     case types.APPROVE_LATE_EARLY_SUCCESS:
       return {

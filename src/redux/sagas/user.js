@@ -60,6 +60,7 @@ function* sagaUpdateProfile(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(updateProfileFailed());
       _global.Alert.alert({
@@ -70,9 +71,11 @@ function* sagaUpdateProfile(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -116,12 +119,15 @@ function* sagaAddUserIdDevice(action) {
     if (response.success && response.statusCode === 200) {
       yield put(addUserIdDeviceSuccess(data));
       console.log('thanh cong');
+      _global.Loading.hide();
     } else {
       yield put(addUserIdDeviceFailed());
       console.log('THAT BAI');
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -146,6 +152,7 @@ function* sagaRemoveUserIdDevice(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(removeUserIdDeviceSuccess(response.data));
+      _global.Loading.hide();
     } else {
       yield put(removeUserIdDeviceFailed());
       _global.Alert.alert({
@@ -153,9 +160,11 @@ function* sagaRemoveUserIdDevice(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -231,11 +240,14 @@ function* sagaGetListCheck(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getListCheckSuccess(response.data));
+      _global.Loading.hide();
     } else {
       yield put(getListCheckFailed());
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
