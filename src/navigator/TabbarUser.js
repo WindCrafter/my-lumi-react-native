@@ -7,7 +7,7 @@ import home from '../user/container/home';
 import checkIn from '../user/container/checkIn';
 import book from '../user/container/schedule';
 import TabbarCustom from './TabbarCustom';
-
+import FloatTabbar from './FloatTabbar';
 import {Colors} from '../../utlis';
 import notify from '../user/container/notify';
 import langs from '../../common/language';
@@ -30,26 +30,27 @@ export default function TabbarUser() {
       tabBarOptions={{
         activeTintColor: Colors.background,
       }}
-      tabBar={(props) => <TabbarCustom {...props} />}>
+      tabBar={(props) => <FloatTabbar {...props} />}>
       <BotStack.Screen
         name={langs.navigator.home}
         component={home}
         options={({route}) => ({
-          tabBarVisible: shouldShowTabbar(route),
+          tabBarLabel: 'Trang chủ',
         })}
       />
       <BotStack.Screen
         name={langs.navigator.book}
         component={book}
         options={({route}) => ({
-          tabBarVisible: shouldShowTabbar(route),
+          tabBarLabel: 'Lịch họp',
         })}
       />
+      <BotStack.Screen name={langs.navigator.button} component={checkIn} />
       <BotStack.Screen
         name={langs.navigator.testNotify}
         component={notify}
         options={() => ({
-          tabBarLabel: 'Thong bao',
+          tabBarLabel: 'Thông báo',
         })}
       />
       <BotStack.Screen

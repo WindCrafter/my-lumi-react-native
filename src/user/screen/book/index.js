@@ -106,7 +106,7 @@ const Book = (props) => {
         onDayPress={onDaySelect}
         markedDates={_markedDates}
       /> */}
-      <ActionButton buttonColor="rgba(231,76,60,1)">
+      <ActionButton buttonColor="rgba(231,76,60,1)" offsetY={120}>
         <ActionButton.Item
           buttonColor="white"
           title="Tạo phòng họp"

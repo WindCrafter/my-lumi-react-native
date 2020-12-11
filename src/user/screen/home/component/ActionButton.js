@@ -29,6 +29,7 @@ const FloatButton = (props) => {
       buttonColor="white"
       backdrop={blurView()}
       renderIcon={buttonIcon}
+      offsetY={120}
       fixNativeFeedbackRadius={true}>
       <ActionButton.Item
         inputX={[0, 0]}

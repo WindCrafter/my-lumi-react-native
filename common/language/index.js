@@ -139,6 +139,7 @@ const langs = {
     approveLate: 'Approve Late',
     historyBreak: 'History Break',
     approveBreak: 'Approve Break',
+    button: 'Button'
   },
   alert: {
     ok: 'OK',
@@ -188,6 +189,8 @@ const langs = {
     missingContentOT: 'Bạn chưa điền nột dung OT',
     wrongTimeOT: 'Thời gian đăng kí OT không hợp lệ',
     approveFail: 'Duyệt đơn không thành công!',
+    
+
   },
 };
 
