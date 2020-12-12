@@ -101,6 +101,7 @@ const langs = {
   setting: 'Điều chỉnh và cài đặt',
   comunicate: 'Thông tin liên hệ',
   timeOT: 'Thời gian ước tính',
+  role: 'Vị trí',
   navigator: {
     login: 'Login',
     register: 'Register',

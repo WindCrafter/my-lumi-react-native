@@ -55,12 +55,11 @@ const Info = (props) => {
             <InforRow
               leftImage={imgs.setPerson}
               containerStyle={styles.txtInput}
-              title={langs.team}
+              title={langs.role}
               size={16}
               value={team}
               refInput={refTeam}
               clearButtonMode="while-editing"
-              placeholder="Chọn team"
               editable={false}
             />
           </TouchableOpacity>
