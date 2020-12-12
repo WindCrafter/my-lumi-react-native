@@ -35,7 +35,7 @@ function TabbarCustom({
   const [show, setShow] = useState(false);
   const [dateIOS, setDateIOS] = useState(new Date());
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-
+  console.log(focusedOptions);
   const onCheckInWifi = () => {
     type === 'in'
       ? onCheck()
@@ -87,7 +87,6 @@ function TabbarCustom({
 
   const onChangeTime = (item, selected) => {
     if (item.type === 'set') {
-      setShow(false);
       const data = {
         type,
         time: moment(selected).format('HH:mm:ss'),
@@ -95,13 +94,18 @@ function TabbarCustom({
         token,
       };
       console.log(data);
+      setShow(false);
       checkIn(data);
+    } else {
+      setShow(false);
     }
   };
 
   const onChangeDate = (item, selected) => {
     if (item.type === 'set') {
       _date = moment(selected).format('DD/MM/YYYY');
+    } else {
+      setShow(false);
     }
   };
 

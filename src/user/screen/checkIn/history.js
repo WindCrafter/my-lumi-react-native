@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   Platform,
   StatusBar,
   FlatList,
-  LayoutAnimation,
-  Image,
   UIManager,
-  ScrollView,
   Text,
+  Dimensions,
+  Image,
+  Modal,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
-import { BarStatus, HeaderCustom } from '../../../component';
-import {
-  widthPercentageToDP as wp,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
-import { Colors, imgs } from '../../../../utlis';
+import MonthPicker from 'react-native-month-picker';
+import {BarStatus, HeaderCustom} from '../../../component';
+import {Colors, imgs} from '../../../../utlis';
 import moment from 'moment';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
 
 if (
   Platform.OS === 'android' &&
@@ -28,71 +28,211 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+const width = Dimensions.get('window').width;
+
 function History(props) {
-  const {
-    navigation,
-    dateCheckIn,
-    dateCheckOut,
-    timeCheckIn,
-    timeCheckOut,
-  } = props;
-  const [date, setDate] = useState(new Date());
+  const {navigation, token} = props;
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
+  const [date, setDate] = useState('');
+  const [dateChange, setDateChange] = useState(new Date());
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    getData(1, '', []);
+  }, []);
+
   const onGoBack = () => {
     navigation.goBack();
   };
-  const newDate = moment(date).format('DD/MM/YYYY');
 
-  const detailIn =
-    newDate === dateCheckIn
-      ? 'Check in thành công lúc ' +
-      `${timeCheckIn}` +
-      ' ngày hôm nay - ' +
-      `${dateCheckIn}`
-      : 'Hôm nay bạn chưa check in !!!!!';
+  const getData = async (pageN, dateN, dataN) => {
+    console.log('list', pageN, dateN, dataN);
+    const _pageN = pageN || 1;
+    const _dateN = dateN || '';
+    const _dataN = dataN || [];
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20&date=${_dateN}`;
+    console.log(apiURL);
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_CHECKIN ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+      setPage(_pageN);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  };
 
-  const detailOut =
-    newDate === dateCheckOut
-      ? 'Check out thành công lúc ' +
-      `${timeCheckOut}` +
-      ' ngày hôm nay - ' +
-      `${dateCheckOut}`
-      : 'Hôm nay bạn chưa check out !!!!!';
-  return (
-    <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title={'Lịch sử chấm công hôm nay'}
-        height={60}
-        goBack={onGoBack}
-      />
+  const getStatusCheckIn = (check_in, check_out) => {
+    if (check_in === 0 && check_out === 0) {
+      return 'Đúng giờ';
+    }
+    if (check_in === 0 && check_out === 1) {
+      return 'Về sớm';
+    }
+    if (check_in === 1 && check_out === 0) {
+      return 'Đi muộn';
+    }
+    if (
+      (check_in === 2 && check_out === 0) ||
+      (check_in === 0 && check_out === 2)
+    ) {
+      return 'Trừ 1 nửa ngày lương';
+    }
+    if (check_in === 2 && check_out === 1) {
+      return 'Trừ nửa ngày - Về sớm';
+    }
+    if (check_in === 1 && check_out === 2) {
+      return 'Đi muộn - Trừ nửa ngày';
+    }
+    return 'Không tính lương';
+  };
+
+  const getTimeBySeason = () => {
+    const currentDate = moment(new Date());
+    const fromDate = moment('01/04', 'DD/MM');
+    const toDate = moment('31/10', 'DD/MM');
+    if (currentDate.diff(fromDate) > 0 && currentDate.diff(toDate) < 0) {
+      return '8:00 - 17:30';
+    }
+    return '8:15 - 17:30';
+  };
+
+  const handleLoadMore = () => {
+    getData(page + 1, date, data);
+    setLoading(true);
+  };
+
+  const convertTime = (date, format) => {
+    if (typeof date === 'string') {
+      return moment(date, 'DD/MM/YYYY').format(format);
+    }
+    return moment(date * 1000).format(format);
+  };
+
+  const renderItem = ({item}) => {
+    const color =
+      item.status_check_in === 0 && item.status_check_out === 0
+        ? '#328c4f'
+        : '#f43c30';
+    return (
       <Card style={styles.card}>
-        <Text style={styles.status}>Trạng thái :</Text>
+        <View style={[styles.indicator, {backgroundColor: color}]} />
         <View style={styles.row}>
-          <Image source={imgs.late} />
-          <View style={styles.flex1}>
-            <Text style={styles.txtCheck}>Check In :</Text>
-          </View>
-          <View style={styles.flex2}>
-            <Text style={styles.txtDetail} numberOfLines={3}>
-              {detailIn}
+          <View style={{paddingHorizontal: 8}}>
+            <Text style={{textAlign: 'center'}}>
+              {`Tháng ${convertTime(item.date, 'MM')}`}
+            </Text>
+            <Text
+              style={[styles.status, {textAlign: 'center', paddingTop: 10}]}>
+              {convertTime(item.date, 'D')}
             </Text>
           </View>
-        </View>
-        <View style={styles.row}>
-          <Image source={imgs.late} />
-          <View style={styles.flex1}>
-            <Text style={styles.txtCheck}>Check Out :</Text>
-          </View>
-          <View style={styles.flex2}>
-            <Text style={styles.txtDetail} numberOfLines={3}>
-              {detailOut}
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: 16,
+            }}>
+            <View
+              style={[{flexDirection: 'row', justifyContent: 'space-between'}]}>
+              <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
+                item.check_in,
+                'mm',
+              )}`}</Text>
+              <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
+                item.check_out,
+                'mm',
+              )}`}</Text>
+            </View>
+
+            <Text style={[styles.status, {paddingTop: 10, color}]}>
+              {getStatusCheckIn(item.status_check_in, item.status_check_out)}
             </Text>
           </View>
         </View>
       </Card>
+    );
+  };
+
+  const onRight = () => {
+    setVisible(true);
+  };
+
+  const onChange = (item) => {
+    setDateChange(item);
+  };
+
+  const onConfirmDate = () => {
+    setDate(moment(dateChange).format('DD/MM/YYYY'));
+    setVisible(false);
+    getData(1, moment(dateChange).format('DD/MM/YYYY'), []);
+  };
+
+  return (
+    <View style={styles.container}>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 15 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        title={'Lịch sử chấm công'}
+        height={60}
+        goBack={onGoBack}
+        rightButton={imgs.KPI}
+        onRight={onRight}
+      />
+      <View style={styles.timeCheck}>
+        <Image source={imgs.DOB} style={styles.avt} />
+        <Text style={styles.time}>{getTimeBySeason()}</Text>
+      </View>
+      <View style={styles.contentHistory}>
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => String(index)}
+          renderItem={renderItem}
+          onMomentumScrollBegin={() => setOnScroll(false)}
+          onMomentumScrollEnd={() => setOnScroll(true)}
+          onEndReached={onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+        />
+      </View>
+      <Modal
+        transparent
+        animationType="fade"
+        visible={visible}
+        onTouchCancel={() => {
+          setVisible(false);
+        }}
+        onRequestClose={() => {
+          setVisible(false);
+        }}>
+        <View style={styles.contentContainer}>
+          <View style={styles.content}>
+            <MonthPicker selectedDate={dateChange} onMonthChange={onChange} />
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={() => setVisible(false)}>
+                <Text>Thoát</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={onConfirmDate}>
+                <Text>Xác nhận</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -104,14 +244,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
+  contentHistory: {
+    flex: 1,
+    marginTop: 16,
+  },
   card: {
-    width: widthPercentageToDP(90),
+    flexDirection: 'row',
     alignSelf: 'center',
     borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    marginTop: 16,
+    overflow: 'hidden',
+    marginHorizontal: 16,
+    width: width - 32,
     backgroundColor: '#ffffff',
+    height: 80,
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
@@ -120,29 +265,64 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-  status: {
-    fontWeight: '500',
-    fontSize: 17,
-  },
   row: {
+    alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
-    marginVertical: 16,
+  },
+  indicator: {
+    width: 8,
+  },
+  status: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  timeCheck: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgb(239, 239, 239)',
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 15,
+  },
+  time: {
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+  },
+
+  //
+  contentContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  content: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    marginVertical: 70,
+  },
+  confirmButton: {
+    width: 100,
+    borderWidth: 0.5,
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  txtCheck: {
-    marginLeft: 8,
-    fontSize: 15,
-    fontWeight: '400',
-  },
-  txtDetail: {
-    marginLeft: 8,
-    fontSize: 15,
-    fontWeight: '400',
-  },
-  flex1: {
-    flex: 1,
-  },
-  flex2: {
-    flex: 2,
+  input: {
+    backgroundColor: 'white',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    width: '100%',
+    marginVertical: 6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

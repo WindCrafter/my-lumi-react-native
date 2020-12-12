@@ -111,7 +111,7 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <HistoryCheck data={DATA_CHECK} />
+                <HistoryCheck data={DATA_CHECK} navigation={navigation} />
               </View>
             </Card>
             <Card style={styles.card}>

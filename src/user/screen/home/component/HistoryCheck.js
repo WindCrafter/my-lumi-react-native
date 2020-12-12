@@ -13,7 +13,7 @@ import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const HistoryCheck = (props) => {
-  const {data} = props;
+  const {data, navigation} = props;
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity style={styles.viewItem}>
@@ -61,12 +61,17 @@ const HistoryCheck = (props) => {
       </TouchableOpacity>
     );
   };
+
+  const onPress = () => {
+    navigation.navigate('History');
+  };
+
   return (
     <>
-      <View style={styles.manager}>
+      <TouchableOpacity style={styles.manager} onPress={onPress}>
         <Image source={imgs.selectCalendar} style={styles.imgs} />
         <Text style={styles.txtManager}>{langs.historyCheck}</Text>
-      </View>
+      </TouchableOpacity>
       <View style={styles.line} />
       <FlatList
         data={data}
