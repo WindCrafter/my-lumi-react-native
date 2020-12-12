@@ -36,7 +36,7 @@ const FloatButton = (props) => {
         styles.actonButton,
         Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},
       ]}
-      degrees={90}
+      degrees={45}
       fixNativeFeedbackRadius={true}>
       <ActionButton.Item
         inputX={[0, 0]}
