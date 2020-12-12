@@ -111,7 +111,7 @@ const Book = (props) => {
       /> */}
       <ActionButton
         buttonColor={Colors.white}
-        offsetY={80}
+        offsetY={30}
         onPress={onMoveToEvent}
         degrees={45}
         fixNativeFeedbackRadius={true}
