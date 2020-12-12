@@ -13,10 +13,30 @@ import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
 
 const DATA_EVENT = [
-  {id: '1', detail: 'Nay là 1 ngày trọng đại Mai là 1 ngày trọng đại Mai là 1 ngày trọng đại Mai là 1 ngày trọng đại', time: '10:00   20/11/2020'},
-  {id: '2', detail: 'Mai là 1 ngày trọng đại', time: '13:45   21/11/2020'},
-  {id: '3', detail: 'Kia là 1 ngày trọng đại', time: '15:45   22/11/2020'},
-  {id: '4', detail: 'Kìa là 1 ngày trọng đại', time: '17:45   23/11/2020'},
+  {
+    id: '1',
+    detail: 'Nay là 1 ngày trọng đại  ',
+    time: '10:00   20/11/2020',
+    source: imgs.event,
+  },
+  {
+    id: '2',
+    detail: 'Mai là 1 ngày trọng đại',
+    time: '13:45   21/11/2020',
+    source: imgs.event,
+  },
+  {
+    id: '3',
+    detail: 'Kia là 1 ngày trọng đại',
+    time: '15:45   22/11/2020',
+    source: imgs.event,
+  },
+  {
+    id: '4',
+    detail: 'Kìa là 1 ngày trọng đại',
+    time: '17:45   23/11/2020',
+    source: imgs.event,
+  },
 ];
 
 const DATA_CHECK = [
@@ -111,12 +131,12 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <HistoryCheck data={DATA_CHECK} />
+                <Event data={DATA_EVENT} />
               </View>
             </Card>
             <Card style={styles.card}>
               <View>
-                <Event data={DATA_EVENT} />
+                <HistoryCheck data={DATA_CHECK} />
               </View>
             </Card>
           </ScrollView>
@@ -140,7 +160,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 11,
     width: widthPercentageToDP(100) - 24,
-    height: 200,
     alignSelf: 'center',
     backgroundColor: '#ffffff',
     overflow: 'hidden',

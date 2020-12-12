@@ -102,30 +102,43 @@ export default function InputSelect(props?: Props) {
         containerStyle,
       ]}>
       <TouchableOpacity
-        style={styles.container}
+        style={[
+          styles.container,
+          {
+            justifyContent:
+              rightImage === '' && leftImage === ''
+                ? 'center'
+                : 'space-between',
+          },
+        ]}
         onPress={onPressButton}
         disabled={disabled}>
-        <Image source={leftImage} style={styles.image} resizeMode="contain" />
-        <Text
-          style={[
-            {
-              padding,
-              color,
-            },
-            styles.textTitle,
-          ]}>
-          {title}
-        </Text>
-        <View style={styles.detail}>
-          <Text
-            style={[
-              {
-                marginRight,
-              },
-              styles.textDetail,
-            ]}>
-            {detail}
-          </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Image source={leftImage} style={styles.image} resizeMode="contain" />
+
+          {detail ? (
+            <Text
+              style={[
+                {
+                  padding,
+                  color,
+                },
+                styles.textTitle,
+              ]}>
+              {detail}
+            </Text>
+          ) : (
+            <Text
+              style={[
+                {
+                  padding,
+                  color,
+                },
+                styles.textTitle,
+              ]}>
+              {title}
+            </Text>
+          )}
         </View>
         <Image source={rightImage} style={styles.img} resizeMode="contain" />
       </TouchableOpacity>
@@ -137,14 +150,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     textAlignVertical: 'center',
-    justifyContent: 'center',
+
     alignSelf: 'center',
+    width: '100%',
   },
   image: {
     width: 24,
     height: 24,
     alignSelf: 'center',
-    tintColor:'black'
+    tintColor: 'black',
   },
   img: {
     width: 16,

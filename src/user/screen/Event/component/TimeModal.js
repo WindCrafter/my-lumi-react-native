@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from 'react-native-modal';
 import {
   StyleSheet,
@@ -7,180 +7,139 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Platform,
+  LayoutAnimation,
+  Image,
+  SafeAreaView,
 } from 'react-native';
-import {TextSelect, Button} from '../../../../component';
+import {TextSelect, Button, PickerCustom} from '../../../../component';
 import {Calendar} from 'react-native-calendars';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Colors} from '../../../../../utlis';
+import {Colors, imgs} from '../../../../../utlis';
 import moment from 'moment';
 const _format = 'YYYY-MM-DD';
 const _today = moment().format(_format);
 const _maxDate = moment().add(90, 'days').format(_format);
-const DATA_MORNING = [
-  {
-    timeStart: '8:00 AM',
-    timeEnd: '8:30 AM',
-    id: '1',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '8:30 AM',
-    timeEnd: '9:00 AM',
-    id: '2',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '9:00 AM',
-    timeEnd: '9:30 AM',
-    id: '3',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '9:30 AM',
-    timeEnd: '10:00 AM',
-    id: '4',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '10:00 AM',
-    timeEnd: '10:30 AM',
-    id: '5',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '10:30 AM',
-    timeEnd: '11:00 AM',
-    id: '6',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '11:00 AM',
-    timeEnd: '11:30 AM',
-    id: '7',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '11:30 AM',
-    timeEnd: '12:00 AM',
-    id: '8',
-    active: false,
-    selected: true,
-  },
-];
-const DATA_AFTERNOON = [
-  {
-    timeStart: '13:30 PM',
-    timeEnd: '14:00 PM',
-    id: '1',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '14:00 PM',
-    timeEnd: '14:30 PM',
-    id: '2',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '14:30 PM',
-    timeEnd: '15:00 PM',
-    id: '3',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '15:00 PM',
-    timeEnd: '15:30 PM',
-    id: '4',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '15:30 PM',
-    timeEnd: '16:00 PM',
-    id: '5',
-    active: false,
-    selected: true,
-  },
-  {
-    timeStart: '16:00 PM',
-    timeEnd: '16:30 PM',
-    id: '6',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '16:30 PM',
-    timeEnd: '17:00 PM',
-    id: '7',
-    active: true,
-    selected: true,
-  },
-  {
-    timeStart: '17:00 PM',
-    timeEnd: '17:30 PM',
-    id: '8',
-    active: false,
-    selected: true,
-  },
-];
-const LocationModal = (props) => {
-  const scrollRef = useRef();
-  const [enableScroll, setEnabelScroll] = useState(false);
-  const {detail, setModal, showModal, onPress} = props;
-  const [active, setActive] = useState(['1', '2']);
 
-  const checkActive = (item) => {
-    const exists = active.find((i) => i.id === item.id);
-    if (!exists) {
-      return false;
+const TimeModal = (props) => {
+  const {setModal, showModal, onComplete} = props;
+  const [showModalTimeStart, setshowModalTimeStart] = useState(false);
+  const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
+
+  const [hourStart, setHourStart] = useState(moment()._d);
+  const [hourEnd, setHourEnd] = useState(moment()._d);
+
+  const [loop, setLoop] = useState('');
+  const DISABLED_DAYS = ['Saturday', 'Sunday'];
+  const getDaysInMonth = (month, year, days) => {
+    let pivot = moment().month(month).year(year).startOf('month');
+    const end = moment().month(month).year(year).endOf('month');
+
+    let dates = {..._markedDates};
+    const disabled = {disabled: true};
+    while (pivot.isBefore(end)) {
+      days.forEach((day) => {
+        dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
+      });
+      pivot.add(7, 'days');
     }
-    return true;
+
+    return dates;
   };
-  const handleScroll = (e) => {
-    const pos = e.nativeEvent.contentOffset.x;
-    console.log(pos);
-    if (pos < wp(100)) {
-      setEnabelScroll(false);
+  const initialState = {
+    ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
+    [_today]: {
+      selected: true,
+      day: _today,
+    },
+  };
+  // console.log('initialState : ', initialState);
+  const [_markedDates, setMarkedDates] = useState(initialState);
+
+  const onDaySelect = (day) => {
+    const selectedDay = moment(day.dateString).format(_format);
+    console.log('dayselect', selectedDay);
+
+    if (!_markedDates[selectedDay]) {
+      let selected = true;
+      const updatedMarkedDates = {
+        ..._markedDates,
+        ...{[selectedDay]: {selected, day: selectedDay}},
+      };
+      console.log('updatedMarkedDates', updatedMarkedDates);
+      setMarkedDates(updatedMarkedDates);
+    } else {
+      if (!_markedDates[selectedDay].disabled) {
+        let selected = !_markedDates[selectedDay].selected;
+        const updatedMarkedDates = {
+          ..._markedDates,
+          ...{[selectedDay]: {selected, day: selectedDay}},
+        };
+        setMarkedDates(updatedMarkedDates);
+      }
     }
   };
-  const onSelected = (item) => {
-    if (checkActive(item)) {
-      setActive();
+  const onChangeHourStart = (event, selectedShift) => {
+    const currentShift = selectedShift || hourStart;
+    setshowModalTimeStart(Platform.OS === 'ios');
+    setHourStart(moment(currentShift)._d);
+    console.log(hourStart);
+  };
+  const onChangeHourEnd = (event, selectedShift) => {
+    const currentShift = selectedShift || hourEnd;
+    setshowModalTimeEnd(Platform.OS === 'ios');
+    setHourEnd(moment(currentShift)._d);
+    console.log(hourEnd);
+  };
+  const onUnshowStart = () => {
+    setshowModalTimeStart(false);
+  };
+  const [start, setStart] = useState(moment()._d);
+  const [end, setEnd] = useState(moment()._d);
+  const onUnshowEnd = () => {
+    setshowModalTimeEnd(false);
+  };
+  const onConfirmStart = () => {
+    setshowModalTimeStart(false);
+    setStart(hourStart)
+  };
+  const onConfirmEnd = () => {
+    setshowModalTimeEnd(false);
+    setEnd(hourEnd)
+  };
+  const onShowPickerStart = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalTimeStart(true);
+    console.log(hourStart);
+  };
+  const onShowPickerEnd = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalTimeEnd(true);
+    console.log(hourEnd);
+  };
+  const onSetWeek = () => {
+    if (loop === 'week') {
+      setLoop('');
+    } else {
+      setLoop('week');
     }
   };
-  const PageTime = () => {
-    scrollRef.current.scrollTo({x: 2 * wp(100), y: 0, animated: true});
-    setEnabelScroll(true);
+  const onSetMonth = () => {
+    if (loop === 'month') {
+      setLoop('');
+    } else {
+      setLoop('month');
+    }
   };
-  const renderItem = ({item, index}) => {
-    return (
-      <TouchableOpacity onPress={() => onSelected(item)}>
-        <View
-          style={[
-            styles.viewBox,
-            {
-              backgroundColor: item.active ? 'white' : '#c6c6cb',
-              borderWidth: item.active ? 1 : 0,
-            },
-          ]}>
-          <Text>{item.timeStart}</Text>
-          <Text>-</Text>
-          <Text>{item.timeEnd}</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  const onSetYear = () => {
+    if (loop === 'year') {
+      setLoop('');
+    } else {
+      setLoop('year');
+    }
   };
   return (
     <View>
@@ -192,72 +151,143 @@ const LocationModal = (props) => {
         onBackdropPress={setModal}
         style={styles.modal}
         backdropTransitionOutTiming={0}>
-        <View style={{height: hp(50)}}>
-          <ScrollView
-            horizontal={true}
-            ref={scrollRef}
-            pagingEnabled
-            scrollEventThrottle={16}
-            onMomentumScrollEnd={handleScroll}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={enableScroll}>
-            <View style={styles.scrollView}>
+        <View style={styles.scrollViewTop}>
+          <SafeAreaView>
+            <ScrollView
+              scrollEventThrottle={16}
+              showsHorizontalScrollIndicator={true}
+              scrollEnabled={true}>
               <View style={styles.container}>
                 <View style={styles.modalCalendar}>
                   <View style={styles.viewTitle}>
-                    <View style={styles.viewTop} />
                     <View style={styles.viewTop}>
                       <Text style={styles.titleCalendar}>Chọn ngày</Text>
                     </View>
-
-                    <TouchableOpacity onPress={PageTime} style={styles.viewTop}>
-                      <Text style={styles.titleNext}>Tiếp theo</Text>
-                    </TouchableOpacity>
+                    <View style={styles.viewTop} />
                   </View>
                   <Calendar
                     style={styles.viewCalendar}
                     minDate={_today}
                     maxDate={_maxDate}
+                    // hideArrows={true}
+
+                    onDayPress={onDaySelect}
+                    markedDates={_markedDates}
+                    onMonthChange={(date) => {
+                      setMarkedDates(
+                        getDaysInMonth(
+                          date.month - 1,
+                          date.year,
+                          DISABLED_DAYS,
+                        ),
+                        _markedDates,
+                      );
+                    }}
+                    enableSwipeMonths={true}
+                    theme={{
+                      textDayFontFamily: 'quicksand',
+                      textMonthFontFamily: 'quicksand',
+                      textDayHeaderFontFamily: 'quicksand',
+                      textDayFontWeight: '400',
+                      textDayHeaderFontWeight: '500',
+                      textDayFontSize: 16,
+                      textMonthFontSize: 20,
+                      textDayHeaderFontSize: 16,
+                      selectedDayTextColor: 'white',
+                    }}
                   />
                 </View>
-                <View style={styles.modalview}>
-                  <Text style={styles.titlemodal}>Vị trí</Text>
-                  <Text style={styles.titlemodal}>Buổi sáng</Text>
-
-                  <FlatList
-                    data={DATA_MORNING}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderItem}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                  />
-                  <Text style={styles.titlemodal}>Buổi chiều</Text>
-
-                  <FlatList
-                    data={DATA_AFTERNOON}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderItem}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                  />
-                  <Button
-                    title={'Xong'}
-                    containerStyle={styles.complete}
-                    onPress={setModal}
-                  />
+                <View style={styles.viewTitle}>
+                  <View style={styles.viewTop}>
+                    <Text style={styles.titleCalendar}>Chọn giờ</Text>
+                  </View>
+                  <View style={styles.viewTop} />
                 </View>
+                <View style={styles.viewMiddle}>
+                  <Text style={styles.direction}>Từ</Text>
+                  <TouchableOpacity
+                    style={styles.boxTime}
+                    onPress={onShowPickerStart}>
+                    <Text>{moment(start).format('HH:mm')}</Text>
+                    <Image source={imgs.roudedDown} style={styles.down} />
+                  </TouchableOpacity>
+
+                  <Text style={styles.direction}>đến</Text>
+                  <TouchableOpacity
+                    style={styles.boxTime}
+                    onPress={onShowPickerEnd}>
+                    <Text>{moment(end).format('HH:mm')}</Text>
+                    <Image source={imgs.roudedDown} style={styles.down} />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.viewTitle}>
+                  <View style={styles.viewTop}>
+                    <Text style={styles.titleCalendar}>Lặp lại</Text>
+                  </View>
+                  <View style={styles.viewTop} />
+                </View>
+
+                <View style={styles.containerWeek}>
+                  <TouchableOpacity onPress={onSetWeek} style={styles.viewWeek}>
+                    <Image
+                      style={styles.timeImage}
+                      source={loop === 'week' ? imgs.correct : imgs.uncorrect}
+                    />
+                    <Text>Tuần</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={onSetMonth}
+                    style={styles.viewWeek}>
+                    <Image
+                      style={styles.timeImage}
+                      source={loop === 'month' ? imgs.correct : imgs.uncorrect}
+                    />
+                    <Text>Tháng</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={onSetYear} style={styles.viewWeek}>
+                    <Image
+                      style={styles.timeImage}
+                      source={loop === 'year' ? imgs.correct : imgs.uncorrect}
+                    />
+                    <Text>Năm</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.complete} onPress={onComplete}>
+                  <Text style={styles.txtComplete}>Áp dụng</Text>
+                </TouchableOpacity>
               </View>
-            </View>
-          </ScrollView>
+            </ScrollView>
+          </SafeAreaView>
         </View>
+        {showModalTimeStart ? (
+          <PickerCustom
+            value={hourStart}
+            onChange={onChangeHourStart}
+            onPress={onConfirmStart}
+            mode={'time'}
+            show={showModalTimeStart}
+            locale={'en-GB'}
+            onHideModal={onUnshowStart}
+          />
+        ) : null}
+        {showModalTimeEnd ? (
+          <PickerCustom
+            value={hourEnd}
+            onChange={onChangeHourEnd}
+            onPress={onConfirmEnd}
+            mode={'time'}
+            show={showModalTimeEnd}
+            locale={'en-GB'}
+            onHideModal={onUnshowEnd}
+          />
+        ) : null}
       </Modal>
     </View>
   );
 };
 
-export default LocationModal;
+export default TimeModal;
 
 const styles = StyleSheet.create({
   modal: {
@@ -265,26 +295,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 0,
   },
-  scrollView: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    margin: 0,
-  },
-  modalview: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    width: wp(100),
-    height: hp(50),
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   modalCalendar: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    width: wp(100),
-    height: hp(50),
-    backgroundColor: 'white',
+    paddingHorizontal: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -293,13 +306,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 20,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   titleCalendar: {
     fontWeight: '500',
     fontSize: 20,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 16,
   },
   titleNext: {
     marginTop: 20,
@@ -307,35 +320,76 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 16,
   },
-  complete: {
-    backgroundColor: Colors.background,
-  },
-  viewBox: {
-    height: 88,
-    width: 88,
-    flexDirection: 'column',
 
-    marginHorizontal: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 16,
-  },
-  modalScroll: {
-    height: 500,
-    width: wp(200),
-    marginLeft: 500,
-  },
   viewCalendar: {
-    borderColor: 'gray',
-    height: hp(40),
     width: wp(90),
   },
-  container: {width: wp(200), flexDirection: 'row'},
-  viewTop: {width: wp(30), alignItems: 'center'},
+  container: {width: '100%'},
+  viewTop: {width: wp(40), alignItems: 'flex-start', paddingLeft: 16},
   viewTitle: {
     flexDirection: 'row',
     width: wp(100),
     alignSelf: 'center',
     justifyContent: 'space-around',
+    marginTop: 16,
   },
+  scrollViewTop: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 16,
+    height: hp(72),
+    borderTopRightRadius: 16,
+  },
+  boxTime: {
+    width: 112,
+    height: 42,
+    borderRadius: 16,
+    backgroundColor: '#F3F4F6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  viewMiddle: {
+    flexDirection: 'row',
+
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  containerWeek: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+
+    paddingHorizontal: 32,
+  },
+  viewWeek: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  timeImage: {
+    marginRight: 4,
+    width: 24,
+    height: 24,
+    tintColor: '#abb0bb',
+  },
+  complete: {
+    width: 128,
+    height: 36,
+    borderRadius: 16,
+    shadowColor: 'rgba(0, 0, 0, 0.16)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+    backgroundColor: Colors.background,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  down: {width: 16, height: 16, marginLeft: 8, tintColor: '#abb0bb'},
+  txtComplete: {color: Colors.white},
+  direction: {fontSize: 16, tintColor: '#abb0bb', paddingHorizontal: 4},
 });

@@ -43,19 +43,16 @@ if (
 const Event = (props) => {
   const {navigation, memberPicked, kickMember, clearMember} = props;
   const refPhone = useRef('');
-  const [timeStart, setTimeStart] = useState(new Date());
-  const [timeEnd, setTimeEnd] = useState(new Date());
-  const [dateStart, setDateStart] = useState(new Date());
-  const [dateEnd, setDateEnd] = useState(new Date());
   const [title, setTitle] = useState('');
-  const [mode, setMode] = useState('');
-  const [show, setShow] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-
   const [location, setLocation] = useState('');
   const [select, onSelect] = useState(false);
   const [loop, setLoop] = useState('');
+  const [hourStart, setHourStart] = useState(moment()._d);
+  const [hourEnd, setHourEnd] = useState(moment()._d);
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -84,36 +81,7 @@ const Event = (props) => {
   const onChangeTitle = (val) => {
     setTitle(val);
   };
-  const onShow = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(true);
-    setMode(m);
-  };
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShow(false);
-    setMode('');
-  };
-  const onChangeTimeStart = (event, selectedTimeStart) => {
-    const currentTimeStart = selectedTimeStart || timeStart;
-    setShow(Platform.OS === 'ios');
-    setTimeStart(currentTimeStart);
-  };
-  const onChangeTimeEnd = (event, selectedTimeEnd) => {
-    const currentTimeEnd = selectedTimeEnd || timeEnd;
-    setShow(Platform.OS === 'ios');
-    setTimeEnd(currentTimeEnd);
-  };
-  const onChangeDateStart = (event, selectedDateStart) => {
-    const currentDateStart = selectedDateStart || dateStart;
-    setShow(Platform.OS === 'ios');
-    setDateStart(currentDateStart);
-  };
-  const onChangeDateEnd = (event, selectedDateEnd) => {
-    const currentDateEnd = selectedDateEnd || dateEnd;
-    setShow(Platform.OS === 'ios');
-    setDateEnd(currentDateEnd);
-  };
+
   const hideModal = () => {
     setShowModal(false);
   };
@@ -124,10 +92,7 @@ const Event = (props) => {
     setShowModal(true);
     Keyboard.dismiss();
   };
-  const onChangeTime = () => {
-    setShowModalTime(true);
-    Keyboard.dismiss();
-  };
+
   const onGoPickTeam = () => {
     navigation.navigate('PickTeam');
   };
@@ -145,7 +110,65 @@ const Event = (props) => {
   const removeMember = (val) => {
     kickMember(val);
   };
+  const onShowPickerStart = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalTimeStart(true);
+    console.log(hourStart);
+  };
+  const [dateStart, setDateStart] = useState(new Date());
+  const [date, setDate] = useState('');
+  const [showModalTimeStart, setshowModalTimeStart] = useState(false);
+  const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
+  const [showModalDate, setshowModalDate] = useState(false);
+  const onShowPickerDate = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalDate(true);
+    console.log(hourEnd);
+  };
+  const onChangeDate = (event, selectedDay) => {
+    const currentDay = selectedDay || dateStart;
+    setshowModalDate(Platform.OS === 'ios');
+    setDateStart(currentDay);
+  };
+  const onConfirmDate = () => {
+    setshowModalDate(false);
+    setDate(dateStart);
+  };
+  const onUnshowDate = () => {
+    setshowModalDate(false);
+  };
+  const onShowPickerEnd = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalTimeEnd(true);
+    console.log(hourEnd);
+  };
+  const onChangeHourStart = (event, selectedShift) => {
+    const currentShift = selectedShift || hourStart;
+    setshowModalTimeStart(Platform.OS === 'ios');
+    setHourStart(moment(currentShift)._d);
+    console.log(hourStart);
+  };
+  const onChangeHourEnd = (event, selectedShift) => {
+    const currentShift = selectedShift || hourEnd;
+    setshowModalTimeEnd(Platform.OS === 'ios');
+    setHourEnd(moment(currentShift)._d);
+    console.log(hourEnd);
+  };
+  const onUnshowStart = () => {
+    setshowModalTimeStart(false);
+  };
 
+  const onUnshowEnd = () => {
+    setshowModalTimeEnd(false);
+  };
+  const onConfirmStart = () => {
+    setshowModalTimeStart(false);
+    setStart(hourStart);
+  };
+  const onConfirmEnd = () => {
+    setshowModalTimeEnd(false);
+    setEnd(hourEnd);
+  };
   const renderItem = ({item, index}) => {
     return (
       <>
@@ -221,62 +244,69 @@ const Event = (props) => {
           </Card>
           <InputSelect
             width={'90%'}
-            leftImage={imgs.startTime}
+            leftImage={imgs.selectCalendar}
             borderRadius={32}
             height={54}
             shadowColor={'white'}
-            title={'Chọn thời gian'}
+            title={'Chọn ngày'}
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
-            onPressButton={onChangeTime}
+            onPressButton={onShowPickerDate}
             shadowOpacity={0.1}
             marginRight={-30}
             color={'rgba(4, 4, 15, 0.45)'}
-            detail={location}
-          />
-
-          <InputSelect
-            width={'90%'}
-            leftImage={imgs.location}
-            borderRadius={32}
-            height={54}
-            shadowColor={'white'}
-            title={'Địa điểm'}
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onChangeLocation}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={location}
-          />
-          <InputSelect
-            width={'90%'}
-            leftImage={imgs.personal}
-            borderRadius={32}
-            rightImage={imgs.add}
-            height={54}
-            shadowColor={'white'}
-            title={
-              memberPicked.length > 0
-                ? `Đang chọn ${memberPicked.length} người tham gia `
-                : 'Chọn người tham gia'
+            detail={
+              date !== ''
+                ? `Thứ ${moment(date).locale('vi').format('dddd')},${moment(
+                    date,
+                  ).format('DD')} tháng ${moment(date).format('MM')}, ${moment(
+                    date,
+                  ).format('YYYY')}`
+                : null
             }
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onGoPickTeam}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
+            rightImage={imgs.roudedDown}
           />
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <InputSelect
+              width={'45%'}
+              leftImage={''}
+              borderRadius={32}
+              height={54}
+              shadowColor={'white'}
+              title={'Giờ bắt đầu'}
+              padding={8}
+              marginVertical={18}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onShowPickerStart}
+              shadowOpacity={0.1}
+              marginRight={-30}
+              color={'rgba(4, 4, 15, 0.45)'}
+              detail={start !== '' ? moment(start).format('HH:mm') : null}
+              rightImage={''}
+            />
+            <InputSelect
+              width={'45%'}
+              leftImage={''}
+              borderRadius={32}
+              height={54}
+              shadowColor={'white'}
+              title={'Giờ kết thúc'}
+              padding={8}
+              marginVertical={18}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onShowPickerEnd}
+              shadowOpacity={0.1}
+              marginRight={-30}
+              color={'rgba(4, 4, 15, 0.45)'}
+              detail={end !== '' ? moment(end).format('HH:mm') : null}
+              rightImage={''}
+            />
+          </View>
           <InputPick
             width={'90%'}
             leftImage={imgs.calendarWeek}
-            rightImage={select ? imgs.down : imgs.rightIcon}
+            rightImage={select ? imgs.roudedDown : imgs.roundedLeft}
             borderRadius={32}
             height={select ? 148 : 54}
             shadowColor={'white'}
@@ -295,6 +325,45 @@ const Event = (props) => {
             onSetMonth={onSetMonth}
             onSetYear={onSetYear}
           />
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.location}
+            borderRadius={32}
+            height={54}
+            shadowColor={'white'}
+            title={'Địa điểm'}
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onChangeLocation}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={location}
+            rightImage={imgs.roudedDown}
+          />
+          <InputSelect
+            width={'90%'}
+            leftImage={imgs.personal}
+            borderRadius={32}
+            rightImage={imgs.add}
+            height={54}
+            shadowColor={'white'}
+            title={
+              memberPicked.length > 0
+                ? `Đã chọn ${memberPicked.length} người tham gia `
+                : 'Chọn người tham gia'
+            }
+            padding={8}
+            marginVertical={18}
+            containerStyle={styles.viewInputSelect}
+            onPressButton={onGoPickTeam}
+            shadowOpacity={0.1}
+            marginRight={-30}
+            color={'rgba(4, 4, 15, 0.45)'}
+            detail={''}
+          />
+
           {memberPicked.length > 0 ? (
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
@@ -306,17 +375,48 @@ const Event = (props) => {
           ) : null}
         </ScrollView>
       </KeyboardAvoidingView>
+      {showModalTimeStart ? (
+        <PickerCustom
+          value={hourStart}
+          onChange={onChangeHourStart}
+          onPress={onConfirmStart}
+          mode={'time'}
+          show={showModalTimeStart}
+          locale={'en-GB'}
+          onHideModal={onUnshowStart}
+        />
+      ) : null}
+
+      <PickerCustom
+        value={hourEnd}
+        onChange={onChangeHourEnd}
+        onPress={onConfirmEnd}
+        mode={'time'}
+        show={showModalTimeEnd}
+        locale={'en-GB'}
+        onHideModal={onUnshowEnd}
+      />
+
+      <PickerCustom
+        value={dateStart}
+        onChange={onChangeDate}
+        onPress={onConfirmDate}
+        mode={'date'}
+        show={showModalDate}
+        minimumDate={new Date()}
+        onHideModal={onUnshowDate}
+      />
+
       <LocationModal
         showModal={showModal}
         setModal={hideModal}
         onPress={(e) => setLocation(e)}
         detail={location}
       />
-      <TimeModal 
+      <TimeModal
         showModal={showModalTime}
         setModal={hideModalTime}
         onPress={(e) => setLocation(e)}
-        detail={location} 
       />
     </>
   );

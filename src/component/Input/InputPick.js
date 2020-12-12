@@ -150,21 +150,21 @@ export default function InputPick(props?: Props) {
                 style={styles.timeImage}
                 source={loop === 'week' ? imgs.correct : imgs.uncorrect}
               />
-              <Text>Theo tuần</Text>
+              <Text>Tuần</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onSetMonth} style={styles.viewWeek}>
               <Image
                 style={styles.timeImage}
                 source={loop === 'month' ? imgs.correct : imgs.uncorrect}
               />
-              <Text>Theo tháng</Text>
+              <Text>Tháng</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onSetYear} style={styles.viewWeek}>
               <Image
                 style={styles.timeImage}
                 source={loop === 'year' ? imgs.correct : imgs.uncorrect}
               />
-              <Text>Theo năm</Text>
+              <Text>Năm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -221,13 +221,13 @@ const styles = StyleSheet.create({
   containerWeek: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: wp(90),
-    alignSelf: 'center',
+    paddingHorizontal: 16,
   },
   timeImage: {
     marginRight: 4,
     width: 24,
     height: 24,
+    tintColor: '#abb0bb',
   },
   viewSelect: {height: 80},
 });

@@ -102,12 +102,14 @@ function* sagaCheckIn(action) {
         message: langs.alert.wishIn,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     yield put(checkInFailed());
@@ -116,6 +118,7 @@ function* sagaCheckIn(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
     });
+    _global.Loading.hide();
   }
 }
 
@@ -143,6 +146,7 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.wishIn,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     } else if (
       response.success &&
       response.statusCode === 200 &&
@@ -154,6 +158,7 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.wishOut,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     } else {
       if (!response.success && response.statusCode === 400) {
         yield put(checkInFailed());
@@ -172,6 +177,7 @@ function* sagaCheckInWifi(action) {
             text: 'Thoát',
           },
         });
+        _global.Loading.hide();
       } else {
         _global.Alert.alert({
           title: langs.alert.notify,
@@ -181,6 +187,7 @@ function* sagaCheckInWifi(action) {
             // onPress : onLongPress
           },
         });
+        _global.Loading.hide();
       }
     }
   } catch (error) {
@@ -191,6 +198,7 @@ function* sagaCheckInWifi(action) {
       leftButton: {text: langs.alert.ok},
       rightButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -210,6 +218,7 @@ function* sagaCreateQR(action) {
     console.log('Create QR=>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(createQRSuccess(response.data.qrDataUrl));
+      _global.Loading.hide();
     } else {
       yield put(createQRFailed());
       _global.Alert.alert({
@@ -217,6 +226,7 @@ function* sagaCreateQR(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -225,6 +235,7 @@ function* sagaCreateQR(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -253,6 +264,7 @@ function* sagaSetLateEarly(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
@@ -260,6 +272,7 @@ function* sagaSetLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -268,6 +281,7 @@ function* sagaSetLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -296,6 +310,7 @@ function* sagaTakeLeave(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(takeLeaveFailed());
       _global.Alert.alert({
@@ -303,6 +318,7 @@ function* sagaTakeLeave(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -311,6 +327,7 @@ function* sagaTakeLeave(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -341,6 +358,7 @@ function* sagaOverTime(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(overTimeFailed());
       _global.Alert.alert({
@@ -350,6 +368,7 @@ function* sagaOverTime(action) {
           text: langs.alert.ok,
         },
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -358,6 +377,7 @@ function* sagaOverTime(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -384,6 +404,7 @@ function* sagaListLateEarly(action) {
         data: response.data,
       };
       yield put(listLateEarlySuccess(DATA));
+      _global.Loading.hide();
     } else {
       yield put(listLateEarlyFailed());
       _global.Alert.alert({
@@ -391,6 +412,7 @@ function* sagaListLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -399,6 +421,7 @@ function* sagaListLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -433,6 +456,7 @@ function* sagaListManagerLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -441,6 +465,7 @@ function* sagaListManagerLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -467,6 +492,7 @@ function* sagaApproveLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -475,6 +501,7 @@ function* sagaApproveLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -497,6 +524,7 @@ function* sagaUpdateLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -505,6 +533,7 @@ function* sagaUpdateLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -524,6 +553,7 @@ function* sagaDeleteLateEarly(action) {
           text: langs.alert.ok,
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(deleteLateEarlyFailed());
       _global.Alert.alert({
@@ -531,6 +561,7 @@ function* sagaDeleteLateEarly(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -539,6 +570,7 @@ function* sagaDeleteLateEarly(action) {
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -560,11 +592,14 @@ function* sagaGetListTakeLeave(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(listTakeLeaveSuccess(response.data));
+      _global.Loading.hide();
     } else {
       yield put(listTakeLeaveFailed());
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -587,8 +622,10 @@ function* sagaGetListAdminTakeLeave(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(listAdminTakeLeaveSuccess(response.data));
+      _global.Loading.hide();
     } else {
       yield put(listAdminTakeLeaveFailed());
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -609,6 +646,7 @@ function* sagaConfirmDenyTakeLeave(action) {
     console.log('CONFIRM DENY TAKE LEAVE', response);
     if (response.success && response.statusCode === 200) {
       yield put(confirmDenyTakeLeaveSuccess(response.data));
+      _global.Loading.hide();
     } else {
       yield put(confirmDenyTakeLeaveSuccess());
       _global.Alert.alert({
@@ -617,6 +655,7 @@ function* sagaConfirmDenyTakeLeave(action) {
         messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -627,6 +666,7 @@ function* sagaConfirmDenyTakeLeave(action) {
 
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 

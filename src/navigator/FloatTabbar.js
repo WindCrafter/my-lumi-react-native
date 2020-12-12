@@ -133,9 +133,11 @@ function FloatTabbar({
   }
 
   return (
+    
     <View
       style={{
         paddingBottom: 64,
+        
       }}>
       {show &&
         (Platform.OS === 'ios' ? (
@@ -180,6 +182,7 @@ function FloatTabbar({
           position: 'absolute',
           bottom: 0,
         }}>
+        
         <View
           {...{height, width}}
           style={{
@@ -306,7 +309,7 @@ function FloatTabbar({
                   <View
                     style={{
                       position: 'absolute',
-                      top: -8,
+                      top: -16,
                       width: 60,
                       height: 60,
                       // backgroundColor: 'white',
@@ -339,9 +342,10 @@ function FloatTabbar({
                     style={{
                       color: isFocused ? '#36A952' : 'grey',
 
-                      marginTop: width > 375 ? 16 : 24,
+                      marginTop: width > 375 ? 16 : 10,
                       alignSelf: 'center',
                       fontSize: width > 375 ? 16 : 12,
+                      fontWeight:"500"
                     }}>
                     {label}
                   </Text>
@@ -350,9 +354,10 @@ function FloatTabbar({
             })}
           </View>
         </View>
-        {/* <SafeAreaView /> */}
+        
       </View>
     </View>
+   
   );
 }
 

@@ -54,6 +54,7 @@ function* sagaLoginAction(action) {
           user_id: response.data.user_id,
         }),
       );
+      _global.Loading.hide();
       yield put(getProfile({access_token: response.data.access_token}));
     } else {
       yield put(loginFailed());
@@ -62,6 +63,7 @@ function* sagaLoginAction(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -70,6 +72,7 @@ function* sagaLoginAction(action) {
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -93,8 +96,10 @@ function* sagaFirstLogin(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     } else {
       yield put(changePassFailed());
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -103,6 +108,7 @@ function* sagaFirstLogin(action) {
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -138,12 +144,15 @@ function* sagaSetStatusOT(action) {
     if (response.success && response.statusCode === 200) {
       yield put(setStatusOTSuccess(data));
       console.log('thanh cong');
+      _global.Loading.hide();
     } else {
       yield put(setStatusOTFailed());
       console.log('THAT BAI');
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -162,12 +171,15 @@ function* sagaSetStatusBreak(action) {
     if (response.success && response.statusCode === 200) {
       yield put(setStatusBreakSuccess(data));
       console.log('thanh cong');
+      _global.Loading.hide();
     } else {
       yield put(setStatusBreakFailed());
       console.log('THAT BAI');
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -187,12 +199,15 @@ function* sagaSetStatusLateEarly(action) {
     if (response.success && response.statusCode === 200) {
       yield put(setStatusLateEarlySuccess(data));
       console.log('thanh cong');
+      _global.Loading.hide();
     } else {
       yield put(setStatusLateEarlyFailed());
       console.log('THAT BAI');
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
@@ -220,6 +235,7 @@ function* sagaRegisterAction(action) {
           onPress: () => CustomNavigation.navigate('Login'),
         },
       });
+      _global.Loading.hide();
     } else {
       yield put(registerFailed());
       _global.Alert.alert({
@@ -227,6 +243,7 @@ function* sagaRegisterAction(action) {
         message: response.message,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -235,6 +252,7 @@ function* sagaRegisterAction(action) {
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 
@@ -249,6 +267,7 @@ function* sagaGetProfile(action) {
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
       yield put(getProfileSuccess(response));
+      _global.Loading.hide();
     } else {
       yield put(getProfileFailed());
       _global.Alert.alert({
@@ -256,6 +275,7 @@ function* sagaGetProfile(action) {
         message: 'Lấy thông tin user thất bại',
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
@@ -264,6 +284,7 @@ function* sagaGetProfile(action) {
       message: langs.errorNetwork,
       leftButton: {text: langs.alert.ok},
     });
+    _global.Loading.hide();
   }
 }
 

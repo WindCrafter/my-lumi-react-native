@@ -73,7 +73,7 @@ const ApproveBreak = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
@@ -187,7 +187,7 @@ const ApproveBreak = (props) => {
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
-    console.log('_APPROVE_OT =============>', response);
+    console.log('_DENY =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
       setData(
         data.map((i) => (i._id === response.data._id ? response.data : i)),
@@ -214,7 +214,7 @@ const ApproveBreak = (props) => {
         type={item.type}
         date={_listDate.toString()}
         reason={item.content}
-        onDeny={() => onDeny(item)}
+        onDeny={() => onDeny(item._id)}
         onAccept={() => onConfirm(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
