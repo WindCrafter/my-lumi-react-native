@@ -53,7 +53,7 @@ function History(props) {
     const _pageN = pageN || 1;
     const _dateN = dateN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20&date=${_dateN}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_CHECKIN ===========>', response);
@@ -186,11 +186,12 @@ function History(props) {
         title={'Lịch sử chấm công'}
         height={60}
         goBack={onGoBack}
-        rightButton={imgs.KPI}
+        rightButton
+        rightImage={imgs.settingICon}
         onRight={onRight}
       />
       <View style={styles.timeCheck}>
-        <Image source={imgs.DOB} style={styles.avt} />
+        <Image source={imgs.clockKeeping} style={styles.avt} />
         <Text style={styles.time}>{getTimeBySeason()}</Text>
       </View>
       <View style={styles.contentHistory}>
