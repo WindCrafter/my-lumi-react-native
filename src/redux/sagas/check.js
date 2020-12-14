@@ -99,7 +99,7 @@ function* sagaCheckIn(action) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
-        message: langs.alert.wishIn,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -143,7 +143,7 @@ function* sagaCheckInWifi(action) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
-        message: langs.alert.wishIn,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -155,7 +155,7 @@ function* sagaCheckInWifi(action) {
       yield put(checkOutSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
-        message: langs.alert.wishOut,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -196,7 +196,7 @@ function* sagaCheckInWifi(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
-      rightButton: {text: langs.alert.ok},
+      // rightButton: {text: langs.alert.ok},
     });
     _global.Loading.hide();
   }
