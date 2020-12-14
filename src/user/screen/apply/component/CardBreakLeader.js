@@ -7,13 +7,14 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  LayoutAnimation,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
-const CardBreak = (props) => {
-  const {status, date, typeBreak, reason} = props;
+const CardBreakLeader = (props) => {
+  const {status, onAccept, onDeny, type, name, date, typeBreak, reason} = props;
   const renderItem = ({item, index}) => {
     return <Text>•{item}</Text>;
   };
@@ -24,76 +25,65 @@ const CardBreak = (props) => {
           <Text style={styles.txttype}>{typeBreak}</Text>
         </View>
       </View>
-      <View style={styles.detail}>
+      <View>
         <View style={{flexDirection: 'row', width: '100%', paddingVertical: 8}}>
-          <View style={{ flexDirection: 'row', flex: 1, paddingLeft: 24,}}>
+          <View style={styles.viewName}>
+            <Text style={styles.name}>{name}</Text>
+          </View>
+          <View style={{flexDirection: 'row', flex: 1}}>
             <Image source={imgs.selectCalendar} style={styles.calendarDay} />
-
             <FlatList
               data={date}
               keyExtractor={(item) => item}
               renderItem={renderItem}
             />
           </View>
+        </View>
+        <View style={styles.reason}>
+          <Image source={imgs.documentGreen} style={styles.document} />
+          <Text style={styles.time}>{reason}</Text>
+        </View>
+      </View>
 
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent:"center"
-              
-            }}>
+      <View>
+        <View style={styles.line} />
+        {status === 1 ? (
+          <View style={styles.viewLeader}>
+            <View style={styles.viewButton}>
+              <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
+                <Text style={styles.txtButton}>{langs.deny}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.viewButton}>
+              <TouchableOpacity style={styles.buttonAccept} onPress={onAccept}>
+                <Text style={styles.txtButton}>{langs.accept}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.viewApproved}>
             <Image
-              source={
-                status === 1
-                  ? imgs.roundedInfor
-                  : status === 2
-                  ? imgs.tick
-                  : imgs.cancel
-              }
+              source={status === 2 ? imgs.tick : imgs.cancel}
               style={[
-                styles.imgs,
-                {
-                  tintColor:
-                    status === 1
-                      ? Colors.waiting
-                      : status === 2
-                      ? Colors.background
-                      : Colors.danger,
-                },
+                styles.clock,
+                {tintColor: status === 2 ? Colors.background : Colors.danger},
               ]}
             />
             <Text
               style={[
                 styles.time,
-                {
-                  color:
-                    status === 1
-                      ? Colors.waiting
-                      : status === 2
-                      ? Colors.background
-                      : Colors.danger,
-                },
+                {color: status === 2 ? Colors.background : Colors.danger},
               ]}>
-              {status === 1
-                ? langs.waiting
-                : status === 2
-                ? langs.approve
-                : langs.denied}
+              {status === 2 ? langs.approve : langs.deny}
             </Text>
           </View>
-        </View>
-      </View>
-      <View style={styles.reason}>
-        <Image source={imgs.documentGreen} style={styles.clock} />
-        <Text style={styles.time}>{reason}</Text>
+        )}
       </View>
     </Card>
   );
 };
 
-export default CardBreak;
+export default CardBreakLeader;
 
 const styles = StyleSheet.create({
   container: {
@@ -119,13 +109,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderTopRightRadius: 16,
   },
-  rightHeader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 8,
-    flexDirection: 'row',
-  },
   txttype: {
     color: Colors.white,
   },
@@ -136,9 +119,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 8,
     paddingVertical: 16,
+    flexDirection: 'row',
   },
   clock: {
-    tintColor: Colors.black,
+    tintColor: Colors.background,
     width: 16,
     height: 16,
     marginRight: 4,
@@ -159,8 +143,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   name: {
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 16,
+      color:Colors.black
+
   },
   time: {
     color: Colors.black,
@@ -173,8 +159,8 @@ const styles = StyleSheet.create({
   },
   reason: {
     flexDirection: 'row',
-    paddingLeft: 32,
-    paddingRight: 16,
+    paddingLeft: 24,
+    paddingRight: 24,
     paddingBottom: 16,
     alignItems: 'center',
   },
@@ -182,7 +168,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
-    marginTop: -8,
   },
   viewLeader: {
     paddingVertical: 8,
@@ -224,22 +209,20 @@ const styles = StyleSheet.create({
     width: 16,
     marginRight: 4,
     tintColor: Colors.black,
-    alignSelf: 'flex-start',
   },
   date: {
     fontSize: 14,
-    alignSelf: 'center',
-  },
-  viewDate: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    paddingLeft: 24,
-    justifyContent: 'center',
+    alignSelf: 'flex-start',
   },
   viewDateLeader: {
     flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'center',
+    borderWidth: 1,
+    alignItems: 'flex-start',
+  },
+  document: {
+    tintColor: Colors.black,
+    width: 16,
+    height: 16,
+    marginRight: 4,
   },
 });

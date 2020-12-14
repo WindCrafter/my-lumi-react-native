@@ -16,13 +16,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Card} from 'native-base';
 import langs from '../../../../common/language';
-import CardBreak from './component/CardBreak';
+import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
 import moment from 'moment';
 import {_GET, _POST} from '../../../../utlis/connection/api';
 import {_global} from '../../../../utlis/global/global';
 import {URL} from '../../../../utlis/connection/url';
-
+import CardBreak from './component/CardBreak';
 const ApproveBreak = (props) => {
   const {
     navigation,
@@ -154,7 +154,7 @@ const ApproveBreak = (props) => {
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#ABB0BB" />
       </View>
     ) : null;
   };
@@ -168,7 +168,11 @@ const ApproveBreak = (props) => {
     console.log('_APPROVE_BREAK =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
       setData(
-        data.map((i) => (i._id === response.data._id ? response.data : i)),
+        data.map((i) =>
+          i._id === response.data._id
+            ? {...i, status: response.data.status}
+            : i,
+        ),
       );
     } else {
       _global.Alert.alert({
@@ -207,12 +211,11 @@ const ApproveBreak = (props) => {
       moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
     );
     return (
-      <CardBreak
-        leader={true}
+      <CardBreakLeader
         name={item.fullname}
         status={item.status}
         type={item.type}
-        date={_listDate.toString()}
+        date={_listDate}
         reason={item.content}
         onDeny={() => onDeny(item._id)}
         onAccept={() => onConfirm(item._id)}
@@ -245,7 +248,8 @@ const ApproveBreak = (props) => {
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
-        type={type} CONFIRM_DENY_TAKE_LEAVE
+        type={type}
+        CONFIRM_DENY_TAKE_LEAVE
         search
       />
       <View style={{flex: 1}}>

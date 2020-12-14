@@ -161,10 +161,10 @@ const HistoryBreak = (props) => {
     );
     return (
       <CardBreak
-        leader={false}
+        
         status={item.status}
         type={item.type}
-        date={_listDate.toString().trim()}
+        date={_listDate}
         reason={item.content}
         typeBreak={
           (item.date.length > 1 && item.morning) === 0

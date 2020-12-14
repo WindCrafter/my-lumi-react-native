@@ -476,7 +476,7 @@ export function* watchListManagerLateEarly() {
 function* sagaApproveLateEarly(action) {
   try {
     const data = {
-      _id: action.payload._id,
+      id: action.payload._id,
       status: action.payload.status,
     };
     const token = action.payload.token;
