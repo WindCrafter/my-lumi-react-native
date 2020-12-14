@@ -136,12 +136,12 @@ const Login = (props) => {
               <Text style={styles.register}>Đăng ký tài khoản</Text>
               {/* <Text>Vui lòng tạo</Text> */}
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={onPressForgot}
               testID="test_ForgotPass"
               style={styles.forgotPass}>
               <Text style={styles.textForgot}>{langs.forgotPassword}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </TouchableWithoutFeedback>

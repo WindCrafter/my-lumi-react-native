@@ -102,7 +102,7 @@ class Alert extends PureComponent {
       title: props.title ? props.title : null,
       message: props.message ? props.message : null,
       leftButton: props.leftButton ? props.leftButton : null,
-      messageColor: props.messageColor ? props.messageColor : null,
+      messageColor: props.messageColor ? props.messageColor : '#000000',
       rightButton: props.rightButton ? props.rightButton : null,
       onClose: props.onClose ? props.onClose : null,
       renderContent: props.renderContent ? props.renderContent : null,
@@ -294,7 +294,7 @@ class Alert extends PureComponent {
     let { renderContent } = this.props;
     let message = null;
     let title = null;
-    let messageColor = null;
+    let messageColor = '#000000';
 
     if (this.dataAlert) {
       renderContent = this.dataAlert.renderContent;
