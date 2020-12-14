@@ -61,18 +61,19 @@ const ApproveLate = (props) => {
     );
   };
 
-  const onDeny = (id) => {
+  const onDeny = (_id) => {
     const data = {
-      id,
+      _id,
       status: 3,
       token,
     };
     approveLateEarly(data);
+    console.log(_id);
   };
 
-  const onAccept = (id) => {
+  const onAccept = (_id) => {
     const data = {
-      id,
+      _id,
       status: 2,
       token,
     };

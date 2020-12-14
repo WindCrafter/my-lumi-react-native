@@ -1,22 +1,22 @@
 import {Card} from 'native-base';
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
 import {Colors, imgs} from '../../../../../utlis';
 
 const CardBreak = (props) => {
-  const {
-    leader,
-    status,
-    onAccept,
-    onDeny,
-    type,
-    name,
-    date,
-    typeBreak,
-    reason,
-  } = props;
+  const {status, date, typeBreak, reason} = props;
+  const renderItem = ({item, index}) => {
+    return <Text>•{item}</Text>;
+  };
   return (
     <Card style={styles.container}>
       <View style={styles.header}>
@@ -25,110 +25,63 @@ const CardBreak = (props) => {
         </View>
       </View>
       <View style={styles.detail}>
-        <View style={styles.row}>
-          {leader ? (
-            <View style={styles.viewName}>
-              <Text style={styles.name}> {name} </Text>
-            </View>
-          ) : (
-            <View style={styles.viewName}>
-              <Image source={imgs.selectCalendar} style={styles.calendarDay} />
+        <View style={styles.viewMidle}>
+          <View style={styles.viewDetail}>
+            <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
-              <Text style={styles.date}>{date}</Text>
-            </View>
-          )}
-          {!leader ? (
-            <View style={styles.viewDay}>
-              <Image
-                source={
-                  status === 1
-                    ? imgs.roundedInfor
-                    : status === 2
-                    ? imgs.tick
-                    : imgs.cancel
-                }
-                style={[
-                  styles.imgs,
-                  {
-                    tintColor:
-                      status === 1
-                        ? Colors.waiting
-                        : status === 2
-                        ? Colors.background
-                        : Colors.danger,
-                  },
-                ]}
-              />
-              <Text
-                style={[
-                  styles.time,
-                  {
-                    color:
-                      status === 1
-                        ? Colors.waiting
-                        : status === 2
-                        ? Colors.background
-                        : Colors.danger,
-                  },
-                ]}>
-                {status === 1
-                  ? langs.waiting
+            <FlatList
+              data={date}
+              keyExtractor={(item) => item}
+              renderItem={renderItem}
+            />
+          </View>
+
+          <View style={styles.viewStatus}>
+            <Image
+              source={
+                status === 1
+                  ? imgs.roundedInfor
                   : status === 2
-                  ? langs.approve
-                  : langs.denied}
-              </Text>
-            </View>
-          ) : (
-            <View style={styles.viewName}>
-              <Image source={imgs.selectCalendar} style={styles.calendarDay} />
-
-              <Text style={styles.date}>{date}</Text>
-            </View>
-          )}
+                  ? imgs.tick
+                  : imgs.cancel
+              }
+              style={[
+                styles.imgs,
+                {
+                  tintColor:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                      ? Colors.background
+                      : Colors.danger,
+                },
+              ]}
+            />
+            <Text
+              style={[
+                styles.time,
+                {
+                  color:
+                    status === 1
+                      ? Colors.waiting
+                      : status === 2
+                      ? Colors.background
+                      : Colors.danger,
+                },
+              ]}>
+              {status === 1
+                ? langs.waiting
+                : status === 2
+                ? langs.approve
+                : langs.denied}
+            </Text>
+          </View>
         </View>
       </View>
       <View style={styles.reason}>
-        <Image source={imgs.note} style={styles.clock} />
+        <Image source={imgs.documentGreen} style={styles.clock} />
         <Text style={styles.time}>{reason}</Text>
       </View>
-      {leader && (
-        <>
-          <View style={styles.line} />
-          {status === 1 ? (
-            <View style={styles.viewLeader}>
-              <View style={styles.viewButton}>
-                <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
-                  <Text style={styles.txtButton}>{langs.deny}</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.viewButton}>
-                <TouchableOpacity
-                  style={styles.buttonAccept}
-                  onPress={onAccept}>
-                  <Text style={styles.txtButton}>{langs.accept}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.viewApproved}>
-              <Image
-                source={status === 2 ? imgs.tick : imgs.cancel}
-                style={[
-                  styles.clock,
-                  {tintColor: status === 2 ? Colors.background : Colors.danger},
-                ]}
-              />
-              <Text
-                style={[
-                  styles.time,
-                  {color: status === 2 ? Colors.background : Colors.danger},
-                ]}>
-                {status === 2 ? langs.approve : langs.deny}
-              </Text>
-            </View>
-          )}
-        </>
-      )}
     </Card>
   );
 };
@@ -178,10 +131,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   clock: {
-    tintColor: Colors.background,
+    tintColor: Colors.black,
     width: 16,
     height: 16,
     marginRight: 4,
+    alignSelf: 'flex-start',
   },
   viewText: {
     justifyContent: 'space-between',
@@ -196,15 +150,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   name: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 16,
   },
   time: {
-    color: Colors.background,
-    fontWeight: '500',
+    color: Colors.black,
+    fontWeight: '400',
+    paddingRight: 12,
   },
   imgs: {
     width: 16,
@@ -224,49 +179,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     marginTop: -8,
   },
-  viewLeader: {
-    paddingVertical: 8,
-    flexDirection: 'row',
-  },
-  viewButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonDeny: {
-    borderRadius: 16,
-    paddingVertical: 8,
-    width: widthPercentageToDP(30),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.danger,
-  },
-  buttonAccept: {
-    borderRadius: 16,
-    paddingVertical: 8,
-    width: widthPercentageToDP(30),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.background,
-  },
-  txtButton: {
-    color: Colors.white,
-    fontWeight: '600',
-  },
-  viewApproved: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
+
   calendarDay: {
     height: 16,
     width: 16,
     marginRight: 4,
-    tintColor: Colors.background,
+    tintColor: Colors.black,
+    alignSelf: 'flex-start',
   },
   date: {
-    width: 90,
-    fontSize: 16,
+    fontSize: 14,
+    alignSelf: 'center',
+  },
+  viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
+  viewDetail: {flexDirection: 'row', flex: 1, paddingLeft: 24},
+  viewStatus: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
   },
 });
