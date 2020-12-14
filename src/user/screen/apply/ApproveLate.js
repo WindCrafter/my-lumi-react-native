@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -60,18 +61,19 @@ const ApproveLate = (props) => {
     );
   };
 
-  const onDeny = (id) => {
+  const onDeny = (_id) => {
     const data = {
-      id,
+      _id,
       status: 3,
       token,
     };
     approveLateEarly(data);
+    console.log(_id);
   };
 
-  const onAccept = (id) => {
+  const onAccept = (_id) => {
     const data = {
-      id,
+      _id,
       status: 2,
       token,
     };
@@ -159,15 +161,20 @@ const ApproveLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        <FlatList
-          data={dataManager}
-          keyExtractor={(item, index) => `${item.id}`}
-          renderItem={renderItem}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          style={styles.flatList}
-          ListFooterComponent={renderFooterComponent}
-        />
+        {dataManager.length === 0 ? (
+          <Text style={styles.noData}>Không có lịch sử.</Text>
+        ) : (
+          <FlatList
+            data={dataManager}
+            keyExtractor={(item, index) => `${item.id}`}
+            renderItem={renderItem}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            style={styles.flatList}
+            ListFooterComponent={renderFooterComponent}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </>
   );
@@ -183,4 +190,5 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
 });

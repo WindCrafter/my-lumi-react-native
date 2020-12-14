@@ -38,7 +38,13 @@ const CardLate = (props) => {
           ) : (
             <View style={styles.viewName}>
               <Image
-                source={imgs.startTime}
+                source={
+                  status === 1
+                    ? imgs.roundedInfor
+                    : status === 2
+                    ? imgs.tick
+                    : imgs.cancel
+                }
                 style={[
                   styles.imgs,
                   {

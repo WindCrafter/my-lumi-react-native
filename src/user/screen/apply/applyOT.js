@@ -468,6 +468,7 @@ function ApplyOT(props) {
               mode={'time'}
               show={showModal}
               locale={'en-GB'}
+              onHideModal={onUnshow}
             />
           ) : mode === 'day' ? (
             <PickerCustom
@@ -477,6 +478,7 @@ function ApplyOT(props) {
               mode={'date'}
               show={showModal}
               minimumDate={new Date()}
+                onHideModal={onUnshow}
             />
           ) : null
         ) : null}

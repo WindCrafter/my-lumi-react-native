@@ -29,14 +29,13 @@ export default ButtonCheckIn;
 
 const styles = StyleSheet.create({
   container: {
-    width: 48,
-    height: 48,
+    
     backgroundColor: Colors.background,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 8,
-    marginTop: 8,
+    
+    marginTop: 2,
   },
   containerBt: {
     width: 48,

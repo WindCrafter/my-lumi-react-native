@@ -85,7 +85,7 @@ const langs = {
   approve: 'Đã duyệt',
   denied: 'Bị từ chối',
   deny: 'Từ chối',
-  accept: 'Chấp thuận',
+  accept: 'Xác nhận',
   goLate: 'Đi muộn',
   backSoon: 'Về Sớm',
   confirm: 'Xác nhận',
@@ -101,6 +101,7 @@ const langs = {
   setting: 'Điều chỉnh và cài đặt',
   comunicate: 'Thông tin liên hệ',
   timeOT: 'Thời gian ước tính',
+  role: 'Vị trí',
   navigator: {
     login: 'Login',
     register: 'Register',
@@ -139,6 +140,7 @@ const langs = {
     approveLate: 'Approve Late',
     historyBreak: 'History Break',
     approveBreak: 'Approve Break',
+    button: 'Button'
   },
   alert: {
     ok: 'OK',
@@ -188,6 +190,8 @@ const langs = {
     missingContentOT: 'Bạn chưa điền nột dung OT',
     wrongTimeOT: 'Thời gian đăng kí OT không hợp lệ',
     approveFail: 'Duyệt đơn không thành công!',
+    
+
   },
 };
 

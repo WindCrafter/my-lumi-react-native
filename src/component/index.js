@@ -23,6 +23,7 @@ import Combine from './Combine';
 import Gradient from './Gradient';
 import KeyBoardScroll from './KeyBoardScroll';
 import SelectButton from './SelectButton';
+import PickerCustom from './PickerCustom';
 export {
   Input,
   InputPassword,
@@ -47,4 +48,5 @@ export {
   Gradient,
   KeyBoardScroll,
   SelectButton,
+  PickerCustom,
 };

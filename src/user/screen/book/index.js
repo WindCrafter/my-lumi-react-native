@@ -10,6 +10,7 @@ import {
   StatusBar,
   Alert,
   Button,
+  Platform
 } from 'react-native';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -73,7 +74,9 @@ const Book = (props) => {
     console.log('----- < > __');
     navigation.navigate('Sự kiện mới');
   };
-
+  const buttonIcon = () => {
+    return <Image source={imgs.add} style={styles.add} />;
+  };
   return (
     <>
       <BarStatus />
@@ -106,14 +109,15 @@ const Book = (props) => {
         onDayPress={onDaySelect}
         markedDates={_markedDates}
       /> */}
-      <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item
-          buttonColor="white"
-          title="Tạo phòng họp"
-          onPress={onMoveToEvent}>
-          <Image source={imgs.meeting} style={{tintColor: '#008aee'}} />
-        </ActionButton.Item>
-      </ActionButton>
+      <ActionButton
+        buttonColor={Colors.white}
+        offsetY={30}
+        onPress={onMoveToEvent}
+        degrees={45}
+        fixNativeFeedbackRadius={true}
+        renderIcon={buttonIcon}
+        style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
+      />
     </>
   );
 };
@@ -214,6 +218,12 @@ const styles = StyleSheet.create({
   },
   img: {
     tintColor: '#008aee',
+  },
+  meeting: {tintColor: '#008aee'},
+  add: {
+    alignSelf: 'center',
+    height: 16,
+    width: 16,
   },
 });
 export default Book;

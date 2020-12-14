@@ -121,6 +121,7 @@ function ApplyBreak(props) {
   //   return e.userId;
   // });
   const onComplete = () => {
+    Keyboard.dismiss()
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -236,9 +237,6 @@ function ApplyBreak(props) {
     Keyboard.dismiss();
   };
 
-  const onGoAssignment = () => {
-    navigation.navigate('Assignment');
-  };
 
   const onDaySelect = (day) => {
     const selectedDay = moment(day.dateString).format(_format);

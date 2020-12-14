@@ -20,7 +20,7 @@ export function _POST(url, data, token, loading = true) {
       },
       setTimeout(() => {
         _global.Loading.hide();
-      }, 200),
+      }, 500),
     )
     .catch((error) => {
       console.log(error);
@@ -61,7 +61,7 @@ export function _GET(url, token, loading = true) {
       (res) => res.json(),
       setTimeout(() => {
         _global.Loading.hide();
-      }, 200),
+      }, 500),
     )
     .catch((error) => {
       _global.Loading.hide();
