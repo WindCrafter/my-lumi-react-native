@@ -9,6 +9,7 @@ import {
 const mapStateToProps = (state) => ({
   token: state.authen.token,
   dataManager: state.check.dataManagerLateEarly,
+  refreshing: state.check.refreshing,
 });
 
 const mapDispatchToProps = {

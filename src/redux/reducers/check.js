@@ -12,16 +12,28 @@ const initialState = {
   historyAdminTakeLeave: '',
   dataLateEarly: '',
   dataManagerLateEarly: '',
+  refreshing: false,
 };
 
 export default function check(state = initialState, action) {
   switch (action.type) {
+    case types.LIST_LATE_EARLY:
+      return {
+        ...state,
+        refreshing: action.payload.refreshing ? true : false,
+      };
     case types.LIST_LATE_EARLY_SUCCESS:
       return {
         ...state,
         dataLateEarly: action.payload.reload
           ? action.payload.data
           : [...state.dataLateEarly, ...action.payload.data],
+        refreshing: false,
+      };
+    case types.LIST_MANAGER_LATE_EARLY:
+      return {
+        ...state,
+        refreshing: action.payload.refreshing ? true : false,
       };
     case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
       return {
@@ -29,6 +41,7 @@ export default function check(state = initialState, action) {
         dataManagerLateEarly: action.payload.reload
           ? action.payload.data
           : [...state.dataManagerLateEarly, ...action.payload.data],
+        refreshing: false,
       };
     case types.APPROVE_LATE_EARLY_SUCCESS:
       return {

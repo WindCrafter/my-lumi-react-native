@@ -54,7 +54,7 @@ if (
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token} = props;
+  const {navigation, nameUser, token, summary, getSummary} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -72,10 +72,9 @@ export default function Home(props) {
   };
 
   useEffect(() => {
-    const data = {
-      token: token,
-    };
-  });
+    getSummary(token);
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -92,7 +91,9 @@ export default function Home(props) {
             <View style={styles.groupCard}>
               <CardUser
                 backgroundColor={'rgb( 229, 246, 255)'}
-                number={20}
+                number={
+                  summary.actual_date_month ? summary.actual_date_month : 0
+                }
                 detail={'Công thực tế'}
                 source={imgs.clockEarly}
                 imgBackground={'rgb( 183, 231, 254)'}
@@ -101,7 +102,7 @@ export default function Home(props) {
               />
               <CardUser
                 backgroundColor={'rgb( 255, 240, 234)'}
-                number={2}
+                number={summary.day_of_leave ? summary.day_of_leave : 0}
                 detail={'Ngày nghỉ'}
                 source={imgs.breakOneDay}
                 imgBackground={'rgb(255,218,201)'}
@@ -112,7 +113,7 @@ export default function Home(props) {
             <View style={styles.botCard}>
               <CardUser
                 backgroundColor={'rgb(226, 246, 234)'}
-                number={5}
+                number={summary.day_off_month ? summary.day_off_month : 0}
                 detail={'Phép tồn'}
                 source={imgs.selectCalendar}
                 imgBackground={'rgb(195, 233, 209)'}
@@ -121,7 +122,7 @@ export default function Home(props) {
               />
               <CardUser
                 backgroundColor={'rgb(246, 243, 255)'}
-                number={5}
+                number={summary.check_in_of_week ? summary.check_in_of_week : 0}
                 detail={'Đi muộn/về sớm'}
                 source={imgs.clockAlert}
                 imgBackground={'rgb(217, 211, 253)'}

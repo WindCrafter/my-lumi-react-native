@@ -20,7 +20,14 @@ import {_global} from '../../../../utlis/global/global';
 import {Text} from 'native-base';
 
 const HistoryLate = (props) => {
-  const {navigation, listLateEarly, token, dataLateEarly, removeList} = props;
+  const {
+    navigation,
+    listLateEarly,
+    token,
+    dataLateEarly,
+    removeList,
+    refreshing,
+  } = props;
   const [type, setType] = useState('Tất cả');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -37,6 +44,7 @@ const HistoryLate = (props) => {
       page: page,
       page_size: 10,
       reload: true,
+      loading: true,
     };
     const unsubscribe = navigation.addListener('focus', () => {
       listLateEarly(dataBack);
@@ -77,6 +85,7 @@ const HistoryLate = (props) => {
           page: 1,
           page_size: 10,
           reload: true,
+          loading: true,
         }
       : {
           token: token,
@@ -84,6 +93,7 @@ const HistoryLate = (props) => {
           page: 1,
           page_size: 10,
           reload: true,
+          loading: true,
         };
     setPage(1);
     listLateEarly(data);
@@ -109,9 +119,11 @@ const HistoryLate = (props) => {
     const data = {
       token: token,
       status: item,
+      date: date,
       page: 1,
       page_size: 10,
       reload: true,
+      loading: true,
     };
     setPage(1);
     listLateEarly(data);
@@ -127,10 +139,24 @@ const HistoryLate = (props) => {
       page_size: 10,
       date: date,
       reload: false,
+      loading: true,
     };
     setPage(page + 1);
     listLateEarly(data);
-    _global.Loading.show();
+  };
+
+  const onRefresh = () => {
+    const data = {
+      token: token,
+      status: status,
+      page:1,
+      page_size: 10,
+      date: date,
+      reload: true,
+      refreshing: true,
+    };
+    listLateEarly(data);
+    setPage(1);
   };
 
   const renderFooterComponent = () => {
@@ -169,6 +195,8 @@ const HistoryLate = (props) => {
             style={styles.flatList}
             ListFooterComponent={renderFooterComponent}
             showsVerticalScrollIndicator={false}
+            onRefresh={onRefresh}
+            refreshing={refreshing}
           />
         )}
       </View>

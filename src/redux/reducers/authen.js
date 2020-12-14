@@ -27,6 +27,7 @@ const initialState = {
   address: '',
   team_id: '',
   staff_type: '',
+  summary: {},
 };
 
 export default function authen(state = initialState, action) {
@@ -106,6 +107,11 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         oneSignalID: action.payload,
+      };
+    case types.GET_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        summary: action.payload.data,
       };
     default:
       return state;

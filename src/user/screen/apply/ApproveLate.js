@@ -25,6 +25,7 @@ const ApproveLate = (props) => {
     dataManager,
     approveLateEarly,
     removeList,
+    refreshing,
   } = props;
   const [type, setType] = useState('Tất cả');
   const [page, setPage] = useState(1);
@@ -41,6 +42,7 @@ const ApproveLate = (props) => {
       status: status,
       page: page,
       page_size: 10,
+      loading: true,
     };
     listManagerLateEarly(data);
   }, []);
@@ -88,6 +90,7 @@ const ApproveLate = (props) => {
       page: 1,
       page_size: 10,
       reload: true,
+      loading: true,
     };
     listManagerLateEarly(data);
     setPage(1);
@@ -112,10 +115,12 @@ const ApproveLate = (props) => {
   const onChangeStatus = (item) => {
     const data = {
       token: token,
+      date: date,
       status: item,
       page: 1,
       page_size: 10,
       reload: true,
+      loading: true,
     };
     setPage(1);
     listManagerLateEarly(data);
@@ -130,6 +135,7 @@ const ApproveLate = (props) => {
       page: page + 1,
       page_size: 10,
       reload: false,
+      loading: true,
     };
     setPage(page + 1);
     listManagerLateEarly(data);
@@ -142,6 +148,20 @@ const ApproveLate = (props) => {
         <ActivityIndicator size="large" color="grey" />
       </View>
     ) : null;
+  };
+
+  const onRefresh = () => {
+    const data = {
+      token: token,
+      status: status,
+      page_size: 10,
+      page: 1,
+      date: date,
+      reload: true,
+      refreshing: true,
+    };
+    listManagerLateEarly(data);
+    setPage(1);
   };
 
   return (
@@ -172,6 +192,8 @@ const ApproveLate = (props) => {
             style={styles.flatList}
             ListFooterComponent={renderFooterComponent}
             showsVerticalScrollIndicator={false}
+            onRefresh={onRefresh}
+            refreshing={refreshing}
           />
         )}
       </View>
