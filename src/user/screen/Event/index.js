@@ -127,8 +127,16 @@ const Event = (props) => {
   };
   const onChangeDate = (event, selectedDay) => {
     const currentDay = selectedDay || dateStart;
-    setshowModalDate(Platform.OS === 'ios');
-    setDateStart(currentDay);
+    if (Platform.OS === 'ios') {
+      setDateStart(currentDay);
+    } else {
+      if (event.type === 'set') {
+        setshowModalDate(false);
+        setDate(currentDay);
+      } else {
+        setshowModalDate(false);
+      }
+    }
   };
   const onConfirmDate = () => {
     setshowModalDate(false);

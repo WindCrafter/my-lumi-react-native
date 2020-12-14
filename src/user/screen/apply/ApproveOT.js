@@ -7,6 +7,7 @@ import {
   UIManager,
   ActivityIndicator,
   Text,
+  RefreshControl,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -60,6 +61,7 @@ function ApproveOT(props) {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Đang chờ');
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     getData(1, '', '', [], '');
@@ -132,14 +134,21 @@ function ApproveOT(props) {
     }
   };
 
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
+
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&status=${_date}&name=${_name}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
     console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
     if (
       response.success &&
@@ -149,9 +158,7 @@ function ApproveOT(props) {
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
-      setLoading(false);
     } else {
-      setLoading(false);
     }
   };
 
@@ -226,6 +233,9 @@ function ApproveOT(props) {
             onEndReached={!loading ? handleLoadMore : null}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooterComponent}
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
           />
         ) : (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>

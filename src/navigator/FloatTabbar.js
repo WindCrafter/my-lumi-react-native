@@ -19,7 +19,6 @@ import ModalTime from '../user/screen/account/component/ModalTime';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
 import Svg, {Path} from 'react-native-svg';
-import * as shape from 'd3-shape';
 import {imgs} from '../../utlis/images/imgs';
 
 const {width} = Dimensions.get('window');
@@ -30,49 +29,11 @@ const height = width > 375 ? 80 : 60;
 const tabWidth = width / 5;
 const backgroundColor = 'white';
 
-const getPath = () => {
-  const left = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)([
-    {x: 0, y: 0},
-    {x: width / 2 - tabWidth / 2, y: 0},
-  ]);
-  const tab = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)
-    .curve(shape.curveBasis)([
-    {x: width / 2 - tabWidth / 2, y: 0},
-    {x: width / 2 - tabWidth / 2 + 2, y: 1},
-    {x: width / 2 - tabWidth / 2 + 5, y: 2},
-    {x: width / 2 - tabWidth / 2 + 10, y: 10},
-    {x: width / 2 - tabWidth / 2 + 15, y: height / 4},
-    {x: width / 2 - tabWidth / 2 + 20, y: height / 4 + 5},
-    {x: width / 2 - tabWidth / 2 + 30, y: height / 4 + 10},
-    {x: width / 2 - tabWidth / 2 + 32, y: height / 4 + 12},
-    {x: width / 2 - tabWidth / 2 - 32, y: height / 4 + 12},
-    {x: width / 2 + tabWidth / 2 - 30, y: height / 4 + 10},
-    {x: width / 2 + tabWidth / 2 - 20, y: height / 4 + 5},
-    {x: width / 2 + tabWidth / 2 - 15, y: height / 4},
-    {x: width / 2 + tabWidth / 2 - 10, y: 10},
-    {x: width / 2 + tabWidth / 2 - 5, y: 2},
-    {x: width / 2 + tabWidth / 2 - 2, y: 1},
-    {x: width / 2 + tabWidth / 2, y: 0},
-  ]);
-  const right = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)([
-    {x: width / 2 + tabWidth / 2, y: 0},
-    {x: width, y: 0},
-    {x: width, y: height},
-    {x: 0, y: height},
-    {x: 0, y: 0},
-  ]);
-  return `${left} ${tab} ${right}`;
-};
-const d = getPath();
+const path = `M 0 0, L ${(width * 2) / 5 + 5} 0, A ${width / 10 - 5} ${
+  width / 10 - 5
+} 0 1 0 ${
+  (width * 3) / 5 - 5
+} 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
 
 function FloatTabbar({
   state,
@@ -97,6 +58,7 @@ function FloatTabbar({
     };
     setShow(false);
     checkIn(data);
+    console.log(d);
   };
 
   const onHideModal = () => {
@@ -133,11 +95,9 @@ function FloatTabbar({
   }
 
   return (
-    
     <View
       style={{
         paddingBottom: 64,
-        
       }}>
       {show &&
         (Platform.OS === 'ios' ? (
@@ -182,7 +142,6 @@ function FloatTabbar({
           position: 'absolute',
           bottom: 0,
         }}>
-        
         <View
           {...{height, width}}
           style={{
@@ -193,8 +152,8 @@ function FloatTabbar({
             shadowOpacity: 0.5,
             shadowRadius: 5,
           }}>
-          <Svg width={width} height={height}>
-            <Path fill={backgroundColor} {...{d}} />
+          <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+            <Path fill={backgroundColor} d={path} />
           </Svg>
           <View style={[StyleSheet.absoluteFill, {flexDirection: 'row'}]}>
             {state.routes.map((route, index) => {
@@ -271,7 +230,7 @@ function FloatTabbar({
                     <View
                       style={{
                         position: 'absolute',
-                        top: -40,
+                        top: -30,
                         width: 48,
                         height: 48,
                         backgroundColor: '#36A952',
@@ -345,7 +304,7 @@ function FloatTabbar({
                       marginTop: width > 375 ? 16 : 10,
                       alignSelf: 'center',
                       fontSize: width > 375 ? 16 : 12,
-                      fontWeight:"500"
+                      fontWeight: '500',
                     }}>
                     {label}
                   </Text>
@@ -354,10 +313,8 @@ function FloatTabbar({
             })}
           </View>
         </View>
-        
       </View>
     </View>
-   
   );
 }
 
