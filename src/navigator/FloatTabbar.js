@@ -74,6 +74,8 @@ const getPath = () => {
 };
 const d = getPath();
 
+const path = `M 0 0, L ${width * 2 / 5 + 5} 0, A ${width/10 - 5} ${width/10 - 5} 0 1 0 ${width * 3 / 5 - 5} 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
+
 function FloatTabbar({
   state,
   descriptors,
@@ -97,6 +99,7 @@ function FloatTabbar({
     };
     setShow(false);
     checkIn(data);
+    console.log(d);
   };
 
   const onHideModal = () => {
@@ -133,11 +136,9 @@ function FloatTabbar({
   }
 
   return (
-    
     <View
       style={{
         paddingBottom: 64,
-        
       }}>
       {show &&
         (Platform.OS === 'ios' ? (
@@ -182,7 +183,6 @@ function FloatTabbar({
           position: 'absolute',
           bottom: 0,
         }}>
-        
         <View
           {...{height, width}}
           style={{
@@ -193,8 +193,8 @@ function FloatTabbar({
             shadowOpacity: 0.5,
             shadowRadius: 5,
           }}>
-          <Svg width={width} height={height}>
-            <Path fill={backgroundColor} {...{d}} />
+          <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+            <Path fill={backgroundColor} d={path} />
           </Svg>
           <View style={[StyleSheet.absoluteFill, {flexDirection: 'row'}]}>
             {state.routes.map((route, index) => {
@@ -271,7 +271,7 @@ function FloatTabbar({
                     <View
                       style={{
                         position: 'absolute',
-                        top: -40,
+                        top: -30,
                         width: 48,
                         height: 48,
                         backgroundColor: '#36A952',
