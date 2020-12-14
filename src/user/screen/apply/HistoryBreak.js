@@ -7,6 +7,7 @@ import {
   View,
   ActivityIndicator,
   Text,
+  RefreshControl
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Colors, imgs} from '../../../../utlis';
@@ -28,6 +29,13 @@ const HistoryBreak = (props) => {
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
+  const [refresh, setRefresh] = useState(false)
+
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, date, status, [])
+
+  }
   useEffect(() => {
     // getData(1, '', '', []);
     const unsubscribe = navigation.addListener('focus', () => {
@@ -57,6 +65,7 @@ const HistoryBreak = (props) => {
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
+    setRefresh(false);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -208,6 +217,9 @@ const HistoryBreak = (props) => {
             onEndReached={!loading ? handleLoadMore : null}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooterComponent}
+              refreshControl={
+                <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+              }
           />
         )}
       </View>

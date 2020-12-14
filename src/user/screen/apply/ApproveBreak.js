@@ -9,6 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -36,6 +37,8 @@ const ApproveBreak = (props) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
+  const [date, setDate] = useState('');
+
   useEffect(() => {
     getData(1, '', '', [], '');
   }, []);
@@ -68,6 +71,8 @@ const ApproveBreak = (props) => {
   //   };
   //   listAdminTakeLeave(dataLeave);
   // };
+  const [refresh, setRefresh] = useState(false);
+
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
@@ -77,6 +82,7 @@ const ApproveBreak = (props) => {
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
+    setRefresh(false);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -183,7 +189,10 @@ const ApproveBreak = (props) => {
       });
     }
   };
-
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, '', '', []);
+  };
   const onDeny = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
@@ -266,6 +275,9 @@ const ApproveBreak = (props) => {
             data={data}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
           />
         )}
       </View>

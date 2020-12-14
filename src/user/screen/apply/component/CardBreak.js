@@ -25,8 +25,8 @@ const CardBreak = (props) => {
         </View>
       </View>
       <View style={styles.detail}>
-        <View style={{flexDirection: 'row', width: '100%', paddingVertical: 8}}>
-          <View style={{ flexDirection: 'row', flex: 1, paddingLeft: 24,}}>
+        <View style={styles.viewMidle}>
+          <View style={styles.viewDetail}>
             <Image source={imgs.selectCalendar} style={styles.calendarDay} />
 
             <FlatList
@@ -36,14 +36,7 @@ const CardBreak = (props) => {
             />
           </View>
 
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent:"center"
-              
-            }}>
+          <View style={styles.viewStatus}>
             <Image
               source={
                 status === 1
@@ -142,6 +135,7 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     marginRight: 4,
+    alignSelf: 'flex-start',
   },
   viewText: {
     justifyContent: 'space-between',
@@ -165,6 +159,7 @@ const styles = StyleSheet.create({
   time: {
     color: Colors.black,
     fontWeight: '400',
+    paddingRight: 12,
   },
   imgs: {
     width: 16,
@@ -184,41 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     marginTop: -8,
   },
-  viewLeader: {
-    paddingVertical: 8,
-    flexDirection: 'row',
-  },
-  viewButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonDeny: {
-    borderRadius: 16,
-    paddingVertical: 8,
-    width: widthPercentageToDP(30),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.danger,
-  },
-  buttonAccept: {
-    borderRadius: 16,
-    paddingVertical: 8,
-    width: widthPercentageToDP(30),
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.background,
-  },
-  txtButton: {
-    color: Colors.white,
-    fontWeight: '600',
-  },
-  viewApproved: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
+
   calendarDay: {
     height: 16,
     width: 16,
@@ -230,14 +191,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignSelf: 'center',
   },
-  viewDate: {
+  viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
+  viewDetail: {flexDirection: 'row', flex: 1, paddingLeft: 24},
+  viewStatus: {
     alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    paddingLeft: 24,
-    justifyContent: 'center',
-  },
-  viewDateLeader: {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',

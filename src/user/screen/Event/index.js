@@ -145,21 +145,28 @@ const Event = (props) => {
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
     if (Platform.OS === 'ios') {
-    setHourStart(moment(currentShift)._d);}
-     else {
+      setHourStart(moment(currentShift)._d);
+    } else {
       if (event.type === 'set') {
         setshowModalTimeStart(false);
-        
+        setStart(moment(currentShift)._d);
       } else {
-        setShow(false);
+        setshowModalTimeStart(false);
       }
     }
   };
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
-    setshowModalTimeEnd(Platform.OS === 'ios');
+    if (Platform.OS === 'ios') {
     setHourEnd(moment(currentShift)._d);
-    console.log(hourEnd);
+    } else {
+      if (event.type === 'set') {
+        setshowModalTimeEnd(false);
+        setEnd(moment(currentShift)._d);
+      } else {
+        setshowModalTimeEnd(false);
+      }
+    }
   };
   const onUnshowStart = () => {
     setshowModalTimeStart(false);
@@ -382,17 +389,16 @@ const Event = (props) => {
           ) : null}
         </ScrollView>
       </KeyboardAvoidingView>
-      {showModalTimeStart ? (
-        <PickerCustom
-          value={hourStart}
-          onChange={onChangeHourStart}
-          onPress={onConfirmStart}
-          mode={'time'}
-          show={showModalTimeStart}
-          locale={'en-GB'}
-          onHideModal={onUnshowStart}
-        />
-      ) : null}
+
+      <PickerCustom
+        value={hourStart}
+        onChange={onChangeHourStart}
+        onPress={onConfirmStart}
+        mode={'time'}
+        show={showModalTimeStart}
+        locale={'en-GB'}
+        onHideModal={onUnshowStart}
+      />
 
       <PickerCustom
         value={hourEnd}

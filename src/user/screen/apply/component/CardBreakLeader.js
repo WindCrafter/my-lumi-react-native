@@ -26,11 +26,11 @@ const CardBreakLeader = (props) => {
         </View>
       </View>
       <View>
-        <View style={{flexDirection: 'row', width: '100%', paddingVertical: 8}}>
+        <View style={styles.viewMidle}>
           <View style={styles.viewName}>
             <Text style={styles.name}>{name}</Text>
           </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.viewText}>
             <Image source={imgs.selectCalendar} style={styles.calendarDay} />
             <FlatList
               data={date}
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
   time: {
     color: Colors.black,
     fontWeight: '400',
+    paddingRight:8
   },
   imgs: {
     width: 16,
@@ -206,4 +207,6 @@ const styles = StyleSheet.create({
     height: 16,
     marginRight: 4,
   },
+  viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
+  viewText: {flexDirection: 'row', flex: 1},
 });
