@@ -97,9 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
-  txtDay: {
-    color: Colors.background,
-  },
+
   leftHeader: {
     flex: 1,
     backgroundColor: Colors.background,
@@ -115,38 +113,25 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-  detail: {
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 16,
-    flexDirection: 'row',
-  },
+
   clock: {
     tintColor: Colors.background,
     width: 16,
     height: 16,
     marginRight: 4,
   },
-  viewText: {
-    justifyContent: 'space-between',
-  },
+
   viewName: {
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
     paddingLeft: 24,
   },
-  viewDay: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
+
   name: {
     fontWeight: '600',
     fontSize: 16,
-      color:Colors.black
-
+    color: Colors.black,
   },
   time: {
     color: Colors.black,
@@ -214,11 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignSelf: 'flex-start',
   },
-  viewDateLeader: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    alignItems: 'flex-start',
-  },
+
   document: {
     tintColor: Colors.black,
     width: 16,

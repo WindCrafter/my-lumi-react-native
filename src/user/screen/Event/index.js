@@ -144,9 +144,16 @@ const Event = (props) => {
   };
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
-    setshowModalTimeStart(Platform.OS === 'ios');
-    setHourStart(moment(currentShift)._d);
-    console.log(hourStart);
+    if (Platform.OS === 'ios') {
+    setHourStart(moment(currentShift)._d);}
+     else {
+      if (event.type === 'set') {
+        setshowModalTimeStart(false);
+        
+      } else {
+        setShow(false);
+      }
+    }
   };
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
