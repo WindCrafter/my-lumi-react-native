@@ -160,7 +160,7 @@ const ApproveLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        {dataManager.length === 0 ? (
+        {dataManager.length === 0 && Array.isArray(dataManager) ? (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList

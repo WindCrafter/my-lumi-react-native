@@ -157,7 +157,7 @@ const HistoryLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        {dataLateEarly.length === 0 ? (
+        {dataLateEarly.length === 0 && Array.isArray(dataLateEarly) ? (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList
