@@ -191,8 +191,9 @@ const ApproveBreak = (props) => {
   };
   const onRefresh = () => {
     setRefresh(true);
-    getData(1, '', '', []);
+    getData(1, filter.date, filter.status, [], filter.name);
   };
+
   const onDeny = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
@@ -262,24 +263,23 @@ const ApproveBreak = (props) => {
         search
       />
       <View style={{flex: 1}}>
-        {data.length === 0 ? (
+        {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
-        ) : (
-          <FlatList
-            //saga
-            // data={historyAdminTakeLeave}
-
-            onEndReached={!loading ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-            refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-            }
-          />
         )}
+        <FlatList
+          //saga
+          // data={historyAdminTakeLeave}
+
+          onEndReached={!loading ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </>
   );
