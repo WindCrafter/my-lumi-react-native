@@ -6,6 +6,7 @@ const mapStateToProps = (state) => ({
   timeCheckIn: state.check.timeCheckIn,
   dateCheckOut: state.check.dateCheckOut,
   timeCheckOut: state.check.timeCheckOut,
+  token: state.authen.token,
 });
 
 const mapDispatchToProps = {

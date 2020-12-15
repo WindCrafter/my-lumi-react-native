@@ -136,7 +136,7 @@ export default function Home(props) {
             </Card>
             <Card style={styles.card}>
               <View>
-                <HistoryCheck data={DATA_CHECK} />
+                <HistoryCheck data={DATA_CHECK} navigation={navigation} />
               </View>
             </Card>
           </ScrollView>

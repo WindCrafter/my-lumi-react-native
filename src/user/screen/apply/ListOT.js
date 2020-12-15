@@ -7,6 +7,7 @@ import {
   UIManager,
   ActivityIndicator,
   Text,
+  RefreshControl,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -54,6 +55,8 @@ function ListOT(props) {
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
   const [onScroll, setOnScroll] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     // getData(1, '', '', []);
     const unsubscribe = navigation.addListener('focus', () => {
@@ -87,6 +90,8 @@ function ListOT(props) {
     const _dataN = dataN || [];
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
     console.log('_GET_LIST_OVERTIME ===========>', response);
     if (
       response.success &&
@@ -96,10 +101,13 @@ function ListOT(props) {
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
-      setLoading(false);
     } else {
-      setLoading(false);
     }
+  };
+
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, date, status, []);
   };
 
   const handleLoadMore = () => {
@@ -162,21 +170,23 @@ function ListOT(props) {
         type={type}
       />
       <View style={styles.detail}>
-        {data.length > 0 ? (
-          <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            // onRefresh={() => getData(1, date, status, [])}
-            onMomentumScrollBegin={() => setOnScroll(false)}
-            onMomentumScrollEnd={() => setOnScroll(true)}
-            onEndReached={!onScroll ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-          />
-        ) : (
+        {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử</Text>
         )}
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          // onRefresh={() => getData(1, date, status, [])}
+          onMomentumScrollBegin={() => setOnScroll(false)}
+          onMomentumScrollEnd={() => setOnScroll(true)}
+          onEndReached={!onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
       <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>

@@ -1,9 +1,14 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Logo} from '../../../../component';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors} from '../../../../../utlis';
+import {Colors, imgs} from '../../../../../utlis';
 const ModalInforApp = (props) => {
   const {hideModal, showModal, openUrl} = props;
 
@@ -18,7 +23,12 @@ const ModalInforApp = (props) => {
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
         {/* <Image source={imgs.logoMyLumi} style={{}}/> */}
-        <Logo />
+        <ImageBackground
+          source={imgs.logo}
+          resizeMode="contain"
+          {...props}
+          style={[styles.imageLogo]}
+        />
         <Text style={styles.title}>My Lumi</Text>
         <Text style={styles.detailmodal}>
           Giải pháp phần mềm cho doanh nghiệp.
@@ -26,13 +36,13 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.0.1 - 10/12/2020 11:00</Text>
-        <Text style={styles.website}>Công ty cổ phần Lumi</Text>
+        <Text style={styles.version}>V1.0.2 - 15/12/2020 9:00</Text>
+        <Text style={styles.website}>Công ty cổ phần Lumi Việt Nam</Text>
         <Text style={styles.website}>
-          6th Floor, New Skyline Building, 19/5 Str,Ha Dong Dist, HN
+          Số 38, Đõ Đức Dục, quận Nam Từ Liêm, Hà Nội
         </Text>
         <TouchableOpacity onPress={openUrl} style={styles.URL}>
-          <Text style={styles.website}>Website: </Text>
+          <Text>Website: </Text>
           <Text style={styles.link}>https://lumi.vn</Text>
         </TouchableOpacity>
       </View>
@@ -96,7 +106,10 @@ const styles = StyleSheet.create({
   },
   version: {color: 'grey', fontSize: 12, marginBottom: 48},
   URL: {flexDirection: 'row', marginTop: 8},
-  website: {},
+  website: {
+    textAlign: 'center',
+    paddingHorizontal: 16,
+  },
   link: {textDecorationLine: 'underline'},
   titleDescription: {
     fontWeight: '400',
@@ -105,5 +118,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: 'black',
     width: '80%',
+  },
+  imageLogo: {
+    width: 50,
+    height: 50,
+    alignSelf: 'center',
   },
 });

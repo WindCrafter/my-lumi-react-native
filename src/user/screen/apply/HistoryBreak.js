@@ -7,7 +7,7 @@ import {
   View,
   ActivityIndicator,
   Text,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Colors, imgs} from '../../../../utlis';
@@ -29,13 +29,8 @@ const HistoryBreak = (props) => {
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
 
-  const onRefresh = () => {
-    setRefresh(true);
-    getData(1, date, status, [])
-
-  }
   useEffect(() => {
     // getData(1, '', '', []);
     const unsubscribe = navigation.addListener('focus', () => {
@@ -106,18 +101,28 @@ const HistoryBreak = (props) => {
       </View>
     ) : null;
   };
+
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, date, status, []);
+  };
+
   const goBack = () => {
     navigation.goBack();
   };
+
   const onApplyBreak = () => {
     navigation.navigate(langs.navigator.applyBreak);
   };
+
   const onApproveBreak = () => {
     navigation.navigate(langs.navigator.approveBreak);
   };
+
   const onSetStatus = (status) => {
     setStatus(status);
   };
+
   const onChangeStatus = (item) => {
     setStatus(item);
     setData([]);
@@ -157,6 +162,7 @@ const HistoryBreak = (props) => {
   //   };
   //   listTakeLeave(dataLeave);
   // };
+
   const onChangeDate = (date) => {
     console.log(moment(date).format('DD/MM/YYYY'));
     setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
@@ -164,13 +170,13 @@ const HistoryBreak = (props) => {
     setPage(1);
     getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
   };
+
   const renderItem = ({item, index}) => {
     const _listDate = item.date.map((i) =>
       moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),
     );
     return (
       <CardBreak
-        
         status={item.status}
         type={item.type}
         date={_listDate}
@@ -189,6 +195,7 @@ const HistoryBreak = (props) => {
       />
     );
   };
+
   return (
     <>
       <BarStatus
@@ -206,22 +213,21 @@ const HistoryBreak = (props) => {
         backgroundColor={Colors.white}
       />
       <View style={{flex: 1}}>
-        {data.length === 0 ? (
+        {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
-        ) : (
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItem}
-            onEndReached={!loading ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-              refreshControl={
-                <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-              }
-          />
         )}
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          onEndReached={!loading ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
       <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
     </>

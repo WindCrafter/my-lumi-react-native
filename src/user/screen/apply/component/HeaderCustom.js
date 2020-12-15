@@ -43,7 +43,7 @@ const HeaderCustom = (props?: Props) => {
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState('');
-  
+
   const [_date, setDateChange] = useState('');
   const onClear = () => {
     setDate('');
@@ -68,12 +68,12 @@ const HeaderCustom = (props?: Props) => {
       if (event.type === 'set') {
         setShow(false);
         setDate(selectedDay);
+        setDateChange(selectedDay);
         onChangeDate(selectedDay);
       } else {
         setShow(false);
       }
     }
-    console.log(_date);
   };
 
   const renderDropdown = (hideOverlay) => {

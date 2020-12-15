@@ -19,7 +19,6 @@ import ModalTime from '../user/screen/account/component/ModalTime';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
 import Svg, {Path} from 'react-native-svg';
-import * as shape from 'd3-shape';
 import {imgs} from '../../utlis/images/imgs';
 
 const {width} = Dimensions.get('window');
@@ -30,49 +29,11 @@ const height = width > 375 ? 80 : 60;
 const tabWidth = width / 5;
 const backgroundColor = 'white';
 
-const getPath = () => {
-  const left = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)([
-    {x: 0, y: 0},
-    {x: width / 2 - tabWidth / 2, y: 0},
-  ]);
-  const tab = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)
-    .curve(shape.curveBasis)([
-    {x: width / 2 - tabWidth / 2, y: 0},
-    {x: width / 2 - tabWidth / 2 + 2, y: 1},
-    {x: width / 2 - tabWidth / 2 + 5, y: 2},
-    {x: width / 2 - tabWidth / 2 + 10, y: 10},
-    {x: width / 2 - tabWidth / 2 + 15, y: height / 4},
-    {x: width / 2 - tabWidth / 2 + 20, y: height / 4 + 5},
-    {x: width / 2 - tabWidth / 2 + 30, y: height / 4 + 10},
-    {x: width / 2 - tabWidth / 2 + 32, y: height / 4 + 12},
-    {x: width / 2 - tabWidth / 2 - 32, y: height / 4 + 12},
-    {x: width / 2 + tabWidth / 2 - 30, y: height / 4 + 10},
-    {x: width / 2 + tabWidth / 2 - 20, y: height / 4 + 5},
-    {x: width / 2 + tabWidth / 2 - 15, y: height / 4},
-    {x: width / 2 + tabWidth / 2 - 10, y: 10},
-    {x: width / 2 + tabWidth / 2 - 5, y: 2},
-    {x: width / 2 + tabWidth / 2 - 2, y: 1},
-    {x: width / 2 + tabWidth / 2, y: 0},
-  ]);
-  const right = shape
-    .line()
-    .x((d) => d.x)
-    .y((d) => d.y)([
-    {x: width / 2 + tabWidth / 2, y: 0},
-    {x: width, y: 0},
-    {x: width, y: height},
-    {x: 0, y: height},
-    {x: 0, y: 0},
-  ]);
-  return `${left} ${tab} ${right}`;
-};
-const d = getPath();
+const path = `M 0 0, L ${(width * 2) / 5 + 5} 0, A ${width / 10 - 5} ${
+  width / 10 - 5
+} 0 1 0 ${
+  (width * 3) / 5 - 5
+} 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
 
 const path = `M 0 0, L ${width * 2 / 5 + 5} 0, A ${width/10 - 5} ${width/10 - 5} 0 1 0 ${width * 3 / 5 - 5} 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
 
@@ -345,7 +306,7 @@ function FloatTabbar({
                       marginTop: width > 375 ? 16 : 10,
                       alignSelf: 'center',
                       fontSize: width > 375 ? 16 : 12,
-                      fontWeight:"500"
+                      fontWeight: '500',
                     }}>
                     {label}
                   </Text>
@@ -354,10 +315,8 @@ function FloatTabbar({
             })}
           </View>
         </View>
-        
       </View>
     </View>
-   
   );
 }
 
