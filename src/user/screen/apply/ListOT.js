@@ -170,24 +170,23 @@ function ListOT(props) {
         type={type}
       />
       <View style={styles.detail}>
-        {data.length > 0 ? (
-          <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            // onRefresh={() => getData(1, date, status, [])}
-            onMomentumScrollBegin={() => setOnScroll(false)}
-            onMomentumScrollEnd={() => setOnScroll(true)}
-            onEndReached={!onScroll ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-            refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-            }
-          />
-        ) : (
+        {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử</Text>
         )}
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          // onRefresh={() => getData(1, date, status, [])}
+          onMomentumScrollBegin={() => setOnScroll(false)}
+          onMomentumScrollEnd={() => setOnScroll(true)}
+          onEndReached={!onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
       <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </View>
