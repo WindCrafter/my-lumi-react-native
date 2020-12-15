@@ -296,6 +296,7 @@ function* sagaTakeLeave(action) {
       type: action.payload.type,
       content: action.payload.content,
       morning: action.payload.morning,
+      month: action.payload.month
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);

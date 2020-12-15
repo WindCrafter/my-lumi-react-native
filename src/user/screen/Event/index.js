@@ -32,8 +32,9 @@ import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
-
+import { _global} from '../../../../utlis/global/global'
 import langs from '../../../../common/language';
+import { startCase } from 'lodash';
 
 if (
   Platform.OS === 'android' &&
@@ -42,7 +43,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const Event = (props) => {
-  const {navigation, memberPicked, kickMember, clearMember} = props;
+  const { navigation, memberPicked, kickMember, clearMember, token, bookRoom} = props;
   const refPhone = useRef('');
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -54,6 +55,7 @@ const Event = (props) => {
   const [hourEnd, setHourEnd] = useState(moment()._d);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
+  const [description, setDescription] = useState('');
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -103,11 +105,9 @@ const Event = (props) => {
     clearMember();
   };
 
-  const onAddEvent = () => {
-    clearMember();
-    Alert.alert('Tính năng đang được phát triển!!! Chưa sử dụng được');
-  };
-
+  function onChangeDescription(val) {
+    setDescription(val);
+  }
   const removeMember = (val) => {
     kickMember(val);
   };
@@ -225,6 +225,77 @@ const Event = (props) => {
   const onBlur = () => {
     Keyboard.dismiss();
   };
+  const onAddEvent = () => {
+    // if (title.trim().length === 0) {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nullTitle,
+    //     leftButton: {text: langs.alert.ok},
+    //   });
+    //   return;
+    // }
+    // if (date==='') {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nullDate,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    // if (start === '') {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nullStartTime,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    // if (end === '') {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nullEndTime,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    // if (end <start) {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.invalidStartTime,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    // if (location === '') {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nulLocation,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    // if (memberPicked.length===0) {
+    //   _global.Alert.alert({
+    //     title: langs.alert.remind,
+    //     message: langs.alert.nulMember,
+    //     leftButton: { text: langs.alert.ok },
+    //   });
+    //   return;
+    // }
+    
+    const data = {
+      loop: loop,
+      timeEnd: moment(end).format("DD/MM/YYYY"),
+      timeStart: moment(start).format("DD/MM/YYYY"),
+      title: title,
+      location: location,
+      description: description,
+      member: memberPicked,
+      token:token
+    }; 
+    bookRoom(data);
+    
+  };
   return (
     <>
       <BarStatus
@@ -263,6 +334,7 @@ const Event = (props) => {
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
+              onChangeText={onChangeDescription}
             />
           </Card>
           <InputSelect
@@ -288,7 +360,7 @@ const Event = (props) => {
                   )}`
                 : null
             }
-            rightImage={imgs.roudedDown}
+            rightImage={imgs.roundedLeft}
           />
           <View style={styles.viewTime}>
             <InputDown
@@ -310,7 +382,7 @@ const Event = (props) => {
                     ).format('mm')}`
                   : null
               }
-              rightImage={imgs.roudedDown}
+              rightImage={imgs.roundedLeft}
             />
             <InputDown
               width={'45%'}
@@ -331,7 +403,7 @@ const Event = (props) => {
                     )}`
                   : null
               }
-              rightImage={imgs.roudedDown}
+              rightImage={imgs.roundedLeft}
             />
           </View>
           <InputPick
@@ -371,7 +443,7 @@ const Event = (props) => {
             marginRight={-30}
             color={'rgba(4, 4, 15, 0.45)'}
             detail={location}
-            rightImage={imgs.roudedDown}
+            rightImage={imgs.roundedLeft}
           />
           <InputSelect
             width={'90%'}

@@ -391,5 +391,5 @@ const styles = StyleSheet.create({
   },
   down: {width: 16, height: 16, marginLeft: 8, tintColor: '#abb0bb'},
   txtComplete: {color: Colors.white},
-  direction: {fontSize: 16, tintColor: '#abb0bb', paddingHorizontal: 4},
+  direction: {fontSize: 16, color: '#abb0bb', paddingHorizontal: 4},
 });
