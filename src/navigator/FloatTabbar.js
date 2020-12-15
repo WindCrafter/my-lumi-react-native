@@ -58,7 +58,6 @@ function FloatTabbar({
     };
     setShow(false);
     checkIn(data);
-    console.log(d);
   };
 
   const onHideModal = () => {
@@ -80,7 +79,6 @@ function FloatTabbar({
         date: _date,
         token,
       };
-      console.log(data);
       checkIn(data);
     }
   };

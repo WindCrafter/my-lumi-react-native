@@ -13,14 +13,20 @@ import {Colors} from '../../utlis';
 import {TabbarIcon} from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-import NetInfo from '@react-native-community/netinfo';
 import {connect} from 'react-redux';
 import {checkInWifi} from '../redux/actions/check';
 import {_global} from '../../utlis/global/global';
 import langs from '../../common/language';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalTime from '../user/screen/account/component/ModalTime';
+import {
+  PERMISSIONS,
+  request,
+  RESULTS,
+  openSettings,
+} from 'react-native-permissions';
+import {NetworkInfo} from 'react-native-network-info';
+
 function TabbarCustom({
   state,
   descriptors,
@@ -52,9 +58,51 @@ function TabbarCustom({
         });
   };
 
-  const onCheck = () => {
+  const onCheck = async () => {
     if (!demoMode) {
-      checkIn({type, token});
+      const granted = await request(
+        Platform.select({
+          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+        }),
+        {
+          title: 'YÊU CẦU VỊ TRÍ',
+          message: 'Yêu cầu quyền truy cập vị trí ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === RESULTS.GRANTED) {
+        const result = await NetworkInfo.getSSID();
+        if (result === '<unknown ssid>') {
+          _global.Alert.alert({
+            title: langs.alert.notify,
+            message: 'Vui lòng bật GPS để chấm công!',
+            rightButton: {
+              text: langs.alert.ok,
+              onPress: () => {
+                openSettings().catch(() =>
+                  console.warn('cannot open settings'),
+                );
+              },
+            },
+          });
+        } else {
+          checkIn({type, token, ssid: result});
+        }
+      } else {
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          rightButton: {
+            text: langs.alert.ok,
+          },
+          leftButton: {
+            text: langs.alert.cancel,
+          },
+        });
+      }
     } else {
       setShow(true);
     }
@@ -64,7 +112,7 @@ function TabbarCustom({
     return null;
   }
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     const data = {
       type,
       time: moment(dateIOS).format('HH:mm:ss'),
@@ -72,7 +120,44 @@ function TabbarCustom({
       token,
     };
     setShow(false);
-    checkIn(data);
+    const granted = await request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+        ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+      }),
+      {
+        title: 'YÊU CẦU VỊ TRÍ',
+        message: 'Yêu cầu quyền truy cập vị trí ',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === RESULTS.GRANTED) {
+      const result = await NetworkInfo.getSSID();
+      if (result === '<unknown ssid>') {
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: 'Vui lòng bật GPS để chấm công!',
+          rightButton: {
+            text: langs.alert.ok,
+          },
+        });
+      } else {
+        checkIn({...data, ssid: result});
+      }
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Vui lòng chọn luôn luôn để chấm công!',
+        rightButton: {
+          text: langs.alert.ok,
+        },
+        leftButton: {
+          text: langs.alert.cancel,
+        },
+      });
+    }
   };
 
   const onHideModal = () => {
@@ -85,7 +170,7 @@ function TabbarCustom({
 
   let _date;
 
-  const onChangeTime = (item, selected) => {
+  const onChangeTime = async (item, selected) => {
     if (item.type === 'set') {
       const data = {
         type,
@@ -95,7 +180,52 @@ function TabbarCustom({
       };
       console.log(data);
       setShow(false);
-      checkIn(data);
+      const granted = await request(
+        Platform.select({
+          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          ios: PERMISSIONS.IOS.LOCATION_ALWAYS,
+        }),
+        {
+          title: 'YÊU CẦU VỊ TRÍ',
+          message: 'Yêu cầu quyền truy cập vị trí ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === RESULTS.GRANTED) {
+        const result = await NetworkInfo.getSSID();
+        if (result === '<unknown ssid>') {
+          _global.Alert.alert({
+            title: langs.alert.notify,
+            message: 'Vui lòng bật GPS để chấm công!',
+            rightButton: {
+              text: langs.alert.ok,
+              onPress: () => {
+                openSettings().catch(() =>
+                  console.warn('cannot open settings'),
+                );
+              },
+            },
+          });
+        } else {
+          checkIn({...data, ssid: result});
+        }
+      } else {
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          rightButton: {
+            text: langs.alert.ok,
+            onPress: () => {
+              openSettings().catch(() => console.warn('cannot open settings'));
+            },
+          },
+          leftButton: {
+            text: langs.alert.cancel,
+          },
+        });
+      }
     } else {
       setShow(false);
     }

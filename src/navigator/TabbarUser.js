@@ -30,7 +30,7 @@ export default function TabbarUser() {
       tabBarOptions={{
         activeTintColor: Colors.background,
       }}
-      tabBar={(props) => <FloatTabbar {...props} />}>
+      tabBar={(props) => <TabbarCustom {...props} />}>
       <BotStack.Screen
         name={langs.navigator.home}
         component={home}
@@ -45,7 +45,6 @@ export default function TabbarUser() {
           tabBarLabel: 'Lịch họp',
         })}
       />
-      <BotStack.Screen name={langs.navigator.button} component={checkIn} />
       <BotStack.Screen
         name={langs.navigator.testNotify}
         component={notify}

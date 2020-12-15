@@ -9,7 +9,11 @@ import {
   Linking,
   ScrollView,
   Switch,
+  Alert,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
+import {NetworkInfo} from 'react-native-network-info';
 import {Colors} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
@@ -19,6 +23,14 @@ import ModalInforApp from './component/ModalInforApp';
 import {imgs} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
+import {
+  PERMISSIONS,
+  request,
+  RESULTS,
+  openSettings,
+} from 'react-native-permissions';
+import NetInfo from '@react-native-community/netinfo';
+
 const Account = (props) => {
   const {
     logOut,
@@ -47,6 +59,7 @@ const Account = (props) => {
       rightButton: {text: langs.alert.cancel},
     });
   };
+
   const onRemoveUserId = () => {
     logOut();
     const data = {
@@ -56,9 +69,11 @@ const Account = (props) => {
     kickAssign();
     resetCheck();
   };
-  const onShowModal = () => {
-    setshowModal(true);
+
+  const onShowModal = async () => {
+    // setshowModal(true);
   };
+
   const onHideModal = () => {
     setshowModal(false);
   };
