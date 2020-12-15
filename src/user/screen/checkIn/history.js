@@ -53,7 +53,7 @@ function History(props) {
     const _pageN = pageN || 1;
     const _dateN = dateN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20$date=${_dateN}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_CHECKIN ===========>', response);
@@ -72,6 +72,12 @@ function History(props) {
   };
 
   const getStatusCheckIn = (check_in, check_out) => {
+    if (!check_in) {
+      return 'Chưa check in';
+    }
+    if (!check_out) {
+      return 'Chưa check out';
+    }
     if (check_in === 0 && check_out === 0) {
       return 'Đúng giờ';
     }
@@ -87,13 +93,18 @@ function History(props) {
     ) {
       return 'Trừ 1 nửa ngày lương';
     }
+    if (check_in === 1 && check_out === 1) {
+      return 'Đi muộn - Về sớm';
+    }
     if (check_in === 2 && check_out === 1) {
       return 'Trừ nửa ngày - Về sớm';
     }
     if (check_in === 1 && check_out === 2) {
       return 'Đi muộn - Trừ nửa ngày';
     }
-    return 'Không tính lương';
+    if (check_in === 2 && check_out === 2) {
+      return 'Không tính lương';
+    }
   };
 
   const getTimeBySeason = () => {
@@ -143,14 +154,18 @@ function History(props) {
             }}>
             <View
               style={[{flexDirection: 'row', justifyContent: 'space-between'}]}>
-              <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
-                item.check_in,
-                'mm',
-              )}`}</Text>
-              <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
-                item.check_out,
-                'mm',
-              )}`}</Text>
+              {item.check_in && (
+                <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
+                  item.check_in,
+                  'mm',
+                )}`}</Text>
+              )}
+              {item.check_out && (
+                <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
+                  item.check_out,
+                  'mm',
+                )}`}</Text>
+              )}
             </View>
 
             <Text style={[styles.status, {paddingTop: 10, color}]}>
