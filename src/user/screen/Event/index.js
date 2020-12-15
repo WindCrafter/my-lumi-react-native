@@ -226,62 +226,62 @@ const Event = (props) => {
     Keyboard.dismiss();
   };
   const onAddEvent = () => {
-    // if (title.trim().length === 0) {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nullTitle,
-    //     leftButton: {text: langs.alert.ok},
-    //   });
-    //   return;
-    // }
-    // if (date==='') {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nullDate,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
-    // if (start === '') {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nullStartTime,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
-    // if (end === '') {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nullEndTime,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
-    // if (end <start) {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.invalidStartTime,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
-    // if (location === '') {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nulLocation,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
-    // if (memberPicked.length===0) {
-    //   _global.Alert.alert({
-    //     title: langs.alert.remind,
-    //     message: langs.alert.nulMember,
-    //     leftButton: { text: langs.alert.ok },
-    //   });
-    //   return;
-    // }
+    if (title.trim().length === 0) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nullTitle,
+        leftButton: {text: langs.alert.ok},
+      });
+      return;
+    }
+    if (date==='') {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nullDate,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
+    if (start === '') {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nullStartTime,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
+    if (end === '') {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nullEndTime,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
+    if (end <start) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.invalidStartTime,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
+    if (location === '') {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nulLocation,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
+    if (memberPicked.length===0) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nulMember,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
     
     const data = {
       loop: loop,
