@@ -16,7 +16,7 @@ import {Colors, imgs} from '../../../../../utlis';
 const CardBreakLeader = (props) => {
   const {status, onAccept, onDeny, type, name, date, typeBreak, reason} = props;
   const renderItem = ({item, index}) => {
-    return <Text>•{item}</Text>;
+    return <Text>{item}</Text>;
   };
   return (
     <Card style={styles.container}>

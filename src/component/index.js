@@ -5,6 +5,7 @@ import {
   InputInfor,
   InputSelect,
   InputPick,
+  InputDown
 } from './Input';
 import {Button} from './Button';
 import Checkbox from './Checkbox';
@@ -30,6 +31,7 @@ export {
   InputInfor,
   InputSelect,
   InputRow,
+  InputDown,
   InputPick,
   Button,
   Checkbox,

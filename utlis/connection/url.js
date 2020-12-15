@@ -52,4 +52,8 @@ export const URL = {
   CONFIRM_DENY_TAKE_LEAVE: '/take-leave/approved-canceled',
   GET_LIST_OVERTIME: '/overtime/self-list',
   GET_LIST_OVERTIME_MANAGER: '/overtime/manager-list',
+
+
+  //
+  BOOK_ROOM:'/book-room'
 };

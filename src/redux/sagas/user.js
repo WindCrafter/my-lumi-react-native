@@ -20,18 +20,19 @@ import {
   getListNotifysSuccess,
   getListCheckSuccess,
   getListCheckFailed,
+  clearMember
 } from '../actions/user';
 import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {Colors} from '../../../utlis';
 import langs from '../../../common/language';
-
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
 const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
 const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
 const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
+const URL_BOOK_ROOM=`${URL.LOCAL_HOST}${URL.BOOK_ROOM}`
 const URL_NOTIFY = (e) => {
   return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
 };
@@ -253,4 +254,47 @@ function* sagaGetListCheck(action) {
 
 export function* watchGetListCheck() {
   yield takeLatest(types.GET_LIST_CHECK, sagaGetListCheck);
+}
+
+function* sagaBookRoom(action) {
+  try {
+    console.log(action);
+    const token = action.payload;
+    const data = {
+      title: action.payload.title,
+      loop:action.payload.loop,
+      timeEnd: action.payload.timeEnd,
+      timeStart: action.payload.timeStart,
+      location: action.payload.location,
+      description:action.payload.description,
+      member: action.payload.member,
+    };
+    const response = yield _POST(URL_BOOK_ROOM,data, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(clearMember())
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Tạo lịch họp thành công',
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+    } else {
+      
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok ,
+          onPress: () => CustomNavigation.goBack()},
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchBookRoom() {
+  yield takeLatest(types.BOOK_ROOM, sagaBookRoom);
 }

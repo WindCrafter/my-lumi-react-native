@@ -105,8 +105,7 @@ export default function InputDown(props?: Props) {
         style={[
           styles.container,
           {
-            justifyContent:
-             'center'
+            justifyContent: 'center',
           },
         ]}
         onPress={onPressButton}
@@ -136,7 +135,9 @@ export default function InputDown(props?: Props) {
             </Text>
           )}
         </View>
-        <Image source={rightImage} style={styles.img} resizeMode="contain" />
+        {!detail ? (
+          <Image source={rightImage} style={styles.img} resizeMode="contain" />
+        ) : null}
       </TouchableOpacity>
     </ViewCard>
   );
