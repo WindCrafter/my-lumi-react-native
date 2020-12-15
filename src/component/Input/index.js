@@ -6,6 +6,7 @@ import InputSelect from './InputSelect';
 import InputApply from './inputApply';
 import InputCustom from './InputCustom';
 import InputPick from './InputPick';
+import InputDown from './InputDown'
 export {
   Input,
   InputPassword,
@@ -15,4 +16,5 @@ export {
   InputApply,
   InputCustom,
   InputPick,
+  InputDown
 };

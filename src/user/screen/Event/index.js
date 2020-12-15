@@ -24,6 +24,7 @@ import {
   HeaderCustom,
   BarStatus,
   InputPick,
+  InputDown,
 } from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
 import {Card} from 'native-base';
@@ -166,7 +167,7 @@ const Event = (props) => {
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
     if (Platform.OS === 'ios') {
-    setHourEnd(moment(currentShift)._d);
+      setHourEnd(moment(currentShift)._d);
     } else {
       if (event.type === 'set') {
         setshowModalTimeEnd(false);
@@ -280,19 +281,18 @@ const Event = (props) => {
             color={'rgba(4, 4, 15, 0.45)'}
             detail={
               date !== ''
-                ? `Thứ ${moment(date).locale('vi').format('dddd')},${moment(
-                    date,
-                  ).format('DD')} tháng ${moment(date).format('MM')}, ${moment(
-                    date,
-                  ).format('YYYY')}`
+                ? `Thứ ${moment(date).format('d ')},${moment(date).format(
+                    'DD',
+                  )} tháng ${moment(date).format('MM')}, ${moment(date).format(
+                    'YYYY',
+                  )}`
                 : null
             }
             rightImage={imgs.roudedDown}
           />
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <InputSelect
+          <View style={styles.viewTime}>
+            <InputDown
               width={'45%'}
-              leftImage={''}
               borderRadius={32}
               height={54}
               shadowColor={'white'}
@@ -302,14 +302,18 @@ const Event = (props) => {
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerStart}
               shadowOpacity={0.1}
-              marginRight={-30}
               color={'rgba(4, 4, 15, 0.45)'}
-              detail={start !== '' ? moment(start).format('HH:mm') : null}
-              rightImage={''}
+              detail={
+                start !== ''
+                  ? `Từ : ${moment(start).format('HH')} giờ ${moment(
+                      start,
+                    ).format('mm')}`
+                  : null
+              }
+              rightImage={imgs.roudedDown}
             />
-            <InputSelect
+            <InputDown
               width={'45%'}
-              leftImage={''}
               borderRadius={32}
               height={54}
               shadowColor={'white'}
@@ -319,10 +323,15 @@ const Event = (props) => {
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerEnd}
               shadowOpacity={0.1}
-              marginRight={-30}
               color={'rgba(4, 4, 15, 0.45)'}
-              detail={end !== '' ? moment(end).format('HH:mm') : null}
-              rightImage={''}
+              detail={
+                end !== ''
+                  ? `Đến : ${moment(end).format('HH')} giờ ${moment(end).format(
+                      'mm',
+                    )}`
+                  : null
+              }
+              rightImage={imgs.roudedDown}
             />
           </View>
           <InputPick
@@ -597,4 +606,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 4,
   },
+  viewTime: {flexDirection: 'row', justifyContent: 'center'},
 });

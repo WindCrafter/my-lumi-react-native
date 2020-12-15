@@ -15,7 +15,7 @@ import {Colors, imgs} from '../../../../../utlis';
 const CardBreak = (props) => {
   const {status, date, typeBreak, reason} = props;
   const renderItem = ({item, index}) => {
-    return <Text>•{item}</Text>;
+    return <Text>{item}</Text>;
   };
   return (
     <Card style={styles.container}>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
   viewDetail: {flexDirection: 'row', flex: 1, paddingLeft: 24},
   viewStatus: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',

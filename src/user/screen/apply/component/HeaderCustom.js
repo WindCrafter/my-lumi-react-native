@@ -113,7 +113,7 @@ const HeaderCustom = (props?: Props) => {
 
   const onPressConfirmIOS = () => {
     setDate(_date);
-    onChangeDate(date);
+    onChangeDate(_date);
     setShow(false);
   };
 

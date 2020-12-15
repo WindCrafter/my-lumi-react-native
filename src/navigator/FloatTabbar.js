@@ -35,8 +35,6 @@ const path = `M 0 0, L ${(width * 2) / 5 + 5} 0, A ${width / 10 - 5} ${
   (width * 3) / 5 - 5
 } 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
 
-const path = `M 0 0, L ${width * 2 / 5 + 5} 0, A ${width/10 - 5} ${width/10 - 5} 0 1 0 ${width * 3 / 5 - 5} 0, L ${width} 0, L ${width} ${height}, L 0, ${height}Z`;
-
 function FloatTabbar({
   state,
   descriptors,
@@ -60,7 +58,7 @@ function FloatTabbar({
     };
     setShow(false);
     checkIn(data);
-    console.log(d);
+   
   };
 
   const onHideModal = () => {
