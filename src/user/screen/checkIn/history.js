@@ -12,6 +12,8 @@ import {
   Modal,
   Alert,
   TouchableOpacity,
+  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import MonthPicker from 'react-native-month-picker';
 import {BarStatus, HeaderCustom} from '../../../component';
@@ -39,6 +41,7 @@ function History(props) {
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [visible, setVisible] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     getData(1, '', []);
@@ -53,9 +56,11 @@ function History(props) {
     const _pageN = pageN || 1;
     const _dateN = dateN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=20$date=${_dateN}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
     console.log('_GET_LIST_CHECKIN ===========>', response);
     if (
       response.success &&
@@ -65,13 +70,17 @@ function History(props) {
     ) {
       setData(_dataN.concat(response.data));
       setPage(_pageN);
-      setLoading(false);
     } else {
-      setLoading(false);
     }
   };
 
   const getStatusCheckIn = (check_in, check_out) => {
+    if (check_in === null) {
+      return 'Chưa check in';
+    }
+    if (check_out === null) {
+      return 'Chưa check out';
+    }
     if (check_in === 0 && check_out === 0) {
       return 'Đúng giờ';
     }
@@ -87,13 +96,18 @@ function History(props) {
     ) {
       return 'Trừ 1 nửa ngày lương';
     }
+    if (check_in === 1 && check_out === 1) {
+      return 'Đi muộn - Về sớm';
+    }
     if (check_in === 2 && check_out === 1) {
       return 'Trừ nửa ngày - Về sớm';
     }
     if (check_in === 1 && check_out === 2) {
       return 'Đi muộn - Trừ nửa ngày';
     }
-    return 'Không tính lương';
+    if (check_in === 2 && check_out === 2) {
+      return 'Không tính lương';
+    }
   };
 
   const getTimeBySeason = () => {
@@ -143,14 +157,18 @@ function History(props) {
             }}>
             <View
               style={[{flexDirection: 'row', justifyContent: 'space-between'}]}>
-              <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
-                item.check_in,
-                'mm',
-              )}`}</Text>
-              <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
-                item.check_out,
-                'mm',
-              )}`}</Text>
+              {item.check_in && (
+                <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
+                  item.check_in,
+                  'mm',
+                )}`}</Text>
+              )}
+              {item.check_out && (
+                <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
+                  item.check_out,
+                  'mm',
+                )}`}</Text>
+              )}
             </View>
 
             <Text style={[styles.status, {paddingTop: 10, color}]}>
@@ -166,8 +184,21 @@ function History(props) {
     setVisible(true);
   };
 
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, date, []);
+  };
+
   const onChange = (item) => {
     setDateChange(item);
+  };
+
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
   };
 
   const onConfirmDate = () => {
@@ -195,14 +226,21 @@ function History(props) {
         <Text style={styles.time}>{getTimeBySeason()}</Text>
       </View>
       <View style={styles.contentHistory}>
+        {data.length === 0 && (
+          <Text style={styles.noData}>Không có lịch sử</Text>
+        )}
         <FlatList
           data={data}
           keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
           onMomentumScrollBegin={() => setOnScroll(false)}
           onMomentumScrollEnd={() => setOnScroll(true)}
-          onEndReached={onScroll ? handleLoadMore : null}
+          onEndReached={!onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
         />
       </View>
       <Modal
@@ -325,5 +363,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
 });

@@ -334,14 +334,6 @@ function ApplyBreak(props) {
                 onPress={() => onSetReason('Đi công tác.')}
               />
               <Suggest
-                detail={'Đi chơi.'}
-                onPress={() => onSetReason('Đi chơi.')}
-              />
-              <Suggest
-                detail={'Đi khảo sát công trình.'}
-                onPress={() => onSetReason('Đi khảo sát công trình.')}
-              />
-              <Suggest
                 detail={'Lí do cá nhân.'}
                 onPress={() => onSetReason('Lí do cá nhân.')}
               />

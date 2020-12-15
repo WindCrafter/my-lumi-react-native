@@ -72,14 +72,14 @@ const ItemApproveOT = (props) => {
             source={imgs.startDate}
             style={[styles.imageStamp, styles.marginRight]}
           />
-          <Text style={styles.txtStatus}>{item.date}</Text>
+          <Text style={styles.txtStatus}>{item.start_date}</Text>
         </View>
         <View style={[styles.img, {width: (width - 32) / 2}]}>
           <Image
             source={imgs.startTime}
             style={[styles.imageStamp, styles.marginRight]}
           />
-          <Text style={styles.txtStatus}>{`${item.time} giờ`}</Text>
+          <Text style={styles.txtStatus}>{`${item.start} giờ`}</Text>
         </View>
       </View>
       <View

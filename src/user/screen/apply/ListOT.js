@@ -60,7 +60,7 @@ function ListOT(props) {
   useEffect(() => {
     // getData(1, '', '', []);
     const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, '', '', []);
+      getData(1, date, status, []);
     });
     return () => {
       unsubscribe;
