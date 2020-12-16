@@ -94,7 +94,7 @@ function TabbarCustom({
       } else {
         _global.Alert.alert({
           title: langs.alert.notify,
-          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          message: 'Vui lòng cấp quyền truy cập vị trí!',
           rightButton: {
             text: langs.alert.ok,
           },
@@ -149,7 +149,7 @@ function TabbarCustom({
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: 'Vui lòng chọn luôn luôn để chấm công!',
+        message: 'Vui lòng cấp quyền truy cập vị trí!',
         rightButton: {
           text: langs.alert.ok,
         },
@@ -214,7 +214,7 @@ function TabbarCustom({
       } else {
         _global.Alert.alert({
           title: langs.alert.notify,
-          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          message: 'Vui lòng cấp quyền truy cập vị trí!',
           rightButton: {
             text: langs.alert.ok,
             onPress: () => {
