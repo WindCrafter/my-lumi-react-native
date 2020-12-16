@@ -9,6 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -16,13 +17,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Card} from 'native-base';
 import langs from '../../../../common/language';
-import CardBreak from './component/CardBreak';
+import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
 import moment from 'moment';
 import {_GET, _POST} from '../../../../utlis/connection/api';
 import {_global} from '../../../../utlis/global/global';
 import {URL} from '../../../../utlis/connection/url';
-
+import CardBreak from './component/CardBreak';
 const ApproveBreak = (props) => {
   const {
     navigation,
@@ -36,6 +37,8 @@ const ApproveBreak = (props) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
+  const [date, setDate] = useState('');
+
   useEffect(() => {
     getData(1, '', '', [], '');
   }, []);
@@ -68,15 +71,18 @@ const ApproveBreak = (props) => {
   //   };
   //   listAdminTakeLeave(dataLeave);
   // };
+  const [refresh, setRefresh] = useState(false);
+
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
+    setRefresh(false);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -154,7 +160,7 @@ const ApproveBreak = (props) => {
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#ABB0BB" />
       </View>
     ) : null;
   };
@@ -168,7 +174,11 @@ const ApproveBreak = (props) => {
     console.log('_APPROVE_BREAK =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
       setData(
-        data.map((i) => (i._id === response.data._id ? response.data : i)),
+        data.map((i) =>
+          i._id === response.data._id
+            ? {...i, status: response.data.status}
+            : i,
+        ),
       );
     } else {
       _global.Alert.alert({
@@ -179,6 +189,10 @@ const ApproveBreak = (props) => {
       });
     }
   };
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
 
   const onDeny = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
@@ -187,7 +201,7 @@ const ApproveBreak = (props) => {
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
-    console.log('_APPROVE_OT =============>', response);
+    console.log('_DENY =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
       setData(
         data.map((i) => (i._id === response.data._id ? response.data : i)),
@@ -207,14 +221,13 @@ const ApproveBreak = (props) => {
       moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
     );
     return (
-      <CardBreak
-        leader={true}
+      <CardBreakLeader
         name={item.fullname}
         status={item.status}
         type={item.type}
-        date={_listDate.toString()}
+        date={_listDate}
         reason={item.content}
-        onDeny={() => onDeny(item)}
+        onDeny={() => onDeny(item._id)}
         onAccept={() => onConfirm(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
@@ -245,25 +258,28 @@ const ApproveBreak = (props) => {
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
-        type={type} CONFIRM_DENY_TAKE_LEAVE
+        type={type}
+        CONFIRM_DENY_TAKE_LEAVE
         search
       />
       <View style={{flex: 1}}>
-        {data.length === 0 ? (
+        {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
-        ) : (
-          <FlatList
-            //saga
-            // data={historyAdminTakeLeave}
-
-            onEndReached={!loading ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-          />
         )}
+        <FlatList
+          //saga
+          // data={historyAdminTakeLeave}
+
+          onEndReached={!loading ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </>
   );

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, ScrollView, Platform, UIManager} from 'react-native';
+import {StyleSheet, View, ScrollView, Platform, UIManager, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './component/header';
@@ -11,6 +11,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
+import { sum } from 'lodash';
 
 const DATA_EVENT = [
   {
@@ -75,6 +76,10 @@ export default function Home(props) {
     getSummary(token);
   }, []);
 
+const moveToHistory =()=>{
+navigation.navigate(langs.navigator.history)
+};
+
   return (
     <>
       <View style={styles.container}>
@@ -89,6 +94,7 @@ export default function Home(props) {
           />
           <ScrollView>
             <View style={styles.groupCard}>
+              <TouchableOpacity onPress={moveToHistory}>
               <CardUser
                 backgroundColor={'rgb( 229, 246, 255)'}
                 number={
@@ -100,6 +106,7 @@ export default function Home(props) {
                 numberColor={'rgb(46, 114, 249)'}
                 tintColor={'rgb(46, 114, 249)'}
               />
+              </TouchableOpacity>
               <CardUser
                 backgroundColor={'rgb( 255, 240, 234)'}
                 number={summary.day_of_leave ? summary.day_of_leave : 0}
@@ -122,7 +129,7 @@ export default function Home(props) {
               />
               <CardUser
                 backgroundColor={'rgb(246, 243, 255)'}
-                number={summary.check_in_of_week ? summary.check_in_of_week : 0}
+                number={summary.check_in_of_week&&summary.check_out_of_week ? summary.check_in_of_week + summary.check_out_of_week : 0}
                 detail={'Đi muộn/về sớm'}
                 source={imgs.clockAlert}
                 imgBackground={'rgb(217, 211, 253)'}
@@ -135,11 +142,11 @@ export default function Home(props) {
                 <Event data={DATA_EVENT} />
               </View>
             </Card>
-            <Card style={styles.card}>
+            {/* <Card style={styles.card}>
               <View>
-                <HistoryCheck data={DATA_CHECK} />
+                <HistoryCheck data={DATA_CHECK} navigation={navigation} />
               </View>
-            </Card>
+            </Card> */}
           </ScrollView>
           <FloatButton
             onPressLate={onPressLate}

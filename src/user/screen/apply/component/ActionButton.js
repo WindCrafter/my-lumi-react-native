@@ -26,7 +26,7 @@ const FloatButton = (props) => {
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.note} />;
   };
-  return (
+  return role === 'Leader' ? (
     <ActionButton
       buttonColor="white"
       backdrop={blurView()}
@@ -42,23 +42,34 @@ const FloatButton = (props) => {
         inputX={[0, 0]}
         outputX={[0, 0]}
         inputY={[0, 1]}
-        outputY={role === 'Leader' ? [160, 80] : [160, 0]}
+        outputY={[160, 80]}
         title={langs.writeOT}
         onPress={onApply}>
         <Image source={imgs.note} />
       </ActionButton.Item>
-      {role === 'Leader' && (
-        <ActionButton.Item
-          inputX={[0, 0]}
-          outputX={[0, 0]}
-          inputY={[0, 1]}
-          outputY={[0, -70]}
-          title={langs.approveOT}
-          onPress={onApprove}>
-          <Image source={imgs.stampCheck} />
-        </ActionButton.Item>
-      )}
+      <ActionButton.Item
+        inputX={[0, 0]}
+        outputX={[0, 0]}
+        inputY={[0, 1]}
+        outputY={[0, -70]}
+        title={langs.approveOT}
+        onPress={onApprove}>
+        <Image source={imgs.stampCheck} />
+      </ActionButton.Item>
     </ActionButton>
+  ) : (
+    <ActionButton
+      buttonColor="white"
+      renderIcon={buttonIcon}
+      onPress={onApply}
+      offsetY={60}
+      style={[
+        styles.actonButton,
+        Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},
+      ]}
+      degrees={90}
+      fixNativeFeedbackRadius={true}
+    />
   );
 };
 

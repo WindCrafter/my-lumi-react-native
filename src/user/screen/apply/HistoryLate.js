@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   ActivityIndicator,
+  LayoutAnimation,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -76,28 +77,18 @@ const HistoryLate = (props) => {
   };
 
   const onChangeDate = (pickDay) => {
-    const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-    const data = pickDay
-      ? {
+    const data =  {
           token: token,
           status: status,
-          date: moment(pickDay).format('DD/MM/YYYY'),
+          date: pickDay ?  moment(pickDay).format('DD/MM/YYYY') : '',
           page: 1,
           page_size: 10,
           reload: true,
           loading: true,
         }
-      : {
-          token: token,
-          status: status,
-          page: 1,
-          page_size: 10,
-          reload: true,
-          loading: true,
-        };
     setPage(1);
     listLateEarly(data);
-    setDate(pickDate);
+    setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
   };
   const onSetType = (item) => {
     switch (item) {

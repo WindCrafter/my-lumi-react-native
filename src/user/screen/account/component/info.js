@@ -28,6 +28,7 @@ const Info = (props) => {
     onChangeIdentity,
     birthday,
     onChangeBirthday,
+    role,
   } = props;
   return (
     <View style={styles.container}>
@@ -51,26 +52,35 @@ const Info = (props) => {
             clearButtonMode="while-editing"
             onSubmitEditing={() => refBirth.current.focus()}
           />
-          <TouchableOpacity onPress={onChangeTeam}>
             <InforRow
-              leftImage={imgs.setPerson}
               containerStyle={styles.txtInput}
-              title={langs.role}
+              title={langs.team}
               size={16}
               value={team}
               refInput={refTeam}
               clearButtonMode="while-editing"
               editable={false}
+              color={'rgb(200, 200, 200)'}
             />
-          </TouchableOpacity>
+            <InforRow
+              containerStyle={styles.txtInput}
+              title={langs.role}
+              size={16}
+              value={role}
+              refInput={refTeam}
+              clearButtonMode="while-editing"
+              editable={false}
+              color={'rgb(200, 200, 200)'}
+            />
 
           <TouchableOpacity onPress={onChangeBirthday}>
             <InforRow
-              containerStyle={styles.txtInput}
+              containerStyle={styles.txt}
               leftImage={imgs.DOB}
               title={langs.birthday}
               size={16}
               value={birthday}
+              txtInput={false}
               refInput={refPhone}
               editable={false}
               clearButtonMode="never"
@@ -158,4 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,25,0.17)' : Colors.white,
     marginVertical: 16,
   },
+  txt:{
+    marginVertical:16
+  }
 });

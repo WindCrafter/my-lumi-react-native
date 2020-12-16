@@ -22,8 +22,6 @@ import ModalBank from './component/ModalBank';
 
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import ModalGene from './component/ModalGene';
-import ModalTeam from './component/ModalTeam';
 import Clipboard from '@react-native-community/clipboard';
 import langs from '../../../../common/language';
 import {Card} from 'native-base';
@@ -48,6 +46,10 @@ function UpdateProfile(props) {
     deviceId,
     teams,
     addressUser,
+    team_name,
+    role,
+    identity_number,
+    bank,
   } = props;
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
@@ -56,23 +58,14 @@ function UpdateProfile(props) {
   const [showBank, setShowBank] = useState(false);
   const [showGene, setShowGene] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [showTeam, setShowTeam] = useState(false);
   const [name, setName] = useState(nameUser);
   const [phone, setPhone] = useState(phoneNumber);
-  const [team, setTeam] = useState(teamUser);
   const [birthday, setBirthDay] = useState(
     birthdayUser ? birthdayUser : moment(new Date()).format('DD/MM/YYYY'),
   );
-  const [identity, setIdentity] = useState(
-    advance && advance.identity ? advance.identity : null,
-  );
+  const [identity, setIdentity] = useState(identity_number);
   const [nativeLand, setNativeLand] = useState(addressUser);
-  const [bankAccount, setBankAccount] = useState(
-    advance && advance.bankAccount ? advance.bankAccount : null,
-  );
-  const [bankName, setBankName] = useState(
-    advance && advance.bankName ? advance.bankName : null,
-  );
+  const [bankName, setBankName] = useState(bank);
 
   const goBack = () => {
     navigation.goBack();
@@ -115,16 +108,6 @@ function UpdateProfile(props) {
     setShowGene(false);
   };
 
-  const onShowTeam = (val) => {
-    setShowTeam(true);
-  };
-  const onHideTeam = () => {
-    setShowTeam(false);
-  };
-  const onChangeTeam = (value) => {
-    setTeam(value);
-  };
-
   const onChangeIdentity = (val) => {
     setIdentity(val);
   };
@@ -141,21 +124,7 @@ function UpdateProfile(props) {
     setShowBank(true);
   };
   const onDonePick = () => {
-    // if (bankAccount === '1') {
-    //   _global.Alert.alert({
-    //     title: 'DeviceID',
-    //     message: deviceId,
-    //     messageColor: Colors.black,
-    //     leftButton: {
-    //       text: 'Copy',
-    //       onPress: onCopyDeviceID,
-    //       textStyle: {color: Colors.background},
-    //     },
-    //   });
-    // } else {
-    //   console.log('bank    ',bankAccount)
     setShowBank(!showBank);
-    // }
   };
   const onHideModal = () => {
     setShow(false);
@@ -185,12 +154,16 @@ function UpdateProfile(props) {
       birthday: birthday,
       address: nativeLand,
       token: token,
+      identity_number:identity,
+      bank:bankName,
     };
     if (
       name === nameUser &&
       phone === phoneNumber &&
       birthday === birthdayUser &&
-      nativeLand === addressUser
+      nativeLand === addressUser &&
+      bankName=== bank &&
+      identity===identity_number
     ) {
       navigation.goBack();
     } else {
@@ -227,12 +200,12 @@ function UpdateProfile(props) {
             <Info
               name={name}
               identity={identity}
-              team={team}
+              team={team_name}
+              role={role}
               birthday={birthday}
               onChangeBirthday={onShowModal}
               onChangeName={onChangeName}
               onChangeIdentity={onChangeIdentity}
-              onChangeTeam={onShowTeam}
             />
             <UpdateInfo
               nativeLand={nativeLand}
@@ -289,13 +262,6 @@ function UpdateProfile(props) {
           onSetVPB={onSetVPB}
           onBankAccount={onChangeAccount}
           bankName={bankName}
-        />
-        <ModalTeam
-          showModal={showTeam}
-          hideModal={onHideTeam}
-          detailTeam={team}
-          dataTeam={teams}
-          pressItem={(e) => onChangeTeam(e)}
         />
       </KeyboardAvoidingView>
     </>

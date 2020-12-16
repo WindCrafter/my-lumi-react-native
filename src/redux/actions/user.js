@@ -195,3 +195,9 @@ export const changeDemoMode = () => {
     type: types.CHANGE_DEMO_MODE,
   };
 };
+export const bookRoom =(data)=> {
+  return {
+    type:types.BOOK_ROOM,
+    payload: data
+  }
+}

@@ -121,6 +121,7 @@ function ApplyBreak(props) {
   //   return e.userId;
   // });
   const onComplete = () => {
+    Keyboard.dismiss()
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -236,9 +237,6 @@ function ApplyBreak(props) {
     Keyboard.dismiss();
   };
 
-  const onGoAssignment = () => {
-    navigation.navigate('Assignment');
-  };
 
   const onDaySelect = (day) => {
     const selectedDay = moment(day.dateString).format(_format);
@@ -334,14 +332,6 @@ function ApplyBreak(props) {
               <Suggest
                 detail={'Đi công tác.'}
                 onPress={() => onSetReason('Đi công tác.')}
-              />
-              <Suggest
-                detail={'Đi chơi.'}
-                onPress={() => onSetReason('Đi chơi.')}
-              />
-              <Suggest
-                detail={'Đi khảo sát công trình.'}
-                onPress={() => onSetReason('Đi khảo sát công trình.')}
               />
               <Suggest
                 detail={'Lí do cá nhân.'}

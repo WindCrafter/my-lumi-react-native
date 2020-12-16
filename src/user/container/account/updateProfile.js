@@ -11,6 +11,11 @@ const mapStateToProps = (state) => ({
   teams: state.authen.team_id,
   birthdayUser: state.authen.birthday,
   addressUser: state.authen.address,
+  team_name: state.authen.team_name,
+  role: state.authen.role,
+  identity_number:state.authen.identity_number,
+  bank_account:state.authen.bank_account,
+  bank:state.authen.bank,
 });
 
 const mapDispatchToProps = {

@@ -33,6 +33,10 @@ const authPersistConfig = {
     'address',
     'team_id',
     'staff_type',
+    'team_name',
+    'identity_number',
+    'bank_account',
+    'bank',
   ],
 };
 

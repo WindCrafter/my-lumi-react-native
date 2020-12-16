@@ -5,6 +5,7 @@ import {
   InputInfor,
   InputSelect,
   InputPick,
+  InputDown
 } from './Input';
 import {Button} from './Button';
 import Checkbox from './Checkbox';
@@ -23,12 +24,14 @@ import Combine from './Combine';
 import Gradient from './Gradient';
 import KeyBoardScroll from './KeyBoardScroll';
 import SelectButton from './SelectButton';
+import PickerCustom from './PickerCustom';
 export {
   Input,
   InputPassword,
   InputInfor,
   InputSelect,
   InputRow,
+  InputDown,
   InputPick,
   Button,
   Checkbox,
@@ -47,4 +50,5 @@ export {
   Gradient,
   KeyBoardScroll,
   SelectButton,
+  PickerCustom,
 };

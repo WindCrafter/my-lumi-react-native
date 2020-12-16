@@ -35,7 +35,7 @@ interface Props extends TextInputProps {
   color?: String;
 }
 
-InputSelect.defaultProps = {
+InputDown.defaultProps = {
   width: wp(90),
   height: 70,
   borderRadius: 16,
@@ -56,7 +56,7 @@ InputSelect.defaultProps = {
   color: 'black',
 };
 
-export default function InputSelect(props?: Props) {
+export default function InputDown(props?: Props) {
   const {
     shadowColor,
     shadowOpacity,
@@ -105,17 +105,12 @@ export default function InputSelect(props?: Props) {
         style={[
           styles.container,
           {
-            justifyContent:
-              rightImage === '' && leftImage === ''
-                ? 'center'
-                : 'space-between',
+            justifyContent: 'center',
           },
         ]}
         onPress={onPressButton}
         disabled={disabled}>
         <View style={{flexDirection: 'row'}}>
-          <Image source={leftImage} style={styles.image} resizeMode="contain" />
-
           {detail ? (
             <Text
               style={[
@@ -140,7 +135,9 @@ export default function InputSelect(props?: Props) {
             </Text>
           )}
         </View>
-        <Image source={rightImage} style={styles.img} resizeMode="contain" />
+        {!detail ? (
+          <Image source={rightImage} style={styles.img} resizeMode="contain" />
+        ) : null}
       </TouchableOpacity>
     </ViewCard>
   );

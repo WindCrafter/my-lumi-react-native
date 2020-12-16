@@ -99,7 +99,7 @@ function* sagaCheckIn(action) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
-        message: langs.alert.wishIn,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -143,7 +143,7 @@ function* sagaCheckInWifi(action) {
       yield put(checkInSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
-        message: langs.alert.wishIn,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -155,7 +155,7 @@ function* sagaCheckInWifi(action) {
       yield put(checkOutSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
-        message: langs.alert.wishOut,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -196,7 +196,7 @@ function* sagaCheckInWifi(action) {
       title: langs.alert.notify,
       message: 'Lỗi mạng',
       leftButton: {text: langs.alert.ok},
-      rightButton: {text: langs.alert.ok},
+      // rightButton: {text: langs.alert.ok},
     });
     _global.Loading.hide();
   }
@@ -269,7 +269,7 @@ function* sagaSetLateEarly(action) {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: response.message,
+        message: langs.lateEarlyError,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -296,6 +296,7 @@ function* sagaTakeLeave(action) {
       type: action.payload.type,
       content: action.payload.content,
       morning: action.payload.morning,
+      month: action.payload.month
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);
@@ -480,7 +481,7 @@ export function* watchListManagerLateEarly() {
 function* sagaApproveLateEarly(action) {
   try {
     const data = {
-      _id: action.payload._id,
+      id: action.payload._id,
       status: action.payload.status,
     };
     const token = action.payload.token;

@@ -37,12 +37,14 @@ const HeaderCustom = (props?: Props) => {
     onChangeName,
     search,
     onSearch,
+    txtSearch,
     type,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState('');
+
   const [_date, setDateChange] = useState('');
   const onClear = () => {
     setDate('');
@@ -67,6 +69,7 @@ const HeaderCustom = (props?: Props) => {
       if (event.type === 'set') {
         setShow(false);
         setDate(selectedDay);
+        setDateChange(selectedDay);
         onChangeDate(selectedDay);
       } else {
         setShow(false);
@@ -157,7 +160,7 @@ const HeaderCustom = (props?: Props) => {
           leftImage={imgs.search}
           containerStyle={styles.search}
           onPress={onSearch}
-          value={search}
+          value={txtSearch}
           onChangeText={onChangeName}
           autoCapitalize={'none'}
           placeholder={'Bạn muốn tìm lumier nào?'}
@@ -174,7 +177,7 @@ const HeaderCustom = (props?: Props) => {
           renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
             <Text>{type}</Text>
-            <Text>▼</Text>
+            <Text>  ▼</Text>
           </View>
         </SelectButton>
         <View
@@ -262,17 +265,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: Colors.gray,
     borderWidth: 0.25,
-    width: 100,
     height: 40,
     paddingHorizontal: 16,
     borderRadius: 6,
+    padding:8
   },
   filterDate: {
     flexDirection: 'row',
     borderWidth: 0.25,
     borderColor: Colors.gray,
     alignItems: 'center',
-
     borderRadius: 6,
     paddingHorizontal: 16,
     width: 150,
