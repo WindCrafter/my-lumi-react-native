@@ -233,9 +233,9 @@ function History(props) {
           data={data}
           keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
-          onMomentumScrollBegin={() => setOnScroll(false)}
-          onMomentumScrollEnd={() => setOnScroll(true)}
-          onEndReached={!onScroll ? handleLoadMore : null}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onMomentumScrollEnd={() => setOnScroll(false)}
+          onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           refreshControl={

@@ -71,7 +71,7 @@ const Account = (props) => {
   };
 
   const onShowModal = async () => {
-    // setshowModal(true);
+    setshowModal(true);
   };
 
   const onHideModal = () => {
