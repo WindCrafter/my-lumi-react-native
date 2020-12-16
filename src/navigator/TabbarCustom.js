@@ -73,7 +73,7 @@ function TabbarCustom({
           buttonPositive: 'OK',
         },
       );
-      if (granted === RESULTS.GRANTED) {
+      if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
         const result = await NetworkInfo.getSSID();
         if (result === '<unknown ssid>') {
           _global.Alert.alert({
@@ -133,7 +133,7 @@ function TabbarCustom({
         buttonPositive: 'OK',
       },
     );
-    if (granted === RESULTS.GRANTED) {
+    if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
       const result = await NetworkInfo.getSSID();
       if (result === '<unknown ssid>') {
         _global.Alert.alert({
@@ -193,7 +193,7 @@ function TabbarCustom({
           buttonPositive: 'OK',
         },
       );
-      if (granted === RESULTS.GRANTED) {
+      if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
         const result = await NetworkInfo.getSSID();
         if (result === '<unknown ssid>') {
           _global.Alert.alert({
