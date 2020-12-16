@@ -5,6 +5,9 @@ const langs = {
   passWord: 'Mật khẩu',
   login: 'Đăng nhập',
   forgotPassword: 'Quên mật khẩu',
+  recentPassWord: 'Mật khẩu hiện tại',
+  newPassWord: 'Mật khẩu mới',
+  confirmPassWord: 'Nhập lại mật khẩu',
   rememberMe: 'Nhớ đăng nhập',
   name: 'Họ và tên:',
   phone: 'Số điện thoại:',
@@ -141,6 +144,7 @@ const langs = {
     historyBreak: 'History Break',
     approveBreak: 'Approve Break',
     button: 'Button',
+    changePass: 'Đổi mật khẩu',
   },
   alert: {
     ok: 'OK',
@@ -198,7 +202,6 @@ const langs = {
     nulLocation: 'Chưa chọn địa điểm họp',
     nulMember: 'Chưa chọn người tham gia',
     invalidEndTime: 'Chưa điền giờ kết thúc họp',
-    
   },
 };
 

@@ -29,6 +29,8 @@ import HistoryLate from '../user/container/apply/HistoryLate';
 import ApproveLate from '../user/container/apply/ApproveLate';
 import HistoryBreak from '../user/container/apply/HistoryBreak';
 import ApproveBreak from '../user/container/apply/ApproveBreak';
+import ChangePass from '../user/container/changePass/index';
+
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
 export default function UserStack() {
@@ -52,6 +54,14 @@ export default function UserStack() {
         component={ForgotPass}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.changePass}
+        component={ChangePass}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen

@@ -70,7 +70,6 @@ export default function Input(props?: Props) {
   };
   const onBlur = () => {
     setIsFocus(false);
-    console.log('blur');
   };
   return (
     <View
@@ -91,8 +90,8 @@ export default function Input(props?: Props) {
         testID={testID}
         ref={refInput}
         style={[styles.textInput, rightIcon ? {paddingRight: 8} : undefined]}
-        selectionColor={'black'}
-        placeholderTextColor={'gray'}
+        selectionColor="black"
+        placeholderTextColor="gray"
         autoCorrect={false}
         clearButtonMode="never"
         keyboardType="email-address"
