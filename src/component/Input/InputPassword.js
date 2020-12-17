@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   TextInputProps,
   TouchableOpacity,
@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs } from '../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {imgs} from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -19,6 +19,8 @@ interface Props extends TextInputProps {
   backgroundColor?: String;
   containerStyle?: ViewStyle;
   refInput?: React.Ref;
+  value?: String;
+  onChangeText?: Function;
 }
 
 InputPassword.defaultProps = {
@@ -39,14 +41,29 @@ export default function InputPassword(props?: Props) {
     containerStyle,
     refInput,
     testID,
+    value,
+    onChangeText,
     ...otherProps
   } = props;
   const [showPass, setShowHidePass] = useState(false);
+  const [text, setText] = useState(value || '');
 
   const onShowHidePass = () => {
     setShowHidePass(!showPass);
   };
+  const [isFocus, setIsFocus] = useState(false);
+  const onFocus = () => {
+    setIsFocus(true);
+  };
+  const onChangeTextInput = (input) => {
+    onChangeText && onChangeText(input);
 
+    // setIsFocus(true);
+    setText(input);
+  };
+  const onBlur = () => {
+    setIsFocus(false);
+  };
   return (
     <View
       style={[
@@ -66,20 +83,29 @@ export default function InputPassword(props?: Props) {
         testID={testID}
         ref={refInput}
         style={styles.textInput}
-        selectionColor={'black'}
-        placeholderTextColor={'gray'}
+        selectionColor="black"
+        placeholderTextColor="gray"
         autoCorrect={false}
         autoCapitalize="none"
         secureTextEntry={!showPass}
+        clearButtonMode="never"
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onChangeText={(txtValue) => onChangeTextInput(txtValue)}
+        value={text}
         {...otherProps}
       />
-      <TouchableOpacity onPress={onShowHidePass} style={styles.btnShowHidePass}>
-        <Image
-          source={showPass ? imgs.showpassword : imgs.hidepassword}
-          style={styles.showHidePassword}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+      {text !== '' && (
+        <TouchableOpacity
+          onPress={onShowHidePass}
+          style={styles.btnShowHidePass}>
+          <Image
+            source={showPass ? imgs.showpassword : imgs.hidepassword}
+            style={styles.showHidePassword}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -100,7 +126,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     fontFamily: 'Quicksand-Regular',
-
   },
   btnShowHidePass: {
     justifyContent: 'center',

@@ -32,9 +32,9 @@ import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
-import { _global} from '../../../../utlis/global/global'
+import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { startCase } from 'lodash';
+import {startCase} from 'lodash';
 
 if (
   Platform.OS === 'android' &&
@@ -43,7 +43,14 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const Event = (props) => {
-  const { navigation, memberPicked, kickMember, clearMember, token, bookRoom} = props;
+  const {
+    navigation,
+    memberPicked,
+    kickMember,
+    clearMember,
+    token,
+    bookRoom,
+  } = props;
   const refPhone = useRef('');
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -234,11 +241,11 @@ const Event = (props) => {
       });
       return;
     }
-    if (date==='') {
+    if (date === '') {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullDate,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
@@ -246,7 +253,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullStartTime,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
@@ -254,15 +261,15 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullEndTime,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
-    if (end <start) {
+    if (end < start) {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.invalidStartTime,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
@@ -270,31 +277,30 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulLocation,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
-    if (memberPicked.length===0) {
+    if (memberPicked.length === 0) {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulMember,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
-    
+
     const data = {
       loop: loop,
-      timeEnd: moment(end).format("DD/MM/YYYY"),
-      timeStart: moment(start).format("DD/MM/YYYY"),
+      timeEnd: moment(end).format('DD/MM/YYYY'),
+      timeStart: moment(start).format('DD/MM/YYYY'),
       title: title,
       location: location,
       description: description,
       member: memberPicked,
-      token:token
-    }; 
+      token: token,
+    };
     bookRoom(data);
-    
   };
   return (
     <>

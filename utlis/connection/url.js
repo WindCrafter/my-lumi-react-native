@@ -4,7 +4,7 @@ export const URL = {
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
   REGISTER: '/site/register',
-  CHANGE_PASS: '/user/need-change-pass',
+  CHANGE_PASS: '/site/reset-password',
   ADD_USER: '/admin/add-user',
   LIST_ROLES: '/user/list-roles',
   CHECK_IN: '/check-in/qr',
@@ -55,7 +55,6 @@ export const URL = {
   //
   GET_SUMMARY: '/work-day/get-summary',
 
-
   //
-  BOOK_ROOM:'/book-room'
+  BOOK_ROOM: '/book-room',
 };

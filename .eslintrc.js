@@ -1,5 +1,4 @@
 module.exports = {
   root: true,
-  "extends": "@nghinv/eslint-config", 
-
+  extends: '@react-native-community',
 };

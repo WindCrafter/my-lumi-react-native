@@ -73,7 +73,7 @@ function TabbarCustom({
           buttonPositive: 'OK',
         },
       );
-      if (granted === RESULTS.GRANTED) {
+      if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
         const result = await NetworkInfo.getSSID();
         if (result === '<unknown ssid>') {
           _global.Alert.alert({
@@ -94,7 +94,7 @@ function TabbarCustom({
       } else {
         _global.Alert.alert({
           title: langs.alert.notify,
-          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          message: 'Vui lòng cấp quyền truy cập vị trí!',
           rightButton: {
             text: langs.alert.ok,
           },
@@ -133,7 +133,7 @@ function TabbarCustom({
         buttonPositive: 'OK',
       },
     );
-    if (granted === RESULTS.GRANTED) {
+    if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
       const result = await NetworkInfo.getSSID();
       if (result === '<unknown ssid>') {
         _global.Alert.alert({
@@ -149,7 +149,7 @@ function TabbarCustom({
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: 'Vui lòng chọn luôn luôn để chấm công!',
+        message: 'Vui lòng cấp quyền truy cập vị trí!',
         rightButton: {
           text: langs.alert.ok,
         },
@@ -193,7 +193,7 @@ function TabbarCustom({
           buttonPositive: 'OK',
         },
       );
-      if (granted === RESULTS.GRANTED) {
+      if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
         const result = await NetworkInfo.getSSID();
         if (result === '<unknown ssid>') {
           _global.Alert.alert({
@@ -214,7 +214,7 @@ function TabbarCustom({
       } else {
         _global.Alert.alert({
           title: langs.alert.notify,
-          message: 'Vui lòng chọn luôn luôn để chấm công!',
+          message: 'Vui lòng cấp quyền truy cập vị trí!',
           rightButton: {
             text: langs.alert.ok,
             onPress: () => {

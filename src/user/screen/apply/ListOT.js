@@ -180,7 +180,7 @@ function ListOT(props) {
           // onRefresh={() => getData(1, date, status, [])}
           onMomentumScrollBegin={() => setOnScroll(false)}
           onMomentumScrollEnd={() => setOnScroll(true)}
-          onEndReached={!onScroll ? handleLoadMore : null}
+          onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           refreshControl={

@@ -30,6 +30,7 @@ import langs from '../../../common/language';
 import {Colors} from '../../../utlis';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {removeUserIdDevice} from '../actions/user';
+
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
@@ -39,6 +40,7 @@ const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}
 const URL_REGISTER = `${URL.LOCAL_HOST}${URL.REGISTER}`;
 const URL_GET_PROFILE = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
 const URL_GET_SUMMARY = `${URL.LOCAL_HOST}${URL.GET_SUMMARY}`;
+
 function* sagaLoginAction(action) {
   try {
     const data = {
@@ -86,8 +88,9 @@ function* sagaFirstLogin(action) {
   try {
     const token = action.payload.token;
     const data = {
-      password: action.payload.pass,
-      confirmPassword: action.payload.confirmPassword,
+      old_password: action.payload.old_password,
+      confirm_password: action.payload.confirm_password,
+      password: action.payload.password,
     };
     const response = yield _POST(URL_CHANGE_PASS, data, token);
     console.log(response);
@@ -96,11 +99,21 @@ function* sagaFirstLogin(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
       });
       _global.Loading.hide();
     } else {
       yield put(changePassFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
       _global.Loading.hide();
     }
   } catch (error) {
