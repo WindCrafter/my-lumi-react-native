@@ -15,9 +15,7 @@ import {
   Modal,
 } from 'react-native';
 import {BarStatus, HeaderCustom} from '../../../component';
-import {
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
@@ -52,6 +50,10 @@ function UpdateProfile(props) {
   const [update, setUpdate] = useState(false);
   const [show, setShow] = useState(false);
   const [showBank, setShowBank] = useState(false);
+
+  const [dateChange, setDateChange] = useState(
+    moment(new Date()).format('DD/MM/YYYY'),
+  );
 
   const [showPicker, setShowPicker] = useState(false);
   const [name, setName] = useState(nameUser);
@@ -111,10 +113,9 @@ function UpdateProfile(props) {
     setBankAccount(val);
   };
   const onChangeBirthday = (event, val) => {
-    const pickDate = val || moment(birthday, 'DD/MM/YYYY').toDate();
-    setShowPicker(Platform.OS === 'ios');
+    const pickDate = val || moment();
     console.log('=>>>>>>>', pickDate);
-    setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
+    setDateChange(pickDate);
   };
 
   const onChangeGene = (val) => {
@@ -139,8 +140,13 @@ function UpdateProfile(props) {
   const onDonePick = () => {
     setShowBank(!showBank);
   };
+
   const onHideModal = () => {
     setShow(false);
+  };
+
+  const onPressConfirmBirthday = () => {
+    setBirthDay(moment(dateChange).format('DD/MM/YYYY'));
   };
 
   const onUpdateInfo = () => {
@@ -223,6 +229,7 @@ function UpdateProfile(props) {
           <ModalTime
             showModal={show}
             hideModal={onHideModal}
+            onPress={onPressConfirmBirthday}
             picker={
               <View style={styles.picker}>
                 <DateTimePicker

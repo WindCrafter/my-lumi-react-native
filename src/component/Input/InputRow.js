@@ -102,13 +102,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 12,
     fontSize: 16,
-    color: 'black',
+    // color: 'black',
     alignSelf: 'center',
     textAlign: 'right',
     fontFamily: 'Quicksand-Regular',
-
-
-
   },
   left: {
     flexDirection: 'row',

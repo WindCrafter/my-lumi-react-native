@@ -48,8 +48,9 @@ function* sagaUpdateProfile(action) {
       phone_number: action.payload.phone_number,
       address: action.payload.address,
       birthday: action.payload.birthday,
-      identity_number:action.payload.identity_number,
-      bank:action.payload.bank,
+      identity_number: action.payload.identity_number,
+      bank_name: action.payload.bank_name,
+      bank_account: action.payload.bank_account,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);
