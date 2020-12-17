@@ -262,7 +262,6 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
   container: {
     padding: 24,
-    backgroundColor: '#ffffff',
   },
   viewButton: {
     flex: 0.5,
