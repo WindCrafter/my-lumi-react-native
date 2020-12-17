@@ -269,7 +269,7 @@ function* sagaSetLateEarly(action) {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: response.message,
+        message: langs.lateEarlyError,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
@@ -394,9 +394,11 @@ function* sagaListLateEarly(action) {
     const page_size = action.payload.page_size;
     const page = action.payload.page;
     const reload = action.payload.reload;
+    const loading = action.payload.loading ? true : false;
     const response = yield _GET(
       URL_LIST_LATE_EARLY(status, date, page, page_size),
       token,
+      loading,
     );
     console.log('=.......', response);
     if (response.success && response.statusCode === 200) {
@@ -438,9 +440,11 @@ function* sagaListManagerLateEarly(action) {
     const page_size = action.payload.page_size;
     const page = action.payload.page;
     const reload = action.payload.reload;
+    const loading = action.payload.loading ? true : false;
     const response = yield _GET(
       URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
       token,
+      loading,
     );
     console.log(URL_LIST_MANAGER_LATE_EARLY);
     if (response.success && response.statusCode === 200) {

@@ -14,14 +14,9 @@ export function _POST(url, data, token, loading = true) {
     },
     body: JSON.stringify(data),
   })
-    .then(
-      (res) => {
-        return res.json();
-      },
-      setTimeout(() => {
-        _global.Loading.hide();
-      }, 500),
-    )
+    .then((res) => {
+      return res.json();
+    })
     .catch((error) => {
       console.log(error);
       _global.Loading.hide();
@@ -44,9 +39,8 @@ export function _PUT(url, data, token) {
   return response;
 }
 
-export function _GET(url, token, loading = true) {
-  console.log('GET: ', url, token);
-
+export function _GET(url, token, loading) {
+  console.log('_Get', url);
   if (loading) {
     _global.Loading.show();
   }
@@ -57,12 +51,7 @@ export function _GET(url, token, loading = true) {
       Authorization: ' Bearer ' + token,
     },
   })
-    .then(
-      (res) => res.json(),
-      setTimeout(() => {
-        _global.Loading.hide();
-      }, 500),
-    )
+    .then((res) => res.json())
     .catch((error) => {
       _global.Loading.hide();
       return error;

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, ScrollView, Platform, UIManager} from 'react-native';
+import {StyleSheet, View, ScrollView, Platform, UIManager, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './component/header';
@@ -11,6 +11,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
+import { sum } from 'lodash';
 
 const DATA_EVENT = [
   {
@@ -54,7 +55,7 @@ if (
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token} = props;
+  const {navigation, nameUser, token, summary, getSummary} = props;
 
   const onPressNotify = () => {
     navigation.navigate('TestNotify');
@@ -72,10 +73,13 @@ export default function Home(props) {
   };
 
   useEffect(() => {
-    const data = {
-      token: token,
-    };
-  });
+    getSummary(token);
+  }, []);
+
+const moveToHistory =()=>{
+navigation.navigate(langs.navigator.history)
+};
+
   return (
     <>
       <View style={styles.container}>
@@ -90,18 +94,22 @@ export default function Home(props) {
           />
           <ScrollView>
             <View style={styles.groupCard}>
+              <TouchableOpacity onPress={moveToHistory}>
               <CardUser
                 backgroundColor={'rgb( 229, 246, 255)'}
-                number={20}
+                number={
+                  summary.actual_date_month ? summary.actual_date_month : 0
+                }
                 detail={'Công thực tế'}
                 source={imgs.clockEarly}
                 imgBackground={'rgb( 183, 231, 254)'}
                 numberColor={'rgb(46, 114, 249)'}
                 tintColor={'rgb(46, 114, 249)'}
               />
+              </TouchableOpacity>
               <CardUser
                 backgroundColor={'rgb( 255, 240, 234)'}
-                number={2}
+                number={summary.day_of_leave ? summary.day_of_leave : 0}
                 detail={'Ngày nghỉ'}
                 source={imgs.breakOneDay}
                 imgBackground={'rgb(255,218,201)'}
@@ -112,7 +120,7 @@ export default function Home(props) {
             <View style={styles.botCard}>
               <CardUser
                 backgroundColor={'rgb(226, 246, 234)'}
-                number={5}
+                number={summary.day_off_month ? summary.day_off_month : 0}
                 detail={'Phép tồn'}
                 source={imgs.selectCalendar}
                 imgBackground={'rgb(195, 233, 209)'}
@@ -121,7 +129,7 @@ export default function Home(props) {
               />
               <CardUser
                 backgroundColor={'rgb(246, 243, 255)'}
-                number={5}
+                number={summary.check_in_of_week&&summary.check_out_of_week ? summary.check_in_of_week + summary.check_out_of_week : 0}
                 detail={'Đi muộn/về sớm'}
                 source={imgs.clockAlert}
                 imgBackground={'rgb(217, 211, 253)'}
@@ -134,11 +142,11 @@ export default function Home(props) {
                 <Event data={DATA_EVENT} />
               </View>
             </Card>
-            <Card style={styles.card}>
+            {/* <Card style={styles.card}>
               <View>
                 <HistoryCheck data={DATA_CHECK} navigation={navigation} />
               </View>
-            </Card>
+            </Card> */}
           </ScrollView>
           <FloatButton
             onPressLate={onPressLate}

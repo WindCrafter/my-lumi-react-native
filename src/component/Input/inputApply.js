@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    paddingBottom: 8,
-    paddingTop: 4,
+    paddingBottom: Platform.OS==='ios'? 16 : 8,
+    paddingTop: Platform.OS==='ios'? 12 : 4,
   },
   textInput: {
     fontSize: 16,

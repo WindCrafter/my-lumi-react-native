@@ -37,6 +37,7 @@ const HeaderCustom = (props?: Props) => {
     onChangeName,
     search,
     onSearch,
+    txtSearch,
     type,
     ...otherProps
   } = props;
@@ -159,7 +160,7 @@ const HeaderCustom = (props?: Props) => {
           leftImage={imgs.search}
           containerStyle={styles.search}
           onPress={onSearch}
-          value={search}
+          value={txtSearch}
           onChangeText={onChangeName}
           autoCapitalize={'none'}
           placeholder={'Bạn muốn tìm lumier nào?'}

@@ -22,6 +22,9 @@ const Event = (props) => {
     const below = widthPercentageToDP(100) - 57;
     setNumber(Math.floor(upper / below));
   };
+  const scrollFlat = () => {
+    ref.current.scrollToIndex({animated: true, index: 2});
+  };
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity style={styles.viewItem}>
@@ -62,7 +65,7 @@ const Event = (props) => {
   };
   return (
     <>
-      <TouchableOpacity style={styles.manager}>
+      <TouchableOpacity style={styles.manager} onPress={scrollFlat}>
         <Image source={imgs.calendarWeek} style={styles.imgs} />
         <Text style={styles.txtManager}>{langs.event}</Text>
       </TouchableOpacity>

@@ -105,6 +105,7 @@ const langs = {
   comunicate: 'Thông tin liên hệ',
   timeOT: 'Thời gian ước tính',
   role: 'Vị trí',
+  lateEarlyError: 'Lí do xin nghỉ không được để trống',
   navigator: {
     login: 'Login',
     register: 'Register',

@@ -13,7 +13,7 @@ const initialState = {
   token: '',
   changePass: false,
   autoLoginStatus: false,
-  role: 'admin',
+  role: '',
   deviceId: '',
   userProfile: {},
   remember: false,
@@ -27,6 +27,11 @@ const initialState = {
   address: '',
   team_id: '',
   staff_type: '',
+  summary: {},
+  team_name:'',
+  identity_number:'',
+  bank_account:'',
+  bank:'',
 };
 
 export default function authen(state = initialState, action) {
@@ -40,17 +45,29 @@ export default function authen(state = initialState, action) {
         user_id: action.payload.user_id,
       };
     case types.GET_PROFILE_SUCCESS:
-      // "id": 18,
-      //   "code_staff": "ductx",
-      //   "fullname": "Nguyễn Văn A",
-      //   "phone_number": null,
-      //   "birthday": "21/11/2020",
-      //   "email": "ductx@lumi.biz",
-      //   "avatar": "https://avatar.com.vn/image.png",
-      //   "address": "Văn Quán, Hà Đông",
-      //   "team_id": null,
-      //   "staff_type": null,
-      //   "role": "
+    //   "{
+    //     ""success"" : true,
+    //     ""statusCode"": 200,
+    //     ""message"": """",
+    //     ""data"": {
+    //         ""id"": integer,
+    //         ""fullname"": ""xxx"",
+    //         ""phone_number"": ""xxx"",
+    //         ""email"": ""string"",
+    //         ""birthday"": ""string"",
+    //         ""avatar"": ""string"",
+    //         ""address"": ""string"",
+    //         ""team_id"": integer,
+    //         ""team_name"": ""string"",
+    //         ""staff_type"": ""string"",
+    //         ""code_staff"": ""string"",
+    //         ""role_id"": integer,
+    //         ""role_name"": ""string"",
+    //         ""bank_account"": ""string"",
+    //         ""bank"": ""string"",
+    //         ""identity_number"": ""string"",
+    //     }
+    // }"
       return {
         ...state,
         fullname: action.payload.data.fullname,
@@ -61,7 +78,10 @@ export default function authen(state = initialState, action) {
         address: action.payload.data.address,
         team_id: action.payload.data.team_id,
         staff_type: action.payload.data.staff_type,
+        team_name: action.payload.data.team,
         role: action.payload.data.role,
+        identity_number:action.payload.data.identity_number,
+        bank:action.payload.data.bank,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -101,11 +121,19 @@ export default function authen(state = initialState, action) {
         team_id: action.payload.team_id,
         staff_type: action.payload.staff_type,
         role: action.payload.role,
+        team_name: action.payload.team,
+        identity_number:action.payload.identity_number,
+        bank:action.payload.bank,
       };
     case types.GET_ONE_SIGNAL_ID:
       return {
         ...state,
         oneSignalID: action.payload,
+      };
+    case types.GET_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        summary: action.payload.data,
       };
     default:
       return state;

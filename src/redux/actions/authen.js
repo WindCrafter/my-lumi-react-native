@@ -195,3 +195,22 @@ export const getProfileFailed = () => {
   };
 };
 
+export const getSummary = (data) => {
+  return {
+    type: types.GET_SUMMARY,
+    payload: data,
+  };
+};
+
+export const getSummarySuccess = (data) => {
+  return {
+    type: types.GET_SUMMARY_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getSummaryFailed = () => {
+  return {
+    type: types.GET_SUMMARY_FAILED,
+  };
+};

@@ -20,6 +20,8 @@ import {
   getProfileSuccess,
   getProfileFailed,
   getProfile,
+  getSummarySuccess,
+  getSummaryFailed,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
 import {_GET, _POST} from '../../../utlis/connection/api';
@@ -37,7 +39,7 @@ const URL_SET_STATUS_BREAK = `${URL.LOCAL_HOST}${URL.SET_STATUS_BREAK}`;
 const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}`;
 const URL_REGISTER = `${URL.LOCAL_HOST}${URL.REGISTER}`;
 const URL_GET_PROFILE = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
-// import {addUserIdDevice} from '../actions/user';
+const URL_GET_SUMMARY = `${URL.LOCAL_HOST}${URL.GET_SUMMARY}`;
 
 function* sagaLoginAction(action) {
   try {
@@ -303,4 +305,36 @@ function* sagaGetProfile(action) {
 
 export function* watchgetProfile() {
   yield takeLatest(types.GET_PROFILE, sagaGetProfile);
+}
+
+function* sagaGetSummary(action) {
+  try {
+    const token = action.payload;
+    const response = yield _GET(URL_GET_SUMMARY, token);
+    console.log('=>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getSummarySuccess(response));
+      _global.Loading.hide();
+    } else {
+      yield put(getSummaryFailed());
+      _global.Alert.alert({
+        title: langs.notify,
+        message: 'Lấy thông tin user thất bại',
+        leftButton: {text: langs.alert.ok},
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.notify,
+      message: langs.errorNetwork,
+      leftButton: {text: langs.alert.ok},
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchgetSummary() {
+  yield takeLatest(types.GET_SUMMARY, sagaGetSummary);
 }
