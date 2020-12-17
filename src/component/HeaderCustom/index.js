@@ -1,8 +1,15 @@
 import React from 'react';
-import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../utlis';
 import Icon from 'react-native-vector-icons/Feather';
+import {imgs, Colors} from '../../../utlis';
 
 HeaderCustom.defaultProps = {
   width: wp(100),
@@ -44,7 +51,12 @@ export default function HeaderCustom(props?: Props) {
       ]}>
       <TouchableOpacity onPress={goBack} style={styles.button}>
         {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
-        <Icon name="chevron-left" size={32} color={Colors.black} />
+        <Icon
+          name="chevron-left"
+          size={32}
+          color={Colors.black}
+          style={{top: 4}}
+        />
       </TouchableOpacity>
       <Text style={[styles.title, {fontSize}]} {...otherProps}>
         {title}
@@ -85,6 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: Colors.black,
+    marginTop: 8,
   },
   right: {
     backgroundColor: 'rgba(0,0,0,0)',

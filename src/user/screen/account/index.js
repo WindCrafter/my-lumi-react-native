@@ -14,15 +14,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import {NetworkInfo} from 'react-native-network-info';
-import {Colors} from '../../../../utlis';
-import {BarStatus} from '../../../component';
-import HeaderAccount from './component/HeaderAccount';
-import RoundedView from './component/RoundedView';
 import {Card} from 'native-base';
-import ModalInforApp from './component/ModalInforApp';
-import {imgs} from '../../../../utlis';
-import {_global} from '../../../../utlis/global/global';
-import langs from '../../../../common/language';
 import {
   PERMISSIONS,
   request,
@@ -30,6 +22,14 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
+import {Colors, imgs} from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import HeaderAccount from './component/HeaderAccount';
+import RoundedView from './component/RoundedView';
+import ModalInforApp from './component/ModalInforApp';
+
+import {_global} from '../../../../utlis/global/global';
+import langs from '../../../../common/language';
 
 const Account = (props) => {
   const {
@@ -64,7 +64,7 @@ const Account = (props) => {
     logOut();
     const data = {
       deviceId: oneSignalID,
-      token: token,
+      token,
     };
     kickAssign();
     resetCheck();
@@ -84,6 +84,9 @@ const Account = (props) => {
   const onMoveToContact = () => {
     navigation.navigate('Contact');
   };
+  const onMoveToChangePass = () => {
+    navigation.navigate(langs.navigator.changePass);
+  };
   const openUrl = () => {
     Linking.openURL('https://lumi.vn');
     console.log('1');
@@ -100,13 +103,13 @@ const Account = (props) => {
             leftImage={require('../../../../naruto.jpeg')}
             title={nameUser}
             rightImage={imgs.next}
-            tintColor={'grey'}
-            detail={'Team App'}
+            tintColor="grey"
+            detail="Team App"
             fontSize={16}
             onPressButton={onMoveToProfile}
             styleImg={styles.image}
             styleName={styles.name}
-            team={'Team App'}
+            team="Team App"
           />
           <View style={styles.detail}>
             <RoundedView
@@ -117,7 +120,7 @@ const Account = (props) => {
             <RoundedView
               leftImage={imgs.changePassIcon}
               title={langs.changePass}
-              onPressButton={onShowModal}
+              onPressButton={onMoveToChangePass}
             />
             <RoundedView
               leftImage={imgs.inforsolidblack}

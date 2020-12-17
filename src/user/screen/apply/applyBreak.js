@@ -145,12 +145,20 @@ function ApplyBreak(props) {
 
   const onTakeLeaveDay = () => {
     const newarray = [];
+    let object=[]
     let array = Object.keys(_markedDates);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
         newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
       }
     });
+    newarray.forEach(i => {
+      let [date1, month1, year1] = i.split('/');
+      if (!object.includes(`${month1}/${year1}`)) {
+        object.push(`${month1}/${year1}`)
+      }
+
+    })
     console.log(newarray);
     const data = {
       token: token,
@@ -158,6 +166,7 @@ function ApplyBreak(props) {
       date: newarray,
       type: 2,
       morning: 0,
+      month: object
     };
     console.log('dataaaaaa', data);
 
@@ -170,6 +179,7 @@ function ApplyBreak(props) {
       type: 1,
       content: reason,
       morning: typeShift === 'Buổi sáng' ? 1 : 2,
+      month: moment(shift).format('MM/YYYY').split(' ')
     };
     console.log('dataaaaaa', data);
     takeLeave(data);

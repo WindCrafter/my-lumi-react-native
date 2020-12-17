@@ -1,10 +1,10 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {StyleSheet, View, Alert, Keyboard, Dimensions} from 'react-native';
-import {Logo, Input, InputPassword, Checkbox, Button} from '../../../component';
+import {Logo, Input, InputPassword, Checkbox, Button,HeaderCustom} from '../../../component';
 import langs from '../../../../common/language';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 
-let deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
   const {loginAction, token, changeAutoLogin, autoLoginStatus} = props;
@@ -32,10 +32,8 @@ const Login = (props) => {
         leftButton: {text: langs.alert.ok},
       });
       return;
-    } else {
-      loginAction({email, password: pass});
-      console.log('', token);
     }
+    loginAction({email, password: pass});
   };
 
   const onChangeEmail = (value) => {
@@ -88,7 +86,7 @@ const Login = (props) => {
           onChange={onChangeRememberLogin}
         />
         <Button
-          backgroundColor={'#FD993B'}
+          backgroundColor="#FD993B"
           title={langs.login}
           onPress={onLogin}
           testID="test_Login"

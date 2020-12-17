@@ -56,26 +56,26 @@ const ForgotPass = (props) => {
     <KeyBoardScroll>
       <View style={styles.container}>
         <Logo containerStyle={styles.logo} />
-      
-          <ScrollView
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            keyboardShouldPersistTaps='handled'
-            keyboardDismissMode='on-drag'
-            ref={step}>
-            <SendCode
-              email={email}
-              onChangeEmail={onChangeEmail}
-              onSend={onSend}
-            />
-            <ConfirmCode
-              code={code}
-              onChangeCode={onChangeCode}
-              onConfirms={onConfirms}
-            />
-            <RePass />
-          </ScrollView>
+
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          ref={step}>
+          <SendCode
+            email={email}
+            onChangeEmail={onChangeEmail}
+            onSend={onSend}
+          />
+          <ConfirmCode
+            code={code}
+            onChangeCode={onChangeCode}
+            onConfirms={onConfirms}
+          />
+          <RePass />
+        </ScrollView>
         <View testID="test_Back" style={styles.back}>
           <TouchableOpacity onPress={onBack}>
             <Text style={styles.textBack}>Quay lại trang đăng nhập</Text>
