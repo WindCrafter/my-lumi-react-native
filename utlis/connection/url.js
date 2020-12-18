@@ -1,5 +1,7 @@
 export const URL = {
   LOCAL_HOST: 'https://api.lumier.lumi.com.vn',
+  // LOCAL_HOST: 'https://6f008bd5aa0a.ngrok.io',
+
   // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
   // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
@@ -56,5 +58,6 @@ export const URL = {
   GET_SUMMARY: '/work-day/get-summary',
 
   //
-  BOOK_ROOM: '/book-room',
+  BOOK_ROOM: '/meeting/create',
+  LIST_ROOM: '/meeting/list',
 };
