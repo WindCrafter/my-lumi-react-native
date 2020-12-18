@@ -29,6 +29,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Clipboard from '@react-native-community/clipboard';
 import langs from '../../../../common/language';
 import {Card} from 'native-base';
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
 
 if (
   Platform.OS === 'android' &&
@@ -38,20 +40,29 @@ if (
 }
 
 function UpdateProfile(props) {
-  const {navigation, updateProfile, token, getProfile, auth} = props;
+  const {navigation, updateProfile, token, auth} = props;
   const [user, setUser] = useState(auth);
   const [dateChange, setDateChange] = useState(new Date());
 
   useEffect(() => {
-    getProfile({access_token: token});
+    getData();
   }, []);
+
+  const getData = async () => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_PROFILE ===========>', response);
+    if (response.success && response.statusCode === 200) {
+      setUser(response.data);
+      _global.Loading.hide();
+    } else {
+      _global.Loading.hide();
+    }
+  };
 
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
-  const [update] = useState(false);
   const [show, setShow] = useState(false);
-  const [showBank, setShowBank] = useState(false);
-  const [showGene, setShowGene] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
 
   const goBack = () => {
@@ -61,32 +72,10 @@ function UpdateProfile(props) {
   const onChangeName = (val) => {
     setUser({...user, fullname: val});
   };
-  // const onSetTech = () => {
-  //   setBankName('Techcombank');
-  // };
-  // const onSetBIDV = () => {
-  //   setBankName('BIDV');
-  // };
-  // const onSetAgri = () => {
-  //   setBankName('Agribank');
-  // };
-  // const onSetVCB = () => {
-  //   setBankName('Vietcombank');
-  // };
-  // const onSetVPB = () => {
-  //   setBankName('VPBank');
-  // };
-  // const onSetVTB = () => {
-  //   setBankName('VietinBank');
-  // };
 
   const onChangePhone = (val) => {
     setUser({...user, phone_number: val});
   };
-
-  // const onChangeAccount = (val) => {
-  //   setBankAccount(val);
-  // };
 
   const onChangeBirthday = (event, val) => {
     const pickDate = val || moment(user.birthday, 'DD/MM/YYYY').toDate();
@@ -132,13 +121,13 @@ function UpdateProfile(props) {
   const onPick = () => {
     navigation.navigate(langs.navigator.selectBank, {
       onChangeBank,
-      bank: user.bank,
+      bank_name: user.bank_name,
     });
   };
 
   const onChangeBank = (value) => {
     navigation.goBack();
-    setUser({...user, bank: value});
+    setUser({...user, bank_name: value});
   };
 
   const onChangeBankAccount = (value) => {
@@ -168,13 +157,15 @@ function UpdateProfile(props) {
 
   const onUpdateInfo = () => {
     const data = {
+      role: user.role,
+      team: user.team,
       fullname: user.fullname,
       phone_number: user.phone_number,
       birthday: user.birthday,
       address: user.address,
-      token: user.token,
+      token,
       identity_number: user.identity_number,
-      bank_name: user.bank,
+      bank_name: user.bank_name,
       bank_account: user.bank_account,
     };
 
@@ -200,7 +191,7 @@ function UpdateProfile(props) {
         <Card style={styles.card}>
           <UpdateInfo
             name={user.fullname}
-            team={user.team_name}
+            team={user.team}
             role={user.role}
             birthday={user.birthday}
             onChangeBirthday={onShowModal}
@@ -214,7 +205,7 @@ function UpdateProfile(props) {
             onChangeBank={onPick}
             onChangeIdentity={onChangeIdentity}
             onChangeBankAccount={onChangeBankAccount}
-            bankName={user.bank}
+            bankName={user.bank_name}
             deviceId={user.deviceId}
             onCopyDeviceID={onAlertCopy}
           />

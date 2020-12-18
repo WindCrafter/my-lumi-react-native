@@ -93,15 +93,14 @@ function ApproveOT(props) {
   const onConfirm = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_OVERTIME}`;
     const body = {
-      _id: item._id,
+      id: item.id,
       status: 2,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_OT =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(
-        data.map((i) => (i._id === response.data._id ? response.data : i)),
-      );
+      setData(data.map((i) => (i.id === item.id ? {...item, status: 2} : i)));
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -109,21 +108,21 @@ function ApproveOT(props) {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   };
 
   const onDeny = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_OVERTIME}`;
     const body = {
-      _id: item._id,
+      id: item.id,
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_OT =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(
-        data.map((i) => (i._id === response.data._id ? response.data : i)),
-      );
+      setData(data.map((i) => (i.id === item.id ? {...item, status: 3} : i)));
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -131,6 +130,7 @@ function ApproveOT(props) {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   };
 
@@ -144,7 +144,7 @@ function ApproveOT(props) {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&status=${_date}&name=${_name}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
@@ -235,6 +235,7 @@ function ApproveOT(props) {
           onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }

@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {PureComponent} from 'react';
+import {UIManager} from 'react-native';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {Provider} from 'react-redux';
 import codePush from 'react-native-code-push';
@@ -18,49 +19,61 @@ Sentry.init({
   sessionTrackingIntervalMillis: 10000,
 });
 setFont('Quicksand-Regular');
-const App = () => {
-  const CodePushState = {
-    status: codePush.SyncStatus.CHECKING_FOR_UPDATE,
-    progress: 0,
-  };
-  const codePushStatusDidChange = (status) => {
-    CodePushState.status = status;
-    ChangeState(CodePushState);
-  };
-  const codePushDownloadDidProgress = (progress) => {
-    CodePushState.progress =
-      progress &&
-      progress.receivedBytes &&
-      progress.totalBytes &&
-      progress.totalBytes !== 0
-        ? Math.floor((progress.receivedBytes * 100) / progress.totalBytes)
-        : 0;
-    console.log(progress);
-    ChangeState(CodePushState);
-  };
-  useEffect(() => {
-    // const onIds = (device) => {
-    //   console.log('Device info: ', device.userId);
-    //   const data = {
-    //     deviceId: device.userId,
-    //     token: token,
-    //   };
-    //   console.log(token);
-    //   addUserIdDevice(data);
-    // };
-    codePush.notifyAppReady();
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    codePush.allowRestart();
-    // codePush.disallowRestart();
-  });
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <AppNavigator />
-      </PersistGate>
-    </Provider>
-  );
-};
+
+class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+
+    this.state = {
+      store: store,
+    };
+
+    this.CodePushState = {
+      status: codePush.SyncStatus.CHECKING_FOR_UPDATE,
+      progress: 0,
+    };
+  }
+
+  codePushStatusDidChange(status) {
+    this.CodePushState = {
+      ...this.CodePushState,
+      status,
+    };
+
+    if (this.state.store) {
+      this.state.store.dispatch(ChangeState(this.CodePushState));
+    }
+  }
+
+  codePushDownloadDidProgress(progress) {
+    this.CodePushState = {
+      ...this.CodePushState,
+      progress:
+        progress &&
+        progress.receivedBytes &&
+        progress.totalBytes &&
+        progress.totalBytes != 0
+          ? (progress.receivedBytes * 100) / progress.totalBytes
+          : 0,
+    };
+
+    if (this.state.store) {
+      this.state.store.dispatch(ChangeState(this.CodePushState));
+    }
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppNavigator />
+        </PersistGate>
+      </Provider>
+    );
+  }
+}
 export default codePush({
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
@@ -70,4 +83,5 @@ export default codePush({
     mandatoryUpdateMessage:
       'Vui lòng nhấn Tiếp tục để cập nhật phiên bản mới nhất. Ứng dụng sẽ tự động khởi động lại sau khi tải hoàn tất.',
   },
+  allowRestart: true,
 })(App);

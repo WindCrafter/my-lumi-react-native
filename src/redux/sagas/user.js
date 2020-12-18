@@ -44,6 +44,8 @@ const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
     const data = {
+      role: action.payload.role,
+      team: action.payload.team,
       fullname: action.payload.fullname,
       phone_number: action.payload.phone_number,
       address: action.payload.address,
