@@ -18,7 +18,7 @@ export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    // marginTop: 15,
     
   },
 

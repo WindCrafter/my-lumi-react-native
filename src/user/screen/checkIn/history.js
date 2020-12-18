@@ -211,7 +211,7 @@ function History(props) {
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 15 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       />
       <HeaderCustom
         title={'Lịch sử chấm công'}

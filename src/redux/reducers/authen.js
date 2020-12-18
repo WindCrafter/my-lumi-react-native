@@ -45,7 +45,6 @@ export default function authen(state = initialState, action) {
         user_id: action.payload.user_id,
       };
     case types.GET_PROFILE_SUCCESS:
-      console.log('heare', action.payload);
       return {
         ...state,
         fullname: action.payload.data.fullname,

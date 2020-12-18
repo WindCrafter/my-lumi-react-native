@@ -128,15 +128,15 @@ const Account = (props) => {
               title={langs.infoApp}
               onPressButton={onShowModal}
             />
-            <RoundedView
+            {/* <RoundedView
               leftImage={imgs.KPI}
               title={langs.kpiConfirm}
               onPressButton={onShowModal}
-            />
+            /> */}
             <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
                 <Image source={imgs.KPI} style={styles.imgClear} />
-                <Text style={styles.txtDemo}>Demo</Text>
+                <Text style={styles.txtDemo}>Trạng thái</Text>
               </View>
               <Switch
                 trackColor={{false: '#767577', true: '#0db14b'}}

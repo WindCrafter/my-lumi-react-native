@@ -15,6 +15,49 @@ import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../../../utlis';
 
+const fakeData = [
+  {
+    name: 'Nguyễn Văn Nghị',
+    avt: require('../../../../naruto.jpeg'),
+    day: '01/01/2020',
+    team: 'App',
+    role: 'Leader',
+    kpi: '28',
+    kpi_6m: '28',
+    work: '28',
+    key: 'ajas',
+    type: 'break',
+    content:
+      'Hôm nay trên đường đi làm gặp kẻ tiểu nhân giữa thanh thiên bạch nhật dám giở trò trộm cắp nên em đã hành hiệp trượng nghĩa, truy đuổi và bắt giữ đối tượng. Hiện em đang trên phường!',
+  },
+  {
+    name: 'Lê Mạnh Cường',
+    avt: require('../../../../naruto.jpeg'),
+    day: '02/03/2020',
+    team: 'App',
+    role: 'Staff',
+    kpi: '27',
+    kpi_6m: '29',
+    work: '28',
+    key: 'ajasas',
+    type: 'late',
+    content: 'Chỗ này tắc đường ',
+  },
+  {
+    name: 'Nguyễn Xuân Kiên',
+    avt: require('../../../../naruto.jpeg'),
+    day: '04/05/2020',
+    team: 'App',
+    role: 'Intern',
+    kpi: '29',
+    kpi_6m: '28',
+    work: '27',
+    key: 'ajasjb',
+    type: 'ot',
+    content: 'Truy cầu bản ngã , cải thiện đồng lương',
+  },
+];
+
 const Notify = (props) => {
   // useEffect(() => {
   //   getListNotifys(token);
@@ -24,7 +67,7 @@ const Notify = (props) => {
   const [position, setPosition] = useState(0);
   const refList = useRef('');
   const [listData, setListData] = useState(
-    listNotifys ? listNotifys.notify : null,
+    listNotifys ? listNotifys.notify : fakeData,
   );
 
   const onToTop = (e) => {
@@ -78,7 +121,7 @@ const Notify = (props) => {
             source={require('../../../../naruto.jpeg')}
           />
           <View style={styles.viewText}>
-            <Text numberOfLines={3}>{item ? item.contents.en : null}</Text>
+            <Text numberOfLines={3}>{item.name}</Text>
             <Text style={styles.time}>
               {moment(item.createdAt).format('HH:mm - DD/MM/YYYY')}
             </Text>

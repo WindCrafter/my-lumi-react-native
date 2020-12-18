@@ -211,7 +211,7 @@ function ApproveOT(props) {
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       />
       <HeaderCustom
         title={langs.titleApproveOT}

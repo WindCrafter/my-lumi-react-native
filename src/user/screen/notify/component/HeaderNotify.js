@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   line: {
-    height: 1,
+    height: StyleSheet.hairlineWidth,
     width: '100%',
     backgroundColor: 'black',
   },

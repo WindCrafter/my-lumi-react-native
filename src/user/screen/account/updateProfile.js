@@ -85,7 +85,6 @@ function UpdateProfile(props) {
       setDateChange(val);
     } else {
       if (event.type === 'set') {
-        console.log('here');
         setShowPicker(false);
         setUser({...user, birthday: moment(pickDate).format('DD/MM/YYYY')});
         setDateChange(pickDate);
