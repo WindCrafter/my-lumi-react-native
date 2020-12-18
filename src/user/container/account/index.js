@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Account from '../../screen/account';
 import {logOut} from '../../../redux/actions/authen';
 import {
-  // getListUsers,
+  getListUsers,
   // getListTeams,
   kickAssign,
   changeDemoMode,
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   kickAssign,
   logOut,
-  // getListUsers,
+  getListUsers,
   // getListTeams,
   resetCheck,
   changeDemoMode,

@@ -89,7 +89,6 @@ export function* watchUpdateProfile() {
 }
 function* sagaGetListUsers(action) {
   try {
-    console.log(action);
     const token = action.payload;
     const response = yield _GET(URL_LIST_USERS, token);
     console.log(response);

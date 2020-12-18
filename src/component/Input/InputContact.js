@@ -20,7 +20,11 @@ export default function ContactRow(props?: Props) {
 
   return (
     <View style={styles.container}>
-      <Image source={leftImage} style={styles.image} resizeMode="contain" />
+      <Image
+        source={{uri: `${leftImage}`}}
+        style={styles.image}
+        resizeMode="contain"
+      />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.team}>

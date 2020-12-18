@@ -28,7 +28,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA = [{name: 'Do Tun Phon', team: 'APP', role: 'Leader'}];
 
 function Contact(props) {
   const {navigation, currentUser} = props;
@@ -36,7 +35,7 @@ function Contact(props) {
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [listData, setListData] = useState(DATA);
+  const [listData, setListData] = useState(currentUser);
   const hideModal = () => {
     setShowModal(false);
   };
@@ -82,8 +81,8 @@ function Contact(props) {
     };
     return (
       <ContactRow
-        name={data.item.name}
-        leftImage={data.item.avt}
+        name={data.item.fullname}
+        leftImage={data.item.avatar}
         team={data.item.team}
         dob={data.item.birthday}
         role={data.item.role}
@@ -99,9 +98,9 @@ function Contact(props) {
   const onSearch = () => {};
 
   const onChangeSearch = (txt) => {
-    const newData = DATA.filter((item) => {
+    const newData = currentUser.filter((item) => {
       // console.log('----->>>>.',item.name)
-      const itemData = getText(item.name);
+      const itemData = item.fullname ? getText(item.fullname):'';
 
       const textData = getText(txt);
 
@@ -134,7 +133,7 @@ function Contact(props) {
       <FlatList
         data={listData}
         renderItem={renderItem}
-        keyExtractor={(index) => index.toString()}
+        keyExtractor={(item) => `${item.id}`}
       />
       <ModalInforBank
         bankName={bankName}

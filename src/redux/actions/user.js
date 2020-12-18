@@ -19,6 +19,7 @@ export const updateProfileFailed = () => {
     type: types.UPDATE_PROFILE_FAILED,
   };
 };
+
 export const getListUsers = (data) => {
   return {
     type: types.GET_LIST_USERS,
@@ -195,9 +196,9 @@ export const changeDemoMode = () => {
     type: types.CHANGE_DEMO_MODE,
   };
 };
-export const bookRoom =(data)=> {
+export const bookRoom = (data) => {
   return {
-    type:types.BOOK_ROOM,
-    payload: data
-  }
-}
+    type: types.BOOK_ROOM,
+    payload: data,
+  };
+};
