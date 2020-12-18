@@ -1,6 +1,14 @@
 import React, {useState, useRef} from 'react';
-import {Text, View, StyleSheet, LayoutAnimation} from 'react-native';
-import {InputPassword, HeaderCustom} from '../../../component';
+import {
+  Text,
+  View,
+  StyleSheet,
+  LayoutAnimation,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+} from 'react-native';
+import {InputPassword, HeaderCustom, BarStatus} from '../../../component';
 import {Button} from '../../../component/Button';
 import {Colors, imgs} from '../../../../utlis/index';
 import langs from '../../../../common/language/index';
@@ -40,12 +48,16 @@ const ChangePass = (props) => {
   };
   return (
     <View style={styles.container}>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
+      />
+      <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}
         height={60}
         goBack={onGoBack}
         rightImage={imgs.settingICon}
-        
       />
       <View>
         {recentPass !== '' ? (

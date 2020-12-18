@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import moment from 'moment';
 import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
@@ -10,9 +17,17 @@ HeaderCheck.defaultProps = {
 };
 
 function HeaderCheck(props?: Props) {
-  const { onPress, title, type, pressHistory, onPressBack, onPressChange} = props;
+  const {
+    onPress,
+    title,
+    type,
+    pressHistory,
+    onPressBack,
+    onPressChange,
+  } = props;
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <TouchableOpacity style={styles.body} onPress={onPressBack}>
         <Image style={styles.cancel} source={imgs.cancel} />
       </TouchableOpacity>

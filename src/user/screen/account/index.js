@@ -44,9 +44,8 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
-    
   } = props;
-  
+
   const [showModal, setshowModal] = useState(false);
 
   const onLogOut = () => {

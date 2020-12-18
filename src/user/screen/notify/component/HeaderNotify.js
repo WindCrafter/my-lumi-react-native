@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
@@ -13,6 +13,7 @@ export default function HeaderNotify(props?: Props) {
   const {title, detail} = props;
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <View style={styles.info}>
         <Text style={styles.txtTitle}>{title}</Text>
         <Text style={styles.txtDetail}>{detail}</Text>
