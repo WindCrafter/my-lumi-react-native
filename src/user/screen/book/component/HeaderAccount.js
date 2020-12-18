@@ -19,6 +19,7 @@ export default HeaderAccount;
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
+    
   },
 
   info: {
@@ -39,9 +40,12 @@ const styles = StyleSheet.create({
     color: 'black',
     marginVertical: 4,
   },
-  line: {height: 1, width: '100%', backgroundColor: 'black'},
+  line: {
+    height: StyleSheet.hairlineWidth,
+    width: '100%',
+    backgroundColor: 'black',
+  },
   bot: {
     flex: 1,
-    paddingBottom: 16,
   },
 });

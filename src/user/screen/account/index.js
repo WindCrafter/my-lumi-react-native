@@ -44,7 +44,9 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
+    
   } = props;
+  
   const [showModal, setshowModal] = useState(false);
 
   const onLogOut = () => {
@@ -132,7 +134,7 @@ const Account = (props) => {
               title={langs.kpiConfirm}
               onPressButton={onShowModal}
             />
-            <View style={styles.row}>
+            <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
                 <Image source={imgs.KPI} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Demo</Text>
@@ -144,7 +146,7 @@ const Account = (props) => {
                 onValueChange={changeDemoMode}
                 value={demoMode}
               />
-            </View>
+            </Card>
             <RoundedView
               leftImage={imgs.logout}
               title={langs.logOut}
@@ -231,11 +233,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 16,
     marginTop: 8,
-    shadowColor: '#000000',
-    shadowOpacity: 0.16,
+
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.gray,
     backgroundColor: 'white',
+    height: 64,
   },
   txtDemo: {
     fontSize: 18,

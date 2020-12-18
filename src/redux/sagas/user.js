@@ -21,6 +21,7 @@ import {
   getListCheckSuccess,
   getListCheckFailed,
   clearMember,
+  listRoomSuccess,
 } from '../actions/user';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
@@ -34,6 +35,8 @@ const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
 const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
 const URL_BOOK_ROOM = `${URL.LOCAL_HOST}${URL.BOOK_ROOM}`;
+const URL_LIST_ROOM = `${URL.LOCAL_HOST}${URL.LIST_ROOM}`;
+
 const URL_NOTIFY = (e) => {
   return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
 };
@@ -48,8 +51,8 @@ function* sagaUpdateProfile(action) {
       phone_number: action.payload.phone_number,
       address: action.payload.address,
       birthday: action.payload.birthday,
-      identity_number:action.payload.identity_number,
-      bank:action.payload.bank,
+      identity_number: action.payload.identity_number,
+      bank: action.payload.bank,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_PROFILE, data, token);
@@ -89,7 +92,7 @@ export function* watchUpdateProfile() {
 function* sagaGetListUsers(action) {
   try {
     console.log(action);
-    const token = action.payload;
+    const token = action.payload.token;
     const response = yield _GET(URL_LIST_USERS, token);
     console.log(response);
     if (response.success && response.statusCode === 200) {
@@ -179,7 +182,7 @@ export function* watchRemoveUserIdDevice() {
 function* sagaGetListTeams(action) {
   try {
     console.log(action);
-    const token = action.payload;
+    const token = action.payload.token;
     const response = yield _GET(URL_TEAMS, token);
     console.log(response);
     if (response.success && response.statusCode === 200) {
@@ -199,7 +202,7 @@ export function* watchGetListTeams() {
 function* sagaGetListAssign(action) {
   try {
     console.log(action);
-    const token = action.payload;
+    const token = action.payload.token;
     const response = yield _GET(URL_ASSIGN, token);
     console.log(response);
     if (response.success && response.statusCode === 200) {
@@ -262,16 +265,18 @@ export function* watchGetListCheck() {
 function* sagaBookRoom(action) {
   try {
     console.log(action);
-    const token = action.payload;
+    const token = action.payload.token;
     const data = {
-      title: action.payload.title,
-      loop: action.payload.loop,
-      timeEnd: action.payload.timeEnd,
-      timeStart: action.payload.timeStart,
+      start_time: action.payload.start_time,
+      end_time: action.payload.end_time,
+      date: action.payload.date,
+      subject: action.payload.subject,
+      content: action.payload.content,
       location: action.payload.location,
-      description: action.payload.description,
       member: action.payload.member,
+      loop: action.payload.loop,
     };
+    console.log(data);
     const response = yield _POST(URL_BOOK_ROOM, data, token);
     console.log(response);
     if (response.success && response.statusCode === 200) {
@@ -284,21 +289,53 @@ function* sagaBookRoom(action) {
           onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
         leftButton: {
           text: langs.alert.ok,
-          onPress: () => CustomNavigation.goBack(),
         },
       });
+      _global.Loading.hide();
     }
   } catch (error) {
     console.log(error);
+    _global.Loading.hide();
   }
 }
 
 export function* watchBookRoom() {
   yield takeLatest(types.BOOK_ROOM, sagaBookRoom);
+}
+function* sagaListRoom(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const response = yield _GET(URL_LIST_ROOM, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(listRoomSuccess(response.data));
+      _global.Loading.hide();
+      console.log(response.data);
+    } else {
+      
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+      _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchListRoom() {
+  yield takeLatest(types.LIST_ROOM, sagaListRoom);
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import _ from 'lodash';
 
 import {
@@ -10,36 +10,36 @@ import {
   StatusBar,
   Alert,
   Button,
-  Platform
+  Platform,
+  SafeAreaView,
 } from 'react-native';
-import {Colors} from '../../../../utlis';
-import {BarStatus} from '../../../component';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
-import HeaderAccount from './component/HeaderAccount';
 import ActionButton from 'react-native-action-button';
-import {imgs} from '../../../../utlis';
 import {Card} from 'native-base';
-
-function getFutureDates(days) {
-  //test calendar
-
-  ///
-  const array = [];
-  for (let index = 1; index <= days; index++) {
-    const date = new Date(Date.now() + 864e5); // 864e5 == 86400000 == 2460601000
-    const dateString = date.toISOString().split('T')[0];
-    array.push(dateString);
-  }
-  return array;
-}
-
-function getPastDate(days) {
-  return new Date(Date.now() - 864e5 * days).toISOString().split('T')[0];
-}
+import {Colors, imgs} from '../../../../utlis';
+import {BarStatus} from '../../../component';
+import HeaderAccount from './component/HeaderAccount';
 
 const Book = (props) => {
-  const {navigation} = props;
+  const {navigation, token, listRoom, listRoomBook} = props;
+  const listArrayRoom = {};
+  listRoomBook.forEach((i) => {
+    const [date, month, year] = i.date.split('-');
+    if (listArrayRoom[`${year}-${month}-${date}`]) {
+      listArrayRoom[`${year}-${month}-${date}`].push(i);
+    } else {
+      listArrayRoom[`${year}-${month}-${date}`] = [i];
+    }
+  });
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      listRoom({token});
+    });
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
   const rowHasChanged = (r1, r2) => {
     return r1.name !== r2.name;
   };
@@ -47,29 +47,36 @@ const Book = (props) => {
   const renderEmptyItem = () => {
     return (
       <View style={styles.emptyItem}>
-        <Text style={styles.emptyItemText}>No Events Planned</Text>
+        <Text style={styles.emptyItemText}>
+          Hiện chưa có lịch cho ngày này.
+        </Text>
       </View>
     );
   };
   const renderItem = (item) => {
     return (
       <TouchableOpacity style={styles.item}>
-        <View>
-          <Text style={styles.itemDurationText}>{item.name}</Text>
+        <View style={{marginHorizontal: 16}}>
+          <Text
+            style={{
+              fontSize: 16,
+            }}
+          >
+            {`${item.start_time} - ${item.end_time}`}
+          </Text>
+          <Text style={styles.itemDurationText}>
+            {`Nội dung họp: ${item.subject}`}
+          </Text>
+          <Text style={{marginTop: 8, fontWeight: '500', fontSize: 16}}>
+            {item.owner_name}
+          </Text>
+          <Text>{item.location}</Text>
+          <Text>{item.member}</Text>
         </View>
       </TouchableOpacity>
     );
   };
-  const item = {
-    '2020-11-28': {day: '2020-11-28', selected: true},
-    '2020-12-23': [{name: 'item 2 - any js object', height: 80}],
-    '2020-11-24': [],
-    '2020-11-25': [{name: 'item 3 - any js object'}],
-    '2020-11-01': [{name: 'item 1 - any js object'}],
-    '2020-11-02': [{name: 'item 2 - any js object', height: 80}],
-    '2020-11-03': [],
-    '2020-12-04': [{name: 'item 3 - any js object'}],
-  };
+
   const onMoveToEvent = () => {
     console.log('----- < > __');
     navigation.navigate('Sự kiện mới');
@@ -79,21 +86,12 @@ const Book = (props) => {
   };
   return (
     <>
+      <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
-      <View style={styles.header}>
-        <View style={styles.week}>
-          <Text style={styles.txtHeader}>{'Lịch tuần'}</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.txtHeader}>{'Lịch ngày'}</Text>
-        </View>
-        <View style={styles.meeting}>
-          <Text style={styles.txtHeader}>{'Phòng họp'}</Text>
-        </View>
-      </View>
+
       <Agenda
-        items={item}
+        items={listArrayRoom}
         firstDay={1}
         selected={moment().format('YYYY-MM-DD')}
         renderItem={renderItem}
@@ -101,20 +99,11 @@ const Book = (props) => {
         renderEmptyData={renderEmptyItem}
       />
 
-      {/* <Calendar
-        minDate={_today}
-        maxDate={_maxDate}
-        // hideArrows={true}
-
-        onDayPress={onDaySelect}
-        markedDates={_markedDates}
-      /> */}
       <ActionButton
         buttonColor={Colors.white}
-        offsetY={30}
         onPress={onMoveToEvent}
         degrees={45}
-        fixNativeFeedbackRadius={true}
+        fixNativeFeedbackRadius
         renderIcon={buttonIcon}
         style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
       />
@@ -129,6 +118,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 16,
     marginTop: 32,
+    marginRight: 8,
   },
   emptyDate: {
     height: 15,
@@ -140,9 +130,8 @@ const styles = StyleSheet.create({
   },
   itemDurationText: {
     color: 'grey',
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 4,
-    marginLeft: 4,
   },
   itemTitleText: {
     color: 'black',

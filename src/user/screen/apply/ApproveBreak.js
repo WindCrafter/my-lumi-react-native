@@ -11,19 +11,20 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {Card} from 'native-base';
+import moment from 'moment';
+import {Colors, imgs} from '../../../../utlis';
+import {BarStatus} from '../../../component';
 import langs from '../../../../common/language';
 import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
-import moment from 'moment';
 import {_GET, _POST} from '../../../../utlis/connection/api';
 import {_global} from '../../../../utlis/global/global';
 import {URL} from '../../../../utlis/connection/url';
 import CardBreak from './component/CardBreak';
+
 const ApproveBreak = (props) => {
   const {
     navigation,
@@ -62,7 +63,7 @@ const ApproveBreak = (props) => {
     navigation.goBack();
   };
 
-  //saga
+  // saga
   // const getData = () => {
   //   const dataLeave = {
   //     status: 0,
@@ -92,15 +93,17 @@ const ApproveBreak = (props) => {
       setData(_data.concat(response.data));
       setPage(pageNumber);
       setLoading(false);
+      _global.Loading.hide();
     } else {
       setLoading(false);
+      _global.Loading.hide();
     }
   };
   const handleLoadMore = () => {
     setLoading(true);
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
-  //saga
+  // saga
   // const onChangeDate = (date) => {
   //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
   //   console.log(moment(pickDate).format('DD/MM/YYYY'));
@@ -137,7 +140,7 @@ const ApproveBreak = (props) => {
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
   };
-  //saga
+  // saga
   // const onChangeStatus = (item) => {
   //   setFilter({...filter, status: item});
   //   setData([]);
@@ -180,6 +183,7 @@ const ApproveBreak = (props) => {
             : i,
         ),
       );
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -187,6 +191,7 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   };
   const onRefresh = () => {
@@ -206,6 +211,7 @@ const ApproveBreak = (props) => {
       setData(
         data.map((i) => (i._id === response.data._id ? response.data : i)),
       );
+      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -213,6 +219,7 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
+      _global.Loading.hide();
     }
   };
 
@@ -267,7 +274,7 @@ const ApproveBreak = (props) => {
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
         <FlatList
-          //saga
+          // saga
           // data={historyAdminTakeLeave}
 
           onEndReached={!loading ? handleLoadMore : null}

@@ -1,12 +1,12 @@
 import React from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const KeyBoardScroll = ({children,containerStyle, ...otherProps}) => {
+const KeyBoardScroll = ({children, containerStyle, ...otherProps}) => {
   return (
     <KeyboardAwareScrollView
       extraScrollHeight={20}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[containerStyle,{flexGrow: 0}]}
+      contentContainerStyle={[containerStyle, {flexGrow: 0}]}
       enableResetScrollToCoords
       enableOnAndroid
       scrollEnabled
