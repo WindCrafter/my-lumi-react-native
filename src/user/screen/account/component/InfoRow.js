@@ -34,7 +34,7 @@ InforRow.defaultProps = {
   backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
   canedit: true,
-  txtInput:true,
+  txtInput: true,
 };
 
 export default function InforRow(props?: Props) {
@@ -52,6 +52,7 @@ export default function InforRow(props?: Props) {
     title,
     canedit,
     color,
+    value,
     ...otherProps
   } = props;
   // const View = Platform.OS === 'ios' ? View : Card;
@@ -65,7 +66,11 @@ export default function InforRow(props?: Props) {
       <TextInput
         testID={testID}
         ref={refInput}
-        style={[styles.textInput, {width: width, color:color}]}
+        value={`${value}`}
+        style={[
+          styles.textInput,
+          {width: width, color: color ? color : 'black'},
+        ]}
         selectionColor={'black'}
         placeholderTextColor={'gray'}
         autoCorrect={false}
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
   },
   left: {
     flexDirection: 'row',
-    flex:1,
+    flex: 1,
   },
   title: {
     alignSelf: 'center',

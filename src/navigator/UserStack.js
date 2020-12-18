@@ -14,6 +14,7 @@ import applyBreak from '../user/container/apply/applyBreak';
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
+import SelectBank from '../user/container/account/selectBank';
 import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
 import CheckIn from '../user/container/checkIn/index';
@@ -226,6 +227,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.approveLate}
         component={ApproveLate}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.selectBank}
+        component={SelectBank}
         options={{
           headerShown: false,
         }}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,9 +6,14 @@ import {
   StatusBar,
   UIManager,
   ScrollView,
-  KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
-import {BarStatus, Button, HeaderCustom} from '../../../component';
+import {
+  BarStatus,
+  Button,
+  HeaderCustom,
+  KeyBoardScroll,
+} from '../../../component';
 import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
@@ -18,13 +23,14 @@ import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import {_global} from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
-import ModalBank from './component/ModalBank';
 
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Clipboard from '@react-native-community/clipboard';
 import langs from '../../../../common/language';
 import {Card} from 'native-base';
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
 
 if (
   Platform.OS === 'android' &&
@@ -34,98 +40,100 @@ if (
 }
 
 function UpdateProfile(props) {
-  const {
-    navigation,
-    nameUser,
-    phoneNumber,
-    updateProfile,
-    token,
-    advance,
-    teamUser,
-    birthdayUser,
-    deviceId,
-    teams,
-    addressUser,
-    team_name,
-    role,
-    identity_number,
-    bank,
-  } = props;
+  const {navigation, updateProfile, token, auth} = props;
+  const [user, setUser] = useState(auth);
+  const [dateChange, setDateChange] = useState(new Date());
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_PROFILE ===========>', response);
+    if (response.success && response.statusCode === 200) {
+      setUser(response.data);
+      _global.Loading.hide();
+    } else {
+      _global.Loading.hide();
+    }
+  };
+
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
-  const [update] = useState(false);
   const [show, setShow] = useState(false);
-  const [showBank, setShowBank] = useState(false);
-  const [showGene, setShowGene] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [name, setName] = useState(nameUser);
-  const [phone, setPhone] = useState(phoneNumber);
-  const [birthday, setBirthDay] = useState(
-    birthdayUser ? birthdayUser : moment(new Date()).format('DD/MM/YYYY'),
-  );
-  const [identity, setIdentity] = useState(identity_number);
-  const [nativeLand, setNativeLand] = useState(addressUser);
-  const [bankName, setBankName] = useState(bank);
 
   const goBack = () => {
     navigation.goBack();
   };
 
   const onChangeName = (val) => {
-    setName(val);
+    setUser({...user, fullname: val});
   };
-  const onSetTech = () => {
-    setBankName('Techcombank');
-  };
-  const onSetBIDV = () => {
-    setBankName('BIDV');
-  };
-  const onSetAgri = () => {
-    setBankName('Agribank');
-  };
-  const onSetVCB = () => {
-    setBankName('Vietcombank');
-  };
-  const onSetVPB = () => {
-    setBankName('VPBank');
-  };
-  const onSetVTB = () => {
-    setBankName('VietinBank');
-  };
+
   const onChangePhone = (val) => {
-    setPhone(val);
+    setUser({...user, phone_number: val});
   };
-  const onChangeAccount = (val) => {
-    setBankAccount(val);
-  };
+
   const onChangeBirthday = (event, val) => {
-    const pickDate = val || moment(birthday, 'DD/MM/YYYY').toDate();
-    setShowPicker(Platform.OS === 'ios');
-    console.log('=>>>>>>>', pickDate);
-    setBirthDay(moment(pickDate).format('DD/MM/YYYY'));
+    const pickDate = val || moment(user.birthday, 'DD/MM/YYYY').toDate();
+    if (Platform.OS === 'ios') {
+      setShowPicker(Platform.OS === 'ios');
+      console.log('=>>>>>>>', pickDate);
+      setDateChange(val);
+    } else {
+      if (event.type === 'set') {
+        console.log('here');
+        setShowPicker(false);
+        setUser({...user, birthday: moment(pickDate).format('DD/MM/YYYY')});
+        setDateChange(pickDate);
+      } else {
+        setShowPicker(false);
+      }
+    }
   };
-  const onHideGene = () => {
-    setShowGene(false);
+
+  const onConfirmBirthday = () => {
+    setShow(false);
+    setUser({...user, birthday: moment(dateChange).format('DD/MM/YYYY')});
   };
+
+  // const onHideGene = () => {
+  //   setShowGene(false);
+  // };
 
   const onChangeIdentity = (val) => {
-    setIdentity(val);
+    setUser({...user, identity_number: val});
   };
 
-  const onChangeNativeLand = (val) => {
-    setNativeLand(val);
+  const onChangeAddress = (val) => {
+    setUser({...user, address: val});
   };
 
   const onShowModal = () => {
     setShow(true);
-    setShowPicker(!showPicker);
+    Keyboard.dismiss();
+    setShowPicker(true);
   };
+
   const onPick = () => {
-    setShowBank(true);
+    navigation.navigate(langs.navigator.selectBank, {
+      onChangeBank,
+      bank_name: user.bank_name,
+    });
   };
-  const onDonePick = () => {
-    setShowBank(!showBank);
+
+  const onChangeBank = (value) => {
+    navigation.goBack();
+    setUser({...user, bank_name: value});
   };
+
+  const onChangeBankAccount = (value) => {
+    setUser({...user, bank_account: value});
+  };
+
   const onHideModal = () => {
     setShow(false);
   };
@@ -133,7 +141,7 @@ function UpdateProfile(props) {
   const onAlertCopy = () => {
     _global.Alert.alert({
       title: langs.alert.deviceID,
-      message: deviceId,
+      message: auth.deviceId,
       messageColor: Colors.black,
       leftButton: {
         text: langs.alert.copy,
@@ -144,46 +152,31 @@ function UpdateProfile(props) {
   };
 
   const onCopyDeviceID = () => {
-    Clipboard.setString(`${deviceId}`);
+    Clipboard.setString(`${auth.deviceId}`);
   };
 
   const onUpdateInfo = () => {
     const data = {
-      fullname: name,
-      phone_number: phone,
-      birthday: birthday,
-      address: nativeLand,
-      token: token,
-      identity_number:identity,
-      bank:bankName,
+      role: user.role,
+      team: user.team,
+      fullname: user.fullname,
+      phone_number: user.phone_number,
+      birthday: user.birthday,
+      address: user.address,
+      token,
+      identity_number: user.identity_number,
+      bank_name: user.bank_name,
+      bank_account: user.bank_account,
     };
-    if (
-      name === nameUser &&
-      phone === phoneNumber &&
-      birthday === birthdayUser &&
-      nativeLand === addressUser &&
-      bankName=== bank &&
-      identity===identity_number
-    ) {
-      navigation.goBack();
+
+    if (!isVNPhoneMobile.test(user.phone_number)) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.wrongVinaphone,
+        leftButton: {text: langs.alert.ok},
+      });
     } else {
-      if (!isVNPhoneMobile.test(phone)) {
-        _global.Alert.alert({
-          title: langs.alert.notify,
-          message: langs.alert.wrongVinaphone,
-          leftButton: {text: langs.alert.ok},
-        });
-        // if (!regId.test(identity)) {
-        //   _global.Alert.alert({
-        //     title: langs.alert.notify,
-        //     message: langs.alert.wrongIdentity,
-        //     messageColor: Colors.danger,
-        //     leftButton: {text: langs.alert.ok},
-        //   });
-        // }
-      } else {
-        updateProfile(data);
-      }
+      updateProfile(data);
     }
   };
 
@@ -191,47 +184,46 @@ function UpdateProfile(props) {
     <>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       />
       <HeaderCustom title={'Khai báo thông tin'} goBack={goBack} />
-      <KeyboardAvoidingView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-          <Card style={styles.card}>
-            <Info
-              name={name}
-              identity={identity}
-              team={team_name}
-              role={role}
-              birthday={birthday}
-              onChangeBirthday={onShowModal}
-              onChangeName={onChangeName}
-              onChangeIdentity={onChangeIdentity}
-            />
-            <UpdateInfo
-              nativeLand={nativeLand}
-              phone={phone}
-              onChangeNative={onChangeNativeLand}
-              onChangePhone={onChangePhone}
-              onChangeBank={onPick}
-              bankName={bankName}
-              deviceId={deviceId}
-              onCopyDeviceID={onAlertCopy}
-            />
-          </Card>
-          <Button
-            title={langs.update}
-            containerStyle={styles.complete}
-            onPress={onUpdateInfo}
+      <KeyBoardScroll contentContainerStyle={styles.container}>
+        <Card style={styles.card}>
+          <UpdateInfo
+            name={user.fullname}
+            team={user.team}
+            role={user.role}
+            birthday={user.birthday}
+            onChangeBirthday={onShowModal}
+            onChangeName={onChangeName}
+            nativeLand={user.address}
+            identity={user.identity_number}
+            phone={user.phone_number}
+            bankAccount={user.bank_account}
+            onChangeNative={onChangeAddress}
+            onChangePhone={onChangePhone}
+            onChangeBank={onPick}
+            onChangeIdentity={onChangeIdentity}
+            onChangeBankAccount={onChangeBankAccount}
+            bankName={user.bank_name}
+            deviceId={user.deviceId}
+            onCopyDeviceID={onAlertCopy}
           />
-        </ScrollView>
+        </Card>
+        <Button
+          title={langs.update}
+          containerStyle={styles.complete}
+          onPress={onUpdateInfo}
+        />
         {Platform.OS === 'ios' ? (
           <ModalTime
             showModal={show}
             hideModal={onHideModal}
+            onConfirm={onConfirmBirthday}
             picker={
               <View style={styles.picker}>
                 <DateTimePicker
-                  value={moment(birthday, 'DD/MM/YYYY').toDate()}
+                  value={dateChange}
                   mode={'date'}
                   display="default"
                   onChange={onChangeBirthday}
@@ -243,7 +235,7 @@ function UpdateProfile(props) {
         ) : (
           showPicker && (
             <DateTimePicker
-              value={moment(birthday, 'DD/MM/YYYY').toDate()}
+              value={dateChange}
               mode={'date'}
               display="default"
               onChange={onChangeBirthday}
@@ -251,19 +243,7 @@ function UpdateProfile(props) {
             />
           )
         )}
-        <ModalBank
-          showModal={showBank}
-          hideModal={onDonePick}
-          onSetVTB={onSetVTB}
-          onSetBIDV={onSetBIDV}
-          onSetTech={onSetTech}
-          onSetAgri={onSetAgri}
-          onSetVCB={onSetVCB}
-          onSetVPB={onSetVPB}
-          onBankAccount={onChangeAccount}
-          bankName={bankName}
-        />
-      </KeyboardAvoidingView>
+      </KeyBoardScroll>
     </>
   );
 }
@@ -272,8 +252,7 @@ export default UpdateProfile;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
-    backgroundColor: '#ffffff',
+    padding: 24,
   },
   viewButton: {
     flex: 0.5,
@@ -299,6 +278,7 @@ const styles = StyleSheet.create({
     width: wp(100),
   },
   scroll: {
+    flex: 1,
     paddingTop: 16,
   },
   view: {

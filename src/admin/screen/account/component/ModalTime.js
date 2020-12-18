@@ -7,15 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { TextSelect, Button } from '../../../../component';
+import {TextSelect, Button} from '../../../../component';
 import {
   widthPercentageToDP,
   heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Colors } from '../../../../../utlis';
+import {Colors} from '../../../../../utlis';
 
 const ModalTime = (props) => {
-  const { hideModal, showModal, picker } = props;
+  const {hideModal, showModal, picker, onPress} = props;
   return (
     <View>
       <Modal
@@ -32,7 +32,7 @@ const ModalTime = (props) => {
           <Button
             title={'Xong'}
             containerStyle={styles.complete}
-            onPress={hideModal}
+            onPress={onPress}
           />
         </View>
       </Modal>

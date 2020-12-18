@@ -46,7 +46,7 @@ function TabbarCustom({
     type === 'in'
       ? onCheck()
       : _global.Alert.alert({
-          title: langs.alert.notify,
+          title: langs.alert.checkOut,
           message: langs.alert.endShift,
           leftButton: {
             text: langs.alert.yes,

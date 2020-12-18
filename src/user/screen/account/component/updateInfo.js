@@ -5,9 +5,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Text,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {InputRow} from '../../../../component';
+import {
+  widthPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
 import {imgs, Colors} from '../../../../../utlis';
 import InforRow from './InfoRow';
@@ -20,15 +23,73 @@ const UpdateInfo = (props) => {
     onChangePhone,
     onChangeBank,
     bankName,
+    identity,
+    onChangeIdentity,
     nativeLand,
     onChangeNative,
+    bankAccount,
+    onChangeBankAccount,
+    name,
+    onChangeName,
+    team,
+    onChangeTeam,
+    birthday,
+    onChangeBirthday,
+    role,
   } = props;
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView
+      <View
         style={styles.info}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.detail}>
+          <InforRow
+            containerStyle={styles.txtInput}
+            title={langs.name}
+            size={16}
+            value={name}
+            onChangeText={onChangeName}
+            refInput={refPhone}
+            clearButtonMode="while-editing"
+            onSubmitEditing={() => refBirth.current.focus()}
+          />
+          <InforRow
+            containerStyle={styles.txtInput}
+            title={langs.team}
+            size={16}
+            value={team}
+            clearButtonMode="while-editing"
+            editable={false}
+            color={'rgb(200, 200, 200)'}
+          />
+          <InforRow
+            containerStyle={styles.txtInput}
+            title={langs.role}
+            size={16}
+            value={role}
+            clearButtonMode="while-editing"
+            editable={false}
+            color={'rgb(200, 200, 200)'}
+          />
+
+          <TouchableOpacity onPress={onChangeBirthday} style={styles.row}>
+            <View style={styles.leftRow}>
+              <Text style={styles.titleRow}>Ngày sinh</Text>
+            </View>
+            <View style={styles.rightRow}>
+              <Text style={styles.contentRow}>{birthday}</Text>
+            </View>
+          </TouchableOpacity>
+          <InforRow
+            containerStyle={styles.txtInput}
+            title={langs.identity}
+            size={16}
+            value={identity}
+            onChangeText={onChangeIdentity}
+            clearButtonMode="while-editing"
+            keyboardType="number-pad"
+          />
+
           <InforRow
             leftImage={imgs.location}
             containerStyle={styles.txtInput}
@@ -38,6 +99,7 @@ const UpdateInfo = (props) => {
             onChangeText={onChangeNative}
             clearButtonMode="while-editing"
           />
+
           <InforRow
             leftImage={imgs.phone}
             containerStyle={styles.txtInput}
@@ -49,20 +111,27 @@ const UpdateInfo = (props) => {
             refInput={refBirth}
             clearButtonMode="while-editing"
           />
-          <TouchableOpacity onPress={onChangeBank}>
-            <InforRow
-              leftImage={imgs.bank}
-              containerStyle={styles.txtInput}
-              title={langs.bank}
-              size={16}
-              value={bankName}
-              refInput={refBirth}
-              clearButtonMode="while-editing"
-              canedit={false}
-            />
+          <TouchableOpacity onPress={onChangeBank} style={styles.row}>
+            <View style={styles.leftRow}>
+              <Text style={styles.titleRow}>{langs.bank}</Text>
+            </View>
+            <View style={styles.rightRow}>
+              <Text style={styles.contentRow}>{bankName}</Text>
+            </View>
           </TouchableOpacity>
+
+          <InforRow
+            leftImage={imgs.bank}
+            containerStyle={styles.txtInput}
+            title={langs.bankAccount}
+            size={16}
+            value={bankAccount}
+            onChangeText={onChangeBankAccount}
+            clearButtonMode="while-editing"
+            canedit={!!bankName}
+          />
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
@@ -134,5 +203,40 @@ const styles = StyleSheet.create({
   },
   height: {
     height: 50,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    marginVertical: 4,
+    width: widthPercentageToDP(100) - 48,
+  },
+  leftRow: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  titleRow: {
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: '400',
+    marginLeft: 8,
+  },
+  rightRow: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: -12,
+    color: 'black',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    fontFamily: 'Quicksand-Regular',
+    borderBottomColor: 'gray',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    width: wp(100),
+    height: 50,
+  },
+  contentRow: {
+    fontSize: 16,
   },
 });

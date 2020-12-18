@@ -62,7 +62,25 @@ const ruleOT = {
     },
     type: 0,
   },
-  dayOff: {
+  saturday: {
+    1: {
+      start: 0,
+      end: 8,
+      level: 270,
+    },
+    2: {
+      start: 13.5,
+      end: 22,
+      level: 200,
+    },
+    3: {
+      start: 22,
+      end: 24,
+      level: 270,
+    },
+    type: 1,
+  },
+  sunday: {
     1: {
       start: 0,
       end: 8,
@@ -161,11 +179,12 @@ function ApplyOT(props) {
   const ngayle = ['04/02/2021', '02/09/2021', '03/02/2021', '01/01/2021'];
   const checkDay = (date) => {
     if (_.includes(ngayle, date)) {
-      return 2;
+      return 3;
     }
     const currentMoment = moment(date, 'DD/MM/YYYY').format('dddd');
     switch (currentMoment) {
       case 'Sunday':
+        return 2;
       case 'Saturday':
         return 1;
       default:
@@ -175,11 +194,14 @@ function ApplyOT(props) {
 
   const getRuleDate = (date) => {
     const typeDate = checkDay(date);
+    console.log(typeDate);
     switch (typeDate) {
-      case 2:
+      case 3:
         return ruleOT.holiday;
+      case 2:
+        return ruleOT.sunday;
       case 1:
-        return ruleOT.dayOff;
+        return ruleOT.saturday;
       default:
         return ruleOT.normalDay;
     }
@@ -199,6 +221,7 @@ function ApplyOT(props) {
     let _day = date;
     let _hour;
     let _rule = getRuleDate(date);
+    console.log(_rule);
     let ruleStart;
     while (_time > 0) {
       ruleStart = getStartTimeInRule(_start, _rule);
@@ -250,7 +273,6 @@ function ApplyOT(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongTimeOT,
-        // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
     } else {
