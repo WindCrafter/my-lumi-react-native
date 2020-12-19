@@ -62,6 +62,7 @@ function ApproveOT(props) {
   const [filter, setFilter] = useState({});
   const [type, setType] = useState('Đang chờ');
   const [refresh, setRefresh] = useState(false);
+  const [onScroll, setOnScroll] = useState(true);
 
   useEffect(() => {
     getData(1, '', '', [], '');
@@ -232,10 +233,12 @@ function ApproveOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
+          onMomentumScrollBegin={() => setOnScroll(false)}
+          onMomentumScrollEnd={() => setOnScroll(true)}
           onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooterComponent}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooterComponent}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
@@ -263,7 +266,7 @@ const styles = StyleSheet.create({
     color: Colors.background,
   },
   detail: {
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     marginVertical: 32,
     flex: 1,
   },

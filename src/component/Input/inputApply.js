@@ -106,9 +106,7 @@ export default function InputApply(props?: Props) {
         onBlur={onBlur}
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
         value={value}
-        keyboardType={
-          Platform.OS === 'ios' ? 'email-address' : 'visible-password'
-        }
+        keyboardType="email-address"
         {...otherProps}
       />
       {rightIcon &&  value !==''  && (

@@ -177,11 +177,11 @@ function ListOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          // onRefresh={() => getData(1, date, status, [])}
           onMomentumScrollBegin={() => setOnScroll(false)}
           onMomentumScrollEnd={() => setOnScroll(true)}
           onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
+          showsVerticalScrollIndicator={false}
           ListFooterComponent={renderFooterComponent}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
