@@ -22,7 +22,7 @@ import {BANK_LIST} from '../../../../utlis/config/bank';
 const SelectBank = (props) => {
   const {navigation, route} = props;
   const [search, setSearch] = useState('');
-  const {bank, onChangeBank} = route.params;
+  const {bank_name, onChangeBank} = route.params;
 
   const goBack = () => {
     navigation.goBack();
@@ -34,7 +34,7 @@ const SelectBank = (props) => {
         onPress={() => onChangeBank(item.TenNH)}
         style={styles.renderItem}>
         <Text style={styles.bankName}>{item.TenNH}</Text>
-        {bank && bank === item.TenNH && (
+        {bank_name && bank_name === item.TenNH && (
           <Image source={imgs.tick} style={styles.image} />
         )}
       </TouchableOpacity>

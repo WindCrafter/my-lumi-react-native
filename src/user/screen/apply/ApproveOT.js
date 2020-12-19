@@ -212,7 +212,7 @@ function ApproveOT(props) {
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
         title={langs.titleApproveOT}
@@ -233,8 +233,7 @@ function ApproveOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          onMomentumScrollBegin={() => setOnScroll(false)}
-          onMomentumScrollEnd={() => setOnScroll(true)}
+          onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
