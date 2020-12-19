@@ -129,6 +129,7 @@ const UpdateInfo = (props) => {
             onChangeText={onChangeBankAccount}
             clearButtonMode="while-editing"
             canedit={!!bankName}
+            keyboardType="number-pad"
           />
         </View>
       </View>
