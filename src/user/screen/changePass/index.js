@@ -48,16 +48,18 @@ const ChangePass = (props) => {
   };
   return (
     <View style={styles.container}>
-      <BarStatus
+      {/* <StatusBar hidden={false} backgroundColor="white" translucent={'white'} /> */}
+      {/* <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      />
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      /> */}
       <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}
         height={60}
         goBack={onGoBack}
         rightImage={imgs.settingICon}
+        // backgroundColor={'red'}
       />
       <View>
         {recentPass !== '' ? (
