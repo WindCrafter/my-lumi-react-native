@@ -15,7 +15,7 @@ export const URL = {
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/work-day/check-in',
   CHECK_OUT_WIFI: '/work-day/check-out',
-  LIST_USERS: '/user/list-users',
+  LIST_USERS: '/users',
 
   //
   LATE_EARLY: '/late-early/create',

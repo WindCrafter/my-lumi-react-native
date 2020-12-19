@@ -20,7 +20,11 @@ export default function ContactRow(props?: Props) {
 
   return (
     <View style={styles.container}>
-      <Image source={leftImage} style={styles.image} resizeMode="contain" />
+      <Image
+        source={require('../../../naruto.jpeg')}
+        style={styles.image}
+        // resizeMode="contain"
+      />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.team}>
@@ -62,10 +66,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   image: {
-    width: 72,
-    height: 72,
-    borderRadius: 32,
-    flex: 1,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
   },
   title: {
     fontSize: 20,

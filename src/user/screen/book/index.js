@@ -24,7 +24,24 @@ import HeaderAccount from './component/HeaderAccount';
 const Book = (props) => {
   const {navigation, token, listRoom, listRoomBook} = props;
   const listArrayRoom = {};
+  let newArray = [];
   listRoomBook.forEach((i) => {
+    if (i.loop === 1) {
+      let a = moment(i.date, 'DD-MM-YYYY').format();
+      let end = moment(a).endOf('year').format();
+
+      for (
+        let index = a;
+        index < end;
+        index = moment(index).add(1, 'week').format()
+      ) {
+        newArray.push({...i, date: moment(index).format('DD-MM-YYYY')});
+      }
+    }
+  });
+  newArray = newArray.concat(listRoomBook);
+  console.log('----', newArray);
+  newArray.forEach((i) => {
     const [date, month, year] = i.date.split('-');
     if (listArrayRoom[`${year}-${month}-${date}`]) {
       listArrayRoom[`${year}-${month}-${date}`].push(i);
@@ -32,6 +49,7 @@ const Book = (props) => {
       listArrayRoom[`${year}-${month}-${date}`] = [i];
     }
   });
+  console.log('final', listArrayRoom);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       listRoom({token});
@@ -60,8 +78,7 @@ const Book = (props) => {
           <Text
             style={{
               fontSize: 16,
-            }}
-          >
+            }}>
             {`${item.start_time} - ${item.end_time}`}
           </Text>
           <Text style={styles.itemDurationText}>
@@ -78,7 +95,6 @@ const Book = (props) => {
   };
 
   const onMoveToEvent = () => {
-    console.log('----- < > __');
     navigation.navigate('Sự kiện mới');
   };
   const buttonIcon = () => {
@@ -97,6 +113,7 @@ const Book = (props) => {
         renderItem={renderItem}
         rowHasChanged={rowHasChanged}
         renderEmptyData={renderEmptyItem}
+        style={{justifyContent: 'center'}}
       />
 
       <ActionButton
