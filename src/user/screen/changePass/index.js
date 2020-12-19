@@ -48,10 +48,10 @@ const ChangePass = (props) => {
   };
   return (
     <View style={styles.container}>
-      <BarStatus
+      {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      />
+      /> */}
       <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}
