@@ -107,6 +107,7 @@ const langs = {
   role: 'Vị trí',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
   navigator: {
+    kpi: 'KPI',
     login: 'Login',
     register: 'Register',
     forgotPass: 'Forgot Password',

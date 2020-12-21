@@ -166,3 +166,7 @@ export const BOOK_ROOM_SUCCESS = 'BOOK_ROOM_SUCCESS';
 export const LIST_ROOM = 'LIST_ROOM';
 export const LIST_ROOM_SUCCESS = 'LIST_ROOM_SUCCESS';
 export const LIST_ROOM_FAILED = 'LIST_ROOM_FAILED';
+
+export const GET_KPI = 'GET_KPI';
+export const GET_KPI_SUCCESS = 'GET_KPI_SUCCESS';
+export const CONFIRM_KPI = 'CONFIRM_KPI';

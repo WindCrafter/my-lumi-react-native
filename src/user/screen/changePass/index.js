@@ -58,6 +58,7 @@ const ChangePass = (props) => {
         height={60}
         goBack={onGoBack}
         rightImage={imgs.settingICon}
+        // backgroundColor={'red'}
       />
       <View>
         {recentPass !== '' ? (

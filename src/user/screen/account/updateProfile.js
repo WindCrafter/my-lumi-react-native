@@ -7,6 +7,7 @@ import {
   UIManager,
   ScrollView,
   Keyboard,
+  SafeAreaView,
 } from 'react-native';
 import {
   BarStatus,
@@ -182,10 +183,11 @@ function UpdateProfile(props) {
 
   return (
     <>
-      <BarStatus
+      {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      />
+      /> */}
+      <SafeAreaView />
       <HeaderCustom title={'Khai báo thông tin'} goBack={goBack} />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>

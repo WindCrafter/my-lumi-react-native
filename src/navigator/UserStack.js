@@ -31,6 +31,7 @@ import ApproveLate from '../user/container/apply/ApproveLate';
 import HistoryBreak from '../user/container/apply/HistoryBreak';
 import ApproveBreak from '../user/container/apply/ApproveBreak';
 import ChangePass from '../user/container/changePass/index';
+import Kpi from '../user/container/kpi';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -234,6 +235,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.selectBank}
         component={SelectBank}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.kpi}
+        component={Kpi}
         options={{
           headerShown: false,
         }}

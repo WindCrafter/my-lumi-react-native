@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   row: {
+    paddingTop: 5,
     flexDirection: 'row',
     paddingHorizontal: 16,
     backgroundColor: Colors.white,
@@ -227,6 +228,7 @@ const styles = StyleSheet.create({
     left: 16,
     width: 32,
     height: 32,
+    top: 10,
   },
   image: {
     width: 32,
