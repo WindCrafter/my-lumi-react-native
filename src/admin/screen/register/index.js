@@ -95,7 +95,7 @@ const Register = (props) => {
 
       return;
     }
-    if (newPassword.trim().length < 6) {
+    if (newPassword.trim().length < 8) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.lessPassword,
