@@ -91,6 +91,18 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.historyBreak);
   };
 
+  const moveToHistoryLate = () => {
+    navigation.navigate(langs.navigator.historyLate);
+  };
+
+  const time_late = () => {
+    const hour = Math.floor(
+      (summary.check_in_of_week + summary.check_out_of_week) / 60,
+    );
+    const minute = (summary.check_in_of_week + summary.check_out_of_week) % 60;
+    return `${hour}h ${minute}m`;
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -140,19 +152,21 @@ export default function Home(props) {
                 numberColor={'rgb(52, 141, 80)'}
                 tintColor={'rgb(52, 141, 80)'}
               />
-              <CardUser
-                backgroundColor={'rgb(246, 243, 255)'}
-                number={
-                  summary.check_in_of_week || summary.check_out_of_week
-                    ? summary.check_in_of_week + summary.check_out_of_week
-                    : 0
-                }
-                detail={'Đi muộn/về sớm'}
-                source={imgs.clockAlert}
-                imgBackground={'rgb(217, 211, 253)'}
-                numberColor={'rgb(108, 74, 248)'}
-                tintColor={'rgb(108, 74, 248)'}
-              />
+              <TouchableOpacity onPress={moveToHistoryLate}>
+                <CardUser
+                  backgroundColor={'rgb(246, 243, 255)'}
+                  number={
+                    summary.check_in_of_week || summary.check_out_of_week
+                      ? time_late()
+                      : '0h 0m'
+                  }
+                  detail={'Đi muộn/về sớm'}
+                  source={imgs.clockAlert}
+                  imgBackground={'rgb(217, 211, 253)'}
+                  numberColor={'rgb(108, 74, 248)'}
+                  tintColor={'rgb(108, 74, 248)'}
+                />
+              </TouchableOpacity>
             </View>
             <Card style={styles.card}>
               <View>

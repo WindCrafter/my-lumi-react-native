@@ -21,9 +21,9 @@ export default function ContactRow(props?: Props) {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../naruto.jpeg')}
+        source={{uri: `${leftImage}`}}
         style={styles.image}
-        // resizeMode="contain"
+        resizeMode="contain"
       />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>

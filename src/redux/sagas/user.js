@@ -28,6 +28,7 @@ import {
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {Colors} from '../../../utlis';
 import langs from '../../../common/language';
+import OneSignal from 'react-native-onesignal';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
@@ -95,8 +96,7 @@ export function* watchUpdateProfile() {
 }
 function* sagaGetListUsers(action) {
   try {
-    console.log(action);
-    const token = action.payload.token;
+    const token = action.payload;
     const response = yield _GET(URL_LIST_USERS, token);
     console.log(response);
     if (response.success && response.statusCode === 200) {

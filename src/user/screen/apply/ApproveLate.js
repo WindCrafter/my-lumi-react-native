@@ -51,7 +51,7 @@ const ApproveLate = (props) => {
       reload: true,
     };
     cancel ? listManagerLateEarly(data) : null;
-    dataManager ? onChangeName(txtSearch) : null;
+    txtSearch ? onChangeName(txtSearch) : null;
     return () => setCancel(false);
   }, [dataManager]);
 
@@ -174,11 +174,14 @@ const ApproveLate = (props) => {
   };
 
   const onChangeName = (txt) => {
-    const newData = dataManager.filter((item) => {
-      const itemData = getText(item.fullname);
-      const textData = getText(txt);
-      return itemData.indexOf(textData) > -1;
-    });
+    const newData =
+      dataManager.length > 0
+        ? dataManager.filter((item) => {
+            const itemData = getText(item.fullname);
+            const textData = getText(txt);
+            return itemData.indexOf(textData) > -1;
+          })
+        : dataManager;
     setFilter(newData);
     setSearch(true);
     setTxtSearch(txt);

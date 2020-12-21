@@ -38,7 +38,7 @@ function Contact(props) {
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [listData, setListData] = useState([]);
+  const [listData, setListData] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
@@ -47,7 +47,6 @@ function Contact(props) {
   useEffect(() => {
     getData(1, [], '');
   }, []);
-  
   const hideModal = () => {
     setShowModal(false);
   };
@@ -146,7 +145,7 @@ function Contact(props) {
     getData(1, [], filter.name);
   };
   const onChangeSearch = (txt) => {
-    const newData = DATA.filter((item) => {
+    const newData = listData.filter((item) => {
       // console.log('----->>>>.',item.fullname)
       const itemData = getText(item.fullname);
 
