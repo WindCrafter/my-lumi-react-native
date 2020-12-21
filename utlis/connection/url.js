@@ -60,4 +60,7 @@ export const URL = {
   //
   BOOK_ROOM: '/meeting/create',
   LIST_ROOM: '/meeting/list',
+
+  GET_KPI: '/kpi/detail',
+  CONFIRM_KPI: '/kpi/confirm',
 };

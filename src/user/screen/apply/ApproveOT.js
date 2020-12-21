@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
+  SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -210,10 +211,7 @@ function ApproveOT(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
+      <SafeAreaView />
       <HeaderCustom
         title={langs.titleApproveOT}
         height={40}
@@ -231,6 +229,7 @@ function ApproveOT(props) {
         )}
         <FlatList
           data={data}
+          // style={{borderColor: 'red', borderWidth: 1}}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onMomentumScrollBegin={() => setOnScroll(true)}

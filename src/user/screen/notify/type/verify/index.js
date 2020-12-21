@@ -82,8 +82,9 @@ const Verify = (props) => {
     }
   };
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   }, []);
+
   return (
     <View style={styles.container}>
       <Card style={styles.card}>

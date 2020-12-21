@@ -14,6 +14,7 @@ import {
   Alert,
   Keyboard,
   FlatList,
+  SafeAreaView,
 } from 'react-native';
 import _ from 'lodash';
 import moment from 'moment';
@@ -366,15 +367,17 @@ function ApplyOT(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
+      {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      />
+      /> */}
+      <SafeAreaView />
       <HeaderCustom
         title={'Tạo đơn xin OT'}
-        height={60}
+        height={50}
         goBack={goBack}
         fontSize={24}
+        containerStyle={{paddingBottom: 10}}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"

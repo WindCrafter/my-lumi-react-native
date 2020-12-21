@@ -214,3 +214,24 @@ export const listRoomSuccess = (data) => {
     payload: data,
   };
 };
+
+export const getKPI = (data) => {
+  return {
+    type: types.GET_KPI,
+    payload: data,
+  };
+};
+
+export const getKPISuccess = (data) => {
+  return {
+    type: types.GET_KPI_SUCCESS,
+    payload: data,
+  };
+};
+
+export const confirmKpi = (data) => {
+  return {
+    type: types.CONFIRM_KPI,
+    payload: data,
+  };
+};
