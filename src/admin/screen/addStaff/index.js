@@ -79,7 +79,7 @@ const AddStaff = (props) => {
       });
       return;
     }
-    if (password.length < 6) {
+    if (password.length < 8) {
       _global.Alert.alert({
         title: langs.alert.notice,
         message: langs.alert.lessPassword,

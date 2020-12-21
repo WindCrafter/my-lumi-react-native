@@ -21,6 +21,8 @@ interface Props extends TextInputProps {
   refInput?: React.Ref;
   value?: String;
   onChangeText?: Function;
+  placeholderTextColor?: String;
+  tintColor?: String;
 }
 
 InputPassword.defaultProps = {
@@ -29,6 +31,8 @@ InputPassword.defaultProps = {
   borderRadius: 8,
   backgroundColor: 'rgb(227, 230, 229)',
   leftImage: imgs.lock,
+  placeholderTextColor: 'grey',
+  tintColor: 'black',
 };
 
 export default function InputPassword(props?: Props) {
@@ -43,6 +47,8 @@ export default function InputPassword(props?: Props) {
     testID,
     value,
     onChangeText,
+    placeholderTextColor,
+    tintColor,
     ...otherProps
   } = props;
   const [showPass, setShowHidePass] = useState(false);
@@ -77,14 +83,18 @@ export default function InputPassword(props?: Props) {
         containerStyle,
       ]}>
       {leftImage && (
-        <Image source={leftImage} style={styles.image} resizeMode="contain" />
+        <Image
+          source={leftImage}
+          style={[styles.image, {tintColor: tintColor}]}
+          resizeMode="contain"
+        />
       )}
       <TextInput
         testID={testID}
         ref={refInput}
         style={styles.textInput}
         selectionColor="black"
-        placeholderTextColor="gray"
+        placeholderTextColor={placeholderTextColor}
         autoCorrect={false}
         autoCapitalize="none"
         secureTextEntry={!showPass}
@@ -101,7 +111,7 @@ export default function InputPassword(props?: Props) {
           style={styles.btnShowHidePass}>
           <Image
             source={showPass ? imgs.showpassword : imgs.hidepassword}
-            style={styles.showHidePassword}
+            style={[styles.showHidePassword,{tintColor:tintColor}]}
             resizeMode="contain"
           />
         </TouchableOpacity>
