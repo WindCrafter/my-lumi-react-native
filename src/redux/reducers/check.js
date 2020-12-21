@@ -47,7 +47,9 @@ export default function check(state = initialState, action) {
       return {
         ...state,
         dataManagerLateEarly: state.dataManagerLateEarly.map((item) => {
-          return item.id === action.payload.id ? action.payload : item;
+          return item.id === action.payload.id
+            ? {...item, status: action.payload.status}
+            : item;
         }),
       };
 
@@ -109,8 +111,8 @@ export default function check(state = initialState, action) {
     case types.REMOVE_LIST:
       return {
         ...state,
-        dataLateEarly: '',
-        dataManagerLateEarly: '',
+        dataLateEarly: {},
+        dataManagerLateEarly: {},
       };
     default:
       return state;

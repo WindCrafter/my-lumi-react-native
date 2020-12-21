@@ -39,7 +39,6 @@ const ApproveLate = (props) => {
   const [cancel, setCancel] = useState(true);
   const goBack = () => {
     navigation.goBack();
-    removeList();
   };
   useEffect(() => {
     const data = {
@@ -51,7 +50,7 @@ const ApproveLate = (props) => {
       reload: true,
     };
     cancel ? listManagerLateEarly(data) : null;
-    dataManager ? onChangeName(txtSearch) : null;
+    dataManager && txtSearch ? onChangeName(txtSearch) : null;
     return () => setCancel(false);
   }, [dataManager]);
 

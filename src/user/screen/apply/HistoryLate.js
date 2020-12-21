@@ -19,6 +19,7 @@ import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
 import {_global} from '../../../../utlis/global/global';
 import {Text} from 'native-base';
+import { remove } from 'lodash';
 
 const HistoryLate = (props) => {
   const {
@@ -36,7 +37,6 @@ const HistoryLate = (props) => {
   const [date, setDate] = useState('');
   const goBack = () => {
     navigation.goBack();
-    removeList();
   };
   useEffect(() => {
     const dataBack = {
