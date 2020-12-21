@@ -27,12 +27,12 @@ const DataTeam = [
 ];
 
 const DataUser = [
-  {name: 'Batman', tag: ['Team App'], id: '1'},
-  {name: 'Joker', tag: ['Team OS', 'Team App'], id: '2'},
-  {name: 'Supa Man', tag: ['Team Test'], id: '3'},
-  {name: 'Flash', tag: ['Team Back-End'], id: '4'},
-  {name: 'Wonder Boy', tag: ['Team System'], id: '5'},
-  {name: 'Chạn Vương', tag: ['Team System', 'Team OS'], id: '6'},
+  {name: 'Phong', tag: ['Team App'], id: '1'},
+  {name: 'Duc', tag: ['Team OS', 'Team App'], id: '2'},
+  {name: 'Nghi', tag: ['Team Test'], id: '3'},
+  {name: 'Vinh', tag: ['Team Back-End'], id: '4'},
+  {name: 'Duong', tag: ['Team System'], id: '5'},
+  {name: 'Dai', tag: ['Team System', 'Team OS'], id: '6'},
 ];
 
 const PickTeam = (props) => {

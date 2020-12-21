@@ -72,6 +72,7 @@ LocaleConfig.locales.vn = {
   today: 'Hôm nay',
 };
 LocaleConfig.defaultLocale = 'vn';
+
 function ApplyBreak(props) {
   const _format = 'YYYY-MM-DD';
   const _today = moment().format(_format);
@@ -88,6 +89,7 @@ function ApplyBreak(props) {
   const [reason, setReason] = useState('');
 
   const DISABLED_DAYS = ['Saturday', 'Sunday'];
+
   const getDaysInMonth = (month, year, days) => {
     let pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
@@ -108,20 +110,25 @@ function ApplyBreak(props) {
   //   if ( myDate.getDay() == 0) setException(false);
   // console.log('checkexception')
   // }
-  const initialState = {
-    ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
-    [_today]: {
-      selected: true,
-      day: _today,
-    },
-  };
+
+  const initialState = !DISABLED_DAYS.includes(
+    moment(_today, _format).format('dddd'),
+  )
+    ? {
+        ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
+        [_today]: {
+          selected: true,
+          day: _today,
+        },
+      }
+    : getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS);
   // console.log('initialState : ', initialState);
   const [_markedDates, setMarkedDates] = useState(initialState);
   // const assignTo = assign.map((e) => {
   //   return e.userId;
   // });
   const onComplete = () => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -145,20 +152,19 @@ function ApplyBreak(props) {
 
   const onTakeLeaveDay = () => {
     const newarray = [];
-    let object=[]
+    let object = [];
     let array = Object.keys(_markedDates);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
         newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
       }
     });
-    newarray.forEach(i => {
+    newarray.forEach((i) => {
       let [date1, month1, year1] = i.split('/');
       if (!object.includes(`${month1}/${year1}`)) {
-        object.push(`${month1}/${year1}`)
+        object.push(`${month1}/${year1}`);
       }
-
-    })
+    });
     console.log(newarray);
     const data = {
       token: token,
@@ -166,7 +172,7 @@ function ApplyBreak(props) {
       date: newarray,
       type: 2,
       morning: 0,
-      month: object
+      month: object,
     };
     console.log('dataaaaaa', data);
 
@@ -179,7 +185,7 @@ function ApplyBreak(props) {
       type: 1,
       content: reason,
       morning: typeShift === 'Buổi sáng' ? 1 : 2,
-      month: moment(shift).format('MM/YYYY').split(' ')
+      month: moment(shift).format('MM/YYYY').split(' '),
     };
     console.log('dataaaaaa', data);
     takeLeave(data);
@@ -246,7 +252,6 @@ function ApplyBreak(props) {
     setShowModal(false);
     Keyboard.dismiss();
   };
-
 
   const onDaySelect = (day) => {
     const selectedDay = moment(day.dateString).format(_format);

@@ -223,7 +223,7 @@ const Register = (props) => {
               />
             </View>
             <View style={[styles.viewCheckbox, {marginBottom: 8}]}>
-              <Checkbox
+              {/* <Checkbox
                 title={'Điều khoản dịch vụ'}
                 // title2={`(${langs.link})`}
                 checked={termOfService}
@@ -239,7 +239,7 @@ const Register = (props) => {
                 checked={privacyPolicy}
                 onChange={onAcceptPrivacyPolicy}
                 // onPressTitle={onOpenPrivacyPolicy}
-              />
+              /> */}
             </View>
           </View>
           <Button
@@ -263,6 +263,9 @@ const Register = (props) => {
 const styles = StyleSheet.create({
   container: {
     height: hp(100),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   viewLogo: {
     justifyContent: 'center',
@@ -271,8 +274,8 @@ const styles = StyleSheet.create({
   },
   viewMiddle: {
     alignItems: 'center',
-    flex: 6,
-    justifyContent: 'space-around',
+    // flex: 1,
+    // justifyContent: 'space-around',
   },
   viewFooter: {
     flex: 1,
@@ -281,6 +284,7 @@ const styles = StyleSheet.create({
   viewInput: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 50,
   },
   viewButton: {},
   viewAvatar: {

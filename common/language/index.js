@@ -76,7 +76,7 @@ const langs = {
   tryAgain: 'Thử lại',
   code: 'Dùng mã',
   titleListOT: 'Lịch sử xin OT',
-  titleApproveOT: 'Đơn xin OT',
+  titleApproveOT: 'Duyệt đơn xin OT',
   titleHistoryBreak: 'Lịch sử nghỉ phép',
   titleApproveBreak: 'Đơn xin nghỉ phép',
   titleHistoryLate: 'Lịch sử đi muộn/về sớm',

@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 import moment from 'moment';
 import {imgs, Colors} from '../../../../../utlis';
 import langs from '../../../../../common/language';
@@ -11,6 +18,7 @@ const HeaderAccount = (props) => {
   const {title, sub} = props;
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <View style={styles.info}>
         <Text style={styles.txtTitle}>{title}</Text>
         <Text style={styles.txtDetail}>{sub}</Text>
@@ -44,7 +52,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   line: {
-    height: 1,
+    height: StyleSheet.hairlineWidth,
     width: '100%',
     backgroundColor: 'black',
   },

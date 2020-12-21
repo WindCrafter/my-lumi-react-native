@@ -1,5 +1,9 @@
 export const BANK_LIST = [
   {
+    MaNganHang: '310',
+    TenNH: 'NHTMCP Ky thuong VN (Techcombank)',
+  },
+  {
     MaNganHang: '207',
     TenNH: 'NH Chinh sach xa hoi (VBSP)',
   },
@@ -94,10 +98,6 @@ export const BANK_LIST = [
   {
     MaNganHang: '353',
     TenNH: 'NHTMCP Kien Long (Kien Long bank)',
-  },
-  {
-    MaNganHang: '310',
-    TenNH: 'NHTMCP Ky thuong VN (Techcombank)',
   },
   {
     MaNganHang: '306',

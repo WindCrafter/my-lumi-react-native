@@ -45,7 +45,7 @@ export default function HeaderCustom(props?: Props) {
         {
           width,
           height,
-          backgroundColor,
+          // backgroundColor,
         },
         containerStyle,
       ]}>

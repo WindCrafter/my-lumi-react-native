@@ -17,6 +17,10 @@ import {
   ScrollView,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Feather';
+import {Card} from 'native-base';
+import moment from 'moment';
+import {startCase} from 'lodash';
 import {Colors, imgs} from '../../../../utlis';
 import {
   InputRow,
@@ -26,15 +30,11 @@ import {
   InputPick,
   InputDown,
 } from '../../../component';
-import Icon from 'react-native-vector-icons/Feather';
-import {Card} from 'native-base';
-import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
 import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import {startCase} from 'lodash';
 
 if (
   Platform.OS === 'android' &&
@@ -137,13 +137,11 @@ const Event = (props) => {
     const currentDay = selectedDay || dateStart;
     if (Platform.OS === 'ios') {
       setDateStart(currentDay);
+    } else if (event.type === 'set') {
+      setshowModalDate(false);
+      setDate(currentDay);
     } else {
-      if (event.type === 'set') {
-        setshowModalDate(false);
-        setDate(currentDay);
-      } else {
-        setshowModalDate(false);
-      }
+      setshowModalDate(false);
     }
   };
   const onConfirmDate = () => {
@@ -162,26 +160,22 @@ const Event = (props) => {
     const currentShift = selectedShift || hourStart;
     if (Platform.OS === 'ios') {
       setHourStart(moment(currentShift)._d);
+    } else if (event.type === 'set') {
+      setshowModalTimeStart(false);
+      setStart(moment(currentShift)._d);
     } else {
-      if (event.type === 'set') {
-        setshowModalTimeStart(false);
-        setStart(moment(currentShift)._d);
-      } else {
-        setshowModalTimeStart(false);
-      }
+      setshowModalTimeStart(false);
     }
   };
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
     if (Platform.OS === 'ios') {
       setHourEnd(moment(currentShift)._d);
+    } else if (event.type === 'set') {
+      setshowModalTimeEnd(false);
+      setEnd(moment(currentShift)._d);
     } else {
-      if (event.type === 'set') {
-        setshowModalTimeEnd(false);
-        setEnd(moment(currentShift)._d);
-      } else {
-        setshowModalTimeEnd(false);
-      }
+      setshowModalTimeEnd(false);
     }
   };
   const onUnshowStart = () => {
@@ -208,7 +202,7 @@ const Event = (props) => {
               <Image
                 source={require('../../../../naruto.jpeg')}
                 style={styles.avatar}
-                resizeMode={'cover'}
+                resizeMode="cover"
               />
             </View>
             <Text style={styles.textUser}>{item.name}</Text>
@@ -289,16 +283,28 @@ const Event = (props) => {
       });
       return;
     }
-
+    const name = [];
+    memberPicked.forEach((i) => name.push(i.name));
+    console.log(name);
     const data = {
-      loop: loop,
-      timeEnd: moment(end).format('DD/MM/YYYY'),
-      timeStart: moment(start).format('DD/MM/YYYY'),
-      title: title,
-      location: location,
-      description: description,
-      member: memberPicked,
-      token: token,
+      loop:
+        loop === ''
+          ? 0
+          : loop === 'week'
+          ? 1
+          : loop === 'month'
+          ? 2
+          : loop === 'year'
+          ? 3
+          : null,
+      end_time: moment(end).format('HH:MM'),
+      start_time: moment(start).format('HH:MM'),
+      subject: title,
+      location,
+      content: description,
+      member: name.toString(),
+      token,
+      date: moment(date).format('DD-MM-YYYY'),
     };
     bookRoom(data);
   };
@@ -308,7 +314,7 @@ const Event = (props) => {
         height={Platform.OS === 'ios' ? 28 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        backgroundColor={'rgba(0,0,0,0)'}
+        backgroundColor="rgba(0,0,0,0)"
         title={langs.newEvent}
         goBack={onGoBack}
         rightButton
@@ -317,16 +323,13 @@ const Event = (props) => {
       />
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView>
-          <View style={styles.header}>
-            <Text style={styles.txtHeader}>
-              Vui lòng kiểm tra lịch tại đây trước khi tạo mới.{' '}
-            </Text>
-          </View>
+          <View style={styles.header} />
           <InputRow
             containerStyle={styles.txtInput}
-            title={'Tiêu đề : '}
+            title="Nội dung họp :"
             size={16}
             value={title}
             onChangeText={onChangeTitle}
@@ -336,7 +339,7 @@ const Event = (props) => {
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder={'Tóm tắt sự kiện, lịch họp hoặc hoạt động'}
+              placeholder="Tóm tắt lịch họp,sự kiện hoặc hoạt động"
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -344,43 +347,41 @@ const Event = (props) => {
             />
           </Card>
           <InputSelect
-            width={'90%'}
+            width="90%"
             leftImage={imgs.selectCalendar}
             borderRadius={32}
             height={54}
-            shadowColor={'white'}
-            title={'Chọn ngày'}
+            shadowColor="white"
+            title="Chọn ngày"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
             onPressButton={onShowPickerDate}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
+            color="rgba(4, 4, 15, 0.45)"
             detail={
               date !== ''
-                ? `Thứ ${moment(date).format('d ')},${moment(date).format(
-                    'DD',
-                  )} tháng ${moment(date).format('MM')}, ${moment(date).format(
-                    'YYYY',
-                  )}`
+                ? `${moment(date).format('DD')} tháng ${moment(date).format(
+                    'MM',
+                  )}, ${moment(date).format('YYYY')}`
                 : null
             }
             rightImage={imgs.roundedLeft}
           />
           <View style={styles.viewTime}>
             <InputDown
-              width={'45%'}
+              width="45%"
               borderRadius={32}
               height={54}
-              shadowColor={'white'}
-              title={'Giờ bắt đầu'}
+              shadowColor="white"
+              title="Giờ bắt đầu"
               padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerStart}
               shadowOpacity={0.1}
-              color={'rgba(4, 4, 15, 0.45)'}
+              color="rgba(4, 4, 15, 0.45)"
               detail={
                 start !== ''
                   ? `Từ : ${moment(start).format('HH')} giờ ${moment(
@@ -391,17 +392,17 @@ const Event = (props) => {
               rightImage={imgs.roundedLeft}
             />
             <InputDown
-              width={'45%'}
+              width="45%"
               borderRadius={32}
               height={54}
-              shadowColor={'white'}
-              title={'Giờ kết thúc'}
+              shadowColor="white"
+              title="Giờ kết thúc"
               padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerEnd}
               shadowOpacity={0.1}
-              color={'rgba(4, 4, 15, 0.45)'}
+              color="rgba(4, 4, 15, 0.45)"
               detail={
                 end !== ''
                   ? `Đến : ${moment(end).format('HH')} giờ ${moment(end).format(
@@ -413,21 +414,21 @@ const Event = (props) => {
             />
           </View>
           <InputPick
-            width={'90%'}
+            width="90%"
             leftImage={imgs.calendarWeek}
             rightImage={select ? imgs.roudedDown : imgs.roundedLeft}
             borderRadius={32}
             height={select ? 148 : 54}
-            shadowColor={'white'}
-            title={'Lặp lại'}
+            shadowColor="white"
+            title="Lặp lại"
             padding={16}
             marginVertical={18}
             containerStyle={styles.viewInputPick}
             onPressButton={onSetSelect}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
+            color="rgba(4, 4, 15, 0.45)"
+            detail=""
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
@@ -435,29 +436,29 @@ const Event = (props) => {
             onSetYear={onSetYear}
           />
           <InputSelect
-            width={'90%'}
+            width="90%"
             leftImage={imgs.location}
             borderRadius={32}
             height={54}
-            shadowColor={'white'}
-            title={'Địa điểm'}
+            shadowColor="white"
+            title="Địa điểm"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
             onPressButton={onChangeLocation}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
+            color="rgba(4, 4, 15, 0.45)"
             detail={location}
             rightImage={imgs.roundedLeft}
           />
           <InputSelect
-            width={'90%'}
+            width="90%"
             leftImage={imgs.personal}
             borderRadius={32}
             rightImage={imgs.add}
             height={54}
-            shadowColor={'white'}
+            shadowColor="white"
             title={
               memberPicked.length > 0
                 ? `Đã chọn ${memberPicked.length} người tham gia `
@@ -469,8 +470,8 @@ const Event = (props) => {
             onPressButton={onGoPickTeam}
             shadowOpacity={0.1}
             marginRight={-30}
-            color={'rgba(4, 4, 15, 0.45)'}
-            detail={''}
+            color="rgba(4, 4, 15, 0.45)"
+            detail=""
           />
 
           {memberPicked.length > 0 ? (
@@ -489,9 +490,9 @@ const Event = (props) => {
         value={hourStart}
         onChange={onChangeHourStart}
         onPress={onConfirmStart}
-        mode={'time'}
+        mode="time"
         show={showModalTimeStart}
-        locale={'en-GB'}
+        locale="en-GB"
         onHideModal={onUnshowStart}
       />
 
@@ -499,9 +500,9 @@ const Event = (props) => {
         value={hourEnd}
         onChange={onChangeHourEnd}
         onPress={onConfirmEnd}
-        mode={'time'}
+        mode="time"
         show={showModalTimeEnd}
-        locale={'en-GB'}
+        locale="en-GB"
         onHideModal={onUnshowEnd}
       />
 
@@ -509,7 +510,7 @@ const Event = (props) => {
         value={dateStart}
         onChange={onChangeDate}
         onPress={onConfirmDate}
-        mode={'date'}
+        mode="date"
         show={showModalDate}
         minimumDate={new Date()}
         onHideModal={onUnshowDate}

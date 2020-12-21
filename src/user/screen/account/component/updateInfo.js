@@ -6,6 +6,7 @@ import {
   Platform,
   TouchableOpacity,
   Text,
+  Keyboard,
 } from 'react-native';
 import {
   widthPercentageToDP,
@@ -16,8 +17,12 @@ import {imgs, Colors} from '../../../../../utlis';
 import InforRow from './InfoRow';
 
 const UpdateInfo = (props) => {
+  const refName = useRef('');
+  const refAddress = useRef('');
   const refPhone = useRef('');
-  const refBirth = useRef('');
+  const refId = useRef('');
+  const refAccount = useRef('');
+
   const {
     phone,
     onChangePhone,
@@ -49,9 +54,9 @@ const UpdateInfo = (props) => {
             size={16}
             value={name}
             onChangeText={onChangeName}
-            refInput={refPhone}
+            refInput={refName}
             clearButtonMode="while-editing"
-            onSubmitEditing={() => refBirth.current.focus()}
+            onSubmitEditing={() => refId.current.focus()}
           />
           <InforRow
             containerStyle={styles.txtInput}
@@ -84,10 +89,13 @@ const UpdateInfo = (props) => {
             containerStyle={styles.txtInput}
             title={langs.identity}
             size={16}
+            refInput={refId}
             value={identity}
+            returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
             onChangeText={onChangeIdentity}
             clearButtonMode="while-editing"
             keyboardType="number-pad"
+            onSubmitEditing={() => refAddress.current.focus()}
           />
 
           <InforRow
@@ -95,9 +103,11 @@ const UpdateInfo = (props) => {
             containerStyle={styles.txtInput}
             title={langs.nativeLand}
             size={16}
+            refInput={refAddress}
             value={nativeLand}
             onChangeText={onChangeNative}
             clearButtonMode="while-editing"
+            onSubmitEditing={() => refPhone.current.focus()}
           />
 
           <InforRow
@@ -106,10 +116,13 @@ const UpdateInfo = (props) => {
             title={langs.phone}
             size={16}
             value={phone}
+            returnKeyType={Platform.OS === 'ios' ? 'done' : 'next'}
             keyboardType={'number-pad'}
             onChangeText={onChangePhone}
-            refInput={refBirth}
+            refInput={refPhone}
             clearButtonMode="while-editing"
+            onSubmitEditing={() => refAccount.current.focus()}
+            // returnKeyType="next"
           />
           <TouchableOpacity onPress={onChangeBank} style={styles.row}>
             <View style={styles.leftRow}>
@@ -125,10 +138,14 @@ const UpdateInfo = (props) => {
             containerStyle={styles.txtInput}
             title={langs.bankAccount}
             size={16}
+            refInput={refAccount}
             value={bankAccount}
             onChangeText={onChangeBankAccount}
             clearButtonMode="while-editing"
             canedit={!!bankName}
+            keyboardType="number-pad"
+            returnKeyType={'done'}
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
         </View>
       </View>

@@ -52,6 +52,7 @@ export default function InforRow(props?: Props) {
     title,
     canedit,
     color,
+    value,
     ...otherProps
   } = props;
   // const View = Platform.OS === 'ios' ? View : Card;
@@ -65,6 +66,7 @@ export default function InforRow(props?: Props) {
       <TextInput
         testID={testID}
         ref={refInput}
+        value={`${value}`}
         style={[
           styles.textInput,
           {width: width, color: color ? color : 'black'},
@@ -74,6 +76,7 @@ export default function InforRow(props?: Props) {
         autoCorrect={false}
         clearButtonMode="always"
         keyboardType="email-address"
+        // returnKeyType='go'
         editable={canedit}
         {...otherProps}
       />

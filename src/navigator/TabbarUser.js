@@ -5,7 +5,7 @@ import account from '../user/container/account';
 import {TabbarIcon} from '../component';
 import home from '../user/container/home';
 import checkIn from '../user/container/checkIn';
-import book from '../user/container/schedule';
+import book from '../user/container/book';
 import TabbarCustom from './TabbarCustom';
 import FloatTabbar from './FloatTabbar';
 import {Colors} from '../../utlis';
