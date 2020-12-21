@@ -144,7 +144,7 @@ const Account = (props) => {
             />
             <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
-                <Image source={imgs.KPI} style={styles.imgClear} />
+                <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
               </View>
               <Switch
