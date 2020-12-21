@@ -38,7 +38,7 @@ function Contact(props) {
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [listData, setListData] = useState(DATA);
+  const [listData, setListData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);

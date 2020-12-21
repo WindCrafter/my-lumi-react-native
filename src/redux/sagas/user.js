@@ -22,6 +22,7 @@ import {
   getListCheckFailed,
   clearMember,
   listRoomSuccess,
+  getKPISuccess,
 } from '../actions/user';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
@@ -312,6 +313,7 @@ function* sagaBookRoom(action) {
 export function* watchBookRoom() {
   yield takeLatest(types.BOOK_ROOM, sagaBookRoom);
 }
+
 function* sagaListRoom(action) {
   try {
     console.log(action);
@@ -323,7 +325,6 @@ function* sagaListRoom(action) {
       _global.Loading.hide();
       console.log(response.data);
     } else {
-      
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
@@ -334,11 +335,82 @@ function* sagaListRoom(action) {
       _global.Loading.hide();
     }
   } catch (error) {
-      _global.Loading.hide();
+    _global.Loading.hide();
     console.log(error);
   }
 }
 
 export function* watchListRoom() {
   yield takeLatest(types.LIST_ROOM, sagaListRoom);
+}
+
+function* sagaGetKpi(action) {
+  try {
+    const token = action.payload.token;
+    const response = yield _GET(`${URL.LOCAL_HOST}${URL.GET_KPI}`, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getKPISuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchGetKpi() {
+  yield takeLatest(types.GET_KPI, sagaGetKpi);
+}
+
+function* sagaConfirmKpi(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const data = {
+      id: action.payload.id,
+      is_confirmed: action.payload.is_confirmed,
+    };
+    const response = yield _POST(
+      `${URL.LOCAL_HOST}${URL.CONFIRM_KPI}`,
+      data,
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Phản hồi thành công!',
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchConfirmKpi() {
+  yield takeLatest(types.CONFIRM_KPI, sagaConfirmKpi);
 }
