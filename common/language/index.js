@@ -163,17 +163,24 @@ const langs = {
     invalidGene: 'Vui lòng điền đúng định dạng: Nam/Nữ/Khác',
     wrongIdentity: 'Sai định dang CCCD/CMND.\nVui lòng kiểm tra lại.',
     remind: 'Nhắc bạn',
-    enterUsername: 'Email không được để trống.\nVui lòng kiểm tra lại.',
+    enterUsername: 'Email đang để trống.\nVui lòng kiểm tra lại.',
     notice: 'Lưu ý',
     wrongEmail: 'Định dạng email không đúng.\nVui lòng kiểm tra lại.',
     wrongRepass: 'Mật khẩu nhập lại không đúng.\nVui lòng kiểm tra lại.',
-    lessPassword: 'Mật khẩu không được dưới 9 kí tự.\nVui lòng kiểm tra lại.',
-    invalidPassword: 'Mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
+    lessPassword: 'Mật khẩu đang dưới 8 kí tự.\nVui lòng kiểm tra lại.',
+    lessPassword2: 'Mật khẩu đang dưới 8 kí tự.',
+    lessRePassword2: 'Mật khẩu nhập lại đang dưới 8 kí tự.',
+    lessReNewPassword2: 'Mật khẩu mới đang dưới 8 kí tự.',
+
+    invalidPassword: 'Mật khẩu đang để trống.\nVui lòng kiểm tra lại.',
+    invalidPassword2: 'Mật khẩu đang để trống.',
     invalidRePassword:
-      'Nhập lại mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
-    invalidEmail: 'Email không được để trống.\nVui lòng kiểm tra lại.',
-    wrongVerifyCode:
-      'Mã nhân viên không được để trống.\nVui lòng kiểm tra lại.',
+      'Nhập lại mật khẩu đang để trống.\nVui lòng kiểm tra lại.',
+    invalidRePassword2: 'Nhập lại mật khẩu đang để trống.',
+    invalidReNewPassword: 'Mật khẩu mới đang để trống.\nVui lòng kiểm tra lại.',
+    invalidReNewPassword2: 'Mật khẩu mới đang để trống.',
+    invalidEmail: 'Email đang để trống.\nVui lòng kiểm tra lại.',
+    wrongVerifyCode: 'Mã nhân viên đang để trống.\nVui lòng kiểm tra lại.',
     termOfService:
       'Bạn cần đồng ý với những điều khoản dịch vụ của chúng tôi để tiếp tục đăng ký',
     privacyPolicy:

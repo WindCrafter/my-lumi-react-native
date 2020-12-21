@@ -33,7 +33,7 @@ const FirstLogin = (props) => {
       this.alert.open();
       return;
     }
-    if (pass.trim().length < 6) {
+    if (pass.trim().length < 8) {
       setError('Pass can not less than 6');
       this.alert.open();
       return;
