@@ -99,6 +99,7 @@ function ApplyBreak(props) {
     while (pivot.isBefore(end)) {
       days.forEach((day) => {
         dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
+        console.log(pivot.day(day).format('YYYY-MM-DD'));
       });
       pivot.add(7, 'days');
     }

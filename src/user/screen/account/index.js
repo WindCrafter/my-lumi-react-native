@@ -62,10 +62,6 @@ const Account = (props) => {
     });
   };
 
-  useEffect(() => {
-    getListUsers(token);
-  }, []);
-
   const onRemoveUserId = () => {
     logOut();
     const data = {
