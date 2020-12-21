@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   clock: {
-    tintColor: Colors.background,
+    // tintColor: Colors.background,
     width: 16,
     height: 16,
     marginRight: 4,
@@ -197,7 +197,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   time: {
-    color: Colors.background,
     fontWeight: '500',
   },
   imgs: {

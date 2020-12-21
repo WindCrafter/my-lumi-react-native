@@ -8,6 +8,8 @@ import {
   LayoutAnimation,
   UIManager,
   Linking,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import ContactRow from '../../../component/Input/InputContact';
@@ -20,7 +22,8 @@ import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
 import HeaderAccount from '../account/component/HeaderAccount';
 import {getText} from '../../../../utlis/config/utlis';
-
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -28,25 +31,66 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA = [{name: 'Do Tun Phon', team: 'APP', role: 'Leader'}];
 
 function Contact(props) {
-  const {navigation, currentUser} = props;
+  const {navigation, token, currentUser} = props;
   const [search, setSearch] = useState('');
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [listData, setListData] = useState(DATA);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({});
+  useEffect(() => {
+    getData(1, [], '');
+  }, []);
+  
   const hideModal = () => {
     setShowModal(false);
   };
-  const renderItem = (data) => {
+  const getData = async (pageNumber, dataN, nameN) => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_USERS}?page=${pageNumber}&page_size=20`;
+    const response = await _GET(apiURL, token, false);
+    const _data = dataN || [];
+
+    console.log('_GET_LIST_USER ===========>', response);
+    setRefresh(false);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
+      setLoading(false);
+      _global.Loading.hide();
+    } else {
+      setLoading(false);
+      _global.Loading.hide();
+    }
+  };
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#ABB0BB" />
+      </View>
+    ) : null;
+  };
+  const handleLoadMore = () => {
+    setLoading(true);
+    getData(page + 1, data, filter.name);
+  };
+  const renderItem = (key) => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       : null;
     const onGetContact = () => {
       let phone;
-      let phoneNumber = data.item.phoneNumber;
+      let phoneNumber = key.item.phone_number;
       if (Platform.OS !== 'android') {
         phone = `telprompt:${phoneNumber}`;
       } else {
@@ -67,29 +111,29 @@ function Contact(props) {
     };
 
     const copyToClipboard = () => {
-      if (!data.item.advance || !data.item.advance.bankAccount) {
+      if (key.item.bank_account === null) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportUser,
           leftButton: {text: langs.alert.ok},
         });
       } else {
-        setBankAccount(data.item.advance.bankAccount);
-        setBankName(data.item.advance.bankName);
-        Clipboard.setString(`${data.item.advance.bankAccount}`);
+        setBankAccount(key.item.bank_account);
+        setBankName(key.item.bank_name);
+        Clipboard.setString(`${key.item.bank_account}`);
         setShowModal(true);
       }
     };
     return (
       <ContactRow
-        name={data.item.name}
-        leftImage={data.item.avt}
-        team={data.item.team}
-        dob={data.item.birthday}
-        role={data.item.role}
-        work={data.item.work}
-        kpi={data.item.kpi}
-        kpi_6m={data.item.kpi_6m}
+        name={key.item.fullname}
+        leftImage={key.item.avt}
+        team={key.item.team}
+        // dob={key.item.birthday}
+        role={key.item.role}
+        work={key.item.work}
+        // kpi={key.item.kpi}
+        // kpi_6m={key.item.kpi_6m}
         onCall={onGetContact}
         onCopyBankAccount={copyToClipboard}
       />
@@ -97,11 +141,14 @@ function Contact(props) {
   };
 
   const onSearch = () => {};
-
+  const onRefresh = () => {
+    setRefresh(true);
+    getData(1, [], filter.name);
+  };
   const onChangeSearch = (txt) => {
     const newData = DATA.filter((item) => {
-      // console.log('----->>>>.',item.name)
-      const itemData = getText(item.name);
+      // console.log('----->>>>.',item.fullname)
+      const itemData = getText(item.fullname);
 
       const textData = getText(txt);
 
@@ -126,15 +173,21 @@ function Contact(props) {
         containerStyle={styles.search}
         onPress={onSearch}
         value={search}
-        onChangeText={onChangeSearch}
+        // onChangeText={onChangeSearch}
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
       />
 
       <FlatList
-        data={listData}
+        onEndReached={!loading ? handleLoadMore : null}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={renderFooterComponent}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={(index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
       <ModalInforBank
         bankName={bankName}

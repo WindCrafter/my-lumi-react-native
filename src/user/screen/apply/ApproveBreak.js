@@ -33,7 +33,7 @@ const ApproveBreak = (props) => {
     historyAdminTakeLeave,
     confirmDenyTakeLeave,
   } = props;
-  const [page, setPage] = useState(3);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({});

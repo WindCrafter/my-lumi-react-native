@@ -119,6 +119,7 @@ function UpdateProfile(props) {
   };
 
   const onPick = () => {
+    Keyboard.dismiss();
     navigation.navigate(langs.navigator.selectBank, {
       onChangeBank,
       bank_name: user.bank_name,
