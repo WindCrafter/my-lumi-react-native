@@ -19,7 +19,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   kickAssign,
   logOut,
-  getListUsers,
   // getListTeams,
   resetCheck,
   changeDemoMode,
