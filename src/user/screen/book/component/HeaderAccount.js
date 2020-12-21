@@ -18,8 +18,8 @@ export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 15,
-    
+    marginTop: 15,
+
   },
 
   info: {
@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
   },
   bot: {
     flex: 1,
+    paddingBottom: 24,
   },
 });

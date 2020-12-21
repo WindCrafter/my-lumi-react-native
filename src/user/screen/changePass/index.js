@@ -12,7 +12,7 @@ import {InputPassword, HeaderCustom, BarStatus} from '../../../component';
 import {Button} from '../../../component/Button';
 import {Colors, imgs} from '../../../../utlis/index';
 import langs from '../../../../common/language/index';
-
+import {_global}  from '../../../../utlis/global/global'
 const ChangePass = (props) => {
   const {token, changePass, navigation} = props;
   const onGoBack = () => {
@@ -21,6 +21,9 @@ const ChangePass = (props) => {
   const [recentPass, setRecentPass] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
+  const [errRecent, setErrRecent] = useState('');
+    const [errNew, setErrNew] = useState('');
+const [errConfirm, setErrConfirm] = useState('');
   const onChangeRecent = (val) => {
     setRecentPass(val);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -37,6 +40,7 @@ const ChangePass = (props) => {
   const refNew = useRef(null);
   const refConfirm = useRef(null);
   const onChangePass = () => {
+    
     const data = {
       old_password: recentPass,
       password: newPass,
@@ -60,8 +64,10 @@ const ChangePass = (props) => {
         rightImage={imgs.settingICon}
       />
       <View>
-        {recentPass !== '' ? (
+        {recentPass !== '' && errRecent === '' ? (
           <Text style={styles.textPass}>{langs.recentPassWord}</Text>
+        ) : errRecent !== '' ? (
+          <Text style={styles.textPass}>{errRecent}</Text>
         ) : null}
         <InputPassword
           placeholder={langs.recentPassWord}

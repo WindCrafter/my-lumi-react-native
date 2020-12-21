@@ -167,7 +167,7 @@ const langs = {
     notice: 'Lưu ý',
     wrongEmail: 'Định dạng email không đúng.\nVui lòng kiểm tra lại.',
     wrongRepass: 'Mật khẩu nhập lại không đúng.\nVui lòng kiểm tra lại.',
-    lessPassword: 'Mật khẩu không được dưới 6 kí tự.\nVui lòng kiểm tra lại.',
+    lessPassword: 'Mật khẩu không được dưới 9 kí tự.\nVui lòng kiểm tra lại.',
     invalidPassword: 'Mật khẩu không được để trống.\nVui lòng kiểm tra lại.',
     invalidRePassword:
       'Nhập lại mật khẩu không được để trống.\nVui lòng kiểm tra lại.',

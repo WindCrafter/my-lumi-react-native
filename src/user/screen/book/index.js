@@ -12,6 +12,8 @@ import {
   Button,
   Platform,
   SafeAreaView,
+  FlatList,
+  SectionList,
 } from 'react-native';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
@@ -24,32 +26,32 @@ import HeaderAccount from './component/HeaderAccount';
 const Book = (props) => {
   const {navigation, token, listRoom, listRoomBook} = props;
   const listArrayRoom = {};
-  let newArray = [];
-  listRoomBook.forEach((i) => {
-    if (i.loop === 1) {
-      let a = moment(i.date, 'DD-MM-YYYY').format();
-      let end = moment(a).endOf('year').format();
+  // let newArray = [];
+  // listRoomBook.forEach((i) => {
+  //   if (i.loop === 1) {
+  //     let a = moment(i.date, 'DD-MM-YYYY').format();
+  //     let end = moment(a).endOf('year').format();
 
-      for (
-        let index = a;
-        index < end;
-        index = moment(index).add(1, 'week').format()
-      ) {
-        newArray.push({...i, date: moment(index).format('DD-MM-YYYY')});
-      }
-    }
-  });
-  newArray = newArray.concat(listRoomBook);
-  console.log('----', newArray);
-  newArray.forEach((i) => {
-    const [date, month, year] = i.date.split('-');
-    if (listArrayRoom[`${year}-${month}-${date}`]) {
-      listArrayRoom[`${year}-${month}-${date}`].push(i);
-    } else {
-      listArrayRoom[`${year}-${month}-${date}`] = [i];
-    }
-  });
-  console.log('final', listArrayRoom);
+  //     for (
+  //       let index = a;
+  //       index < end;
+  //       index = moment(index).add(1, 'week').format()
+  //     ) {
+  //       newArray.push({...i, date: moment(index).format('DD-MM-YYYY')});
+  //     }
+  //   }
+  // });
+  // newArray = newArray.concat(listRoomBook);
+  // console.log('----', newArray);
+  // newArray.forEach((i) => {
+  //   const [date, month, year] = i.date.split('-');
+  //   if (listArrayRoom[`${year}-${month}-${date}`]) {
+  //     listArrayRoom[`${year}-${month}-${date}`].push(i);
+  //   } else {
+  //     listArrayRoom[`${year}-${month}-${date}`] = [i];
+  //   }
+  // });
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       listRoom({token});
@@ -58,39 +60,60 @@ const Book = (props) => {
       unsubscribe;
     };
   }, [navigation]);
-  const rowHasChanged = (r1, r2) => {
-    return r1.name !== r2.name;
-  };
+  let array = [];
+  listRoomBook.forEach((i) => {
+    if (array.filter((it) => i.date === it.date).length === 0) {
+      array.push({date: i.date, data: [i]});
+    } else {
+      array.map((item) =>
+        item.date === i.date ? {...item, data: item.data.push(i)} : item,
+      );
+    }
+  });
+  console.log('final', array);
 
-  const renderEmptyItem = () => {
-    return (
-      <View style={styles.emptyItem}>
-        <Text style={styles.emptyItemText}>
-          Hiện chưa có lịch cho ngày này.
-        </Text>
-      </View>
-    );
-  };
   const renderItem = (item) => {
+    console.log(item.section.data.length);
     return (
-      <TouchableOpacity style={styles.item}>
-        <View style={{marginHorizontal: 16}}>
-          <Text
-            style={{
-              fontSize: 16,
-            }}>
-            {`${item.start_time} - ${item.end_time}`}
-          </Text>
-          <Text style={styles.itemDurationText}>
-            {`Nội dung họp: ${item.subject}`}
-          </Text>
-          <Text style={{marginTop: 8, fontWeight: '500', fontSize: 16}}>
-            {item.owner_name}
-          </Text>
-          <Text>{item.location}</Text>
-          <Text>{item.member}</Text>
+      <View>
+        <View style={[styles.container]}>
+          {/* <Text>{item.section.date}</Text>  */}
+          <View style={{width: 80}} />
+          <TouchableOpacity
+            style={[
+              styles.item,
+              ,
+              {
+                marginTop: item.index === 0 ? -48 : 16,
+                marginBottom:
+                  item.index === item.section.data.length - 1 ? 16 : 0,
+              },
+            ]}>
+            <View style={{marginHorizontal: 16}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                }}>
+                {`${moment(item.item.start_time, 'hh:mm').format(
+                  'LT',
+                )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
+              </Text>
+              <Text style={styles.itemDurationText}>
+                {`Nội dung họp: ${item.item.subject}`}
+              </Text>
+              <Text style={{marginTop: 8, fontWeight: '500', fontSize: 16}}>
+                {item.item.owner_name}
+              </Text>
+              <Text>{item.item.location}</Text>
+              <Text>{item.item.member}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+        {/* {item.index === item.section.data.length - 1 ? (
+            <View
+              style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
+          ) : null} */}
+      </View>
     );
   };
 
@@ -100,22 +123,46 @@ const Book = (props) => {
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.add} />;
   };
+
+  const ListFooterComponent = () => {
+    return (
+      <View style={styles.headerFooterStyle}>
+        <Text style={styles.textStyle}>This is Footer</Text>
+      </View>
+    );
+  };
+  const ListHeaderComponent = () => {
+    return <View style={{height: 24}} />;
+  };
+  const renderHeader = (section) => {
+    console.log(section.section.date);
+
+    return (
+      <View style={{justifyContent: 'center', width: 80, alignItems: 'center'}}>
+        <Text style={{fontSize: 24, fontWeight: '500'}}>
+          {moment(section.section.date, 'DD-MM-YYYY').format('D')}
+        </Text>
+        <Text>
+          Tháng {moment(section.section.date, 'DD-MM-YYYY').format('M')}
+        </Text>
+      </View>
+    );
+  };
   return (
     <>
       <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
-
-      <Agenda
-        items={listArrayRoom}
-        firstDay={1}
-        selected={moment().format('YYYY-MM-DD')}
+      <SectionList
+        sections={array}
+        // SectionSeparatorComponent={FlatListItemSeparator}
+        // style={{marginTop: 32}}
+        renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        rowHasChanged={rowHasChanged}
-        renderEmptyData={renderEmptyItem}
-        style={{justifyContent: 'center'}}
+        // ListFooterComponent={ListFooterComponent}
+        keyExtractor={(item, index) => index}
+        // ListHeaderComponent={ListHeaderComponent}
       />
-
       <ActionButton
         buttonColor={Colors.white}
         onPress={onMoveToEvent}
@@ -128,13 +175,13 @@ const Book = (props) => {
   );
 };
 const styles = StyleSheet.create({
+  container: {flexDirection: 'row', width: '100%'},
   item: {
     backgroundColor: 'white',
     flex: 1,
     borderRadius: 16,
     paddingHorizontal: 8,
     paddingVertical: 16,
-    marginTop: 32,
     marginRight: 8,
   },
   emptyDate: {
@@ -230,6 +277,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 16,
     width: 16,
+  },
+  headerFooterStyle: {
+    width: '100%',
+    height: 45,
+    backgroundColor: '#606070',
   },
 });
 export default Book;
