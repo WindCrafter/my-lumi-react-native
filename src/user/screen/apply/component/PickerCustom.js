@@ -30,7 +30,9 @@ const PickerCustom = (props) => {
       backdropTransitionOutTiming={0}>
       <View style={styles.modalview}>
         <View style={styles.picker}>
-          <Text style={styles.txtHeader}>{title || 'Chọn giờ và phút'}</Text>
+          <Text style={styles.txtHeader}>
+            {title || mode === 'date' ? 'Chọn ngày' : 'Chọn giờ và phút'}
+          </Text>
           <DateTimePicker
             value={value}
             mode={mode}

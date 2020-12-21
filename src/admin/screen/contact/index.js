@@ -76,7 +76,6 @@ function Contact(props) {
     return (
       <ContactRow
         name={data.item.name}
-        leftImage={data.item.avt}
         team={data.item.team}
         dob={data.item.dob}
         role={data.item.role}

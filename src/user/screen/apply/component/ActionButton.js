@@ -31,7 +31,7 @@ const FloatButton = (props) => {
       buttonColor="white"
       backdrop={blurView()}
       renderIcon={buttonIcon}
-      offsetY={60}
+     
       style={[
         styles.actonButton,
         Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},
@@ -62,7 +62,7 @@ const FloatButton = (props) => {
       buttonColor="white"
       renderIcon={buttonIcon}
       onPress={onApply}
-      offsetY={60}
+     
       style={[
         styles.actonButton,
         Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100},

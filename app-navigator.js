@@ -15,6 +15,7 @@ import {Loading, Alert} from './src/component';
 import DeviceInfo from 'react-native-device-info';
 import Notify from './notify';
 import SplashScreen from 'react-native-smart-splash-screen';
+import Version from './src/component/Version';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -27,6 +28,7 @@ const AppNavigator = (props) => {
     getDeviceId,
     deviceId,
     dateCheckIn,
+    codepush,
   } = props;
   const [loading, setLoading] = useState(true);
   let titleVersion = `${DeviceInfo.getVersion()}`;
@@ -77,6 +79,7 @@ const AppNavigator = (props) => {
           _global.Alert = ref;
         }}
       />
+      {codepush.progress !== 0 && <Version />}
       <Notify />
     </>
   );
@@ -96,6 +99,7 @@ const mapStateToProps = (state) => {
     role: state.authen.role,
     autoLoginStatus: state.authen.autoLoginStatus,
     dateCheckIn: state.authen.check,
+    codepush: state.codepush,
   };
 };
 

@@ -47,20 +47,29 @@ const ItemOT = (props) => {
   return (
     <Card style={styles.card}>
       <View style={[styles.row]}>{renderStatus()}</View>
-      <View style={[styles.row]}>
-        <View style={[styles.img, {width: (width - 32) / 2}]}>
+      <View style={[styles.row, {marginTop: 16}]}>
+        <View style={styles.img}>
           <Image
             source={imgs.startDate}
             style={[styles.imageStamp, styles.marginRight]}
           />
           <Text style={styles.txtStatus}>{item.start_date}</Text>
         </View>
+      </View>
+      <View style={[styles.row]}>
         <View style={[styles.img, {width: (width - 32) / 2}]}>
           <Image
             source={imgs.startTime}
             style={[styles.imageStamp, styles.marginRight]}
           />
-          <Text style={styles.txtStatus}>{`${item.start} giờ`}</Text>
+          <Text style={styles.txtStatus}>{`${item.start}`}</Text>
+        </View>
+        <View style={[styles.img, {width: (width - 32) / 2}]}>
+          <Image
+            source={imgs.startDate}
+            style={[styles.imageStamp, styles.marginRight]}
+          />
+          <Text style={styles.txtStatus}>{`${item.total_time} giờ`}</Text>
         </View>
       </View>
       <View style={[styles.row]}>

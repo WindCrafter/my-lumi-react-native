@@ -202,3 +202,15 @@ export const bookRoom = (data) => {
     payload: data,
   };
 };
+export const listRoom = (data) => {
+  return {
+    type: types.LIST_ROOM,
+    payload: data,
+  };
+};
+export const listRoomSuccess = (data) => {
+  return {
+    type: types.LIST_ROOM_SUCCESS,
+    payload: data,
+  };
+};

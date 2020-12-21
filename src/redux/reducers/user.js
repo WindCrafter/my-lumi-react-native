@@ -17,6 +17,7 @@ const initialState = {
   teams: null,
   history: null,
   demoMode: false,
+  listRoomBook: [],
 };
 
 export default function user(state = initialState, action) {
@@ -25,6 +26,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case types.LIST_ROOM_SUCCESS:
+      return {
+        ...state,
+        listRoomBook: action.payload,
       };
     case types.GET_LIST_ASSIGN_SUCCESS:
       return {

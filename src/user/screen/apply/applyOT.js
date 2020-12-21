@@ -324,7 +324,7 @@ function ApplyOT(props) {
         <TouchableOpacity
           style={{
             paddingVertical: 5,
-            alignSelf: 'flex-end',
+            alignSelf: 'center',
             paddingHorizontal: 8,
           }}
           onPress={() => onPressItem(item, hideOverlay)}>
@@ -368,10 +368,10 @@ function ApplyOT(props) {
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Đơn xin OT'}
+        title={'Tạo đơn xin OT'}
         height={60}
         goBack={goBack}
         fontSize={24}
