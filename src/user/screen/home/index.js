@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View, ScrollView, Platform, UIManager, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Platform,
+  UIManager,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './component/header';
@@ -11,7 +18,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
-import { sum } from 'lodash';
+import {sum} from 'lodash';
 
 const DATA_EVENT = [
   {
@@ -65,7 +72,7 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.historyLate);
   };
   const onPressBreak = () => {
-    navigation.navigate('History Break');
+    navigation.navigate(langs.navigator.historyBreak);
   };
 
   const onPressOT = () => {
@@ -76,9 +83,13 @@ export default function Home(props) {
     getSummary(token);
   }, []);
 
-const moveToHistory =()=>{
-navigation.navigate(langs.navigator.history)
-};
+  const moveToHistory = () => {
+    navigation.navigate(langs.navigator.history);
+  };
+
+  const moveToHistoryBreak = () => {
+    navigation.navigate(langs.navigator.historyBreak);
+  };
 
   return (
     <>
@@ -95,32 +106,34 @@ navigation.navigate(langs.navigator.history)
           <ScrollView>
             <View style={styles.groupCard}>
               <TouchableOpacity onPress={moveToHistory}>
-              <CardUser
-                backgroundColor={'rgb( 229, 246, 255)'}
-                number={
-                  summary.actual_date_month ? summary.actual_date_month : 0
-                }
-                detail={'Công thực tế'}
-                source={imgs.clockEarly}
-                imgBackground={'rgb( 183, 231, 254)'}
-                numberColor={'rgb(46, 114, 249)'}
-                tintColor={'rgb(46, 114, 249)'}
-              />
+                <CardUser
+                  backgroundColor={'rgb( 229, 246, 255)'}
+                  number={
+                    summary.actual_date_month ? summary.actual_date_month : 0
+                  }
+                  detail={'Công thực tế'}
+                  source={imgs.clockEarly}
+                  imgBackground={'rgb( 183, 231, 254)'}
+                  numberColor={'rgb(46, 114, 249)'}
+                  tintColor={'rgb(46, 114, 249)'}
+                />
               </TouchableOpacity>
-              <CardUser
-                backgroundColor={'rgb( 255, 240, 234)'}
-                number={summary.day_of_leave ? summary.day_of_leave : 0}
-                detail={'Ngày nghỉ'}
-                source={imgs.breakOneDay}
-                imgBackground={'rgb(255,218,201)'}
-                numberColor={'rgb(255, 86, 46)'}
-                tintColor={'rgb(255, 86, 46)'}
-              />
+              <TouchableOpacity onPress={moveToHistoryBreak}>
+                <CardUser
+                  backgroundColor={'rgb( 255, 240, 234)'}
+                  number={summary.day_off_month ? summary.day_off_month : 0}
+                  detail={'Ngày nghỉ'}
+                  source={imgs.breakOneDay}
+                  imgBackground={'rgb(255,218,201)'}
+                  numberColor={'rgb(255, 86, 46)'}
+                  tintColor={'rgb(255, 86, 46)'}
+                />
+              </TouchableOpacity>
             </View>
             <View style={styles.botCard}>
               <CardUser
                 backgroundColor={'rgb(226, 246, 234)'}
-                number={summary.day_off_month ? summary.day_off_month : 0}
+                number={summary.day_of_leave ? summary.day_of_leave : 0}
                 detail={'Phép tồn'}
                 source={imgs.selectCalendar}
                 imgBackground={'rgb(195, 233, 209)'}
@@ -129,7 +142,11 @@ navigation.navigate(langs.navigator.history)
               />
               <CardUser
                 backgroundColor={'rgb(246, 243, 255)'}
-                number={summary.check_in_of_week&&summary.check_out_of_week ? summary.check_in_of_week + summary.check_out_of_week : 0}
+                number={
+                  summary.check_in_of_week || summary.check_out_of_week
+                    ? summary.check_in_of_week + summary.check_out_of_week
+                    : 0
+                }
                 detail={'Đi muộn/về sớm'}
                 source={imgs.clockAlert}
                 imgBackground={'rgb(217, 211, 253)'}

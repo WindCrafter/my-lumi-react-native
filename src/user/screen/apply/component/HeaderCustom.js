@@ -113,8 +113,8 @@ const HeaderCustom = (props?: Props) => {
   };
 
   const onPressConfirmIOS = () => {
-    setDate(_date);
-    onChangeDate(_date);
+    setDate(_date ? _date : new Date());
+    onChangeDate(_date ? _date : new Date());
     setShow(false);
   };
 
@@ -177,7 +177,7 @@ const HeaderCustom = (props?: Props) => {
           renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
             <Text>{type}</Text>
-            <Text>  ▼</Text>
+            <Text> ▼</Text>
           </View>
         </SelectButton>
         <View
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 16,
     borderRadius: 6,
-    padding:8
+    padding: 8,
   },
   filterDate: {
     flexDirection: 'row',

@@ -16,7 +16,7 @@ import CardLate from './component/CardLate';
 import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
 import {_global} from '../../../../utlis/global/global';
-import { getText } from '../../../../utlis/config/utlis';
+import {getText} from '../../../../utlis/config/utlis';
 
 const ApproveLate = (props) => {
   const {
@@ -32,11 +32,11 @@ const ApproveLate = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
-  const [search, setSearch]= useState(false);
+  const [search, setSearch] = useState(false);
   const [txtSearch, setTxtSearch] = useState('');
-  const [filter, setFilter]= useState(dataManager);
+  const [filter, setFilter] = useState(dataManager);
   const [date, setDate] = useState('');
-  const [cancel, setCancel]= useState(true);
+  const [cancel, setCancel] = useState(true);
   const goBack = () => {
     navigation.goBack();
     removeList();
@@ -48,11 +48,11 @@ const ApproveLate = (props) => {
       page: page,
       page_size: 10,
       loading: true,
-      reload:true,
+      reload: true,
     };
-    cancel ? listManagerLateEarly(data): null;
-    dataManager ? onChangeName(txtSearch): null ;
-    return ()=> setCancel(false)
+    cancel ? listManagerLateEarly(data) : null;
+    dataManager ? onChangeName(txtSearch) : null;
+    return () => setCancel(false);
   }, [dataManager]);
 
   const renderItem = ({item, index}) => {
@@ -91,18 +91,18 @@ const ApproveLate = (props) => {
   };
 
   const onChangeDate = (pickDay) => {
-    const data =  {
-          token: token,
-          status: status,
-          date: pickDay ? moment(pickDay).format('DD/MM/YYYY'): '',
-          page: 1,
-          page_size: 10,
-          reload: true,
-          loading: true,
-        }
+    const data = {
+      token: token,
+      status: status,
+      date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
+      page: 1,
+      page_size: 10,
+      reload: true,
+      loading: true,
+    };
     listManagerLateEarly(data);
     setPage(1);
-    setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY'):'');
+    setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
   };
   const onSetType = (item) => {
     switch (item) {
@@ -123,13 +123,13 @@ const ApproveLate = (props) => {
   const onChangeStatus = (item) => {
     const data = {
       token: token,
-      date: date ,
+      date: date,
       status: item,
       page: 1,
       page_size: 10,
       reload: true,
       loading: true,
-    }
+    };
     setPage(1);
     listManagerLateEarly(data);
     onSetType(item);
@@ -141,7 +141,7 @@ const ApproveLate = (props) => {
       token: token,
       status: status,
       page: page + 1,
-      date: date ,
+      date: date,
       page_size: 10,
       reload: false,
       loading: true,
@@ -172,8 +172,8 @@ const ApproveLate = (props) => {
     setPage(1);
     setSearch(false);
   };
-  
-  const onChangeName =(txt)=>{
+
+  const onChangeName = (txt) => {
     const newData = dataManager.filter((item) => {
       const itemData = getText(item.fullname);
       const textData = getText(txt);
@@ -182,7 +182,7 @@ const ApproveLate = (props) => {
     setFilter(newData);
     setSearch(true);
     setTxtSearch(txt);
-  }
+  };
 
   return (
     <>
@@ -207,7 +207,7 @@ const ApproveLate = (props) => {
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList
-            data={search?filter:dataManager}
+            data={search ? filter : dataManager}
             keyExtractor={(item, index) => `${item.id}`}
             renderItem={renderItem}
             onEndReached={handleLoadMore}

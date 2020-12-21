@@ -19,6 +19,7 @@ export const updateProfileFailed = () => {
     type: types.UPDATE_PROFILE_FAILED,
   };
 };
+
 export const getListUsers = (data) => {
   return {
     type: types.GET_LIST_USERS,

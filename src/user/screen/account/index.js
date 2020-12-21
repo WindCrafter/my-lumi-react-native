@@ -36,7 +36,7 @@ const Account = (props) => {
     logOut,
     nameUser,
     navigation,
-    // getListUsers,
+    getListUsers,
     token,
     oneSignalID,
     // getListTeams,
@@ -47,6 +47,7 @@ const Account = (props) => {
   } = props;
 
   const [showModal, setshowModal] = useState(false);
+
 
   const onLogOut = () => {
     _global.Alert.alert({
@@ -60,6 +61,10 @@ const Account = (props) => {
       rightButton: {text: langs.alert.cancel},
     });
   };
+
+  useEffect(() => {
+    getListUsers(token);
+  }, []);
 
   const onRemoveUserId = () => {
     logOut();

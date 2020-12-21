@@ -31,7 +31,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA = [{name: 'Do Tun Phon', team: 'APP', role: 'Leader'}];
 
 function Contact(props) {
   const {navigation, token, currentUser} = props;
@@ -48,6 +47,7 @@ function Contact(props) {
   useEffect(() => {
     getData(1, [], '');
   }, []);
+  
   const hideModal = () => {
     setShowModal(false);
   };

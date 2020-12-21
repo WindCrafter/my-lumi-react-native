@@ -77,15 +77,15 @@ const HistoryLate = (props) => {
   };
 
   const onChangeDate = (pickDay) => {
-    const data =  {
-          token: token,
-          status: status,
-          date: pickDay ?  moment(pickDay).format('DD/MM/YYYY') : '',
-          page: 1,
-          page_size: 10,
-          reload: true,
-          loading: true,
-        }
+    const data = {
+      token: token,
+      status: status,
+      date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
+      page: 1,
+      page_size: 10,
+      reload: true,
+      loading: true,
+    };
     setPage(1);
     listLateEarly(data);
     setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
@@ -140,7 +140,7 @@ const HistoryLate = (props) => {
     const data = {
       token: token,
       status: status,
-      page:1,
+      page: 1,
       page_size: 10,
       date: date,
       reload: true,
