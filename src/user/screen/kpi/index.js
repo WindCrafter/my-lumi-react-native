@@ -35,13 +35,13 @@ const Kpi = (props) => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <SafeAreaView />
       <Header title={'Xác nhận'} sub={'Kiểm tra thống kê chấm công'} />
       <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+        contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.card}>
           <View style={[styles.row, {marginTop: 30}]}>
             <Image source={imgs.KPI} style={styles.img} />
@@ -57,10 +57,10 @@ const Kpi = (props) => {
           <View style={styles.row}>
             <Image source={imgs.fine} style={styles.img} />
             <View style={[styles.row, styles.more]}>
-              <Text style={styles.text}>Tiền trừ đi muộn</Text>
+              <Text style={styles.text}>Đi muộn</Text>
               <View style={{height: 50, justifyContent: 'center'}}>
                 <Text style={[styles.text, {color: 'red'}]}>
-                  {`-${kpi.fined || 0} ngày`}
+                  {`${kpi.fined || 0} ngày`}
                 </Text>
               </View>
             </View>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 10,
     height: 50,
-    paddingHorizontal: 30,
+    paddingHorizontal: 16,
     justifyContent: 'center',
   },
   textPass: {
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 16,
     marginVertical: 10,
+    flex: 1,
   },
   card: {
     borderRadius: 16,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
   },
   img: {
     tintColor: 'black',
-    marginHorizontal: 12,
+    marginRight: 12,
     width: 24,
     height: 24,
   },
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 14,
     fontWeight: '500',
   },
 });
