@@ -179,10 +179,14 @@ const ApproveBreak = (props) => {
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) => (i._id === response.data._id ? response.data : i)),
+          data.map((i) =>
+            i._id === response.data._id
+              ? {...i, status: response.data.status}
+              : i,
+          ),
         );
       } else {
-        setData(data.filter((i) => i.id !== response.data._id));
+        setData(data.filter((i) => i._id !== response.data._id));
       }
       _global.Loading.hide();
     } else {
@@ -211,10 +215,14 @@ const ApproveBreak = (props) => {
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) => (i._id === response.data._id ? response.data : i)),
+          data.map((i) =>
+            i._id === response.data._id
+              ? {...i, status: response.data.status}
+              : i,
+          ),
         );
       } else {
-        setData(data.filter((i) => i.id !== response.data._id));
+        setData(data.filter((i) => i._id !== response.data._id));
       }
       _global.Loading.hide();
     } else {
