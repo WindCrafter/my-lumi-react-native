@@ -64,6 +64,8 @@ const ChangePass = (props) => {
       (errRecent !== '' || errNew !== '' || errConfirm !== '')
     ) {
       setErrConfirm(langs.alert.lessRePassword2);
+    } else if (val !== newPass) {
+      setErrConfirm(langs.alert.notCoincideRepass);
     } else {
       setErrConfirm('');
     }
@@ -79,7 +81,8 @@ const ChangePass = (props) => {
       newPass === '' ||
       (newPass.trim().length > 0 && newPass.trim().length < 8) ||
       confirmPass === '' ||
-      (confirmPass.trim().length > 0 && confirmPass.trim().length < 8)
+      (confirmPass.trim().length > 0 && confirmPass.trim().length < 8) ||
+      confirmPass !== newPass
     ) {
       if (recentPass === '') {
         setErrRecent(langs.alert.invalidPassword2);
@@ -87,17 +90,20 @@ const ChangePass = (props) => {
       if (recentPass.trim().length > 0 && recentPass.trim().length < 8) {
         setErrRecent(langs.alert.lessPassword2);
       }
-      if (newPass === '') {
+      if (newPass.trim().length === 0) {
         setErrNew(langs.alert.invalidReNewPassword2);
       }
       if (newPass.trim().length > 0 && newPass.trim().length < 8) {
         setErrNew(langs.alert.lessReNewPassword2);
       }
-      if (confirmPass === '') {
+      if (confirmPass.trim().length === 0) {
         setErrConfirm(langs.alert.invalidRePassword2);
       }
       if (confirmPass.trim().length > 0 && confirmPass.trim().length < 8) {
         setErrConfirm(langs.alert.lessRePassword2);
+      }
+      if (confirmPass !== newPass) {
+        setErrConfirm(langs.alert.notCoincideRepass);
       }
     } else {
       onChangePass();
@@ -129,94 +135,72 @@ const ChangePass = (props) => {
         height={60}
         goBack={onGoBack}
         rightImage={imgs.settingICon}
-        // backgroundColor={'red'}
+        // backgroundColor={'#F32013'}
       />
       <View>
-        {recentPass !== '' && errRecent === '' ? (
-          <Text style={styles.textPass}>{langs.recentPassWord}</Text>
-        ) : recentPass !== '' && errRecent !== '' ? (
-          <Text style={styles.textPass}>{errRecent}</Text>
-        ) : null}
         <InputPassword
-          placeholder={
-            errRecent !== '' && recentPass === ''
-              ? errRecent
-              : langs.recentPassWord
-          }
+          placeholder={langs.recentPassWord}
           returnKeyType="go"
           value={recentPass}
           onChangeText={onChangeRecent}
           containerStyle={[
             styles.textInput,
             {
-              marginTop:
-                recentPass !== '' || (errRecent !== '' && recentPass !== '')
-                  ? 8
-                  : 40,
-              borderColor: 'red',
+              marginTop: 36,
+              borderColor: '#F32013',
               borderWidth: errRecent !== '' ? 1 : 0,
+              marginBottom: errRecent !== '' ? 0 : 20,
             },
           ]}
           onSubmitEditing={() => refNew.current.focus()}
           leftImage={imgs.lock}
         />
+        {errRecent !== '' ? (
+          <Text style={styles.textErr}>{errRecent}</Text>
+        ) : null}
       </View>
       <View>
-        {newPass !== '' && errNew === '' ? (
-          <Text style={styles.textPass}>{langs.newPassWord}</Text>
-        ) : newPass !== '' && errNew !== '' ? (
-          <Text style={styles.textPass}>{errNew}</Text>
-        ) : null}
         <InputPassword
-          placeholder={
-            errNew !== '' && newPass === '' ? errNew : langs.newPassWord
-          }
+          placeholder={langs.newPassWord}
           returnKeyType="go"
           value={newPass}
           onChangeText={onChangeNew}
           containerStyle={[
             styles.textInput,
             {
-              marginTop:
-                newPass !== '' || (errNew !== '' && newPass !== '') ? 8 : 40,
-              borderColor: 'red',
+              marginTop: 16,
+              borderColor: '#F32013',
               borderWidth: errNew !== '' ? 1 : 0,
+              marginBottom: errNew !== '' ? 0 : 20,
             },
           ]}
           refInput={refNew}
           onSubmitEditing={() => refConfirm.current.focus()}
           leftImage={imgs.changePassIcon}
         />
+        {errNew !== '' ? <Text style={styles.textErr}>{errNew}</Text> : null}
       </View>
+
       <View>
-        {confirmPass !== '' && errConfirm === '' ? (
-          <Text style={styles.textPass}>{langs.confirmPassWord}</Text>
-        ) : confirmPass !== '' && errConfirm !== '' ? (
-          <Text style={styles.textPass}>{errConfirm}</Text>
-        ) : null}
         <InputPassword
-          placeholder={
-            errConfirm !== '' && confirmPass === ''
-              ? errConfirm
-              : langs.confirmPassWord
-          }
+          placeholder={langs.confirmPassWord}
           returnKeyType="go"
           value={confirmPass}
           onChangeText={onChangeConfirm}
           containerStyle={[
             styles.textInput,
             {
-              marginTop:
-                confirmPass !== '' || (errConfirm !== '' && confirmPass !== '')
-                  ? 8
-                  : 40,
-              borderColor: 'red',
+              marginTop: 15,
+              borderColor: '#F32013',
               borderWidth: errConfirm !== '' ? 1 : 0,
             },
           ]}
           refInput={refConfirm}
           leftImage={imgs.changePassIcon}
         />
+        {errConfirm !== '' ? (
+          <Text style={styles.textErr}>{errConfirm}</Text>
+        ) : null}
       </View>
       <Button
         title="Hoàn thành"
@@ -226,11 +210,11 @@ const ChangePass = (props) => {
             : null
         }
         testID="test_Complete"
-        containerStyle={styles.button}
+        containerStyle={{marginTop: errConfirm !== '' ? 16 : 36}}
         backgroundColor={
           errRecent === '' && errNew === '' && errConfirm === ''
             ? Colors.background
-            : 'grey'
+            : '#827D82'
         }
       />
     </View>
@@ -242,6 +226,13 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 36,
   },
-  textPass: {fontSize: 16, height: 24, marginTop: 8, marginLeft: 32},
+  textPass: {fontSize: 16, height: 24, marginTop: 4, marginLeft: 32},
+  textErr: {
+    fontSize: 12,
+    height: 16,
+    marginTop: 4,
+    color: '#F32013',
+    marginLeft: 32,
+  },
 });
 export default ChangePass;

@@ -121,7 +121,6 @@ const Event = (props) => {
   const onShowPickerStart = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeStart(true);
-    console.log(hourStart);
   };
   const [dateStart, setDateStart] = useState(new Date());
   const [date, setDate] = useState('');
@@ -131,7 +130,6 @@ const Event = (props) => {
   const onShowPickerDate = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalDate(true);
-    console.log(hourEnd);
   };
   const onChangeDate = (event, selectedDay) => {
     const currentDay = selectedDay || dateStart;
@@ -154,7 +152,6 @@ const Event = (props) => {
   const onShowPickerEnd = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeEnd(true);
-    console.log(hourEnd);
   };
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
@@ -285,7 +282,6 @@ const Event = (props) => {
     }
     const name = [];
     memberPicked.forEach((i) => name.push(i.name));
-    console.log(name);
     const data = {
       loop:
         loop === ''
@@ -297,8 +293,8 @@ const Event = (props) => {
           : loop === 'year'
           ? 3
           : null,
-      end_time: moment(end).format('HH:MM'),
-      start_time: moment(start).format('HH:MM'),
+      end_time: moment(end).format('hh:mm'),
+      start_time: moment(start).format('hh:mm'),
       subject: title,
       location,
       content: description,
@@ -323,8 +319,7 @@ const Event = (props) => {
       />
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView>
           <View style={styles.header} />
           <InputRow

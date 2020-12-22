@@ -1,5 +1,5 @@
 const langs = {
-  emailInvalid: 'Email đang để trống!',
+  emailInvalid: 'Email đang để trống',
   passInvalid: 'Mật khẩu đang để trống',
   user: 'Tên đăng nhập hoặc email',
   passWord: 'Mật khẩu',
@@ -167,12 +167,14 @@ const langs = {
     enterUsername: 'Email đang để trống.\nVui lòng kiểm tra lại.',
     notice: 'Lưu ý',
     wrongEmail: 'Định dạng email không đúng.\nVui lòng kiểm tra lại.',
+    wrongEmail2: 'Định dạng email không đúng.',
     wrongRepass: 'Mật khẩu nhập lại không đúng.\nVui lòng kiểm tra lại.',
     lessPassword: 'Mật khẩu đang dưới 8 kí tự.\nVui lòng kiểm tra lại.',
     lessPassword2: 'Mật khẩu đang dưới 8 kí tự.',
     lessRePassword2: 'Mật khẩu nhập lại đang dưới 8 kí tự.',
     lessReNewPassword2: 'Mật khẩu mới đang dưới 8 kí tự.',
 
+    notCoincideRepass: 'Nhập lại mật khẩu không khớp.',
     invalidPassword: 'Mật khẩu đang để trống.\nVui lòng kiểm tra lại.',
     invalidPassword2: 'Mật khẩu đang để trống.',
     invalidRePassword:
