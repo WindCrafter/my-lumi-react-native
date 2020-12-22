@@ -60,13 +60,13 @@ function ApproveOT(props) {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
   const [type, setType] = useState('Đang chờ');
   const [refresh, setRefresh] = useState(false);
-  const [onScroll, setOnScroll] = useState(true);
+  const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, '', '', [], '');
+    getData(page, filter.date, filter.status, [], filter.name);
   }, []);
 
   const goBack = () => {
@@ -100,9 +100,13 @@ function ApproveOT(props) {
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_OT =============>', response);
+    _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(data.map((i) => (i.id === item.id ? {...item, status: 2} : i)));
-      _global.Loading.hide();
+      if (filter.status === '0' || filter.status === 0) {
+        setData(data.map((i) => (i.id === item.id ? {...item, status: 2} : i)));
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -110,7 +114,6 @@ function ApproveOT(props) {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
-      _global.Loading.hide();
     }
   };
 
@@ -122,9 +125,13 @@ function ApproveOT(props) {
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_OT =============>', response);
+    _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(data.map((i) => (i.id === item.id ? {...item, status: 3} : i)));
-      _global.Loading.hide();
+      if (filter.status === '0' || filter.status === 0) {
+        setData(data.map((i) => (i.id === item.id ? {...item, status: 3} : i)));
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -132,12 +139,13 @@ function ApproveOT(props) {
         // messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
-      _global.Loading.hide();
     }
   };
 
   const onRefresh = () => {
     setRefresh(true);
+    setOnScroll(false);
+    console.log('on Refresh');
     getData(1, filter.date, filter.status, [], filter.name);
   };
 
@@ -147,10 +155,10 @@ function ApproveOT(props) {
     const _data = dataN || [];
     const _name = nameN || '';
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
-    console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
+    setOnScroll(false);
     console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
     if (
       response.success &&
@@ -166,6 +174,7 @@ function ApproveOT(props) {
 
   const handleLoadMore = () => {
     setLoading(true);
+    setOnScroll(false);
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
 
@@ -211,6 +220,7 @@ function ApproveOT(props) {
 
   return (
     <View style={styles.container}>
+      <BarStatus />
       <SafeAreaView />
       <HeaderCustom
         title={langs.titleApproveOT}
@@ -233,7 +243,7 @@ function ApproveOT(props) {
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onMomentumScrollBegin={() => setOnScroll(true)}
-          onEndReached={!loading ? handleLoadMore : null}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={renderFooterComponent}

@@ -123,6 +123,7 @@ const ChangePass = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
+      <BarStatus />
       <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}

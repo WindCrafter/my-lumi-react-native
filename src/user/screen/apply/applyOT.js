@@ -371,13 +371,13 @@ function ApplyOT(props) {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
+      <BarStatus />
       <SafeAreaView />
       <HeaderCustom
         title={'Tạo đơn xin OT'}
-        height={50}
+        height={60}
         goBack={goBack}
         fontSize={24}
-        containerStyle={{paddingBottom: 10}}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"

@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.25,
     borderColor: Colors.gray,
     backgroundColor: Colors.white,
+    paddingVertical: 10,
   },
   row: {
     paddingTop: 5,

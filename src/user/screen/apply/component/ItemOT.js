@@ -87,9 +87,7 @@ const ItemOT = (props) => {
 
 const styles = StyleSheet.create({
   img: {
-    padding: 8,
-    borderRadius: 16,
-    alignSelf: 'center',
+    padding: 5,
     marginRight: 8,
     flexDirection: 'row',
   },
@@ -98,8 +96,9 @@ const styles = StyleSheet.create({
     height: 20,
   },
   txtStatus: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     fontSize: 16,
+    marginBottom: -2,
   },
   row: {
     flexDirection: 'row',
