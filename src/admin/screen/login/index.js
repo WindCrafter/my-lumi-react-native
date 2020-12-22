@@ -39,30 +39,36 @@ const Login = (props) => {
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [errMail, setErrMail] = useState('');
+  const [errNew, setErrNew] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
   const {navigation} = props;
-
+  const isValidEmail = (value) => value && value.indexOf('@') > 0;
   useEffect(() => {}, []);
   const onRegister = () => {
     navigation.navigate('Register');
   };
   const onLogin = () => {
     Keyboard.dismiss();
-    if (email.trim().length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: langs.alert.enterUsername,
-        leftButton: {text: langs.alert.ok},
-      });
-      return;
-    }
-    if (pass.length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.invalidPassword,
-        leftButton: {text: langs.alert.ok},
-      });
-      return;
+    if (
+      email.trim().length === 0 ||
+      !isValidEmail(email) ||
+      pass.trim().length === 0 ||
+      (pass.trim().length > 0 && pass.trim().length < 8)
+    ) {
+      if (email.trim().length === 0) {
+        setErrMail(langs.alert.wrongEmail2);
+      }
+      if (!isValidEmail(email)) {
+        setErrMail(langs.emailInvalid);
+      }
+
+      if (pass.trim().length === 0) {
+        setErrNew(langs.alert.invalidReNewPassword2);
+      }
+      if (pass.trim().length > 0 && pass.trim().length < 8) {
+        setErrNew(langs.alert.lessReNewPassword2);
+      }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
       loginAction({email, password: pass});
@@ -72,12 +78,30 @@ const Login = (props) => {
     }
   };
 
-  const onChangeEmail = (value) => {
-    setEmail(value);
+  const onChangeEmail = (val) => {
+    setEmail(val);
+    if (val.trim().length === 0 && (errMail !== '' || errNew !== '')) {
+      setErrMail(langs.emailInvalid);
+    } else if (!isValidEmail(val) && (errMail !== '' || errNew !== '')) {
+      setErrMail(langs.alert.wrongEmail2);
+    } else {
+      setErrMail('');
+    }
   };
 
-  const onChangePass = (value) => {
-    setPass(value);
+  const onChangePass = (val) => {
+    setPass(val);
+    if (val === '' && (errMail !== '' || errNew !== '')) {
+      setErrNew(langs.alert.invalidReNewPassword2);
+    } else if (
+      val.trim().length > 0 &&
+      val.trim().length < 8 &&
+      (errMail !== '' || errNew !== '')
+    ) {
+      setErrNew(langs.alert.lessReNewPassword2);
+    } else {
+      setErrNew('');
+    }
   };
 
   const onPressForgot = () => {
@@ -94,42 +118,71 @@ const Login = (props) => {
         <View style={styles.container}>
           <View style={styles.detail}>
             <Logo containerStyle={styles.logo} />
-            <Input
-              // leftImage={}
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={'Email công ty'}
-              testID="test_Username"
-              containerStyle={styles.textInput}
-              returnKeyType="next"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              maxLength={50}
-              onSubmitEditing={() => refPassword.current.focus()}
-              value={email}
-              onChangeText={onChangeEmail}
-              rightIcon
-            />
-            <InputPassword
-              testID="test_Password"
-              // backgroundColor={'rgba(0,0,25,0.22)'}
-              placeholder={langs.passWord}
-              containerStyle={styles.textInput}
-              refInput={refPassword}
-              maxLength={20}
-              returnKeyType="done"
-              value={pass}
-              onChangeText={onChangePass}
-            />
+            <View>
+              <Input
+                // leftImage={}
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={'Email công ty'}
+                testID="test_Username"
+                containerStyle={[
+                  styles.textInput,
+                  {
+                    marginTop: 16,
+                    marginBottom: errMail !== '' ? 0 : 24,
+                    borderColor: '#F32013',
+                    borderWidth: errMail !== '' ? 1 : 0,
+                  },
+                ]}
+                returnKeyType="next"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                maxLength={50}
+                onSubmitEditing={() => refPassword.current.focus()}
+                value={email}
+                onChangeText={onChangeEmail}
+                rightIcon
+              />
+              {errMail !== '' ? (
+                <Text style={styles.textErr}>{errMail}</Text>
+              ) : null}
+            </View>
+            <View>
+              <InputPassword
+                testID="test_Password"
+                // backgroundColor={'rgba(0,0,25,0.22)'}
+                placeholder={langs.passWord}
+                containerStyle={[
+                  styles.textInput,
+                  {
+                    marginTop: 16,
+                    marginBottom: errNew !== '' ? 0 : 24,
+                    borderColor: '#F32013',
+                    borderWidth: errNew !== '' ? 1 : 0,
+                  },
+                ]}
+                refInput={refPassword}
+                maxLength={20}
+                returnKeyType="done"
+                value={pass}
+                onChangeText={onChangePass}
+              />
+              {errNew !== '' ? (
+                <Text style={styles.textErr}>{errNew}</Text>
+              ) : null}
+            </View>
             <Checkbox
-              containerStyle={styles.checkBox}
+              containerStyle={[styles.checkBox, {marginTop: 16}]}
               title={langs.rememberMe}
               checked={checked}
               onChange={onChangeRememberLogin}
             />
             <Button
-              backgroundColor={'rgb(0,138,238)'}
+              backgroundColor={
+                errMail === '' && errNew === '' ? 'rgb(0,138,238)' : '#E9E9E9'
+              }
               title={langs.login}
-              onPress={onLogin}
+              titleColor={errMail === '' && errNew === '' ? 'white' : '#827D82'}
+              onPress={errMail === '' && errNew === '' ? onLogin : null}
               testID="test_Login"
             />
             <TouchableOpacity onPress={onRegister} style={styles.bottom}>
@@ -167,7 +220,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 25,
-    marginVertical: 16,
+
     paddingHorizontal: 16,
   },
   hide: {
@@ -192,7 +245,6 @@ const styles = StyleSheet.create({
   },
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,
-    marginVertical: 8,
   },
   register: {color: '#178CEB', fontSize: 16},
   bottom: {justifyContent: 'center', alignItems: 'center', marginVertical: 16},
@@ -201,6 +253,13 @@ const styles = StyleSheet.create({
     // flex: 1,
     // borderWidth: 1,
     height: hp(80),
+  },
+  textErr: {
+    fontSize: 12,
+    height: 16,
+    marginTop: 8,
+    color: '#F32013',
+    marginLeft: 54,
   },
 });
 
