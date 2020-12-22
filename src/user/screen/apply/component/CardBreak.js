@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontWeight: '400',
     paddingRight: 12,
+    marginTop: -2,
   },
   imgs: {
     width: 16,
@@ -183,9 +184,10 @@ const styles = StyleSheet.create({
   calendarDay: {
     height: 16,
     width: 16,
-    marginRight: 4,
+    
     tintColor: Colors.black,
     alignSelf: 'flex-start',
+    marginTop: 2,
   },
   date: {
     fontSize: 14,
