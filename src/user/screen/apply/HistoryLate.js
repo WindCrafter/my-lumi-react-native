@@ -37,6 +37,7 @@ const HistoryLate = (props) => {
   const [date, setDate] = useState('');
   const goBack = () => {
     navigation.goBack();
+    removeList();
   };
   useEffect(() => {
     const dataBack = {

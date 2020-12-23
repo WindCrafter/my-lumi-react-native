@@ -269,7 +269,8 @@ function* sagaSetLateEarly(action) {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: langs.lateEarlyError,
+        // message: langs.lateEarlyError,
+        message: response.message,
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
