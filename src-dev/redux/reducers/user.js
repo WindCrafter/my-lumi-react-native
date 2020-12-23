@@ -46,13 +46,13 @@ export default function user(state = initialState, action) {
     case types.ADD_MEMBER:
       return {
         ...state,
-        memberPicked: [...state.memberPicked, ...action.payload],
+        memberPicked: action.payload,
       };
     case types.KICK_MEMBER:
       return {
         ...state,
         memberPicked: state.memberPicked.filter(
-          (e) => !(e.id === action.payload.id),
+          (e) => !(e.member_id === action.payload.member_id),
         ),
       };
     case types.CLEAR_MEMBER:

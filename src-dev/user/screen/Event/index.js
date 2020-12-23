@@ -115,13 +115,16 @@ const Event = (props) => {
   function onChangeDescription(val) {
     setDescription(val);
   }
+
   const removeMember = (val) => {
     kickMember(val);
   };
+
   const onShowPickerStart = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeStart(true);
   };
+
   const [dateStart, setDateStart] = useState(new Date());
   const [date, setDate] = useState('');
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
@@ -202,7 +205,7 @@ const Event = (props) => {
                 resizeMode="cover"
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <Text style={styles.textUser}>{item.member_name}</Text>
           </View>
           <TouchableOpacity onPress={() => removeMember(item)}>
             <Icon

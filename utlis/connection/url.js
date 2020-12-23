@@ -130,4 +130,6 @@ export const URL_STAGING = {
 
   GET_KPI: '/kpi/detail',
   CONFIRM_KPI: '/kpi/confirm',
+
+  MEETING_MEMBERS: '/meeting/members',
 };

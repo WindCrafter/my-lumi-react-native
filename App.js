@@ -65,9 +65,9 @@ export default class App extends PureComponent {
     return (
       <View style={styles.container}>
         {typeServer === 'product' ? <Setup /> : <SetupDev />}
-        {typeServer !== 'product' && (
+        {typeServer === 'develop' && (
           <Animated.View pointerEvents="none" style={styles.devType}>
-            <Text style={styles.title}>DEVELOP</Text>
+            <Text style={styles.title}>{typeServer.toUpperCase()}</Text>
           </Animated.View>
         )}
       </View>

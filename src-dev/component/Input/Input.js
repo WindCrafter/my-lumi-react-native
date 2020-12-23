@@ -99,6 +99,7 @@ export default function Input(props?: Props) {
         onFocus={onFocus}
         onBlur={onBlur}
         numberOfLines={1}
+        onEndEditing={onPress}
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
         {...otherProps}
       />

@@ -133,6 +133,7 @@ function ListOT(props) {
     setPage(1);
     getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
   };
+
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -149,6 +150,7 @@ function ListOT(props) {
         break;
     }
   };
+
   const onChangeStatus = (item) => {
     setStatus(item);
     setData([]);
