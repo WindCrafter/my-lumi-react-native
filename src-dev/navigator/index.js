@@ -9,9 +9,7 @@ import {
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import forgotPass from '../admin/container/forgotPassword/forgotPass';
 import login from '../admin/container/login';
-import AdminStack from './AdminStack';
 import UserStack from './UserStack';
-import firstLogin from '../admin/container/firstLogin';
 import Register from '../admin/container/register/index';
 import {navigationRef} from './CustomNavigation';
 import langs from '../../common/language';
