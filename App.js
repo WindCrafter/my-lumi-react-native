@@ -1,87 +1,97 @@
-import React, {PureComponent} from 'react';
-import {UIManager} from 'react-native';
-import {PersistGate} from 'redux-persist/es/integration/react';
-import {Provider} from 'react-redux';
-import codePush from 'react-native-code-push';
-import {store, persistor} from './src/redux/store/store';
-import AppNavigator from './app-navigator';
-import {setFont} from './utlis/index';
-import {ChangeState} from './src/redux/actions/codepush';
-import {LogBox} from 'react-native';
-import * as Sentry from '@sentry/react-native';
-console.disableYellowBox = true;
-const DSN_SENTRY =
-  'https://fc0d9122795948ee93aa4e34e28d776c@o486792.ingest.sentry.io/5544590';
-Sentry.init({
-  dsn: DSN_SENTRY,
-  enableAutoSessionTracking: true,
-  // Sessions close after app is 10 seconds in the background.
-  sessionTrackingIntervalMillis: 10000,
-});
-setFont('Quicksand-Regular');
+/**
+ * Created by nghinv on Thu May 31 2018
+ * Copyright (c) 2018 nghinv
+ */
 
-class App extends PureComponent {
+'use strick';
+
+import React, {PureComponent} from 'react';
+import {View, Text, Animated, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import Setup from './src-pro/setup';
+import SetupDev from './src-dev/setup';
+
+export default class App extends PureComponent {
   constructor(props) {
     super(props);
-    UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-
     this.state = {
-      store: store,
-    };
-
-    this.CodePushState = {
-      status: codePush.SyncStatus.CHECKING_FOR_UPDATE,
-      progress: 0,
+      loading: true,
+      typeServer: '',
     };
   }
 
-  codePushStatusDidChange(status) {
-    this.CodePushState = {
-      ...this.CodePushState,
-      status,
-    };
+  async componentDidMount() {
+    const mode = await AsyncStorage.getItem('APP_MODE');
+    this.setState({typeServer: mode});
+    // window.isAllowChangeSever = true;
+    // if (!!mode) {
+    //   await AsyncStorage.setItem('APP_MODE', 'product');
+    // }
+    window.typeServer = mode || 'product';
 
-    if (this.state.store) {
-      this.state.store.dispatch(ChangeState(this.CodePushState));
-    }
-  }
+    // if (window.typeServer === 'product') {
+    //   Setup = require('./src/setup').default;
+    // } else {
+    //   Setup = require('./src-dev/setup').default;
+    // }
 
-  codePushDownloadDidProgress(progress) {
-    this.CodePushState = {
-      ...this.CodePushState,
-      progress:
-        progress &&
-        progress.receivedBytes &&
-        progress.totalBytes &&
-        progress.totalBytes != 0
-          ? (progress.receivedBytes * 100) / progress.totalBytes
-          : 0,
-    };
-
-    if (this.state.store) {
-      this.state.store.dispatch(ChangeState(this.CodePushState));
-    }
+    // this.setState(
+    //   {
+    //     loading: false,
+    //   },
+    //   () => {
+    //     try {
+    //       SharedGroupPreferences.setItem(
+    //         commonKeyGroupShare.typeServer,
+    //         window.typeServer,
+    //         configWidget.appGroupIdentifier,
+    //       )
+    //         .then((res) => {})
+    //         .catch((e) => {});
+    //     } catch (errorCode) {
+    //       console.log(errorCode);
+    //     }
+    //   },
+    // );
   }
 
   render() {
+    const {typeServer} = this.state;
+
+    // if (loading) {
+    //   return <View />;
+    // }
+    console.log('typeServer', typeServer);
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
-        </PersistGate>
-      </Provider>
+      <View style={styles.container}>
+        {typeServer === 'product' ? <Setup /> : <SetupDev />}
+        {typeServer !== 'product' && (
+          <Animated.View pointerEvents="none" style={styles.devType}>
+            <Text style={styles.title}>DEVELOP</Text>
+          </Animated.View>
+        )}
+      </View>
     );
   }
 }
-export default codePush({
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.ON_NEXT_RESTART,
-  updateDialog: {
-    title: 'Cập nhật phiên bản mới',
-    mandatoryContinueButtonLabel: 'Tiếp tục',
-    mandatoryUpdateMessage:
-      'Vui lòng nhấn Tiếp tục để cập nhật phiên bản mới nhất. Ứng dụng sẽ tự động khởi động lại sau khi tải hoàn tất.',
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
-  allowRestart: true,
-})(App);
+  devType: {
+    position: 'absolute',
+    top: 10,
+    right: -50,
+    backgroundColor: 'black',
+    width: 160,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    transform: [{rotate: '45deg'}],
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});

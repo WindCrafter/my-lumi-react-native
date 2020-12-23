@@ -1,7 +1,7 @@
 import {_global} from '../global/global';
 
 export function _POST(url, data, token, loading = true) {
-  console.log('POST: ', url, data, token);
+  console.log('___POST: ', url, data, token);
   if (loading) {
     _global.Loading.show();
   }
@@ -40,7 +40,7 @@ export function _PUT(url, data, token) {
 }
 
 export function _GET(url, token, loading) {
-  console.log('_Get', url);
+  console.log('___GET', url);
   if (loading) {
     _global.Loading.show();
   }
