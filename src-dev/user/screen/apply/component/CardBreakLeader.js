@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     width: 16,
     marginRight: 4,
     tintColor: Colors.black,
+    marginTop: 2,
   },
   date: {
     fontSize: 14,

@@ -184,6 +184,8 @@ const langs = {
     invalidReNewPassword2: 'Mật khẩu mới đang để trống.',
     invalidEmail: 'Email đang để trống.\nVui lòng kiểm tra lại.',
     wrongVerifyCode: 'Mã nhân viên đang để trống.\nVui lòng kiểm tra lại.',
+    wrongVerifyCode2: 'Mã nhân viên đang để trống.',
+
     termOfService:
       'Bạn cần đồng ý với những điều khoản dịch vụ của chúng tôi để tiếp tục đăng ký',
     privacyPolicy:
