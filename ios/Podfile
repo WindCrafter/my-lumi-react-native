@@ -29,9 +29,7 @@ pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.po
     flipper_post_install(installer)
   end
 end
-target 'OneSignalNotificationServiceExtension' do
-  pod 'OneSignal', '>= 2.9.3', '< 3.0'
-end
+
 target 'LumiHR-tvOS' do
   # Pods for LumiHR-tvOS
 

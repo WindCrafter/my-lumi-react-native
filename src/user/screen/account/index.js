@@ -72,6 +72,10 @@ const Account = (props) => {
     resetCheck();
   };
 
+  const gotoKpi = () => {
+    navigation.navigate(langs.navigator.kpi);
+  };
+
   const onShowModal = async () => {
     setshowModal(true);
   };
@@ -129,14 +133,14 @@ const Account = (props) => {
               title={langs.infoApp}
               onPressButton={onShowModal}
             />
-            {/* <RoundedView
+            <RoundedView
               leftImage={imgs.KPI}
               title={langs.kpiConfirm}
-              onPressButton={onShowModal}
-            /> */}
+              onPressButton={gotoKpi}
+            />
             <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
-                <Image source={imgs.KPI} style={styles.imgClear} />
+                <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
               </View>
               <Switch

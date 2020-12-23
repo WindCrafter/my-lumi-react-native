@@ -18,6 +18,7 @@ const initialState = {
   history: null,
   demoMode: false,
   listRoomBook: [],
+  kpi: {},
 };
 
 export default function user(state = initialState, action) {
@@ -103,6 +104,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         demoMode: !state.demoMode,
+      };
+    case types.GET_KPI_SUCCESS:
+      return {
+        ...state,
+        kpi: action.payload,
       };
     default:
       return state;

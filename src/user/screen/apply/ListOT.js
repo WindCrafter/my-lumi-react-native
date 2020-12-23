@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
+  SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -156,10 +157,11 @@ function ListOT(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
+      {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
+      /> */}
+      <SafeAreaView />
       <HeaderCustom
         title={langs.titleListOT}
         height={60}
