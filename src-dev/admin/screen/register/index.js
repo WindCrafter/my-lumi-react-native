@@ -110,7 +110,7 @@ const Register = (props) => {
         errConfirm !== '' ||
         errCode !== '')
     ) {
-      setErrCode(langs.alert.wrongVerifyCode);
+      setErrCode(langs.alert.wrongVerifyCode2);
     } else {
       setErrCode('');
     }
@@ -206,7 +206,7 @@ const Register = (props) => {
         setErrConfirm(langs.alert.notCoincideRepass);
       }
       if (verifyCode.trim().length === 0) {
-        setErrCode(langs.alert.wrongVerifyCode);
+        setErrCode(langs.alert.wrongVerifyCode2);
       }
       // if (!termOfService) {
       //   _global.Alert.alert({
@@ -253,7 +253,7 @@ const Register = (props) => {
                   containerStyle={[
                     styles.textInput,
                     {
-                      marginBottom: errMail !== '' ? 0 : 20,
+                      marginBottom: errMail !== '' ? 0 : 28,
                       borderColor: '#F32013',
                       borderWidth: errMail !== '' ? 1 : 0,
                     },
@@ -273,7 +273,7 @@ const Register = (props) => {
                   containerStyle={[
                     styles.textInput,
                     {
-                      marginBottom: errNew !== '' ? 0 : 20,
+                      marginBottom: errNew !== '' ? 0 : 28,
                       borderColor: '#F32013',
                       borderWidth: errNew !== '' ? 1 : 0,
                     },
@@ -298,7 +298,7 @@ const Register = (props) => {
                   containerStyle={[
                     styles.textInput,
                     {
-                      marginBottom: errConfirm !== '' ? 0 : 20,
+                      marginBottom: errConfirm !== '' ? 0 : 28,
                       borderColor: '#F32013',
                       borderWidth: errConfirm !== '' ? 1 : 0,
                     },
@@ -382,7 +382,7 @@ const Register = (props) => {
                   errCode === ''
                     ? 1
                     : 0,
-                marginTop: errCode === '' ? 24 : 8,
+                marginTop: errCode === '' ? 36 : 8,
               },
             ]}
             titleColor={
@@ -527,7 +527,7 @@ const styles = StyleSheet.create({
   logIn: {color: Colors.blue, marginLeft: 4},
   textErr: {
     fontSize: 12,
-    height: 16,
+    height: 24,
     marginTop: 4,
     color: '#F32013',
     marginLeft: 32,

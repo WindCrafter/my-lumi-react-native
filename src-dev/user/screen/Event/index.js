@@ -55,7 +55,7 @@ const Event = (props) => {
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('Phòng họp');
   const [select, onSelect] = useState(false);
   const [loop, setLoop] = useState('');
   const [hourStart, setHourStart] = useState(moment()._d);
@@ -427,8 +427,7 @@ const Event = (props) => {
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
-            onSetMonth={onSetMonth}
-            onSetYear={onSetYear}
+            
           />
           <InputSelect
             width="90%"
@@ -436,7 +435,7 @@ const Event = (props) => {
             borderRadius={32}
             height={54}
             shadowColor="white"
-            title="Địa điểm"
+            title="Địa điểm : Phòng hợp"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}

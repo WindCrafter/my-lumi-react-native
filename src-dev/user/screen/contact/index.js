@@ -31,7 +31,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
 function Contact(props) {
   const {navigation, token, currentUser} = props;
   const [search, setSearch] = useState('');
@@ -123,7 +122,7 @@ function Contact(props) {
     return (
       <ContactRow
         name={key.item.fullname}
-        leftImage={key.item.avt}
+        // leftImage={require('../../../../naruto.jpeg')}
         team={key.item.team}
         // dob={key.item.birthday}
         role={key.item.role}

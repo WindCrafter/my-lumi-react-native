@@ -123,7 +123,7 @@ const Login = (props) => {
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errMail !== '' ? 0 : 24,
+                    marginBottom: errMail !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errMail !== '' ? 1 : 0,
                   },
@@ -150,7 +150,7 @@ const Login = (props) => {
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errNew !== '' ? 0 : 24,
+                    marginBottom: errNew !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errNew !== '' ? 1 : 0,
                   },
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   textErr: {
     fontSize: 12,
-    height: 16,
+    height: 24,
     marginTop: 8,
     color: '#F32013',
     marginLeft: 54,
