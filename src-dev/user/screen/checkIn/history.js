@@ -55,7 +55,9 @@ function History(props) {
     const _pageN = pageN || 1;
     const _dateN = dateN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?page=${_pageN}&page_size=10$date=${_dateN}`;
+    const apiURL = _dateN
+      ? `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?page=${_pageN}&page_size=10&date=${_dateN}`
+      : `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?page=${_pageN}&page_size=10`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -206,6 +208,8 @@ function History(props) {
     setDate(moment(dateChange).format('DD/MM/YYYY'));
     setVisible(false);
     getData(1, moment(dateChange).format('DD/MM/YYYY'), []);
+    setPage(1);
+    setData([]);
   };
 
   return (
