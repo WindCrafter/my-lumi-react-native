@@ -36,7 +36,7 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.0.2 - 18/12/2020 11:00</Text>
+        <Text style={styles.version}>V1.1.0 - 18/12/2020 11:00</Text>
         <Text style={styles.website}>Công ty cổ phần Lumi Việt Nam</Text>
         <Text style={styles.website}>
           Số 38, Đõ Đức Dục, quận Nam Từ Liêm, Hà Nội
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
   },
   detailmodal: {
     fontWeight: '500',
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 20,
     marginBottom: 10,
-    width: '80%',
+    width: '100%',
     alignSelf: 'center',
     textAlign: 'center',
   },

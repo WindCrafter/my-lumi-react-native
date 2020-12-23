@@ -55,7 +55,7 @@ function ListOT(props) {
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
-  const [onScroll, setOnScroll] = useState(true);
+  const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
@@ -93,6 +93,7 @@ function ListOT(props) {
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
+    setOnScroll(false);
     console.log('_GET_LIST_OVERTIME ===========>', response);
     if (
       response.success &&
@@ -108,11 +109,13 @@ function ListOT(props) {
 
   const onRefresh = () => {
     setRefresh(true);
+    setOnScroll(false);
     getData(1, date, status, []);
   };
 
   const handleLoadMore = () => {
     getData(page + 1, date, status, data);
+    setOnScroll(false);
     setLoading(true);
   };
 
@@ -157,10 +160,7 @@ function ListOT(props) {
 
   return (
     <View style={styles.container}>
-      {/* <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      /> */}
+      <BarStatus />
       <SafeAreaView />
       <HeaderCustom
         title={langs.titleListOT}
@@ -179,9 +179,8 @@ function ListOT(props) {
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          onMomentumScrollBegin={() => setOnScroll(false)}
-          onMomentumScrollEnd={() => setOnScroll(true)}
-          onEndReached={!loading ? handleLoadMore : null}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={renderFooterComponent}

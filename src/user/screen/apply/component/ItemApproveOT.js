@@ -39,7 +39,11 @@ const ItemApproveOT = (props) => {
     }
     if (item.status === 2) {
       return (
-        <View style={[styles.row, {marginTop: 8, justifyContent: 'center'}]}>
+        <View
+          style={[
+            styles.row,
+            {marginTop: 8, justifyContent: 'center', alignItems: 'flex-end'},
+          ]}>
           <Image
             source={imgs.tick}
             style={[styles.imageStamp, styles.marginRight]}
@@ -50,7 +54,11 @@ const ItemApproveOT = (props) => {
     }
     if (item.status === 3) {
       return (
-        <View style={[styles.row, {marginTop: 8, justifyContent: 'center'}]}>
+        <View
+          style={[
+            styles.row,
+            {marginTop: 8, justifyContent: 'center', alignItems: 'flex-end'},
+          ]}>
           <Image
             source={imgs.cancel}
             style={[styles.imageStamp, styles.imageCancel]}
@@ -115,9 +123,7 @@ const ItemApproveOT = (props) => {
 
 const styles = StyleSheet.create({
   img: {
-    padding: 8,
-    borderRadius: 16,
-    alignSelf: 'center',
+    padding: 5,
     marginRight: 8,
     flexDirection: 'row',
   },
@@ -126,15 +132,16 @@ const styles = StyleSheet.create({
     height: 20,
   },
   txtStatus: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     fontSize: 16,
+    marginBottom: -2,
   },
   row: {
     flexDirection: 'row',
     paddingHorizontal: 16,
   },
   txtTime: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.black,
     alignSelf: 'center',
     marginHorizontal: 12,
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
   },
   colorCancel: {
     color: '#ff3b30',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '800',
   },
   marginRight: {
@@ -173,7 +180,7 @@ const styles = StyleSheet.create({
   approve: {
     color: Colors.background,
     fontWeight: '800',
-    fontSize: 18,
+    fontSize: 16,
   },
   name: {
     fontSize: 18,

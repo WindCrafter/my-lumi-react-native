@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
+  Platform,
 } from 'react-native';
 
 const SCREEN = Dimensions.get('window');
@@ -149,30 +150,49 @@ class Overlay extends PureComponent {
 
     if (origin.x < (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
       // goc phan tu top left
+      console.log('top left');
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
-      targetStart.y = origin.y + origin.height - dropdownHeight / 2;
+      targetStart.y =
+        Platform.OS === 'ios'
+          ? origin.y + origin.height - dropdownHeight / 2
+          : origin.y + origin.height - dropdownHeight / 2 - 35;
       targetEnd.x = origin.x + origin.width - dropdownWidth;
-      targetEnd.y = origin.y + origin.height;
+      targetEnd.y =
+        Platform.OS === 'ios'
+          ? origin.y + origin.height
+          : origin.y + origin.height - 35;
     }
 
     if (origin.x < (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
       // goc phan tu bottom left
-      targetStart.x = origin.x - dropdownWidth / 2;
-      targetStart.y = origin.y - dropdownHeight / 2;
-      targetEnd.x = origin.x;
-      targetEnd.y = origin.y - dropdownHeight;
+      console.log('bottom left');
+      targetStart.x = origin.x - 15;
+      targetStart.y =
+        Platform.OS === 'ios'
+          ? origin.y + dropdownHeight / 2 - 35
+          : origin.y + dropdownHeight / 2 - 70;
+      targetEnd.x = origin.x - 15;
+      targetEnd.y =
+        Platform.OS === 'ios'
+          ? origin.y + dropdownHeight / 2 - 35
+          : origin.y + dropdownHeight / 2 - 70;
     }
 
     if (origin.x > (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
       // goc phan tu top right
+      console.log('top right');
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
       targetStart.y = origin.y + origin.height - dropdownHeight / 2;
       targetEnd.x = origin.x + origin.width - dropdownWidth;
-      targetEnd.y = origin.y + origin.height;
+      targetEnd.y =
+        Platform.OS === 'ios'
+          ? origin.y + origin.height
+          : origin.y + origin.height - 35;
     }
 
     if (origin.x > (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
       // goc phan tu bottom right
+      console.log('bottom right');
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
       targetStart.y = origin.y - dropdownHeight / 2;
       targetEnd.x = origin.x + origin.width - dropdownWidth;

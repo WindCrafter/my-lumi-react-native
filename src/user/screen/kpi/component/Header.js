@@ -9,19 +9,29 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {imgs, Colors} from '../../../../../utlis';
-import langs from '../../../../../common/language';
-
-const currrentDate = moment().format('DD/MM/YYYY');
-const day = moment().format('dddd');
+import Icon from 'react-native-vector-icons/Feather';
 
 const HeaderAccount = (props) => {
-  const {title, sub} = props;
+  const {title, sub, goBack} = props;
   return (
     <View style={styles.container}>
       <SafeAreaView />
-      <View style={styles.info}>
-        <Text style={styles.txtTitle}>{title}</Text>
-        <Text style={styles.txtDetail}>{sub}</Text>
+      <View style={styles.row}>
+        <TouchableOpacity onPress={goBack} style={styles.button}>
+          {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
+          <Icon
+            name="chevron-left"
+            size={32}
+            color={Colors.black}
+            style={{top: 4}}
+          />
+        </TouchableOpacity>
+        <View>
+          <View style={styles.info}>
+            <Text style={styles.txtTitle}>{title}</Text>
+            <Text style={styles.txtDetail}>{sub}</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.line} />
       <View style={styles.bot} />
@@ -59,5 +69,9 @@ const styles = StyleSheet.create({
   bot: {
     flex: 1,
     paddingBottom: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Keyboard,
+  Dimensions,
 } from 'react-native';
 import {
   KeyBoardScroll,
@@ -29,6 +30,8 @@ import {imgs, Colors} from '../../../../utlis';
 import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
+const {height} = Dimensions.get('window');
+
 const Register = (props) => {
   const {navigation, register} = props;
 
@@ -39,21 +42,112 @@ const Register = (props) => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
   const [confirmCode, setConfirmCode] = useState(false);
   const [confirmData, setConfirmData] = useState(null);
+  const [errNew, setErrNew] = useState('');
+  const [errConfirm, setErrConfirm] = useState('');
+  const [errMail, setErrMail] = useState('');
+  const [errCode, setErrCode] = useState('');
   const [email, setEmail] = useState('');
   const onGoBack = () => {
     navigation.navigate('Login');
   };
-  const onChangeEmail = (value) => {
-    setEmail(value);
+  const onChangeEmail = (val) => {
+    setEmail(val);
+    if (
+      val.trim().length === 0 &&
+      (errMail !== '' ||
+        errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrMail(langs.emailInvalid);
+    } else if (
+      !isValidEmail(val) &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrMail(langs.alert.wrongEmail2);
+    } else {
+      setErrMail('');
+    }
   };
-  const onChangePass = (value) => {
-    setNewPassword(value);
+  const onChangePass = (val) => {
+    setNewPassword(val);
+    if (
+      val === '' &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrNew(langs.alert.invalidReNewPassword2);
+    } else if (
+      val.trim().length > 0 &&
+      val.trim().length < 8 &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrNew(langs.alert.lessReNewPassword2);
+    } else {
+      setErrNew('');
+    }
   };
-  const onChangeVerifyCode = (value) => {
-    setVerifyCode(value);
+  const onChangeVerifyCode = (val) => {
+    setVerifyCode(val);
+    if (
+      val.trim().length === 0 &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrCode(langs.alert.wrongVerifyCode);
+    } else {
+      setErrCode('');
+    }
   };
-  const onChangeConfirmPassword = (value) => {
-    setConfirmPassword(value);
+  const onChangeConfirmPassword = (val) => {
+    setConfirmPassword(val);
+    if (
+      val === '' &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrConfirm(langs.alert.invalidRePassword2);
+    } else if (
+      val.trim().length > 0 &&
+      val.trim().length < 8 &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrConfirm(langs.alert.lessRePassword2);
+    } else if (
+      val !== newPassword &&
+      (errMail !== '' ||
+        errConfirm !== '' ||
+        errNew !== '' ||
+        errConfirm !== '' ||
+        errCode !== '')
+    ) {
+      setErrConfirm(langs.alert.notCoincideRepass);
+    } else {
+      setErrConfirm('');
+    }
   };
   const onAcceptTermOfService = () => {
     setTermOfService(!termOfService);
@@ -68,95 +162,73 @@ const Register = (props) => {
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
   const onRegister = () => {
     Keyboard.dismiss();
-    if (email.trim().length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.invalidEmail,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (!isValidEmail(email)) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.wrongEmail,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (newPassword.trim().length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.invalidPassword,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (newPassword.trim().length < 6) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.lessPassword,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (confirmPassword.trim().length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.invalidRePassword,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.wrongRepass,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (verifyCode.trim().length === 0) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.wrongVerifyCode,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (!termOfService) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.termOfService,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-    if (!privacyPolicy) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: langs.alert.privacyPolicy,
-        leftButton: {text: langs.alert.ok},
-      });
-
-      return;
-    }
-
     const data = {
       email: email,
       password: newPassword,
       confirm_password: confirmPassword,
       code_staff: verifyCode,
     };
-    register(data);
+
+    if (
+      email.trim().length === 0 ||
+      !isValidEmail(email) ||
+      newPassword.trim().length === 0 ||
+      (newPassword.trim().length > 0 && newPassword.trim().length < 8) ||
+      confirmPassword.trim().length === 0 ||
+      (confirmPassword.trim().length > 0 &&
+        confirmPassword.trim().length < 8) ||
+      newPassword !== confirmPassword ||
+      verifyCode.trim().length === 0
+    ) {
+      if (email.trim().length === 0) {
+        setErrMail(langs.alert.wrongEmail);
+      }
+      if (!isValidEmail(email)) {
+        setErrMail(langs.emailInvalid);
+      }
+      if (newPassword.trim().length === 0) {
+        setErrNew(langs.alert.invalidReNewPassword2);
+      }
+      if (newPassword.trim().length > 0 && newPassword.trim().length < 8) {
+        setErrNew(langs.alert.lessReNewPassword2);
+      }
+
+      if (confirmPassword.trim().length === 0) {
+        setErrConfirm(langs.alert.invalidRePassword2);
+      }
+      if (
+        confirmPassword.trim().length > 0 &&
+        confirmPassword.trim().length < 8
+      ) {
+        setErrConfirm(langs.alert.lessRePassword2);
+      }
+      if (newPassword !== confirmPassword) {
+        setErrConfirm(langs.alert.notCoincideRepass);
+      }
+      if (verifyCode.trim().length === 0) {
+        setErrCode(langs.alert.wrongVerifyCode);
+      }
+      // if (!termOfService) {
+      //   _global.Alert.alert({
+      //     title: langs.alert.notify,
+      //     message: langs.alert.termOfService,
+      //     leftButton: {text: langs.alert.ok},
+      //   });
+
+      //   return;
+      // }
+      // if (!privacyPolicy) {
+      //   _global.Alert.alert({
+      //     title: langs.alert.notify,
+      //     message: langs.alert.privacyPolicy,
+      //     leftButton: {text: langs.alert.ok},
+      //   });
+
+      //   return;
+      // }
+    } else {
+      register(data);
+    }
   };
 
   return (
@@ -168,62 +240,109 @@ const Register = (props) => {
           <Logo containerStyle={styles.logo} />
           <View>
             <View style={styles.viewInput}>
-              <Input
-                // leftImage={}
-                // backgroundColor={'rgba(0,0,25,0.22)'}
-                placeholder={'Email công ty'}
-                testID="test_Username"
-                returnKeyType="next"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                maxLength={50}
-                containerStyle={styles.textInput}
-                onSubmitEditing={() => refPassword.current.focus()}
-                value={email}
-                onChangeText={onChangeEmail}
-                rightIcon
-              />
-              <InputPassword
-                testID="test_Password"
-                containerStyle={styles.textInput}
-                // backgroundColor={'rgba(0,0,25,0.22)'}
-                placeholder={'Mật khẩu mới'}
-                // refInput={refPassword}
-                maxLength={20}
-                returnKeyType="next"
-                value={newPassword}
-                onChangeText={onChangePass}
-                refInput={refPassword}
-                onSubmitEditing={() => refRePassword.current.focus()}
-              />
-              <InputPassword
-                testID="test_Password"
-                containerStyle={styles.textInput}
-                // backgroundColor={'rgba(0,0,25,0.22)'}
-                placeholder={'Nhập lại mật khẩu'}
-                refInput={refRePassword}
-                maxLength={20}
-                returnKeyType="next"
-                value={confirmPassword}
-                onChangeText={onChangeConfirmPassword}
-                onSubmitEditing={() => refVerifyCode.current.focus()}
-              />
-              <InputPassword
-                testID="test_Password"
-                containerStyle={styles.textInput}
-                // backgroundColor={'rgba(0,0,25,0.22)'}
-                placeholder={'Mã nhân viên'}
-                // refInput={refPassword}
-                maxLength={20}
-                returnKeyType="done"
-                value={verifyCode}
-                onChangeText={onChangeVerifyCode}
-                leftImage={imgs.key}
-                refInput={refVerifyCode}
-              />
+              <View>
+                <Input
+                  // leftImage={}
+                  // backgroundColor={'rgba(0,0,25,0.22)'}
+                  placeholder={'Email công ty'}
+                  testID="test_Username"
+                  returnKeyType="next"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  maxLength={50}
+                  containerStyle={[
+                    styles.textInput,
+                    {
+                      marginBottom: errMail !== '' ? 0 : 20,
+                      borderColor: '#F32013',
+                      borderWidth: errMail !== '' ? 1 : 0,
+                    },
+                  ]}
+                  onSubmitEditing={() => refPassword.current.focus()}
+                  value={email}
+                  onChangeText={onChangeEmail}
+                  rightIcon
+                />
+                {errMail !== '' ? (
+                  <Text style={styles.textErr}>{errMail}</Text>
+                ) : null}
+              </View>
+              <View>
+                <InputPassword
+                  testID="test_Password"
+                  containerStyle={[
+                    styles.textInput,
+                    {
+                      marginBottom: errNew !== '' ? 0 : 20,
+                      borderColor: '#F32013',
+                      borderWidth: errNew !== '' ? 1 : 0,
+                    },
+                  ]}
+                  // backgroundColor={'rgba(0,0,25,0.22)'}
+                  placeholder={'Mật khẩu mới'}
+                  // refInput={refPassword}
+                  maxLength={20}
+                  returnKeyType="next"
+                  value={newPassword}
+                  onChangeText={onChangePass}
+                  refInput={refPassword}
+                  onSubmitEditing={() => refRePassword.current.focus()}
+                />
+                {errNew !== '' ? (
+                  <Text style={styles.textErr}>{errNew}</Text>
+                ) : null}
+              </View>
+              <View>
+                <InputPassword
+                  testID="test_Password"
+                  containerStyle={[
+                    styles.textInput,
+                    {
+                      marginBottom: errConfirm !== '' ? 0 : 20,
+                      borderColor: '#F32013',
+                      borderWidth: errConfirm !== '' ? 1 : 0,
+                    },
+                  ]}
+                  // backgroundColor={'rgba(0,0,25,0.22)'}
+                  placeholder={'Nhập lại mật khẩu'}
+                  refInput={refRePassword}
+                  maxLength={20}
+                  returnKeyType="next"
+                  value={confirmPassword}
+                  onChangeText={onChangeConfirmPassword}
+                  onSubmitEditing={() => refVerifyCode.current.focus()}
+                />
+                {errConfirm !== '' ? (
+                  <Text style={styles.textErr}>{errConfirm}</Text>
+                ) : null}
+              </View>
+              <View>
+                <InputPassword
+                  testID="test_Password"
+                  containerStyle={[
+                    styles.textInput,
+                    {
+                      borderColor: '#F32013',
+                      borderWidth: errCode !== '' ? 1 : 0,
+                    },
+                  ]}
+                  // backgroundColor={'rgba(0,0,25,0.22)'}
+                  placeholder={'Mã nhân viên'}
+                  // refInput={refPassword}
+                  maxLength={20}
+                  returnKeyType="done"
+                  value={verifyCode}
+                  onChangeText={onChangeVerifyCode}
+                  leftImage={imgs.key}
+                  refInput={refVerifyCode}
+                />
+                {errCode !== '' ? (
+                  <Text style={styles.textErr}>{errCode}</Text>
+                ) : null}
+              </View>
             </View>
-            <View style={[styles.viewCheckbox, {marginBottom: 8}]}>
-              {/* <Checkbox
+            {/* <View style={[styles.viewCheckbox, {marginBottom: 8}]}> */}
+            {/* <Checkbox
                 title={'Điều khoản dịch vụ'}
                 // title2={`(${langs.link})`}
                 checked={termOfService}
@@ -240,16 +359,48 @@ const Register = (props) => {
                 onChange={onAcceptPrivacyPolicy}
                 // onPressTitle={onOpenPrivacyPolicy}
               /> */}
-            </View>
+            {/* </View> */}
           </View>
           <Button
             title={'Tạo tài khoản'}
-            style={styles.button}
-            backgroundColor={'rgba(255, 255, 255, 0.1)'}
-            onPress={onRegister}
+            onPress={
+              errMail === '' &&
+              errNew === '' &&
+              errConfirm === '' &&
+              errCode === ''
+                ? onRegister
+                : null
+            }
             rounded
-            containerStyle={styles.viewInButton}
-            titleColor={'rgb(0,138,238)'}
+            containerStyle={[
+              styles.viewInButton,
+              {
+                borderWidth:
+                  errMail === '' &&
+                  errNew === '' &&
+                  errConfirm === '' &&
+                  errCode === ''
+                    ? 1
+                    : 0,
+                marginTop: errCode === '' ? 24 : 8,
+              },
+            ]}
+            titleColor={
+              errMail === '' &&
+              errNew === '' &&
+              errConfirm === '' &&
+              errCode === ''
+                ? 'rgb(0,138,238)'
+                : '#827D82'
+            }
+            backgroundColor={
+              errMail === '' &&
+              errNew === '' &&
+              errConfirm === '' &&
+              errCode === ''
+                ? null
+                : '#E9E9E9'
+            }
           />
         </View>
         <TouchableOpacity style={styles.goBack} onPress={onGoBack}>
@@ -284,7 +435,7 @@ const styles = StyleSheet.create({
   viewInput: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 50,
+    paddingVertical: (height - 568) / 6,
   },
   viewButton: {},
   viewAvatar: {
@@ -302,10 +453,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     overflow: 'hidden',
   },
-  button: {
-    backgroundColor: Colors.background,
-    position: 'absolute',
-  },
+
   input: {
     marginBottom: 22,
   },
@@ -362,13 +510,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 25,
-    marginVertical: 8,
+    marginTop: 8,
     paddingHorizontal: 16,
   },
-  viewInButton: {
-    borderColor: 'rgb(0,138,238)',
-    borderWidth: 1,
-  },
+  viewInButton: {borderColor: 'rgb(0,138,238)'},
   bottom: {height: 1, width: '100%', backgroundColor: '#E4E4E4'},
   goBack: {alignSelf: 'center', flexDirection: 'row'},
   containerBottom: {
@@ -378,6 +523,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: hp(90),
   },
+
   logIn: {color: Colors.blue, marginLeft: 4},
+  textErr: {
+    fontSize: 12,
+    height: 16,
+    marginTop: 4,
+    color: '#F32013',
+    marginLeft: 32,
+  },
 });
 export default Register;

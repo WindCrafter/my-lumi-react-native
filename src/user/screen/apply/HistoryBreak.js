@@ -182,7 +182,7 @@ const HistoryBreak = (props) => {
         date={_listDate}
         reason={item.content}
         typeBreak={
-          (item.date.length > 1 && item.morning) === 0
+          item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'
             : item.date.length === 1 && item.morning === 0
             ? 'Một ngày'
@@ -190,7 +190,9 @@ const HistoryBreak = (props) => {
             ? 'Buổi sáng'
             : item.date.length === 1 && item.morning === 2
             ? 'Buổi chiều'
-            : 'Đơn thiếu '
+            : item.date.length === 1
+            ? 'Một ngày'
+            : 'Nhiều ngày'
         }
       />
     );

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Header from './component/Header';
 import {Colors, imgs} from '../../../../utlis/index';
+import {BarStatus} from '../../../component';
 
 const Kpi = (props) => {
   const {token, navigation, getKPI, confirmKpi, kpi} = props;
@@ -34,10 +35,19 @@ const Kpi = (props) => {
     }
   };
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={{flex: 1}}>
+      <BarStatus />
       <SafeAreaView />
-      <Header title={'Xác nhận'} sub={'Kiểm tra thống kê chấm công'} />
+      <Header
+        title={'Xác nhận'}
+        sub={'Kiểm tra thống kê chấm công'}
+        goBack={goBack}
+      />
       <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}
@@ -191,13 +201,13 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    elevation: 2,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 1,
+    // },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 2,
+    // elevation: 2,
   },
   textButton: {
     color: 'white',

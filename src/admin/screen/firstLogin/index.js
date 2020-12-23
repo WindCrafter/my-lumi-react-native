@@ -69,7 +69,7 @@ const FirstLogin = (props) => {
       refAlert.current.open();
       return;
     }
-    if (pass.trim().length < 6) {
+    if (pass.trim().length < 8) {
       setError(langs.alert.lessPassword);
       refAlert.current.open();
       return;

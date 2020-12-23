@@ -36,12 +36,12 @@ const ApproveBreak = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
-  const [type, setType] = useState('Tất cả');
+  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
+  const [type, setType] = useState('Đang chờ');
   const [date, setDate] = useState('');
 
   useEffect(() => {
-    getData(1, '', '', [], '');
+    getData(1, filter.date, filter.status, [], filter.name);
   }, []);
   const onSetType = (item) => {
     switch (item) {
@@ -80,7 +80,6 @@ const ApproveBreak = (props) => {
     const _data = dataN || [];
     const _name = nameN || '';
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
-    console.log(apiURL);
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
     setRefresh(false);
@@ -160,6 +159,7 @@ const ApproveBreak = (props) => {
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
   };
+
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
@@ -167,6 +167,7 @@ const ApproveBreak = (props) => {
       </View>
     ) : null;
   };
+
   const onConfirm = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
@@ -176,13 +177,17 @@ const ApproveBreak = (props) => {
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_BREAK =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(
-        data.map((i) =>
-          i._id === response.data._id
-            ? {...i, status: response.data.status}
-            : i,
-        ),
-      );
+      if (filter.status === '0' || filter.status === 0) {
+        setData(
+          data.map((i) =>
+            i._id === response.data._id
+              ? {...i, status: response.data.status}
+              : i,
+          ),
+        );
+      } else {
+        setData(data.filter((i) => i._id !== response.data._id));
+      }
       _global.Loading.hide();
     } else {
       _global.Alert.alert({
@@ -208,9 +213,17 @@ const ApproveBreak = (props) => {
     const response = await _POST(apiURL, body, token);
     console.log('_DENY =============>', response);
     if (response.success && response.statusCode === 200 && response.data) {
-      setData(
-        data.map((i) => (i._id === response.data._id ? response.data : i)),
-      );
+      if (filter.status === '0' || filter.status === 0) {
+        setData(
+          data.map((i) =>
+            i._id === response.data._id
+              ? {...i, status: response.data.status}
+              : i,
+          ),
+        );
+      } else {
+        setData(data.filter((i) => i._id !== response.data._id));
+      }
       _global.Loading.hide();
     } else {
       _global.Alert.alert({

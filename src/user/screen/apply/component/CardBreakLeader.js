@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   time: {
     color: Colors.black,
     fontWeight: '400',
-    paddingRight:8
+    paddingRight: 8,
   },
   imgs: {
     width: 16,
@@ -206,6 +206,8 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     marginRight: 4,
+    alignSelf: 'flex-start',
+    marginTop: 2,
   },
   viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
   viewText: {flexDirection: 'row', flex: 1},
