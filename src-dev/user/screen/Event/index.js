@@ -284,7 +284,10 @@ const Event = (props) => {
       return;
     }
     const name = [];
-    memberPicked.forEach((i) => name.push(i.name));
+
+    memberPicked.forEach((i) => {
+      i.member_name !== null ? name.push(i.member_name) : null;
+    });
     const data = {
       loop:
         loop === ''
@@ -430,7 +433,6 @@ const Event = (props) => {
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
-            
           />
           <InputSelect
             width="90%"

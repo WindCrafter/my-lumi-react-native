@@ -6,6 +6,7 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Linking, UIManager, LayoutAnimation} from 'react-native';
+import moment from 'moment';
 import {autoLogin, getDeviceId} from './redux/actions/authen';
 import {resetCheck} from './redux/actions/check';
 import Navigator from './navigator';
@@ -29,12 +30,21 @@ const AppNavigator = (props) => {
     deviceId,
     dateCheckIn,
     codepush,
+    resetCheck,
   } = props;
   const [loading, setLoading] = useState(true);
+
   let titleVersion = `${DeviceInfo.getVersion()}`;
+
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    dateCheckIn < new Date() ? resetCheck() : null;
+
+    if (
+      moment(dateCheckIn).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY')
+    ) {
+      resetCheck();
+    }
+
     setTimeout(async function changeLoading() {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
@@ -45,7 +55,9 @@ const AppNavigator = (props) => {
       delay: 0,
     });
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
+
   console.log('Titleversion', titleVersion);
+
   const handleOpenURL = () => {};
 
   useEffect(() => {
@@ -98,7 +110,7 @@ const mapStateToProps = (state) => {
     token: state.authen.token,
     role: state.authen.role,
     autoLoginStatus: state.authen.autoLoginStatus,
-    dateCheckIn: state.authen.check,
+    dateCheckIn: state.check.dateCheckIn,
     codepush: state.codepush,
   };
 };
