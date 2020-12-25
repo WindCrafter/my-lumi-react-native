@@ -41,7 +41,7 @@ function Notify(props) {
     setTimeout(() => {
       console.log('openURL succcess--->');
 
-      Linking.openURL(`${Schema}UserStack/NotifyDetail`)
+      Linking.openURL(`${Schema}UserStack/TabbarUser/AllNotify`)
         .then((res) => {})
         .catch((error) => {
           console.log('openURL error--->', error);

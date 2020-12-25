@@ -290,7 +290,7 @@ function TabbarCustom({
           state={state}
           descriptors={descriptors}
           navigation={navigation}
-          title={langs.navigator.schedule}
+          title={'Lịch họp'}
           index={1}
           route={state.routes[1]}
           tab={1}
@@ -309,7 +309,7 @@ function TabbarCustom({
           state={state}
           descriptors={descriptors}
           navigation={navigation}
-          title={langs.navigator.account}
+          title={'Cá nhân'}
           index={3}
           route={state.routes[3]}
           tab={3}

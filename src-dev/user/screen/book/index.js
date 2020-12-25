@@ -22,7 +22,7 @@ import {Card} from 'native-base';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
-
+import langs from '../../../../common/language/index'
 const Book = (props) => {
   const {navigation, token, listRoom, listRoomBook} = props;
   const listArrayRoom = {};
@@ -116,7 +116,7 @@ const Book = (props) => {
   };
 
   const onMoveToEvent = () => {
-    navigation.navigate('Sự kiện mới');
+    navigation.navigate(langs.navigator.event);
   };
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.add} />;
