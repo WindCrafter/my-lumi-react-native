@@ -42,6 +42,9 @@ const URL_CHECK_IN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN}`;
 const URL_CREATE_QR = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_WIFI}`;
+const URL_CHECK_IN_CODE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_CODE}`;
+const URL_CHECK_OUT_CODE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_CODE}`;
+
 //////////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LATE_EARLY}`;
 const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
@@ -296,7 +299,7 @@ function* sagaTakeLeave(action) {
       type: action.payload.type,
       content: action.payload.content,
       morning: action.payload.morning,
-      month: action.payload.month
+      month: action.payload.month,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_TAKE_LEAVE, data, token);
@@ -677,4 +680,97 @@ function* sagaConfirmDenyTakeLeave(action) {
 
 export function* watchConfirmDenyTakeLeave() {
   yield takeLatest(types.CONFIRM_DENY_TAKE_LEAVE, sagaConfirmDenyTakeLeave);
+}
+
+function* sagaCheckInCode(action) {
+  try {
+    const data = {...action.payload};
+    const onConfirm = action.payload.onConfirm;
+    delete data.type;
+    delete data.token;
+    delete data.onConfirm;
+    const token = action.payload.token;
+
+    const response = yield _POST(
+      action.payload.type === 'in' ? URL_CHECK_IN_CODE : URL_CHECK_OUT_CODE,
+      data,
+      token,
+    );
+    console.log(response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      action.payload.type === 'in'
+    ) {
+      yield put(checkInSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.checkinSuccess,
+        message: response.message,
+        leftButton: onConfirm
+          ? {
+              text: langs.alert.ok,
+              onPress: () => onConfirm(),
+            }
+          : {
+              text: langs.alert.ok,
+            },
+      });
+      _global.Loading.hide();
+    } else if (
+      response.success &&
+      response.statusCode === 200 &&
+      action.payload.type === 'out'
+    ) {
+      yield put(checkOutSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.checkoutSuccess,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+      _global.Loading.hide();
+    } else {
+      if (!response.success && response.statusCode === 400) {
+        yield put(checkInFailed());
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: langs.alert.cantCheck,
+          leftButton: {
+            text: langs.tryAgain,
+            onPress: () => store.dispatch(checkInWifi(data)),
+          },
+          middleButton: {
+            text: langs.code,
+            onPress: () => CustomNavigation.navigate('CheckIn'),
+          },
+          rightButton: {
+            text: 'Thoát',
+          },
+        });
+        _global.Loading.hide();
+      } else {
+        _global.Alert.alert({
+          title: langs.alert.notify,
+          message: response.message,
+          leftButton: {
+            text: langs.alert.ok,
+            // onPress : onLongPress
+          },
+        });
+        _global.Loading.hide();
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: {text: langs.alert.ok},
+      // rightButton: {text: langs.alert.ok},
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchCheckInCode() {
+  yield takeLatest(types.CHECK_IN_CODE, sagaCheckInCode);
 }

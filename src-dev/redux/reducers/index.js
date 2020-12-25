@@ -60,7 +60,7 @@ const userPersist = {
 
 const rootReducer = combineReducers({
   authen: persistReducer(authPersistConfig, authen),
-  admin: admin,
+  admin,
   check: persistReducer(checkPersist, check),
   user: persistReducer(userPersist, user),
   codepush,
