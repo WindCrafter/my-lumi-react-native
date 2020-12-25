@@ -28,10 +28,10 @@ const ApproveLate = (props) => {
     removeList,
     refreshing,
   } = props;
-  const [type, setType] = useState('Tất cả');
+  const [type, setType] = useState('Đang chờ');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(1);
   const [search, setSearch] = useState(false);
   const [txtSearch, setTxtSearch] = useState('');
   const [filter, setFilter] = useState(dataManager);
