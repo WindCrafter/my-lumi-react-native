@@ -281,3 +281,17 @@ export const removeList = () => {
     type: types.REMOVE_LIST,
   };
 };
+
+export const checkInCode = (data) => {
+  return {
+    type: types.CHECK_IN_CODE,
+    payload: data,
+  };
+};
+
+export const checkInCodeSuccess = (data) => {
+  return {
+    type: types.CHECK_IN_CODE_SUCCESS,
+    payload: data,
+  };
+};

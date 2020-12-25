@@ -82,6 +82,8 @@ export const URL_STAGING = {
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/work-day/check-in',
   CHECK_OUT_WIFI: '/work-day/check-out',
+  CHECK_IN_CODE: '/work-day/check-in-by-code',
+  CHECK_OUT_CODE: '/work-day/check-out-by-code',
   LIST_USERS: '/users',
 
   //
