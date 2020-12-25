@@ -22,7 +22,7 @@ import codePush from 'react-native-code-push';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {loginAction, changeAutoLogin, autoLoginStatus} = props;
+  const {loginAction, changeAutoLogin, autoLoginStatus,oneSignalID} = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -61,7 +61,7 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
-      loginAction({email, password: pass});
+      loginAction({email, password: pass,device_token:oneSignalID});
 
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
