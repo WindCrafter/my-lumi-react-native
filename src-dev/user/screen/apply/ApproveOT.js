@@ -218,9 +218,11 @@ function ApproveOT(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <BarStatus />
-      <SafeAreaView />
+    <>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      />
       <HeaderCustom
         title={langs.titleApproveOT}
         height={40}
@@ -251,58 +253,16 @@ function ApproveOT(props) {
           }
         />
       </View>
-    </View>
+    </>
   );
 }
 
 export default ApproveOT;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-  },
-  image: {
-    width: 56,
-    height: 56,
-    borderRadius: 32,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '300',
-    color: Colors.background,
-  },
   detail: {
-    // justifyContent: 'space-around',
-    marginVertical: 32,
     flex: 1,
-  },
-  status: {
-    flexDirection: 'row',
-    marginHorizontal: 16,
     marginVertical: 16,
-    justifyContent: 'space-between',
-  },
-  img: {
-    padding: 8,
-    borderRadius: 16,
-    alignSelf: 'center',
-    marginRight: 8,
-    flexDirection: 'row',
-  },
-  row: {
-    flexDirection: 'row',
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  txtStatus: {
-    alignSelf: 'center',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  loader: {
-    marginTop: 10,
-    alignItems: 'center',
   },
   noData: {
     fontSize: 16,
