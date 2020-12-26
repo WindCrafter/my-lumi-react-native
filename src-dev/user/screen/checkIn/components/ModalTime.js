@@ -11,17 +11,17 @@ export const ModalTime = (props) => {
   const [date, setDate] = useState(value || new Date());
 
   const onChangeIOS = (event, selected) => {
-    if (Platform.OS === 'ios') {
-      setDate(selected);
-    } else {
-      if (event.type === 'set') {
-        setDate(selected);
-      }
-    }
+    setDate(selected);
   };
 
-  const onConfirmDate = () => {
-    onConfirm(date);
+  const onConfirmDate = (event, selected) => {
+    if (Platform.OS === 'ios') {
+      onConfirm(date);
+    } else {
+      if (event.type === 'set') {
+        onConfirm(selected);
+      }
+    }
   };
 
   return (
@@ -62,7 +62,6 @@ export const ModalTime = (props) => {
             value={date}
             mode={typeModal}
             is24Hour={true}
-            display="clock"
             onChange={onConfirmDate}
           />
         ))}

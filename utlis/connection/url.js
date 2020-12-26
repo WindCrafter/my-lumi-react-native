@@ -63,6 +63,9 @@ export const URL = {
 
   GET_KPI: '/kpi/detail',
   CONFIRM_KPI: '/kpi/confirm',
+
+  MEETING_MEMBERS: '/meeting/members',
+  GET_NOTIFICATION: '/notification-user/list',
 };
 
 export const URL_STAGING = {
@@ -134,4 +137,5 @@ export const URL_STAGING = {
   CONFIRM_KPI: '/kpi/confirm',
 
   MEETING_MEMBERS: '/meeting/members',
+  GET_NOTIFICATION: '/notification-user/list',
 };

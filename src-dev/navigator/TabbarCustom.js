@@ -295,7 +295,11 @@ function TabbarCustom({
           route={state.routes[1]}
           tab={1}
         />
-        <ButtonCheckIn navigation={navigation} onCheck={onCheckInWifi} />
+        <ButtonCheckIn
+          navigation={navigation}
+          onCheck={onCheckInWifi}
+          demoMode={demoMode}
+        />
         <ButtonTabbar
           state={state}
           descriptors={descriptors}

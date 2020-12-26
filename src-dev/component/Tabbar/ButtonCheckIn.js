@@ -3,10 +3,12 @@ import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import {Colors, imgs} from '../../../utlis';
 
 const ButtonCheckIn = (props) => {
-  const {navigation, onCheck} = props;
+  const {navigation, onCheck, demoMode} = props;
 
   const onLongPress = () => {
-    navigation.navigate('CheckIn');
+    if (demoMode) {
+      navigation.navigate('CheckIn');
+    }
   };
 
   return (
