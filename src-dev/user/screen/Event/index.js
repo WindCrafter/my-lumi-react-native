@@ -284,9 +284,13 @@ const Event = (props) => {
       return;
     }
     const name = [];
-
+    const member_ids=[]
+    console.log(memberPicked);
     memberPicked.forEach((i) => {
       i.member_name !== null ? name.push(i.member_name) : null;
+    });
+    memberPicked.forEach((i) => {
+      i.member_id !== null ? member_ids.push(i.member_id) : null;
     });
     const data = {
       loop:
@@ -307,6 +311,7 @@ const Event = (props) => {
       member: name.toString(),
       token,
       date: moment(date).format('DD-MM-YYYY'),
+      member_ids: member_ids.toString(),
     };
     bookRoom(data);
   };
@@ -341,7 +346,7 @@ const Event = (props) => {
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder={'Tóm tắt nội dung họp \n         (Tuỳ chọn)'}
+              placeholder={'Tóm tắt nội dung họp \n(Tuỳ chọn)'}
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -596,7 +601,7 @@ const styles = StyleSheet.create({
     height: 124,
     alignSelf: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   txtDescription: {paddingHorizontal: 24, fontSize: 16},
   card: {

@@ -278,6 +278,7 @@ function* sagaBookRoom(action) {
       location: action.payload.location,
       member: action.payload.member,
       loop: action.payload.loop,
+      member_ids: action.payload.member_ids,
     };
     console.log(data);
     const response = yield _POST(URL_BOOK_ROOM, data, token);
