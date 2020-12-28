@@ -14,6 +14,9 @@ import {
   SafeAreaView,
   FlatList,
   SectionList,
+  UIManager,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
@@ -22,9 +25,23 @@ import {Card} from 'native-base';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
-import langs from '../../../../common/language/index'
+import langs from '../../../../common/language/index';
+import {_GET} from '../../../../utlis/connection/api';
+import {URL_STAGING} from '../../../../utlis/connection/url';
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const Book = (props) => {
   const {navigation, token, listRoom, listRoomBook} = props;
+  const [onScroll, setOnScroll] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const listArrayRoom = {};
   // let newArray = [];
   // listRoomBook.forEach((i) => {
@@ -54,14 +71,34 @@ const Book = (props) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      listRoom({token});
+      getData();
     });
     return () => {
       unsubscribe;
     };
   }, [navigation]);
+  const getData = async (dataN) => {
+    console.log('date');
+
+    const _dataN = dataN || [];
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROOM}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('_GET_LIST_OVERTIME ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+    } else {
+    }
+  };
   let array = [];
-  listRoomBook.forEach((i) => {
+  data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
       array.push({date: i.date, data: [i]});
     } else {
@@ -121,7 +158,16 @@ const Book = (props) => {
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.add} />;
   };
-
+  const handleLoadMore = () => {
+    getData();
+    setOnScroll(false);
+    setLoading(true);
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData();
+  };
   const ListFooterComponent = () => {
     return (
       <View style={styles.headerFooterStyle}>
@@ -131,6 +177,13 @@ const Book = (props) => {
   };
   const ListHeaderComponent = () => {
     return <View style={{height: 24}} />;
+  };
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
   };
   const renderHeader = (section) => {
     return (
@@ -151,13 +204,17 @@ const Book = (props) => {
       <HeaderAccount />
       <SectionList
         sections={array}
-        // SectionSeparatorComponent={FlatListItemSeparator}
-        // style={{marginTop: 32}}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        // ListFooterComponent={ListFooterComponent}
         keyExtractor={(item, index) => index}
-        // ListHeaderComponent={ListHeaderComponent}
+        onMomentumScrollBegin={() => setOnScroll(true)}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
+        onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooterComponent}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
       <ActionButton
         buttonColor={Colors.white}

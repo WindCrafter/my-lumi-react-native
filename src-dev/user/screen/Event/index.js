@@ -126,7 +126,7 @@ const Event = (props) => {
   };
 
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
@@ -335,12 +335,13 @@ const Event = (props) => {
             value={title}
             onChangeText={onChangeTitle}
             refInput={refPhone}
+            detail={'Tiêu đề cuộc họp'}
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder="Tóm tắt lịch họp,sự kiện hoặc hoạt động"
+              placeholder={'Tóm tắt nội dung họp \n         (Tuỳ chọn)'}
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -429,7 +430,7 @@ const Event = (props) => {
             shadowOpacity={0.1}
             marginRight={-30}
             color="rgba(4, 4, 15, 0.45)"
-            detail=""
+            detail="(Tuỳ chọn)"
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
@@ -595,6 +596,7 @@ const styles = StyleSheet.create({
     height: 124,
     alignSelf: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   txtDescription: {paddingHorizontal: 24, fontSize: 16},
   card: {
