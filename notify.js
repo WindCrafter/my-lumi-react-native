@@ -2,8 +2,9 @@ import React, {PureComponent, useEffect} from 'react';
 import {Linking} from 'react-native';
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
-import {addUserIdDevice} from './src/redux/actions/user.js';
-import {getOneSignalID} from './src/redux/actions/authen.js';
+import {addUserIdDevice} from './src-pro/redux/actions/user.js';
+import {getOneSignalID} from './src-pro/redux/actions/authen.js';
+import {getOneSignalID as getOneSignalIDserverDev} from './src-dev/redux/actions/authen.js';
 const Schema = 'lumihr://';
 
 function Notify(props) {
@@ -40,15 +41,14 @@ function Notify(props) {
     setTimeout(() => {
       console.log('openURL succcess--->');
 
-      Linking.openURL(`${Schema}UserStack/NotifyDetail`)
+      Linking.openURL(`${Schema}UserStack/TabbarUser/AllNotify`)
         .then((res) => {})
         .catch((error) => {
           console.log('openURL error--->', error);
         });
     }, 650);
   };
-  function myiOSPromptCallback(permission) {
-  }
+  function myiOSPromptCallback(permission) {}
   OneSignal.init('26be080e-5b50-4fb5-b375-0271163c8548', {
     kOSSettingsKeyAutoPrompt: true,
     kOSSettingsKeyInAppLaunchURL: false,
@@ -82,7 +82,8 @@ function Notify(props) {
 }
 const mapDispatchToProps = {
   // addUserIdDevice,
-  getOneSignalId: getOneSignalID,
+  getOneSignalId:
+    window.typeServer === 'product' ? getOneSignalID : getOneSignalIDserverDev,
   // notificationReadNotifi
 };
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {_POST, _GET} from './api';
-import {URL} from './url';
+import {URL, URL_STAGING} from './url';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
