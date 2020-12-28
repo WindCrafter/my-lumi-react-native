@@ -119,7 +119,7 @@ const Notify = (props) => {
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
         <Text style={styles.time}>
-          {moment(item.time_send).format('HH:mm - DD/MM/YYYY')}
+          {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
         </Text>
       </Card>
       // </TouchableOpacity>
