@@ -9,13 +9,13 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
+  FlatList
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
 import {BarStatus} from '../../../component';
 import {Colors} from '../../../../utlis';
 import ItemOT from './component/ItemApproveOT';
-import {FlatList} from 'react-native-gesture-handler';
 import {URL_STAGING} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import {_GET, _POST} from '../../../../utlis/connection/api';
