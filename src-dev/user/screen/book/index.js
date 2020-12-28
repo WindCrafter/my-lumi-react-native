@@ -15,6 +15,8 @@ import {
   FlatList,
   SectionList,
   UIManager,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
@@ -96,7 +98,7 @@ const Book = (props) => {
     }
   };
   let array = [];
-  listRoomBook.forEach((i) => {
+  data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
       array.push({date: i.date, data: [i]});
     } else {
@@ -156,7 +158,16 @@ const Book = (props) => {
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.add} />;
   };
-
+  const handleLoadMore = () => {
+    getData();
+    setOnScroll(false);
+    setLoading(true);
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData();
+  };
   const ListFooterComponent = () => {
     return (
       <View style={styles.headerFooterStyle}>
@@ -166,6 +177,13 @@ const Book = (props) => {
   };
   const ListHeaderComponent = () => {
     return <View style={{height: 24}} />;
+  };
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
   };
   const renderHeader = (section) => {
     return (
@@ -186,13 +204,17 @@ const Book = (props) => {
       <HeaderAccount />
       <SectionList
         sections={array}
-        // SectionSeparatorComponent={FlatListItemSeparator}
-        // style={{marginTop: 32}}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        // ListFooterComponent={ListFooterComponent}
         keyExtractor={(item, index) => index}
-        // ListHeaderComponent={ListHeaderComponent}
+        onMomentumScrollBegin={() => setOnScroll(true)}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
+        onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooterComponent}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
       <ActionButton
         buttonColor={Colors.white}

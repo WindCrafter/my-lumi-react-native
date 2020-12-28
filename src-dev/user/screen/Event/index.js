@@ -126,7 +126,7 @@ const Event = (props) => {
   };
 
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
