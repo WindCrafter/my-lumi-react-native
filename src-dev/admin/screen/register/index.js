@@ -48,7 +48,7 @@ const Register = (props) => {
   const [errCode, setErrCode] = useState('');
   const [email, setEmail] = useState('');
   const onGoBack = () => {
-    navigation.navigate('Login');
+    navigation.navigate(langs.navigator.login);
   };
   const onChangeEmail = (val) => {
     setEmail(val);

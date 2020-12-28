@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {ExpandableCalendar, CalendarProvider} from 'react-native-calendars';
 import {Colors, imgs} from '../../../../../utlis';
+import langs from '../../../../../common/language';
 import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -16,7 +17,7 @@ const HistoryWeek = (props) => {
   };
 
   const onDayPress = (e) => {
-    navigation.navigate('allHistory', e);
+    navigation.navigate(langs.navigator.allHistory, e);
   };
 
   return (

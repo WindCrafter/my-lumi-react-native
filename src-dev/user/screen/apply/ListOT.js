@@ -77,11 +77,11 @@ function ListOT(props) {
   };
 
   const onPressCreate = () => {
-    navigation.navigate('ApplyOT');
+    navigation.navigate(langs.navigator.applyOT);
   };
 
   const onPressConfirm = () => {
-    navigation.navigate('ApproveOT');
+    navigation.navigate(langs.navigator.approveOT);
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN) => {

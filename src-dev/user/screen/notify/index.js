@@ -20,117 +20,6 @@ import {URL_STAGING} from '../../../../utlis/connection/url';
 import {_GET} from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
-const DATA = [
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-  {
-    id: '5fe5c2f0ef493f0b962d5a80',
-    title: 'Duyệt OT',
-    content: 'Test đã duyệt OT cho bạn',
-    type: 1,
-    customData: {
-      type: 1,
-    },
-    time_send: 1608951288,
-    created_at: 1608951288,
-    updated_at: 1608951288,
-  },
-];
-
 const Notify = (props) => {
   const {navigation, token} = props;
   const [date, setDate] = useState('');
@@ -225,15 +114,15 @@ const Notify = (props) => {
     };
 
     return (
-      <TouchableOpacity onPress={onShow}>
-        <Card style={styles.card}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.content}>{item.content}</Text>
-          <Text style={styles.time}>
-            {moment(item.time_send).format('HH:mm - DD/MM/YYYY')}
-          </Text>
-        </Card>
-      </TouchableOpacity>
+      // <TouchableOpacity onPress={onShow}>
+      <Card style={styles.card}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.content}>{item.content}</Text>
+        <Text style={styles.time}>
+          {moment(item.time_send).format('HH:mm - DD/MM/YYYY')}
+        </Text>
+      </Card>
+      // </TouchableOpacity>
     );
   };
 

@@ -104,7 +104,7 @@ const Event = (props) => {
   };
 
   const onGoPickTeam = () => {
-    navigation.navigate('PickTeam');
+    navigation.navigate(langs.navigator.pickTeam);
   };
 
   const onGoBack = () => {

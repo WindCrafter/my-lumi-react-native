@@ -248,7 +248,7 @@ function* sagaRegisterAction(action) {
         message: 'Đăng ký thành công. Vui lòng quay lại để đăng nhập',
         leftButton: {
           text: langs.alert.ok,
-          onPress: () => CustomNavigation.navigate('Login'),
+          onPress: () => CustomNavigation.navigate(langs.navigator.login),
         },
       });
       _global.Loading.hide();

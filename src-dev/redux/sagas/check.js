@@ -174,7 +174,7 @@ function* sagaCheckInWifi(action) {
           },
           middleButton: {
             text: langs.code,
-            onPress: () => CustomNavigation.navigate('CheckIn'),
+            onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
           },
           rightButton: {
             text: 'Thoát',
@@ -740,7 +740,7 @@ function* sagaCheckInCode(action) {
           },
           middleButton: {
             text: langs.code,
-            onPress: () => CustomNavigation.navigate('CheckIn'),
+            onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
           },
           rightButton: {
             text: 'Thoát',

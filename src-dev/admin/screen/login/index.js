@@ -35,7 +35,7 @@ const Login = (props) => {
 
   useEffect(() => {}, []);
   const onRegister = () => {
-    navigation.navigate('Register');
+    navigation.navigate(langs.navigator.register);
   };
 
   const onLogin = () => {
@@ -100,7 +100,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('Forgot Password');
+    navigation.navigate(langs.navigator.forgotPass);
   };
 
   const onChangeRememberLogin = () => {

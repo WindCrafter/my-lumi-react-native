@@ -88,7 +88,7 @@ const Account = (props) => {
     navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveToContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
   const onMoveToChangePass = () => {
     navigation.navigate(langs.navigator.changePass);
