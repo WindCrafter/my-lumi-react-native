@@ -234,7 +234,7 @@ function ApproveOT(props) {
         search
         type={type}
       />
-      <View style={styles.detail}>
+      <View style={[styles.detail, data.length === 0 && {flex: 1}]}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
@@ -261,7 +261,6 @@ export default ApproveOT;
 
 const styles = StyleSheet.create({
   detail: {
-    flex: 1,
     marginVertical: 16,
   },
   noData: {
