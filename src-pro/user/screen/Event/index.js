@@ -322,7 +322,7 @@ const Event = (props) => {
       />
       <HeaderCustom
         backgroundColor="rgba(0,0,0,0)"
-        title={langs.newEvent}
+        title={'Đặt lịch phòng họp'}
         goBack={onGoBack}
         rightButton
         textPress
@@ -435,7 +435,7 @@ const Event = (props) => {
             shadowOpacity={0.1}
             marginRight={-30}
             color="rgba(4, 4, 15, 0.45)"
-            detail="(Tuỳ chọn)"
+            detail=""
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
@@ -483,7 +483,7 @@ const Event = (props) => {
             <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
               <FlatList
                 data={memberPicked}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
               />
             </Card>
