@@ -80,8 +80,8 @@ const Login = (props) => {
   };
 
   const onChangeServer = () => {
-    console.log('change server to product');
-    AsyncStorage.setItem('APP_MODE', 'product', () => codePush.restartApp());
+    console.log('change server to develop');
+    AsyncStorage.setItem('APP_MODE', 'develop', () => codePush.restartApp());
   };
 
   const onChangePass = (val) => {

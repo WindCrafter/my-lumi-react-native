@@ -41,7 +41,7 @@ export default function Checkbox(props?: Props) {
       onPress={onChange}
       style={[styles.container, containerStyle]}
       onLongPress={onLongPress}
-      delayLongPress={5000}>
+      delayLongPress={3000}>
       <Image
         style={styles.checkImage}
         source={checked ? imgs.checked : imgs.unchecked}

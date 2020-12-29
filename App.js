@@ -57,10 +57,6 @@ export default class App extends PureComponent {
 
   render() {
     const {typeServer} = this.state;
-
-    // if (loading) {
-    //   return <View />;
-    // }
     console.log('typeServer', typeServer);
     return (
       <View style={styles.container}>
