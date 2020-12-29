@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
+  FlatList,
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import langs from '../../../../common/language';

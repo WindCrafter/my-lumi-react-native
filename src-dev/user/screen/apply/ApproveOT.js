@@ -9,13 +9,13 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
 import {BarStatus} from '../../../component';
 import {Colors} from '../../../../utlis';
 import ItemOT from './component/ItemApproveOT';
-import {FlatList} from 'react-native-gesture-handler';
 import {URL_STAGING} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import {_GET, _POST} from '../../../../utlis/connection/api';
@@ -234,7 +234,7 @@ function ApproveOT(props) {
         search
         type={type}
       />
-      <View style={[styles.detail, data.length === 0 && {flex: 1}]}>
+      <View style={styles.detail}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
@@ -261,6 +261,7 @@ export default ApproveOT;
 
 const styles = StyleSheet.create({
   detail: {
+    flex: 1,
     marginVertical: 16,
   },
   noData: {
