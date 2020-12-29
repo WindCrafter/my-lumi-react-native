@@ -105,10 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     alignSelf: 'center',
-    textAlign: 'right',
+    textAlign: 'left',
     fontFamily: 'Quicksand-Regular',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'grey',
+
   },
   left: {
     flexDirection: 'row',

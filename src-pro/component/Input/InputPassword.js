@@ -99,6 +99,7 @@ export default function InputPassword(props?: Props) {
         autoCapitalize="none"
         secureTextEntry={!showPass}
         clearButtonMode="never"
+        textContentType={'oneTimeCode'}
         onBlur={onBlur}
         onFocus={onFocus}
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
@@ -111,7 +112,7 @@ export default function InputPassword(props?: Props) {
           style={styles.btnShowHidePass}>
           <Image
             source={showPass ? imgs.showpassword : imgs.hidepassword}
-            style={[styles.showHidePassword,{tintColor:tintColor}]}
+            style={[styles.showHidePassword, {tintColor: tintColor}]}
             resizeMode="contain"
           />
         </TouchableOpacity>

@@ -147,7 +147,7 @@ const Notify = (props) => {
       <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
 
       {data.length === 0 && (
-        <Text style={styles.noData}>Không có thông báo</Text>
+        <Text style={styles.noData}>Không có thông báo.</Text>
       )}
       <FlatList
         data={data}

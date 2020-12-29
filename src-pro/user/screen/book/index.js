@@ -202,6 +202,7 @@ const Book = (props) => {
       <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
+      {data.length === 0 && <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>}
       <SectionList
         sections={array}
         renderSectionHeader={renderHeader}
@@ -335,6 +336,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 45,
     backgroundColor: '#606070',
+  },
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
 });
 export default Book;
