@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 2,
     shadowOpacity: 0.9,
+    elevation:4
   },
   flex: {
     flex: 1,

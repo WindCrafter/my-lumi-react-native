@@ -211,7 +211,7 @@ const HistoryBreak = (props) => {
         type={type}
         backgroundColor={Colors.white}
       />
-      <View style={{flex: 1}}>
+      <View style={styles.container}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
@@ -236,5 +236,8 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
 });

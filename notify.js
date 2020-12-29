@@ -38,7 +38,7 @@ function Notify(props) {
     console.log('Data: ', openResult.notification.payload.additionalData.type);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
-    let Url;
+    let Url = `${Schema}UserStack`;
     setTimeout(() => {
       console.log('openURL succcess--->');
 
@@ -70,6 +70,9 @@ function Notify(props) {
         ) {
           Url = `${Schema}UserStack/HistoryLate`;
         }
+      }
+      if (openResult.notification.payload.additionalData.type == 10) {
+        Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
       }
       // switch (openResult.notification.payload.additionalData.type) {
       //   case 1:

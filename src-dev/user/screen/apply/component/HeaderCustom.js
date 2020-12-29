@@ -194,7 +194,6 @@ const HeaderCustom = (props?: Props) => {
           </TouchableOpacity>
           {date ? (
             <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
-              <View style={styles.column} />
               <Image source={imgs.cancel} style={styles.imgClear} />
             </TouchableOpacity>
           ) : null}
@@ -315,8 +314,10 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-  },
-  imgClear: {alignSelf: 'center', width: 16, height: 16},
+    borderLeftColor: Colors.gray,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    marginLeft: 4,  },
+  imgClear: {alignSelf: 'center', width: 12, height: 12},
   coulumn: {
     width: 1,
     height: '100%',
@@ -333,6 +334,11 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#EBEBEB',
     alignSelf: 'center',
+  },
+  column: {
+    width: StyleSheet.hairlineWidth,
+    backgroundColor: Colors.gray,
+    height: 39,
   },
 });
 

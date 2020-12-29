@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   textDetail: {
