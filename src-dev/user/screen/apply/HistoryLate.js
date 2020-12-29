@@ -19,7 +19,7 @@ import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
 import {_global} from '../../../../utlis/global/global';
 import {Text} from 'native-base';
-import { remove } from 'lodash';
+import {remove} from 'lodash';
 
 const HistoryLate = (props) => {
   const {
@@ -174,7 +174,7 @@ const HistoryLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        {dataLateEarly.length === 0 && Array.isArray(dataLateEarly) ? (
+        {Array.isArray(dataLateEarly) && dataLateEarly.length === 0 ? (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList
