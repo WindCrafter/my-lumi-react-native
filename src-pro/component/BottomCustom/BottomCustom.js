@@ -4,9 +4,10 @@ import moment from 'moment';
 import langs from '../../../common/language';
 import {imgs, Colors} from '../../../utlis';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+
 const currrentDate = moment().format('DD/MM/YYYY');
-console.log('=>>>>>', currrentDate);
 const day = moment().format('dddd');
+
 interface Props extends TextInputProps {
   top?: Number;
 }
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    bottom:20
+    bottom: 20,
   },
 
   cancel: {

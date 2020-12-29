@@ -22,7 +22,7 @@ import codePush from 'react-native-code-push';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {loginAction, changeAutoLogin, autoLoginStatus} = props;
+  const {loginAction, changeAutoLogin, autoLoginStatus,oneSignalID} = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -35,7 +35,7 @@ const Login = (props) => {
 
   useEffect(() => {}, []);
   const onRegister = () => {
-    navigation.navigate('Register');
+    navigation.navigate(langs.navigator.register);
   };
 
   const onLogin = () => {
@@ -61,7 +61,7 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
-      loginAction({email, password: pass});
+      loginAction({email, password: pass,device_token:oneSignalID});
 
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
@@ -80,8 +80,8 @@ const Login = (props) => {
   };
 
   const onChangeServer = () => {
-    console.log('change server to develop');
-    AsyncStorage.setItem('APP_MODE', 'develop', () => codePush.restartApp());
+    console.log('change server to product');
+    AsyncStorage.setItem('APP_MODE', 'product', () => codePush.restartApp());
   };
 
   const onChangePass = (val) => {
@@ -100,7 +100,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('Forgot Password');
+    navigation.navigate(langs.navigator.forgotPass);
   };
 
   const onChangeRememberLogin = () => {
@@ -123,7 +123,7 @@ const Login = (props) => {
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errMail !== '' ? 0 : 24,
+                    marginBottom: errMail !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errMail !== '' ? 1 : 0,
                   },
@@ -150,7 +150,7 @@ const Login = (props) => {
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errNew !== '' ? 0 : 24,
+                    marginBottom: errNew !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errNew !== '' ? 1 : 0,
                   },
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   textErr: {
     fontSize: 12,
-    height: 16,
+    height: 24,
     marginTop: 8,
     color: '#F32013',
     marginLeft: 54,

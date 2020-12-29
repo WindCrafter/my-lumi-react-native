@@ -97,7 +97,7 @@ const Kpi = (props) => {
               </View>
             </View>
           </View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <Image source={imgs.stampCheck} style={styles.img} />
             <View style={[styles.row, styles.more]}>
               <Text style={styles.text}>Công tính lương</Text>
@@ -107,7 +107,7 @@ const Kpi = (props) => {
                 </Text>
               </View>
             </View>
-          </View>
+          </View> */}
 
           <View
             style={[

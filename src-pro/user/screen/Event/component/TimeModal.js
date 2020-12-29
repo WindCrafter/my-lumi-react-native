@@ -56,7 +56,7 @@ const TimeModal = (props) => {
       day: _today,
     },
   };
-
+  // console.log('initialState : ', initialState);
   const [_markedDates, setMarkedDates] = useState(initialState);
 
   const onDaySelect = (day) => {
@@ -100,11 +100,11 @@ const TimeModal = (props) => {
   };
   const onConfirmStart = () => {
     setshowModalTimeStart(false);
-    setStart(hourStart)
+    setStart(hourStart);
   };
   const onConfirmEnd = () => {
     setshowModalTimeEnd(false);
-    setEnd(hourEnd)
+    setEnd(hourEnd);
   };
   const onShowPickerStart = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);

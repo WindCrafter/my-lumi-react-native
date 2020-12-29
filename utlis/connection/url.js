@@ -15,6 +15,8 @@ export const URL = {
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/work-day/check-in',
   CHECK_OUT_WIFI: '/work-day/check-out',
+  CHECK_IN_CODE: '/work-day/check-in-by-code',
+  CHECK_OUT_CODE: '/work-day/check-out-by-code',
   LIST_USERS: '/users',
 
   //
@@ -66,6 +68,7 @@ export const URL = {
 
   MEETING_MEMBERS: '/meeting/members',
   GET_NOTIFICATION: '/notification-user/list',
+  GET_HOLIDAY: '/holiday/list',
 };
 
 export const URL_STAGING = {

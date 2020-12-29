@@ -165,7 +165,6 @@ function ApplyBreak(props) {
         object.push(`${month1}/${year1}`);
       }
     });
-
     const data = {
       token: token,
       content: reason,

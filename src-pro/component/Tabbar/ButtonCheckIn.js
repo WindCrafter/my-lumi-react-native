@@ -1,12 +1,15 @@
 import React from 'react';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import {Colors, imgs} from '../../../utlis';
+import langs from '../../../common/language';
 
 const ButtonCheckIn = (props) => {
-  const {navigation, onCheck} = props;
+  const {navigation, onCheck, demoMode} = props;
 
   const onLongPress = () => {
-    navigation.navigate('CheckIn');
+    if (demoMode) {
+      navigation.navigate(langs.navigator.checkIn);
+    }
   };
 
   return (

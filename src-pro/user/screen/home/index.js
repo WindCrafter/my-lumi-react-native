@@ -47,13 +47,6 @@ const DATA_EVENT = [
   },
 ];
 
-const DATA_CHECK = [
-  {id: '1', in: '08:00', out: '17:35', time: '29/10', type: 'Đúng giờ'},
-  {id: '2', in: '07:58', out: '17:35', time: '30/10', type: 'Đúng giờ'},
-  {id: '3', in: '08:20', out: '17:35', time: '01/11', type: 'Muộn giờ'},
-  {id: '4', in: '08:13', out: '17:35', time: '02/11', type: 'Đúng giờ'},
-];
-
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -65,7 +58,7 @@ export default function Home(props) {
   const {navigation, nameUser, token, summary, getSummary} = props;
 
   const onPressNotify = () => {
-    navigation.navigate('TestNotify');
+    navigation.navigate(langs.navigator.testNotify);
   };
 
   const onPressLate = () => {
@@ -76,7 +69,7 @@ export default function Home(props) {
   };
 
   const onPressOT = () => {
-    navigation.navigate('listOT');
+    navigation.navigate(langs.navigator.listOT);
   };
 
   useEffect(() => {
