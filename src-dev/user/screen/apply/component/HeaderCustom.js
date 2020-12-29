@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
@@ -15,7 +16,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import PickerCustom from './PickerCustom';
 import {Input, SelectButton} from '../../../../component';
-import {FlatList} from 'react-native-gesture-handler';
+// import {FlatList} from 'react-native-gesture-handler';
 
 const HeaderCustom = (props?: Props) => {
   const {width} = props || wp(100);

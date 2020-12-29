@@ -1,151 +1,221 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   Image,
-  LayoutAnimation,
   Platform,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
+  ActivityIndicator,
+  RefreshControl,
+  Keyboard,
 } from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import langs from '../../../../common/language';
 import {Colors, imgs} from '../../../../utlis';
-import {getText} from '../../../../utlis/config/utlis';
 import {BarStatus, HeaderCustom, Input} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {_global} from '../../../../utlis/global/global';
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
 
-const DataTeam = [
-  {name: 'Team App', id: '1'},
-  {name: 'Team System', id: '2'},
-  {name: 'Team Back-End', id: '3'},
-  {name: 'Team OS', id: '4'},
-  {name: 'Team Test', id: '5'},
-];
+const widthTeam = Dimensions.get('window').width / 2 - 16;
 
-const DataUser = [
-  {name: 'Phong', tag: ['Team App'], id: '1'},
-  {name: 'Duc', tag: ['Team OS', 'Team App'], id: '2'},
-  {name: 'Nghi', tag: ['Team Test'], id: '3'},
-  {name: 'Vinh', tag: ['Team Back-End'], id: '4'},
-  {name: 'Duong', tag: ['Team System'], id: '5'},
-  {name: 'Dai', tag: ['Team System', 'Team OS'], id: '6'},
-];
+// const DataTeam = [
+//   {team_name: 'Team App', team_id: '1'},
+//   {team_name: 'Team System', team_id: '2'},
+//   {team_name: 'Team Back-End', team_id: '3'},
+//   {team_name: 'Team OS', team_id: '4'},
+//   {team_name: 'Team Test', team_id: '5'},
+// ];
+
+// const DataUser = [
+//   {member_name: 'Phong', member_id: '1'},
+//   {member_name: 'Duc', member_id: '2'},
+//   {member_name: 'Nghi', member_id: '3'},
+//   {member_name: 'Vinh', member_id: '4'},
+//   {member_name: 'Duong', member_id: '5'},
+//   {member_name: 'Dai', member_id: '6'},
+// ];
 
 const PickTeam = (props) => {
-  const {navigation, addMember, memberPicked, clearMember} = props;
-  const newList = DataUser.filter(
-    (e) => !memberPicked.find((i) => i.id === e.id),
-  );
-  const [search, setSearch] = useState('');
-  const [listUser, setListUser] = useState(newList);
-  const [tag, setTag] = useState([]);
-  const [all, setAll] = useState(false);
-  const [userPicked, setUserPicked] = useState([]);
+  const {navigation, addMember, memberPicked, clearMember, token} = props;
+  const [dataUser, setDataUser] = useState([]);
+  const [dataTeam, setDataTeam] = useState([]);
+  const [page, setPage] = useState(1);
+  const [name, setName] = useState('');
+  const [userPicked, setUserPicked] = useState(memberPicked);
+  const [teamPicked, setTeamPicked] = useState([]);
+
+  const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [onScroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    getData(1, teamPicked, name, []);
+  }, []);
+
   const onGoBack = () => {
     navigation.goBack();
   };
 
-  const onSearch = () => {};
+  // const onChangeSearch = (txt) => {
+  //   const newData = DataUser.filter((item) => {
+  //     const itemData = getText(item.name);
+  //     const textData = getText(txt);
+  //     return itemData.indexOf(textData) > -1;
+  //   });
+  //   setListUser(newData);
+  //   LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  //   setSearch(txt);
+  // };
 
-  const allUser = listUser.filter(
-    (e) => !userPicked.find((i) => i.id === e.id),
-  );
+  const getData = async (pageNumber, teamN, nameN, dataN) => {
+    const _team = teamN.length > 0 ? teamN.toString() : '';
+    const _name = nameN || '';
+    const _data = dataN || [];
 
-  const onChangeSearch = (txt) => {
-    const newData = DataUser.filter((item) => {
-      const itemData = getText(item.name);
-      const textData = getText(txt);
-      return itemData.indexOf(textData) > -1;
-    });
-    setListUser(newData);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setSearch(txt);
+    const apiURL = `${URL.LOCAL_HOST}${URL.MEETING_MEMBERS}?page=${pageNumber}&page_size=20&team_id_list=${_team}&member_name=${_name}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setScroll(false);
+    console.log('_GET_DATA ===========>', response);
+    if (response.success && response.statusCode === 200) {
+      if (response.data.teams && response.data.teams.length > 0) {
+        setDataTeam(response.data.teams);
+      }
+      if (response.data.members && response.data.members.length > 0) {
+        setDataUser(_data.concat(response.data.members));
+        setPage(pageNumber);
+      }
+    }
   };
 
-  const pushTag = (val) => {
-    const newTag = [...tag, val];
-    const newData = DataUser.filter((e) => {
-      return !newTag.find((t) => !e.tag.find((ta) => ta === t));
-    });
-    setTag(newTag);
-    setListUser(newData);
+  const onRefresh = () => {
+    setRefresh(true);
+    setScroll(false);
+    getData(1, teamPicked, name, []);
+  };
+
+  const handleLoadMore = () => {
+    getData(page + 1, teamPicked, name, dataUser);
+    setScroll(false);
+    setLoading(true);
+  };
+
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
+  };
+
+  const onSelectTeam = (team_id) => {
+    if (teamPicked.includes(team_id)) {
+      const _newTeam = teamPicked.filter((i) => i !== team_id);
+      setTeamPicked(_newTeam);
+      setDataUser([]);
+      setPage(1);
+      getData(1, _newTeam, name, []);
+    } else {
+      setTeamPicked([...teamPicked, team_id]);
+      setDataUser([]);
+      setPage(1);
+      getData(1, [...teamPicked, team_id], name, []);
+    }
+  };
+
+  const checkSelectedTeam = (id) => {
+    return teamPicked.includes(id);
+  };
+
+  const onSearch = () => {
+    Keyboard.dismiss();
+    if (name && name.trim()) {
+      setName(name.trim());
+      setPage(1);
+      setDataUser([]);
+      getData(1, teamPicked, name.trim(), []);
+    }
+  };
+
+  const checkSelectedUser = (user) => {
+    if (!userPicked.find((i) => i.member_id === user.member_id)) {
+      return false;
+    }
+    return true;
+  };
+
+  const onSelectUser = (user) => {
+    if (checkSelectedUser(user)) {
+      const _newUser = userPicked.filter((i) => i.member_id !== user.member_id);
+      setUserPicked(_newUser);
+    } else {
+      setUserPicked([...userPicked, user]);
+    }
+  };
+
+  const onPickAll = () => {
+    setUserPicked(dataUser);
+  };
+
+  const onRemoveAll = () => {
     setUserPicked([]);
   };
 
-  const removeTag = (val) => {
-    let newTag = tag.filter((e) => !(e === val));
-    const newData = DataUser.filter((e) => {
-      return !newTag.find((t) => !e.tag.find((ta) => ta === t));
-    });
-    setTag(newTag);
-    setListUser(newData);
-    setUserPicked([]);
-  };
-
-  const pickedItem = (val) => {
-    setUserPicked([...userPicked, val]);
-  };
-
-  const removeItem = (val) => {
-    const n = userPicked.filter((e) => !(e.id === val.id));
-    setUserPicked(n);
-  };
+  // const removeTag = (val) => {
+  //   let newTag = tag.filter((e) => !(e === val));
+  //   const newData = DataUser.filter((e) => {
+  //     return !newTag.find((t) => !e.tag.find((ta) => ta === t));
+  //   });
+  //   setTag(newTag);
+  //   setListUser(newData);
+  //   setUserPicked([]);
+  // };
 
   const onPickTeam = () => {
     addMember(userPicked);
     navigation.goBack();
   };
 
-  const onAlertPick = () => {
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: `Bạn muốn chọn ${userPicked.length} người dưới đây tham gia sự kiện chứ ?`,
-      messageColor: Colors.black,
-      leftButton: {
-        text: langs.alert.ok,
-        textStyle: {color: Colors.background},
-        onPress: onPickTeam,
-      },
-      rightButton: {
-        text: langs.alert.cancel,
-        textStyle: {color: Colors.danger},
-      },
-    });
-  };
+  // const onPickAll = () => {
+  //   userPicked.length < listUser.length
+  //     ? setUserPicked(listUser)
+  //     : setUserPicked([]);
+  //   setAll(!all);
+  // };
 
-  const onPickAll = () => {
-    userPicked.length < listUser.length
-      ? setUserPicked(listUser)
-      : setUserPicked([]);
-    setAll(!all);
-  };
-
-  const onClearAll = () => {
-    clearMember();
-    setListUser(DataUser);
-    setUserPicked([]);
-  };
+  // const onClearAll = () => {
+  //   clearMember();
+  //   setListUser(DataUser);
+  //   setUserPicked([]);
+  // };
 
   const renderItem = ({item, index}) => {
-    const picked = tag.find((e) => e === item.name);
     return (
       <View style={styles.btn}>
         <TouchableOpacity
-          style={!picked ? styles.button : styles.btnPicked}
-          onPress={() => (!picked ? pushTag(item.name) : removeTag(item.name))}>
+          style={
+            !checkSelectedTeam(item.team_id) ? styles.button : styles.btnPicked
+          }
+          onPress={() => onSelectTeam(item.team_id)}>
           <View style={styles.viewImage}>
             <Image source={imgs.meeting} style={styles.image} />
           </View>
           <Text
             style={[
               styles.txtTeam,
-              {color: picked ? Colors.white : Colors.black},
+              {
+                color: checkSelectedTeam(item.team_id)
+                  ? Colors.white
+                  : Colors.black,
+              },
             ]}>
-            {item.name}
+            {item.team_name}
           </Text>
         </TouchableOpacity>
       </View>
@@ -157,11 +227,7 @@ const PickTeam = (props) => {
       <>
         <TouchableOpacity
           style={styles.btUser}
-          onPress={() =>
-            userPicked.find((e) => e.id === item.id)
-              ? removeItem(item)
-              : pickedItem(item)
-          }>
+          onPress={() => onSelectUser(item)}>
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
@@ -170,9 +236,9 @@ const PickTeam = (props) => {
                 resizeMode={'cover'}
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <Text style={styles.textUser}>{item.member_name}</Text>
           </View>
-          {userPicked.find((e) => e.id === item.id) ? (
+          {checkSelectedUser(item) ? (
             <Icon
               name="check"
               style={styles.icon}
@@ -186,13 +252,6 @@ const PickTeam = (props) => {
     );
   };
 
-  const txt =
-    userPicked.length < listUser.length
-      ? 'Chọn tất cả'
-      : userPicked.length === 0
-      ? 'Chọn tất cả'
-      : 'Huỷ tất cả';
-
   return (
     <View style={styles.container}>
       <BarStatus
@@ -204,15 +263,15 @@ const PickTeam = (props) => {
         goBack={onGoBack}
         rightButton
         textPress
-        onRight={onAlertPick}
+        onRight={onPickTeam}
       />
       <Input
         button
         leftImage={imgs.search}
         containerStyle={styles.search}
         onPress={onSearch}
-        value={search}
-        onChangeText={onChangeSearch}
+        value={name}
+        onChangeText={(value) => setName(value)}
         autoCapitalize={'none'}
         placeholder={'Tìm kiếm ...'}
       />
@@ -220,45 +279,55 @@ const PickTeam = (props) => {
         <Text style={styles.txtSuggest}>Gợi ý:</Text>
         <View style={styles.viewTeam}>
           <FlatList
-            data={DataTeam}
+            data={dataTeam}
             numColumns={2}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.team_id}
             renderItem={renderItem}
-            // scrollEnabled={false}
+            scrollEnabled={false}
           />
         </View>
         <View style={styles.line} />
-        <View style={styles.row}>
-          <TouchableOpacity
-            onPress={onPickAll}
-            style={[
-              styles.resetBtn,
-              {
-                backgroundColor:
-                  txt === 'Chọn tất cả' ? Colors.background : Colors.danger,
-              },
-            ]}>
-            <Image
-              source={txt === 'Chọn tất cả' ? imgs.add : imgs.cancel}
-              style={styles.imageIcon}
-              resizeMode="cover"
-            />
-            <Text style={styles.txtBtn}>{txt}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onClearAll} style={styles.resetBtn}>
-            <Image
-              source={imgs.changeIcon}
-              style={styles.imageIcon}
-              resizeMode="cover"
-            />
-            <Text style={styles.txtBtn}> Làm mới</Text>
-          </TouchableOpacity>
-        </View>
+        {dataUser.length > 0 && (
+          <View style={styles.row}>
+            {userPicked.length === dataUser.length ? (
+              <TouchableOpacity
+                onPress={onRemoveAll}
+                style={[styles.resetBtn, {backgroundColor: Colors.danger}]}>
+                <Image
+                  source={imgs.cancel}
+                  style={styles.imageIcon}
+                  resizeMode="cover"
+                />
+                <Text style={styles.txtBtn}>Xoá tất cả</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={onPickAll}
+                style={[styles.resetBtn, {backgroundColor: Colors.background}]}>
+                <Image
+                  source={imgs.add}
+                  style={styles.imageIcon}
+                  resizeMode="cover"
+                />
+                <Text style={styles.txtBtn}>Chọn tất cả</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
+
         <View style={styles.viewUser}>
           <FlatList
-            data={listUser}
-            keyExtractor={(item) => item.id}
+            data={dataUser}
+            keyExtractor={(item) => item.member_id}
+            onMomentumScrollBegin={() => setScroll(true)}
+            onEndReached={!loading && onScroll ? handleLoadMore : null}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooterComponent}
             renderItem={renderUser}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
           />
         </View>
       </View>
@@ -274,11 +343,11 @@ const styles = StyleSheet.create({
   },
   search: {
     alignSelf: 'center',
-    marginVertical: 16,
+    marginVertical: 8,
     width: widthPercentageToDP(100) - 32,
   },
   viewSuggest: {
-    paddingHorizontal: 32,
+    paddingHorizontal: 16,
     flex: 1,
   },
   txtSuggest: {
@@ -287,8 +356,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     // flex: 1,
-    width: '50%',
-    paddingHorizontal: 8,
+    width: widthTeam - 10,
+    marginHorizontal: 5,
   },
   btnPicked: {
     flexDirection: 'row',
@@ -320,8 +389,8 @@ const styles = StyleSheet.create({
     tintColor: Colors.white,
   },
   txtTeam: {
-    marginLeft: 8,
-    fontSize: 14,
+    marginLeft: 5,
+    fontSize: 13,
   },
   line: {
     height: StyleSheet.hairlineWidth,
@@ -353,7 +422,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   viewTeam: {
-    flex: 1,
+    // flex: 1,
   },
   viewUser: {
     flex: 5,

@@ -174,7 +174,7 @@ function ListOT(props) {
         onChangeDate={onChangeDate}
         type={type}
       />
-      <View style={[styles.detail, data.length === 0 && {flex: 1}]}>
+      <View style={styles.detail}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử</Text>
         )}
@@ -201,7 +201,8 @@ export default ListOT;
 
 const styles = StyleSheet.create({
   detail: {
-    // marginTop: 32,
+    flex: 1,
+    marginTop: 32,
   },
   noData: {
     fontSize: 16,

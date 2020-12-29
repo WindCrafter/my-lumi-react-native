@@ -148,7 +148,7 @@ const ChangePass = (props) => {
               marginTop: 36,
               borderColor: '#F32013',
               borderWidth: errRecent !== '' ? 1 : 0,
-              marginBottom: errRecent !== '' ? 0 : 20,
+              marginBottom: errRecent !== '' ? 0 : 28,
             },
           ]}
           onSubmitEditing={() => refNew.current.focus()}
@@ -170,7 +170,7 @@ const ChangePass = (props) => {
               marginTop: 16,
               borderColor: '#F32013',
               borderWidth: errNew !== '' ? 1 : 0,
-              marginBottom: errNew !== '' ? 0 : 20,
+              marginBottom: errNew !== '' ? 0 : 28,
             },
           ]}
           refInput={refNew}
@@ -189,7 +189,7 @@ const ChangePass = (props) => {
           containerStyle={[
             styles.textInput,
             {
-              marginTop: 15,
+              marginTop: 16,
               borderColor: '#F32013',
               borderWidth: errConfirm !== '' ? 1 : 0,
             },
@@ -209,7 +209,7 @@ const ChangePass = (props) => {
             : null
         }
         testID="test_Complete"
-        containerStyle={{marginTop: errConfirm !== '' ? 16 : 36}}
+        containerStyle={{marginTop: errConfirm !== '' ? 8 : 36}}
         backgroundColor={
           errRecent === '' && errNew === '' && errConfirm === ''
             ? Colors.background
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   textPass: {fontSize: 16, height: 24, marginTop: 4, marginLeft: 32},
   textErr: {
     fontSize: 12,
-    height: 16,
+    height: 24,
     marginTop: 4,
     color: '#F32013',
     marginLeft: 32,

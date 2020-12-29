@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,8 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import moment from 'moment';
 
@@ -14,144 +16,153 @@ import {BarStatus} from '../../../component';
 import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import {Colors} from '../../../../utlis';
-
-const fakeData = [
-  {
-    name: 'Nguyễn Văn Nghị',
-    avt: require('../../../../naruto.jpeg'),
-    day: '01/01/2020',
-    team: 'App',
-    role: 'Leader',
-    kpi: '28',
-    kpi_6m: '28',
-    work: '28',
-    key: 'ajas',
-    type: 'break',
-    content:
-      'Hôm nay trên đường đi làm gặp kẻ tiểu nhân giữa thanh thiên bạch nhật dám giở trò trộm cắp nên em đã hành hiệp trượng nghĩa, truy đuổi và bắt giữ đối tượng. Hiện em đang trên phường!',
-  },
-  {
-    name: 'Lê Mạnh Cường',
-    avt: require('../../../../naruto.jpeg'),
-    day: '02/03/2020',
-    team: 'App',
-    role: 'Staff',
-    kpi: '27',
-    kpi_6m: '29',
-    work: '28',
-    key: 'ajasas',
-    type: 'late',
-    content: 'Chỗ này tắc đường ',
-  },
-  {
-    name: 'Nguyễn Xuân Kiên',
-    avt: require('../../../../naruto.jpeg'),
-    day: '04/05/2020',
-    team: 'App',
-    role: 'Intern',
-    kpi: '29',
-    kpi_6m: '28',
-    work: '27',
-    key: 'ajasjb',
-    type: 'ot',
-    content: 'Truy cầu bản ngã , cải thiện đồng lương',
-  },
-];
+import {URL} from '../../../../utlis/connection/url';
+import {_GET} from '../../../../utlis/connection/api';
+import langs from '../../../../common/language';
 
 const Notify = (props) => {
-  // useEffect(() => {
-  //   getListNotifys(token);
-  // }, []);
-  const {navigation, listNotifys} = props;
-  const [toTop, setToTop] = useState(false);
-  const [position, setPosition] = useState(0);
-  const refList = useRef('');
-  const [listData, setListData] = useState(
-    listNotifys ? listNotifys.notify : fakeData,
-  );
+  const {navigation, token} = props;
+  const [date, setDate] = useState('');
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState([]);
 
-  const onToTop = (e) => {
-    const pos = e.nativeEvent.contentOffset.y;
-    setPosition(pos);
-    position - pos > 0
-      ? setToTop(true)
-      : position === pos
-      ? null
-      : setToTop(false);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData(1, date, search, []);
+    });
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
+
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData(1, date, search, []);
   };
 
-  const onScrolltoTop = () => {
-    refList.current.scrollToOffset({animated: true, offset: 0});
+  const handleLoadMore = () => {
+    getData(page + 1, date, search, data);
+    setOnScroll(false);
+    setLoading(true);
+  };
+
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
+  };
+
+  const getData = async (pageNumber, dateN, searchN, dataN) => {
+    console.log('date', dateN, 'search', searchN);
+    const _date = dateN || '';
+    const _search = searchN || '';
+    const _dataN = dataN || [];
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('_GET_LIST_NOTIFICATION ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+      setPage(pageNumber);
+    }
   };
 
   const renderItem = ({item}) => {
     const onShow = () => {
-      switch (item.type) {
-        case 'confirm_late_early':
-          navigation.navigate('Xác nhận', {data: item});
-          break;
-        case 'confirm_take_leave':
-          navigation.navigate('Xác nhận', {data: item});
-          break;
-        case 'confirm_overtime':
-          navigation.navigate('Xác nhận', {data: item});
-          break;
-        case 'overtime':
-          navigation.navigate('Xác nhận đơn', {data: item});
-          break;
-        case 'take_leave':
-          navigation.navigate('Xác nhận đơn', {data: item});
-          break;
-        case 'late_early':
-          navigation.navigate('Xác nhận đơn', {data: item});
-          break;
-        case 'verify':
-          navigation.navigate('Xác nhận Kpi', {data: item});
-          break;
+      if (item.type === 1 || item.type === '1') {
+        switch (item.customData.type) {
+          case 1:
+          case '1':
+            navigation.navigate(langs.navigator.listOT);
+            break;
+          case 2:
+          case '2':
+            navigation.navigate(langs.navigator.historyBreak);
+            break;
+          case 3:
+          case '3':
+            navigation.navigate(langs.navigator.historyLate);
+            break;
+          case 4:
+          case '4':
+            navigation.navigate(langs.navigator.approveOT);
+            break;
+          case 5:
+          case '5':
+            navigation.navigate(langs.navigator.approveBreak);
+            break;
+          case 6:
+          case '6':
+            navigation.navigate(langs.navigator.approveLate);
+            break;
+        }
       }
     };
+
     return (
-      <TouchableOpacity onPress={onShow}>
-        <Card style={styles.card}>
-          <Image
-            style={styles.img}
-            source={require('../../../../naruto.jpeg')}
-          />
-          <View style={styles.viewText}>
-            <Text numberOfLines={3}>{item.name}</Text>
-            <Text style={styles.time}>
-              {moment(item.createdAt).format('HH:mm - DD/MM/YYYY')}
-            </Text>
-          </View>
-        </Card>
-      </TouchableOpacity>
+      // <TouchableOpacity onPress={onShow}>
+      <Card style={styles.card}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.content}>{item.content}</Text>
+        <Text style={styles.time}>
+          {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
+        </Text>
+      </Card>
+      // </TouchableOpacity>
     );
   };
+
+  const onSearch = (value) => {
+    setPage(1);
+    setData([]);
+    setSearch(value);
+    getData(1, date, value, []);
+  };
+
+  const onChangeDate = (value) => {
+    const _date = value ? moment(value).format('DD/MM/YYYY') : '';
+    setPage(1);
+    setData([]);
+    setDate(_date);
+    getData(1, _date, search, []);
+  };
+
   return (
     <View style={styles.container}>
       <BarStatus />
-      <HeaderNotify />
+      <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
 
+      {data.length === 0 && (
+        <Text style={styles.noData}>Không có thông báo</Text>
+      )}
       <FlatList
-        ref={refList}
-        horizontal={false}
-        data={listData}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.key}
-        onScroll={onToTop}
+        keyExtractor={(item, index) => index.toString()}
+        onMomentumScrollBegin={() => setOnScroll(true)}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
+        onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooterComponent}
+        horizontal={false}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
-      {toTop ? (
-        <View style={styles.toTop}>
-          <TouchableOpacity style={styles.btToTop} onPress={onScrolltoTop}>
-            <Icon
-              name={'arrow-up'}
-              color={Colors.white}
-              size={24}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-        </View>
-      ) : null}
     </View>
   );
 };
@@ -171,17 +182,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    flexDirection: 'row',
-  },
-  img: {
-    width: 48,
-    height: 48,
-    borderRadius: 1000,
-  },
-  viewText: {
-    flex: 4,
-    paddingLeft: 8,
-    justifyContent: 'center',
   },
   time: {
     fontSize: 10,
@@ -190,33 +190,17 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
   },
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 0,
-    width: 40,
-    height: 40,
+  title: {
+    fontWeight: '500',
+    color: Colors.background,
+    fontSize: 16,
   },
-  toTop: {
-    position: 'absolute',
-    bottom: 32,
-    right: 32,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.background,
-    shadowColor: 'rgba(0, 0, 0, 0.16)',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 6,
-    shadowOpacity: 1,
+  content: {
+    paddingVertical: 7,
   },
-  btToTop: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
-  icon: {},
 });

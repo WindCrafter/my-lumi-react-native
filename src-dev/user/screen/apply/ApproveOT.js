@@ -9,7 +9,7 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
-  FlatList
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
@@ -234,7 +234,7 @@ function ApproveOT(props) {
         search
         type={type}
       />
-      <View style={[styles.detail, data.length === 0 && {flex: 1}]}>
+      <View style={styles.detail}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
@@ -261,6 +261,7 @@ export default ApproveOT;
 
 const styles = StyleSheet.create({
   detail: {
+    flex: 1,
     marginVertical: 16,
   },
   noData: {

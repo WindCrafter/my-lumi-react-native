@@ -23,6 +23,7 @@ import {
   clearMember,
   listRoomSuccess,
   getKPISuccess,
+  getHolidaySuccess,
 } from '../actions/user';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
@@ -410,4 +411,35 @@ function* sagaConfirmKpi(action) {
 
 export function* watchConfirmKpi() {
   yield takeLatest(types.CONFIRM_KPI, sagaConfirmKpi);
+}
+
+function* sagaGetHoliday(action) {
+  try {
+    const token = action.payload.token;
+    const response = yield _GET(
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_HOLIDAY}?year=${action.payload.year}`,
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getHolidaySuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Lấy danh sách ngày lễ thất bại!',
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchGetHoliday() {
+  yield takeLatest(types.GET_HOLIDAY, sagaGetHoliday);
 }

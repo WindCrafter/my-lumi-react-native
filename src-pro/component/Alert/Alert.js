@@ -466,7 +466,7 @@ Alert.defaultProps = {
   },
   springConfig: { tension: 30, friction: 7 },
   isOpen: false,
-  backgroundOverlay: 'rgba(0, 0, 0, 1)',
+  backgroundOverlay: 'rgba(0, 0, 0, 0.6)',
   width: Math.min(SCREEN.width - 80),
   hasTextInput: false,
   borderRadius: 12,

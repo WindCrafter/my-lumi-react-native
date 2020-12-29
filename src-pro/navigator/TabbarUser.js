@@ -57,6 +57,7 @@ export default function TabbarUser() {
         component={account}
         options={({route}) => ({
           tabBarVisible: shouldShowTabbar(route),
+          tabBarLabel: 'Cá nhân',
         })}
       />
     </BotStack.Navigator>

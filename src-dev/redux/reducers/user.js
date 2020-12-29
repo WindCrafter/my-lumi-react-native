@@ -19,6 +19,7 @@ const initialState = {
   demoMode: false,
   listRoomBook: [],
   kpi: {},
+  holiday: [],
 };
 
 export default function user(state = initialState, action) {
@@ -109,6 +110,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         kpi: action.payload,
+      };
+    case types.GET_HOLIDAY_SUCCESS:
+      return {
+        ...state,
+        holiday: action.payload,
       };
     default:
       return state;

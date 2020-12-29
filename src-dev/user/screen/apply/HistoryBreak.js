@@ -10,7 +10,6 @@ import {
   RefreshControl,
   FlatList,
 } from 'react-native';
-
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import langs from '../../../../common/language';

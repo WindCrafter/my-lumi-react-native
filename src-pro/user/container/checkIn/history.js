@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import History from '../../screen/checkIn/history';
 
 const mapStateToProps = (state) => ({
@@ -9,7 +9,6 @@ const mapStateToProps = (state) => ({
   token: state.authen.token,
 });
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(History);

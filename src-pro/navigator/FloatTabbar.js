@@ -205,7 +205,7 @@ function FloatTabbar({
                 });
               };
               const onLongPressCheck = () => {
-                navigation.navigate('CheckIn');
+                navigation.navigate(langs.navigator.checkIn);
               };
 
               if (route.name === 'Button') {

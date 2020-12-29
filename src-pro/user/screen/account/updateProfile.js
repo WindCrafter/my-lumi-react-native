@@ -82,7 +82,6 @@ function UpdateProfile(props) {
     const pickDate = val || moment(user.birthday, 'DD/MM/YYYY').toDate();
     if (Platform.OS === 'ios') {
       setShowPicker(Platform.OS === 'ios');
-      console.log('=>>>>>>>', pickDate);
       setDateChange(val);
     } else {
       if (event.type === 'set') {

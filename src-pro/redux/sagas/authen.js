@@ -46,6 +46,7 @@ function* sagaLoginAction(action) {
     const data = {
       email: action.payload.email,
       password: action.payload.password,
+      device_token: action.payload.device_token,
     };
     const response = yield _POST(URL_LOGIN, data);
     console.log('=>>>>>', response);
@@ -247,7 +248,7 @@ function* sagaRegisterAction(action) {
         message: 'Đăng ký thành công. Vui lòng quay lại để đăng nhập',
         leftButton: {
           text: langs.alert.ok,
-          onPress: () => CustomNavigation.navigate('Login'),
+          onPress: () => CustomNavigation.navigate(langs.navigator.login),
         },
       });
       _global.Loading.hide();

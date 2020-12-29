@@ -55,7 +55,7 @@ const Event = (props) => {
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('Phòng họp');
   const [select, onSelect] = useState(false);
   const [loop, setLoop] = useState('');
   const [hourStart, setHourStart] = useState(moment()._d);
@@ -104,7 +104,7 @@ const Event = (props) => {
   };
 
   const onGoPickTeam = () => {
-    navigation.navigate('PickTeam');
+    navigation.navigate(langs.navigator.pickTeam);
   };
 
   const onGoBack = () => {
@@ -115,15 +115,18 @@ const Event = (props) => {
   function onChangeDescription(val) {
     setDescription(val);
   }
+
   const removeMember = (val) => {
     kickMember(val);
   };
+
   const onShowPickerStart = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeStart(true);
   };
+
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
@@ -202,7 +205,7 @@ const Event = (props) => {
                 resizeMode="cover"
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <Text style={styles.textUser}>{item.member_name}</Text>
           </View>
           <TouchableOpacity onPress={() => removeMember(item)}>
             <Icon
@@ -281,7 +284,14 @@ const Event = (props) => {
       return;
     }
     const name = [];
-    memberPicked.forEach((i) => name.push(i.name));
+    const member_ids=[]
+    console.log(memberPicked);
+    memberPicked.forEach((i) => {
+      i.member_name !== null ? name.push(i.member_name) : null;
+    });
+    memberPicked.forEach((i) => {
+      i.member_id !== null ? member_ids.push(i.member_id) : null;
+    });
     const data = {
       loop:
         loop === ''
@@ -301,6 +311,7 @@ const Event = (props) => {
       member: name.toString(),
       token,
       date: moment(date).format('DD-MM-YYYY'),
+      member_ids: member_ids.toString(),
     };
     bookRoom(data);
   };
@@ -329,12 +340,13 @@ const Event = (props) => {
             value={title}
             onChangeText={onChangeTitle}
             refInput={refPhone}
+            detail={'Tiêu đề cuộc họp'}
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder="Tóm tắt lịch họp,sự kiện hoặc hoạt động"
+              placeholder={'Tóm tắt nội dung họp \n(Tuỳ chọn)'}
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -423,12 +435,10 @@ const Event = (props) => {
             shadowOpacity={0.1}
             marginRight={-30}
             color="rgba(4, 4, 15, 0.45)"
-            detail=""
+            detail="(Tuỳ chọn)"
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
-            onSetMonth={onSetMonth}
-            onSetYear={onSetYear}
           />
           <InputSelect
             width="90%"
@@ -436,7 +446,7 @@ const Event = (props) => {
             borderRadius={32}
             height={54}
             shadowColor="white"
-            title="Địa điểm"
+            title="Địa điểm : Phòng hợp"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
@@ -591,6 +601,7 @@ const styles = StyleSheet.create({
     height: 124,
     alignSelf: 'center',
     justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   txtDescription: {paddingHorizontal: 24, fontSize: 16},
   card: {

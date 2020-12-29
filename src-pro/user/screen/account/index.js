@@ -88,7 +88,7 @@ const Account = (props) => {
     navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveToContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
   const onMoveToChangePass = () => {
     navigation.navigate(langs.navigator.changePass);
@@ -137,7 +137,7 @@ const Account = (props) => {
               title={langs.kpiConfirm}
               onPressButton={gotoKpi}
             />
-            {/* <Card style={styles.row}>
+            <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
                 <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
@@ -149,7 +149,7 @@ const Account = (props) => {
                 onValueChange={changeDemoMode}
                 value={demoMode}
               />
-            </Card> */}
+            </Card>
             <RoundedView
               leftImage={imgs.logout}
               title={langs.logOut}
