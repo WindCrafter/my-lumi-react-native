@@ -134,7 +134,16 @@ const convertHour = (date) => {
 };
 
 function ApplyOT(props) {
-  const {navigation, route, userId, token, overTime, assign} = props;
+  const {
+    navigation,
+    route,
+    userId,
+    token,
+    overTime,
+    assign,
+    getHoliday,
+    holiday,
+  } = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(0.5);
@@ -142,6 +151,14 @@ function ApplyOT(props) {
   const [mode, setMode] = useState('');
   const [day, setDay] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    getHoliday({
+      token,
+      year: `${new Date().getFullYear()},${new Date().getFullYear() + 1}`,
+    });
+  }, []);
+
   const goBack = () => {
     navigation.goBack();
   };
@@ -176,9 +193,8 @@ function ApplyOT(props) {
     unFocus();
   };
 
-  const ngayle = ['04/02/2021', '02/09/2021', '03/02/2021', '01/01/2021'];
   const checkDay = (date) => {
-    if (_.includes(ngayle, date)) {
+    if (_.includes(holiday, date)) {
       return 3;
     }
     const currentMoment = moment(date, 'DD/MM/YYYY').format('dddd');
@@ -499,7 +515,7 @@ function ApplyOT(props) {
               mode={'date'}
               show={showModal}
               minimumDate={new Date()}
-                onHideModal={onUnshow}
+              onHideModal={onUnshow}
             />
           ) : null
         ) : null}
