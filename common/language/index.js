@@ -106,6 +106,10 @@ const langs = {
   timeOT: 'Thời gian ước tính',
   role: 'Vị trí',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
+  errorLocationCheckin:
+    'Bạn không có quyền check in bằng cách này khi không ở công ty',
+  errorLocationCheckout:
+    'Bạn không có quyền check out bằng cách này khi không ở công ty',
   navigator: {
     kpi: 'KPI',
     login: 'Login',

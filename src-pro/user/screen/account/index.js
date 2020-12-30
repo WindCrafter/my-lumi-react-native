@@ -109,7 +109,6 @@ const Account = (props) => {
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"
-            detail="Team App"
             fontSize={16}
             onPressButton={onMoveToProfile}
             styleImg={styles.image}
