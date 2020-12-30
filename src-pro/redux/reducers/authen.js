@@ -98,8 +98,6 @@ export default function authen(state = initialState, action) {
         address: action.payload.address,
         team_id: action.payload.team_id,
         staff_type: action.payload.staff_type,
-        team: action.payload.team,
-        role: action.payload.role,
         identity_number: action.payload.identity_number,
         bank_name: action.payload.bank_name,
         bank_account: action.payload.bank_name,

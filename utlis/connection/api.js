@@ -18,7 +18,6 @@ export function _POST(url, data, token, loading = true) {
       return res.json();
     })
     .catch((error) => {
-      console.log(error);
       _global.Loading.hide();
       return error;
     });
@@ -56,5 +55,36 @@ export function _GET(url, token, loading) {
       _global.Loading.hide();
       return error;
     });
+  return response;
+}
+
+export function _POST_WIFI(url, data, token, loading = true) {
+  console.log('___POST: ', url, data, token);
+  if (loading) {
+    _global.Loading.show();
+  }
+  const response = fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: ' Bearer ' + token,
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      return res.status === 403
+        ? {
+            success: false,
+            statusCode: 403,
+            message: '',
+          }
+        : res.json();
+    })
+    .catch((error) => {
+      _global.Loading.hide();
+      return error;
+    });
+
   return response;
 }

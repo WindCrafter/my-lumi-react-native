@@ -79,7 +79,7 @@ const ApproveBreak = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
     setRefresh(false);

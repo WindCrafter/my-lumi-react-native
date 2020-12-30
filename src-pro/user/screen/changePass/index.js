@@ -7,10 +7,11 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
+  Keyboard,
 } from 'react-native';
 import {InputPassword, HeaderCustom, BarStatus} from '../../../component';
 import {Button} from '../../../component/Button';
-import {Header} from '../kpi/component/Header'
+import {Header} from '../kpi/component/Header';
 import {Colors, imgs} from '../../../../utlis/index';
 import langs from '../../../../common/language/index';
 import {_global} from '../../../../utlis/global/global';
@@ -65,7 +66,10 @@ const ChangePass = (props) => {
       (errRecent !== '' || errNew !== '' || errConfirm !== '')
     ) {
       setErrConfirm(langs.alert.lessRePassword2);
-    } else if (val !== newPass) {
+    } else if (
+      val !== newPass &&
+      (errRecent !== '' || errNew !== '' || errConfirm !== '')
+    ) {
       setErrConfirm(langs.alert.notCoincideRepass);
     } else {
       setErrConfirm('');
@@ -107,6 +111,7 @@ const ChangePass = (props) => {
         setErrConfirm(langs.alert.notCoincideRepass);
       }
     } else {
+      Keyboard.dismiss();
       onChangePass();
     }
   };
@@ -128,7 +133,7 @@ const ChangePass = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
-      <BarStatus backgroundColor='white'/>
+      <BarStatus backgroundColor="white" />
       <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}

@@ -8,6 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   LayoutAnimation,
+  Dimensions,
 } from 'react-native';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
@@ -34,6 +35,8 @@ const HistoryLate = (props) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [date, setDate] = useState('');
+  let deviceWidth = Dimensions.get('window').width;
+
   const goBack = () => {
     navigation.goBack();
   };
@@ -167,7 +170,7 @@ const HistoryLate = (props) => {
         title={langs.titleHistoryLate}
         height={60}
         goBack={goBack}
-        fontSize={24}
+        fontSize={deviceWidth > 374 ? 24 : 16}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
