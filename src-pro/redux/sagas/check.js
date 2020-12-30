@@ -1,7 +1,7 @@
 import {takeLatest, put, select, delay} from 'redux-saga/effects';
 import * as types from '../types';
 import {URL} from '../../../utlis/connection/url';
-import {_POST, _GET} from '../../../utlis/connection/api';
+import {_POST, _GET, _POST_WIFI} from '../../../utlis/connection/api';
 import {
   checkInSuccess,
   checkInFailed,
@@ -132,12 +132,12 @@ function* sagaCheckInWifi(action) {
     delete data.token;
     const token = action.payload.token;
 
-    const response = yield _POST(
+    const response = yield _POST_WIFI(
       action.payload.type === 'in' ? URL_CHECK_IN_WIFI : URL_CHECK_OUT_WIFI,
       data,
       token,
     );
-    console.log(response);
+    console.log('-------> response: ', response);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -162,39 +162,75 @@ function* sagaCheckInWifi(action) {
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();
+    } else if (
+      !response.success &&
+      response.statusCode === 403 &&
+      action.payload.type === 'in'
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.errorLocationCheckin,
+        leftButton: {
+          text: langs.tryAgain,
+          onPress: () => store.dispatch(checkInWifi(data)),
+        },
+        middleButton: {
+          text: langs.code,
+          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+        },
+        rightButton: {
+          text: 'Thoát',
+        },
+      });
+      _global.Loading.hide();
+    } else if (
+      !response.success &&
+      response.statusCode === 403 &&
+      action.payload.type === 'out'
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.errorLocationCheckout,
+        leftButton: {
+          text: langs.tryAgain,
+          onPress: () => store.dispatch(checkInWifi(data)),
+        },
+        middleButton: {
+          text: langs.code,
+          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+        },
+        rightButton: {
+          text: 'Thoát',
+        },
+      });
+      _global.Loading.hide();
+    } else if (response.statusCode >= 500) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {text: langs.alert.ok},
+      });
+      _global.Loading.hide();
     } else {
-      if (!response.success && response.statusCode === 400) {
-        yield put(checkInFailed());
-        _global.Alert.alert({
-          title: langs.alert.notify,
-          message: langs.alert.cantCheck,
-          leftButton: {
-            text: langs.tryAgain,
-            onPress: () => store.dispatch(checkInWifi(data)),
-          },
-          middleButton: {
-            text: langs.code,
-            onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
-          },
-          rightButton: {
-            text: 'Thoát',
-          },
-        });
-        _global.Loading.hide();
-      } else {
-        _global.Alert.alert({
-          title: langs.alert.notify,
-          message: response.message,
-          leftButton: {
-            text: langs.alert.ok,
-            // onPress : onLongPress
-          },
-        });
-        _global.Loading.hide();
-      }
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.cantCheck,
+        leftButton: {
+          text: langs.tryAgain,
+          onPress: () => store.dispatch(checkInWifi(data)),
+        },
+        middleButton: {
+          text: langs.code,
+          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+        },
+        rightButton: {
+          text: 'Thoát',
+        },
+      });
+      _global.Loading.hide();
     }
   } catch (error) {
-    console.log(error);
+    console.log('error', error);
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',

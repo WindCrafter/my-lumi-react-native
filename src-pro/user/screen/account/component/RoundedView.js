@@ -87,7 +87,7 @@ export default function RoundedView(props?: Props) {
           />
           <View style={styles.viewTitle}>
             <Text style={[styles.textTitle, styleName]}>{title}</Text>
-            {team && <Text style={[styles.textTeam]}>{team}</Text>}
+            {/* {team && <Text style={[styles.textTeam]}>{team}</Text>} */}
           </View>
         </View>
         <Image
