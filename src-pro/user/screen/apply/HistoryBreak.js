@@ -30,6 +30,7 @@ const HistoryBreak = (props) => {
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
     // getData(1, '', '', []);
@@ -59,6 +60,8 @@ const HistoryBreak = (props) => {
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);
+     setOnScroll(false);
+     setLoading(false);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -67,13 +70,12 @@ const HistoryBreak = (props) => {
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
+     
+    } 
   };
   const handleLoadMore = () => {
     getData(page + 1, date, status, data);
+    setOnScroll(false);
     setLoading(true);
   };
   const onSetType = (item) => {
@@ -102,6 +104,7 @@ const HistoryBreak = (props) => {
 
   const onRefresh = () => {
     setRefresh(true);
+     setOnScroll(false);
     getData(1, date, status, []);
   };
 
@@ -220,7 +223,8 @@ const HistoryBreak = (props) => {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
-          onEndReached={!loading ? handleLoadMore : null}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           refreshControl={
