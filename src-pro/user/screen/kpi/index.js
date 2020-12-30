@@ -11,6 +11,7 @@ import {
 import Header from './component/Header';
 import {Colors, imgs} from '../../../../utlis/index';
 import {BarStatus} from '../../../component';
+import HeaderAccount from '../account/component/HeaderAccount';
 
 const Kpi = (props) => {
   const {token, navigation, getKPI, confirmKpi, kpi} = props;
@@ -43,7 +44,7 @@ const Kpi = (props) => {
     <View style={{flex: 1}}>
       <BarStatus />
       <SafeAreaView />
-      <Header
+      <HeaderAccount
         title={'Xác nhận'}
         sub={'Kiểm tra thống kê chấm công'}
         goBack={goBack}
@@ -161,6 +162,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingHorizontal: 26,
     paddingVertical: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+
+    elevation: 11,
   },
   headerCard: {
     paddingVertical: 50,

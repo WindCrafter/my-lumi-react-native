@@ -308,6 +308,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '75%',
     alignItems: 'center',
+    marginRight:0
   },
   touchableClear: {
     width: '35%',

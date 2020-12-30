@@ -34,46 +34,51 @@ function Notify(props) {
     console.log('Notification received: ', notification);
   };
   const onOpened = (openResult, device) => {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData.type);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
+    // console.log('Message: ', openResult.notification.payload.body);
+    // console.log('Data: ', openResult.notification.payload.additionalData.type);
+    // console.log('isActive: ', openResult.notification.isAppInFocus);
+    // console.log('openResult: ', openResult);
     let Url = `${Schema}UserStack`;
     setTimeout(() => {
       console.log('openURL succcess--->');
+      if (openResult.notification.payload&&
+        openResult.notification.payload.additionalData &&
+        openResult.notification.payload.additionalData.type
+      ) {
+        if (openResult.notification.payload.additionalData.type == 1) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveOT`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/listOT`;
+          }
+        }
 
-      if (openResult.notification.payload.additionalData.type == 1) {
-        if (openResult.notification.payload.additionalData.approved == 1) {
-          Url = `${Schema}UserStack/ApproveOT`;
-        } else if (
-          openResult.notification.payload.additionalData.approved == 2
-        ) {
-          Url = `${Schema}UserStack/listOT`;
+        if (openResult.notification.payload.additionalData.type == 2) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveBreak`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/HistoryBreak`;
+          }
+        }
+
+        if (openResult.notification.payload.additionalData.type == 3) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveLate`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/HistoryLate`;
+          }
+        }
+        if (openResult.notification.payload.additionalData.type == 10) {
+          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
       }
 
-      if (openResult.notification.payload.additionalData.type == 2) {
-        if (openResult.notification.payload.additionalData.approved == 1) {
-          Url = `${Schema}UserStack/ApproveBreak`;
-        } else if (
-          openResult.notification.payload.additionalData.approved == 2
-        ) {
-          Url = `${Schema}UserStack/HistoryBreak`;
-        }
-      }
-
-      if (openResult.notification.payload.additionalData.type == 3) {
-        if (openResult.notification.payload.additionalData.approved == 1) {
-          Url = `${Schema}UserStack/ApproveLate`;
-        } else if (
-          openResult.notification.payload.additionalData.approved == 2
-        ) {
-          Url = `${Schema}UserStack/HistoryLate`;
-        }
-      }
-      if (openResult.notification.payload.additionalData.type == 10) {
-        Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
-      }
       // switch (openResult.notification.payload.additionalData.type) {
       //   case 1:
       //   case '1':

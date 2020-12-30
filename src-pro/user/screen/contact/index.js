@@ -154,14 +154,14 @@ function Contact(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   };
 
-  const goBack = () => {
+  const onGoBack = () => {
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
       <BarStatus />
-      <HeaderAccount title={langs.lumier} sub={langs.comunicate} />
+      <HeaderAccount goBack={onGoBack} title={langs.lumier} sub={langs.comunicate} />
       <Input
         button
         leftImage={imgs.search}

@@ -22,7 +22,7 @@ import codePush from 'react-native-code-push';
 let deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {loginAction, changeAutoLogin, autoLoginStatus,oneSignalID} = props;
+  const {loginAction, changeAutoLogin, autoLoginStatus, oneSignalID} = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -47,10 +47,11 @@ const Login = (props) => {
       (pass.trim().length > 0 && pass.trim().length < 8)
     ) {
       if (email.trim().length === 0) {
-        setErrMail(langs.alert.wrongEmail2);
-      }
-      if (!isValidEmail(email)) {
         setErrMail(langs.emailInvalid);
+      }
+      if (email.trim().length > 0 && !isValidEmail(email)) {
+        setErrMail(langs.emailInvalid);
+        setErrMail(langs.alert.wrongEmail2);
       }
 
       if (pass.trim().length === 0) {
@@ -61,7 +62,7 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
-      loginAction({email, password: pass,device_token:oneSignalID});
+      loginAction({email, password: pass, device_token: oneSignalID});
 
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });

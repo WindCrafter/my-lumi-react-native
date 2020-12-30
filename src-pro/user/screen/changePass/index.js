@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {InputPassword, HeaderCustom, BarStatus} from '../../../component';
 import {Button} from '../../../component/Button';
+import {Header} from '../kpi/component/Header'
 import {Colors, imgs} from '../../../../utlis/index';
 import langs from '../../../../common/language/index';
 import {_global} from '../../../../utlis/global/global';
@@ -127,7 +128,7 @@ const ChangePass = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
-      <BarStatus />
+      <BarStatus backgroundColor='white'/>
       <SafeAreaView />
       <HeaderCustom
         title={langs.navigator.changePass}
@@ -135,6 +136,7 @@ const ChangePass = (props) => {
         goBack={onGoBack}
         rightImage={imgs.settingICon}
         // backgroundColor={'#F32013'}
+        // containerStyle={{backgroundColor: 'white'}}
       />
       <View>
         <InputPassword

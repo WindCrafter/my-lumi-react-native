@@ -23,7 +23,7 @@ const HeaderAccount = (props) => {
             name="chevron-left"
             size={32}
             color={Colors.black}
-            style={{top: 4}}
+            style={{top: -4}}
           />
         </TouchableOpacity>
         <View>
