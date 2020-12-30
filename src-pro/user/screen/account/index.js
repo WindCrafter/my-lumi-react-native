@@ -114,7 +114,6 @@ const Account = (props) => {
             onPressButton={onMoveToProfile}
             styleImg={styles.image}
             styleName={styles.name}
-            team="Team App"
           />
           <View style={styles.detail}>
             <RoundedView

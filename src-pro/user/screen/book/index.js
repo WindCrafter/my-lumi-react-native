@@ -28,6 +28,7 @@ import HeaderAccount from './component/HeaderAccount';
 import langs from '../../../../common/language/index';
 import {_GET} from '../../../../utlis/connection/api';
 import {URL} from '../../../../utlis/connection/url';
+import Modal from 'react-native-modal';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -41,7 +42,13 @@ const Book = (props) => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
+  const onShowModal = () => {
+    setShowModal(true);
+  };
+  const onHideModal = () => {
+    setShowModal(false);
+  };
   const listArrayRoom = {};
   // let newArray = [];
   // listRoomBook.forEach((i) => {
@@ -97,7 +104,8 @@ const Book = (props) => {
     } else {
     }
   };
-  let array = [];
+  const array = [];
+
   data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
       array.push({date: i.date, data: [i]});
@@ -115,6 +123,7 @@ const Book = (props) => {
           {/* <Text>{item.section.date}</Text>  */}
           <View style={{width: 80}} />
           <TouchableOpacity
+            onPress={onShowModal}
             style={[
               styles.item,
               ,
@@ -125,22 +134,21 @@ const Book = (props) => {
               },
             ]}>
             <View style={{marginHorizontal: 16}}>
-              <Text
-                style={{
-                  fontSize: 16,
-                }}>
+              <Text style={styles.itemDurationText}>
+                {`Nội dung họp: ${item.item.subject}`}
+              </Text>
+              <Text style={styles.txtTime}>
                 {`${moment(item.item.start_time, 'hh:mm').format(
                   'LT',
                 )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
               </Text>
-              <Text style={styles.itemDurationText}>
-                {`Nội dung họp: ${item.item.subject}`}
+              {/* <Text style={{fontSize: 16, marginBottom: 8}}>
+                {item.item.location}
+              </Text> */}
+              <Text>
+                <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '}
+                {item.item.member.replace(/,/g, ', ')}
               </Text>
-              <Text style={{marginTop: 8, fontWeight: '500', fontSize: 16}}>
-                {item.item.owner_name}
-              </Text>
-              <Text>{item.item.location}</Text>
-              <Text>{item.item.member}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -148,6 +156,50 @@ const Book = (props) => {
             <View
               style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
           ) : null} */}
+        <Modal isVisible={showModal} onBackdropPress={onHideModal}>
+          <Card style={styles.viewCard}>
+            <Text
+              style={{
+                fontSize: 24,
+                marginBottom: 8,
+                alignSelf: 'center',
+                fontWeight: '700',
+              }}>
+              Chi tiết
+            </Text>
+            <Text style={styles.txtContainer}>
+              <Text style={styles.detail}>Nội dung họp:</Text>{' '}
+              {item.item.subject}
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                marginBottom: 8,
+              }}>
+              {`${moment(item.item.date, 'hh:mm').format('DD')} tháng ${moment(
+                item.item.date,
+                'hh:mm',
+              ).format('MM')} ⋅ ${moment(item.item.start_time, 'hh:mm').format(
+                'LT',
+              )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
+            </Text>
+            <Text style={{fontSize: 16, marginBottom: 8}}>
+              <Text style={styles.detail}>Địa điểm :</Text> {item.item.location}
+            </Text>
+            <Text style={{fontSize: 16, marginBottom: 8}}>
+              <Text style={styles.detail}>Người tạo :</Text>{' '}
+              {item.item.owner_name}
+            </Text>
+            <Text style={{fontSize: 16, marginBottom: 8}}>
+              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
+              {item.item.content}
+            </Text>
+            <Text style={{fontSize: 16, marginBottom: 8}}>
+              <Text style={styles.detail}>Người tham gia :</Text>{' '}
+              {item.item.member.replace(/,/g, ', ')}
+            </Text>
+          </Card>
+        </Modal>
       </View>
     );
   };
@@ -187,8 +239,8 @@ const Book = (props) => {
   };
   const renderHeader = (section) => {
     return (
-      <View style={{justifyContent: 'center', width: 80, alignItems: 'center'}}>
-        <Text style={{fontSize: 24, fontWeight: '500'}}>
+      <View style={styles.viewHeader}>
+        <Text style={styles.textHeader}>
           {moment(section.section.date, 'DD-MM-YYYY').format('D')}
         </Text>
         <Text>
@@ -202,7 +254,9 @@ const Book = (props) => {
       <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
-      {data.length === 0 && <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>}
+      {data.length === 0 && (
+        <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
+      )}
       <SectionList
         sections={array}
         renderSectionHeader={renderHeader}
@@ -247,9 +301,10 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   itemDurationText: {
-    color: 'grey',
+    color: 'black',
     fontSize: 16,
-    marginTop: 4,
+    marginVertical: 8,
+    fontWeight: '800',
   },
   itemTitleText: {
     color: 'black',
@@ -342,5 +397,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 24,
   },
+  viewHeader: {justifyContent: 'center', width: 80, alignItems: 'center'},
+  textHeader: {fontSize: 24, fontWeight: '500'},
+  txtTime: {
+    fontSize: 14,
+    color: 'grey',
+    marginBottom: 8,
+  },
+  txtOwner: {fontWeight: '700'},
+  viewCard: {
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  txtContainer: {fontSize: 16, marginVertical: 8},
+  detail: {fontWeight: '700'},
 });
 export default Book;

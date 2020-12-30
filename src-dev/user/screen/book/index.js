@@ -136,8 +136,7 @@ const Book = (props) => {
                 {`Nội dung họp: ${item.item.subject}`}
               </Text>
 
-              <Text
-                style={styles.txtTime}>
+              <Text style={styles.txtTime}>
                 {`${moment(item.item.start_time, 'hh:mm').format(
                   'LT',
                 )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
@@ -158,8 +157,7 @@ const Book = (props) => {
               style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
           ) : null} */}
         <Modal isVisible={showModal} onBackdropPress={onHideModal}>
-          <Card
-            style={styles.viewCard}>
+          <Card style={styles.viewCard}>
             <Text
               style={{
                 fontSize: 24,
@@ -178,25 +176,27 @@ const Book = (props) => {
                 fontSize: 16,
                 marginBottom: 8,
               }}>
-              {`Từ ${moment(item.item.start_time, 'hh:mm').format(
+              {`${moment(item.item.date, 'hh:mm').format('DD')} tháng ${moment(
+                item.item.date,
+                'hh:mm',
+              ).format('MM')} ⋅ ${moment(item.item.start_time, 'hh:mm').format(
                 'LT',
-              )} đến ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
+              )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
             </Text>
             <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={{fontWeight: '700'}}>Địa điểm :</Text>{' '}
-              {item.item.location}
+              <Text style={styles.detail}>Địa điểm :</Text> {item.item.location}
             </Text>
             <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={{fontWeight: '700'}}>Chủ trì :</Text>{' '}
+              <Text style={styles.detail}>Người tạo :</Text>{' '}
               {item.item.owner_name}
             </Text>
 
             <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={{fontWeight: '700'}}>Tóm tắt cuộc họp :</Text>{' '}
+              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
               {item.item.content}
             </Text>
             <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={{fontWeight: '700'}}>Người tham gia :</Text>{' '}
+              <Text style={styles.detail}>Người tham gia :</Text>{' '}
               {item.item.member.replace(/,/g, ', ')}
             </Text>
           </Card>
@@ -404,6 +404,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   txtContainer: {fontSize: 16, marginVertical: 8},
-  datail: {fontWeight: '700'},
+  detail: {fontWeight: '700'},
 });
 export default Book;
