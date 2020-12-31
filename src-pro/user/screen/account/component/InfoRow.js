@@ -75,7 +75,7 @@ export default function InforRow(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
-        keyboardType="email-address"
+        keyboardType="default"
         // returnKeyType='go'
         editable={canedit}
         {...otherProps}

@@ -13,8 +13,6 @@ import {
   Platform,
   PermissionsAndroid,
 } from 'react-native';
-import {NetworkInfo} from 'react-native-network-info';
-import {Card} from 'native-base';
 import {
   PERMISSIONS,
   request,
@@ -47,7 +45,6 @@ const Account = (props) => {
   } = props;
 
   const [showModal, setshowModal] = useState(false);
-
 
   const onLogOut = () => {
     _global.Alert.alert({
