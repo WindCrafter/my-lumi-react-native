@@ -24,7 +24,9 @@ import {
   listRoomSuccess,
   getKPISuccess,
   getHolidaySuccess,
+  getWorkdayToday,
 } from '../actions/user';
+import {changeToOut} from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import {Colors} from '../../../utlis';
@@ -442,4 +444,28 @@ function* sagaGetHoliday(action) {
 
 export function* watchGetHoliday() {
   yield takeLatest(types.GET_HOLIDAY, sagaGetHoliday);
+}
+
+function* sagaGetWorkdayToday(action) {
+  try {
+    const token = action.payload.token;
+    const response = yield _GET(
+      `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?date=${action.payload.date}`,
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200 && response.data && response.data[0] && response.data[0].status_check_in === 0) {
+      yield put(changeToOut());
+      _global.Loading.hide();
+    } else {
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchGetWorkdayToday() {
+  yield takeLatest(types.GET_WORKDAY_TODAY, sagaGetWorkdayToday);
 }

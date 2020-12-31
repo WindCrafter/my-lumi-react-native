@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
 import Header from './component/header';
 import {Card} from 'native-base';
@@ -55,7 +56,7 @@ if (
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token, summary, getSummary} = props;
+  const {navigation, nameUser, token, summary, getSummary, getWorkdayToday} = props;
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.testNotify);
@@ -74,6 +75,7 @@ export default function Home(props) {
 
   useEffect(() => {
     getSummary(token);
+    getWorkdayToday({token, date: moment().format('DD/MM/YYYY')});
   }, []);
 
   const moveToHistory = () => {

@@ -249,3 +249,10 @@ export const getHolidaySuccess = (data) => {
     payload: data,
   };
 };
+
+export const getWorkdayToday = (data) => {
+  return {
+    type: types.GET_WORKDAY_TODAY,
+    payload: data,
+  };
+};
