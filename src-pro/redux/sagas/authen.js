@@ -22,6 +22,7 @@ import {
   getProfile,
   getSummarySuccess,
   getSummaryFailed,
+  logOut,
 } from '../actions/authen';
 import {URL} from '../../../utlis/connection/url';
 import {_GET, _POST} from '../../../utlis/connection/api';
@@ -97,14 +98,16 @@ function* sagaFirstLogin(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
+       
       _global.Alert.alert({
         title: langs.notify,
-        message: response.message,
+        message: `Đổi mật khẩu thành công. \n Vui lòng đăng nhập lại.`,
         leftButton: {
           text: langs.alert.ok,
-          onPress: () => CustomNavigation.goBack(),
+         
         },
       });
+yield put(logOut());
       _global.Loading.hide();
     } else {
       yield put(changePassFailed());

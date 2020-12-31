@@ -22,7 +22,7 @@ const langs = {
   onTime: 'Đúng giờ',
   checkOut: 'Check out',
   break: 'Nghỉ làm',
-  reasonWhyBreak: 'Lí do bạn nghỉ là gì',
+  reasonWhyBreak: 'Lý do bạn nghỉ là gì?',
   howLongBreak: 'Bạn nghỉ bao lâu?',
   late: 'Đi muộn',
   addWork: 'Thêm công việc',

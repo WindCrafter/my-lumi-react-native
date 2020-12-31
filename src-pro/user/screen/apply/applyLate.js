@@ -30,6 +30,8 @@ import {
   InputSelect,
   SelectButton,
 } from '../../../component';
+import {_global} from '../../../../utlis/global/global';
+
 import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import {Card} from 'native-base';
@@ -95,6 +97,16 @@ function ApplyLate(props) {
     setMode(m);
   };
   const onsetLateEarly = () => {
+    const field = type==='late' ? 'đi muộn' : 'về sớm'
+   if (!reason) {
+     _global.Alert.alert({
+       title: langs.alert.remind,
+       message: `Vui lòng điền lí do ${field}`,
+       messageColor: Colors.danger,
+       leftButton: {text: langs.alert.ok},
+     });
+     return;
+   }
     const data = {
       type: type === 'late' ? 1 : 2,
       time: time,
@@ -103,7 +115,9 @@ function ApplyLate(props) {
       content: reason,
       status: status,
     };
+     
     setLateEarly(data);
+    
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
