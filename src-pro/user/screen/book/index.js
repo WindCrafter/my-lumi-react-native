@@ -43,8 +43,11 @@ const Book = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const onShowModal = () => {
+  const [itemShow, setItemShow] = useState({});
+
+  const onShowModal = (item) => {
     setShowModal(true);
+    setItemShow(item);
   };
   const onHideModal = () => {
     setShowModal(false);
@@ -123,7 +126,7 @@ const Book = (props) => {
           {/* <Text>{item.section.date}</Text>  */}
           <View style={{width: 80}} />
           <TouchableOpacity
-            onPress={onShowModal}
+            onPress={() => onShowModal(item.item)}
             style={[
               styles.item,
               ,
@@ -156,50 +159,6 @@ const Book = (props) => {
             <View
               style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
           ) : null} */}
-        <Modal isVisible={showModal} onBackdropPress={onHideModal}>
-          <Card style={styles.viewCard}>
-            <Text
-              style={{
-                fontSize: 24,
-                marginBottom: 8,
-                alignSelf: 'center',
-                fontWeight: '700',
-              }}>
-              Chi tiết
-            </Text>
-            <Text style={styles.txtContainer}>
-              <Text style={styles.detail}>Nội dung họp:</Text>{' '}
-              {item.item.subject}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                marginBottom: 8,
-              }}>
-              {`${moment(item.item.date, 'hh:mm').format('DD')} tháng ${moment(
-                item.item.date,
-                'hh:mm',
-              ).format('MM')} ⋅ ${moment(item.item.start_time, 'hh:mm').format(
-                'LT',
-              )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Địa điểm :</Text> {item.item.location}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Người tạo :</Text>{' '}
-              {item.item.owner_name}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
-              {item.item.content}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Người tham gia :</Text>{' '}
-              {item.item.member.replace(/,/g, ', ')}
-            </Text>
-          </Card>
-        </Modal>
       </View>
     );
   };
@@ -249,6 +208,7 @@ const Book = (props) => {
       </View>
     );
   };
+
   return (
     <>
       <SafeAreaView />
@@ -279,6 +239,48 @@ const Book = (props) => {
         renderIcon={buttonIcon}
         style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
       />
+      <Modal isVisible={showModal} onBackdropPress={onHideModal}>
+        <Card style={styles.viewCard}>
+          <Text
+            style={{
+              fontSize: 24,
+              marginBottom: 8,
+              alignSelf: 'center',
+              fontWeight: '700',
+            }}>
+            Chi tiết
+          </Text>
+          <Text style={styles.txtContainer}>
+            <Text style={styles.detail}>Nội dung họp:</Text> {itemShow.subject}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              marginBottom: 8,
+            }}>
+            {`${moment(itemShow.date, 'DD-MM-YYYY').format('DD')} tháng ${moment(
+              itemShow.date,
+              'DD-MM-YYYY',
+            ).format('MM')} ⋅ ${moment(itemShow.start_time, 'hh:mm').format(
+              'LT',
+            )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Địa điểm :</Text> {itemShow.location}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Người tạo :</Text> {itemShow.owner_name}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
+            {itemShow.content}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Người tham gia :</Text>{' '}
+            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+          </Text>
+        </Card>
+      </Modal>
     </>
   );
 };
