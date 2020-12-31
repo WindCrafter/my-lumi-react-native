@@ -308,7 +308,7 @@ function* sagaSetLateEarly(action) {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: langs.lateEarlyError,
+        message: 'Xin nghỉ ngoài giờ quy định.',
         leftButton: {text: langs.alert.ok},
       });
       _global.Loading.hide();

@@ -179,7 +179,7 @@ function UpdateProfile(props) {
       updateProfile(data);
     }
   };
-
+console.log(user.role);
   return (
     <>
       <BarStatus />

@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     flex: 5,
-    marginTop:8
+    marginTop: 8,
   },
   avatar: {
     flex: 1,
@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
   },
   txtName: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
     color: '#ffffff',
+
   },
   time: {
     fontSize: 16,

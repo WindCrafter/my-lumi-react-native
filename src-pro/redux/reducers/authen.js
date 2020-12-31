@@ -58,6 +58,7 @@ export default function authen(state = initialState, action) {
         identity_number: action.payload.data.identity_number,
         bank_name: action.payload.data.bank_name,
         bank_account: action.payload.data.bank_name,
+        role: action.payload.data.role
       };
     case types.CHANGE_PASS_SUCCESS:
       return {

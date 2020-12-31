@@ -132,7 +132,7 @@ function ApplyBreak(props) {
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: 'Vui lòng điền lí do xin nghỉ',
+        message: 'Vui lòng điền lý do xin nghỉ',
         messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
