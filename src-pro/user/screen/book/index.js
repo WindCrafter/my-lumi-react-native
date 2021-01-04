@@ -138,7 +138,7 @@ const Book = (props) => {
             ]}>
             <View style={{marginHorizontal: 16}}>
               <Text style={styles.itemDurationText}>
-                {`Nội dung họp: ${item.item.subject}`}
+                {`${item.item.subject}`}
               </Text>
               <Text style={styles.txtTime}>
                 {`${moment(item.item.start_time, 'hh:mm').format(
@@ -149,7 +149,7 @@ const Book = (props) => {
                 {item.item.location}
               </Text> */}
               <Text>
-                <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '}
+                {/* <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '} */}
                 {item.item.member.replace(/,/g, ', ')}
               </Text>
             </View>
@@ -246,7 +246,8 @@ const Book = (props) => {
               fontSize: 24,
               marginBottom: 8,
               alignSelf: 'center',
-              fontWeight: '700',
+              fontWeight: '600',
+              fontFamily: 'Quicksand-Bold',
             }}>
             Chi tiết
           </Text>
@@ -258,10 +259,11 @@ const Book = (props) => {
               fontSize: 16,
               marginBottom: 8,
             }}>
-            {`${moment(itemShow.date, 'DD-MM-YYYY').format('DD')} tháng ${moment(
-              itemShow.date,
-              'DD-MM-YYYY',
-            ).format('MM')} ⋅ ${moment(itemShow.start_time, 'hh:mm').format(
+            {`${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'DD',
+            )} tháng ${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'MM',
+            )} ⋅ ${moment(itemShow.start_time, 'hh:mm').format(
               'LT',
             )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
           </Text>
@@ -306,12 +308,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     marginVertical: 8,
-    fontWeight: '800',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   itemTitleText: {
     color: 'black',
     marginLeft: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   itemButtonContainer: {
@@ -406,13 +410,13 @@ const styles = StyleSheet.create({
     color: 'grey',
     marginBottom: 8,
   },
-  txtOwner: {fontWeight: '700'},
+  txtOwner: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
   viewCard: {
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
   txtContainer: {fontSize: 16, marginVertical: 8},
-  detail: {fontWeight: '700'},
+  detail: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
 });
 export default Book;

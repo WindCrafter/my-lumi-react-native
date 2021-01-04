@@ -63,6 +63,7 @@ const Event = (props) => {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
+
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -284,7 +285,7 @@ const Event = (props) => {
       return;
     }
     const name = [];
-    const member_ids=[]
+    const member_ids = [];
     console.log(memberPicked);
     memberPicked.forEach((i) => {
       i.member_name !== null ? name.push(i.member_name) : null;
@@ -315,6 +316,7 @@ const Event = (props) => {
     };
     bookRoom(data);
   };
+
   return (
     <>
       <BarStatus
@@ -499,6 +501,10 @@ const Event = (props) => {
         show={showModalTimeStart}
         locale="en-GB"
         onHideModal={onUnshowStart}
+        minimumDate={
+          moment(new Date()).format('DD/MM/YYYY') ===
+            moment(date).format('DD/MM/YYYY') && new Date()
+        }
       />
 
       <PickerCustom
@@ -509,6 +515,7 @@ const Event = (props) => {
         show={showModalTimeEnd}
         locale="en-GB"
         onHideModal={onUnshowEnd}
+        minimumDate={start || new Date()}
       />
 
       <PickerCustom

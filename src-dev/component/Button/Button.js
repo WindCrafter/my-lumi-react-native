@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     textAlign: 'center',
   },
 });

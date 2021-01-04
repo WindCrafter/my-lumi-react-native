@@ -163,7 +163,8 @@ const Book = (props) => {
                 fontSize: 24,
                 marginBottom: 8,
                 alignSelf: 'center',
-                fontWeight: '700',
+                fontWeight: '600',
+                fontFamily: 'Quicksand-Bold',
               }}>
               Chi tiết
             </Text>
@@ -302,12 +303,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     marginVertical: 8,
-    fontWeight: '800',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   itemTitleText: {
     color: 'black',
     marginLeft: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   itemButtonContainer: {
@@ -397,13 +400,13 @@ const styles = StyleSheet.create({
     color: 'grey',
     marginBottom: 8,
   },
-  txtOwner: {fontWeight: '700'},
+  txtOwner: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
   viewCard: {
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
   txtContainer: {fontSize: 16, marginVertical: 8},
-  detail: {fontWeight: '700'},
+  detail: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
 });
 export default Book;

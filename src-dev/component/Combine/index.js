@@ -173,15 +173,18 @@ const styles = StyleSheet.create({
   statusTrue: {
     color: '#2fac4f',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   statusFalse: {
     color: '#ff5353',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   department: {
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   title: {
     textAlign: 'left',

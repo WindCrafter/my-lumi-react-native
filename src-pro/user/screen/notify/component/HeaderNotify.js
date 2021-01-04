@@ -12,7 +12,7 @@ import {Input} from '../../../../component';
 import {imgs} from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
 import moment from 'moment';
-import{Colors} from '../../../../../utlis/'
+import {Colors} from '../../../../../utlis/';
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
@@ -135,7 +135,8 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: 'black',
   },
   txtDetail: {

@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: 'black',
     textAlign: 'center',
   },
