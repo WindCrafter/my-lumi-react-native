@@ -1,8 +1,9 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
-import {URL_STAGING} from '../../../utlis/connection/url';
-import {_POST, _GET} from '../../../utlis/connection/api';
-import {_global} from '../../../utlis/global/global';
+import { URL_STAGING } from '../../../utlis/connection/url';
+import { _POST, _GET } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
 import {
   updateProfileSuccess,
   updateProfileFailed,
@@ -26,12 +27,11 @@ import {
   getHolidaySuccess,
   getWorkdayToday,
 } from '../actions/user';
-import {changeToOut} from '../actions/check';
+import { changeToOut } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
-import {Colors} from '../../../utlis';
+import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
-import OneSignal from 'react-native-onesignal';
 
 const URL_UPDATE_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}`;
@@ -154,7 +154,7 @@ function* sagaRemoveUserIdDevice(action) {
     console.log(action);
     let userId;
     OneSignal.getPermissionSubscriptionState((status) => {
-      (userId = status.userId), console.log(1);
+      (userId = status.userId);
     });
     console.log(userId);
     const data = {
@@ -171,7 +171,7 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -450,11 +450,11 @@ function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?date=${action.payload.date}`,
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=04/01/2021`,
       token,
     );
-    console.log(response);
-    if (response.success && response.statusCode === 200 && response.data && response.data[0] && response.data[0].status_check_in === 0) {
+    console.log('GET_WORKDAY_TODAY', response);
+    if (response.success && response.statusCode === 200 && response.data && response.data && response.data.check_in) {
       yield put(changeToOut());
       _global.Loading.hide();
     } else {
