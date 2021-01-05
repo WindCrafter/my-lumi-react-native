@@ -23,7 +23,7 @@ const HeaderAccount = (props) => {
             name="chevron-left"
             size={32}
             color={Colors.black}
-            style={{top: 4}}
+            style={{top: -4}}
           />
         </TouchableOpacity>
         <View>
@@ -52,8 +52,9 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
     color: 'black',
+    fontFamily: 'Quicksand-Bold',
   },
   txtDetail: {
     fontSize: 16,

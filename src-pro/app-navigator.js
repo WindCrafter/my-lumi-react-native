@@ -91,7 +91,7 @@ const AppNavigator = (props) => {
           _global.Alert = ref;
         }}
       />
-      {codepush.progress !== 0 && <Version />}
+      {/* {codepush.progress !== 0 && <Version />} */}
       <Notify />
     </>
   );

@@ -55,7 +55,7 @@ const UpdateInfo = (props) => {
             value={name}
             onChangeText={onChangeName}
             refInput={refName}
-            clearButtonMode="while-editing"
+            clearButtonMode="never"
             onSubmitEditing={() => refId.current.focus()}
           />
           <InforRow
@@ -63,7 +63,7 @@ const UpdateInfo = (props) => {
             title={langs.team}
             size={16}
             value={team}
-            clearButtonMode="while-editing"
+            clearButtonMode="never"
             editable={false}
             color={'rgb(200, 200, 200)'}
           />
@@ -72,7 +72,7 @@ const UpdateInfo = (props) => {
             title={langs.role}
             size={16}
             value={role}
-            clearButtonMode="while-editing"
+            clearButtonMode="never"
             editable={false}
             color={'rgb(200, 200, 200)'}
           />
@@ -243,15 +243,16 @@ const styles = StyleSheet.create({
   rightRow: {
     flex: 1,
     fontSize: 16,
-    marginLeft: -12,
+    marginRight: -12,
     color: 'black',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     fontFamily: 'Quicksand-Regular',
     borderBottomColor: 'gray',
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: wp(100),
     height: 50,
+    
   },
   contentRow: {
     fontSize: 16,

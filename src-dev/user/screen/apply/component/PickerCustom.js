@@ -17,6 +17,7 @@ const PickerCustom = (props) => {
     minimumDate,
     onHideModal,
     title,
+    maximumDate,
   } = props;
 
   return Platform.OS === 'ios' ? (
@@ -40,6 +41,7 @@ const PickerCustom = (props) => {
             onChange={onChange}
             is24Hour={true}
             minimumDate={minimumDate}
+            maximumDate={maximumDate}
             {...props}
             locale={locale}
           />
@@ -88,7 +90,8 @@ const styles = StyleSheet.create({
   },
   txtX: {
     color: Colors.white,
-    fontWeight: '900',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   modal: {
     justifyContent: 'flex-end',

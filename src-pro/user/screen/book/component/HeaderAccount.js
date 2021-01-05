@@ -19,7 +19,6 @@ export default HeaderAccount;
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-
   },
 
   info: {
@@ -30,7 +29,8 @@ const styles = StyleSheet.create({
 
   txtTitle: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: 'black',
   },
 

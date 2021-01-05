@@ -77,11 +77,5 @@ class App extends PureComponent {
 export default codePush({
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
-  updateDialog: {
-    title: 'Cập nhật phiên bản mới',
-    mandatoryContinueButtonLabel: 'Tiếp tục',
-    mandatoryUpdateMessage:
-      'Vui lòng nhấn Tiếp tục để cập nhật phiên bản mới nhất. Ứng dụng sẽ tự động khởi động lại sau khi tải hoàn tất.',
-  },
   allowRestart: true,
 })(App);

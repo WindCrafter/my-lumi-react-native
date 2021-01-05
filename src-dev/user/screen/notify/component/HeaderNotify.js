@@ -12,7 +12,7 @@ import {Input} from '../../../../component';
 import {imgs} from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
 import moment from 'moment';
-
+import {Colors} from '../../../../../utlis/';
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
@@ -135,7 +135,8 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: 'black',
   },
   txtDetail: {
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   },
   line: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: 'gray',
+    backgroundColor: Colors.gray,
   },
   bot: {
     flex: 1,
@@ -154,10 +155,10 @@ const styles = StyleSheet.create({
   },
   filterDate: {
     flexDirection: 'row',
-    borderWidth: 0.25,
-    borderColor: 'gray',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.gray,
     alignItems: 'center',
-    borderRadius: 6,
+    borderRadius: 10,
     paddingHorizontal: 16,
     width: 150,
     height: 40,
@@ -165,25 +166,33 @@ const styles = StyleSheet.create({
   txtDay: {
     flexDirection: 'row',
     justifyContent: 'center',
+    height: '100%',
+    width: '75%',
     alignItems: 'center',
+    marginRight: 0,
   },
-  imgClear: {
-    alignSelf: 'center',
-    width: 16,
-    height: 16,
-  },
+  imgClear: {alignSelf: 'center', width: 12, height: 12},
   search: {
     flex: 1,
     marginRight: 20,
     alignSelf: 'center',
     borderRadius: 10,
     backgroundColor: 'transparent',
-    borderColor: 'gray',
+    borderColor: Colors.gray,
     borderWidth: StyleSheet.hairlineWidth,
   },
   filter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
+  },
+  touchableClear: {
+    width: '35%',
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderLeftColor: Colors.gray,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    marginLeft: 4,
   },
 });

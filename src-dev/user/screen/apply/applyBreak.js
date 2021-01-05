@@ -144,7 +144,7 @@ function ApplyBreak(props) {
       ? onTakeLeaveDay()
       : _global.Alert.alert({
           title: langs.alert.remind,
-          message: 'Chủ nhật không cần xin nghỉ ^^',
+          message: 'Chủ nhật không cần xin nghỉ.',
           messageColor: Colors.black,
           leftButton: {text: langs.alert.ok},
         });
@@ -466,6 +466,7 @@ export default ApplyBreak;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
