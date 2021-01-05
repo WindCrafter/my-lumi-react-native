@@ -1,7 +1,7 @@
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import * as types from '../types';
 import { URL_STAGING } from '../../../utlis/connection/url';
-import { _POST, _GET } from '../../../utlis/connection/api';
+import { _POST, _GET, _POST_WIFI } from '../../../utlis/connection/api';
 import {
   checkInSuccess,
   checkInFailed,
@@ -33,7 +33,6 @@ import {
   confirmDenyTakeLeaveFailed,
 } from '../actions/check';
 import { getSummary } from '../actions/authen';
-
 import { _global } from '../../../utlis/global/global';
 import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
@@ -132,12 +131,12 @@ function* sagaCheckInWifi(action) {
     delete data.token;
     const token = action.payload.token;
 
-    const response = yield _POST(
+    const response = yield _POST_WIFI(
       action.payload.type === 'in' ? URL_CHECK_IN_WIFI : URL_CHECK_OUT_WIFI,
       data,
       token,
     );
-    console.log(response);
+    console.log('-------> response: ', response);
     if (
       response.success
       && response.statusCode === 200
@@ -145,7 +144,6 @@ function* sagaCheckInWifi(action) {
     ) {
       yield put(checkInSuccess(response.data));
       yield put(getSummary(token));
-
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
         message: response.message,
@@ -159,15 +157,62 @@ function* sagaCheckInWifi(action) {
     ) {
       yield put(checkOutSuccess(response.data));
       yield put(getSummary(token));
-
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
         message: response.message,
         leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
-    } else if (!response.success && response.statusCode === 400) {
-      yield put(checkInFailed());
+    } else if (
+      !response.success
+      && response.statusCode === 403
+      && action.payload.type === 'in'
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.errorLocationCheckin,
+        leftButton: {
+          text: langs.tryAgain,
+          onPress: () => store.dispatch(checkInWifi(data)),
+        },
+        middleButton: {
+          text: langs.code,
+          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+        },
+        rightButton: {
+          text: 'Thoát',
+        },
+      });
+      _global.Loading.hide();
+    } else if (
+      !response.success
+      && response.statusCode === 403
+      && action.payload.type === 'out'
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.errorLocationCheckout,
+        leftButton: {
+          text: langs.tryAgain,
+          onPress: () => store.dispatch(checkInWifi(data)),
+        },
+        middleButton: {
+          text: langs.code,
+          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+        },
+        rightButton: {
+          text: 'Thoát',
+        },
+      });
+      _global.Loading.hide();
+    } else if (response.statusCode >= 500) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.cantCheck,
@@ -184,19 +229,9 @@ function* sagaCheckInWifi(action) {
         },
       });
       _global.Loading.hide();
-    } else {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: {
-          text: langs.alert.ok,
-          // onPress : onLongPress
-        },
-      });
-      _global.Loading.hide();
     }
   } catch (error) {
-    console.log(error);
+    console.log('error', error);
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Lỗi mạng',
@@ -274,7 +309,7 @@ function* sagaSetLateEarly(action) {
       yield put(setLateEarlyFailed());
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: langs.lateEarlyError,
+        message: 'Xin nghỉ ngoài giờ quy định.',
         leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();

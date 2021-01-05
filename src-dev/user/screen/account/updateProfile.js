@@ -179,7 +179,7 @@ function UpdateProfile(props) {
       updateProfile(data);
     }
   };
-console.log(user.role);
+
   return (
     <>
       <BarStatus />
@@ -238,6 +238,7 @@ console.log(user.role);
               display="default"
               onChange={onChangeBirthday}
               locale="vi-VI"
+              maximumDate={new Date()}
             />
           )
         )}

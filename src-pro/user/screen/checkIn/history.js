@@ -329,7 +329,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   time: {
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     marginHorizontal: 10,
   },
 

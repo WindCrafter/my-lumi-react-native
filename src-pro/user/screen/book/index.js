@@ -149,7 +149,7 @@ const Book = (props) => {
                 {item.item.location}
               </Text> */}
               <Text>
-                {/* <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '} */}
+                {/* <Text style={styles.txtOwner}>{it√em.item.owner_name}</Text>,{' '} */}
                 {item.item.member.replace(/,/g, ', ')}
               </Text>
             </View>

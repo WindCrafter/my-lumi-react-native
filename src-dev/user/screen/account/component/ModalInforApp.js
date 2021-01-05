@@ -36,7 +36,7 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.1.0 - 25/12/2020 11:00</Text>
+        <Text style={styles.version}>V1.1.0 - 31/12/2020 18:00</Text>
         <Text style={styles.website}>Công ty cổ phần Lumi Việt Nam</Text>
         <Text style={styles.website}>
           Số 38, Đỗ Đức Dục, quận Nam Từ Liêm, Hà Nội

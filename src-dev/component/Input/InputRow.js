@@ -76,7 +76,7 @@ export default function InputRow(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
-        keyboardType="email-address"
+        keyboardType="default"
         editable={canedit}
         placeholder={detail}
         {...otherProps}

@@ -75,7 +75,7 @@ export default function InforRow(props?: Props) {
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
-        keyboardType="email-address"
+        keyboardType="default"
         // returnKeyType='go'
         editable={canedit}
         {...otherProps}
@@ -105,10 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     alignSelf: 'center',
-    textAlign: 'right',
+    textAlign: 'left',
     fontFamily: 'Quicksand-Regular',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'grey',
+
   },
   left: {
     flexDirection: 'row',

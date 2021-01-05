@@ -168,8 +168,7 @@ function ApproveOT(props) {
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
-    } else {
-    }
+    } 
   };
 
   const handleLoadMore = () => {

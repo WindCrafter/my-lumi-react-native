@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,14 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
-  Alert,
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import moment from 'moment';
-import {startCase} from 'lodash';
-import {Colors, imgs} from '../../../../utlis';
+import { Colors, imgs } from '../../../../utlis';
 import {
   InputRow,
   InputSelect,
@@ -33,12 +31,12 @@ import {
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -194,7 +192,7 @@ const Event = (props) => {
     setshowModalTimeEnd(false);
     setEnd(hourEnd);
   };
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -232,7 +230,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullTitle,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -240,7 +238,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullDate,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -248,7 +246,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullStartTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -256,7 +254,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullEndTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -264,7 +262,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.invalidStartTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -272,7 +270,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulLocation,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -280,7 +278,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulMember,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -298,14 +296,14 @@ const Event = (props) => {
         loop === ''
           ? 0
           : loop === 'week'
-          ? 1
-          : loop === 'month'
-          ? 2
-          : loop === 'year'
-          ? 3
-          : null,
-      end_time: moment(end).format('hh:mm'),
-      start_time: moment(start).format('hh:mm'),
+            ? 1
+            : loop === 'month'
+              ? 2
+              : loop === 'year'
+                ? 3
+                : null,
+      end_time: moment(end).format('HH:MM'),
+      start_time: moment(start).format('HH:MM'),
       subject: title,
       location,
       content: description,
@@ -324,7 +322,7 @@ const Event = (props) => {
       />
       <HeaderCustom
         backgroundColor="rgba(0,0,0,0)"
-        title={'Đặt lịch phòng họp'}
+        title="Đặt lịch phòng họp"
         goBack={onGoBack}
         rightButton
         textPress
@@ -332,7 +330,8 @@ const Event = (props) => {
       />
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView>
           <View style={styles.header} />
           <InputRow
@@ -342,7 +341,7 @@ const Event = (props) => {
             value={title}
             onChangeText={onChangeTitle}
             refInput={refPhone}
-            detail={'Tiêu đề cuộc họp'}
+            detail="Tiêu đề cuộc họp"
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
@@ -372,8 +371,8 @@ const Event = (props) => {
             detail={
               date !== ''
                 ? `${moment(date).format('DD')} tháng ${moment(date).format(
-                    'MM',
-                  )}, ${moment(date).format('YYYY')}`
+                  'MM',
+                )}, ${moment(date).format('YYYY')}`
                 : null
             }
             rightImage={imgs.roundedLeft}
@@ -394,8 +393,8 @@ const Event = (props) => {
               detail={
                 start !== ''
                   ? `Từ : ${moment(start).format('HH')} giờ ${moment(
-                      start,
-                    ).format('mm')}`
+                    start,
+                  ).format('mm')}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -415,8 +414,8 @@ const Event = (props) => {
               detail={
                 end !== ''
                   ? `Đến : ${moment(end).format('HH')} giờ ${moment(end).format(
-                      'mm',
-                    )}`
+                    'mm',
+                  )}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -482,7 +481,7 @@ const Event = (props) => {
           />
 
           {memberPicked.length > 0 ? (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+            <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
                 keyExtractor={(item, index) => index.toString()}
@@ -502,8 +501,8 @@ const Event = (props) => {
         locale="en-GB"
         onHideModal={onUnshowStart}
         minimumDate={
-          moment(new Date()).format('DD/MM/YYYY') ===
-            moment(date).format('DD/MM/YYYY') && new Date()
+          moment(new Date()).format('DD/MM/YYYY')
+            === moment(date).format('DD/MM/YYYY') && new Date()
         }
       />
 
@@ -610,7 +609,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  txtDescription: {paddingHorizontal: 24, fontSize: 16},
+  txtDescription: { paddingHorizontal: 24, fontSize: 16 },
   card: {
     borderRadius: 16,
     width: '90%',
@@ -683,11 +682,11 @@ const styles = StyleSheet.create({
   color: {
     color: '#00821c',
   },
-  color2: {color: '#455997'},
+  color2: { color: '#455997' },
   tintColor: {
     tintColor: '#00821c',
   },
-  tintColor2: {tintColor: '#455997'},
+  tintColor2: { tintColor: '#455997' },
   firstButton: {
     marginVertical: 4,
     backgroundColor: Colors.white,
@@ -698,5 +697,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 4,
   },
-  viewTime: {flexDirection: 'row', justifyContent: 'center'},
+  viewTime: { flexDirection: 'row', justifyContent: 'center' },
 });

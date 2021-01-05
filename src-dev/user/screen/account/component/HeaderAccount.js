@@ -8,20 +8,34 @@ import {
   SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
-import {imgs, Colors} from '../../../../../utlis';
+import Icon from 'react-native-vector-icons/Feather';
+import { imgs, Colors } from '../../../../../utlis';
 import langs from '../../../../../common/language';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 const day = moment().format('dddd');
 
 const HeaderAccount = (props) => {
-  const {title, sub} = props;
+  const { title, sub, goBack } = props;
   return (
     <View style={styles.container}>
       <SafeAreaView />
-      <View style={styles.info}>
-        <Text style={styles.txtTitle}>{title}</Text>
-        <Text style={styles.txtDetail}>{sub}</Text>
+      <View style={{flexDirection: 'row'}}>
+        {goBack ? (
+          <TouchableOpacity onPress={goBack} style={styles.button}>
+            {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
+            <Icon
+              name="chevron-left"
+              size={32}
+              color={Colors.black}
+              style={{top: 0}}
+            />
+          </TouchableOpacity>
+        ) : null}
+        <View style={[styles.info, {marginLeft:goBack? 48:24}]}>
+          <Text style={styles.txtTitle}>{title}</Text>
+          <Text style={styles.txtDetail}>{sub}</Text>
+        </View>
       </View>
       <View style={styles.line} />
       <View style={styles.bot} />
@@ -38,7 +52,6 @@ const styles = StyleSheet.create({
   info: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginHorizontal: 24,
   },
   txtTitle: {
     fontSize: 24,
@@ -60,5 +73,12 @@ const styles = StyleSheet.create({
   bot: {
     flex: 1,
     paddingBottom: 16,
+  },
+  button: {
+    position: 'absolute',
+    left: 8,
+    width: 36,
+    height: 48,
+    top: 8,
   },
 });
