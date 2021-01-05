@@ -183,7 +183,8 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 18,
   },
   detail: {

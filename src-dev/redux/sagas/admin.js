@@ -1,16 +1,16 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import * as types from '../types';
-import {URL_STAGING} from '../../../utlis/connection/url';
-import {_POST, _GET} from '../../../utlis/connection/api';
+import { URL_STAGING } from '../../../utlis/connection/url';
+import { _POST, _GET } from '../../../utlis/connection/api';
 import {
   getListRolesSuccess,
   getListRolesFailed,
   addStaffSuccess,
   addStaffFailed,
 } from '../actions/admin';
-import {_global} from '../../../utlis/global/global';
+import { _global } from '../../../utlis/global/global';
 import langs from '../../../common/language';
-import {Colors} from '../../../utlis';
+import { Colors } from '../../../utlis';
 
 const URL_LIST_ROLE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROLES}`;
 const URL_ADD_STAFF = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ADD_USER}`;
@@ -34,14 +34,14 @@ function* sagaAddStaff(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     } else {
       yield put(addStaffFailed());
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     }
   } catch (error) {
@@ -49,7 +49,7 @@ function* sagaAddStaff(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
   }
 }

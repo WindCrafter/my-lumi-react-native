@@ -594,7 +594,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     alignSelf: 'center',
-    marginHorizontal: 12,
+    
   },
   card: {
     borderRadius: 16,

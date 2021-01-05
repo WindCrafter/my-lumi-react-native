@@ -39,6 +39,8 @@ const ApproveBreak = (props) => {
   const [filter, setFilter] = useState({date: '', status: 1, name: ''});
   const [type, setType] = useState('Đang chờ');
   const [date, setDate] = useState('');
+  const [refresh, setRefresh] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
     getData(1, filter.date, filter.status, [], filter.name);
@@ -72,17 +74,18 @@ const ApproveBreak = (props) => {
   //   };
   //   listAdminTakeLeave(dataLeave);
   // };
-  const [refresh, setRefresh] = useState(false);
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
     setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
     if (
       response.success &&
       response.statusCode === 200 &&
@@ -91,15 +94,13 @@ const ApproveBreak = (props) => {
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
-      setLoading(false);
-      _global.Loading.hide();
-    } else {
-      setLoading(false);
-      _global.Loading.hide();
-    }
+      
+    } 
   };
   const handleLoadMore = () => {
     setLoading(true);
+        setOnScroll(false);
+
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
   // saga
@@ -200,6 +201,8 @@ const ApproveBreak = (props) => {
   };
   const onRefresh = () => {
     setRefresh(true);
+        setOnScroll(false);
+
     getData(1, filter.date, filter.status, [], filter.name);
   };
 
@@ -288,8 +291,8 @@ const ApproveBreak = (props) => {
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
-
-          onEndReached={!loading ? handleLoadMore : null}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           data={data}

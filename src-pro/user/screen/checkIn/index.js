@@ -221,7 +221,8 @@ const styles = StyleSheet.create({
   },
   titleHeader: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: '#32ac4f',
     width: 120,
   },

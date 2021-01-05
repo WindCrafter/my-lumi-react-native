@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   name: {
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   time: {
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
   calendarDay: {
     height: 16,
     width: 16,
-    
+
     tintColor: Colors.black,
     alignSelf: 'flex-start',
     marginTop: 2,

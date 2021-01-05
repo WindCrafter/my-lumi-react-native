@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 
 import {
@@ -18,33 +18,38 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {Agenda, Calendar} from 'react-native-calendars';
+import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import ActionButton from 'react-native-action-button';
-import {Card} from 'native-base';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import { Card } from 'native-base';
+import Modal from 'react-native-modal';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import langs from '../../../../common/language/index';
-import {_GET} from '../../../../utlis/connection/api';
-import {URL_STAGING} from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-import Modal from 'react-native-modal';
 
 const Book = (props) => {
-  const {navigation, token, listRoom, listRoomBook} = props;
+  const { navigation, token, listRoom, listRoomBook } = props;
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const onShowModal = () => {
+  const [itemShow, setItemShow] = useState({});
+
+  const onShowModal = (item) => {
     setShowModal(true);
+    setItemShow(item);
+    console.log(item);
   };
   const onHideModal = () => {
     setShowModal(false);
@@ -95,58 +100,56 @@ const Book = (props) => {
     setOnScroll(false);
     console.log('_GET_LIST_OVERTIME ===========>', response);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
     } else {
     }
   };
-  let array = [];
+  const array = [];
+
   data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
-      array.push({date: i.date, data: [i]});
+      array.push({ date: i.date, data: [i] });
     } else {
-      array.map((item) =>
-        item.date === i.date ? {...item, data: item.data.push(i)} : item,
-      );
+      array.map((item) => (item.date === i.date ? { ...item, data: item.data.push(i) } : item),);
     }
   });
+
   const renderItem = (item) => {
     return (
       <View>
         <View style={[styles.container]}>
           {/* <Text>{item.section.date}</Text>  */}
-          <View style={{width: 80}} />
+          <View style={{ width: 80 }} />
           <TouchableOpacity
-            onPress={onShowModal}
+            onPress={() => onShowModal(item.item)}
             style={[
-              styles.item,
-              ,
+              styles.item,,
               {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
               },
-            ]}>
-            <View style={{marginHorizontal: 16}}>
+            ]}
+          >
+            <View style={{ marginHorizontal: 16 }}>
               <Text style={styles.itemDurationText}>
-                {`Nội dung họp: ${item.item.subject}`}
+                {`${item.item.subject}`}
               </Text>
-
               <Text style={styles.txtTime}>
                 {`${moment(item.item.start_time, 'hh:mm').format(
                   'LT',
                 )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
               </Text>
-
               {/* <Text style={{fontSize: 16, marginBottom: 8}}>
                 {item.item.location}
               </Text> */}
               <Text>
-                <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '}
+                {/* <Text style={styles.txtOwner}>{it√em.item.owner_name}</Text>,{' '} */}
                 {item.item.member.replace(/,/g, ', ')}
               </Text>
             </View>
@@ -156,51 +159,6 @@ const Book = (props) => {
             <View
               style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
           ) : null} */}
-        <Modal isVisible={showModal} onBackdropPress={onHideModal}>
-          <Card style={styles.viewCard}>
-            <Text
-              style={{
-                fontSize: 24,
-                marginBottom: 8,
-                alignSelf: 'center',
-                fontWeight: '700',
-              }}>
-              Chi tiết
-            </Text>
-            <Text style={styles.txtContainer}>
-              <Text style={styles.detail}>Nội dung họp:</Text>{' '}
-              {item.item.subject}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                marginBottom: 8,
-              }}>
-              {`${moment(item.item.date, 'hh:mm').format('DD')} tháng ${moment(
-                item.item.date,
-                'hh:mm',
-              ).format('MM')} ⋅ ${moment(item.item.start_time, 'hh:mm').format(
-                'LT',
-              )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Địa điểm :</Text> {item.item.location}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Người tạo :</Text>{' '}
-              {item.item.owner_name}
-            </Text>
-
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
-              {item.item.content}
-            </Text>
-            <Text style={{fontSize: 16, marginBottom: 8}}>
-              <Text style={styles.detail}>Người tham gia :</Text>{' '}
-              {item.item.member.replace(/,/g, ', ')}
-            </Text>
-          </Card>
-        </Modal>
       </View>
     );
   };
@@ -229,14 +187,20 @@ const Book = (props) => {
     );
   };
   const ListHeaderComponent = () => {
-    return <View style={{height: 24}} />;
+    return <View style={{ height: 24 }} />;
   };
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
+    return (
+      <View style={{ paddingBottom: 64 }}>
+        {loading ? (
+          (
+            <View style={styles.loader}>
+              <ActivityIndicator size="large" color={Colors.gray} />
+            </View>
+          )
+        ) : null}
       </View>
-    ) : null;
+    );
   };
   const renderHeader = (section) => {
     return (
@@ -245,16 +209,22 @@ const Book = (props) => {
           {moment(section.section.date, 'DD-MM-YYYY').format('D')}
         </Text>
         <Text>
-          Tháng {moment(section.section.date, 'DD-MM-YYYY').format('M')}
+          Tháng
+          {' '}
+          {moment(section.section.date, 'DD-MM-YYYY').format('M')}
         </Text>
       </View>
     );
   };
+
   return (
     <>
       <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
+      {data.length === 0 && (
+        <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
+      )}
       <SectionList
         sections={array}
         renderSectionHeader={renderHeader}
@@ -265,6 +235,7 @@ const Book = (props) => {
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={renderFooterComponent}
+
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
@@ -275,15 +246,81 @@ const Book = (props) => {
         degrees={45}
         fixNativeFeedbackRadius
         renderIcon={buttonIcon}
-        style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
+        style={[Platform.OS === 'ios' ? { zIndex: 100 } : { elevation: 100 }]}
       />
+      <Modal isVisible={showModal} onBackdropPress={onHideModal}>
+        <Card style={styles.viewCard}>
+          <Text
+            style={{
+              fontSize: 24,
+              marginBottom: 8,
+              alignSelf: 'center',
+              fontWeight: '600',
+              fontFamily: 'Quicksand-Bold',
+            }}
+          >
+            Chi tiết
+          </Text>
+          <Text style={styles.txtContainer}>
+            <Text style={styles.detail}>Nội dung họp:</Text>
+            {' '}
+            {itemShow.subject}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              marginBottom: 8,
+            }}
+          >
+            {`${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'DD',
+            )} tháng ${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'MM',
+            )} ⋅ ${moment(itemShow.start_time, 'hh:mm').format(
+              'LT',
+            )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
+          </Text>
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Địa điểm :</Text>
+            {' '}
+            {itemShow.location}
+          </Text>
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tạo :</Text>
+            {' '}
+            {itemShow.owner_name}
+          </Text>
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>
+            {' '}
+            {itemShow.content}
+          </Text>
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tham gia :</Text>
+            {' '}
+            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+          </Text>
+        </Card>
+      </Modal>
     </>
   );
 };
 const styles = StyleSheet.create({
-  container: {flexDirection: 'row', width: '100%'},
+  container: {
+    flexDirection: 'row',
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(54,171,83,0.2)',
     flex: 1,
     borderRadius: 16,
     paddingHorizontal: 8,
@@ -302,12 +339,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     marginVertical: 8,
-    fontWeight: '800',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   itemTitleText: {
     color: 'black',
     marginLeft: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   itemButtonContainer: {
@@ -379,7 +418,7 @@ const styles = StyleSheet.create({
   img: {
     tintColor: '#008aee',
   },
-  meeting: {tintColor: '#008aee'},
+  meeting: { tintColor: '#008aee' },
   add: {
     alignSelf: 'center',
     height: 16,
@@ -390,20 +429,25 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: '#606070',
   },
-  viewHeader: {justifyContent: 'center', width: 80, alignItems: 'center'},
-  textHeader: {fontSize: 24, fontWeight: '500'},
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
+  },
+  viewHeader: { justifyContent: 'center', width: 80, alignItems: 'center' },
+  textHeader: { fontSize: 24, fontWeight: '500' },
   txtTime: {
     fontSize: 14,
     color: 'grey',
     marginBottom: 8,
   },
-  txtOwner: {fontWeight: '700'},
+  txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
-  txtContainer: {fontSize: 16, marginVertical: 8},
-  detail: {fontWeight: '700'},
+  txtContainer: { fontSize: 16, marginVertical: 8 },
+  detail: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
 });
 export default Book;

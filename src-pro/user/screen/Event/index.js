@@ -12,7 +12,6 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
-  Alert,
   Keyboard,
   ScrollView,
 } from 'react-native';
@@ -20,7 +19,6 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
 import { Card } from 'native-base';
 import moment from 'moment';
-import { startCase } from 'lodash';
 import { Colors, imgs } from '../../../../utlis';
 import {
   InputRow,
@@ -63,6 +61,7 @@ const Event = (props) => {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
+
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -303,8 +302,8 @@ const Event = (props) => {
               : loop === 'year'
                 ? 3
                 : null,
-      end_time: moment(end).format('HH:mm'),
-      start_time: moment(start).format('HH:mm'),
+      end_time: moment(end).format('HH:MM'),
+      start_time: moment(start).format('HH:MM'),
       subject: title,
       location,
       content: description,
@@ -315,6 +314,7 @@ const Event = (props) => {
     };
     bookRoom(data);
   };
+
   return (
     <>
       <BarStatus
@@ -500,6 +500,10 @@ const Event = (props) => {
         show={showModalTimeStart}
         locale="en-GB"
         onHideModal={onUnshowStart}
+        minimumDate={
+          moment(new Date()).format('DD/MM/YYYY')
+            === moment(date).format('DD/MM/YYYY') && new Date()
+        }
       />
 
       <PickerCustom
@@ -510,6 +514,7 @@ const Event = (props) => {
         show={showModalTimeEnd}
         locale="en-GB"
         onHideModal={onUnshowEnd}
+        minimumDate={start || new Date()}
       />
 
       <PickerCustom

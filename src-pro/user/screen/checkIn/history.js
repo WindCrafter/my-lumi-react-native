@@ -9,12 +9,12 @@ import {
   Text,
   Dimensions,
   Image,
-  Modal,
   Alert,
   TouchableOpacity,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import MonthPicker from 'react-native-month-picker';
 import {BarStatus, HeaderCustom} from '../../../component';
 import {Colors, imgs} from '../../../../utlis';
@@ -212,6 +212,10 @@ function History(props) {
     setData([]);
   };
 
+  const hideModal = () => {
+    setVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <BarStatus
@@ -249,25 +253,18 @@ function History(props) {
         />
       </View>
       <Modal
-        transparent
-        animationType="fade"
-        visible={visible}
-        onTouchCancel={() => {
-          setVisible(false);
-        }}
-        onRequestClose={() => {
-          setVisible(false);
-        }}>
+        isVisible={visible}
+        animationIn={'slideInUp'}
+        animationOutTiming={500}
+        animationOut={'slideOutDown'}
+        onBackdropPress={hideModal}
+        // style={styles.modal}
+        backdropTransitionOutTiming={0}>
         <View style={styles.contentContainer}>
           <View style={styles.content}>
             <MonthPicker selectedDate={dateChange} onMonthChange={onChange} />
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <TouchableOpacity
-                style={styles.confirmButton}
-                onPress={() => setVisible(false)}>
-                <Text>Thoát</Text>
-              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={onConfirmDate}>
@@ -332,21 +329,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   time: {
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     marginHorizontal: 10,
   },
 
   //
-  contentContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
   content: {
     backgroundColor: '#fff',
     marginHorizontal: 20,
     marginVertical: 70,
+    borderRadius: 16,
+    overflow: 'hidden',
   },
   confirmButton: {
     width: 100,

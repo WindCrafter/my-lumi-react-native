@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.black,
     marginTop: 8,
+    fontFamily: 'Quicksand-Bold',
   },
   right: {
     backgroundColor: 'rgba(0,0,0,0)',
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     borderRadius: 16,
-    top: 18
+    top: 18,
   },
   img: {
     width: 20,

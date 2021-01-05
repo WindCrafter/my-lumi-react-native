@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
   },
   txtX: {
     color: Colors.white,
-    fontWeight: '900',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   modal: {
     justifyContent: 'flex-end',

@@ -106,7 +106,7 @@ export default function Home(props) {
   return (
     <>
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} name={nameUser} />
+        <Header pressNotify={onPressNotify} name={nameUser} numberNotifys ={99}/>
 
         <View style={styles.flex}>
           <LinearGradient

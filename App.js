@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
 });

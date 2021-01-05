@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../utlis';
-import {Button, Touchable} from '../../component';
+import {Button, Touchable} from '..';
 import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
   textDetail: {

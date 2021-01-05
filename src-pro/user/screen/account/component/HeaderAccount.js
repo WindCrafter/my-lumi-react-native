@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
   info: {
     flexDirection: 'column',
     justifyContent: 'center',
-    
   },
   txtTitle: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: 'black',
   },
   txtDetail: {
@@ -79,6 +79,6 @@ const styles = StyleSheet.create({
     left: 8,
     width: 36,
     height: 48,
-    top: 8
+    top: 8,
   },
 });

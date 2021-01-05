@@ -450,7 +450,7 @@ function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=04/01/2021`,
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
     console.log('GET_WORKDAY_TODAY', response);
