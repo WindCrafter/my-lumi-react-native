@@ -72,21 +72,22 @@ LocaleConfig.locales.vn = {
 };
 LocaleConfig.defaultLocale = 'vn';
 
-function EditBreak(props) {
+function UpdateBreak(props) {
   const _format = 'YYYY-MM-DD';
   const _today = moment().format(_format);
   const _maxDate = moment().add(90, 'days').format(_format);
   const [exception, setException] = useState(true);
-  const { navigation, takeLeave, userId, token, assign, route } = props;
+  const { navigation, updateTakeLeave, userId, token, assign, route } = props;
+  const { _id, _date, content, morning, type } = route.params;
   const [shift, setShift] = useState(new Date());
 
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [typeShift, setTypeShift] = useState('Buổi sáng');
-  const [typeBreak, setTypeBreak] = useState('Theo buổi');
-  const [reason, setReason] = useState('');
-  const { _id, _date } = route.params;
+  const [typeShift, setTypeShift] = useState(morning === 1 ? 'Buổi sáng' : 'Buổi chiều');
+  const [typeBreak, setTypeBreak] = useState(type === 1 ? 'Theo buổi' : 'Theo ngày');
+  const [reason, setReason] = useState(content);
+
   console.log('_id, _date', _id, _date);
   const DISABLED_DAYS = ['Saturday', 'Sunday'];
 
@@ -110,25 +111,22 @@ function EditBreak(props) {
   //   if ( myDate.getDay() == 0) setException(false);
   // console.log('checkexception')
   // }
-const initialState2 = {};
+  const initialState2 = {};
   _date.forEach((i) => Object.assign(initialState2, { [i]: { selected: true, day: i } }));
   console.log('initialState : ', initialState2);
   const initialState = {
     ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
-   
+
   };
-   
-  _date.forEach((i) =>
-    Object.assign(initialState, {
-      [moment(i, 'DD/MM/YYYY').format('YYYY-MM-DD')]: {selected: true, day: i},
-    }),
-  );
+
+  _date.forEach((i) => Object.assign(initialState, {
+    [moment(i, 'DD/MM/YYYY').format('YYYY-MM-DD')]: { selected: true, day: i },
+  }),);
 
   const [_markedDates, setMarkedDates] = useState(initialState);
   // const assignTo = assign.map((e) => {
   //   return e.userId;
   // });
-  console.log('initialState', initialState);
   console.log('initialState', initialState);
   const onComplete = () => {
     Keyboard.dismiss();
@@ -157,9 +155,15 @@ const initialState2 = {};
     const newarray = [];
     const object = [];
     const array = Object.keys(_markedDates);
+
     array.forEach((element) => {
       if (_markedDates[element].selected) {
-        newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
+        newarray.push(
+          moment(_markedDates[element].day, 'DD/MM/YYYY').format('DD/MM/YYYY'),
+        );
+        console.log(
+          moment(_markedDates[element].day, 'DD/MM/YYYY').format('DD/MM/YYYY'),
+        );
       }
     });
     newarray.forEach((i) => {
@@ -168,16 +172,18 @@ const initialState2 = {};
         object.push(`${month1}/${year1}`);
       }
     });
+    console.log('newarray', newarray);
     const data = {
       token,
       content: reason,
       date: newarray,
       type: 2,
       morning: 0,
-      month: object,
+      // month: object,
+      _id
     };
 
-    takeLeave(data);
+    updateTakeLeave(data);
   };
   const onTakeLeaveShift = () => {
     const data = {
@@ -186,9 +192,10 @@ const initialState2 = {};
       type: 1,
       content: reason,
       morning: typeShift === 'Buổi sáng' ? 1 : 2,
-      month: moment(shift).format('MM/YYYY').split(' '),
+      // month: moment(shift).format('MM/YYYY').split(' '),
+      _id,
     };
-    takeLeave(data);
+    updateTakeLeave(data);
   };
   const goBack = () => {
     navigation.goBack();
@@ -294,7 +301,7 @@ const initialState2 = {};
       </>
     );
   };
-    console.log('_markedDates : ', _markedDates);
+  console.log('_markedDates : ', _markedDates);
 
   return (
     <View style={styles.container}>
@@ -466,7 +473,7 @@ const initialState2 = {};
   );
 }
 
-export default EditBreak;
+export default UpdateBreak;
 
 const styles = StyleSheet.create({
   container: {

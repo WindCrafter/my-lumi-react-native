@@ -23,7 +23,13 @@ import { _GET } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 
 const HistoryBreak = (props) => {
-  const { navigation, token, listTakeLeave, historyTakeLeave } = props;
+  const {
+    navigation,
+    token,
+    listTakeLeave,
+    historyTakeLeave,
+    deleteTakeLeave,
+  } = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -210,25 +216,32 @@ const HistoryBreak = (props) => {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onEditBreak = (data2) => {
-    navigation.navigate(langs.navigator.editBreak,{
-      _id:data2.item._id,
-      _date:data2.item.date
+  const onUpdateBreak = (data2) => {
+    console.log(data2);
+    navigation.navigate(langs.navigator.updateBreak, {
+      _id: data2.item._id,
+      _date: data2.item.date,
+      content: data2.item.content,
+      morning: data2.item.morning,
+      type: data2.item.type
     });
   };
-
+  const onDeleteBreak = (rowMap, data2) => {
+    deleteTakeLeave(data2.item._id);
+    deleteRow(rowMap, data2.item.key);
+  };
   const renderHiddenItem = (data2, rowMap) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => onEditBreak(data2)}
+        onPress={() => onUpdateBreak(data2)}
       >
 
         <Image source={imgs.note} />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data2.item.key)}
+        onPress={() => onDeleteBreak(rowMap, data2)}
       >
         <Image source={imgs.cancel} />
       </TouchableOpacity>

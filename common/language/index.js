@@ -131,7 +131,7 @@ const langs = {
     contact: 'Contact',
     applyLate: 'ApplyLate',
     applyBreak: 'ApplyBreak',
-    editBreak: 'EditBreak',
+    updateBreak: 'UpdateBreak',
     approveOT: 'ApproveOT',
     applyOT: 'ApplyOT',
     listOT: 'listOT',

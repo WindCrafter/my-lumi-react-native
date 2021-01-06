@@ -177,7 +177,40 @@ export const takeLeaveSuccess = (data) => {
     payload: data,
   };
 };
-
+export const deleteTakeLeave = (data) => {
+  return {
+    type: types.DELETE_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const deleteTakeLeaveFailed = () => {
+  return {
+    type: types.DELETE_TAKE_LEAVE_FAILED,
+  };
+};
+export const deleteTakeLeaveSuccess = (data) => {
+  return {
+    type: types.DELETE_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+};
+export const updateTakeLeave = (data) => {
+  return {
+    type: types.UPDATE_TAKE_LEAVE,
+    payload: data,
+  };
+};
+export const updateTakeLeaveSuccess = (data) => {
+  return {
+    type: types.UPDATE_TAKE_LEAVE_SUCCESS,
+    payload: data,
+  };
+}; export const updateTakeLeaveFailed = (data) => {
+  return {
+    type: types.UPDATE_TAKE_LEAVE_FAILED,
+    payload: data,
+  };
+};
 export const overTime = (data) => {
   return {
     type: types.OVER_TIME,
