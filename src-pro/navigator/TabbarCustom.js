@@ -299,6 +299,7 @@ function TabbarCustom({
           navigation={navigation}
           onCheck={onCheckInWifi}
           demoMode={demoMode}
+          type={type}
         />
         <ButtonTabbar
           state={state}

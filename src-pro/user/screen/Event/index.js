@@ -302,8 +302,8 @@ const Event = (props) => {
               : loop === 'year'
                 ? 3
                 : null,
-      end_time: moment(end).format('HH:MM'),
-      start_time: moment(start).format('HH:MM'),
+      end_time: moment(end).format('HH:mm'),
+      start_time: moment(start).format('HH:mm'),
       subject: title,
       location,
       content: description,

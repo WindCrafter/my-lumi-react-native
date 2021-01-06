@@ -73,7 +73,6 @@ export default function check(state = initialState, action) {
     case types.CHECK_OUT_SUCCESS:
       return {
         ...state,
-        type: 'in',
         timeCheckOut: moment(new Date()).format('HH:mm'),
       };
     case types.CREATE_QR_SUCCESS:

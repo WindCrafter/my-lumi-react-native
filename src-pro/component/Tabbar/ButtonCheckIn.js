@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import {Colors, imgs} from '../../../utlis';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Colors, imgs } from '../../../utlis';
 import langs from '../../../common/language';
 
 const ButtonCheckIn = (props) => {
-  const {navigation, onCheck, demoMode} = props;
+  const { navigation, onCheck, demoMode, type } = props;
 
   const onLongPress = () => {
     if (demoMode) {
@@ -17,8 +17,9 @@ const ButtonCheckIn = (props) => {
       accessibilityRole="button"
       onPress={onCheck}
       onLongPress={onLongPress}
-      style={styles.container}>
-      <View style={styles.containerBt}>
+      style={styles.container}
+    >
+      <View style={[styles.containerBt, { backgroundColor: type === 'in' ? Colors.background : '#EE9723' }]}>
         <Image source={imgs.tick} style={styles.img} />
       </View>
     </TouchableOpacity>
@@ -36,7 +37,6 @@ const styles = StyleSheet.create({
   containerBt: {
     height: 48,
     width: 48,
-    backgroundColor: Colors.background,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
