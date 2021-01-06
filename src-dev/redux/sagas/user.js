@@ -27,7 +27,7 @@ import {
   getHolidaySuccess,
   getWorkdayToday,
 } from '../actions/user';
-import { changeToOut } from '../actions/check';
+import { changeToOut, changeToIn } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
@@ -454,11 +454,11 @@ function* sagaGetWorkdayToday(action) {
       token,
     );
     console.log('GET_WORKDAY_TODAY', response);
+    _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data && response.data && response.data.check_in) {
       yield put(changeToOut());
-      _global.Loading.hide();
-    } else {
-      _global.Loading.hide();
+    } else if (!response.success && response.statusCode === 200 && response.data.length === 0) {
+      yield put(changeToIn());
     }
   } catch (error) {
     _global.Loading.hide();
