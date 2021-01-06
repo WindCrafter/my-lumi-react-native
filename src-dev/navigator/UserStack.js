@@ -11,6 +11,8 @@ import applyOT from '../user/container/apply/applyOT';
 import ListOT from '../user/container/apply/ListOT';
 import ApproveOT from '../user/container/apply/ApproveOT';
 import applyBreak from '../user/container/apply/applyBreak';
+import editBreak from '../user/container/apply/editBreak';
+
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
@@ -92,6 +94,14 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.applyBreak}
         component={applyBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.editBreak}
+        component={editBreak}
         options={{
           headerShown: false,
           gestureEnabled: false,

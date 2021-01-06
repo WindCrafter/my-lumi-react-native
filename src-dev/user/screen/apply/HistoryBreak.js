@@ -197,34 +197,50 @@ const HistoryBreak = (props) => {
     );
   };
   const closeRow = (rowMap, rowKey) => {
+    console.log(rowKey);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
   const deleteRow = (rowMap, rowKey) => {
+    console.log(rowMap, rowKey);
     closeRow(rowMap, rowKey);
     const newData = [...data];
-    const prevIndex = data.findIndex((item) => item.key === rowKey);
+    const prevIndex = _data.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setData(newData);
   };
+  const onEditBreak = (data2) => {
+    navigation.navigate(langs.navigator.editBreak,{
+      _id:data2.item._id,
+      _date:data2.item.date
+    });
+  };
+
   const renderHiddenItem = (data2, rowMap) => (
     <View style={styles.rowBack}>
-      <Text>Left</Text>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data2.item.key)}
+        onPress={() => onEditBreak(data2)}
       >
-        <Text style={styles.backTextWhite}>Edit</Text>
+
+        <Image source={imgs.note} />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data2.item.key)}
       >
-        <Text style={styles.backTextWhite}>Delete</Text>
+        <Image source={imgs.cancel} />
       </TouchableOpacity>
     </View>
   );
+  const onRowDidOpen = rowKey => {
+    console.log('This row opened', rowKey);
+  };
+
+  const _data = [];
+  data.map((v, i) => { _data[i] = { ...v, key: i }; });
+  console.log(_data);
   return (
     <>
       <BarStatus
@@ -242,11 +258,11 @@ const HistoryBreak = (props) => {
         backgroundColor={Colors.white}
       />
       <View style={{ flex: 1 }}>
-        {data.length === 0 && (
+        {_data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
         <SwipeListView
-          data={data}
+          data={_data}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
@@ -263,6 +279,9 @@ const HistoryBreak = (props) => {
           previewRowKey="0"
           previewOpenValue={-40}
           previewOpenDelay={3000}
+          disableRightSwipe
+          swipeToOpenPercent={20}
+          onRowDidOpen={onRowDidOpen}
         />
       </View>
       <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
@@ -273,7 +292,7 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
   backTextWhite: {
     color: '#FFF',
   },
@@ -287,26 +306,32 @@ const styles = StyleSheet.create({
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: '#DDD',
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
+    justifyContent: 'flex-end',
+    paddingRight: 32,
   },
   backRightBtn: {
     alignItems: 'center',
-    bottom: 0,
+
     justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
+    top: 25,
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: 'blue',
-    right: 75,
+    backgroundColor: 'white',
+
+    height: 48,
+    width: 48,
+    borderRadius: 24,
+    alignSelf: 'center',
   },
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
+    height: 48,
+    width: 48,
+    borderRadius: 24,
+    alignSelf: 'center',
   },
 });
