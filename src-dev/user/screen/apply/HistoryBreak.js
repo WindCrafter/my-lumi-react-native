@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -9,19 +9,21 @@ import {
   Text,
   RefreshControl,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import moment from 'moment';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
-import {_GET} from '../../../../utlis/connection/api';
-import moment from 'moment';
-import {URL_STAGING} from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
+import { URL_STAGING } from '../../../../utlis/connection/url';
 
 const HistoryBreak = (props) => {
-  const {navigation, token, listTakeLeave, historyTakeLeave} = props;
+  const { navigation, token, listTakeLeave, historyTakeLeave } = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -41,7 +43,7 @@ const HistoryBreak = (props) => {
       unsubscribe;
     };
   }, [navigation]);
-  //saga
+  // saga
   // const getData = () => {
 
   //   const dataLeave = {
@@ -60,18 +62,17 @@ const HistoryBreak = (props) => {
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);
-     setOnScroll(false);
-     setLoading(false);
+    setOnScroll(false);
+    setLoading(false);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
-     
-    } 
+    }
   };
   const handleLoadMore = () => {
     getData(page + 1, date, status, data);
@@ -104,7 +105,7 @@ const HistoryBreak = (props) => {
 
   const onRefresh = () => {
     setRefresh(true);
-     setOnScroll(false);
+    setOnScroll(false);
     getData(1, date, status, []);
   };
 
@@ -132,7 +133,7 @@ const HistoryBreak = (props) => {
     onSetType(item);
     onSetStatus(item);
   };
-  //SAGA
+  // SAGA
   // const onChangeStatus = (item) => {
   //   const dataLeave = {
   //     status: item,
@@ -148,7 +149,7 @@ const HistoryBreak = (props) => {
   //   listTakeLeave(dataLeave);
   //   onSetType(item);
   // };
-  //SAGA
+  // SAGA
   // const onChangeDate = (date) => {
   //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
   //   console.log(moment(pickDate).format('DD/MM/YYYY'));
@@ -171,10 +172,8 @@ const HistoryBreak = (props) => {
     getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
   };
 
-  const renderItem = ({item, index}) => {
-    const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),
-    );
+  const renderItem = ({ item, index }) => {
+    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
     return (
       <CardBreak
         status={item.status}
@@ -185,19 +184,47 @@ const HistoryBreak = (props) => {
           item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'
             : item.date.length === 1 && item.morning === 0
-            ? 'Một ngày'
-            : item.date.length === 1 && item.morning === 1
-            ? 'Buổi sáng'
-            : item.date.length === 1 && item.morning === 2
-            ? 'Buổi chiều'
-            : item.date.length === 1
-            ? 'Một ngày'
-            : 'Nhiều ngày'
+              ? 'Một ngày'
+              : item.date.length === 1 && item.morning === 1
+                ? 'Buổi sáng'
+                : item.date.length === 1 && item.morning === 2
+                  ? 'Buổi chiều'
+                  : item.date.length === 1
+                    ? 'Một ngày'
+                    : 'Nhiều ngày'
         }
       />
     );
   };
-
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+  const deleteRow = (rowMap, rowKey) => {
+    closeRow(rowMap, rowKey);
+    const newData = [...data];
+    const prevIndex = data.findIndex((item) => item.key === rowKey);
+    newData.splice(prevIndex, 1);
+    setData(newData);
+  };
+  const renderHiddenItem = (data2, rowMap) => (
+    <View style={styles.rowBack}>
+      <Text>Left</Text>
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() => closeRow(rowMap, data2.item.key)}
+      >
+        <Text style={styles.backTextWhite}>Edit</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.backRightBtn, styles.backRightBtnRight]}
+        onPress={() => deleteRow(rowMap, data2.item.key)}
+      >
+        <Text style={styles.backTextWhite}>Delete</Text>
+      </TouchableOpacity>
+    </View>
+  );
   return (
     <>
       <BarStatus
@@ -214,11 +241,11 @@ const HistoryBreak = (props) => {
         type={type}
         backgroundColor={Colors.white}
       />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
-        <FlatList
+        <SwipeListView
           data={data}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -230,6 +257,12 @@ const HistoryBreak = (props) => {
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={75}
+          rightOpenValue={-150}
+          previewRowKey="0"
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
         />
       </View>
       <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
@@ -241,4 +274,39 @@ export default HistoryBreak;
 
 const styles = StyleSheet.create({
   noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  backTextWhite: {
+    color: '#FFF',
+  },
+  rowFront: {
+    alignItems: 'center',
+    backgroundColor: '#CCC',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+    height: 50,
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: '#DDD',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75,
+  },
+  backRightBtnLeft: {
+    backgroundColor: 'blue',
+    right: 75,
+  },
+  backRightBtnRight: {
+    backgroundColor: 'red',
+    right: 0,
+  },
 });

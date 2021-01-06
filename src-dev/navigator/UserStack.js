@@ -126,6 +126,7 @@ export default function UserStack() {
         component={HistoryBreak}
         options={{
           headerShown: false,
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen

@@ -1,12 +1,25 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-const HeaderAccount = () => {
+const HeaderAccount = ({ numberOfEvent }) => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
         <Text style={styles.txtTitle}>Lịch</Text>
-        <Text style={styles.txtDetail}>Xem lịch làm việc.</Text>
+        {(numberOfEvent
+          && numberOfEvent > 0) ? (
+            <Text style={styles.txtDetail}>
+              Hôm nay bạn có
+              {' '}
+              {numberOfEvent}
+              {' '}
+              lịch họp.
+            </Text>
+          ) : (
+            <Text style={styles.txtDetail}>
+              `Hiện tại chưa có lịch họp`
+            </Text>
+          ) }
       </View>
       <View style={styles.line} />
       <View style={styles.bot} />
@@ -47,6 +60,5 @@ const styles = StyleSheet.create({
   },
   bot: {
     flex: 1,
-    paddingBottom: 24,
   },
 });
