@@ -159,7 +159,7 @@ const Account = (props) => {
           </View>
           <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
             {
-              codepush.progress === 0 ? <Text>V1.1.0</Text> : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+              codepush.progress === 0 ? null : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
             }
           </View>
         </ScrollView>
