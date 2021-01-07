@@ -439,6 +439,9 @@ function* sagaDeleteTakeLeave(action) {
     const token = action.payload.token;
     const response = yield _POST(URL_DELETE_TAKE_LEAVE, data, token);
     console.log('take leave=>>>', response);
+        console.log('take leave=>>>', token);
+        console.log('take leave=>>>', data);
+
     if (response.success && response.statusCode === 200) {
       yield put(deleteTakeLeaveSuccess(response.data));
       _global.Alert.alert({
@@ -446,7 +449,7 @@ function* sagaDeleteTakeLeave(action) {
         message: langs.alert.waitConfirm,
         leftButton: {
           text: langs.alert.ok,
-          onPress: () => CustomNavigation.goBack(),
+       
         },
       });
       _global.Loading.hide();

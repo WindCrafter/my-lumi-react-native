@@ -227,7 +227,11 @@ const HistoryBreak = (props) => {
     });
   };
   const onDeleteBreak = (rowMap, data2) => {
-    deleteTakeLeave(data2.item._id);
+   const data = {
+     _id:data2.item._id,
+     token
+   }
+    deleteTakeLeave(data);
     deleteRow(rowMap, data2.item.key);
   };
   const renderHiddenItem = (data2, rowMap) => (
