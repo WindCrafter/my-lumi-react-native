@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Image,
+
   Platform,
   StatusBar,
   StyleSheet,
@@ -8,21 +8,14 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
-  FlatList,
+
   TouchableOpacity,
+  UIManager,
+
 } from 'react-native';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import Animated, {
-  divide,
-  interpolate,
-  Extrapolate,
-  sub,
-  cond,
-  add,
-  lessThan,
-  multiply,
-} from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Feather';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
@@ -33,6 +26,12 @@ import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
 
+if (
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 const HistoryBreak = (props) => {
   const {
     navigation,
@@ -44,7 +43,6 @@ const HistoryBreak = (props) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
@@ -247,8 +245,8 @@ const HistoryBreak = (props) => {
     const response = await _POST(apiURL, body, token);
     if (response.success && response.statusCode === 200 && response.data) {
       _global.Alert.alert({
-        title: langs.alert.applyOTdone,
-        message: 'Xoá đơn thành công',
+        title: langs.alert.notify,
+        message: langs.alert.successDeleteApplication,
         leftButton: {
           text: langs.alert.ok,
           onPress: () => deleteRow(rowMap, data2.item.key),
@@ -268,31 +266,99 @@ const HistoryBreak = (props) => {
       _global.Loading.hide();
     }
   };
-  const renderHiddenItem = (data2, rowMap) => (
-    <View style={styles.rowBack}>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => onUpdateBreak(data2)}
+  // const onSwipeGestureBegan = (rowKey) => {
+  //   console.log('This row opened', rowKey);
+  //   setRow(rowKey);
+  // };
+  const renderHiddenItem = (data2, rowMap) => {
+    let flag;
+    data2.item.status === 1 ? flag = true : false;
+    return flag ? (
+      <View style={styles.rowBack}>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          onPress={() => {
+            data2.item.status === 1 ? onUpdateBreak(data2) : null;
+          }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="edit-3" size={24} color={Colors.black} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          onPress={() => {
+            _global.Alert.alert({
+              title: langs.alert.notice,
+              message: langs.alert.deleteApplication,
+              leftButton: {
+                text: langs.alert.cancel,
+                onPress: () => closeRow(rowMap, data2.item.key),
+              },
+              rightButton: {
+                text: langs.alert.accept,
+                onPress: () => onDeleteBreak(rowMap, data2),
+                textStyle: {
+                  fontWeight: '600',
+                  fontFamily: 'Quicksand-Bold',
+                },
+              },
+            });
+          }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="trash" size={24} color={Colors.danger} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View
+        style={{
+          alignItems: 'flex-end',
+          flex: 1,
+          justifyContent: 'center',
+        }}
       >
-        <Animated.View >
-          <Image source={imgs.note} />
-        </Animated.View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => onDeleteBreak(rowMap, data2)}
-      >
-        <Image source={imgs.cancel} />
-      </TouchableOpacity>
-    </View>
-  );
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
+        <View style={[{ flexDirection: 'row', paddingRight: 32 }]}>
+          <View style={styles.backRightBtn}>
+            <View
+              style={[
+                styles.backBtn,
+                { backgroundColor: Colors.backgroundInActive },
+              ]}
+            >
+              <Icon name="edit-3" size={24} color={Colors.itemInActive} />
+            </View>
+          </View>
+          <View style={styles.backRightBtn}>
+            <View
+              style={[
+                styles.backBtn,
+                { backgroundColor: Colors.backgroundInActive },
+              ]}
+            >
+              <Icon name="trash" size={24} color={Colors.itemInActive} />
+            </View>
+          </View>
+        </View>
+        <Text style={styles.textDescrip}>
+          Không thay đổi được
+          {' '}
+          {'\n'}
+          {' '}
+          đơn đã duyệt
+        </Text>
+      </View>
+    );
   };
+  // const onRowDidOpen = (rowKey, rowMap) => {
+  //   console.log('This row opened', rowKey);
+  //   console.log('This row opened', rowMap);
+  // };
 
   const _data = [];
   data.map((v, i) => { _data[i] = { ...v, key: i }; });
-  console.log(_data);
+
   return (
     <>
       <BarStatus
@@ -328,12 +394,13 @@ const HistoryBreak = (props) => {
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
+          disableRightSwipe
+          swipeToOpenPercent={20}
           // previewRowKey="0"
           // previewOpenValue={-40}
           // previewOpenDelay={1000}
-          disableRightSwipe
-          swipeToOpenPercent={20}
-          onRowDidOpen={onRowDidOpen}
+          // onRowOpen={onRowDidOpen}
+          // swipeGestureBegan={onSwipeGestureBegan}
         />
       </View>
       <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
@@ -348,14 +415,7 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: '#FFF',
   },
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#CCC',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    height: 50,
-  },
+
   rowBack: {
     alignItems: 'center',
     flex: 1,
@@ -365,25 +425,31 @@ const styles = StyleSheet.create({
   },
   backRightBtn: {
     alignItems: 'center',
-
     justifyContent: 'center',
-    top: 25,
-    width: 75,
+    width: 50,
+    height: 80,
+    marginLeft: 8,
   },
-  backRightBtnLeft: {
-    backgroundColor: 'white',
+  backBtn: {
+    height: 48,
+    width: 48,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 3.84,
 
-    height: 48,
-    width: 48,
+    elevation: 1,
     borderRadius: 24,
-    alignSelf: 'center',
   },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    right: 0,
-    height: 48,
-    width: 48,
-    borderRadius: 24,
-    alignSelf: 'center',
+  textDescrip: {
+    fontSize: 10,
+    textAlign: 'center',
+    paddingRight: 32,
+    color: Colors.itemInActive,
   },
 });

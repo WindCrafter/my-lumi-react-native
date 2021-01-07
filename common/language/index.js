@@ -130,11 +130,13 @@ const langs = {
     forgotPassword: 'ForgotPass',
     contact: 'Contact',
     applyLate: 'ApplyLate',
+    updateLate: 'UpdateLate',
     applyBreak: 'ApplyBreak',
     updateBreak: 'UpdateBreak',
     approveOT: 'ApproveOT',
     applyOT: 'ApplyOT',
     listOT: 'listOT',
+    updateOT: 'UpdateOT',
     updateProfile: 'UpdareProfile',
     allHistory: 'allHistory',
     history: 'History',
@@ -155,6 +157,7 @@ const langs = {
     selectBank: 'Chọn ngân hàng',
   },
   alert: {
+    accept: 'Đồng ý',
     ok: 'OK',
     yes: 'Có',
     no: 'Không',
@@ -223,6 +226,8 @@ const langs = {
     nulLocation: 'Chưa chọn địa điểm họp',
     nulMember: 'Chưa chọn người tham gia',
     invalidEndTime: 'Chưa điền giờ kết thúc họp',
+    deleteApplication: 'Bạn có chắc chắn xoá đơn này không ?',
+    successDeleteApplication: 'Xoá đơn thành công',
   },
 };
 

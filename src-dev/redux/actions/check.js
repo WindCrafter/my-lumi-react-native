@@ -141,7 +141,23 @@ export const updateLateEarlySuccess = (data) => {
     payload: data,
   };
 };
-
+export const updateOverTime = (data) => {
+  return {
+    type: types.UPDATE_OVER_TIME,
+    payload: data,
+  };
+};
+export const updateOverTimeFailed = () => {
+  return {
+    type: types.UPDATE_OVER_TIME_FAILED,
+  };
+};
+export const updateOverTimeSuccess = (data) => {
+  return {
+    type: types.UPDATE_OVER_TIME_SUCCESS,
+    payload: data,
+  };
+};
 export const deleteLateEarly = (data) => {
   return {
     type: types.DELETE_LATE_EARLY,

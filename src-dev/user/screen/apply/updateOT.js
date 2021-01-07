@@ -133,7 +133,7 @@ const convertHour = (date) => {
   return moment(date).subtract(minute, 'minutes');
 };
 
-function ApplyOT(props) {
+function UpdateOT(props) {
   const {
     navigation,
     route,
@@ -143,13 +143,16 @@ function ApplyOT(props) {
     assign,
     getHoliday,
     holiday,
+    updateOverTime,
   } = props;
-  const [reason, setReason] = useState('');
+  const { id, start_date, start, data, content, total_time } = route.params;
+
+  const [reason, setReason] = useState(content);
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(0.5);
-  const [hour, setHour] = useState(convertHour(new Date())._d);
+  const [time, setTime] = useState(total_time);
+  const [hour, setHour] = useState(convertHour(moment(start, 'HH:mm')._d));
   const [mode, setMode] = useState('');
-  const [day, setDay] = useState(new Date());
+  const [day, setDay] = useState(moment(start_date, 'DD/MM/YYYY')._d);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -288,17 +291,20 @@ function ApplyOT(props) {
         leftButton: { text: langs.alert.ok },
       });
     } else {
-      const data = {
+      const body = {
+        id,
         start_date: _day,
         start: _start,
         data: splitTime(_day, _start, time),
         total_time: time,
-        month: _month,
+        // month: _month,
         content: reason,
-        status: 1,
+        // status: 1,
         token,
       };
-      overTime(data);
+      console.log(body);
+      updateOverTime(body);
+      // overTime(body);
     }
   };
   const onFocus = () => {
@@ -386,7 +392,7 @@ function ApplyOT(props) {
       <BarStatus />
       <SafeAreaView />
       <HeaderCustom
-        title="Tạo đơn xin OT"
+        title="Sửa đơn OT"
         height={60}
         goBack={goBack}
         fontSize={24}
@@ -400,7 +406,7 @@ function ApplyOT(props) {
             <View style={styles.img}>
               <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>Nội dung :</Text>
+            <Text style={styles.txtStatus}>Nội dung cần sửa :</Text>
           </View>
           <InputApply
             borderRadius={12}
@@ -534,7 +540,7 @@ function ApplyOT(props) {
   );
 }
 
-export default ApplyOT;
+export default UpdateOT;
 
 const styles = StyleSheet.create({
   container: {

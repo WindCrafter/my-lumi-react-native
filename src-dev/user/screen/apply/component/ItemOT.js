@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    marginTop: 16,
   },
   time: {
     justifyContent: 'center',
