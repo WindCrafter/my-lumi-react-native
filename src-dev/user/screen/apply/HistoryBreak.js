@@ -13,14 +13,25 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import Animated, {
+  divide,
+  interpolate,
+  Extrapolate,
+  sub,
+  cond,
+  add,
+  lessThan,
+  multiply,
+} from 'react-native-reanimated';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
 import HeaderCustom from './component/HeaderCustom';
-import { _GET } from '../../../../utlis/connection/api';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _global } from '../../../../utlis/global/global';
 
 const HistoryBreak = (props) => {
   const {
@@ -99,6 +110,7 @@ const HistoryBreak = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      default: 0;
     }
   };
   const renderFooterComponent = () => {
@@ -127,8 +139,8 @@ const HistoryBreak = (props) => {
     navigation.navigate(langs.navigator.approveBreak);
   };
 
-  const onSetStatus = (status) => {
-    setStatus(status);
+  const onSetStatus = (onStatus) => {
+    setStatus(onStatus);
   };
 
   const onChangeStatus = (item) => {
@@ -226,13 +238,35 @@ const HistoryBreak = (props) => {
       type: data2.item.type
     });
   };
-  const onDeleteBreak = (rowMap, data2) => {
-   const data = {
-     _id:data2.item._id,
-     token
-   }
-    deleteTakeLeave(data);
-    deleteRow(rowMap, data2.item.key);
+  const onDeleteBreak = async (rowMap, data2) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_TAKE_LEAVE}`;
+    const body = {
+      _id: data2.item._id,
+      token
+    };
+    const response = await _POST(apiURL, body, token);
+    if (response.success && response.statusCode === 200 && response.data) {
+      _global.Alert.alert({
+        title: langs.alert.applyOTdone,
+        message: 'Xoá đơn thành công',
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => deleteRow(rowMap, data2.item.key),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => closeRow(rowMap, data2.item.key),
+        },
+      });
+      _global.Loading.hide();
+    }
   };
   const renderHiddenItem = (data2, rowMap) => (
     <View style={styles.rowBack}>
@@ -240,8 +274,9 @@ const HistoryBreak = (props) => {
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => onUpdateBreak(data2)}
       >
-
-        <Image source={imgs.note} />
+        <Animated.View >
+          <Image source={imgs.note} />
+        </Animated.View>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -293,9 +328,9 @@ const HistoryBreak = (props) => {
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
-          previewRowKey="0"
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
+          // previewRowKey="0"
+          // previewOpenValue={-40}
+          // previewOpenDelay={1000}
           disableRightSwipe
           swipeToOpenPercent={20}
           onRowDidOpen={onRowDidOpen}
