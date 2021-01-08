@@ -20,6 +20,7 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
+import codePush from 'react-native-code-push';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
@@ -42,6 +43,7 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
+    codepush,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
@@ -92,6 +94,10 @@ const Account = (props) => {
   };
   const openUrl = () => {
     Linking.openURL('https://lumi.vn');
+  };
+
+  const restartApp = () => {
+    codePush.restartApp();
   };
 
   const onDemo = () => {};
@@ -150,6 +156,11 @@ const Account = (props) => {
               title={langs.logOut}
               onPressButton={onLogOut}
             />
+          </View>
+          <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
+            {
+              codepush.progress === 0 ? null : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+            }
           </View>
         </ScrollView>
         <ModalInforApp

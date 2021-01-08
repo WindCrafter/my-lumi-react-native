@@ -77,5 +77,4 @@ class App extends PureComponent {
 export default codePush({
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
-  allowRestart: true,
 })(App);

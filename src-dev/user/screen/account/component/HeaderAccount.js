@@ -15,7 +15,6 @@ const HeaderAccount = (props) => {
   const { title, sub, goBack, shadow } = props;
   return (
     <View style={styles.container}>
-      <SafeAreaView />
       <View style={{ flexDirection: 'row' }}>
         {goBack ? (
           <TouchableOpacity onPress={goBack} style={styles.button}>

@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
   Image,
+  StatusBar,
   Linking,
   ScrollView,
   Switch,
+  Alert,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
-import { Card } from 'native-base';
-import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
+import {
+  PERMISSIONS,
+  request,
+  RESULTS,
+  openSettings,
+} from 'react-native-permissions';
+import NetInfo from '@react-native-community/netinfo';
+import codePush from 'react-native-code-push';
+import {Card} from 'native-base';
+import {Colors, imgs} from '../../../../utlis';
+import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import RoundedView from './component/RoundedView';
 import ModalInforApp from './component/ModalInforApp';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
 const Account = (props) => {
@@ -23,6 +35,7 @@ const Account = (props) => {
     logOut,
     nameUser,
     navigation,
+    getListUsers,
     token,
     oneSignalID,
     // getListTeams,
@@ -30,6 +43,7 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
+    codepush,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
@@ -41,14 +55,18 @@ const Account = (props) => {
       leftButton: {
         text: langs.alert.signOut,
         onPress: () => onRemoveUserId(),
-        textStyle: { color: Colors.danger },
+        textStyle: {color: Colors.danger},
       },
-      rightButton: { text: langs.alert.cancel },
+      rightButton: {text: langs.alert.cancel},
     });
   };
 
   const onRemoveUserId = () => {
     logOut();
+    const data = {
+      deviceId: oneSignalID,
+      token,
+    };
     kickAssign();
     resetCheck();
   };
@@ -78,69 +96,83 @@ const Account = (props) => {
     Linking.openURL('https://lumi.vn');
   };
 
+  const restartApp = () => {
+    codePush.restartApp();
+  };
+
+  const onDemo = () => {};
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-      />
-      <HeaderAccount shadow title={langs.account} sub={langs.setting} />
-      <ScrollView style={{paddingTop: 16}} showsVerticalScrollIndicator={false}>
-        <RoundedView
-          leftImage={require('../../../../naruto.jpeg')}
-          title={nameUser}
-          rightImage={imgs.next}
-          tintColor="grey"
-          fontSize={16}
-          onPressButton={onMoveToProfile}
-          styleImg={styles.image}
-          styleName={styles.name}
-        />
-        <View style={styles.detail}>
+      <BarStatus height={0} />
+      <View style={styles.container}>
+        <HeaderAccount title={langs.account} sub={langs.setting} />
+        <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
-            leftImage={imgs.meeting}
-            title={langs.lumier}
-            onPressButton={onMoveToContact}
+            leftImage={require('../../../../naruto.jpeg')}
+            title={nameUser}
+            rightImage={imgs.next}
+            tintColor="grey"
+            fontSize={16}
+            onPressButton={onMoveToProfile}
+            styleImg={styles.image}
+            styleName={styles.name}
           />
-          <RoundedView
-            leftImage={imgs.changePassIcon}
-            title={langs.changePass}
-            onPressButton={onMoveToChangePass}
-          />
-          <RoundedView
-            leftImage={imgs.inforsolidblack}
-            title={langs.infoApp}
-            onPressButton={onShowModal}
-          />
-          <RoundedView
-            leftImage={imgs.KPI}
-            title={langs.kpiConfirm}
-            onPressButton={gotoKpi}
-          />
-          <Card style={styles.row}>
-            <View style={{flexDirection: 'row'}}>
-              <Image source={imgs.changeIcon} style={styles.imgClear} />
-              <Text style={styles.txtDemo}>Trạng thái</Text>
-            </View>
-            <Switch
-              trackColor={{false: '#767577', true: '#0db14b'}}
-              thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={changeDemoMode}
-              value={demoMode}
+          <View style={styles.detail}>
+            <RoundedView
+              leftImage={imgs.meeting}
+              title={langs.lumier}
+              onPressButton={onMoveToContact}
             />
-          </Card>
-          <RoundedView
-            leftImage={imgs.logout}
-            title={langs.logOut}
-            onPressButton={onLogOut}
-          />
-        </View>
-      </ScrollView>
-      <ModalInforApp
-        showModal={showModal}
-        hideModal={onHideModal}
-        openUrl={openUrl}
-      />
+            <RoundedView
+              leftImage={imgs.changePassIcon}
+              title={langs.changePass}
+              onPressButton={onMoveToChangePass}
+            />
+            <RoundedView
+              leftImage={imgs.inforsolidblack}
+              title={langs.infoApp}
+              onPressButton={onShowModal}
+            />
+            <RoundedView
+              leftImage={imgs.KPI}
+              title={langs.kpiConfirm}
+              onPressButton={gotoKpi}
+            />
+            <Card style={styles.row}>
+              <View style={{flexDirection: 'row'}}>
+                <Image source={imgs.changeIcon} style={styles.imgClear} />
+                <Text style={styles.txtDemo}>Trạng thái</Text>
+              </View>
+              <Switch
+                trackColor={{false: '#767577', true: '#0db14b'}}
+                thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={changeDemoMode}
+                value={demoMode}
+              />
+            </Card>
+            <RoundedView
+              leftImage={imgs.logout}
+              title={langs.logOut}
+              onPressButton={onLogOut}
+            />
+          </View>
+          <View style={{alignSelf: 'center', paddingVertical: 10}}>
+            {codepush.progress === 0 ? null : codepush.progress === 100 ? (
+              <TouchableOpacity onPress={restartApp}>
+                <Text>Cần khởi động lại</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+            )}
+          </View>
+        </ScrollView>
+        <ModalInforApp
+          showModal={showModal}
+          hideModal={onHideModal}
+          openUrl={openUrl}
+        />
+      </View>
     </>
   );
 };
@@ -168,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
   },
-  bottomDetail: { width: '90%' },
+  bottomDetail: {width: '90%'},
   cardTop: {
     width: '90%',
     alignSelf: 'center',

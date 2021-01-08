@@ -1,8 +1,9 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
-import {URL} from '../../../utlis/connection/url';
-import {_POST, _GET} from '../../../utlis/connection/api';
-import {_global} from '../../../utlis/global/global';
+import { URL } from '../../../utlis/connection/url';
+import { _POST, _GET } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
 import {
   updateProfileSuccess,
   updateProfileFailed,
@@ -26,12 +27,11 @@ import {
   getHolidaySuccess,
   getWorkdayToday,
 } from '../actions/user';
-import {changeToOut} from '../actions/check';
+import { changeToOut, changeToIn } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
-import {Colors} from '../../../utlis';
+import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
-import OneSignal from 'react-native-onesignal';
 
 const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
@@ -171,7 +171,7 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -450,15 +450,15 @@ function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?date=${action.payload.date}`,
+      `${URL.LOCAL_HOST}${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
     console.log(response);
-    if (response.success && response.statusCode === 200 && response.data && response.data[0] && response.data[0].status_check_in === 0) {
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data && response.data && response.data.check_in) {
       yield put(changeToOut());
-      _global.Loading.hide();
-    } else {
-      _global.Loading.hide();
+    } else if (!response.success && response.statusCode === 200 && response.data.length === 0) {
+      yield put(changeToIn());
     }
   } catch (error) {
     _global.Loading.hide();

@@ -300,8 +300,8 @@ const HistoryLate = (props) => {
   return (
     <>
       <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 48 : StatusBar.currentHeight}
+        backgroundColor={Colors.danger}
+        height={12}
       />
       <HeaderCustom
         title={langs.titleHistoryLate}

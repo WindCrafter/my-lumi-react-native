@@ -297,6 +297,7 @@ function TabbarCustom({
           navigation={navigation}
           onCheck={onCheckInWifi}
           demoMode={demoMode}
+          type={type}
         />
 
         {role !== 'Staff' ? (

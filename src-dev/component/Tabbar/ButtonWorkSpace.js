@@ -64,7 +64,7 @@ const ButtonTabbar = ({
       )}
       <Text
         style={[styles.text, {color: isFocused ? Colors.background : 'gray'}]}>
-        {role === 'Staff' ? 'WorkSpace' : 'Duyệt đơn'}
+        WorkSpace 
       </Text>
     </TouchableOpacity>
   );
