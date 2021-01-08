@@ -148,10 +148,16 @@ const Book = (props) => {
               {/* <Text style={{fontSize: 16, marginBottom: 8}}>
                 {item.item.location}
               </Text> */}
-              <Text>
-                {/* <Text style={styles.txtOwner}>{it√em.item.owner_name}</Text>,{' '} */}
-                {item.item.member.replace(/,/g, ', ')}
-              </Text>
+              {item.item.owner_name !== item.item.member ? (
+                <Text>
+                  <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '}
+                  {item.item.member
+                    .replace(`${item.item.owner_name},`, '')
+                    .replace(/,/g, ', ')}
+                </Text>
+              ) : (
+                <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
+              )}
             </View>
           </TouchableOpacity>
         </View>

@@ -31,6 +31,12 @@ import {
   listAdminTakeLeaveSuccess,
   confirmDenyTakeLeaveSuccess,
   confirmDenyTakeLeaveFailed,
+  updateTakeLeaveSuccess,
+  updateTakeLeaveFailed,
+  deleteTakeLeaveFailed,
+  deleteTakeLeaveSuccess,
+  updateOverTimeSuccess,
+  updateOverTimeFailed,
 } from '../actions/check';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
@@ -65,7 +71,14 @@ const URL_UPDATE_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_LAT
 const URL_DELETE_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_LATE_EARLY}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
 const URL_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.TAKE_LEAVE}`;
+const URL_UPDATE_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_TAKE_LEAVE}`;
+const URL_DELETE_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_TAKE_LEAVE}`;
+/// //////////////////////////////////////////////////////////////////////////////////////
 const URL_OVERTIME = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.OVERTIME}`;
+const URL_UPDATE_OVERTIME = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_OT}`;
+
+/// //////////////////////////////////////////////////////////////////////////////////////
+
 const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CONFIRM_DENY_TAKE_LEAVE}`;
 const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
@@ -375,7 +388,151 @@ function* sagaTakeLeave(action) {
 export function* watchTakeLeave() {
   yield takeLatest(types.TAKE_LEAVE, sagaTakeLeave);
 }
+function* sagaUpdateTakeLeave(action) {
+  try {
+    const data = {
+      _id: action.payload._id,
+      date: action.payload.date,
+      type: action.payload.type,
+      content: action.payload.content,
+      morning: action.payload.morning,
+      // month: action.payload.month,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_TAKE_LEAVE, data, token);
+    console.log('take leave=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateTakeLeaveSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateTakeLeaveFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
 
+export function* watchUpdateTakeLeave() {
+  yield takeLatest(types.UPDATE_TAKE_LEAVE, sagaUpdateTakeLeave);
+}
+function* sagaUpdateOverTime(action) {
+  try {
+    const data = {
+      id: action.payload.id,
+      start: action.payload.start,
+      start_date: action.payload.start_date,
+      content: action.payload.content,
+      data: action.payload.data,
+      total_time: action.payload.total_time,
+
+      // month: action.payload.month,
+    };
+    console.log('overtime', data);
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_OVERTIME, data, token);
+    console.log('take leave=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateOverTimeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateOverTimeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchUpdateOvertime() {
+  yield takeLatest(types.UPDATE_OVER_TIME, sagaUpdateOverTime);
+}
+
+function* sagaDeleteTakeLeave(action) {
+  try {
+    const data = {
+      _id: action.payload._id,
+
+      // month: action.payload.month,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_DELETE_TAKE_LEAVE, data, token);
+    console.log('take leave=>>>', response);
+    console.log('take leave=>>>', token);
+    console.log('take leave=>>>', data);
+
+    if (response.success && response.statusCode === 200) {
+      yield put(deleteTakeLeaveSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.applydone,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(deleteTakeLeaveFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchSagaDeleteTakeLeave() {
+  yield takeLatest(types.DELETE_TAKE_LEAVE, sagaDeleteTakeLeave);
+}
 function* sagaOverTime(action) {
   try {
     const data = {
@@ -556,11 +713,27 @@ export function* watchApproveLateEarly() {
 
 function* sagaUpdateLateEarly(action) {
   try {
-    const data = {};
+    const data = {
+      id: action.payload.id,
+      date: action.payload.date,
+      type: action.payload.type,
+      content: action.payload.content,
+      time: action.payload.time,
+      status: action.payload.status,
+    };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_LATE_EARLY, data, token);
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(updateLateEarlySuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
       _global.Loading.hide();
     } else {
       yield put(updateLateEarlyFailed());
