@@ -45,7 +45,7 @@ const Book = (props) => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [itemShow, setItemShow] = useState({});
-  
+
   const onShowModal = (item) => {
     setShowModal(true);
     setItemShow(item);
@@ -128,9 +128,8 @@ const Book = (props) => {
         }
       });
     }
-   
   });
- console.log(count);
+  console.log(count);
   const renderItem = (item) => {
     return (
       <View>
@@ -255,13 +254,16 @@ const Book = (props) => {
 
   return (
     <>
-      <SafeAreaView />
-      <BarStatus />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
       <HeaderAccount numberOfEvent={count} />
       {data.length === 0 && (
         <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
       )}
       <SectionList
+        style={{paddingTop: 16}}
         sections={array}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
@@ -337,12 +339,12 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
 
-    elevation: 5,
+    elevation: 2,
   },
   item: {
     backgroundColor: 'white',
@@ -452,7 +454,7 @@ const styles = StyleSheet.create({
   img: {
     tintColor: '#008aee',
   },
-  meeting: { tintColor: '#008aee' },
+  meeting: {tintColor: '#008aee'},
   add: {
     alignSelf: 'center',
     height: 16,
@@ -468,21 +470,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 24,
   },
-  viewHeader: { justifyContent: 'center', width: 80, alignItems: 'center' },
-  textHeader: { fontSize: 24, fontWeight: '500' },
-  textToday: { fontSize: 20, fontWeight: '500', color: Colors.blue },
+  viewHeader: {justifyContent: 'center', width: 80, alignItems: 'center'},
+  textHeader: {fontSize: 24, fontWeight: '500'},
+  textToday: {fontSize: 20, fontWeight: '500', color: Colors.blue},
   txtTime: {
     fontSize: 14,
     color: 'grey',
     marginBottom: 8,
   },
-  txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
+  txtOwner: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
   viewCard: {
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
-  txtContainer: { fontSize: 16, marginVertical: 8 },
-  detail: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
+  txtContainer: {fontSize: 16, marginVertical: 8},
+  detail: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
 });
 export default Book;

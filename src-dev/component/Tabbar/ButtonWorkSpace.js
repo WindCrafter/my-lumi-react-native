@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import { Colors } from '../../../utlis';
 import { TabbarIcon } from '..';
 import { SCREEN_WIDTH } from '../../../utlis/config/utlis';
@@ -12,6 +13,7 @@ const ButtonTabbar = ({
   index,
   tab,
   title,
+  role
 }) => {
   const { options } = descriptors[route.key];
 
@@ -44,13 +46,25 @@ const ButtonTabbar = ({
       testID={options.tabBarTestID}
       onPress={onPress}
       onLongPress={onLongPress}
-      style={styles.container}
-    >
-      <TabbarIcon tab={tab} focused={isFocused} />
+      style={styles.container}>
+      {isFocused ? (
+        <Icon
+          name="globe"
+          style={styles.icon}
+          size={24}
+          color={Colors.background}
+        />
+      ) : (
+        <Icon
+          name="globe"
+          style={{}}
+          size={24}
+          color={Colors.gray}
+        />
+      )}
       <Text
-        style={[styles.text, { color: isFocused ? Colors.background : 'gray' }]}
-      >
-        {title}
+        style={[styles.text, {color: isFocused ? Colors.background : 'gray'}]}>
+        {role === 'Staff' ? 'WorkSpace' : 'Duyệt đơn'}
       </Text>
     </TouchableOpacity>
   );

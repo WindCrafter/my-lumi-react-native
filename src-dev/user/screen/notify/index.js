@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,17 +11,17 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import HeaderNotify from './component/HeaderNotify';
-import {BarStatus} from '../../../component';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
-import {Colors} from '../../../../utlis';
-import {URL_STAGING} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import HeaderNotify from './component/HeaderNotify';
+import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
 const Notify = (props) => {
-  const {navigation, token} = props;
+  const { navigation, token } = props;
   const [date, setDate] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -71,17 +71,17 @@ const Notify = (props) => {
     setOnScroll(false);
     console.log('_GET_LIST_NOTIFICATION ===========>', response);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
     }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const onShow = () => {
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
@@ -109,19 +109,20 @@ const Notify = (props) => {
           case '6':
             navigation.navigate(langs.navigator.approveLate);
             break;
+          default: console.log('Wrong type', item.customData.type);
         }
       }
     };
 
     return (
       // <TouchableOpacity onPress={onShow}>
-      <Card style={styles.card}>
+      <View style={styles.card}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.content}>{item.content}</Text>
         <Text style={styles.time}>
           {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
         </Text>
-      </Card>
+      </View>
       // </TouchableOpacity>
     );
   };
@@ -143,13 +144,14 @@ const Notify = (props) => {
 
   return (
     <View style={styles.container}>
-      <BarStatus />
+      <BarStatus height={0} />
       <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
 
       {data.length === 0 && (
         <Text style={styles.noData}>Không có thông báo.</Text>
       )}
       <FlatList
+        style={{ paddingTop: 16 }}
         data={data}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
@@ -178,10 +180,18 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     backgroundColor: '#ffffff',
-    overflow: 'hidden',
-    shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   time: {
     fontSize: 10,

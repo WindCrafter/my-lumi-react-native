@@ -13,6 +13,8 @@ import {imgs} from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
 import moment from 'moment';
 import {Colors} from '../../../../../utlis/';
+import LinearGradient from 'react-native-linear-gradient';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
@@ -117,15 +119,17 @@ export default function HeaderNotify(props?: Props) {
         onPress={onPressConfirmIOS}
         mode={'date'}
       />
-      <View style={styles.line} />
-      <View style={styles.bot} />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    backgroundColor: Colors.white,
   },
   info: {
     flexDirection: 'column',
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
   },
   bot: {
     flex: 1,
-    paddingBottom: 16,
   },
   filterDate: {
     flexDirection: 'row',
@@ -194,5 +197,9 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.gray,
     borderLeftWidth: StyleSheet.hairlineWidth,
     marginLeft: 4,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });

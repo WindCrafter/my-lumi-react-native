@@ -363,7 +363,7 @@ const HistoryBreak = (props) => {
     <>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 48 : StatusBar.currentHeight}
       />
       <HeaderCustom
         title={langs.titleHistoryBreak}
@@ -411,7 +411,7 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
   backTextWhite: {
     color: '#FFF',
   },
@@ -441,6 +441,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+    shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
     elevation: 1,

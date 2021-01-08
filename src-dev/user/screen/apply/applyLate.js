@@ -201,7 +201,7 @@ function ApplyLate(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{paddingBottom: 40}}
+        style={{backgroundColor: '#f2f2f2'}}
         keyboardDismissMode="interactive">
         <View style={styles.detail}>
           <View style={styles.row}>

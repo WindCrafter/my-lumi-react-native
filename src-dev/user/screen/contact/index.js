@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,28 +11,30 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import ContactRow from '../../../component/Input/InputContact';
-import {BarStatus, HeaderCustom, Input} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Clipboard from '@react-native-community/clipboard';
-import {_global} from '../../../../utlis/global/global';
+import ContactRow from '../../../component/Input/InputContact';
+import { BarStatus, HeaderCustom, Input } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+
+import { _global } from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
 import HeaderAccount from '../account/component/HeaderAccount';
-import {getText} from '../../../../utlis/config/utlis';
-import {URL_STAGING} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import { getText } from '../../../../utlis/config/utlis';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
+import LinearGradient from 'react-native-linear-gradient';
+
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 function Contact(props) {
-  const {navigation, token, currentUser} = props;
+  const { navigation, token, currentUser } = props;
   const [search, setSearch] = useState('');
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
@@ -57,10 +59,10 @@ function Contact(props) {
     console.log('_GET_LIST_USER ===========>', response);
     setRefresh(false);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
@@ -88,7 +90,7 @@ function Contact(props) {
       : null;
     const onGetContact = () => {
       let phone;
-      let phoneNumber = key.item.phone_number;
+      const phoneNumber = key.item.phone_number;
       if (Platform.OS !== 'android') {
         phone = `telprompt:${phoneNumber}`;
       } else {
@@ -98,7 +100,7 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportPhone,
-          leftButton: {text: langs.alert.ok},
+          leftButton: { text: langs.alert.ok },
         });
       } else {
         Linking.openURL(phone);
@@ -110,7 +112,7 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportUser,
-          leftButton: {text: langs.alert.ok},
+          leftButton: { text: langs.alert.ok },
         });
       } else {
         setBankAccount(key.item.bank_account);
@@ -160,20 +162,33 @@ function Contact(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus />
-      <HeaderAccount goBack={onGoBack} title={langs.lumier} sub={langs.comunicate} />
-      <Input
-        button
-        leftImage={imgs.search}
-        containerStyle={styles.search}
-        onPress={onSearch}
-        value={search}
-        // onChangeText={onChangeSearch}
-        autoCapitalize={'none'}
-        placeholder={'Tìm kiếm ...'}
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 24 : StatusBar.currentHeight}
       />
-
+      <HeaderAccount
+        goBack={onGoBack}
+        title={langs.lumier}
+        sub={langs.comunicate}
+      />
+      <View style={{backgroundColor: 'white'}}>
+        <Input
+          button
+          leftImage={imgs.search}
+          containerStyle={styles.search}
+          onPress={onSearch}
+          value={search}
+          // onChangeText={onChangeSearch}
+          autoCapitalize="none"
+          placeholder="Tìm kiếm ..."
+        />
+      </View>
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
       <FlatList
+        style={{paddingTop: 16}}
         onEndReached={!loading ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooterComponent}
@@ -198,7 +213,6 @@ export default Contact;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
     height: '100%',
   },
   backTextWhite: {
@@ -242,7 +256,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: widthPercentageToDP(90),
     marginVertical: 8,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
@@ -251,5 +265,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
+  },
+  gradient: {
+    width: widthPercentageToDP(100),
+    height: 4,
   },
 });

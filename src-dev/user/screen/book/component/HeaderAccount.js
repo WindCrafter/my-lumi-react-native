@@ -1,28 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {Colors} from '../../../../../utlis/';
+ import LinearGradient from 'react-native-linear-gradient';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 const HeaderAccount = ({ numberOfEvent }) => {
   return (
     <View style={styles.container}>
       <View style={styles.info}>
         <Text style={styles.txtTitle}>Lịch</Text>
-        {(numberOfEvent
-          && numberOfEvent > 0) ? (
-            <Text style={styles.txtDetail}>
-              Hôm nay bạn có
-              {' '}
-              {numberOfEvent}
-              {' '}
-              lịch họp.
-            </Text>
-          ) : (
-            <Text style={styles.txtDetail}>
-              `Hiện tại chưa có lịch họp`
-            </Text>
-          ) }
+        {numberOfEvent && numberOfEvent > 0 ? (
+          <Text style={styles.txtDetail}>
+            Hôm nay bạn có {numberOfEvent} lịch họp.
+          </Text>
+        ) : (
+          <Text style={styles.txtDetail}>Bạn chưa có lịch họp nào.</Text>
+        )}
       </View>
-      <View style={styles.line} />
-      <View style={styles.bot} />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 };
@@ -31,7 +29,7 @@ export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    backgroundColor: 'white',
   },
 
   info: {
@@ -56,9 +54,13 @@ const styles = StyleSheet.create({
   line: {
     height: StyleSheet.hairlineWidth,
     width: '100%',
-    backgroundColor: 'black',
+    backgroundColor: Colors.gray,
   },
   bot: {
     flex: 1,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });

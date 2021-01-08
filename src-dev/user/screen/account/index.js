@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Image,
-  StatusBar,
   Linking,
   ScrollView,
   Switch,
-  Alert,
   Platform,
-  PermissionsAndroid,
 } from 'react-native';
-import {
-  PERMISSIONS,
-  request,
-  RESULTS,
-  openSettings,
-} from 'react-native-permissions';
-import NetInfo from '@react-native-community/netinfo';
 import { Card } from 'native-base';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus } from '../../../component';
@@ -34,7 +23,6 @@ const Account = (props) => {
     logOut,
     nameUser,
     navigation,
-    getListUsers,
     token,
     oneSignalID,
     // getListTeams,
@@ -61,10 +49,6 @@ const Account = (props) => {
 
   const onRemoveUserId = () => {
     logOut();
-    const data = {
-      deviceId: oneSignalID,
-      token,
-    };
     kickAssign();
     resetCheck();
   };
@@ -94,70 +78,69 @@ const Account = (props) => {
     Linking.openURL('https://lumi.vn');
   };
 
-  const onDemo = () => {};
   return (
     <>
-      <BarStatus />
-      <View style={styles.container}>
-        <HeaderAccount title={langs.account} sub={langs.setting} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <RoundedView
-            leftImage={require('../../../../naruto.jpeg')}
-            title={nameUser}
-            rightImage={imgs.next}
-            tintColor="grey"
-            fontSize={16}
-            onPressButton={onMoveToProfile}
-            styleImg={styles.image}
-            styleName={styles.name}
-          />
-          <View style={styles.detail}>
-            <RoundedView
-              leftImage={imgs.meeting}
-              title={langs.lumier}
-              onPressButton={onMoveToContact}
-            />
-            <RoundedView
-              leftImage={imgs.changePassIcon}
-              title={langs.changePass}
-              onPressButton={onMoveToChangePass}
-            />
-            <RoundedView
-              leftImage={imgs.inforsolidblack}
-              title={langs.infoApp}
-              onPressButton={onShowModal}
-            />
-            <RoundedView
-              leftImage={imgs.KPI}
-              title={langs.kpiConfirm}
-              onPressButton={gotoKpi}
-            />
-            <Card style={styles.row}>
-              <View style={{ flexDirection: 'row' }}>
-                <Image source={imgs.changeIcon} style={styles.imgClear} />
-                <Text style={styles.txtDemo}>Trạng thái</Text>
-              </View>
-              <Switch
-                trackColor={{ false: '#767577', true: '#0db14b' }}
-                thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={changeDemoMode}
-                value={demoMode}
-              />
-            </Card>
-            <RoundedView
-              leftImage={imgs.logout}
-              title={langs.logOut}
-              onPressButton={onLogOut}
-            />
-          </View>
-        </ScrollView>
-        <ModalInforApp
-          showModal={showModal}
-          hideModal={onHideModal}
-          openUrl={openUrl}
+      <BarStatus
+        backgroundColor={Colors.white}
+      />
+      <HeaderAccount shadow title={langs.account} sub={langs.setting} />
+      <ScrollView style={{paddingTop: 16}} showsVerticalScrollIndicator={false}>
+        <RoundedView
+          leftImage={require('../../../../naruto.jpeg')}
+          title={nameUser}
+          rightImage={imgs.next}
+          tintColor="grey"
+          fontSize={16}
+          onPressButton={onMoveToProfile}
+          styleImg={styles.image}
+          styleName={styles.name}
         />
-      </View>
+        <View style={styles.detail}>
+          <RoundedView
+            leftImage={imgs.meeting}
+            title={langs.lumier}
+            onPressButton={onMoveToContact}
+          />
+          <RoundedView
+            leftImage={imgs.changePassIcon}
+            title={langs.changePass}
+            onPressButton={onMoveToChangePass}
+          />
+          <RoundedView
+            leftImage={imgs.inforsolidblack}
+            title={langs.infoApp}
+            onPressButton={onShowModal}
+          />
+          <RoundedView
+            leftImage={imgs.KPI}
+            title={langs.kpiConfirm}
+            onPressButton={gotoKpi}
+          />
+          <Card style={styles.row}>
+            <View style={{flexDirection: 'row'}}>
+              <Image source={imgs.changeIcon} style={styles.imgClear} />
+              <Text style={styles.txtDemo}>Trạng thái</Text>
+            </View>
+            <Switch
+              trackColor={{false: '#767577', true: '#0db14b'}}
+              thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={changeDemoMode}
+              value={demoMode}
+            />
+          </Card>
+          <RoundedView
+            leftImage={imgs.logout}
+            title={langs.logOut}
+            onPressButton={onLogOut}
+          />
+        </View>
+      </ScrollView>
+      <ModalInforApp
+        showModal={showModal}
+        hideModal={onHideModal}
+        openUrl={openUrl}
+      />
     </>
   );
 };

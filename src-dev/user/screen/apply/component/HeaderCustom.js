@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
+import LinearGradient from 'react-native-linear-gradient';
 import { imgs, Colors } from '../../../../../utlis';
 
 import PickerCustom from './PickerCustom';
@@ -25,7 +26,7 @@ const HeaderCustom = (props?: Props) => {
   const { rightImage } = props || imgs.add;
   const { backgroundColor } = props || Colors.white;
   const { textPress } = props || false;
-  let deviceWidth = Dimensions.get('window').width;
+  const deviceWidth = Dimensions.get('window').width;
 
   const {
     leftImage,
@@ -139,11 +140,15 @@ const HeaderCustom = (props?: Props) => {
             justifyContent: 'center',
           },
           containerStyle,
-        ]}>
-        <TouchableOpacity onPress={goBack} style={[styles.button, {top:deviceWidth>374? 4:0}]}>
+        ]}
+      >
+        <TouchableOpacity
+          onPress={goBack}
+          style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
+        >
           <Icon name="chevron-left" size={32} color={Colors.black} />
         </TouchableOpacity>
-        <Text style={[styles.title, {fontSize}]} {...otherProps}>
+        <Text style={[styles.title, { fontSize }]} {...otherProps}>
           {title}
         </Text>
         {rightButton ? (
@@ -170,13 +175,15 @@ const HeaderCustom = (props?: Props) => {
       )}
       <View
         style={[
-          styles.row,
-          {marginBottom: 16, justifyContent: 'space-around'},
-        ]}>
+          styles.rowBot,
+          { marginBottom: 16, justifyContent: 'space-around' },
+        ]}
+      >
         <SelectButton
           dropdownHeight={20}
           dropdownWidth={100}
-          renderDropdown={renderDropdown}>
+          renderDropdown={renderDropdown}
+        >
           <View style={styles.filterStatus}>
             <Text>{type}</Text>
             <Text> ▼</Text>
@@ -185,11 +192,13 @@ const HeaderCustom = (props?: Props) => {
         <View
           style={[
             styles.filterDate,
-            {justifyContent: !date ? 'center' : 'space-between'},
-          ]}>
+            { justifyContent: !date ? 'center' : 'space-between' },
+          ]}
+        >
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
             <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
+              {' '}
             </Text>
             <Text>{show ? '▲' : '▼'}</Text>
           </TouchableOpacity>
@@ -208,19 +217,26 @@ const HeaderCustom = (props?: Props) => {
         onHideModal={onHideModal}
         onPress={onPressConfirmIOS}
       />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth: 0.25,
-    borderColor: Colors.gray,
+    
     backgroundColor: Colors.white,
-    paddingVertical: 10,
   },
   row: {
     paddingTop: 5,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    backgroundColor: Colors.white,
+  },
+  rowBot: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     backgroundColor: Colors.white,
@@ -230,7 +246,6 @@ const styles = StyleSheet.create({
     left: 16,
     width: 32,
     height: 32,
-    
   },
   image: {
     width: 32,
@@ -309,7 +324,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '75%',
     alignItems: 'center',
-    marginRight: 0
+    marginRight: 0,
   },
   touchableClear: {
     width: '35%',
@@ -318,7 +333,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderLeftColor: Colors.gray,
     borderLeftWidth: StyleSheet.hairlineWidth,
-    marginLeft: 4, },
+    marginLeft: 4,
+  },
   imgClear: { alignSelf: 'center', width: 12, height: 12 },
   coulumn: {
     width: 1,
@@ -341,6 +357,10 @@ const styles = StyleSheet.create({
     width: StyleSheet.hairlineWidth,
     backgroundColor: Colors.gray,
     height: 39,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });
 

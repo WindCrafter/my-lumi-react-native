@@ -309,7 +309,7 @@ function ListOT(props) {
     <>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 48 : StatusBar.currentHeight}
       />
       <HeaderCustom
         title={langs.titleListOT}
@@ -385,6 +385,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowRadius: 3.84,
+    shadowOpacity: 0.25,
 
     elevation: 1,
     borderRadius: 24,

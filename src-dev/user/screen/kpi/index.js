@@ -42,12 +42,13 @@ const Kpi = (props) => {
 
   return (
     <View style={{flex: 1}}>
-      <BarStatus />
-      <SafeAreaView />
+      <BarStatus backgroundColor={Colors.white} />
+
       <HeaderAccount
         title={'Xác nhận'}
         sub={'Kiểm tra thống kê chấm công'}
         goBack={goBack}
+        shadow
       />
       <ScrollView
         style={styles.content}
