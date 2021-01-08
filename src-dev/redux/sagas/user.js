@@ -1,8 +1,9 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
-import {URL_STAGING} from '../../../utlis/connection/url';
-import {_POST, _GET} from '../../../utlis/connection/api';
-import {_global} from '../../../utlis/global/global';
+import { URL_STAGING } from '../../../utlis/connection/url';
+import { _POST, _GET } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
 import {
   updateProfileSuccess,
   updateProfileFailed,
@@ -23,12 +24,14 @@ import {
   clearMember,
   listRoomSuccess,
   getKPISuccess,
+  getHolidaySuccess,
+  getWorkdayToday,
 } from '../actions/user';
+import { changeToOut, changeToIn } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
-import {Colors} from '../../../utlis';
+import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
-import OneSignal from 'react-native-onesignal';
 
 const URL_UPDATE_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_PROFILE}`;
 const URL_LIST_USERS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}`;
@@ -151,7 +154,7 @@ function* sagaRemoveUserIdDevice(action) {
     console.log(action);
     let userId;
     OneSignal.getPermissionSubscriptionState((status) => {
-      (userId = status.userId), console.log(1);
+      (userId = status.userId);
     });
     console.log(userId);
     const data = {
@@ -168,7 +171,7 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -278,6 +281,7 @@ function* sagaBookRoom(action) {
       location: action.payload.location,
       member: action.payload.member,
       loop: action.payload.loop,
+      member_ids: action.payload.member_ids,
     };
     console.log(data);
     const response = yield _POST(URL_BOOK_ROOM, data, token);
@@ -409,4 +413,59 @@ function* sagaConfirmKpi(action) {
 
 export function* watchConfirmKpi() {
   yield takeLatest(types.CONFIRM_KPI, sagaConfirmKpi);
+}
+
+function* sagaGetHoliday(action) {
+  try {
+    const token = action.payload.token;
+    const response = yield _GET(
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_HOLIDAY}?year=${action.payload.year}`,
+      token,
+    );
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getHolidaySuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Lấy danh sách ngày lễ thất bại!',
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchGetHoliday() {
+  yield takeLatest(types.GET_HOLIDAY, sagaGetHoliday);
+}
+
+function* sagaGetWorkdayToday(action) {
+  try {
+    const token = action.payload.token;
+    const response = yield _GET(
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
+      token,
+    );
+    console.log('GET_WORKDAY_TODAY', response);
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data && response.data && response.data.check_in) {
+      yield put(changeToOut());
+    } else if (!response.success && response.statusCode === 200 && response.data.length === 0) {
+      yield put(changeToIn());
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchGetWorkdayToday() {
+  yield takeLatest(types.GET_WORKDAY_TODAY, sagaGetWorkdayToday);
 }

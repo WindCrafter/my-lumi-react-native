@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,23 +9,23 @@ import {
   SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
-import {Colors} from '../../utlis';
-import {TabbarIcon} from '../component';
-import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
-import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
-import {connect} from 'react-redux';
-import {checkInWifi} from '../redux/actions/check';
-import {_global} from '../../utlis/global/global';
-import langs from '../../common/language';
+import { connect } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import ModalTime from '../user/screen/account/component/ModalTime';
 import {
   PERMISSIONS,
   request,
   RESULTS,
   openSettings,
 } from 'react-native-permissions';
-import {NetworkInfo} from 'react-native-network-info';
+import { NetworkInfo } from 'react-native-network-info';
+import { Colors } from '../../utlis';
+import { TabbarIcon } from '../component';
+import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
+import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
+import { checkInWifi } from '../redux/actions/check';
+import { _global } from '../../utlis/global/global';
+import langs from '../../common/language';
+import ModalTime from '../user/screen/account/component/ModalTime';
 
 function TabbarCustom({
   state,
@@ -46,16 +46,16 @@ function TabbarCustom({
     type === 'in'
       ? onCheck()
       : _global.Alert.alert({
-          title: langs.alert.checkOut,
-          message: langs.alert.endShift,
-          leftButton: {
-            text: langs.alert.yes,
-            onPress: () => onCheck(),
-          },
-          rightButton: {
-            text: langs.alert.no,
-          },
-        });
+        title: langs.alert.checkOut,
+        message: langs.alert.endShift,
+        leftButton: {
+          text: langs.alert.yes,
+          onPress: () => onCheck(),
+        },
+        rightButton: {
+          text: langs.alert.no,
+        },
+      });
   };
 
   const onCheck = async () => {
@@ -82,14 +82,12 @@ function TabbarCustom({
             rightButton: {
               text: langs.alert.ok,
               onPress: () => {
-                openSettings().catch(() =>
-                  console.warn('cannot open settings'),
-                );
+                openSettings().catch(() => console.warn('cannot open settings'),);
               },
             },
           });
         } else {
-          checkIn({type, token, ssid: result});
+          checkIn({ type, token, ssid: result });
         }
       } else {
         _global.Alert.alert({
@@ -144,7 +142,7 @@ function TabbarCustom({
           },
         });
       } else {
-        checkIn({...data, ssid: result});
+        checkIn({ ...data, ssid: result });
       }
     } else {
       _global.Alert.alert({
@@ -201,14 +199,12 @@ function TabbarCustom({
             rightButton: {
               text: langs.alert.ok,
               onPress: () => {
-                openSettings().catch(() =>
-                  console.warn('cannot open settings'),
-                );
+                openSettings().catch(() => console.warn('cannot open settings'),);
               },
             },
           });
         } else {
-          checkIn({...data, ssid: result});
+          checkIn({ ...data, ssid: result });
         }
       } else {
         _global.Alert.alert({
@@ -240,37 +236,37 @@ function TabbarCustom({
 
   return (
     <>
-      {show &&
-        (Platform.OS === 'ios' ? (
+      {show
+        && (Platform.OS === 'ios' ? (
           <ModalTime
             title="Chọn thời gian"
             showModal={show}
             hideModal={onHideModal}
             onConfirm={onConfirm}
-            picker={
+            picker={(
               <View style={styles.picker}>
                 <DateTimePicker
                   value={dateIOS}
-                  mode={'datetime'}
+                  mode="datetime"
                   display="default"
                   onChange={onChangeIOS}
                 />
               </View>
-            }
+            )}
           />
         ) : (
           <>
             <DateTimePicker
               value={new Date()}
               mode="time"
-              is24Hour={true}
+              is24Hour
               display="clock"
               onChange={onChangeTime}
             />
             <DateTimePicker
               value={new Date()}
               mode="date"
-              is24Hour={true}
+              is24Hour
               display="default"
               onChange={onChangeDate}
             />
@@ -290,7 +286,7 @@ function TabbarCustom({
           state={state}
           descriptors={descriptors}
           navigation={navigation}
-          title={'Lịch họp'}
+          title="Lịch họp"
           index={1}
           route={state.routes[1]}
           tab={1}
@@ -299,6 +295,7 @@ function TabbarCustom({
           navigation={navigation}
           onCheck={onCheckInWifi}
           demoMode={demoMode}
+          type={type}
         />
         <ButtonTabbar
           state={state}
@@ -313,7 +310,7 @@ function TabbarCustom({
           state={state}
           descriptors={descriptors}
           navigation={navigation}
-          title={'Cá nhân'}
+          title="Cá nhân"
           index={3}
           route={state.routes[3]}
           tab={3}

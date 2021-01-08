@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import HomeComponent from '../../screen/home';
-import {getListNotifys} from '../../../redux/actions/user';
+import {getListNotifys, getWorkdayToday} from '../../../redux/actions/user';
 import {getSummary} from '../../../redux/actions/authen';
 
 const mapStateToProps = (state) => ({
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getListNotifys,
   getSummary,
+  getWorkdayToday,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

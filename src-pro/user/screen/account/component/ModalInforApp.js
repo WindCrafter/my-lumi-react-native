@@ -7,20 +7,22 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../../../utlis';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Colors, imgs } from '../../../../../utlis';
+
 const ModalInforApp = (props) => {
-  const {hideModal, showModal, openUrl} = props;
+  const { hideModal, showModal, openUrl } = props;
 
   return (
     <Modal
       isVisible={showModal}
-      animationIn={'slideInUp'}
+      animationIn="slideInUp"
       animationOutTiming={500}
-      animationOut={'slideOutDown'}
+      animationOut="slideOutDown"
       onBackdropPress={hideModal}
       style={styles.modal}
-      backdropTransitionOutTiming={0}>
+      backdropTransitionOutTiming={0}
+    >
       <View style={styles.modalview}>
         {/* <Image source={imgs.logoMyLumi} style={{}}/> */}
         <ImageBackground
@@ -36,10 +38,10 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.1.0 - 22/12/2020 17:00</Text>
+        <Text style={styles.version}>V1.1.1 - 07/01/2021 08:00</Text>
         <Text style={styles.website}>Công ty cổ phần Lumi Việt Nam</Text>
         <Text style={styles.website}>
-          Số 38, Đõ Đức Dục, quận Nam Từ Liêm, Hà Nội
+          Số 38, Đỗ Đức Dục, quận Nam Từ Liêm, Hà Nội
         </Text>
         <TouchableOpacity onPress={openUrl} style={styles.URL}>
           <Text>Website: </Text>
@@ -104,13 +106,13 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginTop: 8,
   },
-  version: {color: 'grey', fontSize: 12, marginBottom: 48},
-  URL: {flexDirection: 'row', marginTop: 8},
+  version: { color: 'grey', fontSize: 12, marginBottom: 48 },
+  URL: { flexDirection: 'row', marginTop: 8 },
   website: {
     textAlign: 'center',
     paddingHorizontal: 16,
   },
-  link: {textDecorationLine: 'underline'},
+  link: { textDecorationLine: 'underline' },
   titleDescription: {
     fontWeight: '400',
     fontSize: 14,

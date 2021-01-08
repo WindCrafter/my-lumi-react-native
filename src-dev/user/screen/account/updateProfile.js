@@ -238,6 +238,7 @@ function UpdateProfile(props) {
               display="default"
               onChange={onChangeBirthday}
               locale="vi-VI"
+              maximumDate={new Date()}
             />
           )
         )}

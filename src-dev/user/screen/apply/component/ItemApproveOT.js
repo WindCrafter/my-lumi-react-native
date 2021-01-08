@@ -172,19 +172,22 @@ const styles = StyleSheet.create({
   colorCancel: {
     color: '#ff3b30',
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   marginRight: {
     marginRight: 8,
   },
   approve: {
     color: Colors.background,
-    fontWeight: '800',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   refuse: {
     width: 73,

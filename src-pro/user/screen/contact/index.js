@@ -31,7 +31,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-
 function Contact(props) {
   const {navigation, token, currentUser} = props;
   const [search, setSearch] = useState('');
@@ -95,7 +94,6 @@ function Contact(props) {
       } else {
         phone = `tel:${phoneNumber}`;
       }
-
       if (phoneNumber === '') {
         _global.Alert.alert({
           title: langs.alert.notify,
@@ -124,7 +122,7 @@ function Contact(props) {
     return (
       <ContactRow
         name={key.item.fullname}
-        leftImage={key.item.avt}
+        // leftImage={require('../../../../naruto.jpeg')}
         team={key.item.team}
         // dob={key.item.birthday}
         role={key.item.role}
@@ -144,6 +142,7 @@ function Contact(props) {
   };
   const onChangeSearch = (txt) => {
     const newData = listData.filter((item) => {
+      // console.log('----->>>>.',item.fullname)
       const itemData = getText(item.fullname);
 
       const textData = getText(txt);
@@ -155,14 +154,14 @@ function Contact(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   };
 
-  const goBack = () => {
+  const onGoBack = () => {
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
       <BarStatus />
-      <HeaderAccount title={langs.lumier} sub={langs.comunicate} />
+      <HeaderAccount goBack={onGoBack} title={langs.lumier} sub={langs.comunicate} />
       <Input
         button
         leftImage={imgs.search}

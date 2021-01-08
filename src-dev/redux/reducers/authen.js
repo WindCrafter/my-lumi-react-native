@@ -55,11 +55,10 @@ export default function authen(state = initialState, action) {
         address: action.payload.data.address,
         team_id: action.payload.data.team_id,
         staff_type: action.payload.data.staff_type,
-        team: action.payload.data.team,
-        role: action.payload.data.role,
         identity_number: action.payload.data.identity_number,
         bank_name: action.payload.data.bank_name,
         bank_account: action.payload.data.bank_name,
+        role: action.payload.data.role
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -98,8 +97,6 @@ export default function authen(state = initialState, action) {
         address: action.payload.address,
         team_id: action.payload.team_id,
         staff_type: action.payload.staff_type,
-        team: action.payload.team,
-        role: action.payload.role,
         identity_number: action.payload.identity_number,
         bank_name: action.payload.bank_name,
         bank_account: action.payload.bank_name,

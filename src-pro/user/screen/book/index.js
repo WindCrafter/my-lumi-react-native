@@ -14,6 +14,9 @@ import {
   SafeAreaView,
   FlatList,
   SectionList,
+  UIManager,
+  ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
@@ -22,21 +25,91 @@ import {Card} from 'native-base';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
-import langs from '../../../../common/language/index'
+import langs from '../../../../common/language/index';
+import {_GET} from '../../../../utlis/connection/api';
+import {URL} from '../../../../utlis/connection/url';
+import Modal from 'react-native-modal';
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const Book = (props) => {
   const {navigation, token, listRoom, listRoomBook} = props;
+  const [onScroll, setOnScroll] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [itemShow, setItemShow] = useState({});
+
+  const onShowModal = (item) => {
+    setShowModal(true);
+    setItemShow(item);
+  };
+  const onHideModal = () => {
+    setShowModal(false);
+  };
   const listArrayRoom = {};
+  // let newArray = [];
+  // listRoomBook.forEach((i) => {
+  //   if (i.loop === 1) {
+  //     let a = moment(i.date, 'DD-MM-YYYY').format();
+  //     let end = moment(a).endOf('year').format();
+
+  //     for (
+  //       let index = a;
+  //       index < end;
+  //       index = moment(index).add(1, 'week').format()
+  //     ) {
+  //       newArray.push({...i, date: moment(index).format('DD-MM-YYYY')});
+  //     }
+  //   }
+  // });
+  // newArray = newArray.concat(listRoomBook);
+  // console.log('----', newArray);
+  // newArray.forEach((i) => {
+  //   const [date, month, year] = i.date.split('-');
+  //   if (listArrayRoom[`${year}-${month}-${date}`]) {
+  //     listArrayRoom[`${year}-${month}-${date}`].push(i);
+  //   } else {
+  //     listArrayRoom[`${year}-${month}-${date}`] = [i];
+  //   }
+  // });
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      listRoom({token});
+      getData();
     });
     return () => {
       unsubscribe;
     };
   }, [navigation]);
-  let array = [];
-  listRoomBook.forEach((i) => {
+  const getData = async (dataN) => {
+    console.log('date');
+
+    const _dataN = dataN || [];
+    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_ROOM}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('_GET_LIST_OVERTIME ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+    } else {
+    }
+  };
+  const array = [];
+
+  data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
       array.push({date: i.date, data: [i]});
     } else {
@@ -53,6 +126,7 @@ const Book = (props) => {
           {/* <Text>{item.section.date}</Text>  */}
           <View style={{width: 80}} />
           <TouchableOpacity
+            onPress={() => onShowModal(item.item)}
             style={[
               styles.item,
               ,
@@ -63,22 +137,21 @@ const Book = (props) => {
               },
             ]}>
             <View style={{marginHorizontal: 16}}>
-              <Text
-                style={{
-                  fontSize: 16,
-                }}>
+              <Text style={styles.itemDurationText}>
+                {`${item.item.subject}`}
+              </Text>
+              <Text style={styles.txtTime}>
                 {`${moment(item.item.start_time, 'hh:mm').format(
                   'LT',
                 )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
               </Text>
-              <Text style={styles.itemDurationText}>
-                {`Nội dung họp: ${item.item.subject}`}
+              {/* <Text style={{fontSize: 16, marginBottom: 8}}>
+                {item.item.location}
+              </Text> */}
+              <Text>
+                {/* <Text style={styles.txtOwner}>{it√em.item.owner_name}</Text>,{' '} */}
+                {item.item.member.replace(/,/g, ', ')}
               </Text>
-              <Text style={{marginTop: 8, fontWeight: '500', fontSize: 16}}>
-                {item.item.owner_name}
-              </Text>
-              <Text>{item.item.location}</Text>
-              <Text>{item.item.member}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -96,7 +169,16 @@ const Book = (props) => {
   const buttonIcon = () => {
     return <Image source={imgs.add} style={styles.add} />;
   };
-
+  const handleLoadMore = () => {
+    getData();
+    setOnScroll(false);
+    setLoading(true);
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData();
+  };
   const ListFooterComponent = () => {
     return (
       <View style={styles.headerFooterStyle}>
@@ -107,10 +189,17 @@ const Book = (props) => {
   const ListHeaderComponent = () => {
     return <View style={{height: 24}} />;
   };
+  const renderFooterComponent = () => {
+    return loading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.gray} />
+      </View>
+    ) : null;
+  };
   const renderHeader = (section) => {
     return (
-      <View style={{justifyContent: 'center', width: 80, alignItems: 'center'}}>
-        <Text style={{fontSize: 24, fontWeight: '500'}}>
+      <View style={styles.viewHeader}>
+        <Text style={styles.textHeader}>
           {moment(section.section.date, 'DD-MM-YYYY').format('D')}
         </Text>
         <Text>
@@ -119,20 +208,28 @@ const Book = (props) => {
       </View>
     );
   };
+
   return (
     <>
       <SafeAreaView />
       <BarStatus />
       <HeaderAccount />
+      {data.length === 0 && (
+        <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
+      )}
       <SectionList
         sections={array}
-        // SectionSeparatorComponent={FlatListItemSeparator}
-        // style={{marginTop: 32}}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        // ListFooterComponent={ListFooterComponent}
         keyExtractor={(item, index) => index}
-        // ListHeaderComponent={ListHeaderComponent}
+        onMomentumScrollBegin={() => setOnScroll(true)}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
+        onEndReachedThreshold={0.5}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooterComponent}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
       <ActionButton
         buttonColor={Colors.white}
@@ -142,6 +239,50 @@ const Book = (props) => {
         renderIcon={buttonIcon}
         style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
       />
+      <Modal isVisible={showModal} onBackdropPress={onHideModal}>
+        <Card style={styles.viewCard}>
+          <Text
+            style={{
+              fontSize: 24,
+              marginBottom: 8,
+              alignSelf: 'center',
+              fontWeight: '600',
+              fontFamily: 'Quicksand-Bold',
+            }}>
+            Chi tiết
+          </Text>
+          <Text style={styles.txtContainer}>
+            <Text style={styles.detail}>Nội dung họp:</Text> {itemShow.subject}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              marginBottom: 8,
+            }}>
+            {`${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'DD',
+            )} tháng ${moment(itemShow.date, 'DD-MM-YYYY').format(
+              'MM',
+            )} ⋅ ${moment(itemShow.start_time, 'hh:mm').format(
+              'LT',
+            )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Địa điểm :</Text> {itemShow.location}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Người tạo :</Text> {itemShow.owner_name}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
+            {itemShow.content}
+          </Text>
+          <Text style={{fontSize: 16, marginBottom: 8}}>
+            <Text style={styles.detail}>Người tham gia :</Text>{' '}
+            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+          </Text>
+        </Card>
+      </Modal>
     </>
   );
 };
@@ -164,14 +305,17 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   itemDurationText: {
-    color: 'grey',
+    color: 'black',
     fontSize: 16,
-    marginTop: 4,
+    marginVertical: 8,
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   itemTitleText: {
     color: 'black',
     marginLeft: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     fontSize: 16,
   },
   itemButtonContainer: {
@@ -254,5 +398,25 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: '#606070',
   },
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
+  },
+  viewHeader: {justifyContent: 'center', width: 80, alignItems: 'center'},
+  textHeader: {fontSize: 24, fontWeight: '500'},
+  txtTime: {
+    fontSize: 14,
+    color: 'grey',
+    marginBottom: 8,
+  },
+  txtOwner: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
+  viewCard: {
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  txtContainer: {fontSize: 16, marginVertical: 8},
+  detail: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
 });
 export default Book;

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,49 +8,49 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Logo, Input, InputPassword, Button} from '../../../component';
-import Checkbox from './components/Checkbox';
-import langs from '../../../../common/language';
-import {KeyBoardScroll} from '../../../component';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 import codePush from 'react-native-code-push';
+import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../component';
+import Checkbox from './components/Checkbox';
+import langs from '../../../../common/language';
 
-let deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {loginAction, changeAutoLogin, autoLoginStatus} = props;
+  const { loginAction, changeAutoLogin, autoLoginStatus, oneSignalID } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [errMail, setErrMail] = useState('');
   const [errNew, setErrNew] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
-  const {navigation} = props;
+  const { navigation } = props;
 
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 
   useEffect(() => {}, []);
   const onRegister = () => {
-    navigation.navigate('Register');
+    navigation.navigate(langs.navigator.register);
   };
 
   const onLogin = () => {
     Keyboard.dismiss();
     if (
-      email.trim().length === 0 ||
-      !isValidEmail(email) ||
-      pass.trim().length === 0 ||
-      (pass.trim().length > 0 && pass.trim().length < 8)
+      email.trim().length === 0
+      || !isValidEmail(email)
+      || pass.trim().length === 0
+      || (pass.trim().length > 0 && pass.trim().length < 8)
     ) {
       if (email.trim().length === 0) {
-        setErrMail(langs.alert.wrongEmail2);
-      }
-      if (!isValidEmail(email)) {
         setErrMail(langs.emailInvalid);
+      }
+      if (email.trim().length > 0 && !isValidEmail(email)) {
+        setErrMail(langs.emailInvalid);
+        setErrMail(langs.alert.wrongEmail2);
       }
 
       if (pass.trim().length === 0) {
@@ -61,7 +61,7 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
-      loginAction({email, password: pass});
+      loginAction({ email, password: pass, device_token: oneSignalID });
 
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
@@ -89,9 +89,9 @@ const Login = (props) => {
     if (val === '' && (errMail !== '' || errNew !== '')) {
       setErrNew(langs.alert.invalidReNewPassword2);
     } else if (
-      val.trim().length > 0 &&
-      val.trim().length < 8 &&
-      (errMail !== '' || errNew !== '')
+      val.trim().length > 0
+      && val.trim().length < 8
+      && (errMail !== '' || errNew !== '')
     ) {
       setErrNew(langs.alert.lessReNewPassword2);
     } else {
@@ -100,7 +100,7 @@ const Login = (props) => {
   };
 
   const onPressForgot = () => {
-    navigation.navigate('Forgot Password');
+    navigation.navigate(langs.navigator.forgotPass);
   };
 
   const onChangeRememberLogin = () => {
@@ -117,13 +117,13 @@ const Login = (props) => {
               <Input
                 // leftImage={}
                 // backgroundColor={'rgba(0,0,25,0.22)'}
-                placeholder={'Email công ty'}
+                placeholder="Email công ty"
                 testID="test_Username"
                 containerStyle={[
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errMail !== '' ? 0 : 24,
+                    marginBottom: errMail !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errMail !== '' ? 1 : 0,
                   },
@@ -150,7 +150,7 @@ const Login = (props) => {
                   styles.textInput,
                   {
                     marginTop: 16,
-                    marginBottom: errNew !== '' ? 0 : 24,
+                    marginBottom: errNew !== '' ? 0 : 32,
                     borderColor: '#F32013',
                     borderWidth: errNew !== '' ? 1 : 0,
                   },
@@ -166,7 +166,7 @@ const Login = (props) => {
               ) : null}
             </View>
             <Checkbox
-              containerStyle={[styles.checkBox, {marginTop: 16}]}
+              containerStyle={[styles.checkBox, { marginTop: 16 }]}
               title={langs.rememberMe}
               checked={checked}
               onChange={onChangeRememberLogin}
@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
   checkBox: {
     marginLeft: (deviceWidth * 12.5) / 100,
   },
-  register: {color: '#178CEB', fontSize: 16},
-  bottom: {justifyContent: 'center', alignItems: 'center', marginVertical: 16},
+  register: { color: '#178CEB', fontSize: 16 },
+  bottom: { justifyContent: 'center', alignItems: 'center', marginVertical: 16 },
   keyBoardScroll: {
     justifyContent: 'center',
     // flex: 1,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   textErr: {
     fontSize: 12,
-    height: 16,
+    height: 24,
     marginTop: 8,
     color: '#F32013',
     marginLeft: 54,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -8,18 +8,18 @@ import {
   FlatList,
   ActivityIndicator,
   LayoutAnimation,
+  Dimensions,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+import moment from 'moment';
+import { Text } from 'native-base';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import ActionButton from './component/ActionButton';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
-import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
-import {_global} from '../../../../utlis/global/global';
-import {Text} from 'native-base';
-import { remove } from 'lodash';
+import { _global } from '../../../../utlis/global/global';
 
 const HistoryLate = (props) => {
   const {
@@ -35,15 +35,17 @@ const HistoryLate = (props) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [date, setDate] = useState('');
+  const deviceWidth = Dimensions.get('window').width;
+
   const goBack = () => {
     navigation.goBack();
     removeList();
   };
   useEffect(() => {
     const dataBack = {
-      token: token,
-      status: status,
-      page: page,
+      token,
+      status,
+      page,
       page_size: 10,
       reload: true,
       loading: true,
@@ -60,7 +62,7 @@ const HistoryLate = (props) => {
     navigation.navigate(langs.navigator.applyLate);
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <CardLate
         leader={false}
@@ -79,8 +81,8 @@ const HistoryLate = (props) => {
 
   const onChangeDate = (pickDay) => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
       page: 1,
       page_size: 10,
@@ -109,9 +111,9 @@ const HistoryLate = (props) => {
   };
   const onChangeStatus = (item) => {
     const data = {
-      token: token,
+      token,
       status: item,
-      date: date,
+      date,
       page: 1,
       page_size: 10,
       reload: true,
@@ -125,11 +127,11 @@ const HistoryLate = (props) => {
 
   const handleLoadMore = () => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       page: page + 1,
       page_size: 10,
-      date: date,
+      date,
       reload: false,
       loading: true,
     };
@@ -139,11 +141,11 @@ const HistoryLate = (props) => {
 
   const onRefresh = () => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       page: 1,
       page_size: 10,
-      date: date,
+      date,
       reload: true,
       refreshing: true,
     };
@@ -169,13 +171,13 @@ const HistoryLate = (props) => {
         title={langs.titleHistoryLate}
         height={60}
         goBack={goBack}
-        fontSize={24}
+        fontSize={deviceWidth > 374 ? 24 : 16}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
       />
       <View style={styles.container}>
-        {dataLateEarly.length === 0 && Array.isArray(dataLateEarly) ? (
+        {Array.isArray(dataLateEarly) && dataLateEarly.length === 0 ? (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList
@@ -207,5 +209,5 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
 });

@@ -1,36 +1,36 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
-import {imgs, Colors} from '../../../../../utlis';
-// import langs from '../../../../../common/language';
-import {SCREEN_WIDTH} from '../../../../../utlis/config/utlis';
 import LinearGradient from 'react-native-linear-gradient';
+import { imgs, Colors } from '../../../../../utlis';
+// import langs from '../../../../../common/language';
+import { SCREEN_WIDTH } from '../../../../../utlis/config/utlis';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 const day = moment().format('dddd');
-const currentDayInWeek =
-  day === 'Monday'
-    ? 'Thứ 2'
-    : day === 'Tuesday'
+const currentDayInWeek = day === 'Monday'
+  ? 'Thứ 2'
+  : day === 'Tuesday'
     ? 'Thứ 3'
     : day === 'Wednesday'
-    ? 'Thứ 4'
-    : day === 'Thursday'
-    ? 'Thứ 5'
-    : day === 'Friday'
-    ? 'Thứ 6'
-    : day === 'Saturday'
-    ? 'Thứ 7'
-    : 'Chủ Nhật';
+      ? 'Thứ 4'
+      : day === 'Thursday'
+        ? 'Thứ 5'
+        : day === 'Friday'
+          ? 'Thứ 6'
+          : day === 'Saturday'
+            ? 'Thứ 7'
+            : 'Chủ Nhật';
 
 const Header = (props) => {
-  const {pressNotify, name} = props;
+  const { pressNotify, name, numberNotifys } = props;
   return (
     <LinearGradient
       style={styles.container}
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={['#185628', '#2FAC4F']}>
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      colors={['#185628', '#2FAC4F']}
+    >
       <View style={styles.detail}>
         <View style={styles.avatar}>
           <Image
@@ -39,13 +39,77 @@ const Header = (props) => {
           />
         </View>
         <View style={styles.info}>
-          <Text style={styles.txtName}>Xin chào {name} !</Text>
+          <Text style={styles.txtName}>
+            Xin chào
+            {' '}
+            {name}
+            !
+          </Text>
           <Text style={styles.time}>
-            {currentDayInWeek}, {currrentDate}
+            {currentDayInWeek}
+            ,
+            {' '}
+            {currrentDate}
           </Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
-          <Image source={imgs.notification} />
+          <Image
+            source={imgs.notification}
+            style={{ top: numberNotifys && numberNotifys !== 0 ? 8 : 0 }}
+          />
+          {numberNotifys && numberNotifys !== 0 && numberNotifys < 100 ? (
+            <View
+              style={{
+                backgroundColor: 'red',
+                height: 18,
+                width: 18,
+                borderRadius: 10,
+                right: -12,
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: -18,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: 'white',
+                  fontWeight: '600',
+                  fontFamily: 'Quicksand-Bold',
+                  top: -2,
+                }}
+              >
+                {numberNotifys}
+              </Text>
+            </View>
+          ) : (numberNotifys && numberNotifys !== 0 && numberNotifys >= 100)
+
+            ? (
+              <View
+                style={{
+                  backgroundColor: 'red',
+                  height: 18,
+                  width: 18,
+                  borderRadius: 9,
+                  right: -12,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  top: -18,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 9,
+                    color: 'white',
+                    fontWeight: '600',
+                    fontFamily: 'Quicksand-Bold',
+                    top: -1,
+                  }}
+                >
+                  99+
+                </Text>
+              </View>
+            ) : null}
         </TouchableOpacity>
       </View>
     </LinearGradient>
@@ -61,7 +125,7 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     flex: 5,
-    marginTop:8
+    marginTop: 8,
   },
   avatar: {
     flex: 1,
@@ -81,8 +145,9 @@ const styles = StyleSheet.create({
   },
   txtName: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
     color: '#ffffff',
+    fontFamily: 'Quicksand-Bold',
   },
   time: {
     fontSize: 16,
@@ -92,8 +157,8 @@ const styles = StyleSheet.create({
   notify: {
     marginTop: 48,
     marginRight: 32,
-    height: 28,
-    width: 28,
+    height: 32,
+    width: 32,
     borderRadius: 20,
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',

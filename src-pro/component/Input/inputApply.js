@@ -72,7 +72,6 @@ export default function InputApply(props?: Props) {
   };
   const onBlur = () => {
     setIsFocus(false);
-    console.log('blur');
   };
   return (
     <Card

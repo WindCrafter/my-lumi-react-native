@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,14 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
-  Alert,
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import moment from 'moment';
-import {startCase} from 'lodash';
-import {Colors, imgs} from '../../../../utlis';
+import { Colors, imgs } from '../../../../utlis';
 import {
   InputRow,
   InputSelect,
@@ -33,12 +31,12 @@ import {
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -55,7 +53,7 @@ const Event = (props) => {
   const [title, setTitle] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('Phòng họp');
   const [select, onSelect] = useState(false);
   const [loop, setLoop] = useState('');
   const [hourStart, setHourStart] = useState(moment()._d);
@@ -63,6 +61,7 @@ const Event = (props) => {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
+
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -104,7 +103,7 @@ const Event = (props) => {
   };
 
   const onGoPickTeam = () => {
-    navigation.navigate('PickTeam');
+    navigation.navigate(langs.navigator.pickTeam);
   };
 
   const onGoBack = () => {
@@ -115,15 +114,18 @@ const Event = (props) => {
   function onChangeDescription(val) {
     setDescription(val);
   }
+
   const removeMember = (val) => {
     kickMember(val);
   };
+
   const onShowPickerStart = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeStart(true);
   };
+
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
@@ -190,7 +192,7 @@ const Event = (props) => {
     setshowModalTimeEnd(false);
     setEnd(hourEnd);
   };
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -202,7 +204,7 @@ const Event = (props) => {
                 resizeMode="cover"
               />
             </View>
-            <Text style={styles.textUser}>{item.name}</Text>
+            <Text style={styles.textUser}>{item.member_name}</Text>
           </View>
           <TouchableOpacity onPress={() => removeMember(item)}>
             <Icon
@@ -228,7 +230,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullTitle,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -236,7 +238,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullDate,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -244,7 +246,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullStartTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -252,7 +254,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullEndTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -260,7 +262,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.invalidStartTime,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -268,7 +270,7 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulLocation,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -276,34 +278,43 @@ const Event = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nulMember,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
     const name = [];
-    memberPicked.forEach((i) => name.push(i.name));
+    const member_ids = [];
+    console.log(memberPicked);
+    memberPicked.forEach((i) => {
+      i.member_name !== null ? name.push(i.member_name) : null;
+    });
+    memberPicked.forEach((i) => {
+      i.member_id !== null ? member_ids.push(i.member_id) : null;
+    });
     const data = {
       loop:
         loop === ''
           ? 0
           : loop === 'week'
-          ? 1
-          : loop === 'month'
-          ? 2
-          : loop === 'year'
-          ? 3
-          : null,
-      end_time: moment(end).format('hh:mm'),
-      start_time: moment(start).format('hh:mm'),
+            ? 1
+            : loop === 'month'
+              ? 2
+              : loop === 'year'
+                ? 3
+                : null,
+      end_time: moment(end).format('HH:mm'),
+      start_time: moment(start).format('HH:mm'),
       subject: title,
       location,
       content: description,
       member: name.toString(),
       token,
       date: moment(date).format('DD-MM-YYYY'),
+      member_ids: member_ids.toString(),
     };
     bookRoom(data);
   };
+
   return (
     <>
       <BarStatus
@@ -311,7 +322,7 @@ const Event = (props) => {
       />
       <HeaderCustom
         backgroundColor="rgba(0,0,0,0)"
-        title={langs.newEvent}
+        title="Đặt lịch phòng họp"
         goBack={onGoBack}
         rightButton
         textPress
@@ -319,7 +330,8 @@ const Event = (props) => {
       />
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <ScrollView>
           <View style={styles.header} />
           <InputRow
@@ -329,12 +341,13 @@ const Event = (props) => {
             value={title}
             onChangeText={onChangeTitle}
             refInput={refPhone}
+            detail="Tiêu đề cuộc họp"
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder="Tóm tắt lịch họp,sự kiện hoặc hoạt động"
+              placeholder={'Tóm tắt nội dung họp \n(Tuỳ chọn)'}
               maxLength={90}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -358,8 +371,8 @@ const Event = (props) => {
             detail={
               date !== ''
                 ? `${moment(date).format('DD')} tháng ${moment(date).format(
-                    'MM',
-                  )}, ${moment(date).format('YYYY')}`
+                  'MM',
+                )}, ${moment(date).format('YYYY')}`
                 : null
             }
             rightImage={imgs.roundedLeft}
@@ -380,8 +393,8 @@ const Event = (props) => {
               detail={
                 start !== ''
                   ? `Từ : ${moment(start).format('HH')} giờ ${moment(
-                      start,
-                    ).format('mm')}`
+                    start,
+                  ).format('mm')}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -401,8 +414,8 @@ const Event = (props) => {
               detail={
                 end !== ''
                   ? `Đến : ${moment(end).format('HH')} giờ ${moment(end).format(
-                      'mm',
-                    )}`
+                    'mm',
+                  )}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -427,8 +440,6 @@ const Event = (props) => {
             select={select}
             loop={loop}
             onSetWeek={onSetWeek}
-            onSetMonth={onSetMonth}
-            onSetYear={onSetYear}
           />
           <InputSelect
             width="90%"
@@ -436,7 +447,7 @@ const Event = (props) => {
             borderRadius={32}
             height={54}
             shadowColor="white"
-            title="Địa điểm"
+            title="Địa điểm : Phòng hợp"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
@@ -470,10 +481,10 @@ const Event = (props) => {
           />
 
           {memberPicked.length > 0 ? (
-            <Card style={[styles.card, {width: widthPercentageToDP(90) - 32}]}>
+            <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
               />
             </Card>
@@ -489,6 +500,10 @@ const Event = (props) => {
         show={showModalTimeStart}
         locale="en-GB"
         onHideModal={onUnshowStart}
+        minimumDate={
+          moment(new Date()).format('DD/MM/YYYY')
+            === moment(date).format('DD/MM/YYYY') && new Date()
+        }
       />
 
       <PickerCustom
@@ -499,6 +514,7 @@ const Event = (props) => {
         show={showModalTimeEnd}
         locale="en-GB"
         onHideModal={onUnshowEnd}
+        minimumDate={start || new Date()}
       />
 
       <PickerCustom
@@ -591,8 +607,9 @@ const styles = StyleSheet.create({
     height: 124,
     alignSelf: 'center',
     justifyContent: 'center',
+    alignItems: 'flex-start',
   },
-  txtDescription: {paddingHorizontal: 24, fontSize: 16},
+  txtDescription: { paddingHorizontal: 24, fontSize: 16 },
   card: {
     borderRadius: 16,
     width: '90%',
@@ -665,11 +682,11 @@ const styles = StyleSheet.create({
   color: {
     color: '#00821c',
   },
-  color2: {color: '#455997'},
+  color2: { color: '#455997' },
   tintColor: {
     tintColor: '#00821c',
   },
-  tintColor2: {tintColor: '#455997'},
+  tintColor2: { tintColor: '#455997' },
   firstButton: {
     marginVertical: 4,
     backgroundColor: Colors.white,
@@ -680,5 +697,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 4,
   },
-  viewTime: {flexDirection: 'row', justifyContent: 'center'},
+  viewTime: { flexDirection: 'row', justifyContent: 'center' },
 });

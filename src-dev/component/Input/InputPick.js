@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {Colors, imgs} from '../../../utlis';
-import {Button, Touchable} from '../../component';
+import {Button, Touchable} from '..';
 import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
@@ -152,7 +152,6 @@ export default function InputPick(props?: Props) {
               />
               <Text>Tuần</Text>
             </TouchableOpacity>
-            
           </View>
         </View>
       ) : null}
@@ -185,13 +184,14 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
   textDetail: {
     padding: 6,
     fontSize: 16,
-    color: 'black',
+    color: 'rgba(4, 4, 15, 0.45)',
+    paddingRight: 16,
   },
   viewWeek: {
     flexDirection: 'row',

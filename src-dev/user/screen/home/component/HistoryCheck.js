@@ -63,7 +63,7 @@ const HistoryCheck = (props) => {
   };
 
   const onPress = () => {
-    navigation.navigate('History');
+    navigation.navigate(langs.navigator.history);
   };
 
   return (

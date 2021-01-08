@@ -47,6 +47,7 @@ export default function InputRow(props?: Props) {
     testID,
     title,
     canedit,
+    detail,
     ...otherProps
   } = props;
   // const View = Platform.OS === 'ios' ? View : Card;
@@ -66,18 +67,18 @@ export default function InputRow(props?: Props) {
       ]}>
       <View style={styles.left}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
-        <Text style={styles.title}>{title}</Text>
       </View>
       <TextInput
         testID={testID}
         ref={refInput}
-        style={[styles.textInput,{width: width}]}
+        style={[styles.textInput, {width: width}]}
         selectionColor={'black'}
         placeholderTextColor={'gray'}
         autoCorrect={false}
         clearButtonMode="always"
-        keyboardType="email-address"
+        keyboardType="default"
         editable={canedit}
+        placeholder={detail}
         {...otherProps}
       />
     </Card>
@@ -100,11 +101,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    paddingLeft: 12,
+    paddingLeft: 8,
     fontSize: 16,
     // color: 'black',
     alignSelf: 'center',
-    textAlign: 'right',
+    textAlign: 'left',
     fontFamily: 'Quicksand-Regular',
   },
   left: {

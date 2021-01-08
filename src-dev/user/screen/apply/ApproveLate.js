@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -9,14 +9,14 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import moment from 'moment';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
-import moment from 'moment';
 import HeaderCustom from './component/HeaderCustom';
-import {_global} from '../../../../utlis/global/global';
-import {getText} from '../../../../utlis/config/utlis';
+import { _global } from '../../../../utlis/global/global';
+import { getText } from '../../../../utlis/config/utlis';
 
 const ApproveLate = (props) => {
   const {
@@ -43,9 +43,9 @@ const ApproveLate = (props) => {
   };
   useEffect(() => {
     const data = {
-      token: token,
-      status: status,
-      page: page,
+      token,
+      status,
+      page,
       page_size: 10,
       loading: true,
       reload: true,
@@ -55,10 +55,10 @@ const ApproveLate = (props) => {
     return () => setCancel(false);
   }, [dataManager]);
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <CardLate
-        leader={true}
+        leader
         status={item.status}
         type={item.type}
         reason={item.content}
@@ -91,8 +91,8 @@ const ApproveLate = (props) => {
 
   const onChangeDate = (pickDay) => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
       page: 1,
       page_size: 10,
@@ -121,8 +121,8 @@ const ApproveLate = (props) => {
   };
   const onChangeStatus = (item) => {
     const data = {
-      token: token,
-      date: date,
+      token,
+      date,
       status: item,
       page: 1,
       page_size: 10,
@@ -137,10 +137,10 @@ const ApproveLate = (props) => {
 
   const handleLoadMore = () => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       page: page + 1,
-      date: date,
+      date,
       page_size: 10,
       reload: false,
       loading: true,
@@ -159,11 +159,11 @@ const ApproveLate = (props) => {
 
   const onRefresh = () => {
     const data = {
-      token: token,
-      status: status,
+      token,
+      status,
       page_size: 10,
       page: 1,
-      date: date,
+      date,
       reload: true,
       refreshing: true,
     };
@@ -173,14 +173,13 @@ const ApproveLate = (props) => {
   };
 
   const onChangeName = (txt) => {
-    const newData =
-      dataManager.length > 0
-        ? dataManager.filter((item) => {
-            const itemData = getText(item.fullname);
-            const textData = getText(txt);
-            return itemData.indexOf(textData) > -1;
-          })
-        : dataManager;
+    const newData = dataManager.length > 0
+      ? dataManager.filter((item) => {
+        const itemData = getText(item.fullname);
+        const textData = getText(txt);
+        return itemData.indexOf(textData) > -1;
+      })
+      : dataManager;
     setFilter(newData);
     setSearch(true);
     setTxtSearch(txt);
@@ -236,5 +235,5 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
 });

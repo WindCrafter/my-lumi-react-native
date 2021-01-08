@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
-import langs from '../../../../common/language';
-import {HeaderCheck, Bottom} from '../../../component';
 import {Colors} from '../../../../utlis';
 import {imgs} from '../../../../utlis';
 
@@ -24,19 +22,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-// import {ScrollView} from 'react-native-gesture-handler';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera} from 'react-native-camera';
-import CusMarker from '../checkIn/CustomMarker';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import ModalTime from './components/ModalTime';
 
 const CheckIn = (props) => {
   const {
     navigation,
-    checkIn,
+    checkInCode,
     deviceId,
     token,
     checkInWifi,
@@ -44,129 +35,111 @@ const CheckIn = (props) => {
     type,
     changeToOut,
     changeToIn,
+    demoMode,
   } = props;
 
   const [ssidUser, setSsidUser] = useState('');
   const [bssidUser, setBssidUser] = useState('');
   const [code, setCode] = useState('');
   const [method, setMedthod] = useState('qr');
+  const [onShowModalDate, setOnShowModalDate] = useState(false);
+  const [onShowModalTime, setOnShowModalTime] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+
   const onChangeMethod = () => {
     type === 'in' ? changeToOut() : changeToIn();
   };
-  const onCheckInCode = () => {
-    const data = {
-      typeCheck: 'code',
-      deviceId: deviceId,
-      codeString: code,
-      type: type,
-      token: token,
-    };
-    checkIn(data);
-    setCode('');
-    Keyboard.dismiss();
+
+  const onHideModalDate = () => {
+    setOnShowModalDate(false);
   };
-  const initWifi = async () => {
-    try {
-      let state = await NetInfo.fetch('wifi');
-      const data = {
-        ssid: state.details.ssid,
-        bssid: state.details.bssid,
-        type: type,
-        deviceId: deviceId,
-        token: token,
-      };
-      setSsidUser(state.details.ssid);
-      setBssidUser(state.details.bssid);
-      checkInWifi(data);
-      console.log(
-        'Your current connected wifi ssidUser is ' + state.details.ssid,
-      );
-      console.log('Your current BssidUser is ' + state.details.bssid);
-    } catch (error) {
-      setSsidUser('Cannot get current ssidUser!' + error.message);
-      setBssidUser('Cannot get current BssidUser!' + error.message);
-      console.log('Cannot get current ssidUser!', {error});
-    }
+
+  const onHideModalTime = () => {
+    setOnShowModalTime(false);
   };
-  const onCheckInWifi = () => {
-    Platform.OS === 'ios' ? initWifi() : requestLocationPermission();
-  };
-  const requestLocationPermission = async () => {
-    try {
-      const granted = await request(
-        Platform.select({
-          android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-        }),
-        {
-          title: 'YÊU CẦU VỊ TRÍ',
-          message: 'Yêu cầu quyền truy cập vị trí ',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === RESULTS.GRANTED) {
-        console.log('Thanh cong');
-        initWifi();
-      } else {
-        console.log('Yêu cầu vị trí bị từ chối');
-        console.log(RESULTS.GRANTED);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+
   const onChangeCode = (value) => {
     setCode(value);
   };
 
-  const onCheckIn = (e) => {
-    const data = {
-      deviceId: deviceId,
-      codeString: e.data,
-      type: type,
-      typeCheck: 'qrCode',
-      token: token,
-    };
-    checkIn(data);
+  const onCheckInSuccess = () => {
+    navigation.goBack();
   };
+
+  const onCheckIn = () => {
+    if (demoMode) {
+      checkInCode({
+        code,
+        type,
+        date: moment(date).format('DD/MM/YYYY'),
+        time: moment(time).format('HH:mm:ss'),
+        token: token,
+      });
+    } else {
+      checkInCode({
+        code,
+        type,
+        token: token,
+        onConfirm: onCheckInSuccess,
+      });
+    }
+  };
+
   const onPressBack = () => {
     navigation.goBack();
   };
-  const scrollRef = useRef();
 
-  const PageCode = () => {
-    scrollRef.current.scrollTo({x: 2 * wp(100), y: 20, animated: true});
-    setMedthod('code');
-  };
-  const PageQr = () => {
-    scrollRef.current.scrollTo({x: 0, y: 20, animated: true});
-    setMedthod('qr');
-  };
-  const PageWifi = () => {
-    scrollRef.current.scrollTo({x: wp(100), y: 20, animated: true});
-    setMedthod('wifi');
+  const onChangeDate = (d) => {
+    setOnShowModalDate(false);
+    setDate(d);
   };
 
-  // const onPressCheck = () => {
-  //   console.log('check');
-  // };
+  const onChangeTime = (t) => {
+    setOnShowModalTime(false);
+    setTime(t);
+  };
 
   // const onBlur = () => {
   //   console.log('blur');
   //   Keyboard.dismiss();
   // };
 
+  const renderHeaderCard = () => {
+    return !demoMode ? (
+      <Text style={styles.txtTitleCard}>{`Ngày ${moment().format(
+        'DD/MM/YYYY',
+      )}`}</Text>
+    ) : (
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <TouchableOpacity onPress={() => setOnShowModalDate(true)}>
+          <Text style={styles.txtTitleCard}>{`Ngày ${moment(date).format(
+            'DD/MM/YYYY',
+          )}`}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setOnShowModalTime(true)}>
+          <Text style={styles.txtTitleCard}>{`${moment(time).format(
+            'HH:mm',
+          )}`}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerLeft} onPress={onChangeMethod}>
+        {demoMode ? (
+          <TouchableOpacity style={styles.headerLeft} onPress={onChangeMethod}>
+            <Text style={styles.titleHeader}>{`Check-${type}`}</Text>
+            <Image source={imgs.exchangeIcon} style={[styles.changeIcon]} />
+          </TouchableOpacity>
+        ) : (
           <Text style={styles.titleHeader}>{`Check-${type}`}</Text>
-          <Image source={imgs.exchangeIcon} style={[styles.changeIcon]} />
-        </TouchableOpacity>
+        )}
+
         <TouchableOpacity style={styles.cancel} onPress={onPressBack}>
           <Image source={imgs.cancel} style={[styles.iconCancel]} />
         </TouchableOpacity>
@@ -177,10 +150,14 @@ const CheckIn = (props) => {
         contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.card}>
           <View style={styles.headerCard}>
-            <Text style={styles.txtTitleCard}>Ngày 20/11/2020</Text>
+            {renderHeaderCard()}
             <View style={styles.inputCode}>
               <Image source={imgs.key} style={[styles.iconKey]} />
-              <TextInput placeholder="Nhập mã tại đây" style={styles.input} Î />
+              <TextInput
+                placeholder="Nhập mã tại đây"
+                style={styles.input}
+                onChangeText={onChangeCode}
+              />
             </View>
             <Text style={styles.note}>
               Vui lòng thiên hệ với Leader/Hr để nhận mã.
@@ -191,12 +168,32 @@ const CheckIn = (props) => {
             start={{x: 0, y: 0}}
             end={{x: 1, y: 1}}
             colors={['rgb(13, 177, 75)', 'rgb(17, 153, 142)']}>
-            <TouchableOpacity style={styles.footerCard} onPress={onPressCheck}>
+            <TouchableOpacity style={styles.footerCard} onPress={onCheckIn}>
               <Text style={styles.txtCheck}>Chấm công</Text>
             </TouchableOpacity>
           </LinearGradient>
         </View>
       </ScrollView>
+      {onShowModalDate && (
+        <ModalTime
+          show={onShowModalDate}
+          onHideModal={onHideModalDate}
+          onConfirm={onChangeDate}
+          title={'Chọn ngày'}
+          value={date}
+          typeModal={'date'}
+        />
+      )}
+      {onShowModalTime && (
+        <ModalTime
+          show={onShowModalTime}
+          onHideModal={onHideModalTime}
+          onConfirm={onChangeTime}
+          title={'Chọn giờ'}
+          value={time}
+          typeModal={'time'}
+        />
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -224,7 +221,8 @@ const styles = StyleSheet.create({
   },
   titleHeader: {
     fontSize: 24,
-    fontWeight: '700',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
     color: '#32ac4f',
     width: 120,
   },

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   Image,
@@ -7,23 +7,25 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
+import { imgs, Colors } from '../../../../../utlis';
 
 import PickerCustom from './PickerCustom';
-import {Input, SelectButton} from '../../../../component';
-import {FlatList} from 'react-native-gesture-handler';
+import { Input, SelectButton } from '../../../../component';
+// import {FlatList} from 'react-native-gesture-handler';
 
 const HeaderCustom = (props?: Props) => {
-  const {width} = props || wp(100);
-  const {height} = props || 60;
-  const {fontSize} = props || 20;
-  const {rightImage} = props || imgs.add;
-  const {backgroundColor} = props || Colors.white;
-  const {textPress} = props || false;
+  const { width } = props || wp(100);
+  const { height } = props || 60;
+  const { fontSize } = props || 20;
+  const { rightImage } = props || imgs.add;
+  const { backgroundColor } = props || Colors.white;
+  const { textPress } = props || false;
+  let deviceWidth = Dimensions.get('window').width;
 
   const {
     leftImage,
@@ -65,25 +67,23 @@ const HeaderCustom = (props?: Props) => {
   const onChangeDatetime = (event, selectedDay) => {
     if (Platform.OS === 'ios') {
       setDateChange(selectedDay);
+    } else if (event.type === 'set') {
+      setShow(false);
+      setDate(selectedDay);
+      setDateChange(selectedDay);
+      onChangeDate(selectedDay);
     } else {
-      if (event.type === 'set') {
-        setShow(false);
-        setDate(selectedDay);
-        setDateChange(selectedDay);
-        onChangeDate(selectedDay);
-      } else {
-        setShow(false);
-      }
+      setShow(false);
     }
   };
 
   const renderDropdown = (hideOverlay) => {
     return (
       <FlatList
-        style={{backgroundColor: 'white', borderRadius: 8}}
+        style={{ backgroundColor: 'white', borderRadius: 8 }}
         data={status}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
       />
     );
   };
@@ -99,12 +99,14 @@ const HeaderCustom = (props?: Props) => {
         {item.value === '0' ? null : <View style={styles.line} />}
         <TouchableOpacity
           style={styles.touchable}
-          onPress={() => onPressItem(item, hideOverlay)}>
+          onPress={() => onPressItem(item, hideOverlay)}
+        >
           <Text
             style={[
               styles.text,
-              {color: type === item.label ? Colors.background : 'black'},
-            ]}>
+              { color: type === item.label ? Colors.background : 'black' },
+            ]}
+          >
             {item.label}
           </Text>
         </TouchableOpacity>
@@ -113,16 +115,16 @@ const HeaderCustom = (props?: Props) => {
   };
 
   const onPressConfirmIOS = () => {
-    setDate(_date ? _date : new Date());
-    onChangeDate(_date ? _date : new Date());
+    setDate(_date || new Date());
+    onChangeDate(_date || new Date());
     setShow(false);
   };
 
   const status = [
-    {label: 'Tất cả', value: '0'},
-    {label: 'Đang chờ', value: '1'},
-    {label: 'Đã duyệt', value: '2'},
-    {label: 'Bị từ chối', value: '3'},
+    { label: 'Tất cả', value: '0' },
+    { label: 'Đang chờ', value: '1' },
+    { label: 'Đã duyệt', value: '2' },
+    { label: 'Bị từ chối', value: '3' },
   ];
 
   return (
@@ -138,7 +140,7 @@ const HeaderCustom = (props?: Props) => {
           },
           containerStyle,
         ]}>
-        <TouchableOpacity onPress={goBack} style={styles.button}>
+        <TouchableOpacity onPress={goBack} style={[styles.button, {top:deviceWidth>374? 4:0}]}>
           <Icon name="chevron-left" size={32} color={Colors.black} />
         </TouchableOpacity>
         <Text style={[styles.title, {fontSize}]} {...otherProps}>
@@ -162,8 +164,8 @@ const HeaderCustom = (props?: Props) => {
           onPress={onSearch}
           value={txtSearch}
           onChangeText={onChangeName}
-          autoCapitalize={'none'}
-          placeholder={'Bạn muốn tìm lumier nào?'}
+          autoCapitalize="none"
+          placeholder="Bạn muốn tìm lumier nào?"
         />
       )}
       <View
@@ -193,7 +195,6 @@ const HeaderCustom = (props?: Props) => {
           </TouchableOpacity>
           {date ? (
             <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
-              <View style={styles.column} />
               <Image source={imgs.cancel} style={styles.imgClear} />
             </TouchableOpacity>
           ) : null}
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
     left: 16,
     width: 32,
     height: 32,
-    top: 10,
+    
   },
   image: {
     width: 32,
@@ -308,14 +309,17 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '75%',
     alignItems: 'center',
+    marginRight: 0
   },
   touchableClear: {
     width: '35%',
     height: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-  },
-  imgClear: {alignSelf: 'center', width: 16, height: 16},
+    borderLeftColor: Colors.gray,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    marginLeft: 4, },
+  imgClear: { alignSelf: 'center', width: 12, height: 12 },
   coulumn: {
     width: 1,
     height: '100%',
@@ -332,6 +336,11 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#EBEBEB',
     alignSelf: 'center',
+  },
+  column: {
+    width: StyleSheet.hairlineWidth,
+    backgroundColor: Colors.gray,
+    height: 39,
   },
 });
 

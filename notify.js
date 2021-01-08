@@ -34,19 +34,94 @@ function Notify(props) {
     console.log('Notification received: ', notification);
   };
   const onOpened = (openResult, device) => {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
+    // console.log('Message: ', openResult.notification.payload.body);
+    // console.log('Data: ', openResult.notification.payload.additionalData.type);
+    // console.log('isActive: ', openResult.notification.isAppInFocus);
+    // console.log('openResult: ', openResult);
+    let Url = `${Schema}UserStack`;
     setTimeout(() => {
       console.log('openURL succcess--->');
+      if (openResult.notification.payload&&
+        openResult.notification.payload.additionalData &&
+        openResult.notification.payload.additionalData.type
+      ) {
+        if (openResult.notification.payload.additionalData.type == 1) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveOT`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/listOT`;
+          }
+        }
 
-      Linking.openURL(`${Schema}UserStack/TabbarUser/AllNotify`)
+        if (openResult.notification.payload.additionalData.type == 2) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveBreak`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/HistoryBreak`;
+          }
+        }
+
+        if (openResult.notification.payload.additionalData.type == 3) {
+          if (openResult.notification.payload.additionalData.approved == 1) {
+            Url = `${Schema}UserStack/ApproveLate`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 2
+          ) {
+            Url = `${Schema}UserStack/HistoryLate`;
+          }
+        }
+        if (openResult.notification.payload.additionalData.type == 10) {
+          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
+        }
+      }
+
+      // switch (openResult.notification.payload.additionalData.type) {
+      //   case 1:
+      //   case '1':
+      //     Url = `${Schema}UserStack/listOT`;
+      //     break;
+      //   case 2:
+      //   case '2':
+      //     Url = `${Schema}UserStack/HistoryBreak`;
+      //     break;
+      //   case 3:
+      //   case '3':
+      //     Url = `${Schema}UserStack/HistoryLate`;
+      //     break;
+      //   case 4:
+      //   case '4':
+      //     Url = `${Schema}UserStack/ApproveOT`;
+      //     break;
+      //   case 5:
+      //   case '5':
+      //     Url = `${Schema}UserStack/ApproveBreak`;
+      //     break;
+      //   case 6:
+      //   case '6':
+      //     Url = `${Schema}UserStack/ApproveLate`;
+      //     break;
+      //   // case 1:
+      //   //   Url = `${Schema}UserStack/TabbarUser/AllNotify`;
+      //   //   break;
+      //   // case 1:
+      //   //   Url = `${Schema}UserStack/TabbarUser/AllNotify`;
+      //   //   break;
+      //   default:
+      //     Url = `${Schema}UserStack/TabbarUser/Home`;
+
+      //     break;
+      // }
+      console.log('Url', Url);
+      Linking.openURL(Url)
         .then((res) => {})
         .catch((error) => {
           console.log('openURL error--->', error);
         });
-    }, 650);
+    }, 250);
   };
   function myiOSPromptCallback(permission) {}
   OneSignal.init('26be080e-5b50-4fb5-b375-0271163c8548', {

@@ -48,7 +48,7 @@ const Register = (props) => {
   const [errCode, setErrCode] = useState('');
   const [email, setEmail] = useState('');
   const onGoBack = () => {
-    navigation.navigate('Login');
+    navigation.navigate(langs.navigator.login);
   };
   const onChangeEmail = (val) => {
     setEmail(val);
@@ -181,10 +181,10 @@ const Register = (props) => {
       verifyCode.trim().length === 0
     ) {
       if (email.trim().length === 0) {
-        setErrMail(langs.alert.wrongEmail);
-      }
-      if (!isValidEmail(email)) {
         setErrMail(langs.emailInvalid);
+      }
+      if (email.trim().length > 0 && !isValidEmail(email)) {
+        setErrMail(langs.alert.wrongEmail2);
       }
       if (newPassword.trim().length === 0) {
         setErrNew(langs.alert.invalidReNewPassword2);

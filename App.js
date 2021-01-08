@@ -57,10 +57,6 @@ export default class App extends PureComponent {
 
   render() {
     const {typeServer} = this.state;
-
-    // if (loading) {
-    //   return <View />;
-    // }
     console.log('typeServer', typeServer);
     return (
       <View style={styles.container}>
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: -50,
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     width: 160,
     height: 32,
     justifyContent: 'center',
@@ -92,6 +88,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
 });

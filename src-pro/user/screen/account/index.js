@@ -13,8 +13,6 @@ import {
   Platform,
   PermissionsAndroid,
 } from 'react-native';
-import {NetworkInfo} from 'react-native-network-info';
-import {Card} from 'native-base';
 import {
   PERMISSIONS,
   request,
@@ -22,6 +20,7 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
+import codePush from 'react-native-code-push';
 import {Colors, imgs} from '../../../../utlis';
 import {BarStatus} from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
@@ -44,10 +43,10 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
+    codepush,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
-
 
   const onLogOut = () => {
     _global.Alert.alert({
@@ -88,13 +87,17 @@ const Account = (props) => {
     navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveToContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
   const onMoveToChangePass = () => {
     navigation.navigate(langs.navigator.changePass);
   };
   const openUrl = () => {
     Linking.openURL('https://lumi.vn');
+  };
+
+  const restartApp = () => {
+    codePush.restartApp();
   };
 
   const onDemo = () => {};
@@ -109,12 +112,10 @@ const Account = (props) => {
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"
-            detail="Team App"
             fontSize={16}
             onPressButton={onMoveToProfile}
             styleImg={styles.image}
             styleName={styles.name}
-            team="Team App"
           />
           <View style={styles.detail}>
             <RoundedView
@@ -137,7 +138,7 @@ const Account = (props) => {
               title={langs.kpiConfirm}
               onPressButton={gotoKpi}
             />
-            <Card style={styles.row}>
+            {/* <Card style={styles.row}>
               <View style={{flexDirection: 'row'}}>
                 <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
@@ -149,12 +150,17 @@ const Account = (props) => {
                 onValueChange={changeDemoMode}
                 value={demoMode}
               />
-            </Card>
+            </Card> */}
             <RoundedView
               leftImage={imgs.logout}
               title={langs.logOut}
               onPressButton={onLogOut}
             />
+          </View>
+          <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
+            {
+              codepush.progress === 0 ? null : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+            }
           </View>
         </ScrollView>
         <ModalInforApp

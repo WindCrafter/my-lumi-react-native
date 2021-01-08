@@ -14,6 +14,7 @@ const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
   oneSignalID: state.authen.oneSignalID,
   demoMode: state.user.demoMode,
+  codepush: state.codepush,
 });
 
 const mapDispatchToProps = {

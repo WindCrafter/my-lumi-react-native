@@ -132,7 +132,7 @@ function ApplyBreak(props) {
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: 'Vui lòng điền lí do xin nghỉ',
+        message: 'Vui lòng điền lý do xin nghỉ',
         messageColor: Colors.danger,
         leftButton: {text: langs.alert.ok},
       });
@@ -144,7 +144,7 @@ function ApplyBreak(props) {
       ? onTakeLeaveDay()
       : _global.Alert.alert({
           title: langs.alert.remind,
-          message: 'Chủ nhật không cần xin nghỉ ^^',
+          message: 'Chủ nhật không cần xin nghỉ.',
           messageColor: Colors.black,
           leftButton: {text: langs.alert.ok},
         });
@@ -165,7 +165,6 @@ function ApplyBreak(props) {
         object.push(`${month1}/${year1}`);
       }
     });
-
     const data = {
       token: token,
       content: reason,
@@ -467,6 +466,7 @@ export default ApplyBreak;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    backgroundColor: 'white',
   },
   image: {
     width: 56,

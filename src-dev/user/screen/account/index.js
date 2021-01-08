@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,6 @@ import {
   Platform,
   PermissionsAndroid,
 } from 'react-native';
-import {NetworkInfo} from 'react-native-network-info';
-import {Card} from 'native-base';
 import {
   PERMISSIONS,
   request,
@@ -22,13 +20,14 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import codePush from 'react-native-code-push';
+import { Card } from 'native-base';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import HeaderAccount from './component/HeaderAccount';
 import RoundedView from './component/RoundedView';
 import ModalInforApp from './component/ModalInforApp';
-
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
 const Account = (props) => {
@@ -44,10 +43,10 @@ const Account = (props) => {
     resetCheck,
     changeDemoMode,
     demoMode,
+    codepush,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
-
 
   const onLogOut = () => {
     _global.Alert.alert({
@@ -56,9 +55,9 @@ const Account = (props) => {
       leftButton: {
         text: langs.alert.signOut,
         onPress: () => onRemoveUserId(),
-        textStyle: {color: Colors.danger},
+        textStyle: { color: Colors.danger },
       },
-      rightButton: {text: langs.alert.cancel},
+      rightButton: { text: langs.alert.cancel },
     });
   };
 
@@ -88,13 +87,17 @@ const Account = (props) => {
     navigation.navigate(langs.navigator.updateProfile);
   };
   const onMoveToContact = () => {
-    navigation.navigate('Contact');
+    navigation.navigate(langs.navigator.contact);
   };
   const onMoveToChangePass = () => {
     navigation.navigate(langs.navigator.changePass);
   };
   const openUrl = () => {
     Linking.openURL('https://lumi.vn');
+  };
+
+  const restartApp = () => {
+    codePush.restartApp();
   };
 
   const onDemo = () => {};
@@ -109,12 +112,10 @@ const Account = (props) => {
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"
-            detail="Team App"
             fontSize={16}
             onPressButton={onMoveToProfile}
             styleImg={styles.image}
             styleName={styles.name}
-            team="Team App"
           />
           <View style={styles.detail}>
             <RoundedView
@@ -138,12 +139,12 @@ const Account = (props) => {
               onPressButton={gotoKpi}
             />
             <Card style={styles.row}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
               </View>
               <Switch
-                trackColor={{false: '#767577', true: '#0db14b'}}
+                trackColor={{ false: '#767577', true: '#0db14b' }}
                 thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={changeDemoMode}
@@ -155,6 +156,11 @@ const Account = (props) => {
               title={langs.logOut}
               onPressButton={onLogOut}
             />
+          </View>
+          <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
+            {
+              codepush.progress === 0 ? null : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+            }
           </View>
         </ScrollView>
         <ModalInforApp
@@ -190,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
   },
-  bottomDetail: {width: '90%'},
+  bottomDetail: { width: '90%' },
   cardTop: {
     width: '90%',
     alignSelf: 'center',

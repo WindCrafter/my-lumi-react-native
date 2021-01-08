@@ -9,13 +9,13 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
 import langs from '../../../../common/language';
 import {BarStatus} from '../../../component';
 import {Colors} from '../../../../utlis';
 import ItemOT from './component/ItemOT';
-import {FlatList} from 'react-native-gesture-handler';
 import ActionButton from './component/ActionButton';
 import {URL_STAGING} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
@@ -77,11 +77,11 @@ function ListOT(props) {
   };
 
   const onPressCreate = () => {
-    navigation.navigate('ApplyOT');
+    navigation.navigate(langs.navigator.applyOT);
   };
 
   const onPressConfirm = () => {
-    navigation.navigate('ApproveOT');
+    navigation.navigate(langs.navigator.approveOT);
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN) => {

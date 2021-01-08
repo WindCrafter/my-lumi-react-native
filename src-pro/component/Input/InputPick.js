@@ -152,20 +152,6 @@ export default function InputPick(props?: Props) {
               />
               <Text>Tuần</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onSetMonth} style={styles.viewWeek}>
-              <Image
-                style={styles.timeImage}
-                source={loop === 'month' ? imgs.correct : imgs.uncorrect}
-              />
-              <Text>Tháng</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onSetYear} style={styles.viewWeek}>
-              <Image
-                style={styles.timeImage}
-                source={loop === 'year' ? imgs.correct : imgs.uncorrect}
-              />
-              <Text>Năm</Text>
-            </TouchableOpacity>
           </View>
         </View>
       ) : null}
@@ -198,13 +184,14 @@ const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
   textDetail: {
     padding: 6,
     fontSize: 16,
-    color: 'black',
+    color: 'rgba(4, 4, 15, 0.45)',
+    paddingRight: 16,
   },
   viewWeek: {
     flexDirection: 'row',
@@ -220,7 +207,7 @@ const styles = StyleSheet.create({
   },
   containerWeek: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     paddingHorizontal: 16,
   },
   timeImage: {

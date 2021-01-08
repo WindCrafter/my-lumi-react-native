@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  title: {fontSize: 16, fontWeight: 'bold'},
+  title: {fontSize: 16, fontWeight: '600', fontFamily: 'Quicksand-Bold'},
   img: {width: 18, height: 18},
 });
