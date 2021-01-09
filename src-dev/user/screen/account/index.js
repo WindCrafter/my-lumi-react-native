@@ -23,8 +23,7 @@ import NetInfo from '@react-native-community/netinfo';
 import codePush from 'react-native-code-push';
 import {Card} from 'native-base';
 import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
-import HeaderAccount from './component/HeaderAccount';
+import {BarStatus, HeaderAccount} from '../../../component';
 import RoundedView from './component/RoundedView';
 import ModalInforApp from './component/ModalInforApp';
 import {_global} from '../../../../utlis/global/global';
@@ -103,9 +102,12 @@ const Account = (props) => {
   const onDemo = () => {};
   return (
     <>
-      <BarStatus height={0} />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
       <View style={styles.container}>
-        <HeaderAccount title={langs.account} sub={langs.setting} />
+        <HeaderAccount shadow title={langs.account} sub={langs.setting} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
             leftImage={require('../../../../naruto.jpeg')}

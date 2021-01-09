@@ -25,6 +25,7 @@ import Gradient from './Gradient';
 import KeyBoardScroll from './KeyBoardScroll';
 import SelectButton from './SelectButton';
 import PickerCustom from './PickerCustom';
+import HeaderAccount from './HeaderCustom/HeaderAccount'
 export {
   Input,
   InputPassword,
@@ -51,4 +52,5 @@ export {
   KeyBoardScroll,
   SelectButton,
   PickerCustom,
+  HeaderAccount,
 };

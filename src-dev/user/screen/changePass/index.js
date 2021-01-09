@@ -129,13 +129,16 @@ const ChangePass = (props) => {
       : null;
   };
   return (
-    <View style={styles.container}>
+    <>
       {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
-      <BarStatus backgroundColor="white" />
-      <SafeAreaView />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
+
       <HeaderCustom
         title={langs.navigator.changePass}
         height={60}
@@ -221,11 +224,11 @@ const ChangePass = (props) => {
             : '#827D82'
         }
       />
-    </View>
+    </>
   );
 };
 const styles = StyleSheet.create({
-  textInput: { borderRadius: 32 },
+  textInput: { borderRadius: 32, alignSelf: 'center' },
   container: { justifyContent: 'center', alignItems: 'center' },
   button: {
     marginTop: 36,
@@ -236,7 +239,8 @@ const styles = StyleSheet.create({
     height: 24,
     marginTop: 4,
     color: '#F32013',
-    marginLeft: 32,
+    alignSelf: 'center',
+    left: -24
   },
 });
 export default ChangePass;

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -7,17 +7,18 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import Header from './component/Header';
-import {Colors, imgs} from '../../../../utlis/index';
-import {BarStatus} from '../../../component';
-import HeaderAccount from '../account/component/HeaderAccount';
+import { Colors, imgs } from '../../../../utlis/index';
+import {BarStatus, HeaderAccount} from '../../../component';
 
 const Kpi = (props) => {
-  const {token, navigation, getKPI, confirmKpi, kpi} = props;
+  const { token, navigation, getKPI, confirmKpi, kpi } = props;
 
   useEffect(() => {
-    getKPI({token});
+    getKPI({ token });
   }, []);
 
   const onGoBack = () => {
@@ -26,13 +27,13 @@ const Kpi = (props) => {
 
   const onPressConfirm = () => {
     if (kpi.id) {
-      confirmKpi({id: kpi.id, token, is_confirmed: 1});
+      confirmKpi({ id: kpi.id, token, is_confirmed: 1 });
     }
   };
 
   const onPressFeedback = () => {
     if (kpi.id) {
-      confirmKpi({id: kpi.id, token, is_confirmed: 0});
+      confirmKpi({ id: kpi.id, token, is_confirmed: 0 });
     }
   };
 
@@ -41,26 +42,29 @@ const Kpi = (props) => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <BarStatus backgroundColor={Colors.white} />
-
+    <View style={{ flex: 1 }}>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
       <HeaderAccount
-        title={'Xác nhận'}
-        sub={'Kiểm tra thống kê chấm công'}
+        title="Xác nhận"
+        sub="Kiểm tra thống kê chấm công"
         goBack={goBack}
         shadow
       />
       <ScrollView
         style={styles.content}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1}}>
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View style={styles.card}>
-          <View style={[styles.row, {marginTop: 30}]}>
+          <View style={[styles.row, { marginTop: 30 }]}>
             <Image source={imgs.KPI} style={styles.img} />
             <View style={[styles.row, styles.more]}>
               <Text style={styles.text}>Xếp loại KPI</Text>
               <View style={styles.circle}>
-                <Text style={[styles.text, {color: 'green'}]}>
+                <Text style={[styles.text, { color: 'green' }]}>
                   {kpi.level || 'A'}
                 </Text>
               </View>
@@ -70,8 +74,8 @@ const Kpi = (props) => {
             <Image source={imgs.fine} style={styles.img} />
             <View style={[styles.row, styles.more]}>
               <Text style={styles.text}>Đi muộn</Text>
-              <View style={{height: 50, justifyContent: 'center'}}>
-                <Text style={[styles.text, {color: 'red'}]}>
+              <View style={{ height: 50, justifyContent: 'center' }}>
+                <Text style={[styles.text, { color: 'red' }]}>
                   {`${kpi.fined || 0} ngày`}
                 </Text>
               </View>
@@ -82,7 +86,7 @@ const Kpi = (props) => {
             <View style={[styles.row, styles.more]}>
               <Text style={styles.text}>Số ngày nghỉ</Text>
               <View style={styles.circle}>
-                <Text style={[styles.text, {color: 'blue'}]}>
+                <Text style={[styles.text, { color: 'blue' }]}>
                   {kpi.day_off || 0}
                 </Text>
               </View>
@@ -93,7 +97,7 @@ const Kpi = (props) => {
             <View style={[styles.row, styles.more]}>
               <Text style={styles.text}>Công thực tế</Text>
               <View style={styles.circle}>
-                <Text style={[styles.text, {color: 'darkblue'}]}>
+                <Text style={[styles.text, { color: 'darkblue' }]}>
                   {kpi.workdays || 24}
                 </Text>
               </View>
@@ -114,16 +118,19 @@ const Kpi = (props) => {
           <View
             style={[
               styles.row,
-              {justifyContent: 'space-around', marginTop: 50},
-            ]}>
+              { justifyContent: 'space-around', marginTop: 50 },
+            ]}
+          >
             <TouchableOpacity
-              style={[styles.button, {backgroundColor: 'black'}]}
-              onPress={onPressConfirm}>
+              style={[styles.button, { backgroundColor: 'black' }]}
+              onPress={onPressConfirm}
+            >
               <Text style={styles.textButton}>Kiến nghị</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, {backgroundColor: 'green'}]}
-              onPress={onPressFeedback}>
+              style={[styles.button, { backgroundColor: 'green' }]}
+              onPress={onPressFeedback}
+            >
               <Text style={styles.textButton}>Xác nhận</Text>
             </TouchableOpacity>
           </View>

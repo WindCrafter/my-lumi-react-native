@@ -13,18 +13,22 @@ import {
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Clipboard from '@react-native-community/clipboard';
+import LinearGradient from 'react-native-linear-gradient';
 import ContactRow from '../../../component/Input/InputContact';
-import { BarStatus, HeaderCustom, Input } from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  Input,
+  HeaderAccount,
+} from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
 
 import { _global } from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
-import HeaderAccount from '../account/component/HeaderAccount';
 import { getText } from '../../../../utlis/config/utlis';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
-import LinearGradient from 'react-native-linear-gradient';
 
 if (
   Platform.OS === 'android'
@@ -161,17 +165,17 @@ function Contact(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 24 : StatusBar.currentHeight}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
       <HeaderAccount
         goBack={onGoBack}
         title={langs.lumier}
         sub={langs.comunicate}
       />
-      <View style={{backgroundColor: 'white'}}>
+      <View style={{ backgroundColor: 'white' }}>
         <Input
           button
           leftImage={imgs.search}
@@ -188,7 +192,7 @@ function Contact(props) {
         colors={['#D5D5D5', '#F2F2F2']}
       />
       <FlatList
-        style={{paddingTop: 16}}
+        style={{ paddingTop: 16 }}
         onEndReached={!loading ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooterComponent}
@@ -205,7 +209,7 @@ function Contact(props) {
         hideModal={hideModal}
         showModal={showModal}
       />
-    </View>
+    </>
   );
 }
 
