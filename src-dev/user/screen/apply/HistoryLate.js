@@ -41,7 +41,7 @@ const HistoryLate = (props) => {
   const [data, setData] = useState([]);
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(1);
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const deviceWidth = Dimensions.get('window').width;
@@ -53,7 +53,9 @@ const HistoryLate = (props) => {
     // getData(1, '', '', []);
     const unsubscribe = navigation.addListener('focus', () => {
       getData(1, date, status, []);
+      console.log('status', status);
     });
+
     return () => {
       unsubscribe;
     };
@@ -119,7 +121,11 @@ const HistoryLate = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
-      default: 0;
+      case '4':
+        setType('Auto Cancel');
+        break;
+      default:
+        0;
     }
   };
   const onSetStatus = (onStatus) => {
@@ -167,8 +173,10 @@ const HistoryLate = (props) => {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateLate = (data2) => {
+  const onUpdateLate = (data2, rowMap) => {
     console.log(data2);
+    closeRow(rowMap, data2.item.key);
+
     navigation.navigate(langs.navigator.updateLate,
       {
         id: data2.item.id,
@@ -217,7 +225,7 @@ const HistoryLate = (props) => {
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateLate(data2) : null;
+            data2.item.status === 1 ? onUpdateLate(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -297,6 +305,7 @@ const HistoryLate = (props) => {
     _data[i] = { ...v, key: i };
   });
   console.log(_data);
+  console.log('statusstatusstatus', status);
   return (
     <>
       <BarStatus
@@ -350,7 +359,7 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
   rowBack: {
     alignItems: 'center',
     flex: 1,

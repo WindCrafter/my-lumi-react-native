@@ -39,25 +39,31 @@ const HistoryBreak = (props) => {
     listTakeLeave,
     historyTakeLeave,
     deleteTakeLeave,
+    setStatusUserBreak,
+    status_user_break
   } = props;
+
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
     // getData(1, '', '', []);
+
     const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, date, status, []);
+      console.log('inside statusstatustatusjjjjjjj', date);
+      console.log('inside statusstatustatus', status_user_break);
+      getData(1, date, status_user_break, []);
+      onSetType(status_user_break);
     });
     return () => {
       unsubscribe;
     };
-  }, [navigation]);
+  }, [navigation,status_user_break]);
   // saga
   // const getData = () => {
 
@@ -70,6 +76,7 @@ const HistoryBreak = (props) => {
   //   listTakeLeave(dataLeave);
   // };
   const getData = async (pageNumber, dateN, statusN, dataN) => {
+    console.log('statusNstatusNstatusN', statusN);
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
@@ -90,11 +97,12 @@ const HistoryBreak = (props) => {
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date, status_user_break, data);
     setOnScroll(false);
     setLoading(true);
   };
   const onSetType = (item) => {
+    console.log('typeheader', item);
     switch (item) {
       case '0':
         setType('Tất cả');
@@ -107,6 +115,9 @@ const HistoryBreak = (props) => {
         break;
       case '3':
         setType('Bị từ chối');
+        break;
+      case '4':
+        setType('Auto Cancel');
         break;
       default: 0;
     }
@@ -122,7 +133,7 @@ const HistoryBreak = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date, status_user_break, []);
   };
 
   const goBack = () => {
@@ -137,17 +148,15 @@ const HistoryBreak = (props) => {
     navigation.navigate(langs.navigator.approveBreak);
   };
 
-  const onSetStatus = (onStatus) => {
-    setStatus(onStatus);
-  };
-
   const onChangeStatus = (item) => {
-    setStatus(item);
+    console.log('here');
+    console.log('here', item);
+    setStatusUserBreak(item);
+    console.log(item);
     setData([]);
     setPage(1);
     getData(1, date, item, []);
     onSetType(item);
-    onSetStatus(item);
   };
   // SAGA
   // const onChangeStatus = (item) => {
@@ -185,7 +194,12 @@ const HistoryBreak = (props) => {
     setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      status_user_break,
+      [],
+    );
   };
 
   const renderItem = ({ item, index }) => {
@@ -411,7 +425,7 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
   backTextWhite: {
     color: '#FFF',
   },

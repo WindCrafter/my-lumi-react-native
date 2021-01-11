@@ -20,6 +20,12 @@ const initialState = {
   listRoomBook: [],
   kpi: {},
   holiday: [],
+  status_ad_late: 0,
+  status_ad_break: 0,
+  status_ad_ot: 0,
+  status_user_late: 0,
+  status_user_break: 0,
+  status_user_ot: 0,
 };
 
 export default function user(state = initialState, action) {
@@ -115,6 +121,36 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         holiday: action.payload,
+      };
+    case types.SET_STATUS_AD_LATE:
+      return {
+        ...state,
+        status_ad_late: action.payload,
+      };
+    case types.SET_STATUS_USER_LATE:
+      return {
+        ...state,
+        status_user_late: action.payload,
+      };
+    case types.SET_STATUS_AD_BREAK:
+      return {
+        ...state,
+        status_ad_break: action.payload,
+      };
+    case types.SET_STATUS_USER_BREAK:
+      return {
+        ...state,
+        status_user_break: action.payload,
+      };
+    case types.SET_STATUS_AD_OT:
+      return {
+        ...state,
+        status_ad_ot: action.payload,
+      };
+    case types.SET_STATUS_USER_OT:
+      return {
+        ...state,
+        status_user_ot: action.payload,
       };
     default:
       return state;

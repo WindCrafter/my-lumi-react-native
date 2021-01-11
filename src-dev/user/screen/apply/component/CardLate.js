@@ -1,9 +1,9 @@
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
-import {Colors, imgs} from '../../../../../utlis';
+import { Colors, imgs } from '../../../../../utlis';
 
 const CardLate = (props) => {
   const {
@@ -16,6 +16,7 @@ const CardLate = (props) => {
     day,
     time,
     reason,
+    is_updated
   } = props;
   return (
     <Card style={styles.container}>
@@ -33,7 +34,11 @@ const CardLate = (props) => {
         <View style={styles.row}>
           {leader ? (
             <View style={styles.viewName}>
-              <Text style={styles.name}> {name} </Text>
+              <Text style={styles.name}>
+                {' '}
+                {name}
+                {' '}
+              </Text>
             </View>
           ) : (
             <View style={styles.viewName}>
@@ -42,8 +47,8 @@ const CardLate = (props) => {
                   status === 1
                     ? imgs.roundedInfor
                     : status === 2
-                    ? imgs.tick
-                    : imgs.cancel
+                      ? imgs.tick
+                      : imgs.cancel
                 }
                 style={[
                   styles.imgs,
@@ -52,8 +57,8 @@ const CardLate = (props) => {
                       status === 1
                         ? Colors.waiting
                         : status === 2
-                        ? Colors.background
-                        : Colors.danger,
+                          ? Colors.background
+                          : Colors.danger,
                   },
                 ]}
               />
@@ -65,21 +70,26 @@ const CardLate = (props) => {
                       status === 1
                         ? Colors.waiting
                         : status === 2
-                        ? Colors.background
-                        : Colors.danger,
+                          ? Colors.background
+                          : Colors.danger,
                   },
-                ]}>
+                ]}
+              >
                 {status === 1
                   ? langs.waiting
                   : status === 2
-                  ? langs.approve
-                  : langs.denied}
+                    ? langs.approve
+                    : langs.denied}
               </Text>
             </View>
           )}
           <View style={styles.viewDay}>
             <Image source={imgs.startTime} style={styles.clock} />
-            <Text style={styles.time}>{time} phút</Text>
+            <Text style={styles.time}>
+              {time}
+              {' '}
+              phút
+            </Text>
           </View>
         </View>
       </View>
@@ -91,19 +101,47 @@ const CardLate = (props) => {
         <>
           <View style={styles.line} />
           {status === 1 ? (
-            <View style={styles.viewLeader}>
-              <View style={styles.viewButton}>
-                <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
-                  <Text style={styles.txtButton}>{langs.deny}</Text>
-                </TouchableOpacity>
+            <View>
+              <View style={[styles.viewLeader, { paddingVertical: is_updated ? 6 : 12 }]}>
+                <View style={styles.viewButton}>
+                  <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
+                    <Text style={[styles.txtButton, { color: Colors.danger }]}>
+                      {langs.deny}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.viewButton}>
+                  <TouchableOpacity
+                    style={styles.buttonAccept}
+                    onPress={onAccept}
+                  >
+                    <Text
+                      style={[
+                        styles.txtButton,
+                        {
+                          color: Colors.background,
+                          fontFamily: 'Quicksand-Bold',
+                          fontWeight: '600',
+                        },
+                      ]}
+                    >
+                      {langs.confirm}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.viewButton}>
-                <TouchableOpacity
-                  style={styles.buttonAccept}
-                  onPress={onAccept}>
-                  <Text style={styles.txtButton}>{langs.confirm}</Text>
-                </TouchableOpacity>
-              </View>
+              {is_updated ? (
+                <Text
+                  style={{
+                    paddingBottom: 4,
+                    paddingHorizontal: 24,
+                    color: Colors.itemInActive,
+                    fontSize: 12
+                  }}
+                >
+                  * Đơn mới cập nhật.
+                </Text>
+              ) : null}
             </View>
           ) : (
             <View style={styles.viewApproved}>
@@ -111,14 +149,15 @@ const CardLate = (props) => {
                 source={status === 2 ? imgs.tick : imgs.cancel}
                 style={[
                   styles.clock,
-                  {tintColor: status === 2 ? Colors.background : Colors.danger},
+                  { tintColor: status === 2 ? Colors.background : Colors.danger },
                 ]}
               />
               <Text
                 style={[
                   styles.time,
-                  {color: status === 2 ? Colors.background : Colors.danger},
-                ]}>
+                  { color: status === 2 ? Colors.background : Colors.danger },
+                ]}
+              >
                 {status === 2 ? langs.approve : langs.deny}
               </Text>
             </View>
@@ -218,33 +257,55 @@ const styles = StyleSheet.create({
     marginTop: -8,
   },
   viewLeader: {
-    paddingVertical: 8,
+
     flexDirection: 'row',
+
   },
   viewButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   buttonDeny: {
-    borderRadius: 16,
+    borderRadius: 8,
     paddingVertical: 8,
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.danger,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   buttonAccept: {
-    borderRadius: 16,
+    borderRadius: 8,
     paddingVertical: 8,
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   txtButton: {
     color: Colors.white,
-    fontWeight: '600',
+
+    fontSize: 16,
+
   },
   viewApproved: {
     flexDirection: 'row',

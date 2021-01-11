@@ -191,13 +191,13 @@ function ApplyLate(props) {
     <View style={styles.container}>
       <BarStatus
         backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+        height={0}
       />
       <HeaderCustom
         title={'Đơn xin đi muộn'}
-        height={60}
+        height={44}
         goBack={goBack}
-        fontSize={24}
+        fontSize={20}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    marginTop: 150,
+    
   },
   bottom: {
     position: 'absolute',

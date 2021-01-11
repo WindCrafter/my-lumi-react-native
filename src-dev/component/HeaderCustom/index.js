@@ -20,6 +20,7 @@ HeaderCustom.defaultProps = {
   rightImage: imgs.add,
   backgroundColor: Colors.white,
   textPress: false,
+  size: 26
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -36,6 +37,7 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
+    size,
     ...otherProps
   } = props;
 
@@ -54,7 +56,7 @@ export default function HeaderCustom(props?: Props) {
       <View style={styles.viewRow}>
         <TouchableOpacity onPress={goBack} style={styles.button}>
           {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
-          <Icon name="chevron-left" size={32} color={Colors.black} />
+          <Icon name="chevron-left" size={size} color={Colors.black} />
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
           <Text style={[styles.title, { fontSize }]} {...otherProps}>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  button: { width: '15%', justifyContent: 'flex-start' },
+  button: {width: '15%', justifyContent: 'flex-start'},
   image: {
     width: 32,
     height: 32,
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontFamily: 'Quicksand-Bold',
   },
-  right: { width: '15%' },
+  right: {width: '15%'},
   img: {
     width: 20,
     height: 20,
@@ -120,10 +122,11 @@ const styles = StyleSheet.create({
   viewMiddle: {
     flex: 1,
     width: '70%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   gradient: {
-    width: wp(100), height: 4
+    width: wp(100),
+    height: 4,
   },
 });

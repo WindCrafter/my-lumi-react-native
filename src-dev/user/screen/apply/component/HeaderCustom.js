@@ -126,6 +126,7 @@ const HeaderCustom = (props?: Props) => {
     { label: 'Đang chờ', value: '1' },
     { label: 'Đã duyệt', value: '2' },
     { label: 'Bị từ chối', value: '3' },
+    { label: 'Auto Cancel', value: '4' },
   ];
 
   return (
@@ -227,7 +228,7 @@ const HeaderCustom = (props?: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    
+
     backgroundColor: Colors.white,
   },
   row: {

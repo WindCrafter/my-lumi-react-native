@@ -39,6 +39,7 @@ function ApproveLate(props) {
 
   useEffect(() => {
     getData(page, filter.date, filter.status, [], filter.name);
+    
   }, []);
 
   const goBack = () => {
@@ -58,7 +59,8 @@ function ApproveLate(props) {
       case '3':
         setType('Bị từ chối');
         break;
-      default: console.log(item);
+      default:
+        console.log(item);
     }
   };
   const renderItem = ({ item, index }) => {
@@ -74,6 +76,7 @@ function ApproveLate(props) {
         name={item.fullname}
         onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item)}
+        is_updated={item.is_updated}
       />
     );
   };
@@ -88,10 +91,51 @@ function ApproveLate(props) {
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)));
+        setData(
+          data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)),
+        );
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
+    } else if (
+      !response.success
+      && response.statusCode === 600
+      && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      setData(
+        data.map((i) => (i.id === item.id
+          ? {
+            ...item,
+            date: response.data.date,
+            time: response.data.time,
+            content: response.data.content,
+            is_updated: true
+
+          }
+          : i),),
+      );
+    } else if (
+      !response.success
+             && response.statusCode === 601
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      console.log('data,data', data);
+      const newData = [...data];
+      const prevIndex = data.findIndex((check) => check.id === item.id);
+      newData.splice(prevIndex, 1);
+      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -117,6 +161,28 @@ function ApproveLate(props) {
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
+    } else if (
+      !response.success
+             && response.statusCode === 600
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+    } else if (
+      !response.success
+             && response.statusCode === 601
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -144,7 +210,7 @@ function ApproveLate(props) {
     setRefresh(false);
     setLoading(false);
     setOnScroll(false);
-    console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
+    console.log('_GET_LIST_LATE_EARLY ===========>', response);
     if (
       response.success
       && response.statusCode === 200
@@ -200,7 +266,8 @@ function ApproveLate(props) {
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
   };
-
+  console.log(data);
+  console.log(filter.status);
   return (
     <>
       <BarStatus
@@ -208,7 +275,7 @@ function ApproveLate(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={langs.titleApproveOT}
+        title={langs.titleApproveLate}
         height={40}
         goBack={goBack}
         fontSize={24}
@@ -246,7 +313,7 @@ export default ApproveLate;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-    marginVertical: 16,
+
   },
   noData: {
     fontSize: 16,
