@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable default-case */
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -12,17 +13,17 @@ import {
   RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Card} from 'native-base';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
 import moment from 'moment';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
-import {_GET, _POST} from '../../../../utlis/connection/api';
-import {_global} from '../../../../utlis/global/global';
-import {URL_STAGING} from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
+import { _global } from '../../../../utlis/global/global';
+import { URL_STAGING } from '../../../../utlis/connection/url';
 import CardBreak from './component/CardBreak';
 
 const ApproveBreak = (props) => {
@@ -36,7 +37,7 @@ const ApproveBreak = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
+  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
   const [type, setType] = useState('Đang chờ');
   const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
@@ -87,19 +88,18 @@ const ApproveBreak = (props) => {
     setLoading(false);
     setOnScroll(false);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
-      
-    } 
+    }
   };
   const handleLoadMore = () => {
     setLoading(true);
-        setOnScroll(false);
+    setOnScroll(false);
 
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
@@ -134,7 +134,7 @@ const ApproveBreak = (props) => {
     );
   };
   const onChangeName = (item) => {
-    setFilter({...filter, name: item});
+    setFilter({ ...filter, name: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
@@ -153,7 +153,7 @@ const ApproveBreak = (props) => {
   //   onSetType(item);
   // };
   const onChangeStatus = (item) => {
-    setFilter({...filter, status: item});
+    setFilter({ ...filter, status: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
@@ -179,11 +179,9 @@ const ApproveBreak = (props) => {
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) =>
-            i._id === response.data._id
-              ? {...i, status: response.data.status}
-              : i,
-          ),
+          data.map((i) => (i._id === response.data._id
+            ? { ...i, status: response.data.status }
+            : i),),
         );
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
@@ -194,14 +192,14 @@ const ApproveBreak = (props) => {
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
   };
   const onRefresh = () => {
     setRefresh(true);
-        setOnScroll(false);
+    setOnScroll(false);
 
     getData(1, filter.date, filter.status, [], filter.name);
   };
@@ -217,11 +215,9 @@ const ApproveBreak = (props) => {
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) =>
-            i._id === response.data._id
-              ? {...i, status: response.data.status}
-              : i,
-          ),
+          data.map((i) => (i._id === response.data._id
+            ? { ...i, status: response.data.status }
+            : i),),
         );
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
@@ -232,16 +228,14 @@ const ApproveBreak = (props) => {
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
   };
 
-  const renderItem = ({item, index}) => {
-    const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-    );
+  const renderItem = ({ item, index }) => {
+    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),);
     return (
       <CardBreakLeader
         name={item.fullname}
@@ -255,12 +249,12 @@ const ApproveBreak = (props) => {
           item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'
             : item.date.length === 1 && item.morning === 0
-            ? 'Một ngày'
-            : item.date.length === 1 && item.morning === 1
-            ? 'Buổi sáng'
-            : item.date.length === 1 && item.morning === 2
-            ? 'Buổi chiều'
-            : 'Đơn thiếu '
+              ? 'Một ngày'
+              : item.date.length === 1 && item.morning === 1
+                ? 'Buổi sáng'
+                : item.date.length === 1 && item.morning === 2
+                  ? 'Buổi chiều'
+                  : 'Đơn thiếu '
         }
       />
     );
@@ -268,15 +262,8 @@ const ApproveBreak = (props) => {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={langs.titleApproveBreak}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
+        header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
@@ -284,7 +271,7 @@ const ApproveBreak = (props) => {
         CONFIRM_DENY_TAKE_LEAVE
         search
       />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
@@ -314,5 +301,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
   },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
 });

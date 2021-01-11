@@ -11,6 +11,7 @@ const mapStateToProps = (state) => ({
   timeOut: state.check.timeCheckOut,
   token: state.authen.token,
   summary: state.authen.summary,
+  role: state.authen.role,
 });
 
 const mapDispatchToProps = {

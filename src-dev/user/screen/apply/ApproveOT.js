@@ -218,15 +218,8 @@ function ApproveOT(props) {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={langs.titleApproveOT}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
+        header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
