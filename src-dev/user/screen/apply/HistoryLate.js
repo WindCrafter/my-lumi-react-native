@@ -344,7 +344,6 @@ const HistoryLate = (props) => {
           swipeToOpenPercent={20}
         />
       </View>
-      <ActionButton onApprove={onPressCreate} onApply={onApplyLate} />
     </>
   );
 };

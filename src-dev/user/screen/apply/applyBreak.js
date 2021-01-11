@@ -30,6 +30,7 @@ import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
 import { _global } from '../../../../utlis/global/global';
+import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -189,6 +190,9 @@ function ApplyBreak(props) {
   const goBack = () => {
     navigation.goBack();
   };
+  const onApplyBreak =() => {
+    navigation.navigate(langs.navigator.historyBreak)
+  };
   const onUnshow = () => {
     Platform.OS === 'ios'
       ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
@@ -304,10 +308,9 @@ function ApplyBreak(props) {
         fontSize={24}
       />
       <ScrollView
-        style={{ backgroundColor: '#f2f2f2' }}
+        style={{backgroundColor: '#f2f2f2'}}
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-      >
+        keyboardDismissMode="on-drag">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -334,10 +337,7 @@ function ApplyBreak(props) {
           />
           {!reason && showModal ? (
             <Card style={styles.card}>
-              <Suggest
-                detail="Bị ốm."
-                onPress={() => onSetReason('Bị ốm.')}
-              />
+              <Suggest detail="Bị ốm." onPress={() => onSetReason('Bị ốm.')} />
               <Suggest
                 detail="Đi công tác."
                 onPress={() => onSetReason('Đi công tác.')}
@@ -375,7 +375,7 @@ function ApplyBreak(props) {
               />
             </View>
             {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -386,8 +386,7 @@ function ApplyBreak(props) {
                       flexDirection: 'row',
                     },
                   ]}
-                  onPress={onSetTypeShift}
-                >
+                  onPress={onSetTypeShift}>
                   <Image source={imgs.startTime} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>{typeShift}</Text>
@@ -399,8 +398,7 @@ function ApplyBreak(props) {
                       backgroundColor: Colors.white,
                     },
                   ]}
-                  onPress={() => onShow('shift')}
-                >
+                  onPress={() => onShow('shift')}>
                   <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>
@@ -451,6 +449,7 @@ function ApplyBreak(props) {
             minimumDate={new Date()}
           />
         ) : null}
+        <ActionButton onApply={onApplyBreak} />
 
         <Button
           title="Hoàn thành "

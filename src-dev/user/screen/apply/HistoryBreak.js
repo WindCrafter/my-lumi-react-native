@@ -36,9 +36,6 @@ const HistoryBreak = (props) => {
   const {
     navigation,
     token,
-    listTakeLeave,
-    historyTakeLeave,
-    deleteTakeLeave,
     setStatusUserBreak,
     status_user_break
   } = props;
@@ -417,7 +414,6 @@ const HistoryBreak = (props) => {
           // swipeGestureBegan={onSwipeGestureBegan}
         />
       </View>
-      <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
     </>
   );
 };
