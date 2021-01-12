@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Image,
   Platform,
@@ -12,8 +12,9 @@ import {
   Text,
   RefreshControl,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
@@ -22,7 +23,8 @@ import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import ActionButton from './component/ActionButton';
-import HeaderCustom from './component/HeaderCustom';
+import FilterTop from './component/FilterTop';
+import UpdateLate2 from './updateLate2';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -35,31 +37,52 @@ const HistoryLate = (props) => {
     dataLateEarly,
     removeList,
     refreshing,
+    status_user_late,
+    setStatusUserLate,
+    initialData,
+    
   } = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
-  const [type, setType] = useState('Tất cả');
+  const [data, setData] = useState(initialData);
+  useEffect(() => {
+    setData(initialData);
+    setDate('');
+    console.log('onmei');
+  }, [initialData]);
+
+  let initialType;
+  switch (status_user_late) {
+    case '0':
+      initialType = ('Tất cả');
+      break;
+    case '1':
+      initialType = ('Đang chờ');
+      break;
+    case '2':
+      initialType = ('Đã duyệt');
+      break;
+    case '3':
+      initialType = ('Bị từ chối');
+      break;
+    case '4':
+      initialType = ('Auto Cancel');
+      break;
+    default:
+      0;
+  }
+  const [type, setType] = useState(initialType || 'Tất cả');
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState(1);
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [route, setRoute] = useState([]);
   const deviceWidth = Dimensions.get('window').width;
-
+  const step = useRef();
   const goBack = () => {
     navigation.goBack();
   };
-  useEffect(() => {
-    // getData(1, '', '', []);
-    const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, date, status, []);
-      console.log('status', status);
-    });
 
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
   const getData = async (pageNumber, dateN, statusN, dataN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
@@ -105,7 +128,7 @@ const HistoryLate = (props) => {
     setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status_user_late, []);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -129,10 +152,10 @@ const HistoryLate = (props) => {
     }
   };
   const onSetStatus = (onStatus) => {
-    setStatus(onStatus);
+    setStatusUserLate(onStatus);
   };
   const onChangeStatus = (item) => {
-    setStatus(item);
+    setStatusUserLate(item);
     setData([]);
     setPage(1);
     getData(1, date, item, []);
@@ -141,7 +164,7 @@ const HistoryLate = (props) => {
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date, status_user_late, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -149,7 +172,7 @@ const HistoryLate = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date, status_user_late, []);
   };
 
   const renderFooterComponent = () => {
@@ -160,13 +183,13 @@ const HistoryLate = (props) => {
     ) : null;
   };
   const closeRow = (rowMap, rowKey) => {
-    console.log(rowKey);
+    // console.log(rowKey);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
   const deleteRow = (rowMap, rowKey) => {
-    console.log(rowMap, rowKey);
+    // console.log(rowMap, rowKey);
     closeRow(rowMap, rowKey);
     const newData = [...data];
     const prevIndex = _data.findIndex((item) => item.key === rowKey);
@@ -174,18 +197,18 @@ const HistoryLate = (props) => {
     setData(newData);
   };
   const onUpdateLate = (data2, rowMap) => {
-    console.log(data2);
+    // console.log(data2);
     closeRow(rowMap, data2.item.key);
 
-    navigation.navigate(langs.navigator.updateLate,
-      {
-        id: data2.item.id,
-        date: data2.item.date,
-        typeRoute: data2.item.type,
-        timeRoute: data2.item.time,
-        content: data2.item.content,
-        statusRoute: data2.item.status,
-      });
+    navigation.navigate(langs.navigator.updateLate, {
+      id: data2.item.id,
+      date: data2.item.date,
+      typeRoute: data2.item.type,
+      timeRoute: data2.item.time,
+      content: data2.item.content,
+      statusRoute: data2.item.status,
+
+    });
   };
   const onDeleteLate = async (rowMap, data2) => {
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_LATE_EARLY}`;
@@ -301,49 +324,64 @@ const HistoryLate = (props) => {
     );
   };
   const _data = [];
-  data.map((v, i) => {
+  data && data.map((v, i) => {
     _data[i] = { ...v, key: i };
   });
-  console.log(_data);
-  console.log('statusstatusstatus', status);
+  // console.log(data);
+  console.log('statusstatusstatus', status_user_late);
+  const handleScroll = (event) => {
+    if (event.nativeEvent.contentOffset.x > 0) {
+      setEdit(true);
+    } else setEdit(false);
+  };
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title={langs.titleHistoryLate}
-        height={60}
-        goBack={goBack}
-        fontSize={deviceWidth > 374 ? 24 : 16}
-        onChangeStatus={onChangeStatus}
-        onChangeDate={onChangeDate}
-        type={type}
-      />
-      <View style={styles.container}>
-        {Array.isArray(data) && data.length === 0 && (
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        scrollEnabled={edit}
+        ref={step}
+        onMomentumScrollEnd={handleScroll}
+      >
+        <View style={{ width: wp(100),backgroundColor:"#F0F0F0" }}>
+          <FilterTop
+            title={langs.titleHistoryBreak}
+            goBack={goBack}
+            fontSize={24}
+            onChangeStatus={onChangeStatus}
+            onChangeDate={onChangeDate}
+            type={type}
+            backgroundColor={Colors.white}
+          />
+
+          {Array.isArray(data) && data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
-        )}
-        <SwipeListView
-          data={_data}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-          onMomentumScrollBegin={() => setOnScroll(true)}
-          onEndReached={!loading && onScroll ? handleLoadMore : null}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={renderFooterComponent}
-          refreshControl={
-            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-          }
-          renderHiddenItem={renderHiddenItem}
-          leftOpenValue={75}
-          rightOpenValue={-150}
-          disableRightSwipe
-          swipeToOpenPercent={20}
-        />
-      </View>
+          )}
+
+          <SwipeListView
+            data={_data}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+            onMomentumScrollBegin={() => setOnScroll(true)}
+            onEndReached={!loading && onScroll ? handleLoadMore : null}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooterComponent}
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={75}
+            rightOpenValue={-150}
+            disableRightSwipe
+            swipeToOpenPercent={20}
+          />
+        </View>
+        <UpdateLate2 route={route} token={token} />
+      </ScrollView>
     </>
   );
 };

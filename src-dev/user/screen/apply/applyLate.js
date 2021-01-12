@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,12 +16,15 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import {
   heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
+import HistoryLate from './HistoryLate';
+import ApplyLate2 from './applyLate2';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -30,14 +33,12 @@ import {
   Button,
   InputSelect,
   SelectButton,
+  ScrollableTabBarCustom,
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
-
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import { imgs, Colors } from '../../../../utlis';
-import ApplyIcon from './component/ApplyIcon';
-import Suggest from './component/Suggest';
-import PickerCustom from './component/PickerCustom';
-import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -47,297 +48,115 @@ if (
 }
 
 function ApplyLate(props) {
-  const { navigation, setLateEarly, token, assign } = props;
-  const [reason, setReason] = useState('');
-  const [show, setShow] = useState(false);
-  const [time, setTime] = useState(15);
-  const [isVisible, setVisible] = useState(false);
-  const [type, setType] = useState('late');
-  const [status, setStatus] = useState(1);
-  const onSetVisible = () => {
-    setVisible(!isVisible);
-  };
-  const onClose = () => {
-    setVisible(false);
-  };
+  const {
+    navigation,
+    setLateEarly,
+    token,
+    assign,
+    setStatusUserLate,
+    status_user_late,
+  } = props;
+  const [initialData, setInitialData] = useState([]);
+  let response = {};
+
+  useEffect(() => {
+    // getData(1, '', '', []);
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      const getData = async (pageNumber, dateN, statusN, dataN) => {
+        const _date = dateN || '';
+        const _status = statusN || 0;
+        const _dataN = dataN || [];
+        const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+        response = await _GET(apiURL, token, false);
+        console.log('_GET_LIST_LATE_EARLY ===========>', response);
+
+        if (
+          response.success
+          && response.statusCode === 200
+          && response.data
+          && response.data.length > 0
+        ) {
+          // console.log('heyyyy');
+          setInitialData(response.data);
+        }
+      };
+      getData(1, null, status_user_late, []);
+      console.log('statusstatussta redux', status_user_late);
+      // console.log('statusstatussta pppp', response.data);
+      // console.log('statusstatussta pppp', hey);
+    });
+    setInitialData();
+
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
+
   const goBack = () => {
     navigation.goBack();
   };
-  const [showModal, setShowModal] = useState(false);
-
-  const onChangeTime = (value) => {
-    setTime(value);
-  };
-  const onComplete = () => {
-    onsetLateEarly();
-  };
-  const onChangeDay = (event, selectedDay) => {
-    const currentDay = selectedDay || day;
-    setShowModal(Platform.OS === 'ios');
-    setDay(currentDay);
-  };
-  const onChangeReason = (val) => {
-    setReason(val);
-    setShow(!show);
-  };
-
-  const onSetReason = (val) => {
-    setReason(val);
-    unFocus();
-  };
-  const [day, setDay] = useState(new Date());
-  const [mode, setMode] = useState('');
-  const onUnshow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowModal(false);
-    setMode('');
-  };
-  const onShowPicker = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setShowModal(true);
-    setMode(m);
-  };
-  const onsetLateEarly = () => {
-    const field = type === 'late' ? 'đi muộn' : 'về sớm';
-    if (!reason) {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: `Vui lòng điền lí do ${field}`,
-        messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      return;
-    }
-    const data = {
-      type: type === 'late' ? 1 : 2,
-      time,
-      date: moment(day).format('DD/MM/YYYY'),
-      token,
-      content: reason,
-      status,
-    };
-
-    setLateEarly(data);
-  };
-  const onFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-    setShow(true);
-  };
-  const onHistoryLate = () => {
-    navigation.navigate(langs.navigator.historyLate);
-  };
-  const unFocus = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-    setShow(false);
-    Keyboard.dismiss();
-  };
-  const onSetLate = () => {
-    setType('late');
-  };
-  const onSetEarly = () => {
-    setType('early');
-  };
-
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={choose}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 120,
-          borderRadius: 8,
-        }}
-        style={{ height: 300 }}
-      />
-    );
-  };
-
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 5,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
-    setTime(item.value);
-  };
-
-  const choose = [
-    { label: '15 phút', value: 15 },
-    { label: '30 phút', value: 30 },
-    { label: '45 phút', value: 45 },
-    { label: '60 phút', value: 60 },
-  ];
-
+  // const onChangeTab = (item) => {
+  //   if (item.i === 1 && item.from === 0) {
+  //     getData(1, null, status_user_late, []);
+  //     console.log('status', status_user_late);
+  //   } else console.log(item)
+  // };'
+  // console.log('response', initialData);
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={0} />
+      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Đơn xin đi muộn"
         height={44}
         goBack={goBack}
         fontSize={20}
       />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        style={{ backgroundColor: '#f2f2f2' }}
-        keyboardDismissMode="interactive"
-      >
-        <View style={styles.detail}>
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.reason} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>{langs.reasonSum}</Text>
-          </View>
-          <InputApply
-            borderRadius={12}
-            backgroundColor="white"
-            containerStyle={{
-              width: '90%',
-              justifyContent: 'center',
-              alignSelf: 'center',
+
+      <ScrollableTabView
+        contentProps={{ keyboardShouldPersistTaps: 'handled' }}
+        tabBarUnderlineStyle={{ height: 3, backgroundColor: Colors.background }}
+        tabBarBackgroundColor={Colors.white}
+        tabBarActiveTextColor={Colors.background}
+        tabBarInactiveTextColor={Colors.itemInActive}
+        locked
+        tabBarTextStyle={{ fontSize: 16, marginLeft: -4 }}
+        renderTabBar={() => (Platform.OS === 'android' ? (
+          <ScrollableTabBar style={{ borderBottomColor: 'white' }} />
+        ) : (
+          <ScrollableTabBarCustom
+            style={{
+              borderBottomWidth: 0,
+              borderBottomColor: 'black',
+              marginBottom: 8,
+              height: 68,
+              // backgroundColor: 'red'
             }}
-            value={reason}
-            onChangeText={onChangeReason}
-            onFocus={onFocus}
-            onSubmitEditing={unFocus}
-            onBlur={unFocus}
-            blurOnSubmit
-            rightIcon
+            tabStyle={{
+              height: 68,
+              justifyContent: 'center',
+              marginRight: 20,
+              marginLeft: 5,
+            }}
+            tabsContainerStyle={{
+              marginLeft: 16,
+              justifyContent: 'flex-start',
+            }}
           />
+        ))
+        }
+      >
+        <ApplyLate2 tabLabel="Tạo đơn" />
+        <HistoryLate
+          navigation={navigation}
+          token={token}
+          setStatusUserLate={setStatusUserLate}
+          status_user_late={status_user_late}
+          tabLabel="Xem/sửa đơn"
+          initialData={initialData}
 
-          {!reason && show ? (
-            <Card style={styles.card}>
-              <Suggest
-                detail="Tắc đường."
-                onPress={() => onSetReason('Tắc đường.')}
-              />
-              <Suggest
-                detail="Có việc đột xuất."
-                onPress={() => onSetReason('Có việc đột xuất.')}
-              />
-              <Suggest
-                detail="Bị hỏng xe."
-                onPress={() => onSetReason('Bị hỏng xe.')}
-              />
-              <Suggest
-                detail="Công việc ngoài phạm vi phòng."
-                onPress={() => onSetReason('Công việc ngoài phạm vi phòng.')}
-              />
-              <Suggest
-                detail="Lí do cá nhân."
-                onPress={() => onSetReason('Lí do cá nhân.')}
-              />
-            </Card>
-          ) : null}
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.startTime} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>Thông tin đơn nghỉ :</Text>
-          </View>
-          <Card style={styles.card}>
-            <View style={styles.row}>
-              <ApplyIcon
-                title="Đến muộn"
-                onPress={onSetLate}
-                tintColor={type === 'late' ? 'green' : 'grey'}
-                color={type === 'late' ? 'green' : 'grey'}
-              />
-              <ApplyIcon
-                title="Về Sớm"
-                onPress={onSetEarly}
-                tintColor={type === 'early' ? 'green' : 'grey'}
-                source={imgs.clockEarly}
-                height={28}
-                width={28}
-                color={type === 'early' ? 'green' : 'grey'}
-              />
-            </View>
-
-            <View style={[styles.row, { justifyContent: 'space-between' }]}>
-              <View style={styles.imgContainer}>
-                <Image
-                  source={imgs.startDate}
-                  style={[styles.imageStamp, { marginRight: 8 }]}
-                />
-                <Text style={styles.txtStatus}>{langs.day}</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.time}
-                onPress={() => onShowPicker('day')}
-              >
-                <Text style={styles.txtTime}>
-                  {moment(day).format('DD/MM/yyyy')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={[
-                styles.row,
-                { justifyContent: 'center', alignItems: 'center' },
-              ]}
-            >
-              <TouchableOpacity style={[styles.buttonTime]} disabled>
-                <Image source={imgs.startTime} style={styles.icon} />
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}
-                >
-                  <View style={[styles.filter]}>
-                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
-                    <Text style={styles.icon}>▼</Text>
-                  </View>
-                </SelectButton>
-              </TouchableOpacity>
-            </View>
-          </Card>
-        </View>
-        <ActionButton onApply={onHistoryLate} />
-
-        <Button
-          title="Hoàn thành"
-          containerStyle={styles.complete}
-          onPress={onComplete}
         />
-      </ScrollView>
-      {showModal ? (
-        mode === 'day' ? (
-          <PickerCustom
-            value={day}
-            onChange={onChangeDay}
-            onPress={onUnshow}
-            mode="date"
-            show={showModal}
-            minimumDate={new Date()}
-          />
-        ) : null
-      ) : null}
+      </ScrollableTabView>
     </View>
   );
 }

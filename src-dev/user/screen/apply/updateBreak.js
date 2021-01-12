@@ -77,8 +77,19 @@ function UpdateBreak(props) {
   const _today = moment().format(_format);
   const _maxDate = moment().add(90, 'days').format(_format);
   const [exception, setException] = useState(true);
-  const { navigation, updateTakeLeave, userId, token, assign, route } = props;
-  const { _id, _date, content, morning, type } = route.params;
+  const {
+    navigation,
+    updateTakeLeave,
+    userId,
+    token,
+    assign,
+    _id,
+    _date,
+    content,
+    morning,
+    type,
+  } = props;
+
   const [shift, setShift] = useState(new Date());
 
   const [mode, setMode] = useState('');
@@ -305,16 +316,7 @@ function UpdateBreak(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title="Sửa đơn nghỉ phép"
-        height={60}
-        goBack={goBack}
-        fontSize={24}
-      />
+
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -479,6 +481,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: 'white',
+    width: wp(100)
   },
   image: {
     width: 56,

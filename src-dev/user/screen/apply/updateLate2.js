@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,7 +21,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import { Card } from 'native-base';
+import {Card} from 'native-base';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -31,21 +31,21 @@ import {
   InputSelect,
   SelectButton,
 } from '../../../component';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 
-import { imgs, Colors } from '../../../../utlis';
+import {imgs, Colors} from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
 
 if (
-  Platform.OS === 'android'
-  && UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function UpdateLate(props) {
+function UpdateLate2(props) {
   const {
     navigation,
     setLateEarly,
@@ -53,15 +53,21 @@ function UpdateLate(props) {
     assign,
     route,
     updateLateEarly,
-    status_user_late,
   } = props;
-  const { id, date, typeRoute, timeRoute, content, statusRoute } = route.params;
-  // route.params.onSetStatus({ status_user_late });
-console.log('status_user_late',status_user_late);
-  const [reason, setReason] = useState(content);
+  // const { id, date, route.typeRoute, route.timeRoute, content, statusRoute } = route.params;
+  console.log('inside route', route);
+  const [reason, setReason] = useState(route.content);
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(timeRoute);
-
+  const [time, setTime] = useState(route.timeRoute);
+  useEffect(() => {
+    // getData(1, '', '', []);
+    const unsubscribe = () => {
+      console.log('check');
+    };
+    return () => {
+      unsubscribe;
+    };
+  }, [route]);
   const goBack = () => {
     navigation.goBack();
   };
@@ -84,7 +90,7 @@ console.log('status_user_late',status_user_late);
     setReason(val);
     unFocus();
   };
-  const [day, setDay] = useState(moment(date, 'DD/MM/YYYY')._d);
+  const [day, setDay] = useState(moment(route.date, 'DD/MM/YYYY')._d);
   const [mode, setMode] = useState('');
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -97,24 +103,24 @@ console.log('status_user_late',status_user_late);
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = typeRoute === '1' ? 'đi muộn' : 'về sớm';
+    const field = route.typeRoute === '1' ? 'đi muộn' : 'về sớm';
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: `Vui lòng điền lí do ${field}`,
         messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {text: langs.alert.ok},
       });
       return;
     }
     const data = {
-      id,
+      id: route.id,
       date: moment(day).format('DD/MM/YYYY'),
-      type: typeRoute,
+      type: route.typeRoute,
       time,
       token,
       content: reason,
-      status: statusRoute,
+      status: route.statusRoute,
     };
 
     updateLateEarly(data);
@@ -134,13 +140,13 @@ console.log('status_user_late',status_user_late);
       <FlatList
         data={choose}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
+        renderItem={({item, index}) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
           width: 120,
           borderRadius: 8,
         }}
-        style={{ height: 300 }}
+        style={{height: 300}}
       />
     );
   };
@@ -155,14 +161,12 @@ console.log('status_user_late',status_user_late);
             alignSelf: 'center',
             paddingHorizontal: 8,
           }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
+          onPress={() => onPressItem(item, hideOverlay)}>
           <Text
             style={[
               styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
+              {color: time === item.value ? Colors.background : 'black'},
+            ]}>
             {item.label}
           </Text>
         </TouchableOpacity>
@@ -176,29 +180,18 @@ console.log('status_user_late',status_user_late);
   };
 
   const choose = [
-    { label: '15 phút', value: 15 },
-    { label: '30 phút', value: 30 },
-    { label: '45 phút', value: 45 },
-    { label: '60 phút', value: 60 },
+    {label: '15 phút', value: 15},
+    {label: '30 phút', value: 30},
+    {label: '45 phút', value: 45},
+    {label: '60 phút', value: 60},
   ];
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title="Sửa đơn đi muộn"
-        height={60}
-        goBack={goBack}
-        fontSize={24}
-      />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
-        keyboardDismissMode="interactive"
-      >
+        contentContainerStyle={{paddingBottom: 40}}
+        keyboardDismissMode="interactive">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -214,7 +207,7 @@ console.log('status_user_late',status_user_late);
               justifyContent: 'center',
               alignSelf: 'center',
             }}
-            value={reason}
+            value={reason || route.content}
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
@@ -255,12 +248,8 @@ console.log('status_user_late',status_user_late);
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              {typeRoute === 1 ? (
-                <ApplyIcon
-                  title="Đến muộn"
-                  tintColor="green"
-                  color="green"
-                />
+              {route.typeRoute === 1 ? (
+                <ApplyIcon title="Đến muộn" tintColor="green" color="green" />
               ) : (
                 <ApplyIcon
                   title="Về Sớm"
@@ -271,21 +260,19 @@ console.log('status_user_late',status_user_late);
                   color="green"
                 />
               )}
-
             </View>
 
-            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, { marginRight: 8 }]}
+                  style={[styles.imageStamp, {marginRight: 8}]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}
-              >
+                onPress={() => onShowPicker('day')}>
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -294,19 +281,19 @@ console.log('status_user_late',status_user_late);
             <View
               style={[
                 styles.row,
-                { justifyContent: 'center', alignItems: 'center' },
-              ]}
-            >
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
                 <SelectButton
                   dropdownHeight={120}
                   dropdownWidth={128}
                   customY={10}
-                  renderDropdown={renderDropdown}
-                >
+                  renderDropdown={renderDropdown}>
                   <View style={[styles.filter]}>
-                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
+                    <Text style={styles.txtTime}>
+                      {`${time || route.timeRoute} phút`}
+                    </Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
                 </SelectButton>
@@ -336,13 +323,14 @@ console.log('status_user_late',status_user_late);
   );
 }
 
-export default UpdateLate;
+export default UpdateLate2;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
     zIndex: 0,
+    width: wp(100),
   },
   image: {
     width: 56,

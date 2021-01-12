@@ -21,7 +21,7 @@ import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
-import HeaderCustom from './component/HeaderCustom';
+import FilterTop from './component/FilterTop';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
@@ -37,7 +37,8 @@ const HistoryBreak = (props) => {
     navigation,
     token,
     setStatusUserBreak,
-    status_user_break
+    status_user_break,
+    point
   } = props;
 
   const [loading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ const HistoryBreak = (props) => {
     return () => {
       unsubscribe;
     };
-  }, [navigation,status_user_break]);
+  }, [navigation]);
   // saga
   // const getData = () => {
 
@@ -372,11 +373,9 @@ const HistoryBreak = (props) => {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
+     
+      <FilterTop
+      
         title={langs.titleHistoryBreak}
         height={60}
         goBack={goBack}

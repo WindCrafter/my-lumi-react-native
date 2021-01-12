@@ -37,7 +37,7 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
-    size,
+    size,shadow,
     ...otherProps
   } = props;
 
@@ -75,10 +75,10 @@ export default function HeaderCustom(props?: Props) {
           <View style={{ width: '15%' }} />
         )}
       </View>
-      <LinearGradient
+      {shadow ? (<LinearGradient
         style={[styles.gradient, containerStyle]}
         colors={['#D5D5D5', '#F2F2F2']}
-      />
+      />):null}
     </View>
   );
 }

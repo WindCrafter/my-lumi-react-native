@@ -37,6 +37,7 @@ import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
+import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -45,28 +46,28 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function UpdateLate(props) {
-  const {
-    navigation,
-    setLateEarly,
-    token,
-    assign,
-    route,
-    updateLateEarly,
-    status_user_late,
-  } = props;
-  const { id, date, typeRoute, timeRoute, content, statusRoute } = route.params;
-  // route.params.onSetStatus({ status_user_late });
-console.log('status_user_late',status_user_late);
-  const [reason, setReason] = useState(content);
+function ApplyLate(props) {
+  const { navigation, setLateEarly, token, assign } = props;
+  const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(timeRoute);
-
+  const [time, setTime] = useState(15);
+  const [isVisible, setVisible] = useState(false);
+  const [type, setType] = useState('late');
+  const [status, setStatus] = useState(1);
+  const onSetVisible = () => {
+    setVisible(!isVisible);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
   const goBack = () => {
     navigation.goBack();
   };
   const [showModal, setShowModal] = useState(false);
 
+  const onChangeTime = (value) => {
+    setTime(value);
+  };
   const onComplete = () => {
     onsetLateEarly();
   };
@@ -84,7 +85,7 @@ console.log('status_user_late',status_user_late);
     setReason(val);
     unFocus();
   };
-  const [day, setDay] = useState(moment(date, 'DD/MM/YYYY')._d);
+  const [day, setDay] = useState(new Date());
   const [mode, setMode] = useState('');
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -97,7 +98,7 @@ console.log('status_user_late',status_user_late);
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = typeRoute === '1' ? 'đi muộn' : 'về sớm';
+    const field = type === 'late' ? 'đi muộn' : 'về sớm';
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -108,27 +109,35 @@ console.log('status_user_late',status_user_late);
       return;
     }
     const data = {
-      id,
-      date: moment(day).format('DD/MM/YYYY'),
-      type: typeRoute,
+      type: type === 'late' ? 1 : 2,
       time,
+      date: moment(day).format('DD/MM/YYYY'),
       token,
       content: reason,
-      status: statusRoute,
+      status,
     };
 
-    updateLateEarly(data);
+    setLateEarly(data);
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
   };
-
+  const onHistoryLate = () => {
+    navigation.navigate(langs.navigator.historyLate);
+  };
   const unFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
     Keyboard.dismiss();
   };
+  const onSetLate = () => {
+    setType('late');
+  };
+  const onSetEarly = () => {
+    setType('early');
+  };
+
   const renderDropdown = (hideOverlay) => {
     return (
       <FlatList
@@ -184,19 +193,9 @@ console.log('status_user_late',status_user_late);
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title="Sửa đơn đi muộn"
-        height={60}
-        goBack={goBack}
-        fontSize={24}
-      />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
+        style={{ backgroundColor: '#f2f2f2' }}
         keyboardDismissMode="interactive"
       >
         <View style={styles.detail}>
@@ -255,23 +254,21 @@ console.log('status_user_late',status_user_late);
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              {typeRoute === 1 ? (
-                <ApplyIcon
-                  title="Đến muộn"
-                  tintColor="green"
-                  color="green"
-                />
-              ) : (
-                <ApplyIcon
-                  title="Về Sớm"
-                  tintColor="green"
-                  source={imgs.clockEarly}
-                  height={28}
-                  width={28}
-                  color="green"
-                />
-              )}
-
+              <ApplyIcon
+                title="Đến muộn"
+                onPress={onSetLate}
+                tintColor={type === 'late' ? 'green' : 'grey'}
+                color={type === 'late' ? 'green' : 'grey'}
+              />
+              <ApplyIcon
+                title="Về Sớm"
+                onPress={onSetEarly}
+                tintColor={type === 'early' ? 'green' : 'grey'}
+                source={imgs.clockEarly}
+                height={28}
+                width={28}
+                color={type === 'early' ? 'green' : 'grey'}
+              />
             </View>
 
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
@@ -314,6 +311,7 @@ console.log('status_user_late',status_user_late);
             </View>
           </Card>
         </View>
+
         <Button
           title="Hoàn thành"
           containerStyle={styles.complete}
@@ -336,7 +334,7 @@ console.log('status_user_late',status_user_late);
   );
 }
 
-export default UpdateLate;
+export default ApplyLate;
 
 const styles = StyleSheet.create({
   container: {
@@ -392,7 +390,7 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    marginTop: 150,
+
   },
   bottom: {
     position: 'absolute',

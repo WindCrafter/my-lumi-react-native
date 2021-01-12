@@ -26,6 +26,7 @@ import KeyBoardScroll from './KeyBoardScroll';
 import SelectButton from './SelectButton';
 import PickerCustom from './PickerCustom';
 import HeaderAccount from './HeaderCustom/HeaderAccount'
+import ScrollableTabBarCustom from './ScrollableTabBar/index';
 export {
   Input,
   InputPassword,
@@ -53,4 +54,5 @@ export {
   SelectButton,
   PickerCustom,
   HeaderAccount,
+  ScrollableTabBarCustom,
 };
