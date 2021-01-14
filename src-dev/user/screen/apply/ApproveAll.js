@@ -26,10 +26,15 @@ const ApproveAll = (props) => {
     listManagerLateEarly,
     token,
     dataManager,
+    dataManagerCheck,
     approveLateEarly,
+    listManagerCheck,
+    approveCheck,
     removeList,
     refreshing,
+    route,
   } = props;
+  const { page } = route.params;
   const goBack = () => {
     navigation.goBack();
     removeList();
@@ -50,7 +55,7 @@ const ApproveAll = (props) => {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollableTabView tabBarActiveTextColor={Colors.background} tabBarUnderlineStyle={{ backgroundColor: Colors.background }} renderTabBar={renderTabBar}>
+      <ScrollableTabView tabBarActiveTextColor={Colors.background} tabBarUnderlineStyle={{ backgroundColor: Colors.background }} renderTabBar={renderTabBar} initialPage={page}>
         <ApproveBreak tabLabel={langs.break} token={token} />
         <ApproveLate
           tabLabel={langs.late}
@@ -61,7 +66,14 @@ const ApproveAll = (props) => {
           approveLateEarly={approveLateEarly}
         />
         <ApproveOT tabLabel={langs.ot} token={token} />
-        <ApproveCheck tabLabel={langs.checkIn} />
+        <ApproveCheck
+          tabLabel={langs.checkIn}
+          token={token}
+          dataManagerCheck={dataManagerCheck}
+          refreshing={refreshing}
+          listManagerCheck={listManagerCheck}
+          approveCheck={approveCheck}
+        />
       </ScrollableTabView>
     </>
   );
@@ -78,9 +90,10 @@ const styles = StyleSheet.create({
     // flexGrow: 1,
   },
   noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
-  tab:{
+  tab: {
     // borderLeftWidth: StyleSheet.hairlineWidth,
     borderColor: 'grey',
     paddingTop: 10,
+    borderWidth: 0,
   }
 });

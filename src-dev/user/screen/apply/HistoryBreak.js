@@ -104,7 +104,7 @@ const HistoryBreak = (props) => {
 
   const onRefresh = () => {
     setRefresh(true);
-     setOnScroll(false);
+    setOnScroll(false);
     getData(1, date, status, []);
   };
 

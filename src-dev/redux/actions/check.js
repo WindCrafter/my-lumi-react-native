@@ -295,3 +295,40 @@ export const checkInCodeSuccess = (data) => {
     payload: data,
   };
 };
+
+// Duyet don cham cong tu xa
+export const listManagerCheck = (data) => {
+  return {
+    type: types.LIST_MANAGER_CHECK,
+    payload: data,
+  };
+};
+export const listManagerCheckFailed = () => {
+  return {
+    type: types.LIST_MANAGER_CHECK_FAILED,
+  };
+};
+export const listManagerCheckSuccess = (data) => {
+  return {
+    type: types.LIST_MANAGER_CHECK_SUCCESS,
+    payload: data,
+  };
+};
+
+export const approveCheck = (data) => {
+  return {
+    type: types.APPROVE_CHECK,
+    payload: data,
+  };
+};
+export const approveCheckFailed = () => {
+  return {
+    type: types.APPROVE_CHECK_FAILED,
+  };
+};
+export const approveCheckSuccess = (data) => {
+  return {
+    type: types.APPROVE_CHECK_SUCCESS,
+    payload: data,
+  };
+};

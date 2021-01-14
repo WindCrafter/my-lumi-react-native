@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,23 +18,22 @@ import {
 import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+  heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import moment from 'moment';
+import { Card } from 'native-base';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import {BarStatus, HeaderCustom, Button, InputSelect} from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
-import {Card} from 'native-base';
+import { BarStatus, HeaderCustom, Button, InputSelect } from '../../../component';
+import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
-import {_global} from '../../../../utlis/global/global';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { _global } from '../../../../utlis/global/global';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -78,7 +77,7 @@ function ApplyBreak(props) {
   const _today = moment().format(_format);
   const _maxDate = moment().add(90, 'days').format(_format);
   const [exception, setException] = useState(true);
-  const {navigation, takeLeave, userId, token, assign} = props;
+  const { navigation, takeLeave, userId, token, assign } = props;
   const [shift, setShift] = useState(new Date());
 
   const [mode, setMode] = useState('');
@@ -91,11 +90,11 @@ function ApplyBreak(props) {
   const DISABLED_DAYS = ['Saturday', 'Sunday'];
 
   const getDaysInMonth = (month, year, days) => {
-    let pivot = moment().month(month).year(year).startOf('month');
+    const pivot = moment().month(month).year(year).startOf('month');
     const end = moment().month(month).year(year).endOf('month');
 
-    let dates = {..._markedDates};
-    const disabled = {disabled: true};
+    const dates = { ..._markedDates };
+    const disabled = { disabled: true };
     while (pivot.isBefore(end)) {
       days.forEach((day) => {
         dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
@@ -115,12 +114,12 @@ function ApplyBreak(props) {
     moment(_today, _format).format('dddd'),
   )
     ? {
-        ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
-        [_today]: {
-          selected: true,
-          day: _today,
-        },
-      }
+      ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
+      [_today]: {
+        selected: true,
+        day: _today,
+      },
+    }
     : getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS);
   // console.log('initialState : ', initialState);
   const [_markedDates, setMarkedDates] = useState(initialState);
@@ -134,39 +133,39 @@ function ApplyBreak(props) {
         title: langs.alert.remind,
         message: 'Vui lòng điền lý do xin nghỉ',
         messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
     typeBreak === 'Theo buổi' && moment(shift).format('dddd') !== 'Sunday'
       ? onTakeLeaveShift()
       : typeBreak === 'Theo ngày'
-      ? onTakeLeaveDay()
-      : _global.Alert.alert({
+        ? onTakeLeaveDay()
+        : _global.Alert.alert({
           title: langs.alert.remind,
           message: 'Chủ nhật không cần xin nghỉ.',
           messageColor: Colors.black,
-          leftButton: {text: langs.alert.ok},
+          leftButton: { text: langs.alert.ok },
         });
   };
 
   const onTakeLeaveDay = () => {
     const newarray = [];
-    let object = [];
-    let array = Object.keys(_markedDates);
+    const object = [];
+    const array = Object.keys(_markedDates);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
         newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
       }
     });
     newarray.forEach((i) => {
-      let [date1, month1, year1] = i.split('/');
+      const [date1, month1, year1] = i.split('/');
       if (!object.includes(`${month1}/${year1}`)) {
         object.push(`${month1}/${year1}`);
       }
     });
     const data = {
-      token: token,
+      token,
       content: reason,
       date: newarray,
       type: 2,
@@ -178,7 +177,7 @@ function ApplyBreak(props) {
   };
   const onTakeLeaveShift = () => {
     const data = {
-      token: token,
+      token,
       date: moment(shift).format('DD/MM/YYYY').split(' '),
       type: 1,
       content: reason,
@@ -254,25 +253,23 @@ function ApplyBreak(props) {
     const selectedDay = moment(day.dateString).format(_format);
 
     if (!_markedDates[selectedDay]) {
-      let selected = true;
+      const selected = true;
       const updatedMarkedDates = {
         ..._markedDates,
-        ...{[selectedDay]: {selected, day: selectedDay}},
+        ...{ [selectedDay]: { selected, day: selectedDay } },
       };
       setMarkedDates(updatedMarkedDates);
-    } else {
-      if (!_markedDates[selectedDay].disabled) {
-        let selected = !_markedDates[selectedDay].selected;
-        const updatedMarkedDates = {
-          ..._markedDates,
-          ...{[selectedDay]: {selected, day: selectedDay}},
-        };
-        setMarkedDates(updatedMarkedDates);
-      }
+    } else if (!_markedDates[selectedDay].disabled) {
+      const selected = !_markedDates[selectedDay].selected;
+      const updatedMarkedDates = {
+        ..._markedDates,
+        ...{ [selectedDay]: { selected, day: selectedDay } },
+      };
+      setMarkedDates(updatedMarkedDates);
     }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <>
         <View style={styles.btUser}>
@@ -281,7 +278,7 @@ function ApplyBreak(props) {
               <Image
                 source={require('../../../../naruto.jpeg')}
                 style={styles.avatar}
-                resizeMode={'cover'}
+                resizeMode="cover"
               />
             </View>
             <View style={styles.column}>
@@ -301,14 +298,15 @@ function ApplyBreak(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Đơn xin nghỉ phép'}
+        title="Đơn xin nghỉ phép"
         height={60}
         goBack={goBack}
         fontSize={24}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -318,7 +316,7 @@ function ApplyBreak(props) {
           </View>
           <InputApply
             borderRadius={12}
-            backgroundColor={'white'}
+            backgroundColor="white"
             containerStyle={{
               width: '90%',
               height: 72,
@@ -330,21 +328,21 @@ function ApplyBreak(props) {
             onFocus={onFocus}
             onSubmitEditing={unFocus}
             onBlur={unFocus}
-            blurOnSubmit={true}
+            blurOnSubmit
             rightIcon
           />
           {!reason && showModal ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'Bị ốm.'}
+                detail="Bị ốm."
                 onPress={() => onSetReason('Bị ốm.')}
               />
               <Suggest
-                detail={'Đi công tác.'}
+                detail="Đi công tác."
                 onPress={() => onSetReason('Đi công tác.')}
               />
               <Suggest
-                detail={'Lí do cá nhân.'}
+                detail="Lí do cá nhân."
                 onPress={() => onSetReason('Lí do cá nhân.')}
               />
             </Card>
@@ -359,7 +357,7 @@ function ApplyBreak(props) {
           <Card style={styles.card}>
             <View style={styles.row}>
               <ApplyIcon
-                title={'Nửa ngày'}
+                title="Nửa ngày"
                 onPress={() => onSetTypeBreak('Theo buổi')}
                 tintColor={
                   typeBreak === 'Theo buổi' ? Colors.background : 'grey'
@@ -367,7 +365,7 @@ function ApplyBreak(props) {
                 source={imgs.breakShift}
               />
               <ApplyIcon
-                title={'Theo ngày'}
+                title="Theo ngày"
                 onPress={() => onSetTypeBreak('Theo ngày')}
                 tintColor={
                   typeBreak === 'Theo ngày' ? Colors.background : 'grey'
@@ -376,7 +374,7 @@ function ApplyBreak(props) {
               />
             </View>
             {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
+              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -387,7 +385,8 @@ function ApplyBreak(props) {
                       flexDirection: 'row',
                     },
                   ]}
-                  onPress={onSetTypeShift}>
+                  onPress={onSetTypeShift}
+                >
                   <Image source={imgs.startTime} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>{typeShift}</Text>
@@ -399,7 +398,8 @@ function ApplyBreak(props) {
                       backgroundColor: Colors.white,
                     },
                   ]}
-                  onPress={() => onShow('shift')}>
+                  onPress={() => onShow('shift')}
+                >
                   <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>
@@ -424,7 +424,7 @@ function ApplyBreak(props) {
                     _markedDates,
                   );
                 }}
-                enableSwipeMonths={true}
+                enableSwipeMonths
                 theme={{
                   textDayFontFamily: 'quicksand',
                   textMonthFontFamily: 'quicksand',
@@ -445,14 +445,14 @@ function ApplyBreak(props) {
             value={shift}
             onChange={onChangeShift}
             onPress={onUnshow}
-            mode={'date'}
+            mode="date"
             show={show}
             minimumDate={new Date()}
           />
         ) : null}
 
         <Button
-          title={'Hoàn thành '}
+          title="Hoàn thành "
           containerStyle={styles.complete}
           onPress={onComplete}
         />

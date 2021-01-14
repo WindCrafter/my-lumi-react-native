@@ -84,7 +84,7 @@ export default function Home(props) {
   }, []);
 
   const onPressApprove = () => {
-    navigation.navigate(langs.navigator.approve);
+    navigation.navigate(langs.navigator.approve, { page: 0 });
   };
 
   const moveToHistory = () => {
