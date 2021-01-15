@@ -1,28 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Image,
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
-  FlatList,
   ActivityIndicator,
-  LayoutAnimation,
-  Dimensions,
   Text,
   RefreshControl,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
-import ActionButton from './component/ActionButton';
 import FilterTop from './component/FilterTop';
 import UpdateLate2 from './updateLate2';
 import { _global } from '../../../../utlis/global/global';
@@ -32,22 +24,18 @@ import { URL_STAGING } from '../../../../utlis/connection/url';
 const HistoryLate = (props) => {
   const {
     navigation,
-    listLateEarly,
     token,
-    dataLateEarly,
-    removeList,
-    refreshing,
     status_user_late,
     setStatusUserLate,
     initialData,
-    
+    date_user_late,
+    setDateUserLate
   } = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState(initialData);
   useEffect(() => {
     setData(initialData);
-    setDate('');
     console.log('onmei');
   }, [initialData]);
 
@@ -71,16 +59,22 @@ const HistoryLate = (props) => {
     default:
       0;
   }
+  console.log('date_user_late', date_user_late);
   const [type, setType] = useState(initialType || 'Tất cả');
-  const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [route, setRoute] = useState([]);
-  const deviceWidth = Dimensions.get('window').width;
+  const [localDate, setLocalDate] = useState(
+    date_user_late ? moment(date_user_late, 'DD/MM/YYYY') : null
+  );
+  const [route] = useState([]);
   const step = useRef();
   const goBack = () => {
-    navigation.goBack();
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: langs.navigator.applyLate }],
+    // });
+    navigation.reset(langs.navigator.applyLate);
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN) => {
@@ -103,11 +97,8 @@ const HistoryLate = (props) => {
       setPage(pageNumber);
     }
   };
-  const onApplyLate = () => {
-    navigation.navigate(langs.navigator.applyLate);
-  };
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item }) => {
     return (
       <CardLate
         leader={false}
@@ -120,15 +111,12 @@ const HistoryLate = (props) => {
     );
   };
 
-  const onPressCreate = () => {
-    navigation.navigate(langs.navigator.approveLate);
-  };
-
   const onChangeDate = (date) => {
-    setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+    setDateUserLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
     getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status_user_late, []);
+    setLocalDate(!date ? '' : date);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -151,20 +139,17 @@ const HistoryLate = (props) => {
         0;
     }
   };
-  const onSetStatus = (onStatus) => {
-    setStatusUserLate(onStatus);
-  };
+
   const onChangeStatus = (item) => {
     setStatusUserLate(item);
     setData([]);
     setPage(1);
-    getData(1, date, item, []);
+    getData(1, date_user_late, item, []);
     onSetType(item);
-    onSetStatus(item);
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date, status_user_late, data);
+    getData(page + 1, date_user_late, status_user_late, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -172,7 +157,7 @@ const HistoryLate = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status_user_late, []);
+    getData(1, date_user_late, status_user_late, []);
   };
 
   const renderFooterComponent = () => {
@@ -334,6 +319,10 @@ const HistoryLate = (props) => {
       setEdit(true);
     } else setEdit(false);
   };
+  // console.log('datadatadatadata', data);
+  // console.log('initialDatainitialData', initialData);
+  // console.log('date_user_late', date_user_late);
+  // console.log('localDate',localDate);
   return (
     <>
       <ScrollView
@@ -346,7 +335,7 @@ const HistoryLate = (props) => {
         ref={step}
         onMomentumScrollEnd={handleScroll}
       >
-        <View style={{ width: wp(100),backgroundColor:"#F0F0F0" }}>
+        <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
           <FilterTop
             title={langs.titleHistoryBreak}
             goBack={goBack}
@@ -355,10 +344,11 @@ const HistoryLate = (props) => {
             onChangeDate={onChangeDate}
             type={type}
             backgroundColor={Colors.white}
+            initDate={localDate}
           />
 
-          {Array.isArray(data) && data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
+          {data && data.length === 0 && (
+            <Text style={styles.noData}>Không có lịch sử.</Text>
           )}
 
           <SwipeListView

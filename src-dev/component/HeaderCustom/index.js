@@ -37,7 +37,7 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
-    size,shadow,
+    size, shadow,
     ...otherProps
   } = props;
 
@@ -75,10 +75,12 @@ export default function HeaderCustom(props?: Props) {
           <View style={{ width: '15%' }} />
         )}
       </View>
-      {shadow ? (<LinearGradient
-        style={[styles.gradient, containerStyle]}
-        colors={['#D5D5D5', '#F2F2F2']}
-      />):null}
+      {shadow ? (
+        <LinearGradient
+          style={[styles.gradient, containerStyle]}
+          colors={['#D5D5D5', '#F2F2F2']}
+        />
+      ) : null}
     </View>
   );
 }
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  button: {width: '15%', justifyContent: 'flex-start'},
+  button: { width: '15%', justifyContent: 'flex-start' },
   image: {
     width: 32,
     height: 32,
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontFamily: 'Quicksand-Bold',
   },
-  right: {width: '15%'},
+  right: { width: '15%' },
   img: {
     width: 20,
     height: 20,

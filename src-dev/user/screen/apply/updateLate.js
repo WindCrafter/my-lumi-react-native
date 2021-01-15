@@ -1,5 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
+import { CommonActions } from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -57,7 +57,6 @@ function UpdateLate(props) {
   } = props;
   const { id, date, typeRoute, timeRoute, content, statusRoute } = route.params;
   // route.params.onSetStatus({ status_user_late });
-console.log('status_user_late',status_user_late);
   const [reason, setReason] = useState(content);
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(timeRoute);

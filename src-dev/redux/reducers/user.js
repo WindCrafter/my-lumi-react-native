@@ -26,6 +26,11 @@ const initialState = {
   status_user_late: 0,
   status_user_break: 0,
   status_user_ot: 0,
+  date_ad_late: '',
+  date_ad_break: '',
+  date_ad_ot: '',
+  date_user_late: '',
+  date_user_ot: '',
 };
 
 export default function user(state = initialState, action) {
@@ -151,6 +156,36 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         status_user_ot: action.payload,
+      };
+    case types.SET_DATE_AD_LATE:
+      return {
+        ...state,
+        date_ad_late: action.payload,
+      };
+    case types.SET_DATE_USER_LATE:
+      return {
+        ...state,
+        date_user_late: action.payload,
+      };
+    case types.SET_DATE_AD_BREAK:
+      return {
+        ...state,
+        date_ad_break: action.payload,
+      };
+    case types.SET_DATE_USER_BREAK:
+      return {
+        ...state,
+        date_user_break: action.payload,
+      };
+    case types.SET_DATE_AD_OT:
+      return {
+        ...state,
+        date_ad_ot: action.payload,
+      };
+    case types.SET_DATE_USER_OT:
+      return {
+        ...state,
+        date_user_ot: action.payload,
       };
     default:
       return state;

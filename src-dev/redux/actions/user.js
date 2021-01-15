@@ -293,3 +293,39 @@ export const setStatusUserOT = (data) => {
     payload: data,
   };
 };
+export const setDateAdLate = (data) => {
+  return {
+    type: types.SET_DATE_AD_LATE,
+    payload: data,
+  };
+};
+export const setDateUserLate = (data) => {
+  return {
+    type: types.SET_DATE_USER_LATE,
+    payload: data,
+  };
+};
+export const setDateAdBreak = (data) => {
+  return {
+    type: types.SET_DATE_AD_BREAK,
+    payload: data,
+  };
+};
+export const setDateUserBreak = (data) => {
+  return {
+    type: types.SET_DATE_USER_BREAK,
+    payload: data,
+  };
+};
+export const setDateAdOT = (data) => {
+  return {
+    type: types.SET_DATE_AD_OT,
+    payload: data,
+  };
+};
+export const setDateUserOT = (data) => {
+  return {
+    type: types.SET_DATE_USER_OT,
+    payload: data,
+  };
+};

@@ -42,12 +42,13 @@ const FilterTop = (props?: Props) => {
     onSearch,
     txtSearch,
     type,
+    initDate,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState();
-
+  const [date, setDate] = useState(initDate);
+  console.log(initDate);
   const [_date, setDateChange] = useState(new Date());
   const onClear = () => {
     setDate('');
@@ -128,6 +129,8 @@ const FilterTop = (props?: Props) => {
     { label: 'Bị từ chối', value: '3' },
     { label: 'Auto Cancel', value: '4' },
   ];
+  // console.log('date',date);
+  // console.log('date', type);
 
   return (
     <>

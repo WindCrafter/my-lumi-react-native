@@ -194,8 +194,7 @@ export default class ScrollableTabBar extends Component {
   }
 
   measureTab(page, event) {
-      console.log(event.nativeEvent);
-      console.log(page);
+     
     const { x, width, height } = event.nativeEvent.layout;
     
     this._tabsMeasurements[page] = { left: x, right: x + width, width, height };

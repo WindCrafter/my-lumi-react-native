@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -14,6 +13,8 @@ import {
   Keyboard,
   FlatList,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
@@ -55,97 +56,91 @@ function ApplyLate(props) {
     assign,
     setStatusUserLate,
     status_user_late,
+    date_user_late,
+    setDateUserLate,
   } = props;
   const [initialData, setInitialData] = useState([]);
+ console.log(date_user_late);
   let response = {};
+  const getData = async (pageNumber, dateN, statusN, dataN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _dataN = dataN || [];
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_LATE_EARLY ===========>', response);
+
+    if (
+      response.success
+     && response.statusCode === 200
+     && response.data
+     && response.data.length >= 0
+    ) {
+      console.log('heyyyy', response.data);
+      setInitialData(response.data);
+    }
+  };
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     // getData(1, '', '', []);
 
-    const unsubscribe = navigation.addListener('focus', () => {
-      const getData = async (pageNumber, dateN, statusN, dataN) => {
-        const _date = dateN || '';
-        const _status = statusN || 0;
-        const _dataN = dataN || [];
-        const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
-        response = await _GET(apiURL, token, false);
-        console.log('_GET_LIST_LATE_EARLY ===========>', response);
+    if (isFocused) {
+      getData(1, date_user_late, status_user_late,[]);
+      console.log('statusstatussta redux', status_user_late, date_user_late);
+    }
 
-        if (
-          response.success
-          && response.statusCode === 200
-          && response.data
-          && response.data.length > 0
-        ) {
-          // console.log('heyyyy');
-          setInitialData(response.data);
-        }
-      };
-      getData(1, null, status_user_late, []);
-      console.log('statusstatussta redux', status_user_late);
-      // console.log('statusstatussta pppp', response.data);
-      // console.log('statusstatussta pppp', hey);
-    });
     setInitialData();
-
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+  }, [isFocused, status_user_late]);
 
   const goBack = () => {
-    navigation.goBack();
+    console.log('checkkkkkking');
+    navigation.navigate(langs.navigator.home);
   };
-  // const onChangeTab = (item) => {
-  //   if (item.i === 1 && item.from === 0) {
-  //     getData(1, null, status_user_late, []);
-  //     console.log('status', status_user_late);
-  //   } else console.log(item)
-  // };'
-  // console.log('response', initialData);
+  console.log('response', initialData);
   return (
     <View style={styles.container}>
       <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Đơn xin đi muộn"
-        height={44}
+        height={72}
         goBack={goBack}
         fontSize={20}
       />
 
       <ScrollableTabView
-        contentProps={{ keyboardShouldPersistTaps: 'handled' }}
-        tabBarUnderlineStyle={{ height: 3, backgroundColor: Colors.background }}
+        contentProps={{keyboardShouldPersistTaps: 'handled'}}
+        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
         tabBarBackgroundColor={Colors.white}
         tabBarActiveTextColor={Colors.background}
         tabBarInactiveTextColor={Colors.itemInActive}
         locked
-        tabBarTextStyle={{ fontSize: 16, marginLeft: -4 }}
-        renderTabBar={() => (Platform.OS === 'android' ? (
-          <ScrollableTabBar style={{ borderBottomColor: 'white' }} />
-        ) : (
-          <ScrollableTabBarCustom
-            style={{
-              borderBottomWidth: 0,
-              borderBottomColor: 'black',
-              marginBottom: 8,
-              height: 68,
-              // backgroundColor: 'red'
-            }}
-            tabStyle={{
-              height: 68,
-              justifyContent: 'center',
-              marginRight: 20,
-              marginLeft: 5,
-            }}
-            tabsContainerStyle={{
-              marginLeft: 16,
-              justifyContent: 'flex-start',
-            }}
-          />
-        ))
-        }
-      >
+        tabBarTextStyle={{fontSize: 16, marginLeft: -4}}
+        renderTabBar={() =>
+          Platform.OS === 'android' ? (
+            <ScrollableTabBar style={{borderBottomColor: 'white'}} />
+          ) : (
+            <ScrollableTabBarCustom
+              style={{
+                borderBottomWidth: 0,
+                borderBottomColor: 'black',
+                marginBottom: 8,
+                height: 44,
+                // backgroundColor: 'red'
+              }}
+              tabStyle={{
+                height: 24,
+                justifyContent: 'center',
+                marginRight: 20,
+                marginLeft: 5,
+              }}
+              tabsContainerStyle={{
+                marginLeft: 16,
+                justifyContent: 'flex-start',
+              }}
+            />
+          )
+        }>
         <ApplyLate2 tabLabel="Tạo đơn" />
         <HistoryLate
           navigation={navigation}
@@ -154,7 +149,9 @@ function ApplyLate(props) {
           status_user_late={status_user_late}
           tabLabel="Xem/sửa đơn"
           initialData={initialData}
-
+      
+          setDateUserLate={setDateUserLate}
+          date_user_late={date_user_late}
         />
       </ScrollableTabView>
     </View>
