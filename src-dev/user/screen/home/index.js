@@ -56,7 +56,7 @@ if (
 }
 
 export default function Home(props) {
-  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday } = props;
+  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.testNotify);
@@ -82,6 +82,10 @@ export default function Home(props) {
       unsubscribe;
     };
   }, []);
+
+  const onPressApprove = () => {
+    navigation.navigate(langs.navigator.approve, { page: 0 });
+  };
 
   const moveToHistory = () => {
     navigation.navigate(langs.navigator.history);
@@ -189,6 +193,8 @@ export default function Home(props) {
             onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
+            onPressApprove={onPressApprove}
+            permission={role}
           />
         </View>
       </View>

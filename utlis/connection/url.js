@@ -145,6 +145,7 @@ export const URL_STAGING = {
 
   MEETING_MEMBERS: '/meeting/members',
   GET_NOTIFICATION: '/notification-user/list',
+  NOTIFICATION_READ: '/notification-user/read',
   GET_HOLIDAY: '/holiday/list',
   GET_WORKDAY_TODAY: '/work-day/get-by-date',
 };

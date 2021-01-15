@@ -238,14 +238,14 @@ function TabbarCustom({
 
   return (
     <>
-      {show &&
-        (Platform.OS === 'ios' ? (
+      {show
+        && (Platform.OS === 'ios' ? (
           <ModalTime
             title="Chọn thời gian"
             showModal={show}
             hideModal={onHideModal}
             onConfirm={onConfirm}
-            picker={
+            picker={(
               <View style={styles.picker}>
                 <DateTimePicker
                   value={dateIOS}
@@ -254,7 +254,7 @@ function TabbarCustom({
                   onChange={onChangeIOS}
                 />
               </View>
-            }
+            )}
           />
         ) : (
           <>

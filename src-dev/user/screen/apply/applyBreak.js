@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,25 +11,35 @@ import {
   UIManager,
   Image,
   Keyboard,
-  FlatList,
-  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP,
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp } from 'react-native-responsive-screen';
+  widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { Card } from 'native-base';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import ScrollableTabView, {
+  ScrollableTabBar,
+} from 'react-native-scrollable-tab-view';
+import { useIsFocused } from '@react-navigation/native';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
-import { BarStatus, HeaderCustom, Button, InputSelect } from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  Button,
+  ScrollableTabBarCustom,
+} from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import PickerCustom from './component/PickerCustom';
 import Suggest from './component/Suggest';
 import { _global } from '../../../../utlis/global/global';
 import ActionButton from './component/ActionButton';
+import FormBreak from './FormBreak';
+import HistoryBreak from './HistoryBreak';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 
 if (
   Platform.OS === 'android'
@@ -38,425 +47,117 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-LocaleConfig.locales.vn = {
-  monthNames: [
-    'Tháng 1',
-    'Tháng 2',
-    'Tháng 3',
-    'Tháng 4',
-    'Tháng 5',
-    'Tháng 6',
-    'Tháng 7',
-    'Tháng 8',
-    'Tháng 9',
-    'Tháng 10',
-    'Tháng 11',
-    'Tháng 12',
-  ],
-  monthNamesShort: [
-    'TH1',
-    'TH2',
-    'TH3',
-    'TH4',
-    'TH5',
-    'TH6',
-    'TH7',
-    'TH8',
-    'TH9',
-    'TH10',
-    'TH11',
-    'TH12',
-  ],
-  dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
-  dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-  today: 'Hôm nay',
-};
-LocaleConfig.defaultLocale = 'vn';
 
 function ApplyBreak(props) {
-  const _format = 'YYYY-MM-DD';
-  const _today = moment().format(_format);
-  const _maxDate = moment().add(90, 'days').format(_format);
-  const [exception, setException] = useState(true);
-  const { navigation, takeLeave, userId, token, assign } = props;
-  const [shift, setShift] = useState(new Date());
+  const {
+    navigation,
+    takeLeave,
+    token,
+    date_user_break,
+    setStatusUserBreak,
+    setDateUserBreak,
+    status_user_break,
+  } = props;
+  const [initialData, setInitialData] = useState([]);
 
-  const [mode, setMode] = useState('');
-  const [show, setShow] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [typeShift, setTypeShift] = useState('Buổi sáng');
-  const [typeBreak, setTypeBreak] = useState('Theo buổi');
-  const [reason, setReason] = useState('');
+  let response = {};
+  const getData = async (pageNumber, dateN, statusN, dataN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _dataN = dataN || [];
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_LATE_EARLY ===========>', response);
 
-  const DISABLED_DAYS = ['Saturday', 'Sunday'];
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length >= 0
+    ) {
+      console.log('heyyyy', response.data);
+      setInitialData(response.data);
+    }
+  };
+  const isFocused = useIsFocused();
 
-  const getDaysInMonth = (month, year, days) => {
-    const pivot = moment().month(month).year(year).startOf('month');
-    const end = moment().month(month).year(year).endOf('month');
+  useEffect(() => {
+    // getData(1, '', '', []);
 
-    const dates = { ..._markedDates };
-    const disabled = { disabled: true };
-    while (pivot.isBefore(end)) {
-      days.forEach((day) => {
-        dates[pivot.day(day).format('YYYY-MM-DD')] = disabled;
-      });
-      pivot.add(7, 'days');
+    if (isFocused) {
+      getData(1, date_user_break, status_user_break, []);
+      console.log('statusstatussta redux', status_user_break, date_user_break);
     }
 
-    return dates;
-  };
-  // const checkToday = () => {
-  //   var myDate = new Date();
-  //   if ( myDate.getDay() == 0) setException(false);
-  // console.log('checkexception')
-  // }
+    setInitialData();
+  }, [isFocused, status_user_break]);
 
-  const initialState = !DISABLED_DAYS.includes(
-    moment(_today, _format).format('dddd'),
-  )
-    ? {
-      ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
-      [_today]: {
-        selected: true,
-        day: _today,
-      },
-    }
-    : getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS);
-  // console.log('initialState : ', initialState);
-  const [_markedDates, setMarkedDates] = useState(initialState);
-  // const assignTo = assign.map((e) => {
-  //   return e.userId;
-  // });
-  const onComplete = () => {
-    Keyboard.dismiss();
-    if (!reason) {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: 'Vui lòng điền lý do xin nghỉ',
-        messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      return;
-    }
-    typeBreak === 'Theo buổi' && moment(shift).format('dddd') !== 'Sunday'
-      ? onTakeLeaveShift()
-      : typeBreak === 'Theo ngày'
-        ? onTakeLeaveDay()
-        : _global.Alert.alert({
-          title: langs.alert.remind,
-          message: 'Chủ nhật không cần xin nghỉ.',
-          messageColor: Colors.black,
-          leftButton: { text: langs.alert.ok },
-        });
-  };
-
-  const onTakeLeaveDay = () => {
-    const newarray = [];
-    const object = [];
-    const array = Object.keys(_markedDates);
-    array.forEach((element) => {
-      if (_markedDates[element].selected) {
-        newarray.push(moment(_markedDates[element].day).format('DD/MM/YYYY'));
-      }
-    });
-    newarray.forEach((i) => {
-      const [date1, month1, year1] = i.split('/');
-      if (!object.includes(`${month1}/${year1}`)) {
-        object.push(`${month1}/${year1}`);
-      }
-    });
-    const data = {
-      token,
-      content: reason,
-      date: newarray,
-      type: 2,
-      morning: 0,
-      month: object,
-    };
-
-    takeLeave(data);
-  };
-  const onTakeLeaveShift = () => {
-    const data = {
-      token,
-      date: moment(shift).format('DD/MM/YYYY').split(' '),
-      type: 1,
-      content: reason,
-      morning: typeShift === 'Buổi sáng' ? 1 : 2,
-      month: moment(shift).format('MM/YYYY').split(' '),
-    };
-    takeLeave(data);
-  };
   const goBack = () => {
-    navigation.goBack();
+    console.log('checkkkkkking');
+    navigation.navigate(langs.navigator.home);
   };
-  const onApplyBreak =() => {
-    navigation.navigate(langs.navigator.historyBreak)
-  };
-  const onUnshow = () => {
-    Platform.OS === 'ios'
-      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-      : null;
-    setShow(false);
-    setMode('');
-  };
-  const onChangeShift = (event, selectedShift) => {
-    const currentShift = selectedShift || shift;
-    setShow(Platform.OS === 'ios');
-    setShift(currentShift);
-  };
-
-  const onSetTypeBreak = (val) => {
-    setTypeBreak(val);
-    onUnshow();
-    unFocus();
-  };
-  const onShow = (m) => {
-    Platform.OS === 'ios'
-      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-      : null;
-    setShow(true);
-    setMode(m);
-  };
-
-  const onChangeReason = (val) => {
-    setReason(val);
-  };
-
-  const onSetReason = (val) => {
-    setReason(val);
-    unFocus();
-  };
-
-  const onSetTypeShift = () => {
-    if (moment().format('dddd') !== 'Saturday') {
-      typeShift === 'Buổi sáng'
-        ? setTypeShift('Buổi chiều')
-        : setTypeShift('Buổi sáng');
-    } else {
-      setTypeShift('Buổi sáng');
-    }
-  };
-
-  const onFocus = () => {
-    Platform.OS === 'ios'
-      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-      : null;
-    setShowModal(true);
-  };
-
-  const unFocus = () => {
-    Platform.OS === 'ios'
-      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-      : null;
-    setShowModal(false);
-    Keyboard.dismiss();
-  };
-
-  const onDaySelect = (day) => {
-    const selectedDay = moment(day.dateString).format(_format);
-
-    if (!_markedDates[selectedDay]) {
-      const selected = true;
-      const updatedMarkedDates = {
-        ..._markedDates,
-        ...{ [selectedDay]: { selected, day: selectedDay } },
-      };
-      setMarkedDates(updatedMarkedDates);
-    } else if (!_markedDates[selectedDay].disabled) {
-      const selected = !_markedDates[selectedDay].selected;
-      const updatedMarkedDates = {
-        ..._markedDates,
-        ...{ [selectedDay]: { selected, day: selectedDay } },
-      };
-      setMarkedDates(updatedMarkedDates);
-    }
-  };
-
-  const renderItem = ({ item }) => {
-    return (
-      <>
-        <View style={styles.btUser}>
-          <View style={styles.rowUser}>
-            <View style={styles.viewImage}>
-              <Image
-                source={require('../../../../naruto.jpeg')}
-                style={styles.avatar}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.textUser}>{item.name}</Text>
-              {/* <Text style={styles.textPos}>{item.pos}</Text> */}
-            </View>
-          </View>
-        </View>
-      </>
-    );
-  };
+  console.log('response truyen', initialData);
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
+      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
-        title="Đơn xin nghỉ phép"
-        height={60}
+        title="Đơn xin đi muộn"
+        height={72}
         goBack={goBack}
-        fontSize={24}
+        fontSize={20}
       />
-      <ScrollView
-        style={{backgroundColor: '#f2f2f2'}}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
-        <View style={styles.detail}>
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.reason} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>{langs.reasonWhyBreak}</Text>
-          </View>
-          <InputApply
-            borderRadius={12}
-            backgroundColor="white"
-            containerStyle={{
-              width: '90%',
-              height: 72,
-              justifyContent: 'center',
-              alignItems: 'center',
+
+      <ScrollableTabView
+        contentProps={{ keyboardShouldPersistTaps: 'handled' }}
+        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
+        tabBarBackgroundColor={Colors.white}
+        tabBarActiveTextColor={Colors.background}
+        tabBarInactiveTextColor={Colors.itemInActive}
+        locked
+        tabBarTextStyle={{ fontSize: 16, marginLeft: -4 }}
+        renderTabBar={() => (Platform.OS === 'android' ? (
+          <ScrollableTabBar style={{ borderBottomColor: 'white' }} />
+        ) : (
+          <ScrollableTabBarCustom
+            style={{
+              borderBottomWidth: 0,
+              borderBottomColor: 'black',
+              marginBottom: 8,
+              height: 44,
+              // backgroundColor: 'red'
             }}
-            value={reason}
-            onChangeText={onChangeReason}
-            onFocus={onFocus}
-            onSubmitEditing={unFocus}
-            onBlur={unFocus}
-            blurOnSubmit
-            rightIcon
+            tabStyle={{
+              height: 24,
+              justifyContent: 'center',
+              marginRight: 20,
+              marginLeft: 5,
+            }}
+            tabsContainerStyle={{
+              marginLeft: 16,
+              justifyContent: 'flex-start',
+            }}
           />
-          {!reason && showModal ? (
-            <Card style={styles.card}>
-              <Suggest detail="Bị ốm." onPress={() => onSetReason('Bị ốm.')} />
-              <Suggest
-                detail="Đi công tác."
-                onPress={() => onSetReason('Đi công tác.')}
-              />
-              <Suggest
-                detail="Lí do cá nhân."
-                onPress={() => onSetReason('Lí do cá nhân.')}
-              />
-            </Card>
-          ) : null}
-
-          <View style={styles.row}>
-            <View style={styles.img}>
-              <Image source={imgs.startDate} style={styles.imageStamp} />
-            </View>
-            <Text style={styles.txtStatus}>{langs.howLongBreak}</Text>
-          </View>
-          <Card style={styles.card}>
-            <View style={styles.row}>
-              <ApplyIcon
-                title="Nửa ngày"
-                onPress={() => onSetTypeBreak('Theo buổi')}
-                tintColor={
-                  typeBreak === 'Theo buổi' ? Colors.background : 'grey'
-                }
-                source={imgs.breakShift}
-              />
-              <ApplyIcon
-                title="Theo ngày"
-                onPress={() => onSetTypeBreak('Theo ngày')}
-                tintColor={
-                  typeBreak === 'Theo ngày' ? Colors.background : 'grey'
-                }
-                source={imgs.breakOneDay}
-              />
-            </View>
-            {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      width: wp(35),
-                      marginRight: 10,
-                      backgroundColor: Colors.white,
-                      flexDirection: 'row',
-                    },
-                  ]}
-                  onPress={onSetTypeShift}>
-                  <Image source={imgs.startTime} style={styles.imageStamp} />
-
-                  <Text style={styles.txtTime}>{typeShift}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: Colors.white,
-                    },
-                  ]}
-                  onPress={() => onShow('shift')}>
-                  <Image source={imgs.breakDay} style={styles.imageStamp} />
-
-                  <Text style={styles.txtTime}>
-                    {moment(shift).format('DD/MM/YYYY')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : typeBreak === 'Theo ngày' ? (
-              <Calendar
-                minDate={_today}
-                maxDate={_maxDate}
-                // hideArrows={true}
-
-                onDayPress={onDaySelect}
-                markedDates={_markedDates}
-                style={{
-                  marginTop: 8,
-                }}
-                onMonthChange={(date) => {
-                  setMarkedDates(
-                    getDaysInMonth(date.month - 1, date.year, DISABLED_DAYS),
-                    _markedDates,
-                  );
-                }}
-                enableSwipeMonths
-                theme={{
-                  textDayFontFamily: 'quicksand',
-                  textMonthFontFamily: 'quicksand',
-                  textDayHeaderFontFamily: 'quicksand',
-                  textDayFontWeight: '400',
-                  textDayHeaderFontWeight: '500',
-                  textDayFontSize: 16,
-                  textMonthFontSize: 20,
-                  textDayHeaderFontSize: 16,
-                  selectedDayTextColor: 'white',
-                }}
-              />
-            ) : null}
-          </Card>
-        </View>
-        {mode === 'shift' ? (
-          <PickerCustom
-            value={shift}
-            onChange={onChangeShift}
-            onPress={onUnshow}
-            mode="date"
-            show={show}
-            minimumDate={new Date()}
-          />
-        ) : null}
-        <ActionButton onApply={onApplyBreak} />
-
-        <Button
-          title="Hoàn thành "
-          containerStyle={styles.complete}
-          onPress={onComplete}
+        ))
+        }
+      >
+        <FormBreak
+          tabLabel="Tạo đơn"
+          takeLeave={takeLeave}
+          navigation={navigation}
+          token={token}
         />
-      </ScrollView>
+        <HistoryBreak
+          navigation={navigation}
+          token={token}
+          setStatusUserBreak={setStatusUserBreak}
+          status_user_break={status_user_break}
+          tabLabel="Xem/sửa đơn"
+          initialData={initialData}
+          setDateUserBreak={setDateUserBreak}
+          date_user_break={date_user_break}
+        />
+      </ScrollableTabView>
     </View>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -19,12 +20,12 @@ import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import {
-  heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
 import HistoryLate from './HistoryLate';
+
 import FormLate from './FormLate';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';

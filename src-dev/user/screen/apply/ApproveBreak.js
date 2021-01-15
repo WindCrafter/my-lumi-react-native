@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -38,11 +39,7 @@ const ApproveBreak = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({
-    date: '',
-    status: status_ad_break,
-    name: '',
-  });
+  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
   const [type, setType] = useState('Đang chờ');
   const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
@@ -273,15 +270,8 @@ const ApproveBreak = (props) => {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={langs.titleApproveBreak}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
+        header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}

@@ -10,8 +10,8 @@ const initialState = {
   type: 'in',
   listTakeLeave: '',
   historyAdminTakeLeave: '',
-  dataLateEarly: '',
-  dataManagerLateEarly: '',
+  dataLateEarly: [],
+  dataManagerLateEarly: [],
   refreshing: false,
 };
 
@@ -109,8 +109,8 @@ export default function check(state = initialState, action) {
     case types.REMOVE_LIST:
       return {
         ...state,
-        dataLateEarly: {},
-        dataManagerLateEarly: {},
+        dataLateEarly: [],
+        dataManagerLateEarly: [],
       };
     default:
       return state;

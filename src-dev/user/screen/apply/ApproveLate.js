@@ -270,21 +270,6 @@ function ApproveLate(props) {
   console.log(filter.status);
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title={langs.titleApproveLate}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
-        onChangeStatus={onChangeStatus}
-        onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
-        search
-        type={type}
-      />
       <View style={styles.detail}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>

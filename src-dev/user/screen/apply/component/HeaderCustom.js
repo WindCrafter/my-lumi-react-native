@@ -42,6 +42,7 @@ const HeaderCustom = (props?: Props) => {
     onSearch,
     txtSearch,
     type,
+    header,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
@@ -131,6 +132,7 @@ const HeaderCustom = (props?: Props) => {
 
   return (
     <View style={[styles.container]}>
+      {header && (
       <View
         style={[
           styles.row,
@@ -162,6 +164,7 @@ const HeaderCustom = (props?: Props) => {
           </TouchableOpacity>
         ) : null}
       </View>
+      )}
       {search && (
         <Input
           button
@@ -224,6 +227,10 @@ const HeaderCustom = (props?: Props) => {
       />
     </View>
   );
+};
+
+HeaderCustom.defaultProps = {
+  header: true,
 };
 
 const styles = StyleSheet.create({
@@ -295,6 +302,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.25,
     borderColor: Colors.gray,
     alignItems: 'center',
+    alignSelf: 'flex-end',
     borderRadius: 6,
     paddingHorizontal: 16,
     width: 150,
@@ -307,7 +315,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 32,
     height: 40,
-    width: Dimensions.get('window').width - 64,
+    width: Dimensions.get('window').width - 32,
     marginVertical: 8,
     backgroundColor: '#ffffff',
     shadowColor: 'black',

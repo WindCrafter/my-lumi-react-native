@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
@@ -17,11 +18,11 @@ import HeaderNotify from './component/HeaderNotify';
 import { BarStatus } from '../../../component';
 import { Colors } from '../../../../utlis';
 import { URL_STAGING } from '../../../../utlis/connection/url';
-import { _GET } from '../../../../utlis/connection/api';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
 const Notify = (props) => {
-  const { navigation, token } = props;
+  const { navigation, token, read } = props;
   const [date, setDate] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -82,48 +83,42 @@ const Notify = (props) => {
   };
 
   const renderItem = ({ item }) => {
+    const leader = item.customData.approved === 1 || item.customData.approved === '1';
     const onShow = () => {
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(langs.navigator.listOT);
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
             break;
           case 2:
           case '2':
-            navigation.navigate(langs.navigator.historyBreak);
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
             break;
           case 3:
           case '3':
-            navigation.navigate(langs.navigator.historyLate);
-            break;
-          case 4:
-          case '4':
-            navigation.navigate(langs.navigator.approveOT);
-            break;
-          case 5:
-          case '5':
-            navigation.navigate(langs.navigator.approveBreak);
-            break;
-          case 6:
-          case '6':
-            navigation.navigate(langs.navigator.approveLate);
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
             break;
           default: console.log('Wrong type', item.customData.type);
         }
       }
+      _POST(url, { id: item.id }, token, false);
     };
+    const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
 
     return (
-      // <TouchableOpacity onPress={onShow}>
-      <View style={styles.card}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.content}>{item.content}</Text>
-        <Text style={styles.time}>
-          {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
-        </Text>
-      </View>
-      // </TouchableOpacity>
+      <TouchableOpacity onPress={onShow}>
+        <Card style={[styles.card, { opacity: item.status === 0 || item.status === '0' ? 1 : 0.4 }]}>
+          <View style={styles.row}>
+            {item.status === 0 || item.status === '0' ? <View style={styles.read} /> : null}
+            <Text style={styles.title}>{item.title}</Text>
+          </View>
+          <Text style={styles.content}>{item.content}</Text>
+          <Text style={styles.time}>
+            {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
+          </Text>
+        </Card>
+      </TouchableOpacity>
     );
   };
 
@@ -178,12 +173,13 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     width: '90%',
+    backgroundColor: Colors.white,
     alignSelf: 'center',
-    backgroundColor: '#ffffff',
+    overflow: 'hidden',
+    shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
     marginVertical: 8,
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -213,4 +209,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 24,
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  read: {
+    backgroundColor: Colors.danger,
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    marginRight: 4
+  }
 });
