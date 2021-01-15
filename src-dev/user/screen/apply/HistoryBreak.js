@@ -38,30 +38,25 @@ const HistoryBreak = (props) => {
     token,
     setStatusUserBreak,
     status_user_break,
-    point
+    point,
+    initialData,
+    date_user_break,
+    setDateUserBreak,
   } = props;
-
+console.log('>>>>',initialData);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(initialData);
   const [type, setType] = useState('Tất cả');
   const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    // getData(1, '', '', []);
+    setData(initialData);
+    console.log('onmei');
+  }, [initialData]);
 
-    const unsubscribe = navigation.addListener('focus', () => {
-      console.log('inside statusstatustatusjjjjjjj', date);
-      console.log('inside statusstatustatus', status_user_break);
-      getData(1, date, status_user_break, []);
-      onSetType(status_user_break);
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
   // saga
   // const getData = () => {
 
@@ -201,12 +196,12 @@ const HistoryBreak = (props) => {
   };
 
   const renderItem = ({ item, index }) => {
-    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
+    // const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
     return (
       <CardBreak
         status={item.status}
         type={item.type}
-        date={_listDate}
+        date={item.date}
         reason={item.content}
         typeBreak={
           item.date.length > 1 && item.morning === 0
@@ -370,12 +365,10 @@ const HistoryBreak = (props) => {
 
   const _data = [];
   data.map((v, i) => { _data[i] = { ...v, key: i }; });
-
+console.log('---->',_data);
   return (
-    <>
-     
+    <>     
       <FilterTop
-      
         title={langs.titleHistoryBreak}
         height={60}
         goBack={goBack}
