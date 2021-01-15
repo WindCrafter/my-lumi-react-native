@@ -76,7 +76,6 @@ const Header = (props) => {
                   color: 'white',
                   fontWeight: '600',
                   fontFamily: 'Quicksand-Bold',
-                  top: -2,
                 }}
               >
                 {numberNotifys}

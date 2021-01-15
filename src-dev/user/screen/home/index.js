@@ -56,7 +56,7 @@ if (
 }
 
 export default function Home(props) {
-  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday } = props;
+  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.testNotify);
@@ -83,6 +83,10 @@ export default function Home(props) {
     };
   }, []);
 
+  const onPressApprove = () => {
+    navigation.navigate(langs.navigator.approve, { page: 0 });
+  };
+
   const moveToHistory = () => {
     navigation.navigate(langs.navigator.history);
   };
@@ -106,7 +110,7 @@ export default function Home(props) {
   return (
     <>
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} name={nameUser} numberNotifys ={99}/>
+        <Header pressNotify={onPressNotify} name={nameUser} numberNotifys={99} />
 
         <View style={styles.flex}>
           <LinearGradient
@@ -183,6 +187,8 @@ export default function Home(props) {
             onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
+            onPressApprove={onPressApprove}
+            permission={role}
           />
         </View>
       </View>

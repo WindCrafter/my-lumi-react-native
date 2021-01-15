@@ -1,5 +1,5 @@
-import * as types from '../types';
 import moment from 'moment';
+import * as types from '../types';
 
 const initialState = {
   checked: false,
@@ -10,8 +10,9 @@ const initialState = {
   type: 'in',
   listTakeLeave: '',
   historyAdminTakeLeave: '',
-  dataLateEarly: '',
-  dataManagerLateEarly: '',
+  dataLateEarly: {},
+  dataManagerLateEarly: {},
+  dataManagerCheck: {},
   refreshing: false,
 };
 
@@ -20,7 +21,7 @@ export default function check(state = initialState, action) {
     case types.LIST_LATE_EARLY:
       return {
         ...state,
-        refreshing: action.payload.refreshing ? true : false,
+        refreshing: !!action.payload.refreshing,
       };
     case types.LIST_LATE_EARLY_SUCCESS:
       return {
@@ -33,7 +34,7 @@ export default function check(state = initialState, action) {
     case types.LIST_MANAGER_LATE_EARLY:
       return {
         ...state,
-        refreshing: action.payload.refreshing ? true : false,
+        refreshing: !!action.payload.refreshing,
       };
     case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
       return {
@@ -48,7 +49,7 @@ export default function check(state = initialState, action) {
         ...state,
         dataManagerLateEarly: state.dataManagerLateEarly.map((item) => {
           return item.id === action.payload.id
-            ? {...item, status: action.payload.status}
+            ? { ...item, status: action.payload.status }
             : item;
         }),
       };
@@ -111,6 +112,31 @@ export default function check(state = initialState, action) {
         ...state,
         dataLateEarly: {},
         dataManagerLateEarly: {},
+        dataManagerCheck: {},
+      };
+
+      /// Duyet Cham cong tu xa
+    case types.LIST_MANAGER_CHECK:
+      return {
+        ...state,
+        refreshing: !!action.payload.refreshing,
+      };
+    case types.LIST_MANAGER_CHECK_SUCCESS:
+      return {
+        ...state,
+        dataManagerCheck: action.payload.reload
+          ? action.payload.data
+          : [...state.dataManagerCheck, ...action.payload.data],
+        refreshing: false,
+      };
+    case types.APPROVE_CHECK_SUCCESS:
+      return {
+        ...state,
+        dataManagerCheck: state.dataManagerCheck.map((item) => {
+          return item.id === action.payload.id
+            ? { ...item, status: action.payload.status }
+            : item;
+        }),
       };
     default:
       return state;

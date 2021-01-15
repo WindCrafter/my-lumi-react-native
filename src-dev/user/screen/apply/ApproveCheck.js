@@ -13,18 +13,18 @@ import moment from 'moment';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
-import CardLate from './component/CardLate';
+import CardCheck from './component/CardCheck';
 import HeaderCustom from './component/HeaderCustom';
 import { _global } from '../../../../utlis/global/global';
 import { getText } from '../../../../utlis/config/utlis';
 
-const ApproveLate = (props) => {
+const ApproveCheck = (props) => {
   const {
     navigation,
-    listManagerLateEarly,
+    listManagerCheck,
     token,
-    dataManager,
-    approveLateEarly,
+    dataManagerCheck,
+    approveCheck,
     removeList,
     refreshing,
   } = props;
@@ -34,7 +34,7 @@ const ApproveLate = (props) => {
   const [status, setStatus] = useState(1);
   const [search, setSearch] = useState(false);
   const [txtSearch, setTxtSearch] = useState('');
-  const [filter, setFilter] = useState(dataManager);
+  const [filter, setFilter] = useState(dataManagerCheck);
   const [date, setDate] = useState('');
   const [cancel, setCancel] = useState(true);
   const goBack = () => {
@@ -50,14 +50,15 @@ const ApproveLate = (props) => {
       loading: true,
       reload: true,
     };
-    cancel ? listManagerLateEarly(data) : null;
+    cancel ? listManagerCheck(data) : null;
     txtSearch ? onChangeName(txtSearch) : null;
+    console.log('HEEEEEARRRRRR');
     return () => setCancel(false);
-  }, [dataManager]);
+  }, [dataManagerCheck]);
 
   const renderItem = ({ item, index }) => {
     return (
-      <CardLate
+      <CardCheck
         leader
         status={item.status}
         type={item.type}
@@ -77,7 +78,7 @@ const ApproveLate = (props) => {
       status: 3,
       token,
     };
-    approveLateEarly(data);
+    approveCheck(data);
   };
 
   const onAccept = (_id) => {
@@ -86,7 +87,7 @@ const ApproveLate = (props) => {
       status: 2,
       token,
     };
-    approveLateEarly(data);
+    approveCheck(data);
   };
 
   const onChangeDate = (pickDay) => {
@@ -99,7 +100,7 @@ const ApproveLate = (props) => {
       reload: true,
       loading: true,
     };
-    listManagerLateEarly(data);
+    listManagerCheck(data);
     setPage(1);
     setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
   };
@@ -130,7 +131,7 @@ const ApproveLate = (props) => {
       loading: true,
     };
     setPage(1);
-    listManagerLateEarly(data);
+    listManagerCheck(data);
     onSetType(item);
     setStatus(item);
   };
@@ -146,7 +147,7 @@ const ApproveLate = (props) => {
       loading: true,
     };
     setPage(page + 1);
-    listManagerLateEarly(data);
+    listManagerCheck(data);
   };
 
   const renderFooterComponent = () => {
@@ -167,19 +168,19 @@ const ApproveLate = (props) => {
       reload: true,
       refreshing: true,
     };
-    listManagerLateEarly(data);
+    listManagerCheck(data);
     setPage(1);
     setSearch(false);
   };
 
   const onChangeName = (txt) => {
-    const newData = dataManager.length > 0
-      ? dataManager.filter((item) => {
+    const newData = dataManagerCheck.length > 0
+      ? dataManagerCheck.filter((item) => {
         const itemData = getText(item.fullname);
         const textData = getText(txt);
         return itemData.indexOf(textData) > -1;
       })
-      : dataManager;
+      : dataManagerCheck;
     setFilter(newData);
     setSearch(true);
     setTxtSearch(txt);
@@ -197,11 +198,11 @@ const ApproveLate = (props) => {
         type={type}
       />
       <View style={styles.container}>
-        {dataManager.length === 0 && Array.isArray(dataManager) ? (
+        {dataManagerCheck.length === 0 && Array.isArray(dataManagerCheck) ? (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         ) : (
           <FlatList
-            data={search ? filter : dataManager}
+            data={search ? filter : dataManagerCheck}
             keyExtractor={(item, index) => `${item.id}`}
             renderItem={renderItem}
             onEndReached={handleLoadMore}
@@ -218,7 +219,7 @@ const ApproveLate = (props) => {
   );
 };
 
-export default ApproveLate;
+export default ApproveCheck;
 
 const styles = StyleSheet.create({
   container: {

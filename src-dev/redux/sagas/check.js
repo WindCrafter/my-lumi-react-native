@@ -31,6 +31,10 @@ import {
   listAdminTakeLeaveSuccess,
   confirmDenyTakeLeaveSuccess,
   confirmDenyTakeLeaveFailed,
+  listManagerCheckSuccess,
+  listManagerCheckFailed,
+  approveCheckSuccess,
+  approveCheckFailed,
   updateTakeLeaveSuccess,
   updateTakeLeaveFailed,
   deleteTakeLeaveFailed,
@@ -985,4 +989,86 @@ function* sagaCheckInCode(action) {
 
 export function* watchCheckInCode() {
   yield takeLatest(types.CHECK_IN_CODE, sagaCheckInCode);
+}
+
+/// Duyet cham cong tu xa
+function* sagaListManagerCheck(action) {
+  try {
+    const token = action.payload.token;
+    const status = action.payload.status;
+    const date = action.payload.date;
+    const page_size = action.payload.page_size;
+    const page = action.payload.page;
+    const reload = action.payload.reload;
+    const loading = !!action.payload.loading;
+    const response = yield _GET(
+      URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
+      token,
+      loading,
+    );
+    if (response.success && response.statusCode === 200) {
+      const DATA = {
+        reload,
+        data: response.data,
+      };
+      yield put(listManagerCheckSuccess(DATA));
+      _global.Loading.hide();
+    } else {
+      yield put(listManagerCheckFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchListManagerCheck() {
+  yield takeLatest(types.LIST_MANAGER_CHECK, sagaListManagerCheck);
+}
+
+function* sagaApproveCheck(action) {
+  try {
+    const data = {
+      id: action.payload._id,
+      status: action.payload.status,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_APPROVE_LATE_EARLY, data, token);
+    console.log('>>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(approveCheckSuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      yield put(approveCheckFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchApproveCheck() {
+  yield takeLatest(types.APPROVE_CHECK, sagaApproveCheck);
 }

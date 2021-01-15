@@ -35,6 +35,7 @@ import HistoryBreak from '../user/container/apply/HistoryBreak';
 import ApproveBreak from '../user/container/apply/ApproveBreak';
 import ChangePass from '../user/container/changePass/index';
 import Kpi from '../user/container/kpi';
+import ApproveAll from '../user/container/apply/ApproveAll';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -87,6 +88,14 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.approveOT}
         component={ApproveOT}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.approve}
+        component={ApproveAll}
         options={{
           headerShown: false,
           gestureEnabled: false,
