@@ -11,6 +11,9 @@ import applyOT from '../user/container/apply/applyOT';
 import ListOT from '../user/container/apply/ListOT';
 import ApproveOT from '../user/container/apply/ApproveOT';
 import applyBreak from '../user/container/apply/applyBreak';
+import updateBreak from '../user/container/apply/updateBreak';
+import updateOT from '../user/container/apply/updateOT';
+import updateLate from '../user/container/apply/updateLate';
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
@@ -107,6 +110,30 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
+        name={langs.navigator.updateBreak}
+        component={updateBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateLate}
+        component={updateLate}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateOT}
+        component={updateOT}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
         name={langs.navigator.approveBreak}
         component={ApproveBreak}
         options={{
@@ -135,6 +162,7 @@ export default function UserStack() {
         component={HistoryBreak}
         options={{
           headerShown: false,
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen

@@ -113,6 +113,9 @@ export const URL_STAGING = {
   //
 
   OVERTIME: '/overtime/create',
+  UPDATE_OT: '/overtime/update',
+  DELETE_OT: '/overtime/delete',
+  ///
   ADD_USERID_DEVICE: '/user/add-device-id',
   REMOVE_USERID_DEVICE: '/user/remove-device-id',
   GET_LIST_TEAMS: '/user/list-teams',

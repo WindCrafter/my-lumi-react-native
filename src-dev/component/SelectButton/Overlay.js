@@ -89,23 +89,23 @@ class Overlay extends PureComponent {
         isOpen: true,
         target: this.getTarget(),
       },
-      () => {
-        Animated.parallel([
-          Animated.spring(this.state.scale, {
-            toValue: 1,
-            ...this.dropdownProps.springConfig,
-            useNativeDriver: false,
-          }),
-          Animated.spring(this.state.openVal, {
-            toValue: 1,
-            ...this.dropdownProps.springConfig,
-            useNativeDriver: false,
-          }),
-        ]).start(() => {
-          this.setState({isAnimating: false});
-          this.dropdownProps.onOpen && this.dropdownProps.onOpen();
-        });
-      },
+      // () => {
+      //   Animated.parallel([
+      //     Animated.spring(this.state.scale, {
+      //       toValue: 1,
+      //       ...this.dropdownProps.springConfig,
+      //       useNativeDriver: false,
+      //     }),
+      //     Animated.spring(this.state.openVal, {
+      //       toValue: 1,
+      //       ...this.dropdownProps.springConfig,
+      //       useNativeDriver: false,
+      //     }),
+      //   ]).start(() => {
+      //     this.setState({isAnimating: false});
+      //     this.dropdownProps.onOpen && this.dropdownProps.onOpen();
+      //   });
+      // },
     );
   };
 
@@ -113,25 +113,25 @@ class Overlay extends PureComponent {
     this.setState({
       isAnimating: true,
     });
-    Animated.parallel([
-      Animated.timing(this.state.scale, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: false,
-      }),
-      Animated.timing(this.state.openVal, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: false,
-      }),
-    ]).start(() => {
+    // Animated.parallel([
+    //   Animated.timing(this.state.scale, {
+    //     toValue: 0,
+    //     duration: 250,
+    //     useNativeDriver: false,
+    //   }),
+    //   Animated.timing(this.state.openVal, {
+    //     toValue: 0,
+    //     duration: 250,
+    //     useNativeDriver: false,
+    //   }),
+    // ]).start(() => {
       this.setState({
         isAnimating: false,
         isOpen: false,
       });
 
-      this.dropdownProps.onClose && this.dropdownProps.onClose();
-    });
+    //   this.dropdownProps.onClose && this.dropdownProps.onClose();
+    // });
   };
 
   getTargetButton = () => {
@@ -214,30 +214,30 @@ class Overlay extends PureComponent {
 
     const openStyle = [
       styles.open,
-      {
-        left: openVal.interpolate({
-          inputRange: [0, 1],
-          outputRange: [targetContent.start.x, targetContent.end.x],
-        }),
-        top: openVal.interpolate({
-          inputRange: [0, 1],
-          outputRange: [targetContent.start.y, targetContent.end.y],
-        }),
-        transform: [
-          {
-            scale,
-          },
-        ],
-      },
+      // {
+      //   left: openVal.interpolate({
+      //     inputRange: [0, 1],
+      //     outputRange: [targetContent.start.x, targetContent.end.x],
+      //   }),
+      //   top: openVal.interpolate({
+      //     inputRange: [0, 1],
+      //     outputRange: [targetContent.start.y, targetContent.end.y],
+      //   }),
+      //   transform: [
+      //     {
+      //       scale,
+      //     },
+      //   ],
+      // },
     ];
 
     const background = (
       <TouchableWithoutFeedback onPress={() => this.close()}>
-        <Animated.View style={[styles.background, modalOpacityStyle]}>
+        <View style={[styles.background ]}>
           <View
             style={[styles.absolute, {backgroundColor: 'rgba(0, 0, 0, 0.4)'}]}
           />
-        </Animated.View>
+        </View>
       </TouchableWithoutFeedback>
     );
 
@@ -248,9 +248,9 @@ class Overlay extends PureComponent {
         transparent
         onRequestClose={() => this.close()}>
         {background}
-        <Animated.View style={[openStyle, modalOpacityStyle]}>
+        <View style={[openStyle]}>
           {this.props.children}
-        </Animated.View>
+        </View>
       </Modal>
     );
   }
