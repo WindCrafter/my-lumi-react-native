@@ -25,7 +25,7 @@ import {
 } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
 import HistoryLate from './HistoryLate';
-import ApplyLate2 from './applyLate2';
+import FormLate from './FormLate';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -60,7 +60,7 @@ function ApplyLate(props) {
     setDateUserLate,
   } = props;
   const [initialData, setInitialData] = useState([]);
- console.log(date_user_late);
+  console.log(date_user_late);
   let response = {};
   const getData = async (pageNumber, dateN, statusN, dataN) => {
     const _date = dateN || '';
@@ -86,7 +86,7 @@ function ApplyLate(props) {
     // getData(1, '', '', []);
 
     if (isFocused) {
-      getData(1, date_user_late, status_user_late,[]);
+      getData(1, date_user_late, status_user_late, []);
       console.log('statusstatussta redux', status_user_late, date_user_late);
     }
 
@@ -109,39 +109,39 @@ function ApplyLate(props) {
       />
 
       <ScrollableTabView
-        contentProps={{keyboardShouldPersistTaps: 'handled'}}
-        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
+        contentProps={{ keyboardShouldPersistTaps: 'handled' }}
+        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
         tabBarBackgroundColor={Colors.white}
         tabBarActiveTextColor={Colors.background}
         tabBarInactiveTextColor={Colors.itemInActive}
         locked
-        tabBarTextStyle={{fontSize: 16, marginLeft: -4}}
-        renderTabBar={() =>
-          Platform.OS === 'android' ? (
-            <ScrollableTabBar style={{borderBottomColor: 'white'}} />
-          ) : (
-            <ScrollableTabBarCustom
-              style={{
-                borderBottomWidth: 0,
-                borderBottomColor: 'black',
-                marginBottom: 8,
-                height: 44,
-                // backgroundColor: 'red'
-              }}
-              tabStyle={{
-                height: 24,
-                justifyContent: 'center',
-                marginRight: 20,
-                marginLeft: 5,
-              }}
-              tabsContainerStyle={{
-                marginLeft: 16,
-                justifyContent: 'flex-start',
-              }}
-            />
-          )
-        }>
-        <ApplyLate2 tabLabel="Tạo đơn" />
+        tabBarTextStyle={{ fontSize: 16, marginLeft: -4 }}
+        renderTabBar={() => (Platform.OS === 'android' ? (
+          <ScrollableTabBar style={{ borderBottomColor: 'white' }} />
+        ) : (
+          <ScrollableTabBarCustom
+            style={{
+              borderBottomWidth: 0,
+              borderBottomColor: 'black',
+              marginBottom: 8,
+              height: 44,
+              // backgroundColor: 'red'
+            }}
+            tabStyle={{
+              height: 24,
+              justifyContent: 'center',
+              marginRight: 20,
+              marginLeft: 5,
+            }}
+            tabsContainerStyle={{
+              marginLeft: 16,
+              justifyContent: 'flex-start',
+            }}
+          />
+        ))
+        }
+      >
+        <FormLate tabLabel="Tạo đơn" setLateEarly={setLateEarly} navigation={navigation} token={token} />
         <HistoryLate
           navigation={navigation}
           token={token}
@@ -149,7 +149,6 @@ function ApplyLate(props) {
           status_user_late={status_user_late}
           tabLabel="Xem/sửa đơn"
           initialData={initialData}
-      
           setDateUserLate={setDateUserLate}
           date_user_late={date_user_late}
         />

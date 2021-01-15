@@ -16,7 +16,6 @@ import { Colors } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import FilterTop from './component/FilterTop';
-import UpdateLate2 from './updateLate2';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -309,9 +308,9 @@ const HistoryLate = (props) => {
     );
   };
   const _data = [];
-  data && data.map((v, i) => {
+  data && (data.map((v, i) => {
     _data[i] = { ...v, key: i };
-  });
+  }));
   // console.log(data);
   console.log('statusstatusstatus', status_user_late);
   const handleScroll = (event) => {
@@ -370,7 +369,7 @@ const HistoryLate = (props) => {
             swipeToOpenPercent={20}
           />
         </View>
-        <UpdateLate2 route={route} token={token} />
+
       </ScrollView>
     </>
   );

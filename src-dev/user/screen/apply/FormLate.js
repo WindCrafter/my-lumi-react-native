@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,11 +16,10 @@ import {
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {
-  heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -31,48 +29,42 @@ import {
   InputSelect,
   SelectButton,
 } from '../../../component';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 
-import {imgs, Colors} from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
+import ActionButton from './component/ActionButton';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function UpdateLate2(props) {
-  const {
-    navigation,
-    setLateEarly,
-    token,
-    assign,
-    route,
-    updateLateEarly,
-  } = props;
-  // const { id, date, route.typeRoute, route.timeRoute, content, statusRoute } = route.params;
-  console.log('inside route', route);
-  const [reason, setReason] = useState(route.content);
+function FormLate(props) {
+  const { navigation, setLateEarly, token } = props;
+  const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
-  const [time, setTime] = useState(route.timeRoute);
-  useEffect(() => {
-    // getData(1, '', '', []);
-    const unsubscribe = () => {
-      console.log('check');
-    };
-    return () => {
-      unsubscribe;
-    };
-  }, [route]);
+  const [time, setTime] = useState(15);
+  const [isVisible, setVisible] = useState(false);
+  const [type, setType] = useState('late');
+  const onSetVisible = () => {
+    setVisible(!isVisible);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
   const goBack = () => {
     navigation.goBack();
   };
   const [showModal, setShowModal] = useState(false);
 
+  const onChangeTime = (value) => {
+    setTime(value);
+  };
   const onComplete = () => {
     onsetLateEarly();
   };
@@ -90,7 +82,7 @@ function UpdateLate2(props) {
     setReason(val);
     unFocus();
   };
-  const [day, setDay] = useState(moment(route.date, 'DD/MM/YYYY')._d);
+  const [day, setDay] = useState(new Date());
   const [mode, setMode] = useState('');
   const onUnshow = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -103,50 +95,58 @@ function UpdateLate2(props) {
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = route.typeRoute === '1' ? 'đi muộn' : 'về sớm';
+    const field = type === 'late' ? 'đi muộn' : 'về sớm';
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: `Vui lòng điền lí do ${field}`,
         messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
     const data = {
-      id: route.id,
-      date: moment(day).format('DD/MM/YYYY'),
-      type: route.typeRoute,
+      type: type === 'late' ? 1 : 2,
       time,
+      date: moment(day).format('DD/MM/YYYY'),
       token,
       content: reason,
-      status: route.statusRoute,
+      status:1,
     };
 
-    updateLateEarly(data);
+    setLateEarly(data);
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
   };
-
+  const onHistoryLate = () => {
+    navigation.navigate(langs.navigator.historyLate);
+  };
   const unFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
     Keyboard.dismiss();
   };
+  const onSetLate = () => {
+    setType('late');
+  };
+  const onSetEarly = () => {
+    setType('early');
+  };
+
   const renderDropdown = (hideOverlay) => {
     return (
       <FlatList
         data={choose}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
           width: 120,
           borderRadius: 8,
         }}
-        style={{height: 300}}
+        style={{ height: 300 }}
       />
     );
   };
@@ -161,12 +161,14 @@ function UpdateLate2(props) {
             alignSelf: 'center',
             paddingHorizontal: 8,
           }}
-          onPress={() => onPressItem(item, hideOverlay)}>
+          onPress={() => onPressItem(item, hideOverlay)}
+        >
           <Text
             style={[
               styles.txtTime,
-              {color: time === item.value ? Colors.background : 'black'},
-            ]}>
+              { color: time === item.value ? Colors.background : 'black' },
+            ]}
+          >
             {item.label}
           </Text>
         </TouchableOpacity>
@@ -180,18 +182,19 @@ function UpdateLate2(props) {
   };
 
   const choose = [
-    {label: '15 phút', value: 15},
-    {label: '30 phút', value: 30},
-    {label: '45 phút', value: 45},
-    {label: '60 phút', value: 60},
+    { label: '15 phút', value: 15 },
+    { label: '30 phút', value: 30 },
+    { label: '45 phút', value: 45 },
+    { label: '60 phút', value: 60 },
   ];
 
   return (
     <View style={styles.container}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{paddingBottom: 40}}
-        keyboardDismissMode="interactive">
+        style={{ backgroundColor: '#f2f2f2' }}
+        keyboardDismissMode="interactive"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -207,7 +210,7 @@ function UpdateLate2(props) {
               justifyContent: 'center',
               alignSelf: 'center',
             }}
-            value={reason || route.content}
+            value={reason}
             onChangeText={onChangeReason}
             onFocus={onFocus}
             onSubmitEditing={unFocus}
@@ -248,31 +251,35 @@ function UpdateLate2(props) {
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              {route.typeRoute === 1 ? (
-                <ApplyIcon title="Đến muộn" tintColor="green" color="green" />
-              ) : (
-                <ApplyIcon
-                  title="Về Sớm"
-                  tintColor="green"
-                  source={imgs.clockEarly}
-                  height={28}
-                  width={28}
-                  color="green"
-                />
-              )}
+              <ApplyIcon
+                title="Đến muộn"
+                onPress={onSetLate}
+                tintColor={type === 'late' ? 'green' : 'grey'}
+                color={type === 'late' ? 'green' : 'grey'}
+              />
+              <ApplyIcon
+                title="Về Sớm"
+                onPress={onSetEarly}
+                tintColor={type === 'early' ? 'green' : 'grey'}
+                source={imgs.clockEarly}
+                height={28}
+                width={28}
+                color={type === 'early' ? 'green' : 'grey'}
+              />
             </View>
 
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -281,19 +288,19 @@ function UpdateLate2(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'center', alignItems: 'center' },
+              ]}
+            >
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
                 <SelectButton
                   dropdownHeight={120}
                   dropdownWidth={128}
                   customY={10}
-                  renderDropdown={renderDropdown}>
+                  renderDropdown={renderDropdown}
+                >
                   <View style={[styles.filter]}>
-                    <Text style={styles.txtTime}>
-                      {`${time || route.timeRoute} phút`}
-                    </Text>
+                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
                 </SelectButton>
@@ -301,6 +308,7 @@ function UpdateLate2(props) {
             </View>
           </Card>
         </View>
+
         <Button
           title="Hoàn thành"
           containerStyle={styles.complete}
@@ -323,14 +331,13 @@ function UpdateLate2(props) {
   );
 }
 
-export default UpdateLate2;
+export default FormLate;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
     zIndex: 0,
-    width: wp(100),
   },
   image: {
     width: 56,
@@ -380,7 +387,7 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    marginTop: 150,
+
   },
   bottom: {
     position: 'absolute',
