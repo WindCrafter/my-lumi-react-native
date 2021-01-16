@@ -112,6 +112,7 @@
 		<string>Quicksand-Medium.ttf</string>
 		<string>Quicksand-Regular.ttf</string>
 		<string>Quicksand-SemiBold.ttf</string>
+		<string>Quicksand-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

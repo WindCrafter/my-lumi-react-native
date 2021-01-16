@@ -48,7 +48,7 @@ const FilterTop = (props?: Props) => {
   const [isVisible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(initDate);
-  console.log(initDate);
+  // console.log(initDate);
   const [_date, setDateChange] = useState(new Date());
   const onClear = () => {
     setDate('');
@@ -137,14 +137,12 @@ const FilterTop = (props?: Props) => {
       <View
         style={[
           styles.rowBot,
-          { justifyContent: 'space-around', paddingBottom: 12 },
-        ]}
-      >
+          {justifyContent: 'space-around', paddingVertical: 8},
+        ]}>
         <SelectButton
           dropdownHeight={20}
           dropdownWidth={100}
-          renderDropdown={renderDropdown}
-        >
+          renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
             <Text>{type}</Text>
             <Text> ▼</Text>
@@ -153,13 +151,11 @@ const FilterTop = (props?: Props) => {
         <View
           style={[
             styles.filterDate,
-            { justifyContent: !date ? 'center' : 'space-between' },
-          ]}
-        >
+            {justifyContent: !date ? 'center' : 'space-between'},
+          ]}>
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
             <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
-              {' '}
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
             </Text>
             <Text>{show ? '▲' : '▼'}</Text>
           </TouchableOpacity>
@@ -178,7 +174,10 @@ const FilterTop = (props?: Props) => {
         onHideModal={onHideModal}
         onPress={onPressConfirmIOS}
       />
-
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </>
   );
 };

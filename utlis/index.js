@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, TextInput, StyleSheet } from 'react-native';
 import {imgs} from './images';
 import {Colors} from './color';
+import {Fonts} from './fonts'
 
-export {imgs, Colors};
+export {imgs, Colors, Fonts};
 
 /** *
  * Function set font default

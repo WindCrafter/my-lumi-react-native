@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors } from '../../../../utlis';
+import { Colors,Fonts } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import FilterTop from './component/FilterTop';
@@ -33,6 +33,7 @@ const HistoryLate = (props) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState(initialData);
+
   useEffect(() => {
     setData(initialData);
     console.log('onmei');
@@ -66,14 +67,13 @@ const HistoryLate = (props) => {
   const [localDate, setLocalDate] = useState(
     date_user_late ? moment(date_user_late, 'DD/MM/YYYY') : null
   );
-  const [route] = useState([]);
   const step = useRef();
   const goBack = () => {
     // navigation.reset({
     //   index: 0,
     //   routes: [{ name: langs.navigator.applyLate }],
     // });
-    navigation.reset(langs.navigator.applyLate);
+    navigation.goBack();
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN) => {
@@ -332,9 +332,8 @@ const HistoryLate = (props) => {
         keyboardDismissMode="on-drag"
         scrollEnabled={edit}
         ref={step}
-        onMomentumScrollEnd={handleScroll}
-      >
-        <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
+        onMomentumScrollEnd={handleScroll}>
+        <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
           <FilterTop
             title={langs.titleHistoryBreak}
             goBack={goBack}
@@ -346,7 +345,7 @@ const HistoryLate = (props) => {
             initDate={localDate}
           />
 
-          {data && data.length === 0 && (
+          {data && data.length === 0 && !loading && (
             <Text style={styles.noData}>Không có lịch sử.</Text>
           )}
 
@@ -369,7 +368,6 @@ const HistoryLate = (props) => {
             swipeToOpenPercent={20}
           />
         </View>
-
       </ScrollView>
     </>
   );
@@ -385,7 +383,9 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24,
+  // fontFamily: Fonts.font_family.italic 
+},
   rowBack: {
     alignItems: 'center',
     flex: 1,

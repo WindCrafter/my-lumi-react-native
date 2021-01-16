@@ -43,33 +43,42 @@ const HistoryBreak = (props) => {
     date_user_break,
     setDateUserBreak,
   } = props;
-console.log('>>>>',initialData);
+  // console.log('>>>>', initialData);
+  let initialType;
+  switch (status_user_break) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState(initialData);
-  const [type, setType] = useState('Tất cả');
-  const [date, setDate] = useState('');
+  const [type, setType] = useState(initialType || 'Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-
+  const [localDate, setLocalDate] = useState(
+    date_user_break ? moment(date_user_break, 'DD/MM/YYYY') : null,
+  );
   useEffect(() => {
     setData(initialData);
-    console.log('onmei');
+    // console.log('onmei');
   }, [initialData]);
-
-  // saga
-  // const getData = () => {
-
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   console.log(dataLeave);
-  //   listTakeLeave(dataLeave);
-  // };
   const getData = async (pageNumber, dateN, statusN, dataN) => {
-    console.log('statusNstatusNstatusN', statusN);
+    // console.log('statusNstatusNstatusN', statusN);
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
@@ -90,12 +99,11 @@ console.log('>>>>',initialData);
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date, status_user_break, data);
+    getData(page + 1, date_user_break, status_user_break, data);
     setOnScroll(false);
     setLoading(true);
   };
   const onSetType = (item) => {
-    console.log('typeheader', item);
     switch (item) {
       case '0':
         setType('Tất cả');
@@ -116,6 +124,7 @@ console.log('>>>>',initialData);
     }
   };
   const renderFooterComponent = () => {
+    console.log('loading', loading);
     return loading ? (
       <View style={styles.loader}>
         <ActivityIndicator size="large" />
@@ -126,65 +135,23 @@ console.log('>>>>',initialData);
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status_user_break, []);
+    getData(1, date_user_break, status_user_break, []);
   };
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onApplyBreak = () => {
-    navigation.navigate(langs.navigator.applyBreak);
-  };
-
-  const onApproveBreak = () => {
-    navigation.navigate(langs.navigator.approveBreak);
-  };
-
   const onChangeStatus = (item) => {
-    console.log('here');
-    console.log('here', item);
     setStatusUserBreak(item);
-    console.log(item);
     setData([]);
     setPage(1);
-    getData(1, date, item, []);
+    getData(1, date_user_break, item, []);
     onSetType(item);
   };
-  // SAGA
-  // const onChangeStatus = (item) => {
-  //   const dataLeave = {
-  //     status: item,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   onSetStatus(item);
-  //   console.log('checkkkkkkk', item);
-  //   setFilter({...filter, status: item});
-  //   console.log('checkkkkkkk2', status);
-  //   setData([]);
-  //   console.log(dataLeave);
-  //   listTakeLeave(dataLeave);
-  //   onSetType(item);
-  // };
-  // SAGA
-  // const onChangeDate = (date) => {
-  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
-  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //     date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
-  //   };
-  //   listTakeLeave(dataLeave);
-  // };
 
   const onChangeDate = (date) => {
-    setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+    setDateUserBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
     getData(
@@ -193,15 +160,16 @@ console.log('>>>>',initialData);
       status_user_break,
       [],
     );
+    setLocalDate(!date ? '' : date);
   };
 
   const renderItem = ({ item, index }) => {
-    // const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
+    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
     return (
       <CardBreak
         status={item.status}
         type={item.type}
-        date={item.date}
+        date={_listDate}
         reason={item.content}
         typeBreak={
           item.date.length > 1 && item.morning === 0
@@ -220,27 +188,28 @@ console.log('>>>>',initialData);
     );
   };
   const closeRow = (rowMap, rowKey) => {
-    console.log(rowKey);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
   const deleteRow = (rowMap, rowKey) => {
-    console.log(rowMap, rowKey);
+    // console.log(rowMap, rowKey);
     closeRow(rowMap, rowKey);
     const newData = [...data];
     const prevIndex = _data.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateBreak = (data2) => {
-    console.log(data2);
+  const onUpdateBreak = (data2, rowMap) => {
+    closeRow(rowMap, data2.item.key);
+    // console.log(data2);
     navigation.navigate(langs.navigator.updateBreak, {
       _id: data2.item._id,
       _date: data2.item.date,
       content: data2.item.content,
       morning: data2.item.morning,
-      type: data2.item.type
+      type: data2.item.type,
+
     });
   };
   const onDeleteBreak = async (rowMap, data2) => {
@@ -285,7 +254,7 @@ console.log('>>>>',initialData);
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateBreak(data2) : null;
+            data2.item.status === 1 ? onUpdateBreak(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -364,22 +333,22 @@ console.log('>>>>',initialData);
   // };
 
   const _data = [];
-  data.map((v, i) => { _data[i] = { ...v, key: i }; });
-console.log('---->',_data);
+  data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
+  // console.log(_data);
   return (
-    <>     
+    <>
       <FilterTop
         title={langs.titleHistoryBreak}
-        height={60}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
+        initDate={localDate}
       />
-      <View style={{ flex: 1 }}>
-        {_data.length === 0 && (
+      <View style={styles.backGround}>
+        {_data.length === 0 && !loading && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
         <SwipeListView
@@ -455,4 +424,6 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
+  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
+  loader: { marginTop: 8 }
 });

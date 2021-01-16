@@ -6,6 +6,7 @@ import {TabbarIcon} from '../component';
 import home from '../user/container/home';
 import checkIn from '../user/container/checkIn';
 import book from '../user/container/book';
+import OverView from '../user/container/OverView/index'
 import TabbarCustom from './TabbarCustom';
 import FloatTabbar from './FloatTabbar';
 import {Colors} from '../../utlis';
@@ -39,7 +40,7 @@ export default function TabbarUser() {
         })}
       />
       <BotStack.Screen
-        name={langs.navigator.book}
+        name={langs.navigator.overView}
         component={book}
         options={({route}) => ({
           tabBarLabel: 'Lịch họp',
@@ -47,7 +48,7 @@ export default function TabbarUser() {
       />
       <BotStack.Screen
         name={langs.navigator.testNotify}
-        component={notify}
+        component={OverView}
         options={() => ({
           tabBarLabel: 'Thông báo',
         })}
@@ -57,7 +58,7 @@ export default function TabbarUser() {
         component={account}
         options={({route}) => ({
           tabBarVisible: shouldShowTabbar(route),
-          tabBarLabel: 'Cá nhân',
+          tabBarLabel: 'Tổng quan',
         })}
       />
     </BotStack.Navigator>

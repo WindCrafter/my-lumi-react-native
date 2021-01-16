@@ -83,15 +83,11 @@ function UpdateBreak(props) {
     userId,
     token,
     assign,
-    _id,
-    _date,
-    content,
-    morning,
-    type,
+    route
   } = props;
-
+  const { _id, _date, morning, type, content } = route.params;
+  console.log('route', route.params);
   const [shift, setShift] = useState(new Date());
-
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -122,9 +118,6 @@ function UpdateBreak(props) {
   //   if ( myDate.getDay() == 0) setException(false);
   // console.log('checkexception')
   // }
-  const initialState2 = {};
-  _date.forEach((i) => Object.assign(initialState2, { [i]: { selected: true, day: i } }));
-  console.log('initialState : ', initialState2);
   const initialState = {
     ...getDaysInMonth(moment().month(), moment().year(), DISABLED_DAYS),
 
@@ -166,15 +159,13 @@ function UpdateBreak(props) {
     const newarray = [];
     const object = [];
     const array = Object.keys(_markedDates);
-
+console.log('aray',array);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
         newarray.push(
           moment(_markedDates[element].day, 'DD/MM/YYYY').format('DD/MM/YYYY'),
         );
-        console.log(
-          moment(_markedDates[element].day, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-        );
+        
       }
     });
     newarray.forEach((i) => {
@@ -193,7 +184,7 @@ function UpdateBreak(props) {
       // month: object,
       _id
     };
-
+console.log('final data',data);
     updateTakeLeave(data);
   };
   const onTakeLeaveShift = () => {
@@ -247,11 +238,16 @@ function UpdateBreak(props) {
   };
 
   const onSetTypeShift = () => {
-    if (moment().format('dddd') !== 'Saturday') {
+    console.log('typeShift', typeShift);
+
+    if (moment(_date.toString(), 'DD/MM/YYYY').format('dddd') !== 'Saturday') {
+      console.log('check');
       typeShift === 'Buổi sáng'
         ? setTypeShift('Buổi chiều')
         : setTypeShift('Buổi sáng');
     } else {
+      console.log('chec');
+     
       setTypeShift('Buổi sáng');
     }
   };
@@ -278,45 +274,44 @@ function UpdateBreak(props) {
       const selected = true;
       const updatedMarkedDates = {
         ..._markedDates,
-        ...{ [selectedDay]: { selected, day: selectedDay } },
+        ...{
+          [selectedDay]: {
+            selected,
+            day: moment(selectedDay, 'YYYY/MM/DD').format('DD/MM/YYYY'),
+          },
+        },
       };
       setMarkedDates(updatedMarkedDates);
     } else if (!_markedDates[selectedDay].disabled) {
       const selected = !_markedDates[selectedDay].selected;
       const updatedMarkedDates = {
         ..._markedDates,
-        ...{ [selectedDay]: { selected, day: selectedDay } },
+        ...{
+          [selectedDay]: {
+            selected,
+            day: moment(selectedDay, 'YYYY/MM/DD').format('DD/MM/YYYY'),
+          },
+        },
       };
       setMarkedDates(updatedMarkedDates);
     }
   };
 
-  const renderItem = ({ item }) => {
-    return (
-      <>
-        <View style={styles.btUser}>
-          <View style={styles.rowUser}>
-            <View style={styles.viewImage}>
-              <Image
-                source={require('../../../../naruto.jpeg')}
-                style={styles.avatar}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.textUser}>{item.name}</Text>
-              {/* <Text style={styles.textPos}>{item.pos}</Text> */}
-            </View>
-          </View>
-        </View>
-      </>
-    );
-  };
   console.log('_markedDates : ', _markedDates);
 
   return (
     <View style={styles.container}>
-
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
+      />
+      <HeaderCustom
+        title="Sửa đơn nghỉ phép"
+        height={60}
+        goBack={goBack}
+        fontSize={24}
+        shadow
+      />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -347,10 +342,7 @@ function UpdateBreak(props) {
           />
           {!reason && showModal ? (
             <Card style={styles.card}>
-              <Suggest
-                detail="Bị ốm."
-                onPress={() => onSetReason('Bị ốm.')}
-              />
+              <Suggest detail="Bị ốm." onPress={() => onSetReason('Bị ốm.')} />
               <Suggest
                 detail="Đi công tác."
                 onPress={() => onSetReason('Đi công tác.')}
@@ -370,22 +362,27 @@ function UpdateBreak(props) {
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              <ApplyIcon
-                title="Nửa ngày"
-                onPress={() => onSetTypeBreak('Theo buổi')}
-                tintColor={
-                  typeBreak === 'Theo buổi' ? Colors.background : 'grey'
+
+              {typeBreak === 'Theo buổi' ? (
+                <ApplyIcon
+                  title="Nửa ngày"
+                  onPress={() => onSetTypeBreak('Theo buổi')}
+                  tintColor={
+                   Colors.background
                 }
-                source={imgs.breakShift}
-              />
-              <ApplyIcon
-                title="Theo ngày"
-                onPress={() => onSetTypeBreak('Theo ngày')}
-                tintColor={
-                  typeBreak === 'Theo ngày' ? Colors.background : 'grey'
+                  source={imgs.breakShift}
+                />
+              ) : (
+                <ApplyIcon
+                  title="Theo ngày"
+                  onPress={() => onSetTypeBreak('Theo ngày')}
+                  tintColor={
+                   Colors.background
                 }
-                source={imgs.breakOneDay}
-              />
+                  source={imgs.breakOneDay}
+                />
+              )}
+
             </View>
             {typeBreak === 'Theo buổi' ? (
               <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
@@ -426,7 +423,6 @@ function UpdateBreak(props) {
                 minDate={_today}
                 maxDate={_maxDate}
                 // hideArrows={true}
-
                 onDayPress={onDaySelect}
                 markedDates={_markedDates}
                 style={{
@@ -480,7 +476,6 @@ export default UpdateBreak;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: 'white',
     width: wp(100)
   },
   image: {

@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  Platform,
-  UIManager,
-} from 'react-native';
-import {
-  widthPercentageToDP } from 'react-native-responsive-screen';
-import ScrollableTabView, {
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
-import { useIsFocused } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Platform, UIManager } from 'react-native';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import langs from '../../../../common/language';
 import {
   BarStatus,
   HeaderCustom,
-  ScrollableTabBarCustom,
   TabView,
+  HeaderAccount,
 } from '../../../component';
-import { Colors, Fonts } from '../../../../utlis';
+import { Colors } from '../../../../utlis';
 import { _global } from '../../../../utlis/global/global';
-import FormBreak from './FormBreak';
-import HistoryBreak from './HistoryBreak';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import AllBreak from './allBreak';
+import AllLate from './allLate';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
 if (
@@ -35,77 +24,30 @@ if (
 function ApplyBreak(props) {
   const {
     navigation,
-    takeLeave,
     token,
-    date_user_break,
-    setStatusUserBreak,
-    setDateUserBreak,
-    status_user_break,
   } = props;
-  const [initialData, setInitialData] = useState([]);
   const [routes] = useState([
-    { key: '1', title: 'Viết đơn' },
-    { key: '2', title: 'Xem/sửa đơn' },
+    { key: '1', title: 'Xin nghỉ' },
+    { key: '2', title: 'Đi muộn/về sớm' },
   ]);
   const [index, setIndex] = useState(0);
-  let response = {};
-  const getData = async (pageNumber, dateN, statusN, dataN) => {
-    const _date = dateN || '';
-    const _status = statusN || 0;
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
-    response = await _GET(apiURL, token, false);
-    console.log('_GET_LIST_BREAK ===========>', response);
-
-    if (
-      response.success
-      && response.statusCode === 200
-      && response.data
-      && response.data.length >= 0
-    ) {
-      console.log('heyyyy', response.data);
-      setInitialData(response.data);
-    }
-  };
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    // getData(1, '', '', []);
-
-    if (isFocused) {
-      getData(1, date_user_break, status_user_break, []);
-      // console.log('statusstatussta redux', status_user_break, date_user_break);
-    }
-
-    setInitialData();
-  }, [isFocused, status_user_break]);
 
   const goBack = () => {
     console.log('checkkkkkking');
     navigation.navigate(langs.navigator.home);
   };
-  // console.log('response truyen', initialData);
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
         return (
-          <FormBreak
-            takeLeave={takeLeave}
+          <AllBreak
             navigation={navigation}
             token={token}
           />
         );
       case '2':
-        return (
-          <HistoryBreak
-            navigation={navigation}
-            token={token}
-            setStatusUserBreak={setStatusUserBreak}
-            status_user_break={status_user_break}
-            initialData={initialData}
-            setDateUserBreak={setDateUserBreak}
-            date_user_break={date_user_break}
-          />
-        );
+        return <AllLate token={token} />;
       default:
         return null;
     }
@@ -113,12 +55,11 @@ function ApplyBreak(props) {
   return (
     <View style={styles.container}>
       <BarStatus backgroundColor={Colors.white} height={20} />
-      <HeaderCustom
-        title="Đơn xin đi nghỉ phép"
-        height={72}
-        goBack={goBack}
-        fontSize={20}
+      <HeaderAccount
+        title="Lịch"
+        sub="Xem"
       />
+
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
