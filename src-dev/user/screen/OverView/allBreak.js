@@ -16,6 +16,7 @@ import { Colors } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardBreakAll from './components/CardBreakAll';
 // import FilterTop from './component/FilterTop';
+import FilterDate from './components/FilterDate';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
@@ -33,15 +34,16 @@ const AllBreak = (props) => {
   } = props;
 
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
+  const [name, setName] = useState('');
   useEffect(() => {
-    getData(1, '', '');
+    getData(1, '', 0,[],'');
     console.log('onmei');
   }, []);
 
@@ -56,12 +58,12 @@ const AllBreak = (props) => {
   //   console.log(dataLeave);
   //   listTakeLeave(dataLeave);
   // };
-  const getData = async (pageNumber, dateN, nameN, dataN) => {
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
     const _name = nameN || '';
-
-    const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&fullname=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);
@@ -73,12 +75,12 @@ const AllBreak = (props) => {
       && response.data
       && response.data.length > 0
     ) {
-      setData(_dataN.concat(response.data));
+      setData(_data.concat(response.data));
       setPage(pageNumber);
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date, status, data, name);
     setOnScroll(false);
     setLoading(true);
   };
@@ -122,20 +124,31 @@ const AllBreak = (props) => {
     navigation.goBack();
   };
 
-  const onChangeStatus = (item) => {
-    setData([]);
-    setPage(1);
-    getData(1, date, item, []);
-    onSetType(item);
-  };
+  // const onChangeStatus = (item) => {
+  //   setData([]);
+  //   setPage(1);
+  //   getData(1, date, item, [], name);
+  //   onSetType(item);
+  // };
 
   const onChangeDate = (datePick) => {
     setData([]);
     setPage(1);
-    getData(1, !datePick ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    getData(
+      1,
+      !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
+      status,
+      [],
+      name,
+    );
     setDate(!datePick ? '' : date);
   };
-
+  const onChangeName = (item) => {
+    setName(item);
+    setData([]);
+    setPage(1);
+    getData(1, date, status, [], item);
+  };
   const renderItem = ({ item }) => {
     const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
     return (
@@ -174,8 +187,18 @@ const AllBreak = (props) => {
         backgroundColor={Colors.white}
         initDate={localDate}
       /> */}
+      <FilterDate
+        header={false}
+        // onChangeStatus={onChangeStatus}
+        onChangeDate={onChangeDate}
+        onChangeName={onChangeName}
+        type={type}
+        CONFIRM_DENY_TAKE_LEAVE
+        search
+        txtSearch={name}
+      />
       <View style={styles.backGround}>
-        {data.length === 0 && (
+        {data && data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
         <FlatList
@@ -190,11 +213,11 @@ const AllBreak = (props) => {
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
-        //   renderHiddenItem={renderHiddenItem}
-        //   leftOpenValue={75}
-        //   rightOpenValue={-150}
-        //   disableRightSwipe
-        //   swipeToOpenPercent={20}
+          //   renderHiddenItem={renderHiddenItem}
+          //   leftOpenValue={75}
+          //   rightOpenValue={-150}
+          //   disableRightSwipe
+          //   swipeToOpenPercent={20}
 
           // previewRowKey="0"
           // previewOpenValue={-40}

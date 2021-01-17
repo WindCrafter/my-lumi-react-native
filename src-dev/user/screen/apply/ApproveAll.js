@@ -33,6 +33,18 @@ const ApproveAll = (props) => {
     removeList,
     refreshing,
     route,
+    setDateAdBreak,
+    setDateAdLate,
+    setDateAdOT,
+    setStatusAdBreak,
+    setStatusAdLate,
+    setStatusAdOT,
+    status_ad_break,
+    status_ad_late,
+    status_ad_ot,
+    date_ad_break,
+    date_ad_ot,
+    date_ad_late,
   } = props;
   const { page } = route.params;
   const goBack = () => {
@@ -41,12 +53,13 @@ const ApproveAll = (props) => {
   };
   const renderTabBar = () => {
     return (
-      <DefaultTabBar tabStyle={styles.tab} />
+      <DefaultTabBar tabStyle={styles.tab} style={{ borderColor: 'white' }} />
     );
   };
   return (
     <>
       <BarStatus
+        backgroundColor="white"
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
@@ -55,7 +68,12 @@ const ApproveAll = (props) => {
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollableTabView tabBarActiveTextColor={Colors.background} tabBarUnderlineStyle={{ backgroundColor: Colors.background }} renderTabBar={renderTabBar} initialPage={page}>
+      <ScrollableTabView
+        tabBarActiveTextColor={Colors.background}
+        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
+        renderTabBar={renderTabBar}
+        initialPage={page}
+      >
         <ApproveBreak tabLabel={langs.break} token={token} />
         <ApproveLate
           tabLabel={langs.late}
@@ -92,8 +110,9 @@ const styles = StyleSheet.create({
   noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
   tab: {
     // borderLeftWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey',
+    borderColor: 'white',
     paddingTop: 10,
     borderWidth: 0,
+    backgroundColor: 'white'
   }
 });

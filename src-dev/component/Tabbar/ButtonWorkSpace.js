@@ -64,7 +64,7 @@ const ButtonTabbar = ({
       )}
       <Text
         style={[styles.text, {color: isFocused ? Colors.background : 'gray'}]}>
-        WorkSpace 
+        Tổng quan 
       </Text>
     </TouchableOpacity>
   );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   TextInputProps,
   TextInput,
@@ -8,8 +8,8 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs, Colors } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -82,14 +82,15 @@ export default function Input(props?: Props) {
           backgroundColor,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       <Button onPress={onPress}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
       </Button>
       <TextInput
         testID={testID}
         ref={refInput}
-        style={[styles.textInput, rightIcon ? {paddingRight: 8} : undefined]}
+        style={[styles.textInput, rightIcon ? { paddingRight: 8 } : undefined]}
         selectionColor="black"
         placeholderTextColor="gray"
         autoCorrect={false}
@@ -103,9 +104,11 @@ export default function Input(props?: Props) {
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
         {...otherProps}
       />
-      {rightIcon && isFocus && text !== '' && (
+      {rightIcon && text !== '' && (
         <TouchableOpacity onPress={onRightButton} style={styles.rightButton}>
-          <Image style={styles.icon} source={imgs.cancel} />
+          <View style={styles.rightView}>
+            <Image style={styles.icon} source={imgs.cancel} />
+          </View>
         </TouchableOpacity>
       )}
     </View>
@@ -130,14 +133,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Regular',
   },
   icon: {
-    width: 14,
-    height: 14,
+    width: 8,
+    height: 8,
+    tintColor: Colors.white,
   },
   rightButton: {
     overflow: 'hidden',
-    backgroundColor: 'transparent',
     width: 32,
     height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rightView: {
+    overflow: 'hidden',
+    backgroundColor: 'rgba(1,18,34,0.3)',
+    width: 20,
+    height: 20,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',

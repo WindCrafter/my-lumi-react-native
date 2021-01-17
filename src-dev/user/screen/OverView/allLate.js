@@ -9,10 +9,12 @@ import {
   ScrollView,
   FlatList
 } from 'react-native';
+
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
+import FilterDate from './components/FilterDate';
 import { Colors, Fonts } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';
@@ -32,18 +34,20 @@ const allLate = (props) => {
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(0);
   const step = useRef();
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    getData(1, '', '');
+       getData(1, '', 0, [], '');
+
   }, []);
 
-  const getData = async (pageNumber, dateN, nameN, dataN) => {
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
     const _name = nameN || '';
-
-    const _dataN = dataN || [];
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_LATE_EARLY ===========>', response);
@@ -56,7 +60,7 @@ const allLate = (props) => {
       && response.data
       && response.data.length > 0
     ) {
-      setData(_dataN.concat(response.data));
+      setData(dataN.concat(response.data));
       setPage(pageNumber);
     }
   };
@@ -73,7 +77,12 @@ const allLate = (props) => {
       />
     );
   };
-
+  const onChangeName = (item) => {
+    setName(item);
+    setData([]);
+    setPage(1);
+    getData(1, date, status, [], item);
+  };
   const onChangeDate = (datePick) => {
     setData([]);
     setPage(1);
@@ -82,8 +91,9 @@ const allLate = (props) => {
       !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
       status,
       [],
+      name,
     );
-    setDate(!datePick ? '' : datePick);
+    setDate(!datePick ? '' : date);
   };
   const onSetType = (item) => {
     switch (item) {
@@ -107,12 +117,12 @@ const allLate = (props) => {
     }
   };
 
-  const onChangeStatus = (item) => {
-    setData([]);
-    setPage(1);
-    getData(1, date, item, []);
-    onSetType(item);
-  };
+  // const onChangeStatus = (item) => {
+  //   setData([]);
+  //   setPage(1);
+  //   getData(1, date, item, []);
+  //   onSetType(item);
+  // };
 
   const handleLoadMore = () => {
     getData(page + 1, date, status, data);
@@ -158,8 +168,17 @@ const allLate = (props) => {
             backgroundColor={Colors.white}
             initDate={localDate}
           /> */}
-
-          {data && data.length === 0 &&  (
+          <FilterDate
+            header={false}
+            // onChangeStatus={onChangeStatus}
+            onChangeDate={onChangeDate}
+            onChangeName={onChangeName}
+            type={type}
+            CONFIRM_DENY_TAKE_LEAVE
+            search
+            txtSearch={name}
+          />
+          {data && data.length === 0 && (
             <Text style={styles.noData}>Không có lịch sử.</Text>
           )}
 
@@ -172,12 +191,11 @@ const allLate = (props) => {
             // onEndReached={!loading && onScroll ? handleLoadMore : null}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooterComponent}
-            // refreshControl={
-            //   <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-            // }
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
           />
         </View>
-
       </ScrollView>
     </>
   );

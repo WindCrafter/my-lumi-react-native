@@ -40,17 +40,17 @@ export default function TabbarUser() {
         })}
       />
       <BotStack.Screen
-        name={langs.navigator.overView}
+        name={langs.navigator.book}
         component={book}
         options={({route}) => ({
           tabBarLabel: 'Lịch họp',
         })}
       />
       <BotStack.Screen
-        name={langs.navigator.testNotify}
+        name={langs.navigator.overView}
         component={OverView}
         options={() => ({
-          tabBarLabel: 'Thông báo',
+          tabBarLabel: 'Tổng quan',
         })}
       />
       <BotStack.Screen

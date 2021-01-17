@@ -89,15 +89,15 @@ const Notify = (props) => {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyOT, { page: 2 });
             break;
           case 2:
           case '2':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyBreak, { page: 0 });
             break;
           case 3:
           case '3':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyLate, { page: 1 });
             break;
           default: console.log('Wrong type', item.customData.type);
         }
@@ -108,9 +108,20 @@ const Notify = (props) => {
 
     return (
       <TouchableOpacity onPress={onShow}>
-        <Card style={[styles.card, { opacity: item.status === 0 || item.status === '0' ? 1 : 0.4 }]}>
+        <Card
+          style={[
+            styles.card,
+            {
+              backgroundColor:
+                item.status === 0 || item.status === '0'
+                  ? Colors.white
+                  : Colors.backgroundInActive,
+            },
+          ]}>
           <View style={styles.row}>
-            {item.status === 0 || item.status === '0' ? <View style={styles.read} /> : null}
+            {item.status === 0 || item.status === '0' ? (
+              <View style={styles.read} />
+            ) : null}
             <Text style={styles.title}>{item.title}</Text>
           </View>
           <Text style={styles.content}>{item.content}</Text>
@@ -173,7 +184,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     width: '90%',
-    backgroundColor: Colors.white,
     alignSelf: 'center',
     overflow: 'hidden',
     shadowColor: 'black',

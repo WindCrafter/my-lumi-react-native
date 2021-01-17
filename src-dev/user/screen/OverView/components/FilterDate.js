@@ -13,12 +13,13 @@ import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
+import { DatePicker } from 'native-base';
 import { imgs, Colors } from '../../../../../utlis';
-import PickerCustom from './PickerCustom';
+import PickerCustom from '../../apply/component/PickerCustom';
 import { Input, SelectButton } from '../../../../component';
 // import {FlatList} from 'react-native-gesture-handler';
 
-const HeaderCustom = (props?: Props) => {
+const FilterDate = (props?: Props) => {
   const { width } = props || wp(100);
   const { height } = props || 60;
   const { fontSize } = props || 20;
@@ -143,13 +144,15 @@ const HeaderCustom = (props?: Props) => {
               justifyContent: 'center',
             },
             containerStyle,
-          ]}>
+          ]}
+        >
           <TouchableOpacity
             onPress={goBack}
-            style={[styles.button, {top: deviceWidth > 374 ? 4 : 0}]}>
+            style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
+          >
             <Icon name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
-          <Text style={[styles.title, {fontSize}]} {...otherProps}>
+          <Text style={[styles.title, { fontSize }]} {...otherProps}>
             {title}
           </Text>
           {rightButton ? (
@@ -179,25 +182,24 @@ const HeaderCustom = (props?: Props) => {
       <View
         style={[
           styles.rowBot,
-          {marginBottom: 16, justifyContent: 'space-around'},
-        ]}>
-        <SelectButton
-          dropdownHeight={20}
-          dropdownWidth={100}
-          renderDropdown={renderDropdown}>
-          <View style={styles.filterStatus}>
-            <Text>{type}</Text>
-            <Text> ▼</Text>
-          </View>
-        </SelectButton>
+          { marginBottom: 16, justifyContent: 'flex-start' },
+        ]}
+      >
         <View
           style={[
             styles.filterDate,
-            {justifyContent: !date ? 'center' : 'space-between'},
-          ]}>
+            {
+              justifyContent: !date ? 'center' : 'space-between',
+              backgroundColor: !date ? Colors.ink200 : 'white',
+              borderWidth: date ? 0.25 : 0,
+              borderColor: date ? Colors.background : 'white',
+            },
+          ]}
+        >
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
             <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
+              {' '}
             </Text>
             <Text>{show ? '▲' : '▼'}</Text>
           </TouchableOpacity>
@@ -224,7 +226,7 @@ const HeaderCustom = (props?: Props) => {
   );
 };
 
-HeaderCustom.defaultProps = {
+FilterDate.defaultProps = {
   header: true,
 };
 
@@ -294,8 +296,7 @@ const styles = StyleSheet.create({
   },
   filterDate: {
     flexDirection: 'row',
-    borderWidth: 0.25,
-    borderColor: Colors.gray,
+
     alignItems: 'center',
     alignSelf: 'flex-end',
     borderRadius: 6,
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
     height: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderLeftColor: Colors.gray,
+    borderLeftColor: Colors.background,
     borderLeftWidth: StyleSheet.hairlineWidth,
     marginLeft: 4,
   },
@@ -369,4 +370,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeaderCustom;
+export default FilterDate;

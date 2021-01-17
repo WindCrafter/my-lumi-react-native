@@ -59,7 +59,7 @@ export default function Home(props) {
   const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
 
   const onPressNotify = () => {
-    navigation.navigate(langs.navigator.testNotify);
+    navigation.navigate(langs.navigator.notify);
   };
 
    const onPressLate = () => {

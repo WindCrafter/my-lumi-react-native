@@ -54,10 +54,10 @@ function ApplyBreak(props) {
   };
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
+      <BarStatus backgroundColor={Colors.white} height={36} />
       <HeaderAccount
-        title="Lịch"
-        sub="Xem"
+        title="Tổng quan"
+        sub="Xem lịch làm việc"
       />
 
       <TabView

@@ -29,10 +29,7 @@ import CardBreak from './component/CardBreak';
 const ApproveBreak = (props) => {
   const {
     navigation,
-    listAdminTakeLeave,
     token,
-    historyAdminTakeLeave,
-    confirmDenyTakeLeave,
     setStatusAdBreak,
     status_ad_break
   } = props;
@@ -267,7 +264,7 @@ const ApproveBreak = (props) => {
       />
     );
   };
-
+console.log(filter.name);
   return (
     <>
       <HeaderCustom
@@ -278,8 +275,9 @@ const ApproveBreak = (props) => {
         type={type}
         CONFIRM_DENY_TAKE_LEAVE
         search
+        txtSearch={filter.name}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}

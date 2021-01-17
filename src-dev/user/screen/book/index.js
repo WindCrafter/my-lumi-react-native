@@ -23,7 +23,7 @@ import moment from 'moment';
 import ActionButton from 'react-native-action-button';
 import { Card } from 'native-base';
 import Modal from 'react-native-modal';
-import { Colors, imgs } from '../../../../utlis';
+import { Colors, Fonts, imgs } from '../../../../utlis';
 import { BarStatus, HeaderAccount } from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
@@ -119,7 +119,7 @@ const Book = (props) => {
     }
   });
   array.forEach((i) => {
-    if (i.date === '05-01-2022') {
+    if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
         console.log(k.member_ids);
         if (k.member_ids.includes(user_id)) {
@@ -138,7 +138,7 @@ const Book = (props) => {
           <TouchableOpacity
             onPress={() => onShowModal(item.item)}
             style={[
-              styles.item,,
+              styles.item,
               {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
@@ -257,7 +257,15 @@ const Book = (props) => {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
-      <HeaderAccount shadow title="Lịch" sub={count === 0 ? 'Hôm nay bạn chưa có lịch họp nào' : `Hôm nay bạn có ${count} lịch họp.`} />
+      <HeaderAccount
+        shadow
+        title="Lịch"
+        sub={
+          count === 0
+            ? 'Hôm nay bạn chưa có lịch họp nào'
+            : `Hôm nay bạn có ${count} lịch họp.`
+        }
+      />
       {data.length === 0 && (
         <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
       )}
@@ -326,15 +334,21 @@ const Book = (props) => {
             {' '}
             {itemShow.owner_name}
           </Text>
-          <Text style={{ fontSize: 16, marginBottom: 8 }}>
-            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>
-            {' '}
-            {itemShow.content}
-          </Text>
+          {itemShow.content ? (
+            <Text style={{ fontSize: 16, marginBottom: 8 }}>
+              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>
+              {' '}
+              {itemShow.content}
+            </Text>
+          ) : null}
           <Text style={{ fontSize: 16, marginBottom: 8 }}>
             <Text style={styles.detail}>Người tham gia :</Text>
             {' '}
-            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+            {itemShow.owner_name !== itemShow.member
+              ? itemShow.member
+                .replace(`${itemShow.owner_name},`, '')
+                .replace(/,/g, ', ')
+              : itemShow.owner_name}
           </Text>
         </Card>
       </Modal>
@@ -483,9 +497,11 @@ const styles = StyleSheet.create({
   textHeader: { fontSize: 24, fontWeight: '500' },
   textToday: { fontSize: 20, fontWeight: '500', color: Colors.blue },
   txtTime: {
-    fontSize: 14,
-    color: 'grey',
+    fontSize: 16,
+    color: Colors.ink500,
     marginBottom: 8,
+    fontFamily: Fonts.font_family.bold,
+    fontWeight: Fonts.font_weight.bold
   },
   txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {

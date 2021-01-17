@@ -38,6 +38,7 @@ if (
 }
 
 function Contact(props) {
+  const WAIT_INTERVAL = 1000
   const { navigation, token, currentUser } = props;
   const [name, setName] = useState('');
   const [BankAccount, setBankAccount] = useState('');
@@ -144,24 +145,22 @@ function Contact(props) {
     );
   };
 
-  const onSearch = () => {};
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
     getData(1, [], name, false);
   };
-  const onEndEditing = () => {
-    setLoading(true);
-    getData(1, [], name, true);
-  };
+ 
   const onChangeSearch = (txt) => {
     setName(txt);
+    setLoading(true);
+    getData(1, [], txt, true);
   };
 
   const onGoBack = () => {
     navigation.goBack();
   };
-
+console.log('name',name);
   return (
     <>
       <BarStatus
@@ -182,8 +181,8 @@ function Contact(props) {
           onChangeText={onChangeSearch}
           autoCapitalize="none"
           placeholder="Tìm kiếm ..."
-          onEndEditing={onEndEditing}
-          returnKeyType="done"
+          returnKeyType='search'
+          rightIcon
         />
       </View>
       <LinearGradient

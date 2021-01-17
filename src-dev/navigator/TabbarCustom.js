@@ -300,26 +300,14 @@ function TabbarCustom({
           type={type}
         />
 
-        {role !== 'Staff' ? (
-          <ButtonTabbar
-            state={state}
-            descriptors={descriptors}
-            navigation={navigation}
-            title="Duyệt đơn"
-            index={2}
-            route={state.routes[2]}
-            tab={2}
-          />
-        ) : (
-          <ButtonWorkSpace
-            state={state}
-            descriptors={descriptors}
-            navigation={navigation}
-            index={2}
-            route={state.routes[2]}
-            tab={2}
-          />
-        )}
+        <ButtonWorkSpace
+          state={state}
+          descriptors={descriptors}
+          navigation={navigation}
+          index={2}
+          route={state.routes[2]}
+          tab={2}
+        />
 
         <ButtonTabbar
           state={state}

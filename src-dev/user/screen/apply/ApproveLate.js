@@ -64,7 +64,7 @@ function ApproveLate(props) {
     }
   };
   const renderItem = ({ item, index }) => {
-    console.log(item);
+    // console.log(item);
     return (
       <CardLate
         leader
@@ -270,6 +270,16 @@ function ApproveLate(props) {
   console.log(filter.status);
   return (
     <>
+      <HeaderCustom
+        header={false}
+        onChangeStatus={onChangeStatus}
+        onChangeDate={onChangeDate}
+        onChangeName={onChangeName}
+        type={type}
+        CONFIRM_DENY_TAKE_LEAVE
+        search
+        txtSearch={filter.name}
+      />
       <View style={styles.detail}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>
