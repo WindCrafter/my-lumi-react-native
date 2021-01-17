@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,11 +8,13 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import {Input} from '../../../../component';
-import {imgs} from '../../../../../utlis';
-import PickerCustom from './PickerCustom';
 import moment from 'moment';
-import {Colors} from '../../../../../utlis/';
+import LinearGradient from 'react-native-linear-gradient';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Input } from '../../../../component';
+import { imgs, Colors } from '../../../../../utlis';
+import PickerCustom from './PickerCustom';
+
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
@@ -23,7 +25,7 @@ HeaderNotify.defaultProps = {
 };
 
 export default function HeaderNotify(props?: Props) {
-  const {title, detail, onSearch, onDate} = props;
+  const { title, detail, onSearch, onDate } = props;
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -48,14 +50,12 @@ export default function HeaderNotify(props?: Props) {
   const onChangeDate = (event, selected) => {
     if (Platform.OS === 'ios') {
       setDateChange(selected);
+    } else if (event.type === 'set') {
+      setShow(false);
+      setDate(selected);
+      onDate(selected);
     } else {
-      if (event.type === 'set') {
-        setShow(false);
-        setDate(selected);
-        onDate(selected);
-      } else {
-        setShow(false);
-      }
+      setShow(false);
     }
   };
 
@@ -85,17 +85,19 @@ export default function HeaderNotify(props?: Props) {
             onPress={submitSearch}
             value={search}
             onChangeText={onChangeTextSearch}
-            autoCapitalize={'none'}
-            placeholder={'Tìm kiếm'}
+            autoCapitalize="none"
+            placeholder="Tìm kiếm"
           />
           <View
             style={[
               styles.filterDate,
-              {justifyContent: !date ? 'center' : 'space-between'},
-            ]}>
+              { justifyContent: !date ? 'center' : 'space-between' },
+            ]}
+          >
             <TouchableOpacity style={styles.txtDay} onPress={onShow}>
               <Text style={styles.txtRole}>
-                {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+                {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
+                {' '}
               </Text>
               <Text>{show ? '▲' : '▼'}</Text>
             </TouchableOpacity>
@@ -115,23 +117,25 @@ export default function HeaderNotify(props?: Props) {
         onChange={onChangeDate}
         onHideModal={onHideModal}
         onPress={onPressConfirmIOS}
-        mode={'date'}
+        mode="date"
       />
-      <View style={styles.line} />
-      <View style={styles.bot} />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    backgroundColor: Colors.white,
   },
   info: {
     flexDirection: 'column',
     justifyContent: 'center',
     marginHorizontal: 24,
-    marginVertical: 10,
+    marginBottom:16
   },
   txtTitle: {
     fontSize: 24,
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
   },
   bot: {
     flex: 1,
-    paddingBottom: 16,
   },
   filterDate: {
     flexDirection: 'row',
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 0,
   },
-  imgClear: {alignSelf: 'center', width: 12, height: 12},
+  imgClear: { alignSelf: 'center', width: 12, height: 12 },
   search: {
     flex: 1,
     marginRight: 20,
@@ -194,5 +197,9 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.gray,
     borderLeftWidth: StyleSheet.hairlineWidth,
     marginLeft: 4,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });

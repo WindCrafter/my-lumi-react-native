@@ -198,11 +198,7 @@ export default function UserStack() {
         name={langs.navigator.notify}
         component={notify}
         options={{
-          headerBackTitleVisible: false,
-          headerStyle: {
-            backgroundColor: 'rgb(47, 172, 79)',
-          },
-          headerTintColor: 'white',
+          headerShown: false,
         }}
       />
       <Stack.Screen

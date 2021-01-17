@@ -318,10 +318,10 @@ const Event = (props) => {
   return (
     <>
       <BarStatus
-        height={Platform.OS === 'ios' ? 28 : StatusBar.currentHeight}
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        backgroundColor="rgba(0,0,0,0)"
         title="Đặt lịch phòng họp"
         goBack={onGoBack}
         rightButton

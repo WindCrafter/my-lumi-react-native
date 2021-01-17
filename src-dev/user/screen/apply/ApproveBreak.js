@@ -1,4 +1,4 @@
-/* eslint-disable default-case */
+
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -29,10 +29,9 @@ import CardBreak from './component/CardBreak';
 const ApproveBreak = (props) => {
   const {
     navigation,
-    listAdminTakeLeave,
     token,
-    historyAdminTakeLeave,
-    confirmDenyTakeLeave,
+    setStatusAdBreak,
+    status_ad_break
   } = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -60,10 +59,15 @@ const ApproveBreak = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      case '4':
+        setType('Auto Cancel');
+        break;
+      default:
+        0;
     }
   };
   const goBack = () => {
-    navigation.goBack();
+    navigation.navigate(langs.navigator.historyBreak);
   };
 
   // saga
@@ -158,6 +162,7 @@ const ApproveBreak = (props) => {
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
+    setStatusAdBreak(item);
   };
 
   const renderFooterComponent = () => {
@@ -259,7 +264,7 @@ const ApproveBreak = (props) => {
       />
     );
   };
-
+console.log(filter.name);
   return (
     <>
       <HeaderCustom
@@ -270,8 +275,9 @@ const ApproveBreak = (props) => {
         type={type}
         CONFIRM_DENY_TAKE_LEAVE
         search
+        txtSearch={filter.name}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}

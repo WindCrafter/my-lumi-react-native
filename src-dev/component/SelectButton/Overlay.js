@@ -1,9 +1,4 @@
-/**
- * Created by nghinv on Sun Sep 06 2020
- * Copyright (c) 2020 nguyennghidt6@gmail.com
- */
-
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   View,
@@ -38,7 +33,7 @@ class Overlay extends PureComponent {
         width: 108,
         height: 108,
       },
-      springConfig: {tension: 30, friction: 7},
+      springConfig: { tension: 30, friction: 7 },
       isOpen: false,
     };
 
@@ -72,7 +67,7 @@ class Overlay extends PureComponent {
   };
 
   getTarget = () => {
-    const {origin} = this.dropdownProps;
+    const { origin } = this.dropdownProps;
     const target = {
       x: origin.x,
       y: origin.y,
@@ -89,23 +84,23 @@ class Overlay extends PureComponent {
         isOpen: true,
         target: this.getTarget(),
       },
-      // () => {
-      //   Animated.parallel([
-      //     Animated.spring(this.state.scale, {
-      //       toValue: 1,
-      //       ...this.dropdownProps.springConfig,
-      //       useNativeDriver: false,
-      //     }),
-      //     Animated.spring(this.state.openVal, {
-      //       toValue: 1,
-      //       ...this.dropdownProps.springConfig,
-      //       useNativeDriver: false,
-      //     }),
-      //   ]).start(() => {
-      //     this.setState({isAnimating: false});
-      //     this.dropdownProps.onOpen && this.dropdownProps.onOpen();
-      //   });
-      // },
+      () => {
+        Animated.parallel([
+          Animated.spring(this.state.scale, {
+            toValue: 1,
+            ...this.dropdownProps.springConfig,
+            useNativeDriver: false,
+          }),
+          Animated.spring(this.state.openVal, {
+            toValue: 1,
+            ...this.dropdownProps.springConfig,
+            useNativeDriver: false,
+          }),
+        ]).start(() => {
+          this.setState({ isAnimating: false });
+          this.dropdownProps.onOpen && this.dropdownProps.onOpen();
+        });
+      },
     );
   };
 
@@ -113,30 +108,30 @@ class Overlay extends PureComponent {
     this.setState({
       isAnimating: true,
     });
-    // Animated.parallel([
-    //   Animated.timing(this.state.scale, {
-    //     toValue: 0,
-    //     duration: 250,
-    //     useNativeDriver: false,
-    //   }),
-    //   Animated.timing(this.state.openVal, {
-    //     toValue: 0,
-    //     duration: 250,
-    //     useNativeDriver: false,
-    //   }),
-    // ]).start(() => {
+    Animated.parallel([
+      Animated.timing(this.state.scale, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+      Animated.timing(this.state.openVal, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+    ]).start(() => {
       this.setState({
         isAnimating: false,
         isOpen: false,
       });
 
-    //   this.dropdownProps.onClose && this.dropdownProps.onClose();
-    // });
+      this.dropdownProps.onClose && this.dropdownProps.onClose();
+    });
   };
 
   getTargetButton = () => {
-    const {origin} = this.dropdownProps;
-    const {dropdownWidth, dropdownHeight} = this.props;
+    const { origin } = this.dropdownProps;
+    const { dropdownWidth, dropdownHeight } = this.props;
 
     const targetStart = {
       x: 0,
@@ -151,29 +146,25 @@ class Overlay extends PureComponent {
     if (origin.x < (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
       // goc phan tu top left
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
-      targetStart.y =
-        Platform.OS === 'ios'
-          ? origin.y + origin.height - dropdownHeight / 2
-          : origin.y + origin.height - dropdownHeight / 2 - 35;
+      targetStart.y = Platform.OS === 'ios'
+        ? origin.y + origin.height - dropdownHeight / 2
+        : origin.y + origin.height - dropdownHeight / 2 - 35;
       targetEnd.x = origin.x + origin.width - dropdownWidth;
-      targetEnd.y =
-        Platform.OS === 'ios'
-          ? origin.y + origin.height
-          : origin.y + origin.height - 35;
+      targetEnd.y = Platform.OS === 'ios'
+        ? origin.y + origin.height
+        : origin.y + origin.height - 35;
     }
 
     if (origin.x < (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
       // goc phan tu bottom left
       targetStart.x = origin.x - 15;
-      targetStart.y =
-        Platform.OS === 'ios'
-          ? origin.y + dropdownHeight / 2 - 35
-          : origin.y + dropdownHeight / 2 - 70;
+      targetStart.y = Platform.OS === 'ios'
+        ? origin.y + dropdownHeight / 2 - 35
+        : origin.y + dropdownHeight / 2 - 70;
       targetEnd.x = origin.x - 15;
-      targetEnd.y =
-        Platform.OS === 'ios'
-          ? origin.y + dropdownHeight / 2 - 35
-          : origin.y + dropdownHeight / 2 - 70;
+      targetEnd.y = Platform.OS === 'ios'
+        ? origin.y + dropdownHeight / 2 - 35
+        : origin.y + dropdownHeight / 2 - 70;
     }
 
     if (origin.x > (SCREEN.width * 2) / 3 && origin.y < SCREEN.height / 2) {
@@ -181,10 +172,9 @@ class Overlay extends PureComponent {
       targetStart.x = origin.x + origin.width - dropdownWidth / 2;
       targetStart.y = origin.y + origin.height - dropdownHeight / 2;
       targetEnd.x = origin.x + origin.width - dropdownWidth;
-      targetEnd.y =
-        Platform.OS === 'ios'
-          ? origin.y + origin.height
-          : origin.y + origin.height - 35;
+      targetEnd.y = Platform.OS === 'ios'
+        ? origin.y + origin.height
+        : origin.y + origin.height - 35;
     }
 
     if (origin.x > (SCREEN.width * 2) / 3 && origin.y > SCREEN.height / 2) {
@@ -195,13 +185,13 @@ class Overlay extends PureComponent {
       targetEnd.y = origin.y - dropdownHeight;
     }
 
-    return {start: targetStart, end: targetEnd};
+    return { start: targetStart, end: targetEnd };
   };
 
   render() {
-    const {isOpen, openVal, scale, target} = this.state;
-    const {dropdownWidth, dropdownHeight} = this.props;
-    const {origin} = this.dropdownProps;
+    const { isOpen, openVal, scale, target } = this.state;
+    const { dropdownWidth, dropdownHeight } = this.props;
+    const { origin } = this.dropdownProps;
 
     const modalOpacityStyle = {
       opacity: openVal.interpolate({
@@ -214,30 +204,30 @@ class Overlay extends PureComponent {
 
     const openStyle = [
       styles.open,
-      // {
-      //   left: openVal.interpolate({
-      //     inputRange: [0, 1],
-      //     outputRange: [targetContent.start.x, targetContent.end.x],
-      //   }),
-      //   top: openVal.interpolate({
-      //     inputRange: [0, 1],
-      //     outputRange: [targetContent.start.y, targetContent.end.y],
-      //   }),
-      //   transform: [
-      //     {
-      //       scale,
-      //     },
-      //   ],
-      // },
+      {
+        left: openVal.interpolate({
+          inputRange: [0, 1],
+          outputRange: [targetContent.start.x, targetContent.end.x],
+        }),
+        top: openVal.interpolate({
+          inputRange: [0, 1],
+          outputRange: [targetContent.start.y, targetContent.end.y],
+        }),
+        transform: [
+          {
+            scale,
+          },
+        ],
+      },
     ];
 
     const background = (
       <TouchableWithoutFeedback onPress={() => this.close()}>
-        <View style={[styles.background ]}>
+        <Animated.View style={[styles.background, modalOpacityStyle]}>
           <View
-            style={[styles.absolute, {backgroundColor: 'rgba(0, 0, 0, 0.4)'}]}
+            style={[styles.absolute, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}
           />
-        </View>
+        </Animated.View>
       </TouchableWithoutFeedback>
     );
 
@@ -246,11 +236,12 @@ class Overlay extends PureComponent {
         visible={isOpen}
         animationType="none"
         transparent
-        onRequestClose={() => this.close()}>
+        onRequestClose={() => this.close()}
+      >
         {background}
-        <View style={[openStyle]}>
+        <Animated.View style={[openStyle, modalOpacityStyle]}>
           {this.props.children}
-        </View>
+        </Animated.View>
       </Modal>
     );
   }

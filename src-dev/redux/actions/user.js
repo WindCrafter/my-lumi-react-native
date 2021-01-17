@@ -257,3 +257,75 @@ export const getWorkdayToday = (data) => {
   };
 };
 
+export const setStatusAdLate = (data) => {
+  return {
+    type: types.SET_STATUS_AD_LATE,
+    payload: data,
+  };
+};
+export const setStatusUserLate = (data) => {
+  return {
+    type: types.SET_STATUS_USER_LATE,
+    payload: data,
+  };
+};
+export const setStatusAdBreak = (data) => {
+  return {
+    type: types.SET_STATUS_AD_BREAK,
+    payload: data,
+  };
+};
+export const setStatusUserBreak = (data) => {
+  return {
+    type: types.SET_STATUS_USER_BREAK,
+    payload: data,
+  };
+};
+export const setStatusAdOT = (data) => {
+  return {
+    type: types.SET_STATUS_AD_OT,
+    payload: data,
+  };
+};
+export const setStatusUserOT = (data) => {
+  return {
+    type: types.SET_STATUS_USER_OT,
+    payload: data,
+  };
+};
+export const setDateAdLate = (data) => {
+  return {
+    type: types.SET_DATE_AD_LATE,
+    payload: data,
+  };
+};
+export const setDateUserLate = (data) => {
+  return {
+    type: types.SET_DATE_USER_LATE,
+    payload: data,
+  };
+};
+export const setDateAdBreak = (data) => {
+  return {
+    type: types.SET_DATE_AD_BREAK,
+    payload: data,
+  };
+};
+export const setDateUserBreak = (data) => {
+  return {
+    type: types.SET_DATE_USER_BREAK,
+    payload: data,
+  };
+};
+export const setDateAdOT = (data) => {
+  return {
+    type: types.SET_DATE_AD_OT,
+    payload: data,
+  };
+};
+export const setDateUserOT = (data) => {
+  return {
+    type: types.SET_DATE_USER_OT,
+    payload: data,
+  };
+};

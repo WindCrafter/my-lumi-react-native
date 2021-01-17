@@ -12,8 +12,8 @@ import {
 import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
+import LinearGradient from 'react-native-linear-gradient';
 import { imgs, Colors } from '../../../../../utlis';
-
 import PickerCustom from './PickerCustom';
 import { Input, SelectButton } from '../../../../component';
 // import {FlatList} from 'react-native-gesture-handler';
@@ -42,6 +42,7 @@ const HeaderCustom = (props?: Props) => {
     txtSearch,
     type,
     header,
+    onRightButton,
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
@@ -126,42 +127,45 @@ const HeaderCustom = (props?: Props) => {
     { label: 'Đang chờ', value: '1' },
     { label: 'Đã duyệt', value: '2' },
     { label: 'Bị từ chối', value: '3' },
+    { label: 'Auto Cancel', value: '4' },
   ];
 
   return (
     <View style={[styles.container]}>
       {header && (
-      <View
-        style={[
-          styles.row,
-          {
-            width,
-            height,
-            backgroundColor,
-            justifyContent: 'center',
-          },
-          containerStyle,
-        ]}
-      >
-        <TouchableOpacity onPress={goBack} style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}>
-          <Icon name="chevron-left" size={32} color={Colors.black} />
-        </TouchableOpacity>
-        <Text style={[styles.title, { fontSize }]} {...otherProps}>
-          {title}
-        </Text>
-        {rightButton ? (
-          <TouchableOpacity style={styles.right} onPress={onRight}>
-            {textPress ? (
-              <Text style={styles.txtBt}>Xong</Text>
-            ) : (
-              <Image source={rightImage} style={styles.img} />
-            )}
+        <View
+          style={[
+            styles.row,
+            {
+              width,
+              height,
+              backgroundColor,
+              justifyContent: 'center',
+            },
+            containerStyle,
+          ]}>
+          <TouchableOpacity
+            onPress={goBack}
+            style={[styles.button, {top: deviceWidth > 374 ? 4 : 0}]}>
+            <Icon name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
-        ) : null}
-      </View>
+          <Text style={[styles.title, {fontSize}]} {...otherProps}>
+            {title}
+          </Text>
+          {rightButton ? (
+            <TouchableOpacity style={styles.right} onPress={onRight}>
+              {textPress ? (
+                <Text style={styles.txtBt}>Xong</Text>
+              ) : (
+                <Image source={rightImage} style={styles.img} />
+              )}
+            </TouchableOpacity>
+          ) : null}
+        </View>
       )}
       {search && (
         <Input
+          rightIcon
           button
           leftImage={imgs.search}
           containerStyle={styles.search}
@@ -174,15 +178,13 @@ const HeaderCustom = (props?: Props) => {
       )}
       <View
         style={[
-          styles.row,
-          { marginBottom: 16, justifyContent: 'space-between' },
-        ]}
-      >
+          styles.rowBot,
+          {marginBottom: 16, justifyContent: 'space-around'},
+        ]}>
         <SelectButton
           dropdownHeight={20}
           dropdownWidth={100}
-          renderDropdown={renderDropdown}
-        >
+          renderDropdown={renderDropdown}>
           <View style={styles.filterStatus}>
             <Text>{type}</Text>
             <Text> ▼</Text>
@@ -191,13 +193,11 @@ const HeaderCustom = (props?: Props) => {
         <View
           style={[
             styles.filterDate,
-            { justifyContent: !date ? 'center' : 'space-between' },
-          ]}
-        >
+            {justifyContent: !date ? 'center' : 'space-between'},
+          ]}>
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
             <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
-              {' '}
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
             </Text>
             <Text>{show ? '▲' : '▼'}</Text>
           </TouchableOpacity>
@@ -216,6 +216,10 @@ const HeaderCustom = (props?: Props) => {
         onHideModal={onHideModal}
         onPress={onPressConfirmIOS}
       />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 };
@@ -226,13 +230,16 @@ HeaderCustom.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth: 0.25,
-    borderColor: Colors.gray,
+
     backgroundColor: Colors.white,
-    paddingVertical: 10,
   },
   row: {
     paddingTop: 5,
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    backgroundColor: Colors.white,
+  },
+  rowBot: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     backgroundColor: Colors.white,
@@ -242,7 +249,6 @@ const styles = StyleSheet.create({
     left: 16,
     width: 32,
     height: 32,
-
   },
   image: {
     width: 32,
@@ -302,19 +308,20 @@ const styles = StyleSheet.create({
   },
   search: {
     alignSelf: 'center',
-    borderRadius: 32,
-    height: 40,
+    borderRadius: 8,
+    height: 42,
     width: Dimensions.get('window').width - 32,
     marginVertical: 8,
-    backgroundColor: '#ffffff',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
+    backgroundColor: Colors.ink100,
+    // shadowColor: 'black',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // borderWidth: StyleSheet.hairlineWidth,
+    // borderColor: 'grey'
   },
   txtDay: {
     flexDirection: 'row',
@@ -322,7 +329,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '75%',
     alignItems: 'center',
-    marginRight: 0
+    marginRight: 0,
   },
   touchableClear: {
     width: '35%',
@@ -331,7 +338,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderLeftColor: Colors.gray,
     borderLeftWidth: StyleSheet.hairlineWidth,
-    marginLeft: 4, },
+    marginLeft: 4,
+  },
   imgClear: { alignSelf: 'center', width: 12, height: 12 },
   coulumn: {
     width: 1,
@@ -354,6 +362,10 @@ const styles = StyleSheet.create({
     width: StyleSheet.hairlineWidth,
     backgroundColor: Colors.gray,
     height: 39,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });
 

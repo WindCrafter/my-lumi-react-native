@@ -27,34 +27,6 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
-// const item = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 1,
-// };
-
-// const item1 = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 2,
-// };
-
-// const item2 = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 3,
-// };
-
 function ApproveOT(props) {
   const {navigation, token} = props;
   const [page, setPage] = useState(1);

@@ -32,6 +32,7 @@ const initialState = {
   identity_number: '',
   bank_account: '',
   bank_name: '',
+  user_id: '',
 };
 
 export default function authen(state = initialState, action) {

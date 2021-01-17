@@ -1,5 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
+import { CommonActions } from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -46,30 +46,26 @@ if (
 }
 
 function UpdateLate(props) {
-  const { navigation, setLateEarly, token, assign, route,updateLateEarly } = props;
+  const {
+    navigation,
+    setLateEarly,
+    token,
+    assign,
+    route,
+    updateLateEarly,
+    status_user_late,
+  } = props;
   const { id, date, typeRoute, timeRoute, content, statusRoute } = route.params;
-
+  // route.params.onSetStatus({ status_user_late });
   const [reason, setReason] = useState(content);
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(timeRoute);
-  const [isVisible, setVisible] = useState(false);
-  const [type, setType] = useState(typeRoute === 1 ? 'late' : 'early');
-  const [status, setStatus] = useState(statusRoute);
 
-  const onSetVisible = () => {
-    setVisible(!isVisible);
-  };
-  const onClose = () => {
-    setVisible(false);
-  };
   const goBack = () => {
     navigation.goBack();
   };
   const [showModal, setShowModal] = useState(false);
 
-  const onChangeTime = (value) => {
-    setTime(value);
-  };
   const onComplete = () => {
     onsetLateEarly();
   };
@@ -100,7 +96,7 @@ function UpdateLate(props) {
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = type === 'late' ? 'đi muộn' : 'về sớm';
+    const field = typeRoute === '1' ? 'đi muộn' : 'về sớm';
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -113,11 +109,11 @@ function UpdateLate(props) {
     const data = {
       id,
       date: moment(day).format('DD/MM/YYYY'),
-      type: type === 'late' ? 1 : 2,
+      type: typeRoute,
       time,
       token,
       content: reason,
-      status,
+      status: statusRoute,
     };
 
     updateLateEarly(data);
@@ -132,13 +128,6 @@ function UpdateLate(props) {
     setShow(false);
     Keyboard.dismiss();
   };
-  const onSetLate = () => {
-    setType('late');
-  };
-  const onSetEarly = () => {
-    setType('early');
-  };
-
   const renderDropdown = (hideOverlay) => {
     return (
       <FlatList
@@ -265,21 +254,23 @@ function UpdateLate(props) {
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-              <ApplyIcon
-                title="Đến muộn"
-                onPress={onSetLate}
-                tintColor={type === 'late' ? 'green' : 'grey'}
-                color={type === 'late' ? 'green' : 'grey'}
-              />
-              <ApplyIcon
-                title="Về Sớm"
-                onPress={onSetEarly}
-                tintColor={type === 'early' ? 'green' : 'grey'}
-                source={imgs.clockEarly}
-                height={28}
-                width={28}
-                color={type === 'early' ? 'green' : 'grey'}
-              />
+              {typeRoute === 1 ? (
+                <ApplyIcon
+                  title="Đến muộn"
+                  tintColor="green"
+                  color="green"
+                />
+              ) : (
+                <ApplyIcon
+                  title="Về Sớm"
+                  tintColor="green"
+                  source={imgs.clockEarly}
+                  height={28}
+                  width={28}
+                  color="green"
+                />
+              )}
+
             </View>
 
             <View style={[styles.row, { justifyContent: 'space-between' }]}>

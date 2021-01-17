@@ -23,9 +23,8 @@ import moment from 'moment';
 import ActionButton from 'react-native-action-button';
 import { Card } from 'native-base';
 import Modal from 'react-native-modal';
-import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
-import HeaderAccount from './component/HeaderAccount';
+import { Colors, Fonts, imgs } from '../../../../utlis';
+import { BarStatus, HeaderAccount } from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -45,7 +44,7 @@ const Book = (props) => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [itemShow, setItemShow] = useState({});
-  
+
   const onShowModal = (item) => {
     setShowModal(true);
     setItemShow(item);
@@ -120,7 +119,7 @@ const Book = (props) => {
     }
   });
   array.forEach((i) => {
-    if (i.date === '05-01-2022') {
+    if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
         console.log(k.member_ids);
         if (k.member_ids.includes(user_id)) {
@@ -128,9 +127,8 @@ const Book = (props) => {
         }
       });
     }
-   
   });
- console.log(count);
+  console.log(count);
   const renderItem = (item) => {
     return (
       <View>
@@ -140,7 +138,7 @@ const Book = (props) => {
           <TouchableOpacity
             onPress={() => onShowModal(item.item)}
             style={[
-              styles.item,,
+              styles.item,
               {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
@@ -255,13 +253,24 @@ const Book = (props) => {
 
   return (
     <>
-      <SafeAreaView />
-      <BarStatus />
-      <HeaderAccount numberOfEvent={count} />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
+      <HeaderAccount
+        shadow
+        title="Lịch"
+        sub={
+          count === 0
+            ? 'Hôm nay bạn chưa có lịch họp nào'
+            : `Hôm nay bạn có ${count} lịch họp.`
+        }
+      />
       {data.length === 0 && (
         <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
       )}
       <SectionList
+        style={{ paddingTop: 16 }}
         sections={array}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
@@ -281,7 +290,7 @@ const Book = (props) => {
         degrees={45}
         fixNativeFeedbackRadius
         renderIcon={buttonIcon}
-        style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
+        style={[Platform.OS === 'ios' ? { zIndex: 100 } : { elevation: 100 }]}
       />
       <Modal isVisible={showModal} onBackdropPress={onHideModal}>
         <Card style={styles.viewCard}>
@@ -292,17 +301,21 @@ const Book = (props) => {
               alignSelf: 'center',
               fontWeight: '600',
               fontFamily: 'Quicksand-Bold',
-            }}>
+            }}
+          >
             Chi tiết
           </Text>
           <Text style={styles.txtContainer}>
-            <Text style={styles.detail}>Nội dung họp:</Text> {itemShow.subject}
+            <Text style={styles.detail}>Nội dung họp:</Text>
+            {' '}
+            {itemShow.subject}
           </Text>
           <Text
             style={{
               fontSize: 16,
               marginBottom: 8,
-            }}>
+            }}
+          >
             {`${moment(itemShow.date, 'DD-MM-YYYY').format(
               'DD',
             )} tháng ${moment(itemShow.date, 'DD-MM-YYYY').format(
@@ -311,19 +324,31 @@ const Book = (props) => {
               'LT',
             )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Địa điểm :</Text> {itemShow.location}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Địa điểm :</Text>
+            {' '}
+            {itemShow.location}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Người tạo :</Text> {itemShow.owner_name}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tạo :</Text>
+            {' '}
+            {itemShow.owner_name}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
-            {itemShow.content}
-          </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Người tham gia :</Text>{' '}
-            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+          {itemShow.content ? (
+            <Text style={{ fontSize: 16, marginBottom: 8 }}>
+              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>
+              {' '}
+              {itemShow.content}
+            </Text>
+          ) : null}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tham gia :</Text>
+            {' '}
+            {itemShow.owner_name !== itemShow.member
+              ? itemShow.member
+                .replace(`${itemShow.owner_name},`, '')
+                .replace(/,/g, ', ')
+              : itemShow.owner_name}
           </Text>
         </Card>
       </Modal>
@@ -337,12 +362,12 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
 
-    elevation: 5,
+    elevation: 2,
   },
   item: {
     backgroundColor: 'white',
@@ -472,9 +497,11 @@ const styles = StyleSheet.create({
   textHeader: { fontSize: 24, fontWeight: '500' },
   textToday: { fontSize: 20, fontWeight: '500', color: Colors.blue },
   txtTime: {
-    fontSize: 14,
-    color: 'grey',
+    fontSize: 16,
+    color: Colors.ink500,
     marginBottom: 8,
+    fontFamily: Fonts.font_family.bold,
+    fontWeight: Fonts.font_weight.bold
   },
   txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {

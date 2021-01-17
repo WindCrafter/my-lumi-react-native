@@ -1,8 +1,3 @@
-/**
- * Created by nghinv on Sun Sep 06 2020
- * Copyright (c) 2020 nguyennghidt6@gmail.com
- */
-
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import Overlay from './Overlay';

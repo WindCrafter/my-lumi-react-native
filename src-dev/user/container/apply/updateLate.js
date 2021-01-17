@@ -5,6 +5,7 @@ const mapStateToProps = (state) => ({
   userId: state.authen.userId,
   token: state.authen.token,
   assign: state.user.assign,
+  status_user_late: state.user.status_user_late,
 });
 
 const mapDispatchToProps = {

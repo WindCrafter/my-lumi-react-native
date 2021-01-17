@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,13 +21,12 @@ import {
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 import codePush from 'react-native-code-push';
-import { Card } from 'native-base';
-import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
-import HeaderAccount from './component/HeaderAccount';
+import {Card} from 'native-base';
+import {Colors, imgs} from '../../../../utlis';
+import {BarStatus, HeaderAccount} from '../../../component';
 import RoundedView from './component/RoundedView';
 import ModalInforApp from './component/ModalInforApp';
-import { _global } from '../../../../utlis/global/global';
+import {_global} from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
 const Account = (props) => {
@@ -55,9 +54,9 @@ const Account = (props) => {
       leftButton: {
         text: langs.alert.signOut,
         onPress: () => onRemoveUserId(),
-        textStyle: { color: Colors.danger },
+        textStyle: {color: Colors.danger},
       },
-      rightButton: { text: langs.alert.cancel },
+      rightButton: {text: langs.alert.cancel},
     });
   };
 
@@ -103,9 +102,12 @@ const Account = (props) => {
   const onDemo = () => {};
   return (
     <>
-      <BarStatus />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
       <View style={styles.container}>
-        <HeaderAccount title={langs.account} sub={langs.setting} />
+        <HeaderAccount shadow title={langs.account} sub={langs.setting} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
             leftImage={require('../../../../naruto.jpeg')}
@@ -139,12 +141,12 @@ const Account = (props) => {
               onPressButton={gotoKpi}
             />
             <Card style={styles.row}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{flexDirection: 'row'}}>
                 <Image source={imgs.changeIcon} style={styles.imgClear} />
                 <Text style={styles.txtDemo}>Trạng thái</Text>
               </View>
               <Switch
-                trackColor={{ false: '#767577', true: '#0db14b' }}
+                trackColor={{false: '#767577', true: '#0db14b'}}
                 thumbColor={demoMode ? '#ffffff' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={changeDemoMode}
@@ -157,10 +159,14 @@ const Account = (props) => {
               onPressButton={onLogOut}
             />
           </View>
-          <View style={{ alignSelf: 'center', paddingVertical: 10 }}>
-            {
-              codepush.progress === 0 ? null : codepush.progress === 100 ? <TouchableOpacity onPress={restartApp}><Text>Cần khởi động lại</Text></TouchableOpacity> : <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
-            }
+          <View style={{alignSelf: 'center', paddingVertical: 10}}>
+            {codepush.progress === 0 ? null : codepush.progress === 100 ? (
+              <TouchableOpacity onPress={restartApp}>
+                <Text>Cần khởi động lại</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text>{`Đang cập nhật : ${parseInt(codepush.progress)}%`}</Text>
+            )}
           </View>
         </ScrollView>
         <ModalInforApp
@@ -196,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
   },
-  bottomDetail: { width: '90%' },
+  bottomDetail: {width: '90%'},
   cardTop: {
     width: '90%',
     alignSelf: 'center',

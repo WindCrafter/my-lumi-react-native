@@ -1,4 +1,4 @@
-/* eslint-disable default-case */
+
 import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
@@ -89,16 +89,17 @@ const Notify = (props) => {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyOT, { page: 2 });
             break;
           case 2:
           case '2':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyBreak, { page: 0 });
             break;
           case 3:
           case '3':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyLate, { page: 1 });
             break;
+          default: console.log('Wrong type', item.customData.type);
         }
       }
       _POST(url, { id: item.id }, token, false);
@@ -107,9 +108,20 @@ const Notify = (props) => {
 
     return (
       <TouchableOpacity onPress={onShow}>
-        <Card style={[styles.card, { opacity: item.status === 0 || item.status === '0' ? 1 : 0.4 }]}>
+        <Card
+          style={[
+            styles.card,
+            {
+              backgroundColor:
+                item.status === 0 || item.status === '0'
+                  ? Colors.white
+                  : Colors.backgroundInActive,
+            },
+          ]}>
           <View style={styles.row}>
-            {item.status === 0 || item.status === '0' ? <View style={styles.read} /> : null}
+            {item.status === 0 || item.status === '0' ? (
+              <View style={styles.read} />
+            ) : null}
             <Text style={styles.title}>{item.title}</Text>
           </View>
           <Text style={styles.content}>{item.content}</Text>
@@ -138,13 +150,14 @@ const Notify = (props) => {
 
   return (
     <View style={styles.container}>
-      <BarStatus />
+      <BarStatus height={0} />
       <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
 
       {data.length === 0 && (
         <Text style={styles.noData}>Không có thông báo.</Text>
       )}
       <FlatList
+        style={{ paddingTop: 16 }}
         data={data}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
@@ -171,12 +184,20 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     width: '90%',
-    backgroundColor: Colors.white,
     alignSelf: 'center',
     overflow: 'hidden',
     shadowColor: 'black',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    marginVertical: 8,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   time: {
     fontSize: 10,

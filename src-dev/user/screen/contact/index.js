@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,63 +9,73 @@ import {
   UIManager,
   Linking,
   ActivityIndicator,
-  RefreshControl,
+  RefreshControl, Text
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import ContactRow from '../../../component/Input/InputContact';
-import {BarStatus, HeaderCustom, Input} from '../../../component';
-import {Colors} from '../../../../utlis';
-import {imgs} from '../../../../utlis';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Clipboard from '@react-native-community/clipboard';
-import {_global} from '../../../../utlis/global/global';
+import LinearGradient from 'react-native-linear-gradient';
+import ContactRow from '../../../component/Input/InputContact';
+import {
+  BarStatus,
+  HeaderCustom,
+  Input,
+  HeaderAccount,
+} from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+
+import { _global } from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
-import HeaderAccount from '../account/component/HeaderAccount';
-import {getText} from '../../../../utlis/config/utlis';
-import {URL_STAGING} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import { getText } from '../../../../utlis/config/utlis';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
+
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 function Contact(props) {
-  const {navigation, token, currentUser} = props;
-  const [search, setSearch] = useState('');
+  const WAIT_INTERVAL = 1000
+  const { navigation, token, currentUser } = props;
+  const [name, setName] = useState('');
   const [BankAccount, setBankAccount] = useState('');
   const [bankName, setBankName] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [listData, setListData] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
+  const [onScroll, setOnScroll] = useState(false);
+
   useEffect(() => {
-    getData(1, [], '');
+    getData(1, [], '', false);
   }, []);
   const hideModal = () => {
     setShowModal(false);
   };
-  const getData = async (pageNumber, dataN, nameN) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}?page=${pageNumber}&page_size=20`;
+  const getData = async (pageNumber, dataN, nameN, search) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
     const response = await _GET(apiURL, token, false);
     const _data = dataN || [];
-
+    console.log(search);
     console.log('_GET_LIST_USER ===========>', response);
     setRefresh(false);
+    setOnScroll(false);
+    setLoading(false);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length >= 0
     ) {
-      setData(_data.concat(response.data));
+      setData(search ? response.data : _data.concat(response.data));
       setPage(pageNumber);
       setLoading(false);
       _global.Loading.hide();
+      console.log(data);
     } else {
       setLoading(false);
       _global.Loading.hide();
@@ -80,15 +90,13 @@ function Contact(props) {
   };
   const handleLoadMore = () => {
     setLoading(true);
-    getData(page + 1, data, filter.name);
+    setOnScroll(false);
+    getData(page + 1, data, name, false);
   };
   const renderItem = (key) => {
-    Platform.OS === 'ios'
-      ? LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-      : null;
     const onGetContact = () => {
       let phone;
-      let phoneNumber = key.item.phone_number;
+      const phoneNumber = key.item.phone_number;
       if (Platform.OS !== 'android') {
         phone = `telprompt:${phoneNumber}`;
       } else {
@@ -98,7 +106,7 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportPhone,
-          leftButton: {text: langs.alert.ok},
+          leftButton: { text: langs.alert.ok },
         });
       } else {
         Linking.openURL(phone);
@@ -110,7 +118,7 @@ function Contact(props) {
         _global.Alert.alert({
           title: langs.alert.notify,
           message: langs.alert.dontImportUser,
-          leftButton: {text: langs.alert.ok},
+          leftButton: { text: langs.alert.ok },
         });
       } else {
         setBankAccount(key.item.bank_account);
@@ -120,61 +128,73 @@ function Contact(props) {
       }
     };
     return (
-      <ContactRow
-        name={key.item.fullname}
+      !loading ? (
+        <ContactRow
+          name={key.item.fullname}
         // leftImage={require('../../../../naruto.jpeg')}
-        team={key.item.team}
+          team={key.item.team}
         // dob={key.item.birthday}
-        role={key.item.role}
-        work={key.item.work}
+          role={key.item.role}
+          work={key.item.work}
         // kpi={key.item.kpi}
         // kpi_6m={key.item.kpi_6m}
-        onCall={onGetContact}
-        onCopyBankAccount={copyToClipboard}
-      />
+          onCall={onGetContact}
+          onCopyBankAccount={copyToClipboard}
+        />
+      ) : null
     );
   };
 
-  const onSearch = () => {};
   const onRefresh = () => {
     setRefresh(true);
-    getData(1, [], filter.name);
+    setOnScroll(false);
+    getData(1, [], name, false);
   };
+ 
   const onChangeSearch = (txt) => {
-    const newData = listData.filter((item) => {
-      // console.log('----->>>>.',item.fullname)
-      const itemData = getText(item.fullname);
-
-      const textData = getText(txt);
-
-      return itemData.indexOf(textData) > -1;
-    });
-    setListData(newData);
-    setSearch(txt);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setName(txt);
+    setLoading(true);
+    getData(1, [], txt, true);
   };
 
   const onGoBack = () => {
     navigation.goBack();
   };
-
+console.log('name',name);
   return (
-    <View style={styles.container}>
-      <BarStatus />
-      <HeaderAccount goBack={onGoBack} title={langs.lumier} sub={langs.comunicate} />
-      <Input
-        button
-        leftImage={imgs.search}
-        containerStyle={styles.search}
-        onPress={onSearch}
-        value={search}
-        // onChangeText={onChangeSearch}
-        autoCapitalize={'none'}
-        placeholder={'Tìm kiếm ...'}
+    <>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
-
+      <HeaderAccount
+        goBack={onGoBack}
+        title={langs.lumier}
+        sub={langs.comunicate}
+      />
+      <View style={{ backgroundColor: 'white' }}>
+        <Input
+          button
+          leftImage={imgs.search}
+          containerStyle={styles.search}
+          value={name}
+          onChangeText={onChangeSearch}
+          autoCapitalize="none"
+          placeholder="Tìm kiếm ..."
+          returnKeyType='search'
+          rightIcon
+        />
+      </View>
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
+      {data && data.length === 0 && !loading && (
+        <Text style={styles.noData}>Không có lịch sử.</Text>
+      )}
       <FlatList
-        onEndReached={!loading ? handleLoadMore : null}
+        style={{ paddingTop: 16 }}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooterComponent}
         data={data}
@@ -183,6 +203,7 @@ function Contact(props) {
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
+        onMomentumScrollBegin={() => setOnScroll(true)}
       />
       <ModalInforBank
         bankName={bankName}
@@ -190,7 +211,7 @@ function Contact(props) {
         hideModal={hideModal}
         showModal={showModal}
       />
-    </View>
+    </>
   );
 }
 
@@ -198,7 +219,6 @@ export default Contact;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
     height: '100%',
   },
   backTextWhite: {
@@ -242,7 +262,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: widthPercentageToDP(90),
     marginVertical: 8,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
@@ -252,4 +272,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
   },
+  gradient: {
+    width: widthPercentageToDP(100),
+    height: 4,
+  },
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24, }
+
 });

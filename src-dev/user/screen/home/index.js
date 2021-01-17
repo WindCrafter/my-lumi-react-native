@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { sum } from 'lodash';
+import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
 import Event from './component/event';
@@ -59,19 +59,19 @@ export default function Home(props) {
   const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
 
   const onPressNotify = () => {
-    navigation.navigate(langs.navigator.testNotify);
+    navigation.navigate(langs.navigator.notify);
   };
 
-  const onPressLate = () => {
-    navigation.navigate(langs.navigator.historyLate);
-  };
-  const onPressBreak = () => {
-    navigation.navigate(langs.navigator.historyBreak);
-  };
+   const onPressLate = () => {
+     navigation.navigate(langs.navigator.applyLate);
+   };
+   const onPressBreak = () => {
+     navigation.navigate(langs.navigator.applyBreak);
+   };
 
-  const onPressOT = () => {
-    navigation.navigate(langs.navigator.listOT);
-  };
+   const onPressOT = () => {
+     navigation.navigate(langs.navigator.applyOT);
+   };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -110,7 +110,13 @@ export default function Home(props) {
   return (
     <>
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} name={nameUser} numberNotifys={99} />
+        <BarStatus height={0} hidden />
+
+        <Header
+          pressNotify={onPressNotify}
+          name={nameUser}
+          numberNotifys={99}
+        />
 
         <View style={styles.flex}>
           <LinearGradient

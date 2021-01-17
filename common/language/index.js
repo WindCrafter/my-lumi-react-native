@@ -112,6 +112,7 @@ const langs = {
   errorLocationCheckout:
     'Bạn không có quyền check out bằng cách này khi không ở công ty',
   navigator: {
+    overView:'Tổng quan',
     kpi: 'KPI',
     login: 'Login',
     register: 'Register',

@@ -21,7 +21,7 @@ import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
-import HeaderCustom from './component/HeaderCustom';
+import FilterTop from './component/FilterTop';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
@@ -36,40 +36,49 @@ const HistoryBreak = (props) => {
   const {
     navigation,
     token,
-    listTakeLeave,
-    historyTakeLeave,
-    deleteTakeLeave,
+    setStatusUserBreak,
+    status_user_break,
+    point,
+    initialData,
+    date_user_break,
+    setDateUserBreak,
   } = props;
+  // console.log('>>>>', initialData);
+  let initialType;
+  switch (status_user_break) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
-  const [type, setType] = useState('Tất cả');
-  const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+  const [data, setData] = useState(initialData);
+  const [type, setType] = useState(initialType || 'Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-
+  const [localDate, setLocalDate] = useState(
+    date_user_break ? moment(date_user_break, 'DD/MM/YYYY') : null,
+  );
   useEffect(() => {
-    // getData(1, '', '', []);
-    const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, date, status, []);
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
-  // saga
-  // const getData = () => {
-
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   console.log(dataLeave);
-  //   listTakeLeave(dataLeave);
-  // };
+    setData(initialData);
+    // console.log('onmei');
+  }, [initialData]);
   const getData = async (pageNumber, dateN, statusN, dataN) => {
+    // console.log('statusNstatusNstatusN', statusN);
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
@@ -90,7 +99,7 @@ const HistoryBreak = (props) => {
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date_user_break, status_user_break, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -108,10 +117,14 @@ const HistoryBreak = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      case '4':
+        setType('Auto Cancel');
+        break;
       default: 0;
     }
   };
   const renderFooterComponent = () => {
+    console.log('loading', loading);
     return loading ? (
       <View style={styles.loader}>
         <ActivityIndicator size="large" />
@@ -122,70 +135,32 @@ const HistoryBreak = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date_user_break, status_user_break, []);
   };
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onApplyBreak = () => {
-    navigation.navigate(langs.navigator.applyBreak);
-  };
-
-  const onApproveBreak = () => {
-    navigation.navigate(langs.navigator.approveBreak);
-  };
-
-  const onSetStatus = (onStatus) => {
-    setStatus(onStatus);
-  };
-
   const onChangeStatus = (item) => {
-    setStatus(item);
+    setStatusUserBreak(item);
     setData([]);
     setPage(1);
-    getData(1, date, item, []);
+    getData(1, date_user_break, item, []);
     onSetType(item);
-    onSetStatus(item);
   };
-  // SAGA
-  // const onChangeStatus = (item) => {
-  //   const dataLeave = {
-  //     status: item,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   onSetStatus(item);
-  //   console.log('checkkkkkkk', item);
-  //   setFilter({...filter, status: item});
-  //   console.log('checkkkkkkk2', status);
-  //   setData([]);
-  //   console.log(dataLeave);
-  //   listTakeLeave(dataLeave);
-  //   onSetType(item);
-  // };
-  // SAGA
-  // const onChangeDate = (date) => {
-  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
-  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //     date: date ?  moment(pickDate).format('DD/MM/YYYY') : null,
-  //   };
-  //   listTakeLeave(dataLeave);
-  // };
 
   const onChangeDate = (date) => {
-    setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+    setDateUserBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      status_user_break,
+      [],
+    );
+    setLocalDate(!date ? '' : date);
   };
 
   const renderItem = ({ item, index }) => {
@@ -213,27 +188,28 @@ const HistoryBreak = (props) => {
     );
   };
   const closeRow = (rowMap, rowKey) => {
-    console.log(rowKey);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
   const deleteRow = (rowMap, rowKey) => {
-    console.log(rowMap, rowKey);
+    // console.log(rowMap, rowKey);
     closeRow(rowMap, rowKey);
     const newData = [...data];
     const prevIndex = _data.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateBreak = (data2) => {
-    console.log(data2);
+  const onUpdateBreak = (data2, rowMap) => {
+    closeRow(rowMap, data2.item.key);
+    // console.log(data2);
     navigation.navigate(langs.navigator.updateBreak, {
       _id: data2.item._id,
       _date: data2.item.date,
       content: data2.item.content,
       morning: data2.item.morning,
-      type: data2.item.type
+      type: data2.item.type,
+
     });
   };
   const onDeleteBreak = async (rowMap, data2) => {
@@ -278,7 +254,7 @@ const HistoryBreak = (props) => {
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateBreak(data2) : null;
+            data2.item.status === 1 ? onUpdateBreak(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -357,26 +333,22 @@ const HistoryBreak = (props) => {
   // };
 
   const _data = [];
-  data.map((v, i) => { _data[i] = { ...v, key: i }; });
-
+  data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
+  // console.log(_data);
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
+      <FilterTop
         title={langs.titleHistoryBreak}
-        height={60}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
+        initDate={localDate}
       />
-      <View style={{ flex: 1 }}>
-        {_data.length === 0 && (
+      <View style={styles.backGround}>
+        {_data.length === 0 && !loading && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
         <SwipeListView
@@ -403,7 +375,6 @@ const HistoryBreak = (props) => {
           // swipeGestureBegan={onSwipeGestureBegan}
         />
       </View>
-      <ActionButton onApply={onApplyBreak} onApprove={onApproveBreak} />
     </>
   );
 };
@@ -441,6 +412,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+    shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
     elevation: 1,
@@ -452,4 +424,6 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
+  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
+  loader: { marginTop: 8 }
 });

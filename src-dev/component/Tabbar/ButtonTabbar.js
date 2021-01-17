@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Colors} from '../../../utlis';
-import {TabbarIcon} from '..';
-import {SCREEN_WIDTH} from '../../../utlis/config/utlis';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Colors } from '../../../utlis';
+import { TabbarIcon } from '..';
+import { SCREEN_WIDTH } from '../../../utlis/config/utlis';
 
 const ButtonTabbar = ({
   descriptors,
@@ -13,7 +13,7 @@ const ButtonTabbar = ({
   tab,
   title,
 }) => {
-  const {options} = descriptors[route.key];
+  const { options } = descriptors[route.key];
 
   const isFocused = state.index === index;
 
@@ -44,10 +44,12 @@ const ButtonTabbar = ({
       testID={options.tabBarTestID}
       onPress={onPress}
       onLongPress={onLongPress}
-      style={styles.container}>
+      style={styles.container}
+    >
       <TabbarIcon tab={tab} focused={isFocused} />
       <Text
-        style={[styles.text, {color: isFocused ? Colors.background : 'gray'}]}>
+        style={[styles.text, { color: isFocused ? Colors.background : 'gray' }]}
+      >
         {title}
       </Text>
     </TouchableOpacity>

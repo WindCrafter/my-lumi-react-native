@@ -22,6 +22,7 @@ import { Colors } from '../../utlis';
 import { TabbarIcon } from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
+import ButtonWorkSpace from '../component/Tabbar/ButtonWorkSpace';
 import { checkInWifi } from '../redux/actions/check';
 import { _global } from '../../utlis/global/global';
 import langs from '../../common/language';
@@ -37,6 +38,7 @@ function TabbarCustom({
   type,
   demoMode,
   checked,
+  role
 }) {
   const [show, setShow] = useState(false);
   const [dateIOS, setDateIOS] = useState(new Date());
@@ -297,15 +299,16 @@ function TabbarCustom({
           demoMode={demoMode}
           type={type}
         />
-        <ButtonTabbar
+
+        <ButtonWorkSpace
           state={state}
           descriptors={descriptors}
           navigation={navigation}
-          title={langs.navigator.notify}
           index={2}
           route={state.routes[2]}
           tab={2}
         />
+
         <ButtonTabbar
           state={state}
           descriptors={descriptors}
@@ -344,6 +347,7 @@ const mapStateToProps = (state) => {
     type: state.check.type,
     demoMode: state.user.demoMode,
     checked: state.check.checked,
+    role: state.authen.role
   };
 };
 

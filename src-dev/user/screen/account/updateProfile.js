@@ -182,9 +182,11 @@ function UpdateProfile(props) {
 
   return (
     <>
-      <BarStatus />
-      <SafeAreaView />
-      <HeaderCustom title={'Khai báo thông tin'} goBack={goBack} />
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
+      <HeaderCustom title={'Cập nhật thông tin'} goBack={goBack} />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>
           <UpdateInfo

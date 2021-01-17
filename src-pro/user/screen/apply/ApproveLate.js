@@ -1,107 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Image,
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
-  FlatList,
+  Platform,
+  StatusBar,
+  UIManager,
   ActivityIndicator,
   Text,
+  RefreshControl,
+  SafeAreaView,
+  FlatList,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
-import langs from '../../../../common/language';
-import CardLate from './component/CardLate';
 import moment from 'moment';
+import langs from '../../../../common/language';
+import {BarStatus} from '../../../component';
+import {Colors} from '../../../../utlis';
+import CardLate from './component/CardLate';
+import {URL_STAGING} from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
+import {_GET, _POST} from '../../../../utlis/connection/api';
 import {_global} from '../../../../utlis/global/global';
-import {getText} from '../../../../utlis/config/utlis';
 
-const ApproveLate = (props) => {
-  const {
-    navigation,
-    listManagerLateEarly,
-    token,
-    dataManager,
-    approveLateEarly,
-    removeList,
-    refreshing,
-  } = props;
-  const [type, setType] = useState('Đang chờ');
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+function ApproveLate(props) {
+  const {navigation, token} = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(1);
-  const [search, setSearch] = useState(false);
-  const [txtSearch, setTxtSearch] = useState('');
-  const [filter, setFilter] = useState(dataManager);
-  const [date, setDate] = useState('');
-  const [cancel, setCancel] = useState(true);
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
+  const [type, setType] = useState('Đang chờ');
+  const [refresh, setRefresh] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
+
+  useEffect(() => {
+    getData(page, filter.date, filter.status, [], filter.name);
+  }, []);
+
   const goBack = () => {
     navigation.goBack();
-    removeList();
-  };
-  useEffect(() => {
-    const data = {
-      token: token,
-      status: status,
-      page: page,
-      page_size: 10,
-      loading: true,
-      reload: true,
-    };
-    cancel ? listManagerLateEarly(data) : null;
-    txtSearch ? onChangeName(txtSearch) : null;
-    return () => setCancel(false);
-  }, [dataManager]);
-
-  const renderItem = ({item, index}) => {
-    return (
-      <CardLate
-        leader={true}
-        status={item.status}
-        type={item.type}
-        reason={item.content}
-        day={item.date}
-        time={item.time}
-        name={item.fullname}
-        onDeny={() => onDeny(item.id)}
-        onAccept={() => onAccept(item.id)}
-      />
-    );
-  };
-
-  const onDeny = (_id) => {
-    const data = {
-      _id,
-      status: 3,
-      token,
-    };
-    approveLateEarly(data);
-  };
-
-  const onAccept = (_id) => {
-    const data = {
-      _id,
-      status: 2,
-      token,
-    };
-    approveLateEarly(data);
-  };
-
-  const onChangeDate = (pickDay) => {
-    const data = {
-      token: token,
-      status: status,
-      date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
-      page: 1,
-      page_size: 10,
-      reload: true,
-      loading: true,
-    };
-    listManagerLateEarly(data);
-    setPage(1);
-    setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
   };
   const onSetType = (item) => {
     switch (item) {
@@ -117,73 +58,148 @@ const ApproveLate = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      default:
+        console.log(item);
     }
   };
-  const onChangeStatus = (item) => {
-    const data = {
-      token: token,
-      date: date,
-      status: item,
-      page: 1,
-      page_size: 10,
-      reload: true,
-      loading: true,
+  const renderItem = ({item, index}) => {
+    console.log(item);
+    return (
+      <CardLate
+        leader
+        status={item.status}
+        type={item.type}
+        reason={item.content}
+        day={item.date}
+        time={item.time}
+        name={item.fullname}
+        onDeny={() => onDeny(item)}
+        onAccept={() => onConfirm(item)}
+      />
+    );
+  };
+  const onConfirm = async (item) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
+    const body = {
+      id: item.id,
+      status: 2,
     };
-    setPage(1);
-    listManagerLateEarly(data);
-    onSetType(item);
-    setStatus(item);
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_LATE_EARLY =============>', response);
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data) {
+      if (filter.status === '0' || filter.status === 0) {
+        setData(data.map((i) => (i.id === item.id ? {...item, status: 2} : i)));
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  };
+
+  const onDeny = async (item) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
+    const body = {
+      id: item.id,
+      status: 3,
+    };
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_LATE_EARLY =============>', response);
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data) {
+      if (filter.status === '0' || filter.status === 0) {
+        setData(data.map((i) => (i.id === item.id ? {...item, status: 3} : i)));
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: {text: langs.alert.ok},
+      });
+    }
+  };
+
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    console.log('on Refresh');
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
+
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
+    const _name = nameN || '';
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('_GET_LIST_LATE_EARLY ===========>', response);
+    if (
+      response.success &&
+      response.statusCode === 200 &&
+      response.data &&
+      response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
+    }
   };
 
   const handleLoadMore = () => {
-    const data = {
-      token: token,
-      status: status,
-      page: page + 1,
-      date: date,
-      page_size: 10,
-      reload: false,
-      loading: true,
-    };
-    setPage(page + 1);
-    listManagerLateEarly(data);
+    setLoading(true);
+    setOnScroll(false);
+    getData(page + 1, filter.date, filter.status, data, filter.name);
   };
 
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="grey" />
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     ) : null;
   };
 
-  const onRefresh = () => {
-    const data = {
-      token: token,
-      status: status,
-      page_size: 10,
-      page: 1,
-      date: date,
-      reload: true,
-      refreshing: true,
-    };
-    listManagerLateEarly(data);
+  const onChangeDate = (date) => {
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
+    setData([]);
     setPage(1);
-    setSearch(false);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      filter.status,
+      [],
+      filter.name,
+    );
   };
 
-  const onChangeName = (txt) => {
-    const newData =
-      dataManager.length > 0
-        ? dataManager.filter((item) => {
-            const itemData = getText(item.fullname);
-            const textData = getText(txt);
-            return itemData.indexOf(textData) > -1;
-          })
-        : dataManager;
-    setFilter(newData);
-    setSearch(true);
-    setTxtSearch(txt);
+  const onChangeStatus = (item) => {
+    setFilter({...filter, status: item});
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, item, [], filter.name);
+    onSetType(item);
+  };
+
+  const onChangeName = (item) => {
+    setFilter({...filter, name: item});
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, filter.status, [], item);
   };
 
   return (
@@ -201,40 +217,41 @@ const ApproveLate = (props) => {
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
         search
-        txtSearch={txtSearch}
         type={type}
       />
-      <View style={styles.container}>
-        {dataManager.length === 0 && Array.isArray(dataManager) ? (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
-        ) : (
-          <FlatList
-            data={search ? filter : dataManager}
-            keyExtractor={(item, index) => `${item.id}`}
-            renderItem={renderItem}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.5}
-            style={styles.flatList}
-            ListFooterComponent={renderFooterComponent}
-            showsVerticalScrollIndicator={false}
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-          />
+      <View style={styles.detail}>
+        {data.length === 0 && (
+          <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
+        <FlatList
+          data={data}
+          // style={{borderColor: 'red', borderWidth: 1}}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </>
   );
-};
+}
 
 export default ApproveLate;
 
 const styles = StyleSheet.create({
-  container: {
+  detail: {
     flex: 1,
+    marginVertical: 16,
   },
-  flatList: {
-    // marginBottom: heightPercentageToDP(12),
-    // flexGrow: 1,
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
 });

@@ -96,6 +96,8 @@ export const URL_STAGING = {
   //
   LATE_EARLY: '/late-early/create',
   LIST_LATE_EARLY: '/late-early/self-list',
+  ALL_LIST_LATE_EARLY: '/late-early/all-list',
+
   LIST_MANAGER_LATE_EARLY: '/late-early/manager-list',
   APPROVE_LATE_EARLY: '/late-early/approved-canceled',
   UPDATE_LATE_EARLY: '/late-early/update',
@@ -105,6 +107,7 @@ export const URL_STAGING = {
   //
   TAKE_LEAVE: '/take-leave/create',
   LIST_TAKE_LEAVE: '/take-leave/self-list',
+  ALL_LIST_TAKE_LEAVE: '/take-leave/all-list',
   LIST_BY_ID_TAKE_LEAVE: '/take-leave/get-by-id',
   LIST_MANAGER_TAKE_LEAVE: '/take-leave/manager-list',
   APPROVE_TAKE_LEAVE: '/take-leave/approved-canceled',

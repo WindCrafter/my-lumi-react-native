@@ -24,6 +24,7 @@ import { URL_STAGING } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
+import FilterTop from './component/FilterTop';
 
 if (
   Platform.OS === 'android'
@@ -52,25 +53,47 @@ if (
 // };
 
 function ListOT(props) {
-  const { navigation, token } = props;
+  const {
+    navigation,
+    token,
+    initialData,
+    setDateUserOT,
+    date_user_ot,
+    status_user_ot,
+    setStatusUserOT,
+  } = props;
+  let initialType;
+  switch (status_user_ot) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [type, setType] = useState('Tất cả');
-  const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+  const [data, setData] = useState(initialData);
+  const [type, setType] = useState(initialType || 'Tất cả');
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
+  const [localDate, setLocalDate] = useState(
+    date_user_ot ? moment(date_user_ot, 'DD/MM/YYYY') : null,
+  );
   useEffect(() => {
-    // getData(1, '', '', []);
-    const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, date, status, []);
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+    setData(initialData);
+  }, [initialData]);
 
   const goBack = () => {
     navigation.goBack();
@@ -78,14 +101,6 @@ function ListOT(props) {
 
   const renderItem = ({ item }) => {
     return <ItemOT item={item} />;
-  };
-
-  const onPressCreate = () => {
-    navigation.navigate(langs.navigator.applyOT);
-  };
-
-  const onPressConfirm = () => {
-    navigation.navigate(langs.navigator.approveOT);
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN) => {
@@ -107,18 +122,17 @@ function ListOT(props) {
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
-    } else {
     }
   };
 
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date_user_ot, status_user_ot, []);
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date_user_ot, status_user_ot, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -132,10 +146,16 @@ function ListOT(props) {
   };
 
   const onChangeDate = (date) => {
-    setDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+    setDateUserOT(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      status_user_ot,
+      [],
+    );
+    setLocalDate(!date ? '' : date);
   };
 
   const onSetType = (item) => {
@@ -157,10 +177,10 @@ function ListOT(props) {
   };
 
   const onChangeStatus = (item) => {
-    setStatus(item);
+    setStatusUserOT(item);
     setData([]);
     setPage(1);
-    getData(1, date, item, []);
+    getData(1, date_user_ot, item, []);
     onSetType(item);
   };
   const closeRow = (rowMap, rowKey) => {
@@ -177,7 +197,8 @@ function ListOT(props) {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateOT = (data2) => {
+  const onUpdateOT = (data2,rowMap) => {
+      closeRow(rowMap, data2.item.key);
     console.log(data2);
     navigation.navigate(langs.navigator.updateOT, {
       id: data2.item.id,
@@ -226,7 +247,7 @@ function ListOT(props) {
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateOT(data2) : null;
+            data2.item.status === 1 ? onUpdateOT(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -301,24 +322,22 @@ function ListOT(props) {
   };
 
   const _data = [];
-  data.map((v, i) => {
+  data && data.map((v, i) => {
     _data[i] = { ...v, key: i };
   });
   console.log(_data);
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
-      <HeaderCustom
-        title={langs.titleListOT}
-        height={60}
+
+      <FilterTop
+        title={langs.titleHistoryBreak}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
+        backgroundColor={Colors.white}
+        initDate={localDate}
       />
       <View style={styles.detail}>
         {_data.length === 0 && (
@@ -343,7 +362,6 @@ function ListOT(props) {
           swipeToOpenPercent={20}
         />
       </View>
-      <ActionButton onApply={onPressCreate} onApprove={onPressConfirm} />
     </>
   );
 }
@@ -353,6 +371,7 @@ export default ListOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
+    backgroundColor:"#f0f0f0"
   },
   noData: {
     fontSize: 16,
@@ -385,6 +404,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowRadius: 3.84,
+    shadowOpacity: 0.25,
 
     elevation: 1,
     borderRadius: 24,

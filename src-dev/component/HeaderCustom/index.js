@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
+import LinearGradient from 'react-native-linear-gradient';
 import { imgs, Colors } from '../../../utlis';
 
 HeaderCustom.defaultProps = {
@@ -19,6 +20,7 @@ HeaderCustom.defaultProps = {
   rightImage: imgs.add,
   backgroundColor: Colors.white,
   textPress: false,
+  size: 26
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -35,6 +37,7 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
+    size, shadow,
     ...otherProps
   } = props;
 
@@ -50,26 +53,33 @@ export default function HeaderCustom(props?: Props) {
         containerStyle,
       ]}
     >
-      <TouchableOpacity onPress={goBack} style={styles.button}>
-        {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
-        <Icon
-          name="chevron-left"
-          size={32}
-          color={Colors.black}
-          style={{ top: 4 }}
-        />
-      </TouchableOpacity>
-      <Text style={[styles.title, { fontSize }]} {...otherProps}>
-        {title}
-      </Text>
-      {rightButton ? (
-        <TouchableOpacity style={styles.right} onPress={onRight}>
-          {textPress ? (
-            <Text style={styles.txtBt}>Xong</Text>
-          ) : (
-            <Image source={rightImage} style={styles.img} />
-          )}
+      <View style={styles.viewRow}>
+        <TouchableOpacity onPress={goBack} style={styles.button}>
+          {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
+          <Icon name="chevron-left" size={size} color={Colors.black} />
         </TouchableOpacity>
+        <View style={styles.viewMiddle}>
+          <Text style={[styles.title, { fontSize }]} {...otherProps}>
+            {title}
+          </Text>
+        </View>
+        {rightButton ? (
+          <TouchableOpacity style={styles.right} onPress={onRight}>
+            {textPress ? (
+              <Text style={styles.txtBt}>Xong</Text>
+            ) : (
+              <Image source={rightImage} style={styles.img} />
+            )}
+          </TouchableOpacity>
+        ) : (
+          <View style={{ width: '15%' }} />
+        )}
+      </View>
+      {shadow ? (
+        <LinearGradient
+          style={[styles.gradient, containerStyle]}
+          colors={['#D5D5D5', '#F2F2F2']}
+        />
       ) : null}
     </View>
   );
@@ -77,19 +87,18 @@ export default function HeaderCustom(props?: Props) {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+  },
+  viewRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-    borderBottomWidth: 0.25,
-    borderColor: Colors.gray,
+    flex: 1,
+    width: '100%',
   },
-  button: {
-    position: 'absolute',
-    left: 16,
-    width: 32,
-    height: 32,
-  },
+  button: { width: '15%', justifyContent: 'flex-start' },
   image: {
     width: 32,
     height: 32,
@@ -98,17 +107,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: Colors.black,
-    marginTop: 8,
     fontFamily: 'Quicksand-Bold',
   },
-  right: {
-    backgroundColor: 'rgba(0,0,0,0)',
-    padding: 4,
-    position: 'absolute',
-    right: 16,
-    borderRadius: 16,
-    top: 18,
-  },
+  right: { width: '15%' },
   img: {
     width: 20,
     height: 20,
@@ -119,5 +120,15 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     color: Colors.background,
     textAlign: 'center',
+  },
+  viewMiddle: {
+    flex: 1,
+    width: '70%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });
