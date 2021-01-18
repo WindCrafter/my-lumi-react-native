@@ -267,6 +267,17 @@ export const changeToOut = () => {
   };
 };
 
+export const changeToInRequest = () => {
+  return {
+    type: types.CHANGETO_CHECKIN_REQUEST,
+  };
+};
+export const changeToOutRequest = () => {
+  return {
+    type: types.CHANGETO_CHECKOUT_REQUEST,
+  };
+};
+
 export const listTakeLeave = (data) => {
   return {
     type: types.GET_LIST_TAKE_LEAVE,

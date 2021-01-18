@@ -30,8 +30,9 @@ if (
 function ApproveLate(props) {
   const { navigation, token } = props;
   const [page, setPage] = useState(1);
+  const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
   const [type, setType] = useState('Đang chờ');
   const [refresh, setRefresh] = useState(false);
@@ -39,7 +40,8 @@ function ApproveLate(props) {
 
   useEffect(() => {
     getData(page, filter.date, filter.status, [], filter.name);
-    
+    setDone(true);
+    _global.Loading.hide();
   }, []);
 
   const goBack = () => {
@@ -281,7 +283,7 @@ function ApproveLate(props) {
         txtSearch={filter.name}
       />
       <View style={styles.detail}>
-        {data.length === 0 && (
+        {(data.length === 0) && (
           <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
         <FlatList

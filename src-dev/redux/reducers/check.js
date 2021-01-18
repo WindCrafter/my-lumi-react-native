@@ -99,6 +99,18 @@ export default function check(state = initialState, action) {
         ...state,
         type: 'out',
       };
+    case types.CHANGETO_CHECKIN_REQUEST:
+      return {
+        ...state,
+        type: 'in',
+        status: 1,
+      };
+    case types.CHANGETO_CHECKOUT_REQUEST:
+      return {
+        ...state,
+        type: 'out',
+        status: 1,
+      };
     case types.RESET_CHECK:
       return {
         ...state,

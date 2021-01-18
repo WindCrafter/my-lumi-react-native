@@ -78,10 +78,6 @@ const ApproveAll = (props) => {
         <ApproveLate
           tabLabel={langs.late}
           token={token}
-          dataManager={dataManager}
-          refreshing={refreshing}
-          listManagerLateEarly={listManagerLateEarly}
-          approveLateEarly={approveLateEarly}
         />
         <ApproveOT tabLabel={langs.ot} token={token} />
         <ApproveCheck
