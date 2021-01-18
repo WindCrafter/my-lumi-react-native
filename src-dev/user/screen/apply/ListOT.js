@@ -15,13 +15,13 @@ import {
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
+import { useIsFocused } from '@react-navigation/native';
 import langs from '../../../../common/language';
-import { BarStatus } from '../../../component';
+import { BarStatus,HeaderCustom } from '../../../component';
 import { Colors } from '../../../../utlis';
 import ItemOT from './component/ItemOT';
 import ActionButton from './component/ActionButton';
 import { URL_STAGING } from '../../../../utlis/connection/url';
-import HeaderCustom from './component/HeaderCustom';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
 import FilterTop from './component/FilterTop';
@@ -84,16 +84,21 @@ function ListOT(props) {
   }
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
   const [type, setType] = useState(initialType || 'Tất cả');
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [localDate, setLocalDate] = useState(
     date_user_ot ? moment(date_user_ot, 'DD/MM/YYYY') : null,
   );
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    setData(initialData);
-  }, [initialData]);
+    // getData(1, '', '', []);
+    if (isFocused) {
+      getData(1, date_user_ot, status_user_ot, []);
+    }
+  }, [isFocused, status_user_ot]);
 
   const goBack = () => {
     navigation.goBack();
@@ -197,8 +202,11 @@ function ListOT(props) {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateOT = (data2,rowMap) => {
-      closeRow(rowMap, data2.item.key);
+   const onPressCreate = () => {
+     navigation.navigate(langs.navigator.applyOT);
+   };
+  const onUpdateOT = (data2, rowMap) => {
+    closeRow(rowMap, data2.item.key);
     console.log(data2);
     navigation.navigate(langs.navigator.updateOT, {
       id: data2.item.id,
@@ -328,7 +336,13 @@ function ListOT(props) {
   console.log(_data);
   return (
     <>
-
+      <BarStatus backgroundColor={Colors.white} height={20} />
+      <HeaderCustom
+        title="Đơn xin OT"
+        height={72}
+        goBack={goBack}
+        fontSize={20}
+      />
       <FilterTop
         title={langs.titleHistoryBreak}
         goBack={goBack}
@@ -362,6 +376,7 @@ function ListOT(props) {
           swipeToOpenPercent={20}
         />
       </View>
+      <ActionButton onApply={onPressCreate} />
     </>
   );
 }
@@ -371,7 +386,7 @@ export default ListOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-    backgroundColor:"#f0f0f0"
+    backgroundColor: '#f0f0f0'
   },
   noData: {
     fontSize: 16,

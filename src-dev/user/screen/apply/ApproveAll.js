@@ -47,6 +47,7 @@ const ApproveAll = (props) => {
     date_ad_late,
   } = props;
   const { page } = route.params;
+  console.log('date redux', date_ad_break);
   const goBack = () => {
     navigation.goBack();
     removeList();
@@ -70,11 +71,17 @@ const ApproveAll = (props) => {
       />
       <ScrollableTabView
         tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
+        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
         renderTabBar={renderTabBar}
-        initialPage={page}
-      >
-        <ApproveBreak tabLabel={langs.break} token={token} />
+        initialPage={page}>
+        <ApproveBreak
+          tabLabel={langs.break}
+          token={token}
+          setStatusAdBreak={setStatusAdBreak}
+          status_ad_break={status_ad_break}
+          date_ad_break={date_ad_break}
+          setDateAdBreak={setDateAdBreak}
+        />
         <ApproveLate
           tabLabel={langs.late}
           token={token}

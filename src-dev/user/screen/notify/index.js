@@ -84,20 +84,21 @@ const Notify = (props) => {
 
   const renderItem = ({ item }) => {
     const leader = item.customData.approved === 1 || item.customData.approved === '1';
+    console.log(leader);
     const onShow = () => {
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyOT, { page: 2 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
             break;
           case 2:
           case '2':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyBreak, { page: 0 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
             break;
           case 3:
           case '3':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyLate, { page: 1 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
             break;
           default: console.log('Wrong type', item.customData.type);
         }

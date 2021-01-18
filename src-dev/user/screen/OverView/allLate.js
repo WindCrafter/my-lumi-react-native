@@ -93,7 +93,7 @@ const allLate = (props) => {
       [],
       name,
     );
-    setDate(!datePick ? '' : date);
+    setDate(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
   const onSetType = (item) => {
     switch (item) {
@@ -188,7 +188,7 @@ const allLate = (props) => {
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
             onMomentumScrollBegin={() => setOnScroll(true)}
-            // onEndReached={!loading && onScroll ? handleLoadMore : null}
+            onEndReached={!loading && onScroll ? handleLoadMore : null}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooterComponent}
             refreshControl={

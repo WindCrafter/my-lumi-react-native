@@ -39,7 +39,6 @@ function ApproveLate(props) {
 
   useEffect(() => {
     getData(page, filter.date, filter.status, [], filter.name);
-    
   }, []);
 
   const goBack = () => {
@@ -172,6 +171,17 @@ function ApproveLate(props) {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
+      setData(
+        data.map((i) => (i.id === item.id
+          ? {
+            ...item,
+            date: response.data.date,
+            time: response.data.time,
+            content: response.data.content,
+            is_updated: true,
+          }
+          : i),),
+      );
     } else if (
       !response.success
              && response.statusCode === 601
@@ -183,6 +193,10 @@ function ApproveLate(props) {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
+      const newData = [...data];
+      const prevIndex = data.findIndex((check) => check.id === item.id);
+      newData.splice(prevIndex, 1);
+      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
