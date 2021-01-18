@@ -19,7 +19,7 @@ const mapStateToProps = (state) => ({
   status_ad_break: state.user.status_ad_break,
   status_ad_late: state.user.status_ad_late,
   status_ad_ot: state.user.status_ad_ot,
-  date_ad_break: state.date_ad_break,
+  date_ad_break: state.user.date_ad_break,
   date_ad_ot: state.user.date_ad_ot,
   date_ad_late: state.user.date_ad_late
 });

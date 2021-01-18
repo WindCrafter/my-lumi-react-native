@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+
 import {
   StyleSheet,
   View,
@@ -12,13 +14,15 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors,Fonts } from '../../../../utlis';
+import { Colors, Fonts } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import FilterTop from './component/FilterTop';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
+import { BarStatus, HeaderCustom } from '../../../component';
+import ActionButton from './component/ActionButton';
 
 const HistoryLate = (props) => {
   const {
@@ -26,18 +30,12 @@ const HistoryLate = (props) => {
     token,
     status_user_late,
     setStatusUserLate,
-    initialData,
     date_user_late,
     setDateUserLate
   } = props;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState(initialData);
-
-  useEffect(() => {
-    setData(initialData);
-    console.log('onmei');
-  }, [initialData]);
+  const [data, setData] = useState([]);
 
   let initialType;
   switch (status_user_late) {
@@ -67,6 +65,15 @@ const HistoryLate = (props) => {
   const [localDate, setLocalDate] = useState(
     date_user_late ? moment(date_user_late, 'DD/MM/YYYY') : null
   );
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    // getData(1, '', '', []);
+
+    if (isFocused) {
+      getData(1, date_user_late, status_user_late, []);
+      console.log('statusstatussta redux', status_user_late, date_user_late);
+    }
+  }, [isFocused, status_user_late]);
   const step = useRef();
   const goBack = () => {
     // navigation.reset({
@@ -109,7 +116,9 @@ const HistoryLate = (props) => {
       />
     );
   };
-
+  const onApplyLate = () => {
+    navigation.navigate(langs.navigator.applyLate);
+  };
   const onChangeDate = (date) => {
     setDateUserLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
@@ -324,51 +333,49 @@ const HistoryLate = (props) => {
   // console.log('localDate',localDate);
   return (
     <>
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-        scrollEnabled={edit}
-        ref={step}
-        onMomentumScrollEnd={handleScroll}>
-        <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
-          <FilterTop
-            title={langs.titleHistoryBreak}
-            goBack={goBack}
-            fontSize={24}
-            onChangeStatus={onChangeStatus}
-            onChangeDate={onChangeDate}
-            type={type}
-            backgroundColor={Colors.white}
-            initDate={localDate}
-          />
+      <BarStatus backgroundColor={Colors.white} height={20} />
+      <HeaderCustom
+        title="Đơn xin đi muộn/về sớm"
+        height={72}
+        goBack={goBack}
+        fontSize={20}
+      />
+      <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
+        <FilterTop
+          title={langs.titleHistoryBreak}
+          goBack={goBack}
+          fontSize={24}
+          onChangeStatus={onChangeStatus}
+          onChangeDate={onChangeDate}
+          type={type}
+          backgroundColor={Colors.white}
+          initDate={localDate}
+        />
 
-          {data && data.length === 0 && !loading && (
-            <Text style={styles.noData}>Không có lịch sử.</Text>
-          )}
+        {data && data.length === 0 && !loading && (
+          <Text style={styles.noData}>Không có lịch sử.</Text>
+        )}
 
-          <SwipeListView
-            data={_data}
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItem}
-            onMomentumScrollBegin={() => setOnScroll(true)}
-            onEndReached={!loading && onScroll ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-            refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-            }
-            renderHiddenItem={renderHiddenItem}
-            leftOpenValue={75}
-            rightOpenValue={-150}
-            disableRightSwipe
-            swipeToOpenPercent={20}
-          />
-        </View>
-      </ScrollView>
+        <SwipeListView
+          data={_data}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={75}
+          rightOpenValue={-150}
+          disableRightSwipe
+          swipeToOpenPercent={20}
+        />
+      </View>
+      <ActionButton onApply={onApplyLate} />
     </>
   );
 };
@@ -384,8 +391,8 @@ const styles = StyleSheet.create({
     // flexGrow: 1,
   },
   noData: { fontSize: 16, alignSelf: 'center', marginTop: 24,
-  // fontFamily: Fonts.font_family.italic 
-},
+  // fontFamily: Fonts.font_family.italic
+  },
   rowBack: {
     alignItems: 'center',
     flex: 1,

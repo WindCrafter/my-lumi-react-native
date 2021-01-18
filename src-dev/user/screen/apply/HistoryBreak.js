@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+
 import {
 
   Platform,
@@ -17,7 +19,7 @@ import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
 import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
+import { BarStatus, HeaderCustom } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
@@ -66,17 +68,23 @@ const HistoryBreak = (props) => {
   }
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
   const [type, setType] = useState(initialType || 'Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [localDate, setLocalDate] = useState(
     date_user_break ? moment(date_user_break, 'DD/MM/YYYY') : null,
   );
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    setData(initialData);
-    // console.log('onmei');
-  }, [initialData]);
+    // getData(1, '', '', []);
+
+    if (isFocused) {
+      getData(1, date_user_break, status_user_break, []);
+      // console.log('statusstatussta redux', status_user_break, date_user_break);
+    }
+  }, [isFocused, status_user_break]);
   const getData = async (pageNumber, dateN, statusN, dataN) => {
     // console.log('statusNstatusNstatusN', statusN);
     const _date = dateN || '';
@@ -246,6 +254,10 @@ const HistoryBreak = (props) => {
   //   console.log('This row opened', rowKey);
   //   setRow(rowKey);
   // };
+  const onApplyBreak = () => {
+    navigation.navigate(langs.navigator.applyBreak);
+  };
+
   const renderHiddenItem = (data2, rowMap) => {
     let flag;
     data2.item.status === 1 ? flag = true : false;
@@ -337,6 +349,13 @@ const HistoryBreak = (props) => {
   // console.log(_data);
   return (
     <>
+      <BarStatus backgroundColor={Colors.white} height={20} />
+      <HeaderCustom
+        title="Đơn xin nghỉ phép"
+        height={72}
+        goBack={goBack}
+        fontSize={20}
+      />
       <FilterTop
         title={langs.titleHistoryBreak}
         goBack={goBack}
@@ -375,6 +394,7 @@ const HistoryBreak = (props) => {
           // swipeGestureBegan={onSwipeGestureBegan}
         />
       </View>
+      <ActionButton onApply={onApplyBreak} />
     </>
   );
 };

@@ -141,9 +141,10 @@ const AllBreak = (props) => {
       [],
       name,
     );
-    setDate(!datePick ? '' : date);
+    setDate(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
   const onChangeName = (item) => {
+    console.log('date',date);
     setName(item);
     setData([]);
     setPage(1);

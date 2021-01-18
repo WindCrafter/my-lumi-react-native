@@ -63,14 +63,14 @@ export default function Home(props) {
   };
 
    const onPressLate = () => {
-     navigation.navigate(langs.navigator.applyLate);
+     navigation.navigate(langs.navigator.historyLate);
    };
    const onPressBreak = () => {
-     navigation.navigate(langs.navigator.applyBreak);
+     navigation.navigate(langs.navigator.historyBreak);
    };
 
    const onPressOT = () => {
-     navigation.navigate(langs.navigator.applyOT);
+     navigation.navigate(langs.navigator.listOT);
    };
 
   useEffect(() => {

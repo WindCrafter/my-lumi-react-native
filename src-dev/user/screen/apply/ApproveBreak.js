@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -31,19 +30,48 @@ const ApproveBreak = (props) => {
     navigation,
     token,
     setStatusAdBreak,
-    status_ad_break
+    status_ad_break,
+    date_ad_break,
+    setDateAdBreak,
   } = props;
+  let initialType;
+  switch (status_ad_break) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
-  const [type, setType] = useState('Đang chờ');
+  const [filter, setFilter] = useState({
+    date: date_ad_break,
+    status: status_ad_break,
+    name: '',
+  });
+  const [type, setType] = useState(initialType || 'Đang chờ')
   const [date, setDate] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, filter.date, filter.status, [], filter.name);
+    console.log('date', date_ad_break);
+        console.log('status', status_ad_break);
+
+    getData(1, date_ad_break, status_ad_break, [], filter.name);
   }, []);
   const onSetType = (item) => {
     switch (item) {
@@ -122,20 +150,21 @@ const ApproveBreak = (props) => {
   //   };
   //   listAdminTakeLeave(dataLeave);
   // };
-  const onChangeDate = (date) => {
+  const onChangeDate = (datePick) => {
     setFilter({
       ...filter,
-      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+      date: !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
     });
     setData([]);
     setPage(1);
     getData(
       1,
-      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
       filter.status,
       [],
       filter.name,
     );
+    setDateAdBreak(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
   const onChangeName = (item) => {
     setFilter({ ...filter, name: item });
@@ -181,6 +210,8 @@ const ApproveBreak = (props) => {
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_BREAK =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
@@ -191,7 +222,7 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
+      
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -199,7 +230,7 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
+
     }
   };
   const onRefresh = () => {
@@ -212,11 +243,13 @@ const ApproveBreak = (props) => {
   const onDeny = async (item) => {
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
-      _id: item,
+      _id: item._id,
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_DENY =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
@@ -227,7 +260,45 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
+      
+    } else if (
+      !response.success
+      && response.statusCode === 600
+      && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      setData(
+        data.map((i) => (i._id === item._id
+          ? {
+            ...item,
+            date: response.data.date,
+            time: response.data.time,
+            content: response.data.content,
+            is_updated: true,
+          }
+          : i),),
+      );
+    } else if (
+      !response.success
+      && response.statusCode === 601
+      && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      console.log('data,data', data);
+      const newData = [...data];
+      const prevIndex = data.findIndex((check) => check._id === item._id);
+      newData.splice(prevIndex, 1);
+      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -235,7 +306,7 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
+     
     }
   };
 
@@ -248,7 +319,7 @@ const ApproveBreak = (props) => {
         type={item.type}
         date={_listDate}
         reason={item.content}
-        onDeny={() => onDeny(item._id)}
+        onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
@@ -264,7 +335,7 @@ const ApproveBreak = (props) => {
       />
     );
   };
-console.log(filter.name);
+  console.log(filter.name);
   return (
     <>
       <HeaderCustom
@@ -273,11 +344,12 @@ console.log(filter.name);
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
         type={type}
+        dateN={moment(filter.date,'DD/MM/YYYY')._d}
         CONFIRM_DENY_TAKE_LEAVE
         search
         txtSearch={filter.name}
       />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {data.length === 0 && (
           <Text style={styles.noData}>Không có lịch sử.</Text>
         )}
