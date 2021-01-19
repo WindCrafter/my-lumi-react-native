@@ -17,8 +17,13 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
 import { useIsFocused } from '@react-navigation/native';
 import langs from '../../../../common/language';
-import { BarStatus,HeaderCustom } from '../../../component';
-import { Colors } from '../../../../utlis';
+import {
+  BarStatus,
+  HeaderCustom,
+  EmptyState,
+  Indicator,
+} from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import ItemOT from './component/ItemOT';
 import ActionButton from './component/ActionButton';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -83,7 +88,7 @@ function ListOT(props) {
       0;
   }
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [type, setType] = useState(initialType || 'Tất cả');
   const [onScroll, setOnScroll] = useState(false);
@@ -143,14 +148,12 @@ function ListOT(props) {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
-      </View>
-    ) : null;
+    console.log('loading', loading);
+    return loading ? <Indicator /> : null;
   };
 
   const onChangeDate = (date) => {
+    setLoading(true);
     setDateUserOT(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
@@ -182,6 +185,7 @@ function ListOT(props) {
   };
 
   const onChangeStatus = (item) => {
+    setLoading(true);
     setStatusUserOT(item);
     setData([]);
     setPage(1);
@@ -202,9 +206,9 @@ function ListOT(props) {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-   const onPressCreate = () => {
-     navigation.navigate(langs.navigator.applyOT);
-   };
+  const onPressCreate = () => {
+    navigation.navigate(langs.navigator.applyOT);
+  };
   const onUpdateOT = (data2, rowMap) => {
     closeRow(rowMap, data2.item.key);
     console.log(data2);
@@ -354,8 +358,8 @@ function ListOT(props) {
         initDate={localDate}
       />
       <View style={styles.detail}>
-        {_data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử</Text>
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
         <SwipeListView
           data={_data}

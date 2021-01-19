@@ -97,7 +97,7 @@ export const imgs = {
   clockEarly: require('../../common/assets/images/icon/Clock-early-icon.png'),
   arrow: require('../../common/assets/images/icon/Arrow-icon.png'),
   time: require('../../common/assets/images/icon/Clock2-icon.png'),
-  sloganLogo: require('../../common/assets/images/logo/logoWithSlogan3x.png'),
+  sloganLogo: require('../../common/assets/images/logo/logoWithSlogan.png'),
   calendarWeek: require('../../common/assets/images/icon/Calendar-week.png'),
   fine: require('../../common/assets/images/icon/Fine-icon.png'),
   logoMyLumi: require('../../common/assets/images/logo/logo_MyLumi.png'),
@@ -112,6 +112,12 @@ export const imgs = {
   gif: require('../../common/assets/images/gif/Sever1.gif'),
   event: require('../../common/assets/images/example/event.jpeg'),
   roudedDown: require('../../common/assets/images/icon/Down-rounded.png'),
-  roundedLeft: require('../../common/assets/images/icon/LeftRound.png')
-
+  roundedLeft: require('../../common/assets/images/icon/LeftRound.png'),
+  emptyState: require('../../common/assets/images/empty_state/EmptyState.png'),
+  caughtUp: require('../../common/assets/images/empty_state/CaughtUp.png'),
+  errorSever: require('../../common/assets/images/empty_state/ErrorSever.png'),
+  noNetWork: require('../../common/assets/images/empty_state/NoNetwork.png'),
+  notFound: require('../../common/assets/images/empty_state/NotFound.png'),
+  taskComplete: require('../../common/assets/images/empty_state/TaskComplete.png'),
+  noHistory: require('../../common/assets/images/empty_state/NoHistory.png'),
 };

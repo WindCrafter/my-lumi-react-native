@@ -105,7 +105,7 @@ const CardLate = (props) => {
               <View style={[styles.viewLeader, { paddingVertical: is_updated ? 6 : 12 }]}>
                 <View style={styles.viewButton}>
                   <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
-                    <Text style={[styles.txtButton, { color: Colors.danger }]}>
+                    <Text style={[styles.txtButton, { color: Colors.background }]}>
                       {langs.deny}
                     </Text>
                   </TouchableOpacity>
@@ -119,9 +119,8 @@ const CardLate = (props) => {
                       style={[
                         styles.txtButton,
                         {
-                          color: Colors.background,
-                          fontFamily: 'Quicksand-Bold',
-                          fontWeight: '600',
+                          color: Colors.white,
+                        
                         },
                       ]}
                     >
@@ -257,15 +256,12 @@ const styles = StyleSheet.create({
     marginTop: -8,
   },
   viewLeader: {
-
     flexDirection: 'row',
-
   },
   viewButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   buttonDeny: {
     borderRadius: 8,
@@ -273,7 +269,7 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#D8F4E5',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -290,7 +286,7 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -303,9 +299,9 @@ const styles = StyleSheet.create({
   },
   txtButton: {
     color: Colors.white,
-
     fontSize: 16,
-
+    fontFamily: 'Quicksand-Bold',
+    fontWeight: '600',
   },
   viewApproved: {
     flexDirection: 'row',

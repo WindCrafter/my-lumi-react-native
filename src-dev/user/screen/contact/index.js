@@ -9,17 +9,20 @@ import {
   UIManager,
   Linking,
   ActivityIndicator,
-  RefreshControl, Text
+  RefreshControl, Text, ImageBackground
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Clipboard from '@react-native-community/clipboard';
 import LinearGradient from 'react-native-linear-gradient';
+import _ from 'lodash';
 import ContactRow from '../../../component/Input/InputContact';
 import {
   BarStatus,
   HeaderCustom,
   Input,
   HeaderAccount,
+  EmptyState,
+  Indicator,
 } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
 
@@ -38,7 +41,6 @@ if (
 }
 
 function Contact(props) {
-  const WAIT_INTERVAL = 1000
   const { navigation, token, currentUser } = props;
   const [name, setName] = useState('');
   const [BankAccount, setBankAccount] = useState('');
@@ -73,19 +75,16 @@ function Contact(props) {
     ) {
       setData(search ? response.data : _data.concat(response.data));
       setPage(pageNumber);
-      setLoading(false);
+
       _global.Loading.hide();
       console.log(data);
     } else {
-      setLoading(false);
       _global.Loading.hide();
     }
   };
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#ABB0BB" />
-      </View>
+      <Indicator />
     ) : null;
   };
   const handleLoadMore = () => {
@@ -150,17 +149,19 @@ function Contact(props) {
     setOnScroll(false);
     getData(1, [], name, false);
   };
- 
+
   const onChangeSearch = (txt) => {
     setName(txt);
     setLoading(true);
     getData(1, [], txt, true);
   };
-
+  const debouceSearch = _.debounce((value) => {
+    onChangeSearch(value);
+  }, 500);
   const onGoBack = () => {
     navigation.goBack();
   };
-console.log('name',name);
+  console.log('name', name);
   return (
     <>
       <BarStatus
@@ -178,10 +179,10 @@ console.log('name',name);
           leftImage={imgs.search}
           containerStyle={styles.search}
           value={name}
-          onChangeText={onChangeSearch}
+          onChangeText={debouceSearch}
           autoCapitalize="none"
           placeholder="Tìm kiếm ..."
-          returnKeyType='search'
+          returnKeyType="search"
           rightIcon
         />
       </View>
@@ -189,9 +190,7 @@ console.log('name',name);
         style={[styles.gradient]}
         colors={['#D5D5D5', '#F2F2F2']}
       />
-      {data && data.length === 0 && !loading && (
-        <Text style={styles.noData}>Không có lịch sử.</Text>
-      )}
+      {data && data.length === 0 && !loading && <EmptyState title="Không tìm thấy Lumier này." />}
       <FlatList
         style={{ paddingTop: 16 }}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
@@ -270,12 +269,25 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    borderWidth: Platform.OS === 'ios' ? 0 : 0.3,
   },
   gradient: {
     width: widthPercentageToDP(100),
     height: 4,
   },
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24, }
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    color: Colors.ink500,
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
+    marginTop: 8
+  },
+  description: {
+    fontSize: 16,
+    alignSelf: 'center',
+    color: Colors.ink400,
+    textAlign: 'center',
+    paddingHorizontal: 16
 
+  },
 });
