@@ -14,14 +14,19 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors, Fonts } from '../../../../utlis';
+import { Colors, Fonts, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
 import FilterTop from './component/FilterTop';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
-import { BarStatus, HeaderCustom } from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  EmptyState,
+  Indicator,
+} from '../../../component';
 import ActionButton from './component/ActionButton';
 
 const HistoryLate = (props) => {
@@ -33,7 +38,7 @@ const HistoryLate = (props) => {
     date_user_late,
     setDateUserLate
   } = props;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
 
@@ -120,6 +125,7 @@ const HistoryLate = (props) => {
     navigation.navigate(langs.navigator.applyLate);
   };
   const onChangeDate = (date) => {
+    setLoading(true);
     setDateUserLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
@@ -149,6 +155,7 @@ const HistoryLate = (props) => {
   };
 
   const onChangeStatus = (item) => {
+    setLoading(true);
     setStatusUserLate(item);
     setData([]);
     setPage(1);
@@ -169,11 +176,8 @@ const HistoryLate = (props) => {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" />
-      </View>
-    ) : null;
+    console.log('loading', loading);
+    return loading ? <Indicator /> : null;
   };
   const closeRow = (rowMap, rowKey) => {
     // console.log(rowKey);
@@ -353,9 +357,8 @@ const HistoryLate = (props) => {
         />
 
         {data && data.length === 0 && !loading && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
-
         <SwipeListView
           data={_data}
           keyExtractor={(item, index) => index.toString()}

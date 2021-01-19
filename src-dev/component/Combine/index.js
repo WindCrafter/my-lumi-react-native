@@ -19,20 +19,6 @@ interface Props extends Combine {
   marginBottom?: String;
 }
 
-Combine.defaultProps = {
-  width: '96%',
-  timeIn: '08:00',
-  timeOut: '18:00',
-  status: 'ontime',
-  day: 'T2',
-  date: '09',
-  department: 'R&D',
-  shift: 'Ca hành chính',
-  defaultTimeIn: '08:00',
-  defaultTimeOut: '18:00',
-  marginBottom:0,
-};
-
 export default function Combine(props?: Props) {
   const {
     width,

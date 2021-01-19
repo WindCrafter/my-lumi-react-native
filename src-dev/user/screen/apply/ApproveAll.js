@@ -71,9 +71,10 @@ const ApproveAll = (props) => {
       />
       <ScrollableTabView
         tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
+        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
         renderTabBar={renderTabBar}
-        initialPage={page}>
+        initialPage={page}
+      >
         <ApproveBreak
           tabLabel={langs.break}
           token={token}
@@ -85,12 +86,19 @@ const ApproveAll = (props) => {
         <ApproveLate
           tabLabel={langs.late}
           token={token}
-          dataManager={dataManager}
-          refreshing={refreshing}
-          listManagerLateEarly={listManagerLateEarly}
-          approveLateEarly={approveLateEarly}
+          setStatusAdLate={setStatusAdLate}
+          status_ad_late={status_ad_late}
+          date_ad_late={date_ad_late}
+          setDateAdLate={setDateAdLate}
         />
-        <ApproveOT tabLabel={langs.ot} token={token} />
+        <ApproveOT
+          tabLabel={langs.ot}
+          token={token}
+          setStatusAdOT={setStatusAdOT}
+          status_ad_ot={status_ad_ot}
+          date_ad_ot={date_ad_ot}
+          setDateAdOT={setDateAdOT}
+        />
         <ApproveCheck
           tabLabel={langs.checkIn}
           token={token}

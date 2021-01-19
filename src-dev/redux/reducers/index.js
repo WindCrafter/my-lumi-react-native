@@ -37,6 +37,7 @@ const authPersistConfig = {
     'identity_number',
     'bank_account',
     'bank_name',
+    'user_id',
   ],
 };
 

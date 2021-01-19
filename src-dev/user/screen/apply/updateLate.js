@@ -96,11 +96,10 @@ function UpdateLate(props) {
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = typeRoute === '1' ? 'đi muộn' : 'về sớm';
     if (!reason) {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: `Vui lòng điền lí do ${field}`,
+        message: 'Lý do không được để trống.',
         messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });

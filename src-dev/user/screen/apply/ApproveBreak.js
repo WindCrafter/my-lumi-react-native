@@ -11,12 +11,13 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
 import moment from 'moment';
 import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
@@ -62,15 +63,11 @@ const ApproveBreak = (props) => {
     status: status_ad_break,
     name: '',
   });
-  const [type, setType] = useState(initialType || 'Đang chờ')
-  const [date, setDate] = useState('');
+  const [type, setType] = useState(initialType || 'Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    console.log('date', date_ad_break);
-        console.log('status', status_ad_break);
-
     getData(1, date_ad_break, status_ad_break, [], filter.name);
   }, []);
   const onSetType = (item) => {
@@ -91,22 +88,9 @@ const ApproveBreak = (props) => {
         setType('Auto Cancel');
         break;
       default:
-        0;
+        console.log(':::Wrong type :', item);
     }
   };
-  const goBack = () => {
-    navigation.navigate(langs.navigator.historyBreak);
-  };
-
-  // saga
-  // const getData = () => {
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
@@ -115,7 +99,7 @@ const ApproveBreak = (props) => {
     const _name = nameN || '';
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
-    console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
+    console.log('_GET_LIST_TAKE_LEAVE_MANAGER ===========>', response);
     setRefresh(false);
     setLoading(false);
     setOnScroll(false);
@@ -132,60 +116,38 @@ const ApproveBreak = (props) => {
   const handleLoadMore = () => {
     setLoading(true);
     setOnScroll(false);
-
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
-  // saga
-  // const onChangeDate = (date) => {
-  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
-  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //     date: date ? moment(pickDate).format('DD/MM/YYYY') : null,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
-  const onChangeDate = (datePick) => {
+
+  const onChangeDate = (date) => {
+    setLoading(true);
     setFilter({
       ...filter,
-      date: !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
     });
     setData([]);
     setPage(1);
     getData(
       1,
-      !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
       filter.status,
       [],
       filter.name,
     );
-    setDateAdBreak(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
+    setDateAdBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 500);
   const onChangeName = (item) => {
+    setLoading(true);
     setFilter({ ...filter, name: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
   };
-  // saga
-  // const onChangeStatus = (item) => {
-  //   setFilter({...filter, status: item});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: item,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  //   onSetType(item);
-  // };
   const onChangeStatus = (item) => {
+    setLoading(true);
     setFilter({ ...filter, status: item });
     setData([]);
     setPage(1);
@@ -196,9 +158,7 @@ const ApproveBreak = (props) => {
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#ABB0BB" />
-      </View>
+      <Indicator />
     ) : null;
   };
 
@@ -222,7 +182,6 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -230,14 +189,7 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-
     }
-  };
-  const onRefresh = () => {
-    setRefresh(true);
-    setOnScroll(false);
-
-    getData(1, filter.date, filter.status, [], filter.name);
   };
 
   const onDeny = async (item) => {
@@ -260,45 +212,6 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      
-    } else if (
-      !response.success
-      && response.statusCode === 600
-      && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      setData(
-        data.map((i) => (i._id === item._id
-          ? {
-            ...item,
-            date: response.data.date,
-            time: response.data.time,
-            content: response.data.content,
-            is_updated: true,
-          }
-          : i),),
-      );
-    } else if (
-      !response.success
-      && response.statusCode === 601
-      && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      console.log('data,data', data);
-      const newData = [...data];
-      const prevIndex = data.findIndex((check) => check._id === item._id);
-      newData.splice(prevIndex, 1);
-      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -306,8 +219,12 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-     
     }
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData(1, filter.date, filter.status, [], filter.name);
   };
 
   const renderItem = ({ item, index }) => {
@@ -342,17 +259,29 @@ const ApproveBreak = (props) => {
         header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
+        onChangeName={debouceSearch}
         type={type}
-        dateN={moment(filter.date,'DD/MM/YYYY')._d}
-        CONFIRM_DENY_TAKE_LEAVE
+        dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
         search
         txtSearch={filter.name}
       />
       <View style={{ flex: 1 }}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
-        )}
+        {data
+          && data.length === 0
+          && !loading
+          && ((filter.status == 1 && filter.date === '')
+          || filter.date === moment(new Date()).format('DD/MM/YYYY') ? (
+            <EmptyState
+              source={imgs.taskComplete}
+              title="Chưa có đơn cần duyệt"
+              description="Gặp lại bạn sau nhé."
+            />
+            ) : (
+              <EmptyState
+                source={imgs.noHistory}
+                title="Không tìm thấy lịch sử"
+              />
+            ))}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}

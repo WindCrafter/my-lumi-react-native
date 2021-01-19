@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Platform, UIManager } from 'react-native';
+import { StyleSheet, View, Platform, UIManager, Text } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import langs from '../../../../common/language';
+
 import {
   BarStatus,
   HeaderCustom,
   TabView,
   HeaderAccount,
 } from '../../../component';
+import HeaderNotify from '../notify/component/HeaderNotify';
 import { Colors } from '../../../../utlis';
 import { _global } from '../../../../utlis/global/global';
 import AllBreak from './allBreak';
@@ -52,19 +55,28 @@ function ApplyBreak(props) {
         return null;
     }
   };
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={36} />
-      <HeaderAccount
-        title="Tổng quan"
-        sub="Xem lịch làm việc"
-      />
+      <BarStatus backgroundColor={Colors.white} height={insets.top + 16} />
+      <Text
+        style={{
+          marginLeft: 12,
+          fontSize: 24,
+          fontWeight: '600',
+          fontFamily: 'Quicksand-Bold',
+          color: 'black',
+        }}
+      >
+        Tổng hợp
+      </Text>
 
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
         swipeEnabled={false}
+        style={{ height: 24 }}
       />
     </View>
   );

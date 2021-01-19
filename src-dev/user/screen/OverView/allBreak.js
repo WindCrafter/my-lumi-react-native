@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors } from '../../../../utlis';
+import _ from 'lodash';
+import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardBreakAll from './components/CardBreakAll';
 // import FilterTop from './component/FilterTop';
@@ -20,6 +21,8 @@ import FilterDate from './components/FilterDate';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
+import HeaderNotify from '../notify/component/HeaderNotify';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
 
 if (
   Platform.OS === 'android'
@@ -35,7 +38,7 @@ const AllBreak = (props) => {
 
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [type, setType] = useState('Tất cả');
@@ -43,7 +46,7 @@ const AllBreak = (props) => {
   const [onScroll, setOnScroll] = useState(false);
   const [name, setName] = useState('');
   useEffect(() => {
-    getData(1, '', 0,[],'');
+    getData(1, '', 0, [], '');
     console.log('onmei');
   }, []);
 
@@ -108,9 +111,7 @@ const AllBreak = (props) => {
   };
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" />
-      </View>
+      <Indicator />
     ) : null;
   };
 
@@ -132,6 +133,7 @@ const AllBreak = (props) => {
   // };
 
   const onChangeDate = (datePick) => {
+    setLoading(true);
     setData([]);
     setPage(1);
     getData(
@@ -143,8 +145,12 @@ const AllBreak = (props) => {
     );
     setDate(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 500);
   const onChangeName = (item) => {
-    console.log('date',date);
+    setLoading(true);
+    console.log('date', date);
     setName(item);
     setData([]);
     setPage(1);
@@ -188,19 +194,19 @@ const AllBreak = (props) => {
         backgroundColor={Colors.white}
         initDate={localDate}
       /> */}
-      <FilterDate
+      <HeaderNotify
         header={false}
         // onChangeStatus={onChangeStatus}
-        onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
+        onDate={onChangeDate}
+        onSearch={debouceSearch}
         type={type}
         CONFIRM_DENY_TAKE_LEAVE
         search
         txtSearch={name}
       />
       <View style={styles.backGround}>
-        {data && data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}

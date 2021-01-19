@@ -18,7 +18,12 @@ import Modal from 'react-native-modal';
 import MonthPicker from 'react-native-month-picker';
 import moment from 'moment';
 import { Card } from 'native-base';
-import { BarStatus, HeaderCustom } from '../../../component';
+import {
+  BarStatus,
+  HeaderCustom,
+  EmptyState,
+  Indicator,
+} from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
@@ -36,7 +41,7 @@ function History(props) {
   const { navigation, token } = props;
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [onScroll, setOnScroll] = useState(false);
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
@@ -206,13 +211,12 @@ function History(props) {
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
-      </View>
+      <Indicator />
     ) : null;
   };
 
   const onConfirmDate = () => {
+    setLoading(true);
     setDate(moment(dateChange).format('DD/MM/YYYY'));
     setVisible(false);
     getData(1, moment(dateChange).format('DD/MM/YYYY'), []);
@@ -243,8 +247,8 @@ function History(props) {
         <Text style={styles.time}>{getTimeBySeason()}</Text>
       </View>
       <View style={styles.contentHistory}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử</Text>
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}
@@ -339,15 +343,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 15,
-    shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 2,
-},
-shadowOpacity: 0.23,
-shadowRadius: 2.62,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
 
-elevation: 4,
+    elevation: 4,
   },
   time: {
     fontWeight: '600',
