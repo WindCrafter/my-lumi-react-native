@@ -8,6 +8,7 @@ const initialState = {
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
   type: 'in',
+  status: 0,
   listTakeLeave: '',
   historyAdminTakeLeave: '',
   dataLateEarly: {},
@@ -64,17 +65,35 @@ export default function check(state = initialState, action) {
         ...state,
         historyAdminTakeLeave: action.payload,
       };
+    case types.CHECK_IN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        type: 'in',
+        dateCheckIn: moment(new Date()),
+        timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
+      };
+    case types.CHECK_OUT_REQUEST_SUCCESS:
+      return {
+        ...state,
+        type: 'out',
+        dateCheckIn: moment(new Date()),
+        timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
+      };
     case types.CHECK_IN_SUCCESS:
       return {
         ...state,
         type: 'out',
         dateCheckIn: moment(new Date()),
         timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
       };
     case types.CHECK_OUT_SUCCESS:
       return {
         ...state,
         timeCheckOut: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
       };
     case types.CREATE_QR_SUCCESS:
       return {
@@ -93,11 +112,13 @@ export default function check(state = initialState, action) {
       return {
         ...state,
         type: 'in',
+        status: 2,
       };
     case types.CHANGETO_CHECKOUT:
       return {
         ...state,
         type: 'out',
+        status: 2,
       };
     case types.CHANGETO_CHECKIN_REQUEST:
       return {

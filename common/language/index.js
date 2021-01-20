@@ -1,4 +1,5 @@
 const langs = {
+  remote: 'Remote',
   emailInvalid: 'Email đang để trống',
   passInvalid: 'Mật khẩu đang để trống',
   user: 'Tên đăng nhập hoặc email',
@@ -108,9 +109,9 @@ const langs = {
   role: 'Vị trí',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
   errorLocationCheckin:
-    'Bạn không có quyền check in bằng cách này khi không ở công ty',
+    'Bạn không có quyền check in bằng cách này khi không ở công ty.',
   errorLocationCheckout:
-    'Bạn không có quyền check out bằng cách này khi không ở công ty',
+    'Bạn không có quyền check out bằng cách này khi không ở công ty.',
   navigator: {
     overView:'Tổng quan',
     kpi: 'KPI',

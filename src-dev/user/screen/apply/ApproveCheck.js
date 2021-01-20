@@ -15,7 +15,7 @@ import moment from 'moment';
 import langs from '../../../../common/language';
 import { BarStatus } from '../../../component';
 import { Colors } from '../../../../utlis';
-import CardLate from './component/CardLate';
+import CardCheck from './component/CardCheck';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import { _GET, _POST } from '../../../../utlis/connection/api';
@@ -61,31 +61,27 @@ function ApproveCheck(props) {
         setType('Bị từ chối');
         break;
       default:
-        console.log(item);
     }
   };
   const renderItem = ({ item, index }) => {
-    // console.log(item);
     return (
-      <CardLate
-        leader
+      <CardCheck
         status={item.status}
-        type={item.type}
-        reason={item.content}
+        type={item.type === 2 ? 'Check Out' : 'Check In'}
         day={item.date}
-        time={item.time}
+        time={item.type === 2 ? moment(item.check_out * 1000).format('HH:mm') : moment(item.check_in * 1000).format('HH:mm')}
         name={item.fullname}
         onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item)}
-        is_updated={item.is_updated}
       />
     );
   };
   const onConfirm = async (item) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
     const body = {
       id: item.id,
       status: 2,
+      type: item.type,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_LATE_EARLY =============>', response);
@@ -148,10 +144,11 @@ function ApproveCheck(props) {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
     const body = {
       id: item.id,
       status: 3,
+      type: item.type,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_LATE_EARLY =============>', response);
@@ -202,16 +199,14 @@ function ApproveCheck(props) {
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || '';
+    const _date = dateN || moment().format('DD/MM/YYYY');
     const _status = statusN || 0;
     const _data = dataN || [];
-    const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_CHECK_REQUEST}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
     setOnScroll(false);
-    console.log('_GET_LIST_LATE_EARLY ===========>', response);
     if (
       response.success
       && response.statusCode === 200
@@ -232,7 +227,7 @@ function ApproveCheck(props) {
   const renderFooterComponent = () => {
     return loading ? (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="grey" />
       </View>
     ) : null;
   };
@@ -261,6 +256,13 @@ function ApproveCheck(props) {
     onSetType(item);
   };
 
+  const status = [
+    { label: 'Tất cả', value: '0' },
+    { label: 'Đang chờ', value: '1' },
+    { label: 'Đã duyệt', value: '2' },
+    { label: 'Bị từ chối', value: '3' },
+  ];
+
   const onChangeName = (item) => {
     setFilter({ ...filter, name: item });
     setData([]);
@@ -280,6 +282,7 @@ function ApproveCheck(props) {
         CONFIRM_DENY_TAKE_LEAVE
         search
         txtSearch={filter.name}
+        flatStatus={status}
       />
       <View style={styles.detail}>
         {(data.length === 0) && (

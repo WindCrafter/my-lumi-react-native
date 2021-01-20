@@ -31,6 +31,7 @@ const ApproveAll = (props) => {
     listManagerCheck,
     approveCheck,
     removeList,
+    role,
     refreshing,
     route,
     setDateAdBreak,
@@ -80,14 +81,12 @@ const ApproveAll = (props) => {
           token={token}
         />
         <ApproveOT tabLabel={langs.ot} token={token} />
+        {role === 'HR' && (
         <ApproveCheck
           tabLabel={langs.checkIn}
           token={token}
-          dataManagerCheck={dataManagerCheck}
-          refreshing={refreshing}
-          listManagerCheck={listManagerCheck}
-          approveCheck={approveCheck}
         />
+        )}
       </ScrollableTabView>
     </>
   );

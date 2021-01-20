@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
@@ -103,6 +102,9 @@ const Notify = (props) => {
         }
       }
       _POST(url, { id: item.id }, token, false);
+      setData(data.map((e) => {
+        return (e.id === item.id ? { ...e, status: 1 } : e);
+      }));
     };
     const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
 
@@ -117,7 +119,8 @@ const Notify = (props) => {
                   ? Colors.white
                   : Colors.backgroundInActive,
             },
-          ]}>
+          ]}
+        >
           <View style={styles.row}>
             {item.status === 0 || item.status === '0' ? (
               <View style={styles.read} />

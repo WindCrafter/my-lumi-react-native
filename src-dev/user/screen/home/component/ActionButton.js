@@ -64,7 +64,7 @@ const FloatButton = (props) => {
       >
         <Image source={imgs.overTime} />
       </ActionButton.Item>
-      { permission === 'Leader'
+      { (permission === 'Leader' || permission === 'HR')
         && (
         <ActionButton.Item
           inputX={[0, 0]}

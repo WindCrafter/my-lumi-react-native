@@ -392,3 +392,17 @@ export const approveCheckSuccess = (data) => {
     payload: data,
   };
 };
+
+export const checkInRequestSuccess = (data) => {
+  return {
+    type: types.CHECK_IN_REQUEST_SUCCESS,
+    payload: data,
+  };
+};
+
+export const checkOutRequestSuccess = (data) => {
+  return {
+    type: types.CHECK_OUT_REQUEST_SUCCESS,
+    payload: data,
+  };
+};

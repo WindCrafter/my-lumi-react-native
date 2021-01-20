@@ -20,7 +20,7 @@ const CardCheck = (props) => {
       <View style={styles.header}>
         <View style={styles.leftHeader}>
           <Text style={styles.txttype}>
-            {langs.checkIn}
+            {type}
           </Text>
         </View>
         <View style={styles.rightHeader}>
@@ -40,8 +40,6 @@ const CardCheck = (props) => {
             <Image source={imgs.startTime} style={styles.clock} />
             <Text style={styles.time}>
               {time}
-              {' '}
-              phút
             </Text>
           </View>
         </View>
@@ -165,7 +163,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
-    marginTop: -8,
   },
   viewLeader: {
     paddingVertical: 8,
