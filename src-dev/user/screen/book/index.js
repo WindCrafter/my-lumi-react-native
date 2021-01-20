@@ -24,7 +24,8 @@ import ActionButton from 'react-native-action-button';
 import { Card } from 'native-base';
 import Modal from 'react-native-modal';
 import { Colors, Fonts, imgs } from '../../../../utlis';
-import { BarStatus, HeaderAccount } from '../../../component';
+import { BarStatus, HeaderAccount, EmptyState,
+  Indicator, } from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -41,7 +42,7 @@ const Book = (props) => {
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [itemShow, setItemShow] = useState({});
 
@@ -268,9 +269,15 @@ const Book = (props) => {
             : `Hôm nay bạn có ${count} lịch họp.`
         }
       />
-      {data.length === 0 && (
-        <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
-      )}
+      {data
+          && data.length === 0
+          && !loading && (
+            <EmptyState
+              source={imgs.caughtUp}
+              title="Chưa có lịch họp."
+description='Hẹn bạn sau nhé.'
+            />
+        )}
       <SectionList
         style={{ paddingTop: 16 }}
         sections={array}

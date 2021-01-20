@@ -59,7 +59,7 @@ export default function HeaderCustom(props?: Props) {
           <Icon name="chevron-left" size={size} color={Colors.black} />
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
-          <Text style={[styles.title, { fontSize }]} {...otherProps}>
+          <Text style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 20 }]} {...otherProps}>
             {title}
           </Text>
         </View>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     height: 32,
   },
   title: {
-    fontSize: 20,
+
     fontWeight: '600',
     color: Colors.black,
     fontFamily: 'Quicksand-Bold',

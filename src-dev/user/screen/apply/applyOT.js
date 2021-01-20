@@ -389,6 +389,7 @@ function ApplyOT(props) {
         height={72}
         goBack={goBack}
         fontSize={20}
+        shadow
       />
       <ScrollView
         style={{ backgroundColor: '#f2f2f2' }}
@@ -417,6 +418,7 @@ function ApplyOT(props) {
             onBlur={unFocus}
             blurOnSubmit
             rightIcon
+            placeholder={'Tóm tắt lí do :'}
           />
 
           {!reason && show ? (

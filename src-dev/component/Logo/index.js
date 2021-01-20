@@ -26,8 +26,8 @@ export default function Logo(props?: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
-    height: 120,
+    width: 200,
+    height: 80,
     alignSelf: 'center',
   },
 });

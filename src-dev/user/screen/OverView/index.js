@@ -75,7 +75,7 @@ function ApplyBreak(props) {
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        swipeEnabled={false}
+        swipeEnabled={true}
         style={{ height: 24 }}
       />
     </View>

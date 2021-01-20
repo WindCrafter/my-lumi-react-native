@@ -301,21 +301,17 @@ console.log('final data',data);
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
+      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Sửa đơn nghỉ phép"
-        height={60}
+        height={72}
         goBack={goBack}
         fontSize={24}
         shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-      >
+        keyboardDismissMode="on-drag">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -362,30 +358,24 @@ console.log('final data',data);
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
-
               {typeBreak === 'Theo buổi' ? (
                 <ApplyIcon
                   title="Nửa ngày"
                   onPress={() => onSetTypeBreak('Theo buổi')}
-                  tintColor={
-                   Colors.background
-                }
+                  tintColor={Colors.background}
                   source={imgs.breakShift}
                 />
               ) : (
                 <ApplyIcon
                   title="Theo ngày"
                   onPress={() => onSetTypeBreak('Theo ngày')}
-                  tintColor={
-                   Colors.background
-                }
+                  tintColor={Colors.background}
                   source={imgs.breakOneDay}
                 />
               )}
-
             </View>
             {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
+              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -396,8 +386,7 @@ console.log('final data',data);
                       flexDirection: 'row',
                     },
                   ]}
-                  onPress={onSetTypeShift}
-                >
+                  onPress={onSetTypeShift}>
                   <Image source={imgs.startTime} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>{typeShift}</Text>
@@ -409,8 +398,7 @@ console.log('final data',data);
                       backgroundColor: Colors.white,
                     },
                   ]}
-                  onPress={() => onShow('shift')}
-                >
+                  onPress={() => onShow('shift')}>
                   <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>

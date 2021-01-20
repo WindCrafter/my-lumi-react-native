@@ -241,6 +241,7 @@ function History(props) {
         rightButton
         rightImage={imgs.settingICon}
         onRight={onRight}
+        shadow
       />
       <View style={styles.timeCheck}>
         <Image source={imgs.clockKeeping} style={styles.avt} />

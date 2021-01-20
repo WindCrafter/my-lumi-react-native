@@ -196,6 +196,7 @@ function FormLate(props) {
         height={72}
         goBack={goBack}
         fontSize={20}
+        shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
