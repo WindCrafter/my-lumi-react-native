@@ -75,7 +75,7 @@ const ApproveAll = (props) => {
         renderTabBar={renderTabBar}
         initialPage={page}
       >
-        <ApproveBreak tabLabel={langs.break} token={token} />
+        <ApproveBreak tabLabel={langs.break} token={token} setStatusAdBreak={setStatusAdBreak} />
         <ApproveLate
           tabLabel={langs.late}
           token={token}

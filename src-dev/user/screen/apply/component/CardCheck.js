@@ -31,9 +31,7 @@ const CardCheck = (props) => {
         <View style={styles.row}>
           <View style={styles.viewName}>
             <Text style={styles.name}>
-              {' '}
               {name}
-              {' '}
             </Text>
           </View>
           <View style={styles.viewDay}>
@@ -47,12 +45,12 @@ const CardCheck = (props) => {
       <View style={styles.line} />
       {status === 1 ? (
         <View style={styles.viewLeader}>
-          <View style={styles.viewButton}>
+          <View style={[styles.viewButton, { alignItems: 'flex-start', paddingLeft: 20 }]}>
             <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
               <Text style={styles.txtButton}>{langs.deny}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.viewButton}>
+          <View style={[styles.viewButton, { alignItems: 'flex-end', paddingRight: 20 }]}>
             <TouchableOpacity
               style={styles.buttonAccept}
               onPress={onAccept}
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
   detail: {
     justifyContent: 'center',
     paddingHorizontal: 8,
-    paddingVertical: 16,
+    paddingVertical: 8,
   },
   clock: {
     // tintColor: Colors.background,
@@ -140,16 +138,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
+    paddingBottom: 8,
   },
   viewName: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flex: 1,
-    paddingLeft: 24,
+    paddingLeft: 12,
+    paddingBottom: 8,
   },
   name: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 16,
   },
   time: {
     fontWeight: '500',
@@ -159,19 +159,28 @@ const styles = StyleSheet.create({
     height: 16,
     marginRight: 4,
   },
+  reason: {
+    flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 16,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
   line: {
     width: '100%',
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
+    marginTop: -8,
   },
   viewLeader: {
-    paddingVertical: 8,
+    paddingVertical: 12,
     flexDirection: 'row',
+
   },
   viewButton: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+
   },
   buttonDeny: {
     borderRadius: 16,
@@ -191,6 +200,8 @@ const styles = StyleSheet.create({
   },
   txtButton: {
     color: Colors.white,
+    fontSize: 14,
+    fontFamily: 'Quicksand-Bold',
     fontWeight: '600',
   },
   viewApproved: {
