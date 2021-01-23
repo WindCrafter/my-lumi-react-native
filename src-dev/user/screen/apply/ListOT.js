@@ -19,17 +19,18 @@ import { useIsFocused } from '@react-navigation/native';
 import langs from '../../../../common/language';
 import {
   BarStatus,
-  HeaderCustom,
+
   EmptyState,
   Indicator,
 } from '../../../component';
+import HeaderCustom from './component/HeaderCustom';
 import { Colors, imgs } from '../../../../utlis';
 import ItemOT from './component/ItemOT';
 import ActionButton from './component/ActionButton';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
-import FilterTop from './component/FilterTop';
+
 
 if (
   Platform.OS === 'android'
@@ -340,22 +341,17 @@ function ListOT(props) {
   console.log(_data);
   return (
     <>
-      <BarStatus backgroundColor={Colors.white} height={20} />
+
       <HeaderCustom
-        title="Đơn xin OT"
-        height={72}
-        goBack={goBack}
-        fontSize={20}
-      />
-      <FilterTop
-        title={langs.titleHistoryBreak}
+        height={44}
+        title={langs.titleHistoryOt}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
-        initDate={localDate}
+        dateN={localDate}
       />
       <View style={styles.detail}>
         {data && data.length === 0 && !loading && (
@@ -364,7 +360,7 @@ function ListOT(props) {
         <SwipeListView
           data={_data}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}

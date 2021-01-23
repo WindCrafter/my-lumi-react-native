@@ -82,7 +82,7 @@ const HeaderCustom = (props?: Props) => {
       <FlatList
         style={{ backgroundColor: 'white', borderRadius: 8 }}
         data={status}
-        keyExtractor={(item, index) => index.toString()}
+       keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
       />
     );

@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Input } from '../../../../component';
 import { imgs, Colors } from '../../../../../utlis';
@@ -29,7 +29,7 @@ HeaderNotify.defaultProps = {
 };
 
 export default function HeaderNotify(props) {
-  const { title, detail, onSearch, onDate, goBack,header } = props;
+  const { title, detail, onSearch, onDate, goBack, header } = props;
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -79,7 +79,7 @@ export default function HeaderNotify(props) {
     <View style={styles.container}>
       <View style={[styles.info]}>
         {header ? (
-          <View style={{flexDirection: 'row', marginTop: insets.top + 16}}>
+          <View style={{ flexDirection: 'row', marginTop: insets.top + 16 }}>
             {goBack ? (
               <TouchableOpacity onPress={goBack} style={styles.button}>
                 {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
@@ -87,11 +87,11 @@ export default function HeaderNotify(props) {
                   name="chevron-left"
                   size={32}
                   color={Colors.black}
-                  style={{top: 0}}
+                  style={{ top: 0 }}
                 />
               </TouchableOpacity>
             ) : null}
-            <Text style={[styles.txtTitle, {marginLeft: goBack ? 12 : 0}]}>
+            <Text style={[styles.txtTitle, { marginLeft: goBack ? 12 : 0 }]}>
               {title}
             </Text>
           </View>
@@ -117,17 +117,26 @@ export default function HeaderNotify(props) {
                 borderWidth: date ? 1 : 0,
                 borderColor: date ? Colors.background : 'white',
               },
-            ]}>
+            ]}
+          >
             <TouchableOpacity style={styles.txtDay} onPress={onShow}>
               <Text
                 style={[
                   styles.txtRole,
-                  {color: date ? Colors.background : Colors.ink500},
-                ]}>
+                  { color: date ? Colors.background : Colors.ink500 },
+                ]}
+              >
                 {date
                   ? moment(new Date(date)).format('DD/MM/YYYY')
-                  : 'Chọn ngày'}{' '}
+                  : 'Chọn ngày '}
               </Text>
+              {date ? null : (
+                <Icon
+                  size={18}
+                  name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                  style={{ color: Colors.black }}
+                />
+              )}
             </TouchableOpacity>
             {date ? (
               <TouchableOpacity style={styles.touchableClear} onPress={onClear}>
@@ -176,7 +185,7 @@ const styles = StyleSheet.create({
   filterDate: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 24,
+    borderRadius: 6,
     paddingHorizontal: 8,
     width: 120,
     height: 40,
@@ -209,7 +218,7 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginLeft: 2
+    marginLeft: 4
   },
   viewClear: {
     justifyContent: 'center',

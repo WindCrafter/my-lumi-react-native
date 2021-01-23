@@ -3,7 +3,7 @@
  * Copyright (c) 2020 phongdt
  */
 
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,10 @@ import {
   Dimensions,
 } from 'react-native';
 import {
+  widthPercentageToDP as SCREEN,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {
   KeyBoardScroll,
   Checkbox,
   InputPassword,
@@ -22,18 +26,14 @@ import {
   Button,
   Logo,
 } from '../../../component';
-import {
-  widthPercentageToDP as SCREEN,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../../utlis';
-import {_global} from '../../../../utlis/global/global';
+import { imgs, Colors } from '../../../../utlis';
+import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 const Register = (props) => {
-  const {navigation, register} = props;
+  const { navigation, register } = props;
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -53,22 +53,22 @@ const Register = (props) => {
   const onChangeEmail = (val) => {
     setEmail(val);
     if (
-      val.trim().length === 0 &&
-      (errMail !== '' ||
-        errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val.trim().length === 0
+      && (errMail !== ''
+        || errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrMail(langs.emailInvalid);
     } else if (
-      !isValidEmail(val) &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      !isValidEmail(val)
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrMail(langs.alert.wrongEmail2);
     } else {
@@ -78,22 +78,22 @@ const Register = (props) => {
   const onChangePass = (val) => {
     setNewPassword(val);
     if (
-      val === '' &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val === ''
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrNew(langs.alert.invalidReNewPassword2);
     } else if (
-      val.trim().length > 0 &&
-      val.trim().length < 8 &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val.trim().length > 0
+      && val.trim().length < 8
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrNew(langs.alert.lessReNewPassword2);
     } else {
@@ -103,12 +103,12 @@ const Register = (props) => {
   const onChangeVerifyCode = (val) => {
     setVerifyCode(val);
     if (
-      val.trim().length === 0 &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val.trim().length === 0
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrCode(langs.alert.wrongVerifyCode2);
     } else {
@@ -118,31 +118,31 @@ const Register = (props) => {
   const onChangeConfirmPassword = (val) => {
     setConfirmPassword(val);
     if (
-      val === '' &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val === ''
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrConfirm(langs.alert.invalidRePassword2);
     } else if (
-      val.trim().length > 0 &&
-      val.trim().length < 8 &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val.trim().length > 0
+      && val.trim().length < 8
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrConfirm(langs.alert.lessRePassword2);
     } else if (
-      val !== newPassword &&
-      (errMail !== '' ||
-        errConfirm !== '' ||
-        errNew !== '' ||
-        errConfirm !== '' ||
-        errCode !== '')
+      val !== newPassword
+      && (errMail !== ''
+        || errConfirm !== ''
+        || errNew !== ''
+        || errConfirm !== ''
+        || errCode !== '')
     ) {
       setErrConfirm(langs.alert.notCoincideRepass);
     } else {
@@ -163,22 +163,22 @@ const Register = (props) => {
   const onRegister = () => {
     Keyboard.dismiss();
     const data = {
-      email: email,
+      email,
       password: newPassword,
       confirm_password: confirmPassword,
       code_staff: verifyCode,
     };
 
     if (
-      email.trim().length === 0 ||
-      !isValidEmail(email) ||
-      newPassword.trim().length === 0 ||
-      (newPassword.trim().length > 0 && newPassword.trim().length < 8) ||
-      confirmPassword.trim().length === 0 ||
-      (confirmPassword.trim().length > 0 &&
-        confirmPassword.trim().length < 8) ||
-      newPassword !== confirmPassword ||
-      verifyCode.trim().length === 0
+      email.trim().length === 0
+      || !isValidEmail(email)
+      || newPassword.trim().length === 0
+      || (newPassword.trim().length > 0 && newPassword.trim().length < 8)
+      || confirmPassword.trim().length === 0
+      || (confirmPassword.trim().length > 0
+        && confirmPassword.trim().length < 8)
+      || newPassword !== confirmPassword
+      || verifyCode.trim().length === 0
     ) {
       if (email.trim().length === 0) {
         setErrMail(langs.emailInvalid);
@@ -197,8 +197,8 @@ const Register = (props) => {
         setErrConfirm(langs.alert.invalidRePassword2);
       }
       if (
-        confirmPassword.trim().length > 0 &&
-        confirmPassword.trim().length < 8
+        confirmPassword.trim().length > 0
+        && confirmPassword.trim().length < 8
       ) {
         setErrConfirm(langs.alert.lessRePassword2);
       }
@@ -244,7 +244,7 @@ const Register = (props) => {
                 <Input
                   // leftImage={}
                   // backgroundColor={'rgba(0,0,25,0.22)'}
-                  placeholder={'Email công ty'}
+                  placeholder="Email công ty"
                   testID="test_Username"
                   returnKeyType="next"
                   keyboardType="email-address"
@@ -279,7 +279,7 @@ const Register = (props) => {
                     },
                   ]}
                   // backgroundColor={'rgba(0,0,25,0.22)'}
-                  placeholder={'Mật khẩu mới'}
+                  placeholder="Mật khẩu mới"
                   // refInput={refPassword}
                   maxLength={20}
                   returnKeyType="next"
@@ -304,7 +304,7 @@ const Register = (props) => {
                     },
                   ]}
                   // backgroundColor={'rgba(0,0,25,0.22)'}
-                  placeholder={'Nhập lại mật khẩu'}
+                  placeholder="Nhập lại mật khẩu"
                   refInput={refRePassword}
                   maxLength={20}
                   returnKeyType="next"
@@ -327,7 +327,7 @@ const Register = (props) => {
                     },
                   ]}
                   // backgroundColor={'rgba(0,0,25,0.22)'}
-                  placeholder={'Mã nhân viên'}
+                  placeholder="Mã nhân viên"
                   // refInput={refPassword}
                   maxLength={20}
                   returnKeyType="done"
@@ -362,7 +362,7 @@ const Register = (props) => {
             {/* </View> */}
           </View>
           <Button
-            title={'Tạo tài khoản'}
+            title="Tạo tài khoản"
             onPress={
               errMail === '' &&
               errNew === '' &&
@@ -375,13 +375,7 @@ const Register = (props) => {
             containerStyle={[
               styles.viewInButton,
               {
-                borderWidth:
-                  errMail === '' &&
-                  errNew === '' &&
-                  errConfirm === '' &&
-                  errCode === ''
-                    ? 1
-                    : 0,
+               
                 marginTop: errCode === '' ? 36 : 8,
               },
             ]}
@@ -390,7 +384,7 @@ const Register = (props) => {
               errNew === '' &&
               errConfirm === '' &&
               errCode === ''
-                ? 'rgb(0,138,238)'
+                ? 'white'
                 : '#827D82'
             }
             backgroundColor={
@@ -398,7 +392,7 @@ const Register = (props) => {
               errNew === '' &&
               errConfirm === '' &&
               errCode === ''
-                ? null
+                ? 'rgb(47,172,79)'
                 : '#E9E9E9'
             }
           />
@@ -513,9 +507,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 16,
   },
-  viewInButton: {borderColor: 'rgb(0,138,238)'},
-  bottom: {height: 1, width: '100%', backgroundColor: '#E4E4E4'},
-  goBack: {alignSelf: 'center', flexDirection: 'row'},
+  viewInButton: { },
+  bottom: { height: 1, width: '100%', backgroundColor: '#E4E4E4' },
+  goBack: { alignSelf: 'center', flexDirection: 'row' },
   containerBottom: {
     width: '100%',
     justifyContent: 'center',
@@ -524,7 +518,7 @@ const styles = StyleSheet.create({
     top: hp(90),
   },
 
-  logIn: {color: Colors.blue, marginLeft: 4},
+  logIn: { color: Colors.blue, marginLeft: 4 },
   textErr: {
     fontSize: 12,
     height: 24,

@@ -17,6 +17,7 @@ target 'LumiHR' do
     inherit! :complete
     # Pods for testing
   end
+ 
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
@@ -29,7 +30,9 @@ pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.po
     flipper_post_install(installer)
   end
 end
-
+ target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '2.15.4'
+end
 target 'LumiHR-tvOS' do
   # Pods for LumiHR-tvOS
 

@@ -16,8 +16,6 @@ import _ from 'lodash';
 import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardBreakAll from './components/CardBreakAll';
-// import FilterTop from './component/FilterTop';
-import FilterDate from './components/FilterDate';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
@@ -184,16 +182,6 @@ const AllBreak = (props) => {
 
   return (
     <>
-      {/* <FilterTop
-        title={langs.titleHistoryBreak}
-        goBack={goBack}
-        fontSize={24}
-        onChangeStatus={onChangeStatus}
-        onChangeDate={onChangeDate}
-        type={type}
-        backgroundColor={Colors.white}
-        initDate={localDate}
-      /> */}
       <HeaderNotify
         header={false}
         // onChangeStatus={onChangeStatus}
@@ -210,7 +198,7 @@ const AllBreak = (props) => {
         )}
         <FlatList
           data={data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}

@@ -62,18 +62,16 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.notify);
   };
 
+  const onPressLate = () => {
+    navigation.navigate(langs.navigator.historyLate);
+  };
+  const onPressBreak = () => {
+    navigation.navigate(langs.navigator.historyBreak);
+  };
 
-   const onPressLate = () => {
-     navigation.navigate(langs.navigator.historyLate);
-   };
-   const onPressBreak = () => {
-     navigation.navigate(langs.navigator.historyBreak);
-   };
-
-   const onPressOT = () => {
-     navigation.navigate(langs.navigator.listOT);
-   };
-
+  const onPressOT = () => {
+    navigation.navigate(langs.navigator.listOT);
+  };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -172,7 +170,7 @@ export default function Home(props) {
                       ? time_late()
                       : '0h 0m'
                   }
-                  detail="Đi muộn/về sớm"
+                  detail="Giờ làm bù"
                   source={imgs.clockAlert}
                   imgBackground="rgb(217, 211, 253)"
                   numberColor="rgb(108, 74, 248)"

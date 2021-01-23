@@ -1,5 +1,5 @@
 const langs = {
-  remote: 'Remote',
+  remote: 'Gửi yêu cầu',
   emailInvalid: 'Email đang để trống',
   passInvalid: 'Mật khẩu đang để trống',
   user: 'Tên đăng nhập hoặc email',
@@ -83,6 +83,7 @@ const langs = {
   titleApproveBreak: 'Đơn xin nghỉ phép',
   titleHistoryLate: 'Lịch sử đi muộn/về sớm',
   titleApproveLate: 'Đơn xin đi muộn/về sớm',
+  titleHistoryOt: 'Lịch sử OT',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',

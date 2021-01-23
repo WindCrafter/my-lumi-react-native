@@ -296,7 +296,7 @@ const ApproveBreak = (props) => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           data={data}
-          keyExtractor={(item, index) => index.toString()}
+         keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />

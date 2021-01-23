@@ -220,7 +220,7 @@ const HistoryBreak = (props) => {
         )}
         <FlatList
           data={data}
-          keyExtractor={(item, index) => index.toString()}
+         keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}

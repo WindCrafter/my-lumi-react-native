@@ -198,7 +198,7 @@ function Contact(props) {
         ListFooterComponent={renderFooterComponent}
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+       keyExtractor={(item, index) => String(index)}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }

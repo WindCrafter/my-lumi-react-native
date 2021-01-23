@@ -21,14 +21,14 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Colors, imgs } from '../../../../utlis';
 import {
   BarStatus,
-  HeaderCustom,
+
   EmptyState,
   Indicator,
 } from '../../../component';
+import HeaderCustom from './component/HeaderCustom';
 import langs from '../../../../common/language';
 import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
-import FilterTop from './component/FilterTop';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
@@ -352,14 +352,9 @@ const HistoryBreak = (props) => {
   // console.log(_data);
   return (
     <>
-      <BarStatus backgroundColor={Colors.white} height={20} />
+
       <HeaderCustom
-        title="Đơn xin nghỉ phép"
-        height={72}
-        goBack={goBack}
-        fontSize={20}
-      />
-      <FilterTop
+        height={44}
         title={langs.titleHistoryBreak}
         goBack={goBack}
         fontSize={24}
@@ -367,7 +362,7 @@ const HistoryBreak = (props) => {
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
-        initDate={localDate}
+        dateN={localDate}
       />
       <View style={styles.backGround}>
         {data
@@ -381,7 +376,7 @@ const HistoryBreak = (props) => {
         )}
         <SwipeListView
           data={_data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
@@ -411,7 +406,7 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
+  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
   backTextWhite: {
     color: '#FFF',
   },
@@ -453,6 +448,7 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
-  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
-  loader: { marginTop: 8 }
+  backGround: {flex: 1, backgroundColor: '#f0f0f0'},
+  loader: {marginTop: 8},
+  imgClear: {alignSelf: 'center', width: 8, height: 8, tintColor: 'white'},
 });

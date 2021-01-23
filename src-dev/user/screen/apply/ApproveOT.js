@@ -230,24 +230,18 @@ function ApproveOT(props) {
         {data
           && data.length === 0
           && !loading
-          && ((filter.status == 1 && filter.date === '')
-          || filter.date === moment(new Date()).format('DD/MM/YYYY') ? (
+          && (
             <EmptyState
-              source={imgs.taskComplete}
+              source={imgs.notFound}
               title="Chưa có đơn cần duyệt"
               description="Gặp lại bạn sau nhé."
             />
-            ) : (
-              <EmptyState
-                source={imgs.noHistory}
-                title="Không tìm thấy lịch sử"
-              />
-            ))}
+          )}
         <FlatList
           data={data}
           // style={{borderColor: 'red', borderWidth: 1}}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}

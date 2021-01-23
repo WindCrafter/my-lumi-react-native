@@ -174,7 +174,7 @@ const Login = (props) => {
             />
             <Button
               backgroundColor={
-                errMail === '' && errNew === '' ? 'rgb(0,138,238)' : '#E9E9E9'
+                errMail === '' && errNew === '' ? 'rgb(47,172,79)': '#E9E9E9'
               }
               title={langs.login}
               titleColor={errMail === '' && errNew === '' ? 'white' : '#827D82'}
@@ -182,7 +182,7 @@ const Login = (props) => {
               testID="test_Login"
             />
             <TouchableOpacity onPress={onRegister} style={styles.bottom}>
-              <Text style={styles.register}>Đăng ký tài khoảnn</Text>
+              <Text style={styles.register}>Đăng ký tài khoản</Text>
               {/* <Text>Vui lòng tạo</Text> */}
             </TouchableOpacity>
             {/* <TouchableOpacity
