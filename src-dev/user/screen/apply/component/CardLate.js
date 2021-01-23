@@ -35,9 +35,7 @@ const CardLate = (props) => {
           {leader ? (
             <View style={styles.viewName}>
               <Text style={styles.name}>
-                {' '}
                 {name}
-                {' '}
               </Text>
             </View>
           ) : (
@@ -102,15 +100,21 @@ const CardLate = (props) => {
           <View style={styles.line} />
           {status === 1 ? (
             <View>
-              <View style={[styles.viewLeader, { paddingVertical: is_updated ? 6 : 12 }]}>
-                <View style={styles.viewButton}>
+              <View style={[styles.viewLeader, { paddingVertical: 12 }]}>
+                <View style={[styles.viewButton, { alignItems: 'flex-start', paddingLeft: 20 }]}>
                   <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
-                    <Text style={[styles.txtButton, { color: Colors.background }]}>
+
+                    <Text style={[styles.txtButton, {
+                      fontFamily: 'Quicksand-Bold',
+                      fontWeight: '600',
+                    }]}
+                    >
+
                       {langs.deny}
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.viewButton}>
+                <View style={[styles.viewButton, { alignItems: 'flex-end', paddingRight: 20 }]}>
                   <TouchableOpacity
                     style={styles.buttonAccept}
                     onPress={onAccept}
@@ -119,8 +123,10 @@ const CardLate = (props) => {
                       style={[
                         styles.txtButton,
                         {
-                          color: Colors.white,
-                        
+
+                          fontFamily: 'Quicksand-Bold',
+                          fontWeight: '600',
+
                         },
                       ]}
                     >
@@ -207,7 +213,7 @@ const styles = StyleSheet.create({
   detail: {
     justifyContent: 'center',
     paddingHorizontal: 8,
-    paddingVertical: 16,
+    paddingVertical: 8,
   },
   clock: {
     // tintColor: Colors.background,
@@ -225,14 +231,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   viewName: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flex: 1,
-    paddingLeft: 24,
+    paddingLeft: 12,
   },
   name: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 16,
   },
   time: {
     fontWeight: '500',
@@ -244,7 +250,7 @@ const styles = StyleSheet.create({
   },
   reason: {
     flexDirection: 'row',
-    paddingLeft: 32,
+    paddingLeft: 20,
     paddingRight: 16,
     paddingBottom: 16,
     alignItems: 'center',
@@ -261,47 +267,33 @@ const styles = StyleSheet.create({
   viewButton: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+
+
+
   },
   buttonDeny: {
-    borderRadius: 8,
+    borderRadius: 16,
     paddingVertical: 8,
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D8F4E5',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
 
-    elevation: 5,
+    backgroundColor: Colors.danger,
+
   },
   buttonAccept: {
-    borderRadius: 8,
+    borderRadius: 16,
     paddingVertical: 8,
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
 
-    elevation: 5,
   },
   txtButton: {
     color: Colors.white,
-    fontSize: 16,
-    fontFamily: 'Quicksand-Bold',
-    fontWeight: '600',
+    fontSize: 14,
+
   },
   viewApproved: {
     flexDirection: 'row',

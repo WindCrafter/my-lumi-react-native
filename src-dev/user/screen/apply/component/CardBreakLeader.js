@@ -1,4 +1,4 @@
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import React from 'react';
 import {
   StyleSheet,
@@ -9,13 +9,13 @@ import {
   FlatList,
   LayoutAnimation,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
-import {Colors, imgs} from '../../../../../utlis';
+import { Colors, imgs } from '../../../../../utlis';
 
 const CardBreakLeader = (props) => {
-  const {status, onAccept, onDeny, type, name, date, typeBreak, reason} = props;
-  const renderItem = ({item, index}) => {
+  const { status, onAccept, onDeny, type, name, date, typeBreak, reason } = props;
+  const renderItem = ({ item, index }) => {
     return <Text>{item}</Text>;
   };
   return (
@@ -49,12 +49,12 @@ const CardBreakLeader = (props) => {
         <View style={styles.line} />
         {status === 1 ? (
           <View style={styles.viewLeader}>
-            <View style={styles.viewButton}>
+            <View style={[styles.viewButton, { alignItems: 'flex-start', paddingLeft: 20 }]}>
               <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
                 <Text style={styles.txtButton}>{langs.deny}</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.viewButton}>
+            <View style={[styles.viewButton, { alignItems: 'flex-end', paddingRight: 20 }]}>
               <TouchableOpacity style={styles.buttonAccept} onPress={onAccept}>
                 <Text style={styles.txtButton}>{langs.accept}</Text>
               </TouchableOpacity>
@@ -66,14 +66,15 @@ const CardBreakLeader = (props) => {
               source={status === 2 ? imgs.tick : imgs.cancel}
               style={[
                 styles.clock,
-                {tintColor: status === 2 ? Colors.background : Colors.danger},
+                { tintColor: status === 2 ? Colors.background : Colors.danger },
               ]}
             />
             <Text
               style={[
                 styles.time,
-                {color: status === 2 ? Colors.background : Colors.danger},
-              ]}>
+                { color: status === 2 ? Colors.background : Colors.danger },
+              ]}
+            >
               {status === 2 ? langs.approve : langs.deny}
             </Text>
           </View>
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    paddingLeft: 24,
+    paddingLeft: 20,
   },
 
   name: {
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
   },
   reason: {
     flexDirection: 'row',
-    paddingLeft: 24,
+    paddingLeft: 20,
     paddingRight: 24,
     paddingBottom: 16,
     alignItems: 'center',
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
   },
   viewLeader: {
-    paddingVertical: 8,
+    paddingVertical: 12,
     flexDirection: 'row',
   },
   viewButton: {
@@ -183,6 +184,7 @@ const styles = StyleSheet.create({
   txtButton: {
     color: Colors.white,
     fontWeight: '600',
+    fontSize: 14,
   },
   viewApproved: {
     flexDirection: 'row',
@@ -210,6 +212,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 2,
   },
-  viewMidle: {flexDirection: 'row', width: '100%', paddingVertical: 8},
-  viewText: {flexDirection: 'row', flex: 1},
+  viewMidle: { flexDirection: 'row', width: '100%', paddingVertical: 8 },
+  viewText: { flexDirection: 'row', flex: 1, justifyContent: 'flex-end', paddingRight: 36 },
 });

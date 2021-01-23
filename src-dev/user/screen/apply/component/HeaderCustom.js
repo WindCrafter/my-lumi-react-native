@@ -43,7 +43,9 @@ const HeaderCustom = (props?: Props) => {
     type,
     header,
     onRightButton,
+    flatStatus,
     dateN,
+
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
@@ -84,7 +86,7 @@ const HeaderCustom = (props?: Props) => {
     return (
       <FlatList
         style={{ backgroundColor: 'white', borderRadius: 8 }}
-        data={status}
+        data={flatStatus || status}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
       />

@@ -158,7 +158,9 @@ const ApproveBreak = (props) => {
 
   const renderFooterComponent = () => {
     return loading ? (
+
       <Indicator />
+
     ) : null;
   };
 
@@ -247,12 +249,12 @@ const ApproveBreak = (props) => {
                 ? 'Buổi sáng'
                 : item.date.length === 1 && item.morning === 2
                   ? 'Buổi chiều'
-                  : 'Đơn thiếu '
+                  : 'Không nhận được thời gian'
         }
       />
     );
   };
-  console.log(filter.name);
+
   return (
     <>
       <HeaderCustom

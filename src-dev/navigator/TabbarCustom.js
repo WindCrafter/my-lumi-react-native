@@ -37,7 +37,8 @@ function TabbarCustom({
   type,
   demoMode,
   checked,
-  role
+  role,
+  status,
 }) {
   const [show, setShow] = useState(false);
   const [dateIOS, setDateIOS] = useState(new Date());
@@ -297,6 +298,7 @@ function TabbarCustom({
           onCheck={onCheckInWifi}
           demoMode={demoMode}
           type={type}
+          status={status}
         />
 
         <ButtonTabbar
@@ -347,7 +349,8 @@ const mapStateToProps = (state) => {
     type: state.check.type,
     demoMode: state.user.demoMode,
     checked: state.check.checked,
-    role: state.authen.role
+    role: state.authen.role,
+    status: state.check.status,
   };
 };
 

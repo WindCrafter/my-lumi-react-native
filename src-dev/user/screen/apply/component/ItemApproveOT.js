@@ -7,29 +7,31 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import langs from '../../../../../common/language';
-import {imgs, Colors} from '../../../../../utlis';
+import { imgs, Colors } from '../../../../../utlis';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const ItemApproveOT = (props) => {
-  const {item, onConfirm, onDeny} = props;
+  const { item, onConfirm, onDeny } = props;
   const renderStatus = () => {
     if (item.status === 1) {
       return (
         <View
-          style={[styles.row, {marginTop: 8, justifyContent: 'space-around'}]}>
+          style={[styles.row, { paddingTop: 12, paddingBottom: 5, justifyContent: 'space-between', paddingHorizontal: 20 }]}
+        >
           <TouchableOpacity onPress={() => onDeny(item)}>
             <View style={styles.refuse}>
-              <Text style={[styles.statusText, {color: Colors.white}]}>
+              <Text style={[styles.statusText, { color: Colors.white }]}>
                 {langs.deny}
               </Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onConfirm(item)}>
             <View style={styles.accept}>
-              <Text style={[styles.statusText, {color: Colors.white}]}>
+              <Text style={[styles.statusText, { color: Colors.white }]}>
                 {langs.confirm}
               </Text>
             </View>
@@ -42,8 +44,9 @@ const ItemApproveOT = (props) => {
         <View
           style={[
             styles.row,
-            {marginTop: 8, justifyContent: 'center', alignItems: 'flex-end'},
-          ]}>
+            { marginTop: 8, justifyContent: 'center', alignItems: 'flex-end' },
+          ]}
+        >
           <Image
             source={imgs.tick}
             style={[styles.imageStamp, styles.marginRight]}
@@ -57,8 +60,9 @@ const ItemApproveOT = (props) => {
         <View
           style={[
             styles.row,
-            {marginTop: 8, justifyContent: 'center', alignItems: 'flex-end'},
-          ]}>
+            { marginTop: 8, justifyContent: 'center', alignItems: 'flex-end' },
+          ]}
+        >
           <Image
             source={imgs.cancel}
             style={[styles.imageStamp, styles.imageCancel]}
@@ -71,10 +75,10 @@ const ItemApproveOT = (props) => {
 
   return (
     <Card style={styles.card}>
-      <View style={[styles.row, {marginHorizontal: 8}]}>
+      <View style={[styles.row, { marginHorizontal: 8 }]}>
         <Text style={styles.name}>{item.user_name}</Text>
       </View>
-      <View style={[styles.row, {marginTop: 16}]}>
+      <View style={[styles.row, { marginTop: 16 }]}>
         <View style={styles.img}>
           <Image
             source={imgs.startDate}
@@ -84,14 +88,14 @@ const ItemApproveOT = (props) => {
         </View>
       </View>
       <View style={[styles.row]}>
-        <View style={[styles.img, {width: (width - 32) / 2}]}>
+        <View style={[styles.img, { width: (width - 32) / 2 }]}>
           <Image
             source={imgs.startTime}
             style={[styles.imageStamp, styles.marginRight]}
           />
           <Text style={styles.txtStatus}>{`${item.start}`}</Text>
         </View>
-        <View style={[styles.img, {width: (width - 32) / 2}]}>
+        <View style={[styles.img, { width: (width - 32) / 2 }]}>
           <Image
             source={imgs.startDate}
             style={[styles.imageStamp, styles.marginRight]}
@@ -107,7 +111,8 @@ const ItemApproveOT = (props) => {
             borderBottomColor: Colors.gray,
             borderBottomWidth: 0.25,
           },
-        ]}>
+        ]}
+      >
         <View style={styles.img}>
           <Image
             source={imgs.note}
@@ -123,18 +128,19 @@ const ItemApproveOT = (props) => {
 
 const styles = StyleSheet.create({
   img: {
-    padding: 5,
+    padding: 4,
+    paddingRight: 16,
     marginRight: 8,
     flexDirection: 'row',
   },
   imageStamp: {
     width: 20,
     height: 20,
+    alignSelf: 'center',
   },
   txtStatus: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     fontSize: 16,
-    marginBottom: -2,
   },
   row: {
     flexDirection: 'row',
@@ -190,20 +196,25 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Bold',
   },
   refuse: {
-    width: 73,
-    height: 27,
-    backgroundColor: Colors.danger,
+    borderRadius: 16,
+    paddingVertical: 8,
+    width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    backgroundColor: Colors.danger,
   },
   accept: {
-    width: 73,
-    height: 27,
-    backgroundColor: Colors.background,
+    borderRadius: 16,
+    paddingVertical: 8,
+    width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    backgroundColor: Colors.background,
+  },
+  statusText: {
+    fontFamily: 'Quicksand-Bold',
+    fontWeight: '600',
+    fontSize: 14,
   },
 });
 
