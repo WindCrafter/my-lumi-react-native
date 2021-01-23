@@ -41,6 +41,9 @@ import {
   deleteTakeLeaveSuccess,
   updateOverTimeSuccess,
   updateOverTimeFailed,
+  checkInCode,
+  checkInRequestSuccess,
+  checkOutRequestSuccess,
 } from '../actions/check';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
@@ -53,8 +56,8 @@ const URL_CHECK_IN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN}`;
 const URL_CREATE_QR = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_WIFI}`;
-const URL_CHECK_IN_CODE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_CODE}`;
-const URL_CHECK_OUT_CODE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_CODE}`;
+const URL_CHECK_IN_REQUEST = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_REQUEST}`;
+const URL_CHECK_OUT_REQUEST = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LATE_EARLY}`;
@@ -193,8 +196,8 @@ function* sagaCheckInWifi(action) {
           onPress: () => store.dispatch(checkInWifi(data)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -214,8 +217,8 @@ function* sagaCheckInWifi(action) {
           onPress: () => store.dispatch(checkInWifi(data)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -239,7 +242,7 @@ function* sagaCheckInWifi(action) {
         },
         middleButton: {
           text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -898,15 +901,13 @@ export function* watchConfirmDenyTakeLeave() {
 
 function* sagaCheckInCode(action) {
   try {
-    const data = { ...action.payload };
-    const onConfirm = action.payload.onConfirm;
-    delete data.type;
-    delete data.token;
-    delete data.onConfirm;
+    const data = {
+      type: action.payload.type === 'in' ? 1 : 2,
+    };
     const token = action.payload.token;
 
     const response = yield _POST(
-      action.payload.type === 'in' ? URL_CHECK_IN_CODE : URL_CHECK_OUT_CODE,
+      URL_CHECK_IN_REQUEST,
       data,
       token,
     );
@@ -916,20 +917,13 @@ function* sagaCheckInCode(action) {
       && response.statusCode === 200
       && action.payload.type === 'in'
     ) {
-      yield put(checkInSuccess(response.data));
+      yield put(checkInRequestSuccess(response.data));
       yield put(getSummary(token));
 
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
         message: response.message,
-        leftButton: onConfirm
-          ? {
-            text: langs.alert.ok,
-            onPress: () => onConfirm(),
-          }
-          : {
-            text: langs.alert.ok,
-          },
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     } else if (
@@ -937,7 +931,7 @@ function* sagaCheckInCode(action) {
       && response.statusCode === 200
       && action.payload.type === 'out'
     ) {
-      yield put(checkOutSuccess(response.data));
+      yield put(checkOutRequestSuccess(response.data));
       yield put(getSummary(token));
 
       _global.Alert.alert({
@@ -956,8 +950,8 @@ function* sagaCheckInCode(action) {
           onPress: () => store.dispatch(checkInWifi(data)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',

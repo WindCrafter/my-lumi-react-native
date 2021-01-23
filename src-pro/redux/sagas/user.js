@@ -154,7 +154,7 @@ function* sagaRemoveUserIdDevice(action) {
     console.log(action);
     let userId;
     OneSignal.getPermissionSubscriptionState((status) => {
-      (userId = status.userId), console.log(1);
+      (userId = status.userId);
     });
     console.log(userId);
     const data = {

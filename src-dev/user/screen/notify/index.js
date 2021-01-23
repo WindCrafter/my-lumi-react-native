@@ -100,6 +100,9 @@ const Notify = (props) => {
         }
       }
       _POST(url, { id: item.id }, token, false);
+      setData(data.map((e) => {
+        return (e.id === item.id ? { ...e, status: 1 } : e);
+      }));
     };
     const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
 

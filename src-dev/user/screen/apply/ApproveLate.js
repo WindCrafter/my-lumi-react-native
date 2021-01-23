@@ -59,6 +59,7 @@ function ApproveLate(props) {
       0;
   }
   const [page, setPage] = useState(1);
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
@@ -67,11 +68,14 @@ function ApproveLate(props) {
     name: '',
   });
   const [type, setType] = useState(initialType || 'Đang chờ');
+
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
+
     getData(page, date_ad_late, status_ad_late, [], filter.name);
+
   }, []);
   const onSetType = (item) => {
     switch (item) {
@@ -248,6 +252,7 @@ function ApproveLate(props) {
         txtSearch={filter.name}
       />
       <View style={styles.detail}>
+
         {data
           && data.length === 0
           && !loading
@@ -264,6 +269,7 @@ function ApproveLate(props) {
                 title="Không tìm thấy lịch sử"
               />
             ))}
+
         <FlatList
           data={data}
           // style={{borderColor: 'red', borderWidth: 1}}

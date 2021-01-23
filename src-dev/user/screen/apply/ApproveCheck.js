@@ -1,108 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Image,
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
-  FlatList,
+  Platform,
+  StatusBar,
+  UIManager,
   ActivityIndicator,
   Text,
+  RefreshControl,
+  SafeAreaView,
+  FlatList,
 } from 'react-native';
 import moment from 'moment';
-import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
 import langs from '../../../../common/language';
+import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
 import CardCheck from './component/CardCheck';
+import { URL_STAGING } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
-import { getText } from '../../../../utlis/config/utlis';
 
-const ApproveCheck = (props) => {
-  const {
-    navigation,
-    listManagerCheck,
-    token,
-    dataManagerCheck,
-    approveCheck,
-    removeList,
-    refreshing,
-  } = props;
-  const [type, setType] = useState('Đang chờ');
+if (
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+function ApproveCheck(props) {
+  const { navigation, token } = props;
   const [page, setPage] = useState(1);
+  const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(1);
-  const [search, setSearch] = useState(false);
-  const [txtSearch, setTxtSearch] = useState('');
-  const [filter, setFilter] = useState(dataManagerCheck);
-  const [date, setDate] = useState('');
-  const [cancel, setCancel] = useState(true);
+  const [data, setData] = useState({});
+  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
+  const [type, setType] = useState('Đang chờ');
+  const [refresh, setRefresh] = useState(false);
+  const [onScroll, setOnScroll] = useState(false);
+
+  useEffect(() => {
+    getData(page, filter.date, filter.status, [], filter.name);
+    setDone(true);
+  }, []);
+
   const goBack = () => {
     navigation.goBack();
-    removeList();
-  };
-  useEffect(() => {
-    const data = {
-      token,
-      status,
-      page,
-      page_size: 10,
-      loading: true,
-      reload: true,
-    };
-    cancel ? listManagerCheck(data) : null;
-    txtSearch ? onChangeName(txtSearch) : null;
-    console.log('HEEEEEARRRRRR');
-    return () => setCancel(false);
-  }, [dataManagerCheck]);
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <CardCheck
-        leader
-        status={item.status}
-        type={item.type}
-        reason={item.content}
-        day={item.date}
-        time={item.time}
-        name={item.fullname}
-        onDeny={() => onDeny(item.id)}
-        onAccept={() => onAccept(item.id)}
-      />
-    );
-  };
-
-  const onDeny = (_id) => {
-    const data = {
-      _id,
-      status: 3,
-      token,
-    };
-    approveCheck(data);
-  };
-
-  const onAccept = (_id) => {
-    const data = {
-      _id,
-      status: 2,
-      token,
-    };
-    approveCheck(data);
-  };
-
-  const onChangeDate = (pickDay) => {
-    const data = {
-      token,
-      status,
-      date: pickDay ? moment(pickDay).format('DD/MM/YYYY') : '',
-      page: 1,
-      page_size: 10,
-      reload: true,
-      loading: true,
-    };
-    listManagerCheck(data);
-    setPage(1);
-    setDate(pickDay ? moment(pickDay).format('DD/MM/YYYY') : '');
   };
   const onSetType = (item) => {
     switch (item) {
@@ -118,36 +60,168 @@ const ApproveCheck = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      default:
     }
   };
-  const onChangeStatus = (item) => {
-    const data = {
-      token,
-      date,
-      status: item,
-      page: 1,
-      page_size: 10,
-      reload: true,
-      loading: true,
+  const renderItem = ({ item, index }) => {
+    return (
+      <CardCheck
+        status={item.status}
+        type={item.type === 2 ? 'Check Out' : 'Check In'}
+        day={item.date}
+        time={item.type === 2 ? moment(item.check_out * 1000).format('HH:mm') : moment(item.check_in * 1000).format('HH:mm')}
+        name={item.fullname}
+        onDeny={() => onDeny(item)}
+        onAccept={() => onConfirm(item)}
+      />
+    );
+  };
+  const onConfirm = async (item) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
+    const body = {
+      id: item.id,
+      status: 2,
+      type: item.type,
     };
-    setPage(1);
-    listManagerCheck(data);
-    onSetType(item);
-    setStatus(item);
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_LATE_EARLY =============>', response);
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data) {
+      if (filter.status === '0' || filter.status === 0) {
+        setData(
+          data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)),
+        );
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
+    } else if (
+      !response.success
+      && response.statusCode === 600
+      && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      setData(
+        data.map((i) => (i.id === item.id
+          ? {
+            ...item,
+            date: response.data.date,
+            time: response.data.time,
+            content: response.data.content,
+            is_updated: true
+
+          }
+          : i),),
+      );
+    } else if (
+      !response.success
+             && response.statusCode === 601
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      console.log('data,data', data);
+      const newData = [...data];
+      const prevIndex = data.findIndex((check) => check.id === item.id);
+      newData.splice(prevIndex, 1);
+      setData(newData);
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+    }
+  };
+
+  const onDeny = async (item) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
+    const body = {
+      id: item.id,
+      status: 3,
+      type: item.type,
+    };
+    const response = await _POST(apiURL, body, token);
+    console.log('_APPROVE_LATE_EARLY =============>', response);
+    _global.Loading.hide();
+    if (response.success && response.statusCode === 200 && response.data) {
+      if (filter.status === '0' || filter.status === 0) {
+        setData(data.map((i) => (i.id === item.id ? { ...item, status: 3 } : i)));
+      } else {
+        setData(data.filter((i) => i.id !== item.id));
+      }
+    } else if (
+      !response.success
+             && response.statusCode === 600
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+    } else if (
+      !response.success
+             && response.statusCode === 601
+             && response.data
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.approveFail,
+        // messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+    }
+  };
+
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    console.log('on Refresh');
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
+
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
+    const _date = dateN || moment().format('DD/MM/YYYY');
+    const _status = statusN || 0;
+    const _data = dataN || [];
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_CHECK_REQUEST}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
+    }
   };
 
   const handleLoadMore = () => {
-    const data = {
-      token,
-      status,
-      page: page + 1,
-      date,
-      page_size: 10,
-      reload: false,
-      loading: true,
-    };
-    setPage(page + 1);
-    listManagerCheck(data);
+    setLoading(true);
+    setOnScroll(false);
+    getData(page + 1, filter.date, filter.status, data, filter.name);
   };
 
   const renderFooterComponent = () => {
@@ -158,34 +232,45 @@ const ApproveCheck = (props) => {
     ) : null;
   };
 
-  const onRefresh = () => {
-    const data = {
-      token,
-      status,
-      page_size: 10,
-      page: 1,
-      date,
-      reload: true,
-      refreshing: true,
-    };
-    listManagerCheck(data);
+  const onChangeDate = (date) => {
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
+    setData([]);
     setPage(1);
-    setSearch(false);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      filter.status,
+      [],
+      filter.name,
+    );
   };
 
-  const onChangeName = (txt) => {
-    const newData = dataManagerCheck.length > 0
-      ? dataManagerCheck.filter((item) => {
-        const itemData = getText(item.fullname);
-        const textData = getText(txt);
-        return itemData.indexOf(textData) > -1;
-      })
-      : dataManagerCheck;
-    setFilter(newData);
-    setSearch(true);
-    setTxtSearch(txt);
+  const onChangeStatus = (item) => {
+    setFilter({ ...filter, status: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, item, [], filter.name);
+    onSetType(item);
   };
 
+  const status = [
+    { label: 'Tất cả', value: '0' },
+    { label: 'Đang chờ', value: '1' },
+    { label: 'Đã duyệt', value: '2' },
+    { label: 'Bị từ chối', value: '3' },
+  ];
+
+  const onChangeName = (item) => {
+    setFilter({ ...filter, name: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, filter.status, [], item);
+  };
+  console.log(data);
+  console.log(filter.status);
   return (
     <>
       <HeaderCustom
@@ -193,41 +278,45 @@ const ApproveCheck = (props) => {
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         onChangeName={onChangeName}
-        search
-        txtSearch={txtSearch}
         type={type}
+        CONFIRM_DENY_TAKE_LEAVE
+        search
+        txtSearch={filter.name}
+        flatStatus={status}
       />
-      <View style={styles.container}>
-        {dataManagerCheck.length === 0 && Array.isArray(dataManagerCheck) ? (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
-        ) : (
-          <FlatList
-            data={search ? filter : dataManagerCheck}
-            keyExtractor={(item, index) => `${item.id}`}
-            renderItem={renderItem}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.5}
-            style={styles.flatList}
-            ListFooterComponent={renderFooterComponent}
-            showsVerticalScrollIndicator={false}
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-          />
+      <View style={styles.detail}>
+        {(data.length === 0) && (
+          <Text style={styles.noData}>Không có đơn cần duyệt</Text>
         )}
+        <FlatList
+          data={data}
+          // style={{borderColor: 'red', borderWidth: 1}}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
       </View>
     </>
   );
-};
+}
 
 export default ApproveCheck;
 
 const styles = StyleSheet.create({
-  container: {
+  detail: {
     flex: 1,
+
   },
-  flatList: {
-    // marginBottom: heightPercentageToDP(12),
-    // flexGrow: 1,
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
   },
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
 });
