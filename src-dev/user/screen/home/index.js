@@ -62,6 +62,7 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.notify);
   };
 
+
    const onPressLate = () => {
      navigation.navigate(langs.navigator.historyLate);
    };
@@ -72,6 +73,7 @@ export default function Home(props) {
    const onPressOT = () => {
      navigation.navigate(langs.navigator.listOT);
    };
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {

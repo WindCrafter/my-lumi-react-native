@@ -151,4 +151,8 @@ export const URL_STAGING = {
   NOTIFICATION_READ: '/notification-user/read',
   GET_HOLIDAY: '/holiday/list',
   GET_WORKDAY_TODAY: '/work-day/get-by-date',
+
+  CHECK_IN_REQUEST: '/work-day/check-in-out-by-request',
+  LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
+  APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 };
