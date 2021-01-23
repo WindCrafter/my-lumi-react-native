@@ -101,12 +101,12 @@ const ApproveAll = (props) => {
           date_ad_ot={date_ad_ot}
           setDateAdOT={setDateAdOT}
         />
-{role === 'HR' && (
+        {role === 'HR' && (
         <ApproveCheck
           tabLabel={langs.checkIn}
           token={token}
         />
-        ) : null}
+        ) }
       </ScrollableTabView>
     </>
   );
