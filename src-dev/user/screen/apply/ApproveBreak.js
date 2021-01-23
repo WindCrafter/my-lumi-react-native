@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -12,12 +11,13 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
 import moment from 'moment';
 import { Colors, imgs } from '../../../../utlis';
-import { BarStatus } from '../../../component';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
@@ -31,19 +31,44 @@ const ApproveBreak = (props) => {
     navigation,
     token,
     setStatusAdBreak,
-    status_ad_break
+    status_ad_break,
+    date_ad_break,
+    setDateAdBreak,
   } = props;
+  let initialType;
+  switch (status_ad_break) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
-  const [type, setType] = useState('Đang chờ');
-  const [date, setDate] = useState('');
+  const [filter, setFilter] = useState({
+    date: date_ad_break,
+    status: status_ad_break,
+    name: '',
+  });
+  const [type, setType] = useState(initialType || 'Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, filter.date, filter.status, [], filter.name);
+    getData(1, date_ad_break, status_ad_break, [], filter.name);
   }, []);
   const onSetType = (item) => {
     switch (item) {
@@ -63,22 +88,9 @@ const ApproveBreak = (props) => {
         setType('Auto Cancel');
         break;
       default:
-        0;
+        console.log(':::Wrong type :', item);
     }
   };
-  const goBack = () => {
-    navigation.navigate(langs.navigator.historyBreak);
-  };
-
-  // saga
-  // const getData = () => {
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
@@ -87,7 +99,7 @@ const ApproveBreak = (props) => {
     const _name = nameN || '';
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
-    console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
+    console.log('_GET_LIST_TAKE_LEAVE_MANAGER ===========>', response);
     setRefresh(false);
     setLoading(false);
     setOnScroll(false);
@@ -104,25 +116,11 @@ const ApproveBreak = (props) => {
   const handleLoadMore = () => {
     setLoading(true);
     setOnScroll(false);
-
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
-  // saga
-  // const onChangeDate = (date) => {
-  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
-  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //     date: date ? moment(pickDate).format('DD/MM/YYYY') : null,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
+
   const onChangeDate = (date) => {
+    setLoading(true);
     setFilter({
       ...filter,
       date: !date ? '' : moment(date).format('DD/MM/YYYY'),
@@ -136,27 +134,20 @@ const ApproveBreak = (props) => {
       [],
       filter.name,
     );
+    setDateAdBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 500);
   const onChangeName = (item) => {
+    setLoading(true);
     setFilter({ ...filter, name: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
   };
-  // saga
-  // const onChangeStatus = (item) => {
-  //   setFilter({...filter, status: item});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: item,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  //   onSetType(item);
-  // };
   const onChangeStatus = (item) => {
+    setLoading(true);
     setFilter({ ...filter, status: item });
     setData([]);
     setPage(1);
@@ -167,9 +158,9 @@ const ApproveBreak = (props) => {
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color='grey' />
-      </View>
+
+      <Indicator />
+
     ) : null;
   };
 
@@ -181,6 +172,8 @@ const ApproveBreak = (props) => {
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_BREAK =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
@@ -191,7 +184,6 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -199,24 +191,19 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
     }
-  };
-  const onRefresh = () => {
-    setRefresh(true);
-    setOnScroll(false);
-
-    getData(1, filter.date, filter.status, [], filter.name);
   };
 
   const onDeny = async (item) => {
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
-      _id: item,
+      _id: item._id,
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_DENY =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
@@ -227,7 +214,6 @@ const ApproveBreak = (props) => {
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -235,8 +221,12 @@ const ApproveBreak = (props) => {
         // messageColor: Colors.danger,
         leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
     }
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData(1, filter.date, filter.status, [], filter.name);
   };
 
   const renderItem = ({ item, index }) => {
@@ -248,7 +238,7 @@ const ApproveBreak = (props) => {
         type={item.type}
         date={_listDate}
         reason={item.content}
-        onDeny={() => onDeny(item._id)}
+        onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
@@ -264,22 +254,36 @@ const ApproveBreak = (props) => {
       />
     );
   };
+
   return (
     <>
       <HeaderCustom
         header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
+        onChangeName={debouceSearch}
         type={type}
-        CONFIRM_DENY_TAKE_LEAVE
+        dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
         search
         txtSearch={filter.name}
       />
-      <View style={{flex: 1}}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
-        )}
+      <View style={{ flex: 1 }}>
+        {data
+          && data.length === 0
+          && !loading
+          && ((filter.status == 1 && filter.date === '')
+          || filter.date === moment(new Date()).format('DD/MM/YYYY') ? (
+            <EmptyState
+              source={imgs.taskComplete}
+              title="Chưa có đơn cần duyệt"
+              description="Gặp lại bạn sau nhé."
+            />
+            ) : (
+              <EmptyState
+                source={imgs.noHistory}
+                title="Không tìm thấy lịch sử"
+              />
+            ))}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}

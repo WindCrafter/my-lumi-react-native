@@ -10,12 +10,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import HeaderNotify from './component/HeaderNotify';
-import { BarStatus } from '../../../component';
-import { Colors } from '../../../../utlis';
+import { BarStatus, Indicator, EmptyState } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
@@ -25,7 +26,7 @@ const Notify = (props) => {
   const [date, setDate] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
@@ -52,11 +53,7 @@ const Notify = (props) => {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
-      </View>
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const getData = async (pageNumber, dateN, searchN, dataN) => {
@@ -64,7 +61,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_NOTIFICATION}?page=${pageNumber}&page_size=20`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&name=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -83,20 +80,21 @@ const Notify = (props) => {
 
   const renderItem = ({ item }) => {
     const leader = item.customData.approved === 1 || item.customData.approved === '1';
+    // console.log(leader);
     const onShow = () => {
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyOT, { page: 2 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
             break;
           case 2:
           case '2':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyBreak, { page: 0 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
             break;
           case 3:
           case '3':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.applyLate, { page: 1 });
+            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
             break;
           default: console.log('Wrong type', item.customData.type);
         }
@@ -136,7 +134,11 @@ const Notify = (props) => {
     );
   };
 
+  const debouceSearch = _.debounce((value) => {
+    onSearch(value);
+  }, 500);
   const onSearch = (value) => {
+    setLoading(true);
     setPage(1);
     setData([]);
     setSearch(value);
@@ -144,23 +146,33 @@ const Notify = (props) => {
   };
 
   const onChangeDate = (value) => {
+    setLoading(true);
     const _date = value ? moment(value).format('DD/MM/YYYY') : '';
     setPage(1);
     setData([]);
     setDate(_date);
     getData(1, _date, search, []);
   };
-
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
-      <BarStatus height={0} />
-      <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
+      <HeaderNotify
+        onSearch={debouceSearch}
+        onDate={onChangeDate}
+        goBack={goBack}
+      />
 
-      {data.length === 0 && (
-        <Text style={styles.noData}>Không có thông báo.</Text>
+      {data && data.length === 0 && !loading && (
+        <EmptyState
+          source={imgs.emptyState}
+          title="Không có thông báo nào"
+          description=""
+        />
       )}
       <FlatList
-        style={{ paddingTop: 16 }}
+        style={{paddingTop: 16}}
         data={data}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}

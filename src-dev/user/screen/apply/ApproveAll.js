@@ -48,6 +48,7 @@ const ApproveAll = (props) => {
     date_ad_late,
   } = props;
   const { page } = route.params;
+  console.log('date redux', date_ad_break);
   const goBack = () => {
     navigation.goBack();
     removeList();
@@ -75,18 +76,37 @@ const ApproveAll = (props) => {
         renderTabBar={renderTabBar}
         initialPage={page}
       >
-        <ApproveBreak tabLabel={langs.break} token={token} setStatusAdBreak={setStatusAdBreak} />
+
+        <ApproveBreak
+          tabLabel={langs.break}
+          token={token}
+          setStatusAdBreak={setStatusAdBreak}
+          status_ad_break={status_ad_break}
+          date_ad_break={date_ad_break}
+          setDateAdBreak={setDateAdBreak}
+        />
         <ApproveLate
           tabLabel={langs.late}
           token={token}
+          setStatusAdLate={setStatusAdLate}
+          status_ad_late={status_ad_late}
+          date_ad_late={date_ad_late}
+          setDateAdLate={setDateAdLate}
         />
-        <ApproveOT tabLabel={langs.ot} token={token} />
-        {role === 'HR' && (
+        <ApproveOT
+          tabLabel={langs.ot}
+          token={token}
+          setStatusAdOT={setStatusAdOT}
+          status_ad_ot={status_ad_ot}
+          date_ad_ot={date_ad_ot}
+          setDateAdOT={setDateAdOT}
+        />
+{role === 'HR' && (
         <ApproveCheck
           tabLabel={langs.checkIn}
           token={token}
         />
-        )}
+        ) : null}
       </ScrollableTabView>
     </>
   );

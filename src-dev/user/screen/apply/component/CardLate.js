@@ -103,11 +103,13 @@ const CardLate = (props) => {
               <View style={[styles.viewLeader, { paddingVertical: 12 }]}>
                 <View style={[styles.viewButton, { alignItems: 'flex-start', paddingLeft: 20 }]}>
                   <TouchableOpacity style={styles.buttonDeny} onPress={onDeny}>
+
                     <Text style={[styles.txtButton, {
                       fontFamily: 'Quicksand-Bold',
                       fontWeight: '600',
                     }]}
                     >
+
                       {langs.deny}
                     </Text>
                   </TouchableOpacity>
@@ -121,8 +123,10 @@ const CardLate = (props) => {
                       style={[
                         styles.txtButton,
                         {
+
                           fontFamily: 'Quicksand-Bold',
                           fontWeight: '600',
+
                         },
                       ]}
                     >
@@ -258,13 +262,13 @@ const styles = StyleSheet.create({
     marginTop: -8,
   },
   viewLeader: {
-
     flexDirection: 'row',
-
   },
   viewButton: {
     flex: 1,
     justifyContent: 'center',
+
+
 
   },
   buttonDeny: {
@@ -273,7 +277,9 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(30),
     justifyContent: 'center',
     alignItems: 'center',
+
     backgroundColor: Colors.danger,
+
   },
   buttonAccept: {
     borderRadius: 16,
@@ -282,10 +288,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background,
+
   },
   txtButton: {
     color: Colors.white,
     fontSize: 14,
+
   },
   viewApproved: {
     flexDirection: 'row',

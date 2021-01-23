@@ -62,16 +62,18 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.notify);
   };
 
-  const onPressLate = () => {
-    navigation.navigate(langs.navigator.applyLate);
-  };
-  const onPressBreak = () => {
-    navigation.navigate(langs.navigator.applyBreak);
-  };
 
-  const onPressOT = () => {
-    navigation.navigate(langs.navigator.applyOT);
-  };
+   const onPressLate = () => {
+     navigation.navigate(langs.navigator.historyLate);
+   };
+   const onPressBreak = () => {
+     navigation.navigate(langs.navigator.historyBreak);
+   };
+
+   const onPressOT = () => {
+     navigation.navigate(langs.navigator.listOT);
+   };
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {

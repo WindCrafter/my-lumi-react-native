@@ -130,6 +130,8 @@ const Book = (props) => {
   });
   console.log(count);
   const renderItem = (item) => {
+    console.log('memberid',item.item.member_ids);
+    console.log('user_id', user_id);
     return (
       <View>
         <View style={[styles.container]}>
@@ -143,7 +145,7 @@ const Book = (props) => {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth: item.item.member_ids.includes(user_id) ? 1 : 0,
+                borderWidth: item.item.member_ids.includes(user_id) ? 2.5 : 0,
                 borderColor: Colors.background
               },
             ]}

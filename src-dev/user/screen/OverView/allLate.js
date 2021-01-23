@@ -14,20 +14,23 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
+import _ from 'lodash';
 import FilterDate from './components/FilterDate';
-import { Colors, Fonts } from '../../../../utlis';
+import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';
 // import FilterTop from './component/FilterTop';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
+import HeaderNotify from '../notify/component/HeaderNotify';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
 
 const allLate = (props) => {
   const {
     token,
   } = props;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [date, setDate] = useState('');
@@ -39,8 +42,7 @@ const allLate = (props) => {
   const [name, setName] = useState('');
 
   useEffect(() => {
-       getData(1, '', 0, [], '');
-
+    getData(1, '', 0, [], '');
   }, []);
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
@@ -77,13 +79,18 @@ const allLate = (props) => {
       />
     );
   };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 500);
   const onChangeName = (item) => {
+    setLoading(true);
     setName(item);
     setData([]);
     setPage(1);
     getData(1, date, status, [], item);
   };
   const onChangeDate = (datePick) => {
+    setLoading(true);
     setData([]);
     setPage(1);
     getData(
@@ -93,7 +100,7 @@ const allLate = (props) => {
       [],
       name,
     );
-    setDate(!datePick ? '' : date);
+    setDate(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
   const onSetType = (item) => {
     switch (item) {
@@ -138,9 +145,7 @@ const allLate = (props) => {
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" />
-      </View>
+      <Indicator />
     ) : null;
   };
 
@@ -168,18 +173,18 @@ const allLate = (props) => {
             backgroundColor={Colors.white}
             initDate={localDate}
           /> */}
-          <FilterDate
+          <HeaderNotify
             header={false}
             // onChangeStatus={onChangeStatus}
-            onChangeDate={onChangeDate}
-            onChangeName={onChangeName}
+            onDate={onChangeDate}
+            onSearch={debouceSearch}
             type={type}
             CONFIRM_DENY_TAKE_LEAVE
             search
             txtSearch={name}
           />
-          {data && data.length === 0 && (
-            <Text style={styles.noData}>Không có lịch sử.</Text>
+          {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
           )}
 
           <FlatList
@@ -188,7 +193,7 @@ const allLate = (props) => {
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
             onMomentumScrollBegin={() => setOnScroll(true)}
-            // onEndReached={!loading && onScroll ? handleLoadMore : null}
+            onEndReached={!loading && onScroll ? handleLoadMore : null}
             onEndReachedThreshold={0.5}
             ListFooterComponent={renderFooterComponent}
             refreshControl={

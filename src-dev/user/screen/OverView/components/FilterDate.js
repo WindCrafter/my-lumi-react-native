@@ -144,15 +144,13 @@ const FilterDate = (props?: Props) => {
               justifyContent: 'center',
             },
             containerStyle,
-          ]}
-        >
+          ]}>
           <TouchableOpacity
             onPress={goBack}
-            style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
-          >
+            style={[styles.button, {top: deviceWidth > 374 ? 4 : 0}]}>
             <Icon name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
-          <Text style={[styles.title, { fontSize }]} {...otherProps}>
+          <Text style={[styles.title, {fontSize}]} {...otherProps}>
             {title}
           </Text>
           {rightButton ? (
@@ -166,7 +164,12 @@ const FilterDate = (props?: Props) => {
           ) : null}
         </View>
       )}
-      {search && (
+
+      <View
+        style={[
+          styles.rowBot,
+          {marginBottom: 16, justifyContent: 'flex-start'},
+        ]}>
         <Input
           rightIcon
           button
@@ -178,13 +181,7 @@ const FilterDate = (props?: Props) => {
           autoCapitalize="none"
           placeholder="Bạn muốn tìm lumier nào?"
         />
-      )}
-      <View
-        style={[
-          styles.rowBot,
-          { marginBottom: 16, justifyContent: 'flex-start' },
-        ]}
-      >
+
         <View
           style={[
             styles.filterDate,
@@ -194,12 +191,10 @@ const FilterDate = (props?: Props) => {
               borderWidth: date ? 0.25 : 0,
               borderColor: date ? Colors.background : 'white',
             },
-          ]}
-        >
+          ]}>
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
             <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}
-              {' '}
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
             </Text>
             <Text>{show ? '▲' : '▼'}</Text>
           </TouchableOpacity>

@@ -11,10 +11,12 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import _ from 'lodash';
+
 import moment from 'moment';
 import langs from '../../../../common/language';
-import { BarStatus } from '../../../component';
-import { Colors } from '../../../../utlis';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import CardLate from './component/CardLate';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
@@ -28,25 +30,53 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 function ApproveLate(props) {
-  const { navigation, token } = props;
+  const {
+    navigation,
+    token,
+    setStatusAdLate,
+    status_ad_late,
+    date_ad_late,
+    setDateAdLate,
+  } = props;
+  let initialType;
+  switch (status_ad_late) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
-  const [done, setDone] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
-  const [filter, setFilter] = useState({ date: '', status: 1, name: '' });
-  const [type, setType] = useState('Đang chờ');
+
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState({
+    date: date_ad_late,
+    status: status_ad_late,
+    name: '',
+  });
+  const [type, setType] = useState(initialType || 'Đang chờ');
+
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(page, filter.date, filter.status, [], filter.name);
-    setDone(true);
-    _global.Loading.hide();
-  }, []);
 
-  const goBack = () => {
-    navigation.goBack();
-  };
+    getData(page, date_ad_late, status_ad_late, [], filter.name);
+
+  }, []);
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -62,26 +92,85 @@ function ApproveLate(props) {
         setType('Bị từ chối');
         break;
       default:
-        console.log(item);
+        console.log(':::Wrong type :', item);
     }
   };
-  const renderItem = ({ item, index }) => {
-    // console.log(item);
-    return (
-      <CardLate
-        leader
-        status={item.status}
-        type={item.type}
-        reason={item.content}
-        day={item.date}
-        time={item.time}
-        name={item.fullname}
-        onDeny={() => onDeny(item)}
-        onAccept={() => onConfirm(item)}
-        is_updated={item.is_updated}
-      />
-    );
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
+    const _name = nameN || '';
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_LATE_EARLY_MANAGER ===========>', response);
+
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
+      console.log('checkkk', data);
+    }
   };
+  const handleLoadMore = () => {
+    setLoading(true);
+    setOnScroll(false);
+    getData(page + 1, filter.date, filter.status, data, filter.name);
+  };
+  const onChangeDate = (date) => {
+    setLoading(true);
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
+    setData([]);
+    setPage(1);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      filter.status,
+      [],
+      filter.name,
+    );
+    setDateAdLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
+  };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 500);
+  const onChangeName = (item) => {
+    setLoading(true);
+    setFilter({ ...filter, name: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, filter.status, [], item);
+  };
+  const onChangeStatus = (item) => {
+    setLoading(true);
+    setFilter({ ...filter, status: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, item, [], filter.name);
+    onSetType(item);
+    setStatusAdLate(item);
+  };
+  const renderFooterComponent = () => {
+    return loading ? (
+      <Indicator />
+    ) : null;
+  };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    console.log('on Refresh');
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
+
   const onConfirm = async (item) => {
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
     const body = {
@@ -99,45 +188,6 @@ function ApproveLate(props) {
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
-    } else if (
-      !response.success
-      && response.statusCode === 600
-      && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      setData(
-        data.map((i) => (i.id === item.id
-          ? {
-            ...item,
-            date: response.data.date,
-            time: response.data.time,
-            content: response.data.content,
-            is_updated: true
-
-          }
-          : i),),
-      );
-    } else if (
-      !response.success
-             && response.statusCode === 601
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      console.log('data,data', data);
-      const newData = [...data];
-      const prevIndex = data.findIndex((check) => check.id === item.id);
-      newData.splice(prevIndex, 1);
-      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -163,28 +213,6 @@ function ApproveLate(props) {
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
-    } else if (
-      !response.success
-             && response.statusCode === 600
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-    } else if (
-      !response.success
-             && response.statusCode === 601
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -195,97 +223,53 @@ function ApproveLate(props) {
     }
   };
 
-  const onRefresh = () => {
-    setRefresh(true);
-    setOnScroll(false);
-    console.log('on Refresh');
-    getData(1, filter.date, filter.status, [], filter.name);
-  };
-
-  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || '';
-    const _status = statusN || 0;
-    const _data = dataN || [];
-    const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
-    const response = await _GET(apiURL, token, false);
-    setRefresh(false);
-    setLoading(false);
-    setOnScroll(false);
-    console.log('_GET_LIST_LATE_EARLY ===========>', response);
-    if (
-      response.success
-      && response.statusCode === 200
-      && response.data
-      && response.data.length > 0
-    ) {
-      setData(_data.concat(response.data));
-      setPage(pageNumber);
-    }
-  };
-
-  const handleLoadMore = () => {
-    setLoading(true);
-    setOnScroll(false);
-    getData(page + 1, filter.date, filter.status, data, filter.name);
-  };
-
-  const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    ) : null;
-  };
-
-  const onChangeDate = (date) => {
-    setFilter({
-      ...filter,
-      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
-    });
-    setData([]);
-    setPage(1);
-    getData(
-      1,
-      !date ? '' : moment(date).format('DD/MM/YYYY'),
-      filter.status,
-      [],
-      filter.name,
+  const renderItem = ({ item, index }) => {
+    return (
+      <CardLate
+        leader
+        status={item.status}
+        type={item.type}
+        reason={item.content}
+        day={item.date}
+        time={item.time}
+        name={item.fullname}
+        onDeny={() => onDeny(item)}
+        onAccept={() => onConfirm(item)}
+      />
     );
   };
-
-  const onChangeStatus = (item) => {
-    setFilter({ ...filter, status: item });
-    setData([]);
-    setPage(1);
-    getData(1, filter.date, item, [], filter.name);
-    onSetType(item);
-  };
-
-  const onChangeName = (item) => {
-    setFilter({ ...filter, name: item });
-    setData([]);
-    setPage(1);
-    getData(1, filter.date, filter.status, [], item);
-  };
-  console.log(data);
-  console.log(filter.status);
+  console.log('checkkk', data);
   return (
     <>
       <HeaderCustom
         header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
+        onChangeName={debouceSearch}
         type={type}
-        CONFIRM_DENY_TAKE_LEAVE
+        dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
         search
         txtSearch={filter.name}
       />
       <View style={styles.detail}>
-        {(data.length === 0) && (
-          <Text style={styles.noData}>Không có đơn cần duyệt</Text>
-        )}
+
+        {data
+          && data.length === 0
+          && !loading
+          && ((filter.status == 1 && filter.date === '')
+          || filter.date === moment(new Date()).format('DD/MM/YYYY') ? (
+            <EmptyState
+              source={imgs.taskComplete}
+              title="Chưa có đơn cần duyệt"
+              description="Gặp lại bạn sau nhé."
+            />
+            ) : (
+              <EmptyState
+                source={imgs.noHistory}
+                title="Không tìm thấy lịch sử"
+              />
+            ))}
+
         <FlatList
           data={data}
           // style={{borderColor: 'red', borderWidth: 1}}

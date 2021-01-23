@@ -22,7 +22,6 @@ import { Colors } from '../../utlis';
 import { TabbarIcon } from '../component';
 import ButtonCheckIn from '../component/Tabbar/ButtonCheckIn';
 import ButtonTabbar from '../component/Tabbar/ButtonTabbar';
-import ButtonWorkSpace from '../component/Tabbar/ButtonWorkSpace';
 import { checkInWifi } from '../redux/actions/check';
 import { _global } from '../../utlis/global/global';
 import langs from '../../common/language';
@@ -239,14 +238,14 @@ function TabbarCustom({
 
   return (
     <>
-      {show
-        && (Platform.OS === 'ios' ? (
+      {show &&
+        (Platform.OS === 'ios' ? (
           <ModalTime
             title="Chọn thời gian"
             showModal={show}
             hideModal={onHideModal}
             onConfirm={onConfirm}
-            picker={(
+            picker={
               <View style={styles.picker}>
                 <DateTimePicker
                   value={dateIOS}
@@ -255,7 +254,7 @@ function TabbarCustom({
                   onChange={onChangeIOS}
                 />
               </View>
-            )}
+            }
           />
         ) : (
           <>
@@ -302,10 +301,11 @@ function TabbarCustom({
           status={status}
         />
 
-        <ButtonWorkSpace
+        <ButtonTabbar
           state={state}
           descriptors={descriptors}
           navigation={navigation}
+          title="Tổng quan"
           index={2}
           route={state.routes[2]}
           tab={2}
