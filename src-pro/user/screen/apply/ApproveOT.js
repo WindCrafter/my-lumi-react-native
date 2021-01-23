@@ -241,7 +241,7 @@ function ApproveOT(props) {
           data={data}
           // style={{borderColor: 'red', borderWidth: 1}}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+         keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}

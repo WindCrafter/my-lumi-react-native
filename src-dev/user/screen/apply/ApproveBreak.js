@@ -271,19 +271,13 @@ const ApproveBreak = (props) => {
         {data
           && data.length === 0
           && !loading
-          && ((filter.status == 1 && filter.date === '')
-          || filter.date === moment(new Date()).format('DD/MM/YYYY') ? (
+          && (
             <EmptyState
-              source={imgs.taskComplete}
+              source={imgs.notFound}
               title="Chưa có đơn cần duyệt"
               description="Gặp lại bạn sau nhé."
             />
-            ) : (
-              <EmptyState
-                source={imgs.noHistory}
-                title="Không tìm thấy lịch sử"
-              />
-            ))}
+          )}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
@@ -292,7 +286,7 @@ const ApproveBreak = (props) => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           data={data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />

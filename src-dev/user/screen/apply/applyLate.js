@@ -139,7 +139,7 @@ function FormLate(props) {
     return (
       <FlatList
         data={choose}
-        keyExtractor={(item, index) => index.toString()}
+       keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',

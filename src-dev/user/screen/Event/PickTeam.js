@@ -254,9 +254,7 @@ const PickTeam = (props) => {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        height={Platform.OS === 'ios' ? 28 : StatusBar.currentHeight}
-      />
+    
       <HeaderCustom
         backgroundColor={'rgba(0,0,0,0)'}
         title={langs.pickTeam}
@@ -264,6 +262,7 @@ const PickTeam = (props) => {
         rightButton
         textPress
         onRight={onPickTeam}
+        shadow
       />
       <Input
         button

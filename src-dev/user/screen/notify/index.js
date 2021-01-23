@@ -122,10 +122,12 @@ const Notify = (props) => {
           <View style={styles.row}>
             {item.status === 0 || item.status === '0' ? (
               <View style={styles.read} />
-            ) : null}
-            <Text style={styles.title}>{item.title}</Text>
+            ) : (
+              <View style={styles.unRead} />
+            )}
+            {/* <Text style={styles.title}>{item.title}</Text> */}
+            <Text style={styles.content}>{item.content}</Text>
           </View>
-          <Text style={styles.content}>{item.content}</Text>
           <Text style={styles.time}>
             {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
           </Text>
@@ -172,10 +174,10 @@ const Notify = (props) => {
         />
       )}
       <FlatList
-        style={{paddingTop: 16}}
+        style={{ paddingTop: 16 }}
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => String(index)}
         onMomentumScrollBegin={() => setOnScroll(true)}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
@@ -239,10 +241,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   read: {
-    backgroundColor: Colors.danger,
+    backgroundColor: Colors.background,
     height: 8,
     width: 8,
     borderRadius: 4,
-    marginRight: 4
-  }
+    marginRight: 4,
+  },
+  unRead: {
+    backgroundColor: Colors.itemInActive,
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    marginRight: 4,
+  },
 });

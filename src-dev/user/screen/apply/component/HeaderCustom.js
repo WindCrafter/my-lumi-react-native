@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { imgs, Colors } from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
 import { Input, SelectButton } from '../../../../component';
@@ -87,7 +88,7 @@ const HeaderCustom = (props?: Props) => {
       <FlatList
         style={{ backgroundColor: 'white', borderRadius: 8 }}
         data={flatStatus || status}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
       />
     );
@@ -132,7 +133,7 @@ const HeaderCustom = (props?: Props) => {
     { label: 'Bị từ chối', value: '3' },
     { label: 'Auto Cancel', value: '4' },
   ];
-
+  const insets = useSafeAreaInsets();
   return (
     <View style={[styles.container]}>
       {header && (
@@ -144,15 +145,18 @@ const HeaderCustom = (props?: Props) => {
               height,
               backgroundColor,
               justifyContent: 'center',
+              marginTop: insets.top + 8
             },
             containerStyle,
-          ]}>
+          ]}
+        >
           <TouchableOpacity
             onPress={goBack}
-            style={[styles.button, {top: deviceWidth > 374 ? 4 : 0}]}>
-            <Icon name="chevron-left" size={32} color={Colors.black} />
+            style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
+          >
+            <Icon name="chevron-back-outline" size={32} color={Colors.black} />
           </TouchableOpacity>
-          <Text style={[styles.title, {fontSize}]} {...otherProps}>
+          <Text style={[styles.title, { fontSize: wp(100)<400 ? 18 :24  }]} {...otherProps}>
             {title}
           </Text>
           {rightButton ? (
@@ -182,31 +186,67 @@ const HeaderCustom = (props?: Props) => {
       <View
         style={[
           styles.rowBot,
-          {marginBottom: 16, justifyContent: 'space-around'},
-        ]}>
+          { marginBottom: 16, justifyContent: 'space-around' },
+        ]}
+      >
         <SelectButton
           dropdownHeight={20}
           dropdownWidth={100}
-          renderDropdown={renderDropdown}>
-          <View style={styles.filterStatus}>
+          renderDropdown={renderDropdown}
+        >
+          <View
+            style={[
+              styles.filterStatus,
+              {
+                backgroundColor:
+                  type !== 'Tất cả' ? 'white' : 'rgba(1,18,34,0.05)',
+                borderWidth: type !== 'Tất cả' ? 1 : 0,
+                borderColor: type !== 'Tất cả' ? Colors.background : 'white',
+              },
+            ]}
+          >
             <Text>{type}</Text>
-            <Text> ▼</Text>
+            <Icon
+              size={18}
+              name="caret-down-outline"
+              style={{ color: Colors.black }}
+            />
           </View>
         </SelectButton>
         <View
           style={[
             styles.filterDate,
-            {justifyContent: !date ? 'center' : 'space-between'},
-          ]}>
+            {
+              justifyContent: 'center',
+              backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
+              borderWidth: date ? 1 : 0,
+              borderColor: date ? Colors.background : 'white',
+            },
+          ]}
+        >
           <TouchableOpacity style={styles.txtDay} onPress={onShow}>
-            <Text style={styles.txtRole}>
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+            <Text
+              style={[
+                styles.txtRole,
+                { color: date ? Colors.background : Colors.ink500 },
+              ]}
+            >
+              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Chọn ngày'}
             </Text>
-            <Text>{show ? '▲' : '▼'}</Text>
+
+            {date ? null : (
+              <Icon
+                size={18}
+                name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                style={{ color: Colors.black }}
+              />
+            )}
           </TouchableOpacity>
           {date ? (
             <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
-              <Image source={imgs.cancel} style={styles.imgClear} />
+              <View style={styles.viewClear}>
+                <Image source={imgs.cancel} style={styles.imgClear} />
+              </View>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -233,7 +273,6 @@ HeaderCustom.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-
     backgroundColor: Colors.white,
   },
   row: {
@@ -246,6 +285,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     backgroundColor: Colors.white,
+    marginTop: 8,
   },
   button: {
     position: 'absolute',
@@ -335,15 +375,23 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   touchableClear: {
-    width: '35%',
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderLeftColor: Colors.gray,
-    borderLeftWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
+    width: 18,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     marginLeft: 4,
   },
-  imgClear: { alignSelf: 'center', width: 12, height: 12 },
+  viewClear: {
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    backgroundColor: Colors.ink300,
+    borderRadius: 16,
+    width: 18,
+    height: 18,
+  },
+  imgClear: {alignSelf: 'center', width: 8, height: 8, tintColor: 'white'},
   coulumn: {
     width: 1,
     height: '100%',

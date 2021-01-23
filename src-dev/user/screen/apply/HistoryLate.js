@@ -17,16 +17,15 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Colors, Fonts, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLate from './component/CardLate';
-import FilterTop from './component/FilterTop';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import {
   BarStatus,
-  HeaderCustom,
   EmptyState,
   Indicator,
 } from '../../../component';
+import HeaderCustom from './component/HeaderCustom';
 import ActionButton from './component/ActionButton';
 
 const HistoryLate = (props) => {
@@ -337,31 +336,24 @@ const HistoryLate = (props) => {
   // console.log('localDate',localDate);
   return (
     <>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
-        title="Đơn xin đi muộn/về sớm"
-        height={72}
+        height={44}
+        title={langs.titleHistoryLate}
         goBack={goBack}
-        fontSize={20}
+        fontSize={24}
+        onChangeStatus={onChangeStatus}
+        onChangeDate={onChangeDate}
+        type={type}
+        backgroundColor={Colors.white}
+        dateN={localDate}
       />
-      <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
-        <FilterTop
-          title={langs.titleHistoryBreak}
-          goBack={goBack}
-          fontSize={24}
-          onChangeStatus={onChangeStatus}
-          onChangeDate={onChangeDate}
-          type={type}
-          backgroundColor={Colors.white}
-          initDate={localDate}
-        />
-
+      <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
         {data && data.length === 0 && !loading && (
           <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
         <SwipeListView
           data={_data}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}

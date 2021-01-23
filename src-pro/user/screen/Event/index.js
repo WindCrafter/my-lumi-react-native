@@ -484,7 +484,7 @@ const Event = (props) => {
             <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
-                keyExtractor={(item, index) => index.toString()}
+               keyExtractor={(item, index) => String(index)}
                 renderItem={renderItem}
               />
             </Card>

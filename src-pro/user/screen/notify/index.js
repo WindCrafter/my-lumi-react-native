@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,17 +11,17 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import HeaderNotify from './component/HeaderNotify';
-import {BarStatus} from '../../../component';
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
-import {Colors} from '../../../../utlis';
-import {URL} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import HeaderNotify from './component/HeaderNotify';
+import { BarStatus } from '../../../component';
+import { Colors } from '../../../../utlis';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
 const Notify = (props) => {
-  const {navigation, token} = props;
+  const { navigation, token } = props;
   const [date, setDate] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -71,17 +71,17 @@ const Notify = (props) => {
     setOnScroll(false);
     console.log('_GET_LIST_NOTIFICATION ===========>', response);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
     }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const onShow = () => {
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
@@ -152,7 +152,7 @@ const Notify = (props) => {
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => String(index)}
         onMomentumScrollBegin={() => setOnScroll(true)}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}

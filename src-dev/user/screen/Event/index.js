@@ -317,16 +317,14 @@ const Event = (props) => {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
-      />
+    
       <HeaderCustom
         title="Đặt lịch phòng họp"
         goBack={onGoBack}
         rightButton
         textPress
         onRight={onAddEvent}
+        shadow
       />
       <KeyboardAvoidingView
         style={styles.container}
@@ -484,7 +482,7 @@ const Event = (props) => {
             <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
-                keyExtractor={(item, index) => index.toString()}
+               keyExtractor={(item, index) => String(index)}
                 renderItem={renderItem}
               />
             </Card>

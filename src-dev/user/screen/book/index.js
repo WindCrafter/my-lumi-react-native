@@ -123,7 +123,7 @@ const Book = (props) => {
     if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
         console.log(k.member_ids);
-        if (k.member_ids.includes(user_id)) {
+        if (k.member_ids.includes(user_id) || k.owner_id == user_id) {
           count++;
         }
       });
@@ -131,8 +131,10 @@ const Book = (props) => {
   });
   console.log(count);
   const renderItem = (item) => {
-    console.log('memberid',item.item.member_ids);
+    console.log('memberid', item.item.member_ids);
     console.log('user_id', user_id);
+    let member_join;
+
     return (
       <View>
         <View style={[styles.container]}>
@@ -147,7 +149,7 @@ const Book = (props) => {
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
                 borderWidth: item.item.member_ids.includes(user_id) ? 2.5 : 0,
-                borderColor: Colors.background
+                borderColor: Colors.background,
               },
             ]}
           >
@@ -168,9 +170,12 @@ const Book = (props) => {
                   <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
                   ,
                   {' '}
-                  {item.item.member
-                    .replace(`${item.item.owner_name},`, '')
-                    .replace(/,/g, ', ')}
+                  {item.item.owner_name
+                    !== item.item.member ? item.item.member
+                      .split(',')
+                      .filter((i) => i != item.item.owner_name)
+                      .toString()
+                      .replace(/,/g, ', ') : item.item.owner_name}
                 </Text>
               ) : (
                 <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
@@ -216,11 +221,9 @@ const Book = (props) => {
     return (
       <View style={{ paddingBottom: 64 }}>
         {loading ? (
-          (
-            <View style={styles.loader}>
-              <ActivityIndicator size="large" color={Colors.gray} />
-            </View>
-          )
+
+          <Indicator />
+
         ) : null}
       </View>
     );
@@ -248,6 +251,20 @@ const Book = (props) => {
                 {'\n '}
                 nay
               </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  position: 'absolute',
+                  top: 64,
+                  fontWeight: '500',
+
+                }}
+              >
+                {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
+                {' '}
+                Tháng
+                {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
+              </Text>
             </View>
           )}
       </View>
@@ -269,15 +286,13 @@ const Book = (props) => {
             : `Hôm nay bạn có ${count} lịch họp.`
         }
       />
-      {data
-          && data.length === 0
-          && !loading && (
-            <EmptyState
-              source={imgs.caughtUp}
-              title="Chưa có lịch họp."
-description='Hẹn bạn sau nhé.'
-            />
-        )}
+      {data && data.length === 0 && !loading && (
+        <EmptyState
+          source={imgs.caughtUp}
+          title="Chưa có lịch họp."
+          description="Hẹn bạn sau nhé."
+        />
+      )}
       <SectionList
         style={{ paddingTop: 16 }}
         sections={array}
@@ -289,6 +304,7 @@ description='Hẹn bạn sau nhé.'
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={renderFooterComponent}
+        stickySectionHeadersEnabled={false}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
@@ -355,7 +371,9 @@ description='Hẹn bạn sau nhé.'
             {' '}
             {itemShow.owner_name !== itemShow.member
               ? itemShow.member
-                .replace(`${itemShow.owner_name},`, '')
+                .split(',')
+                .filter((item) => item != itemShow.owner_name)
+                .toString()
                 .replace(/,/g, ', ')
               : itemShow.owner_name}
           </Text>
@@ -435,21 +453,7 @@ const styles = StyleSheet.create({
   txtHeader: {
     textAlign: 'center',
   },
-  meeting: {
-    width: '25%',
-    height: 48,
-    borderBottomRightRadius: 23,
-    borderTopRightRadius: 23,
-    backgroundColor: '#ffffff',
-    shadowColor: 'rgba(0, 0, 0, 0.16)',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 6,
-    shadowOpacity: 1,
-    justifyContent: 'center',
-  },
+
   day: {
     width: '25%',
     height: 48,
@@ -486,7 +490,6 @@ const styles = StyleSheet.create({
   img: {
     tintColor: '#008aee',
   },
-  meeting: { tintColor: '#008aee' },
   add: {
     alignSelf: 'center',
     height: 16,

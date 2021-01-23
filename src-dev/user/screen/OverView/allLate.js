@@ -19,7 +19,6 @@ import FilterDate from './components/FilterDate';
 import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';
-// import FilterTop from './component/FilterTop';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -163,16 +162,6 @@ const allLate = (props) => {
         keyboardDismissMode="on-drag"
       >
         <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
-          {/* <FilterTop
-            title={langs.titleHistoryBreak}
-            goBack={goBack}
-            fontSize={24}
-            onChangeStatus={onChangeStatus}
-            onChangeDate={onChangeDate}
-            type={type}
-            backgroundColor={Colors.white}
-            initDate={localDate}
-          /> */}
           <HeaderNotify
             header={false}
             // onChangeStatus={onChangeStatus}
@@ -189,7 +178,7 @@ const allLate = (props) => {
 
           <FlatList
             data={data}
-            keyExtractor={(item, index) => index.toString()}
+           keyExtractor={(item, index) => String(index)}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
             onMomentumScrollBegin={() => setOnScroll(true)}
