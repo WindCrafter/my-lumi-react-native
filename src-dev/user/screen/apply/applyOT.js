@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -30,7 +29,7 @@ import {
   BarStatus,
   HeaderCustom,
   Button,
-  SelectButton,
+  Dropdown,
 } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
@@ -316,7 +315,7 @@ function ApplyOT(props) {
     return (
       <FlatList
         data={status}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -418,7 +417,7 @@ function ApplyOT(props) {
             onBlur={unFocus}
             blurOnSubmit
             rightIcon
-            placeholder={'Tóm tắt lí do :'}
+            placeholder="Tóm tắt lí do :"
           />
 
           {!reason && show ? (
@@ -473,16 +472,15 @@ function ApplyOT(props) {
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
-              <SelectButton
-                dropdownHeight={200}
-                dropdownWidth={100}
-                renderDropdown={renderDropdown}
+              <Dropdown
+                position='auto'
+                renderContent={renderDropdown}
               >
                 <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
-              </SelectButton>
+              </Dropdown>
             </View>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>

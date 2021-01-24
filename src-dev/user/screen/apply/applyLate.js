@@ -27,7 +27,7 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  SelectButton,
+  Dropdown
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -200,9 +200,8 @@ function FormLate(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        style={{ backgroundColor: '#f2f2f2' }}
-        keyboardDismissMode="interactive"
-      >
+        style={{backgroundColor: '#f2f2f2'}}
+        keyboardDismissMode="interactive">
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -276,18 +275,17 @@ function FormLate(props) {
               />
             </View>
 
-            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, { marginRight: 8 }]}
+                  style={[styles.imageStamp, {marginRight: 8}]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}
-              >
+                onPress={() => onShowPicker('day')}>
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -296,22 +294,16 @@ function FormLate(props) {
             <View
               style={[
                 styles.row,
-                { justifyContent: 'center', alignItems: 'center' },
-              ]}
-            >
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}>
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}
-                >
+                <Dropdown position="auto" renderContent={renderDropdown}>
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </SelectButton>
+                </Dropdown>
               </TouchableOpacity>
             </View>
           </Card>

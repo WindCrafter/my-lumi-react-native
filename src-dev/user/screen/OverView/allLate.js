@@ -15,7 +15,6 @@ import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
 import _ from 'lodash';
-import FilterDate from './components/FilterDate';
 import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';

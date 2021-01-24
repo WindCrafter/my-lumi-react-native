@@ -30,7 +30,7 @@ import {
   BarStatus,
   HeaderCustom,
   Button,
-  SelectButton,
+  Dropdown
 } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
@@ -322,7 +322,7 @@ function UpdateOT(props) {
     return (
       <FlatList
         data={status}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -400,7 +400,8 @@ function UpdateOT(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -447,17 +448,18 @@ function UpdateOT(props) {
           ) : null}
 
           <Card style={styles.card}>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeStart}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('time')}>
+                onPress={() => onShowPicker('time')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(hour).format('HH:mm')}
                 </Text>
@@ -466,36 +468,35 @@ function UpdateOT(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'space-between', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'space-between', alignItems: 'center' },
+              ]}
+            >
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
-              <SelectButton
-                dropdownHeight={200}
-                dropdownWidth={100}
-                renderDropdown={renderDropdown}>
+              <Dropdown position="auto" renderContent={renderDropdown}>
                 <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
-              </SelectButton>
+              </Dropdown>
             </View>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>

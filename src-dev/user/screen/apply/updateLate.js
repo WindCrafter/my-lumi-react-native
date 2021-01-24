@@ -29,7 +29,7 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  SelectButton,
+  Dropdown
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -131,7 +131,7 @@ function UpdateLate(props) {
     return (
       <FlatList
         data={choose}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -287,16 +287,12 @@ function UpdateLate(props) {
               ]}>
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}>
+                <Dropdown position="auto" renderContent={renderDropdown}>
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </SelectButton>
+                </Dropdown>
               </TouchableOpacity>
             </View>
           </Card>

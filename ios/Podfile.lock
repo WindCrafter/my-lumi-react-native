@@ -383,8 +383,35 @@ PODS:
     - TOCropViewController
   - RNPermissions (2.1.5):
     - React
-  - RNReanimated (1.13.2):
+  - RNReanimated (2.0.0-rc.2):
+    - DoubleConversion
+    - FBLazyVector
+    - FBReactNativeSpec
+    - Folly
+    - glog
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - React-callinvoker
     - React-Core
+    - React-Core/DevSupport
+    - React-Core/RCTWebSocket
+    - React-CoreModules
+    - React-cxxreact
+    - React-jsi
+    - React-jsiexecutor
+    - React-jsinspector
+    - React-RCTActionSheet
+    - React-RCTAnimation
+    - React-RCTBlob
+    - React-RCTImage
+    - React-RCTLinking
+    - React-RCTNetwork
+    - React-RCTSettings
+    - React-RCTText
+    - React-RCTVibration
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNScreens (2.9.0):
     - React
   - RNSentry (2.0.2):
@@ -692,7 +719,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 16951bc02411f50c4d197488ed6406a23dc3b5f1
   RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
-  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
+  RNReanimated: e8a1520b15df106c96214161078c69e4a23b8b29
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNSentry: 5ebc2926dbcbb9b77857ba6df0754a869037123d
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
