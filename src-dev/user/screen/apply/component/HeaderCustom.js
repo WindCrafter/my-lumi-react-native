@@ -46,7 +46,6 @@ const HeaderCustom = (props?: Props) => {
     onRightButton,
     flatStatus,
     dateN,
-
     ...otherProps
   } = props;
   const [isVisible, setVisible] = useState(false);
@@ -156,7 +155,7 @@ const HeaderCustom = (props?: Props) => {
           >
             <Icon name="chevron-back-outline" size={32} color={Colors.black} />
           </TouchableOpacity>
-          <Text style={[styles.title, { fontSize: wp(100)<400 ? 18 :24  }]} {...otherProps}>
+          <Text style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]} {...otherProps}>
             {title}
           </Text>
           {rightButton ? (
@@ -391,7 +390,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
   },
-  imgClear: {alignSelf: 'center', width: 8, height: 8, tintColor: 'white'},
+  imgClear: { alignSelf: 'center', width: 8, height: 8, tintColor: 'white' },
   coulumn: {
     width: 1,
     height: '100%',

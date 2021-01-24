@@ -261,11 +261,11 @@ export default ApproveOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-    marginVertical: 16,
+
   },
   noData: {
     fontSize: 16,
     alignSelf: 'center',
-    marginTop: 24,
+
   },
 });

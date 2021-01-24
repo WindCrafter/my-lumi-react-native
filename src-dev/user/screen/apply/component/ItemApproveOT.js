@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Card } from 'native-base';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Ionicons';
 import langs from '../../../../../common/language';
 import { imgs, Colors } from '../../../../../utlis';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const { width } = Dimensions.get('window');
 
@@ -51,7 +52,7 @@ const ItemApproveOT = (props) => {
             source={imgs.tick}
             style={[styles.imageStamp, styles.marginRight]}
           />
-          <Text style={[styles.txtStatus, styles.approve]}>Đã duyệt</Text>
+          <Text style={[styles.approve]}>Đã duyệt</Text>
         </View>
       );
     }
@@ -67,7 +68,7 @@ const ItemApproveOT = (props) => {
             source={imgs.cancel}
             style={[styles.imageStamp, styles.imageCancel]}
           />
-          <Text style={[styles.txtStatus, styles.colorCancel]}>Bị từ chối</Text>
+          <Text style={[styles.colorCancel]}>Bị từ chối</Text>
         </View>
       );
     }
@@ -75,18 +76,20 @@ const ItemApproveOT = (props) => {
 
   return (
     <Card style={styles.card}>
-      <View style={[styles.row, { marginHorizontal: 8 }]}>
+      <View style={[styles.row, { justifyContent: 'space-between' }]}>
         <Text style={styles.name}>{item.user_name}</Text>
+        <Text
+          style={{
+            color: Colors.background,
+            alignSelf: 'center',
+            fontWeight: '600',
+            fontFamily: 'Quicksand-Bold',
+          }}
+        >
+          {item.start_date}
+        </Text>
       </View>
-      <View style={[styles.row, { marginTop: 16 }]}>
-        <View style={styles.img}>
-          <Image
-            source={imgs.startDate}
-            style={[styles.imageStamp, styles.marginRight]}
-          />
-          <Text style={styles.txtStatus}>{item.start_date}</Text>
-        </View>
-      </View>
+      <View style={[styles.row, { marginTop: 16 }]} />
       <View style={[styles.row]}>
         <View style={[styles.img, { width: (width - 32) / 2 }]}>
           <Image
@@ -96,10 +99,7 @@ const ItemApproveOT = (props) => {
           <Text style={styles.txtStatus}>{`${item.start}`}</Text>
         </View>
         <View style={[styles.img, { width: (width - 32) / 2 }]}>
-          <Image
-            source={imgs.startDate}
-            style={[styles.imageStamp, styles.marginRight]}
-          />
+          <Icon name="timer-outline" size={20} style={[styles.marginRight]} />
           <Text style={styles.txtStatus}>{`${item.total_time} giờ`}</Text>
         </View>
       </View>
@@ -134,13 +134,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   imageStamp: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
     alignSelf: 'center',
   },
   txtStatus: {
     alignSelf: 'center',
-    fontSize: 16,
+    fontWeight: '500'
   },
   row: {
     flexDirection: 'row',
@@ -177,18 +177,15 @@ const styles = StyleSheet.create({
   },
   colorCancel: {
     color: '#ff3b30',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Quicksand-Bold',
+    fontWeight: '500',
   },
   marginRight: {
     marginRight: 8,
   },
   approve: {
     color: Colors.background,
-    fontWeight: '600',
-    fontFamily: 'Quicksand-Bold',
-    fontSize: 16,
+    fontWeight: '500',
+
   },
   name: {
     fontSize: 18,

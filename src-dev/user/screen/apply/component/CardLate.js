@@ -135,18 +135,7 @@ const CardLate = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              {is_updated ? (
-                <Text
-                  style={{
-                    paddingBottom: 4,
-                    paddingHorizontal: 24,
-                    color: Colors.itemInActive,
-                    fontSize: 12
-                  }}
-                >
-                  * Đơn mới cập nhật.
-                </Text>
-              ) : null}
+
             </View>
           ) : (
             <View style={styles.viewApproved}>
@@ -189,6 +178,8 @@ const styles = StyleSheet.create({
   },
   txtDay: {
     color: Colors.background,
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   leftHeader: {
     flex: 1,
@@ -239,6 +230,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: '600',
     fontSize: 16,
+    fontFamily: 'Quicksand-Bold',
   },
   time: {
     fontWeight: '500',
@@ -267,9 +259,6 @@ const styles = StyleSheet.create({
   viewButton: {
     flex: 1,
     justifyContent: 'center',
-
-
-
   },
   buttonDeny: {
     borderRadius: 16,
@@ -279,7 +268,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     backgroundColor: Colors.danger,
-
   },
   buttonAccept: {
     borderRadius: 16,
@@ -288,12 +276,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background,
-
   },
   txtButton: {
     color: Colors.white,
     fontSize: 14,
-
   },
   viewApproved: {
     flexDirection: 'row',

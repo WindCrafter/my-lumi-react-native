@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -81,15 +82,13 @@ const Book = (props) => {
   //     listArrayRoom[`${year}-${month}-${date}`] = [i];
   //   }
   // });
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    if (isFocused) {
       getData();
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+      // console.log('statusstatussta redux', status_user_break, date_user_break);
+    }
+  }, [isFocused]);
   const getData = async (dataN) => {
     console.log('date');
 
@@ -107,8 +106,9 @@ const Book = (props) => {
       && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
-    } else {
     }
+    // else {
+    // }
   };
   const array = [];
   let count = 0;
@@ -120,9 +120,12 @@ const Book = (props) => {
     }
   });
   array.forEach((i) => {
+    console.log(i);
     if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
-        console.log(k.member_ids);
+        // console.log(k);
+        // console.log('member', k.member_ids);
+        // console.log('owner', k.owner_id);
         if (k.member_ids.includes(user_id) || k.owner_id == user_id) {
           count++;
         }
@@ -131,9 +134,8 @@ const Book = (props) => {
   });
   console.log(count);
   const renderItem = (item) => {
-    console.log('memberid', item.item.member_ids);
-    console.log('user_id', user_id);
-    let member_join;
+    // console.log('memberid', item.item.member_ids);
+    // console.log('user_id', user_id);
 
     return (
       <View>
@@ -148,7 +150,7 @@ const Book = (props) => {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth: item.item.member_ids.includes(user_id) ? 2.5 : 0,
+                borderWidth: item.item.member_ids.includes(user_id) || item.item.owner_id == user_id ? 2.5 : 0,
                 borderColor: Colors.background,
               },
             ]}

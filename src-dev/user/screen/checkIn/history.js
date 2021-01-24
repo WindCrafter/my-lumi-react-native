@@ -230,10 +230,7 @@ function History(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
-      />
+    
       <HeaderCustom
         title="Lịch sử chấm công"
         height={60}

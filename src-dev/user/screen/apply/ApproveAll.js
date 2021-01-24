@@ -60,10 +60,7 @@ const ApproveAll = (props) => {
   };
   return (
     <>
-      <BarStatus
-        backgroundColor="white"
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
+
       <HeaderCustom
         title={langs.navigator.approve}
         height={60}

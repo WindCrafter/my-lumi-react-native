@@ -79,19 +79,19 @@ export default function HeaderNotify(props) {
     <View style={styles.container}>
       <View style={[styles.info]}>
         {header ? (
-          <View style={{ flexDirection: 'row', marginTop: insets.top + 16 }}>
+          <View style={{flexDirection: 'row', marginTop: insets.top + 16}}>
             {goBack ? (
               <TouchableOpacity onPress={goBack} style={styles.button}>
                 {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
                 <Icon
-                  name="chevron-left"
+                  name="chevron-back-outline"
                   size={32}
                   color={Colors.black}
-                  style={{ top: 0 }}
+                  style={{top: 0}}
                 />
               </TouchableOpacity>
             ) : null}
-            <Text style={[styles.txtTitle, { marginLeft: goBack ? 12 : 0 }]}>
+            <Text style={[styles.txtTitle, {marginLeft: goBack ? 12 : 0}]}>
               {title}
             </Text>
           </View>
@@ -117,15 +117,13 @@ export default function HeaderNotify(props) {
                 borderWidth: date ? 1 : 0,
                 borderColor: date ? Colors.background : 'white',
               },
-            ]}
-          >
+            ]}>
             <TouchableOpacity style={styles.txtDay} onPress={onShow}>
               <Text
                 style={[
                   styles.txtRole,
-                  { color: date ? Colors.background : Colors.ink500 },
-                ]}
-              >
+                  {color: date ? Colors.background : Colors.ink500},
+                ]}>
                 {date
                   ? moment(new Date(date)).format('DD/MM/YYYY')
                   : 'Chọn ngày '}
@@ -134,7 +132,7 @@ export default function HeaderNotify(props) {
                 <Icon
                   size={18}
                   name={!show ? 'caret-down-outline' : 'caret-up-outline'}
-                  style={{ color: Colors.black }}
+                  style={{color: Colors.black}}
                 />
               )}
             </TouchableOpacity>

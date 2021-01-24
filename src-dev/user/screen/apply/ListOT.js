@@ -19,7 +19,6 @@ import { useIsFocused } from '@react-navigation/native';
 import langs from '../../../../common/language';
 import {
   BarStatus,
-
   EmptyState,
   Indicator,
 } from '../../../component';
@@ -30,7 +29,6 @@ import ActionButton from './component/ActionButton';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
-
 
 if (
   Platform.OS === 'android'
