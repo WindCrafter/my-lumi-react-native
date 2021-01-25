@@ -60,7 +60,7 @@ const ApproveAll = (props) => {
   };
   return (
     <>
-
+      <BarStatus height={20} backgroundColor={Colors.white} />
       <HeaderCustom
         title={langs.navigator.approve}
         height={60}
