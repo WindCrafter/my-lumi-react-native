@@ -158,9 +158,8 @@ const allLate = (props) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-      >
-        <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
+        keyboardDismissMode="on-drag">
+        <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
           <HeaderNotify
             header={false}
             // onChangeStatus={onChangeStatus}
@@ -172,12 +171,12 @@ const allLate = (props) => {
             txtSearch={name}
           />
           {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+            <EmptyState source={imgs.notFound} title="Không có lịch sử." />
           )}
 
           <FlatList
             data={data}
-           keyExtractor={(item, index) => String(index)}
+            keyExtractor={(item, index) => String(index)}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
             onMomentumScrollBegin={() => setOnScroll(true)}

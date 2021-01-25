@@ -194,7 +194,7 @@ const AllBreak = (props) => {
       />
       <View style={styles.backGround}>
         {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}

@@ -27,7 +27,8 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  Dropdown
+  Dropdown,
+  SelectButton
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -139,7 +140,7 @@ function FormLate(props) {
     return (
       <FlatList
         data={choose}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -176,11 +177,13 @@ function FormLate(props) {
     );
   };
 
+  // const onPressItem = (item) => {
+  //   setTime(item.value);
+  // };
   const onPressItem = (item, hideOverlay) => {
     hideOverlay && hideOverlay();
     setTime(item.value);
   };
-
   const choose = [
     { label: '15 phút', value: 15 },
     { label: '30 phút', value: 30 },
@@ -200,8 +203,9 @@ function FormLate(props) {
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        style={{backgroundColor: '#f2f2f2'}}
-        keyboardDismissMode="interactive">
+        style={{ backgroundColor: '#f2f2f2' }}
+        keyboardDismissMode="interactive"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -275,17 +279,18 @@ function FormLate(props) {
               />
             </View>
 
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -294,16 +299,31 @@ function FormLate(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'center', alignItems: 'center' },
+              ]}
+            >
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
-                <Dropdown position="auto" renderContent={renderDropdown}>
+                {/* <Dropdown
+                  position="auto"
+                  options={choose.map(i => ({ titleStyle: { textAlign: 'center', color: i.value === time ? Colors.background : 'black', }, title: i.label, onPress: () => onPressItem(i) }))}
+                >
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </Dropdown>
+                </Dropdown> */}
+                <SelectButton
+                  dropdownHeight={120}
+                  dropdownWidth={128}
+                  customY={10}
+                  renderDropdown={renderDropdown}
+                >
+                  <View style={[styles.filter]}>
+                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
+                    <Text style={styles.icon}>▼</Text>
+                  </View>
+                </SelectButton>
               </TouchableOpacity>
             </View>
           </Card>

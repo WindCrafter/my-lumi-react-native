@@ -29,7 +29,8 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  Dropdown
+  Dropdown,
+  SelectButton
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -287,12 +288,32 @@ function UpdateLate(props) {
               ]}>
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
-                <Dropdown position="auto" renderContent={renderDropdown}>
+                {/* <Dropdown
+                  position="auto"
+                  options={choose.map((i) => ({
+                    titleStyle: {
+                      textAlign: 'center',
+                      color: i.value === time ? Colors.background : 'black',
+                    },
+                    title: i.label,
+                    onPress: () => onPressItem(i),
+                  }))}
+                >
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </Dropdown>
+                </Dropdown> */}
+                <SelectButton
+                  dropdownHeight={120}
+                  dropdownWidth={128}
+                  customY={10}
+                  renderDropdown={renderDropdown}>
+                  <View style={[styles.filter]}>
+                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
+                    <Text style={styles.icon}>▼</Text>
+                  </View>
+                </SelectButton>
               </TouchableOpacity>
             </View>
           </Card>
@@ -376,7 +397,6 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    marginTop: 150,
   },
   bottom: {
     position: 'absolute',

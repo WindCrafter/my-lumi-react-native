@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
@@ -41,6 +42,7 @@ export default function HeaderCustom(props?: Props) {
     ...otherProps
   } = props;
 
+  const insets = useSafeAreaInsets();
   return (
     <View
       style={[
@@ -49,6 +51,7 @@ export default function HeaderCustom(props?: Props) {
           width,
           height,
           // backgroundColor,
+          marginTop: insets.top + 8,
         },
         containerStyle,
       ]}
@@ -59,7 +62,10 @@ export default function HeaderCustom(props?: Props) {
           <Icon name="chevron-left" size={size} color={Colors.black} />
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
-          <Text style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 20 }]} {...otherProps}>
+          <Text
+            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 20 }]}
+            {...otherProps}
+          >
             {title}
           </Text>
         </View>

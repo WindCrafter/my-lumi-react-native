@@ -230,7 +230,6 @@ function History(props) {
 
   return (
     <View style={styles.container}>
-    
       <HeaderCustom
         title="Lịch sử chấm công"
         height={60}
@@ -246,7 +245,7 @@ function History(props) {
       </View>
       <View style={styles.contentHistory}>
         {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}
@@ -269,18 +268,15 @@ function History(props) {
         animationOut="slideOutDown"
         onBackdropPress={hideModal}
         // style={styles.modal}
-        backdropTransitionOutTiming={0}
-      >
+        backdropTransitionOutTiming={0}>
         <View style={styles.contentContainer}>
           <View style={styles.content}>
             <MonthPicker selectedDate={dateChange} onMonthChange={onChange} />
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
-            >
+              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
               <TouchableOpacity
                 style={styles.confirmButton}
-                onPress={onConfirmDate}
-              >
+                onPress={onConfirmDate}>
                 <Text>Xác nhận</Text>
               </TouchableOpacity>
             </View>

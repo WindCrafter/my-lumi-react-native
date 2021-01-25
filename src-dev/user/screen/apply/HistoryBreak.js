@@ -352,7 +352,6 @@ const HistoryBreak = (props) => {
   // console.log(_data);
   return (
     <>
-
       <HeaderCustom
         height={44}
         title={langs.titleHistoryBreak}
@@ -365,14 +364,8 @@ const HistoryBreak = (props) => {
         dateN={localDate}
       />
       <View style={styles.backGround}>
-        {data
-          && data.length === 0
-          && !loading && (
-            <EmptyState
-              source={imgs.noHistory}
-              title="Không có lịch sử."
-
-            />
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <SwipeListView
           data={_data}

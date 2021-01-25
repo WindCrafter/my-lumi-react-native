@@ -4,29 +4,38 @@
  */
 
 import React, { useState } from 'react';
-import { ViewStyle } from 'react-native';
+import { ViewStyle, ViewProps } from 'react-native';
 import Animated, { measure, runOnJS, useAnimatedGestureHandler, useAnimatedRef } from 'react-native-reanimated';
 import { TapGestureHandler } from 'react-native-gesture-handler';
-import Overlay from './Overlay';
+import Overlay, { ContentType } from './components/Overlay';
+import Card, { CardProps } from './components/Card';
+import Button, { ButtonProps } from './components/Button';
+import Separator, { SeparatorProps } from './components/Separator';
 
 type PositionType = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'auto';
 
+type OptionsType = Array<ButtonProps>
+
 interface DropdownProps {
-  renderContent?: React.FC;
+  renderContent?: React.FC<ContentType>;
   containerStyle?: ViewStyle;
   position?: PositionType;
   space?: Number;
   scaleEnable?: Boolean;
+  scaleDefault?: Number;
+  options?: OptionsType;
+  cardProps?: ViewProps;
+  contentAlign?: 'auto' | 'left' | 'right';
 }
 
-Dropdown.defaultProps = {
-  position: 'topRight',
-  space: 4,
-  scaleEnable: true,
-};
+interface DropDownType extends React.FC<DropdownProps> {
+  Card: React.FC<CardProps>;
+  Button: React.FC<ButtonProps>;
+  Separator: React.FC<SeparatorProps>;
+}
 
-export default function Dropdown(props?: DropdownProps) {
-  const { children, renderContent, position, space, scaleEnable } = props;
+function DropdownView(props?: DropdownProps) {
+  const { children, renderContent, position, space, scaleEnable, scaleDefault, options, cardProps, contentAlign } = props;
   const [visible, setVisible] = useState(false);
   const [target, setTarget] = useState({
     width: 0,
@@ -53,29 +62,57 @@ export default function Dropdown(props?: DropdownProps) {
 
       const measurements = measure(childrenRef);
       runOnJS(showContent)(measurements);
+      console.log('measurements', measurements);
     },
   });
 
   return (
     <>
-      <TapGestureHandler onGestureEvent={onTapGesture}>
+      <TapGestureHandler
+        onGestureEvent={onTapGesture}
+      >
         <Animated.View>
-          {React.Children.map(children, (element) => {
-            return React.cloneElement(element, {ref: childrenRef});
-          })}
+          {
+            React.Children.map(children, (element) => {
+              return React.cloneElement(element, { ref: childrenRef });
+            })
+          }
         </Animated.View>
       </TapGestureHandler>
-      {renderContent && (
-        <Overlay
-          target={target}
-          position={position}
-          visible={visible}
-          onClose={onClose}
-          space={space}
-          scaleEnable={scaleEnable}>
-          {renderContent() && renderContent(onClose)}
-        </Overlay>
-      )}
+      {
+        (renderContent || Array.isArray(options)) && (
+          <Overlay
+            target={target}
+            position={position}
+            visible={visible}
+            onClose={onClose}
+            space={space}
+            scaleEnable={scaleEnable}
+            scaleDefault={scaleDefault}
+            options={options}
+            renderContent={renderContent}
+            cardProps={cardProps}
+            contentAlign={contentAlign}
+          />
+        )
+      }
     </>
   );
 }
+
+const Dropdown: DropDownType = React.memo(DropdownView);
+
+Dropdown.defaultProps = {
+  position: 'topRight',
+  space: 1,
+  scaleEnable: true,
+  contentAlign: 'auto',
+};
+
+Dropdown.Card = Card;
+
+Dropdown.Button = Button;
+
+Dropdown.Separator = Separator;
+
+export default Dropdown;

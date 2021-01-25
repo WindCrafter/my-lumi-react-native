@@ -30,7 +30,7 @@ import ScrollableTabBarCustom from './ScrollableTabBar/index';
 import TabView from './TabView/index';
 import EmptyState from './EmptyState/index';
 import Indicator from './Loading/Indicator';
-import Dropdown from './Dropdown/Dropdown';
+import { Dropdown } from './Dropdown';
 
 export {
   Input,

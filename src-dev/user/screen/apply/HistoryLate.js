@@ -349,7 +349,7 @@ const HistoryLate = (props) => {
       />
       <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
         {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <SwipeListView
           data={_data}

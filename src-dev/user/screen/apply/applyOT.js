@@ -30,6 +30,7 @@ import {
   HeaderCustom,
   Button,
   Dropdown,
+  SelectButton,
 } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
@@ -371,11 +372,13 @@ function ApplyOT(props) {
     { label: '8 giờ', value: 8 },
   ];
 
-  const onPressItem = (item, hideOverlay) => {
+  // const onPressItem = (item) => {
+  //   setTime(item.value);
+  // };
+const onPressItem = (item, hideOverlay) => {
     hideOverlay && hideOverlay();
     setTime(item.value);
   };
-
   return (
     <View style={styles.container}>
       {/* <BarStatus
@@ -472,15 +475,32 @@ function ApplyOT(props) {
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
-              <Dropdown
-                position='auto'
-                renderContent={renderDropdown}
+              {/* <Dropdown
+                position="auto"
+                options={status.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+                }))}
               >
                 <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
-              </Dropdown>
+              </Dropdown> */}
+              <SelectButton
+                dropdownHeight={200}
+                dropdownWidth={100}
+                renderDropdown={renderDropdown}
+              >
+                <View style={[styles.filter]}>
+                  <Text>{`${time} giờ`}</Text>
+                  <Text>▼</Text>
+                </View>
+              </SelectButton>
             </View>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
