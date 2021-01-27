@@ -208,7 +208,7 @@ const langs = {
     checkoutSuccess: 'CHECK-OUT',
     wishIn: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
     wishOut: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé!',
-    cantCheck: 'Hiện tại chưa thể chấm công thành công',
+    cantCheck: 'Bạn chưa chấm công thành công. Tiếp tục thử lại hoặc gửi yêu cầu chấm công từ xa',
     applydone: 'Đơn của bạn đã được gửi đi',
     applyOTdone: 'Đơn tăng ca đã được gửi đi',
     waitConfirm: 'Vui lòng đợi trong khi duyệt.',

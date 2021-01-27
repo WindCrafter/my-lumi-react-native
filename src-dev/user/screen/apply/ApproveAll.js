@@ -59,7 +59,9 @@ const ApproveAll = (props) => {
     );
   };
   return (
+
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+
       <HeaderCustom
         title={langs.navigator.approve}
         height={64}
