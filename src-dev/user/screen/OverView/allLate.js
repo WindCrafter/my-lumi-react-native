@@ -36,7 +36,7 @@ const allLate = (props) => {
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(2);
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const allLate = (props) => {
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data,name);
+    getData(page + 1, date, status, data, name);
     setOnScroll(false);
     setLoading(true);
   };
@@ -214,5 +214,5 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
-  backGround: {flex: 1, backgroundColor: '#f0f0f0'},
+  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
 });

@@ -35,7 +35,7 @@ const AllBreak = (props) => {
   } = props;
 
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(2);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
