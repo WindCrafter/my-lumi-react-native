@@ -33,7 +33,7 @@ const allLate = (props) => {
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(2);
   const [name, setName] = useState('');
 
   useEffect(() => {
