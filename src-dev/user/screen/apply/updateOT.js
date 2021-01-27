@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -322,7 +321,7 @@ function UpdateOT(props) {
     return (
       <FlatList
         data={status}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -389,18 +388,13 @@ function UpdateOT(props) {
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
-      <BarStatus backgroundColor={Colors.white} height={20} />
 
-      <HeaderCustom
-        title="Sửa đơn OT"
-        height={72}
-        goBack={goBack}
-        fontSize={24}
-        shadow
-      />
+      <HeaderCustom title="Sửa đơn OT" height={64} goBack={goBack} shadow />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="on-drag"
+        style={{ backgroundColor: '#f2f2f2' }}
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -447,17 +441,18 @@ function UpdateOT(props) {
           ) : null}
 
           <Card style={styles.card}>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeStart}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('time')}>
+                onPress={() => onShowPicker('time')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(hour).format('HH:mm')}
                 </Text>
@@ -466,36 +461,39 @@ function UpdateOT(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'space-between', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'space-between', alignItems: 'center' },
+              ]}
+            >
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
               <SelectButton
                 dropdownHeight={200}
                 dropdownWidth={100}
-                renderDropdown={renderDropdown}>
+                renderDropdown={renderDropdown}
+              >
                 <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
               </SelectButton>
             </View>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -540,8 +538,8 @@ export default UpdateOT;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F0F0F0',
-    height: '100%',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -601,7 +599,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     alignSelf: 'center',
-
   },
   card: {
     borderRadius: 16,

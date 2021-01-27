@@ -272,12 +272,10 @@ function ApplyBreak(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Đơn xin nghỉ phép"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={20}
         shadow
       />
       <ScrollView
@@ -438,7 +436,7 @@ export default ApplyBreak;
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'white',
   },
   image: {

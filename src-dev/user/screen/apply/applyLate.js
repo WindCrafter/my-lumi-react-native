@@ -14,7 +14,6 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -35,7 +34,6 @@ import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
-import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -139,7 +137,7 @@ function FormLate(props) {
     return (
       <FlatList
         data={choose}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -190,12 +188,10 @@ function FormLate(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Đơn xin đi muộn"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={20}
         shadow
       />
       <ScrollView
@@ -343,9 +339,8 @@ export default FormLate;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-    zIndex: 0,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -487,11 +482,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
-    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
-    paddingVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
   },
   filter: {
     flexDirection: 'row',

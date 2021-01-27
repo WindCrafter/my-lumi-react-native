@@ -39,17 +39,9 @@ const Header = (props) => {
           />
         </View>
         <View style={styles.info}>
-          <Text style={styles.txtName}>
-            Xin chào
-            {' '}
-            {name}
-            !
-          </Text>
+          <Text style={styles.txtName}>{`Xin chào ${name}!`}</Text>
           <Text style={styles.time}>
-            {currentDayInWeek}
-            ,
-            {' '}
-            {currrentDate}
+            {`${currentDayInWeek}, ${currrentDate}`}
           </Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
@@ -81,34 +73,32 @@ const Header = (props) => {
                 {numberNotifys}
               </Text>
             </View>
-          ) : (numberNotifys && numberNotifys !== 0 && numberNotifys >= 100)
-
-            ? (
-              <View
+          ) : numberNotifys && numberNotifys !== 0 && numberNotifys >= 100 ? (
+            <View
+              style={{
+                backgroundColor: 'red',
+                height: 18,
+                width: 18,
+                borderRadius: 9,
+                right: -12,
+                justifyContent: 'center',
+                alignItems: 'center',
+                top: -18,
+              }}
+            >
+              <Text
                 style={{
-                  backgroundColor: 'red',
-                  height: 18,
-                  width: 18,
-                  borderRadius: 9,
-                  right: -12,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: -18,
+                  fontSize: 9,
+                  color: 'white',
+                  fontWeight: '600',
+                  fontFamily: 'Quicksand-Bold',
+                  top: -1,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 9,
-                    color: 'white',
-                    fontWeight: '600',
-                    fontFamily: 'Quicksand-Bold',
-                    top: -1,
-                  }}
-                >
-                  99+
-                </Text>
-              </View>
-            ) : null}
+                99+
+              </Text>
+            </View>
+          ) : null}
         </TouchableOpacity>
       </View>
     </LinearGradient>

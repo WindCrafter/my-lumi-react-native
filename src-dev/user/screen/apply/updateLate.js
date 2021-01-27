@@ -15,9 +15,7 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {
-  heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
@@ -131,7 +129,7 @@ function UpdateLate(props) {
     return (
       <FlatList
         data={choose}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -182,18 +180,18 @@ function UpdateLate(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Sửa đơn đi muộn"
-        height={72}
+        height={64}
         goBack={goBack}
         fontSize={24}
         shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{paddingBottom: 40}}
-        keyboardDismissMode="interactive">
+        style={{ backgroundColor: '#f2f2f2' }}
+        keyboardDismissMode="interactive"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -264,17 +262,18 @@ function UpdateLate(props) {
               )}
             </View>
 
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -283,15 +282,17 @@ function UpdateLate(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'center', alignItems: 'center' },
+              ]}
+            >
               <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
                 <SelectButton
                   dropdownHeight={120}
                   dropdownWidth={128}
                   customY={10}
-                  renderDropdown={renderDropdown}>
+                  renderDropdown={renderDropdown}
+                >
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
@@ -327,9 +328,8 @@ export default UpdateLate;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F0F0F0',
-    flex: 1,
-    zIndex: 0,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -346,7 +346,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 12,
     flex: 1,
-
   },
   status: {
     flexDirection: 'row',

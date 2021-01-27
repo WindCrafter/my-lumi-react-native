@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -316,7 +315,7 @@ function ApplyOT(props) {
     return (
       <FlatList
         data={status}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
@@ -379,16 +378,10 @@ function ApplyOT(props) {
 
   return (
     <View style={styles.container}>
-      {/* <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      /> */}
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Tạo đơn xin OT"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={20}
         shadow
       />
       <ScrollView
@@ -418,7 +411,7 @@ function ApplyOT(props) {
             onBlur={unFocus}
             blurOnSubmit
             rightIcon
-            placeholder={'Tóm tắt lí do :'}
+            placeholder="Tóm tắt lí do :"
           />
 
           {!reason && show ? (
@@ -540,8 +533,8 @@ export default ApplyOT;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    height: '100%',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -596,6 +589,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginVertical: 8,
+    flex: 1
   },
   txtTime: {
     fontSize: 16,

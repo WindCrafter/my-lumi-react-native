@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -159,13 +158,12 @@ function UpdateBreak(props) {
     const newarray = [];
     const object = [];
     const array = Object.keys(_markedDates);
-console.log('aray',array);
+    console.log('aray', array);
     array.forEach((element) => {
       if (_markedDates[element].selected) {
         newarray.push(
           moment(_markedDates[element].day, 'DD/MM/YYYY').format('DD/MM/YYYY'),
         );
-        
       }
     });
     newarray.forEach((i) => {
@@ -184,7 +182,7 @@ console.log('aray',array);
       // month: object,
       _id
     };
-console.log('final data',data);
+    console.log('final data', data);
     updateTakeLeave(data);
   };
   const onTakeLeaveShift = () => {
@@ -247,7 +245,7 @@ console.log('final data',data);
         : setTypeShift('Buổi sáng');
     } else {
       console.log('chec');
-     
+
       setTypeShift('Buổi sáng');
     }
   };
@@ -301,17 +299,17 @@ console.log('final data',data);
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Sửa đơn nghỉ phép"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={24}
         shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="on-drag"
+        style={{ backgroundColor: '#f2f2f2' }}
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -375,7 +373,7 @@ console.log('final data',data);
               )}
             </View>
             {typeBreak === 'Theo buổi' ? (
-              <View style={[styles.row, {alignSelf: 'center', marginTop: 32}]}>
+              <View style={[styles.row, { alignSelf: 'center', marginTop: 32 }]}>
                 <TouchableOpacity
                   style={[
                     styles.button,
@@ -386,7 +384,8 @@ console.log('final data',data);
                       flexDirection: 'row',
                     },
                   ]}
-                  onPress={onSetTypeShift}>
+                  onPress={onSetTypeShift}
+                >
                   <Image source={imgs.startTime} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>{typeShift}</Text>
@@ -398,7 +397,8 @@ console.log('final data',data);
                       backgroundColor: Colors.white,
                     },
                   ]}
-                  onPress={() => onShow('shift')}>
+                  onPress={() => onShow('shift')}
+                >
                   <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>
@@ -463,8 +463,8 @@ export default UpdateBreak;
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: wp(100)
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
