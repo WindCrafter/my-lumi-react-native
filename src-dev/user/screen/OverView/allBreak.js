@@ -29,10 +29,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const AllBreak = (props) => {
-  const {
-    navigation,
-    token,
-  } = props;
+  const { navigation, token } = props;
 
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(0);
@@ -108,15 +105,13 @@ const AllBreak = (props) => {
     }
   };
   const renderFooterComponent = () => {
-    return loading ? (
-      <Indicator />
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date, status, [], name);
   };
 
   const goBack = () => {
@@ -194,7 +189,7 @@ const AllBreak = (props) => {
       />
       <View style={styles.backGround}>
         {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}

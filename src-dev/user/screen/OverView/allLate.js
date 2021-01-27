@@ -7,7 +7,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   ScrollView,
-  FlatList
+  FlatList,
 } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -25,9 +25,7 @@ import HeaderNotify from '../notify/component/HeaderNotify';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 
 const allLate = (props) => {
-  const {
-    token,
-  } = props;
+  const { token } = props;
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -36,7 +34,6 @@ const allLate = (props) => {
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [status, setStatus] = useState(0);
-  const step = useRef();
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -82,10 +79,11 @@ const allLate = (props) => {
   }, 500);
   const onChangeName = (item) => {
     setLoading(true);
-    setName(item);
     setData([]);
     setPage(1);
     getData(1, date, status, [], item);
+    setName(item);
+    console.log('name', name);
   };
   const onChangeDate = (datePick) => {
     setLoading(true);
@@ -100,37 +98,9 @@ const allLate = (props) => {
     );
     setDate(!datePick ? '' : moment(datePick).format('DD/MM/YYYY'));
   };
-  const onSetType = (item) => {
-    switch (item) {
-      case '0':
-        setType('Tất cả');
-        break;
-      case '1':
-        setType('Đang chờ');
-        break;
-      case '2':
-        setType('Đã duyệt');
-        break;
-      case '3':
-        setType('Bị từ chối');
-        break;
-      case '4':
-        setType('Auto Cancel');
-        break;
-      default:
-        0;
-    }
-  };
-
-  // const onChangeStatus = (item) => {
-  //   setData([]);
-  //   setPage(1);
-  //   getData(1, date, item, []);
-  //   onSetType(item);
-  // };
 
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data);
+    getData(page + 1, date, status, data, name);
     setOnScroll(false);
     setLoading(true);
   };
@@ -138,57 +108,49 @@ const allLate = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date, status, [], name);
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <Indicator />
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
-
+  console.log(date);
+  console.log('name2', name);
   // console.log('datadatadatadata', data);
   // console.log('initialDatainitialData', initialData);
   // console.log('date_user_late', date_user_late);
   // console.log('localDate',localDate);
   return (
     <>
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
-        <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
-          <HeaderNotify
-            header={false}
-            // onChangeStatus={onChangeStatus}
-            onDate={onChangeDate}
-            onSearch={debouceSearch}
-            type={type}
-            CONFIRM_DENY_TAKE_LEAVE
-            search
-            txtSearch={name}
-          />
-          {data && data.length === 0 && !loading && (
-            <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-          )}
+      <HeaderNotify
+        header={false}
+        // onChangeStatus={onChangeStatus}
+        onDate={onChangeDate}
+        onSearch={debouceSearch}
+        type={type}
+        CONFIRM_DENY_TAKE_LEAVE
+        search
+        txtSearch={name}
+      />
+      <View style={styles.backGround}>
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+        )}
 
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => String(index)}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItem}
-            onMomentumScrollBegin={() => setOnScroll(true)}
-            onEndReached={!loading && onScroll ? handleLoadMore : null}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooterComponent}
-            refreshControl={
-              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-            }
-          />
-        </View>
-      </ScrollView>
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => String(index)}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItem}
+          onMomentumScrollBegin={() => setOnScroll(true)}
+          onEndReached={!loading && onScroll ? handleLoadMore : null}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooterComponent}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        />
+      </View>
     </>
   );
 };
@@ -203,8 +165,11 @@ const styles = StyleSheet.create({
     // marginBottom: heightPercentageToDP(12),
     // flexGrow: 1,
   },
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24,
-  // fontFamily: Fonts.font_family.italic
+  noData: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 24,
+    // fontFamily: Fonts.font_family.italic
   },
   rowBack: {
     alignItems: 'center',
@@ -244,4 +209,5 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
+  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
 });
