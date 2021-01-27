@@ -30,7 +30,6 @@ import {
   HeaderCustom,
   Button,
   Dropdown,
-  SelectButton,
 } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
@@ -312,47 +311,6 @@ function ApplyOT(props) {
     Keyboard.dismiss();
   };
 
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={status}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 100,
-          borderRadius: 8,
-        }}
-        style={{ height: 200 }}
-      />
-    );
-  };
-
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 10,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.text,
-              { color: time == item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   const status = [
     { label: '0.5 giờ', value: 0.5 },
     { label: '1 giờ', value: 1 },
@@ -372,25 +330,15 @@ function ApplyOT(props) {
     { label: '8 giờ', value: 8 },
   ];
 
-  // const onPressItem = (item) => {
-  //   setTime(item.value);
-  // };
-const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     setTime(item.value);
   };
   return (
     <View style={styles.container}>
-      {/* <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      /> */}
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Tạo đơn xin OT"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={20}
         shadow
       />
       <ScrollView
@@ -475,7 +423,7 @@ const onPressItem = (item, hideOverlay) => {
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
-              {/* <Dropdown
+              <Dropdown
                 position="auto"
                 options={status.map((i) => ({
                   titleStyle: {
@@ -486,21 +434,12 @@ const onPressItem = (item, hideOverlay) => {
                   onPress: () => onPressItem(i),
                 }))}
               >
-                <View style={[styles.filter]}>
+                <View style={[styles.filter, { zIndex: 1 }]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
-              </Dropdown> */}
-              <SelectButton
-                dropdownHeight={200}
-                dropdownWidth={100}
-                renderDropdown={renderDropdown}
-              >
-                <View style={[styles.filter]}>
-                  <Text>{`${time} giờ`}</Text>
-                  <Text>▼</Text>
-                </View>
-              </SelectButton>
+              </Dropdown>
+
             </View>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
@@ -558,8 +497,8 @@ export default ApplyOT;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    height: '100%',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -614,6 +553,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginVertical: 8,
+    flex: 1,
   },
   txtTime: {
     fontSize: 16,

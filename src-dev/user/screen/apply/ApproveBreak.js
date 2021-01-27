@@ -266,18 +266,16 @@ const ApproveBreak = (props) => {
         dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
         search
         txtSearch={filter.name}
+        containerStyle={{ marginTop: -90 }}
       />
-      <View style={{ flex: 1 }}>
-        {data
-          && data.length === 0
-          && !loading
-          && (
-            <EmptyState
-              source={imgs.notFound}
-              title="Chưa có đơn cần duyệt"
-              description="Gặp lại bạn sau nhé."
-            />
-          )}
+      <View style={styles.detail}>
+        {data && data.length === 0 && !loading && (
+          <EmptyState
+            source={imgs.notFound}
+            title="Chưa có đơn cần duyệt"
+            description="Gặp lại bạn sau nhé."
+          />
+        )}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
@@ -300,9 +298,5 @@ const ApproveBreak = (props) => {
 export default ApproveBreak;
 
 const styles = StyleSheet.create({
-  loader: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
+  detail: { flex: 1, backgroundColor: '#f0f0f0' },
 });

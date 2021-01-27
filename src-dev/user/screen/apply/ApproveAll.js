@@ -59,11 +59,10 @@ const ApproveAll = (props) => {
     );
   };
   return (
-    <>
-
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
         title={langs.navigator.approve}
-        height={60}
+        height={64}
         goBack={goBack}
         fontSize={24}
       />
@@ -105,7 +104,7 @@ const ApproveAll = (props) => {
         />
         ) }
       </ScrollableTabView>
-    </>
+    </View>
   );
 };
 

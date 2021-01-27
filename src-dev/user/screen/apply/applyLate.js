@@ -14,7 +14,6 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -121,9 +120,6 @@ function FormLate(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
   };
-  const onHistoryLate = () => {
-    navigation.navigate(langs.navigator.historyLate);
-  };
   const unFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
@@ -136,52 +132,7 @@ function FormLate(props) {
     setType('early');
   };
 
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={choose}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 120,
-          borderRadius: 8,
-        }}
-        style={{ height: 300 }}
-      />
-    );
-  };
-
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 5,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  // const onPressItem = (item) => {
-  //   setTime(item.value);
-  // };
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     setTime(item.value);
   };
   const choose = [
@@ -193,12 +144,10 @@ function FormLate(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Đơn xin đi muộn"
-        height={72}
+        height={64}
         goBack={goBack}
-        fontSize={20}
         shadow
       />
       <ScrollView
@@ -302,30 +251,29 @@ function FormLate(props) {
                 { justifyContent: 'center', alignItems: 'center' },
               ]}
             >
-              <TouchableOpacity style={[styles.buttonTime]} disabled>
-                <Image source={imgs.startTime} style={styles.icon} />
-                {/* <Dropdown
-                  position="auto"
-                  options={choose.map(i => ({ titleStyle: { textAlign: 'center', color: i.value === time ? Colors.background : 'black', }, title: i.label, onPress: () => onPressItem(i) }))}
-                >
+              <Dropdown
+                position="auto"
+                options={choose.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+                }))}
+
+              >
+
+                <View style={[styles.buttonTime]}>
+                  <Image source={imgs.startTime} style={styles.icon} />
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </Dropdown> */}
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}
-                >
-                  <View style={[styles.filter]}>
-                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
-                    <Text style={styles.icon}>▼</Text>
-                  </View>
-                </SelectButton>
-              </TouchableOpacity>
+                </View>
+              </Dropdown>
             </View>
+
           </Card>
         </View>
 
@@ -355,9 +303,8 @@ export default FormLate;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-    zIndex: 0,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -499,11 +446,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
-    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
-    paddingVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8
+
   },
   filter: {
     flexDirection: 'row',

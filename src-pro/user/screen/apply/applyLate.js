@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,12 +14,12 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {
   heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -30,23 +29,22 @@ import {
   InputSelect,
   SelectButton,
 } from '../../../component';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 
-import {imgs, Colors} from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
-import {Card} from 'native-base';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 function ApplyLate(props) {
-  const {navigation, setLateEarly, token, assign} = props;
+  const { navigation, setLateEarly, token, assign } = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(15);
@@ -97,27 +95,26 @@ function ApplyLate(props) {
     setMode(m);
   };
   const onsetLateEarly = () => {
-    const field = type==='late' ? 'đi muộn' : 'về sớm'
-   if (!reason) {
-     _global.Alert.alert({
-       title: langs.alert.remind,
-       message: `Vui lòng điền lí do ${field}`,
-       messageColor: Colors.danger,
-       leftButton: {text: langs.alert.ok},
-     });
-     return;
-   }
+    const field = type === 'late' ? 'đi muộn' : 'về sớm';
+    if (!reason) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: `Vui lòng điền lí do ${field}`,
+        messageColor: Colors.danger,
+        leftButton: { text: langs.alert.ok },
+      });
+      return;
+    }
     const data = {
       type: type === 'late' ? 1 : 2,
-      time: time,
+      time,
       date: moment(day).format('DD/MM/YYYY'),
-      token: token,
+      token,
       content: reason,
-      status: status,
+      status,
     };
-     
+
     setLateEarly(data);
-    
   };
   const onFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
@@ -140,14 +137,14 @@ function ApplyLate(props) {
     return (
       <FlatList
         data={choose}
-       keyExtractor={(item, index) => String(index)}
-        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        keyExtractor={(item, index) => String(index)}
+        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
           width: 120,
           borderRadius: 8,
         }}
-        style={{height: 300}}
+        style={{ height: 300 }}
       />
     );
   };
@@ -162,12 +159,14 @@ function ApplyLate(props) {
             alignSelf: 'center',
             paddingHorizontal: 8,
           }}
-          onPress={() => onPressItem(item, hideOverlay)}>
+          onPress={() => onPressItem(item, hideOverlay)}
+        >
           <Text
             style={[
               styles.txtTime,
-              {color: time === item.value ? Colors.background : 'black'},
-            ]}>
+              { color: time === item.value ? Colors.background : 'black' },
+            ]}
+          >
             {item.label}
           </Text>
         </TouchableOpacity>
@@ -181,10 +180,10 @@ function ApplyLate(props) {
   };
 
   const choose = [
-    {label: '15 phút', value: 15},
-    {label: '30 phút', value: 30},
-    {label: '45 phút', value: 45},
-    {label: '60 phút', value: 60},
+    { label: '15 phút', value: 15 },
+    { label: '30 phút', value: 30 },
+    { label: '45 phút', value: 45 },
+    { label: '60 phút', value: 60 },
   ];
 
   return (
@@ -194,15 +193,16 @@ function ApplyLate(props) {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Đơn xin đi muộn'}
+        title="Đơn xin đi muộn"
         height={60}
         goBack={goBack}
         fontSize={24}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{paddingBottom: 40}}
-        keyboardDismissMode="interactive">
+        contentContainerStyle={{ paddingBottom: 40 }}
+        keyboardDismissMode="interactive"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -212,7 +212,7 @@ function ApplyLate(props) {
           </View>
           <InputApply
             borderRadius={12}
-            backgroundColor={'white'}
+            backgroundColor="white"
             containerStyle={{
               width: '90%',
               justifyContent: 'center',
@@ -223,30 +223,30 @@ function ApplyLate(props) {
             onFocus={onFocus}
             onSubmitEditing={unFocus}
             onBlur={unFocus}
-            blurOnSubmit={true}
+            blurOnSubmit
             rightIcon
           />
 
           {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'Tắc đường.'}
+                detail="Tắc đường."
                 onPress={() => onSetReason('Tắc đường.')}
               />
               <Suggest
-                detail={'Có việc đột xuất.'}
+                detail="Có việc đột xuất."
                 onPress={() => onSetReason('Có việc đột xuất.')}
               />
               <Suggest
-                detail={'Bị hỏng xe.'}
+                detail="Bị hỏng xe."
                 onPress={() => onSetReason('Bị hỏng xe.')}
               />
               <Suggest
-                detail={'Công việc ngoài phạm vi phòng.'}
+                detail="Công việc ngoài phạm vi phòng."
                 onPress={() => onSetReason('Công việc ngoài phạm vi phòng.')}
               />
               <Suggest
-                detail={'Lí do cá nhân.'}
+                detail="Lí do cá nhân."
                 onPress={() => onSetReason('Lí do cá nhân.')}
               />
             </Card>
@@ -255,18 +255,18 @@ function ApplyLate(props) {
             <View style={styles.img}>
               <Image source={imgs.startTime} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>{'Thông tin đơn nghỉ :'}</Text>
+            <Text style={styles.txtStatus}>Thông tin đơn nghỉ :</Text>
           </View>
           <Card style={styles.card}>
             <View style={styles.row}>
               <ApplyIcon
-                title={'Đến muộn'}
+                title="Đến muộn"
                 onPress={onSetLate}
                 tintColor={type === 'late' ? 'green' : 'grey'}
                 color={type === 'late' ? 'green' : 'grey'}
               />
               <ApplyIcon
-                title={'Về Sớm'}
+                title="Về Sớm"
                 onPress={onSetEarly}
                 tintColor={type === 'early' ? 'green' : 'grey'}
                 source={imgs.clockEarly}
@@ -276,17 +276,18 @@ function ApplyLate(props) {
               />
             </View>
 
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -295,15 +296,17 @@ function ApplyLate(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
-              <TouchableOpacity style={[styles.buttonTime]} disabled={true}>
+                { justifyContent: 'center', alignItems: 'center' },
+              ]}
+            >
+              <TouchableOpacity style={[styles.buttonTime]} disabled>
                 <Image source={imgs.startTime} style={styles.icon} />
                 <SelectButton
                   dropdownHeight={120}
                   dropdownWidth={128}
                   customY={10}
-                  renderDropdown={renderDropdown}>
+                  renderDropdown={renderDropdown}
+                >
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
@@ -314,7 +317,7 @@ function ApplyLate(props) {
           </Card>
         </View>
         <Button
-          title={'Hoàn thành'}
+          title="Hoàn thành"
           containerStyle={styles.complete}
           onPress={onComplete}
         />
@@ -325,7 +328,7 @@ function ApplyLate(props) {
             value={day}
             onChange={onChangeDay}
             onPress={onUnshow}
-            mode={'date'}
+            mode="date"
             show={showModal}
             minimumDate={new Date()}
           />

@@ -26,6 +26,8 @@ interface DropdownProps {
   options?: OptionsType;
   cardProps?: ViewProps;
   contentAlign?: 'auto' | 'left' | 'right';
+  overlayOpacity?: Number;
+  overlayColor?: String;
 }
 
 interface DropDownType extends React.FC<DropdownProps> {
@@ -35,7 +37,7 @@ interface DropDownType extends React.FC<DropdownProps> {
 }
 
 function DropdownView(props?: DropdownProps) {
-  const { children, renderContent, position, space, scaleEnable, scaleDefault, options, cardProps, contentAlign } = props;
+  const { children, renderContent, position, space, scaleEnable, scaleDefault, options, cardProps, contentAlign, overlayOpacity, overlayColor } = props;
   const [visible, setVisible] = useState(false);
   const [target, setTarget] = useState({
     width: 0,
@@ -62,7 +64,6 @@ function DropdownView(props?: DropdownProps) {
 
       const measurements = measure(childrenRef);
       runOnJS(showContent)(measurements);
-      console.log('measurements', measurements);
     },
   });
 
@@ -74,7 +75,7 @@ function DropdownView(props?: DropdownProps) {
         <Animated.View>
           {
             React.Children.map(children, (element) => {
-              return React.cloneElement(element, { ref: childrenRef });
+              return React.cloneElement(element, { ref: childrenRef, zIndex: 1 });
             })
           }
         </Animated.View>
@@ -93,6 +94,8 @@ function DropdownView(props?: DropdownProps) {
             renderContent={renderContent}
             cardProps={cardProps}
             contentAlign={contentAlign}
+            overlayOpacity={overlayOpacity}
+            overlayColor={overlayColor}
           />
         )
       }
