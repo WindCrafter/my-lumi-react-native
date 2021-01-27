@@ -35,7 +35,7 @@ const AllBreak = (props) => {
   } = props;
 
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(2);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -116,7 +116,7 @@ const AllBreak = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, []);
+    getData(1, date, status, [],name);
   };
 
   const goBack = () => {

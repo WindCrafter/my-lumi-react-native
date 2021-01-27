@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,7 +21,7 @@ HeaderCustom.defaultProps = {
   rightImage: imgs.add,
   backgroundColor: Colors.white,
   textPress: false,
-  size: 26
+  size: 32,
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -37,10 +38,12 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
-    size, shadow,
+    size,
+    shadow,
     ...otherProps
   } = props;
 
+  const insets = useSafeAreaInsets();
   return (
     <View
       style={[
@@ -49,6 +52,7 @@ export default function HeaderCustom(props?: Props) {
           width,
           height,
           // backgroundColor,
+          marginTop: insets.top,
         },
         containerStyle,
       ]}
@@ -59,7 +63,10 @@ export default function HeaderCustom(props?: Props) {
           <Icon name="chevron-left" size={size} color={Colors.black} />
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
-          <Text style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 20 }]} {...otherProps}>
+          <Text
+            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
+            {...otherProps}
+          >
             {title}
           </Text>
         </View>
@@ -104,7 +111,6 @@ const styles = StyleSheet.create({
     height: 32,
   },
   title: {
-
     fontWeight: '600',
     color: Colors.black,
     fontFamily: 'Quicksand-Bold',
@@ -124,8 +130,8 @@ const styles = StyleSheet.create({
   viewMiddle: {
     flex: 1,
     width: '70%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gradient: {
     width: wp(100),

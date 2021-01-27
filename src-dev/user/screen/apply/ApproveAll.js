@@ -59,11 +59,12 @@ const ApproveAll = (props) => {
     );
   };
   return (
-    <>
-      <BarStatus height={20} backgroundColor={Colors.white} />
+
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+
       <HeaderCustom
         title={langs.navigator.approve}
-        height={60}
+        height={64}
         goBack={goBack}
         fontSize={24}
       />
@@ -73,7 +74,6 @@ const ApproveAll = (props) => {
         renderTabBar={renderTabBar}
         initialPage={page}
       >
-
         <ApproveBreak
           tabLabel={langs.break}
           token={token}
@@ -99,13 +99,10 @@ const ApproveAll = (props) => {
           setDateAdOT={setDateAdOT}
         />
         {role === 'HR' && (
-        <ApproveCheck
-          tabLabel={langs.checkIn}
-          token={token}
-        />
-        ) }
+          <ApproveCheck tabLabel={langs.checkIn} token={token} />
+        )}
       </ScrollableTabView>
-    </>
+    </View>
   );
 };
 

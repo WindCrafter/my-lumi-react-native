@@ -341,7 +341,9 @@ const Event = (props) => {
   };
 
   return (
-    <>
+
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+
       <HeaderCustom
         title="Đặt lịch phòng họp"
         goBack={onGoBack}
@@ -354,7 +356,7 @@ const Event = (props) => {
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: '#f0f0f0' }}>
           <View style={styles.header} />
           <InputRow
             containerStyle={styles.txtInput}
@@ -560,7 +562,7 @@ const Event = (props) => {
         setModal={hideModalTime}
         onPress={(e) => setLocation(e)}
       />
-    </>
+    </View>
   );
 };
 
