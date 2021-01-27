@@ -15,7 +15,6 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {
   heightPercentageToDP,
   heightPercentageToDP as hp,
@@ -128,49 +127,8 @@ function UpdateLate(props) {
     setShow(false);
     Keyboard.dismiss();
   };
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={choose}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 120,
-          borderRadius: 8,
-        }}
-        style={{ height: 300 }}
-      />
-    );
-  };
 
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 5,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     setTime(item.value);
   };
 
@@ -183,18 +141,18 @@ function UpdateLate(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus backgroundColor={Colors.white} height={20} />
       <HeaderCustom
         title="Sửa đơn đi muộn"
-        height={72}
+        height={64}
         goBack={goBack}
         fontSize={24}
         shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{paddingBottom: 40}}
-        keyboardDismissMode="interactive">
+        style={{ backgroundColor: '#f2f2f2' }}
+        keyboardDismissMode="interactive"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -265,17 +223,18 @@ function UpdateLate(props) {
               )}
             </View>
 
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.imgContainer}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -284,37 +243,31 @@ function UpdateLate(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'center', alignItems: 'center'},
-              ]}>
-              <TouchableOpacity style={[styles.buttonTime]} disabled>
-                <Image source={imgs.startTime} style={styles.icon} />
-                {/* <Dropdown
-                  position="auto"
-                  options={choose.map((i) => ({
-                    titleStyle: {
-                      textAlign: 'center',
-                      color: i.value === time ? Colors.background : 'black',
-                    },
-                    title: i.label,
-                    onPress: () => onPressItem(i),
-                  }))}
-                >
+                { justifyContent: 'center', alignItems: 'center' },
+              ]}
+            >
+              <Dropdown
+                position="auto"
+                options={choose.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+
+                }))}
+              >
+                <TouchableOpacity style={[styles.buttonTime]} disabled>
+                  <Image source={imgs.startTime} style={styles.icon} />
+
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </Dropdown> */}
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}>
-                  <View style={[styles.filter]}>
-                    <Text style={styles.txtTime}>{`${time} phút`}</Text>
-                    <Text style={styles.icon}>▼</Text>
-                  </View>
-                </SelectButton>
-              </TouchableOpacity>
+
+                </TouchableOpacity>
+              </Dropdown>
             </View>
           </Card>
         </View>
@@ -344,9 +297,8 @@ export default UpdateLate;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F0F0F0',
-    flex: 1,
-    zIndex: 0,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -363,7 +315,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginHorizontal: 12,
     flex: 1,
-
   },
   status: {
     flexDirection: 'row',
@@ -489,11 +440,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
-    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
-    paddingVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16
   },
   filter: {
     flexDirection: 'row',

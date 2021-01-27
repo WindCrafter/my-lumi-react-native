@@ -52,13 +52,13 @@ export default function Card(props?: CardProps) {
   return (
     <View pointerEvents='box-none' {...cardProps} style={[styles.container, style]}>
       {
-        pointStyle.direction === 'up' && (
+        pointStyle.direction === 'down' && (
           <View pointerEvents='none' style={{ paddingHorizontal: 8, alignItems: pointStyle.alignItems }}>
             <Triangle
               width={16}
               height={5}
               color={triangleColor}
-              direction={pointStyle.direction}
+              direction='up'
             />
           </View>
         )
@@ -74,13 +74,13 @@ export default function Card(props?: CardProps) {
         {children}
       </View>
       {
-        pointStyle.direction === 'down' && (
+        pointStyle.direction === 'up' && (
           <View pointerEvents='none' style={{ paddingHorizontal: 8, alignItems: pointStyle.alignItems }}>
             <Triangle
               width={16}
               height={5}
               color='white'
-              direction={pointStyle.direction}
+              direction='down'
             />
           </View>
         )

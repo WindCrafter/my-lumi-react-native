@@ -21,7 +21,7 @@ HeaderCustom.defaultProps = {
   rightImage: imgs.add,
   backgroundColor: Colors.white,
   textPress: false,
-  size: 26
+  size: 32
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -51,7 +51,7 @@ export default function HeaderCustom(props?: Props) {
           width,
           height,
           // backgroundColor,
-          marginTop: insets.top + 8,
+          marginTop: insets.top,
         },
         containerStyle,
       ]}
@@ -63,7 +63,7 @@ export default function HeaderCustom(props?: Props) {
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
           <Text
-            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 20 }]}
+            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
             {...otherProps}
           >
             {title}
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     height: 32,
   },
   title: {
-
     fontWeight: '600',
     color: Colors.black,
     fontFamily: 'Quicksand-Bold',
@@ -130,8 +129,8 @@ const styles = StyleSheet.create({
   viewMiddle: {
     flex: 1,
     width: '70%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gradient: {
     width: wp(100),

@@ -261,11 +261,6 @@ export default ApproveOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-
-  },
-  noData: {
-    fontSize: 16,
-    alignSelf: 'center',
-
+    backgroundColor: '#f0f0f0',
   },
 });

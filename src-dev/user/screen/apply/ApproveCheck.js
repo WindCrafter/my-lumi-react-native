@@ -323,11 +323,6 @@ export default ApproveCheck;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-
-  },
-  noData: {
-    fontSize: 16,
-    alignSelf: 'center',
-    marginTop: 24,
+    backgroundColor: '#f0f0f0',
   },
 });

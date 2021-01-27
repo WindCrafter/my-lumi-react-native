@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { imgs, Colors } from '../../../../../utlis';
@@ -152,7 +153,7 @@ const HeaderCustom = (props?: Props) => {
             onPress={goBack}
             style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
           >
-            <Icon name="chevron-back-outline" size={32} color={Colors.black} />
+            <Icon2 name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
           <Text
             style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}

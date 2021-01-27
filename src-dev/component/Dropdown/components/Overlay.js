@@ -4,9 +4,11 @@
  */
 
 import React, { useCallback, useEffect } from 'react';
-import { Dimensions, StyleSheet, Modal, TouchableWithoutFeedback, ScrollView, ViewProps } from 'react-native';
+import { Dimensions, StyleSheet, Modal, TouchableWithoutFeedback, ScrollView, ViewProps, StatusBar } from 'react-native';
 import Animated, {
   Easing,
+  Extrapolate,
+  interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -37,12 +39,16 @@ interface OverlayProps {
   renderContent?: React.FC<ContentType>;
   cardProps?: ViewProps;
   contentAlign?: 'auto' | 'left' | 'right';
+  overlayOpacity?: Number;
+  overlayColor?: String;
 }
 
 Overlay.defaultProps = {
   scaleEnable: true,
   scaleDefault: 0.95,
   space: 0,
+  overlayOpacity: 0.2,
+  overlayColor: 'black',
 };
 
 const SCREEN = Dimensions.get('window');
@@ -65,6 +71,8 @@ export default function Overlay(props?: OverlayProps) {
     options,
     renderContent,
     cardProps,
+    overlayOpacity,
+    overlayColor,
   } = props;
   const progress = useSharedValue(0);
   const scale = useSharedValue(scaleDefault);
@@ -102,10 +110,20 @@ export default function Overlay(props?: OverlayProps) {
     };
   });
 
+  const overlayStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(progress.value, [0, 1], [0, overlayOpacity], Extrapolate.CLAMP),
+    };
+  });
+
   let stylesConent = {};
   let pointStyle = {};
   let direction = 'left';
 
+  const maxHeight = SCREEN.height - target.pageY - target.height;
+  const maxHeightUp = target.pageY - 55;
+  const maxHeightDown = maxHeight - 55;
+  console.log('target.pageX,', target.pageX, 'target.pageY', SCREEN.height - target.pageY);
   const topLeft = {
     top: target.pageY + target.height + space,
     left: target.pageX,
@@ -115,74 +133,74 @@ export default function Overlay(props?: OverlayProps) {
     right: SCREEN.width - (target.pageX + target.width),
   };
   const bottomLeft = {
-    bottom: SCREEN.height - target.pageY + space,
+    top: target.pageY - maxHeightUp - space,
     left: target.pageX,
   };
   const bottomRight = {
-    bottom: SCREEN.height - target.pageY + space,
+    top: target.pageY - maxHeightUp - space,
     right: SCREEN.width - (target.pageX + target.width),
   };
 
   if (position === 'topLeft') {
     stylesConent = topLeft;
     pointStyle = {
-      direction: 'up',
+      direction: 'down',
       alignItems: undefined,
     };
     direction = 'left';
   } else if (position === 'topRight') {
     stylesConent = topRight;
     pointStyle = {
-      direction: 'up',
+      direction: 'down',
       alignItems: 'flex-end',
     };
     direction = 'right';
   } else if (position === 'bottomLeft') {
     stylesConent = bottomLeft;
     pointStyle = {
-      direction: 'down',
+      direction: 'up',
       alignItems: undefined,
     };
     direction = 'left';
   } else if (position === 'bottomRight') {
     stylesConent = bottomRight;
     pointStyle = {
-      direction: 'down',
+      direction: 'up',
       alignItems: 'flex-end',
     };
     direction = 'right';
   } else {
-    if (target.pageY < (SCREEN.height * 3) / 4 && target.pageX < SCREEN.width / 4) {
+    if ((SCREEN.height - target.pageY) >= 200 && target.pageX < SCREEN.width / 4) {
       stylesConent = topLeft;
       pointStyle = {
-        direction: 'up',
+        direction: 'down',
         alignItems: undefined,
       };
       direction = 'left';
     }
 
-    if (target.pageY < (SCREEN.height * 3) / 4 && target.pageX > SCREEN.width / 4) {
+    if (SCREEN.height - target.pageY >= 200 && target.pageX > SCREEN.width / 4) {
       stylesConent = topRight;
       pointStyle = {
-        direction: 'up',
+        direction: 'down',
         alignItems: 'flex-end',
       };
       direction = 'right';
     }
 
-    if (target.pageY > (SCREEN.height * 3) / 4 && target.pageX < SCREEN.width / 4) {
+    if ((SCREEN.height - target.pageY) < 200 && target.pageX < SCREEN.width / 4) {
       stylesConent = bottomLeft;
       pointStyle = {
-        direction: 'down',
+        direction: 'up',
         alignItems: undefined,
       };
       direction = 'left';
     }
 
-    if (target.pageY > (SCREEN.height * 3) / 4 && target.pageX > SCREEN.width / 4) {
+    if ((SCREEN.height - target.pageY) < 200 && target.pageX > SCREEN.width / 4) {
       stylesConent = bottomRight;
       pointStyle = {
-        direction: 'down',
+        direction: 'up',
         alignItems: 'flex-end',
       };
       direction = 'right';
@@ -195,48 +213,57 @@ export default function Overlay(props?: OverlayProps) {
     direction = 'right';
   }
 
-  const caculatorMaxHeightContent = pointStyle.direction === 'down' ? target.pageY : (SCREEN.height - target.pageY - target.height);
+  const caculatorMaxHeightContent = pointStyle.direction === 'up' ? target.pageY : maxHeight;
 
   return (
-    <Modal visible={visible} transparent animationType="none">
+    <Modal
+      visible={visible}
+      transparent
+      animationType='none'
+      statusBarTranslucent
+    >
       <TouchableWithoutFeedback onPress={onDismiss}>
-        <Animated.View
-          style={[
-            StyleSheet.absoluteFillObject,
-            {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
-          ]}
-        />
+        <Animated.View style={[StyleSheet.absoluteFillObject, { backgroundColor: overlayColor }, overlayStyle]} />
       </TouchableWithoutFeedback>
-      <Animated.View style={[styles.container, stylesConent, containerStyle]}>
-        {renderContent ? (
-          renderContent({
+      <Animated.View
+        pointerEvents='box-none'
+        style={[styles.container, stylesConent, containerStyle, pointStyle.direction === 'up' && { height: caculatorMaxHeightContent - 55, justifyContent: 'flex-end' }]}
+      >
+        {
+          renderContent ? renderContent({
             direction,
             pointStyle,
             maxHeight: caculatorMaxHeightContent - 55,
             dismiss: onDismiss,
           })
-        ) : (
-          <Card
-            pointStyle={pointStyle}
-            maxHeight={caculatorMaxHeightContent - 55}
-            cardProps={cardProps}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {options.map((option, idx) => (
-                <React.Fragment key={String(idx)}>
-                  {idx > 0 && idx < options.length && <Separator />}
-                  <Button
-                    {...option}
-                    direction={direction}
-                    onPress={() => {
-                      onDismiss();
-                      option.onPress && option.onPress();
-                    }}
-                  />
-                </React.Fragment>
-              ))}
-            </ScrollView>
-          </Card>
-        )}
+            : (
+              <Card
+                pointStyle={pointStyle}
+                maxHeight={caculatorMaxHeightContent - 55}
+                cardProps={cardProps}
+              >
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {
+                    options.map((option, idx) => (
+                      <React.Fragment key={String(idx)}>
+                        {
+                          idx > 0 && idx < options.length && <Separator />
+                        }
+                        <Button
+                          {...option}
+                          direction={direction}
+                          onPress={() => {
+                            onDismiss();
+                            option.onPress && option.onPress();
+                          }}
+                        />
+                      </React.Fragment>
+                    ))
+                  }
+                </ScrollView>
+              </Card>
+            )
+        }
       </Animated.View>
     </Modal>
   );
