@@ -5,5 +5,5 @@ module.exports = {
       plugins: ['transform-remove-console'],
     },
   },
-  // plugins: ['react-native-reanimated/plugin'],
+  plugins: ['react-native-reanimated/plugin'],
 };

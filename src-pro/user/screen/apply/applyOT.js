@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,11 +18,12 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 import moment from 'moment';
-import PickerCustom from './component/PickerCustom';
 import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
+import PickerCustom from './component/PickerCustom';
 import InputApply from '../../../component/Input/inputApply';
 import langs from '../../../../common/language';
 import {
@@ -31,15 +32,14 @@ import {
   Button,
   SelectButton,
 } from '../../../component';
-import {imgs, Colors} from '../../../../utlis';
+import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
-import {Card} from 'native-base';
 import Suggest from './component/Suggest';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -223,7 +223,7 @@ function ApplyOT(props) {
   };
 
   const getStartTimeInRule = (start, rule) => {
-    return _.find(rule, function (o) {
+    return _.find(rule, (o) => {
       return o.start <= start && o.end > start;
     });
   };
@@ -242,17 +242,15 @@ function ApplyOT(props) {
       if (!ruleStart) {
         return false;
       }
-      _hour =
-        _time - (ruleStart.end - _start) > 0 ? ruleStart.end - _start : _time;
+      _hour = _time - (ruleStart.end - _start) > 0 ? ruleStart.end - _start : _time;
       result.push({
         level: ruleStart.level,
         time: _hour,
         date: _day,
       });
-      _time =
-        _time - (ruleStart.end - _start) > 0
-          ? _time - (ruleStart.end - _start)
-          : 0;
+      _time = _time - (ruleStart.end - _start) > 0
+        ? _time - (ruleStart.end - _start)
+        : 0;
       _start = ruleStart.end;
       if (ruleStart.end === 24) {
         _day = moment(date, 'DD/MM/YYYY').add(1, 'days').format('DD/MM/YYYY');
@@ -276,7 +274,7 @@ function ApplyOT(props) {
         title: langs.alert.notify,
         message: langs.alert.missingContentOT,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       return;
     }
@@ -287,7 +285,7 @@ function ApplyOT(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongTimeOT,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     } else {
       const data = {
@@ -318,14 +316,14 @@ function ApplyOT(props) {
     return (
       <FlatList
         data={status}
-       keyExtractor={(item, index) => String(index)}
-        renderItem={({item, index}) => renderItem(item, hideOverlay)}
+        keyExtractor={(item, index) => String(index)}
+        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
         contentContainerStyle={{
           backgroundColor: 'white',
           width: 100,
           borderRadius: 8,
         }}
-        style={{height: 200}}
+        style={{ height: 200 }}
       />
     );
   };
@@ -340,12 +338,14 @@ function ApplyOT(props) {
             alignSelf: 'center',
             paddingHorizontal: 8,
           }}
-          onPress={() => onPressItem(item, hideOverlay)}>
+          onPress={() => onPressItem(item, hideOverlay)}
+        >
           <Text
             style={[
               styles.text,
-              {color: time == item.value ? Colors.background : 'black'},
-            ]}>
+              { color: time == item.value ? Colors.background : 'black' },
+            ]}
+          >
             {item.label}
           </Text>
         </TouchableOpacity>
@@ -354,22 +354,22 @@ function ApplyOT(props) {
   };
 
   const status = [
-    {label: '0.5 giờ', value: 0.5},
-    {label: '1 giờ', value: 1},
-    {label: '1.5 giờ', value: 1.5},
-    {label: '2 giờ', value: 2},
-    {label: '2.5 giờ', value: 2.5},
-    {label: '3 giờ', value: 3},
-    {label: '3.5 giờ', value: 3.5},
-    {label: '4 giờ', value: 4},
-    {label: '4.5 giờ', value: 4.5},
-    {label: '5 giờ', value: 5},
-    {label: '5.5 giờ', value: 5.5},
-    {label: '6 giờ', value: 6},
-    {label: '6.5 giờ', value: 6.5},
-    {label: '7 giờ', value: 7},
-    {label: '7.5 giờ', value: 7.5},
-    {label: '8 giờ', value: 8},
+    { label: '0.5 giờ', value: 0.5 },
+    { label: '1 giờ', value: 1 },
+    { label: '1.5 giờ', value: 1.5 },
+    { label: '2 giờ', value: 2 },
+    { label: '2.5 giờ', value: 2.5 },
+    { label: '3 giờ', value: 3 },
+    { label: '3.5 giờ', value: 3.5 },
+    { label: '4 giờ', value: 4 },
+    { label: '4.5 giờ', value: 4.5 },
+    { label: '5 giờ', value: 5 },
+    { label: '5.5 giờ', value: 5.5 },
+    { label: '6 giờ', value: 6 },
+    { label: '6.5 giờ', value: 6.5 },
+    { label: '7 giờ', value: 7 },
+    { label: '7.5 giờ', value: 7.5 },
+    { label: '8 giờ', value: 8 },
   ];
 
   const onPressItem = (item, hideOverlay) => {
@@ -386,14 +386,15 @@ function ApplyOT(props) {
       <BarStatus />
       <SafeAreaView />
       <HeaderCustom
-        title={'Tạo đơn xin OT'}
+        title="Tạo đơn xin OT"
         height={60}
         goBack={goBack}
         fontSize={24}
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.detail}>
           <View style={styles.row}>
             <View style={styles.img}>
@@ -403,7 +404,7 @@ function ApplyOT(props) {
           </View>
           <InputApply
             borderRadius={12}
-            backgroundColor={'white'}
+            backgroundColor="white"
             containerStyle={{
               width: '90%',
               justifyContent: 'center',
@@ -414,43 +415,44 @@ function ApplyOT(props) {
             onFocus={onFocus}
             onSubmitEditing={unFocus}
             onBlur={unFocus}
-            blurOnSubmit={true}
+            blurOnSubmit
             rightIcon
           />
 
           {!reason && show ? (
             <Card style={styles.card}>
               <Suggest
-                detail={'Sửa bug phát sinh.'}
+                detail="Sửa bug phát sinh."
                 onPress={() => onSetReason('Sửa bug phát sinh.')}
               />
               <Suggest
-                detail={'Bảo đảm tiến độ dự án.'}
+                detail="Bảo đảm tiến độ dự án."
                 onPress={() => onSetReason('Bảo đảm tiến độ dự án.')}
               />
               <Suggest
-                detail={'Bảo trì hệ thống.'}
+                detail="Bảo trì hệ thống."
                 onPress={() => onSetReason('Bảo trì hệ thống.')}
               />
               <Suggest
-                detail={'Phát triển tính năng mới.'}
+                detail="Phát triển tính năng mới."
                 onPress={() => onSetReason('Phát triển tính năng mới.')}
               />
             </Card>
           ) : null}
 
           <Card style={styles.card}>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeStart}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('time')}>
+                onPress={() => onShowPicker('time')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(hour).format('HH:mm')}
                 </Text>
@@ -459,36 +461,39 @@ function ApplyOT(props) {
             <View
               style={[
                 styles.row,
-                {justifyContent: 'space-between', alignItems: 'center'},
-              ]}>
+                { justifyContent: 'space-between', alignItems: 'center' },
+              ]}
+            >
               <View style={styles.img}>
                 <Image
                   source={imgs.startTime}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
               <SelectButton
                 dropdownHeight={200}
                 dropdownWidth={100}
-                renderDropdown={renderDropdown}>
+                renderDropdown={renderDropdown}
+              >
                 <View style={[styles.filter]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
               </SelectButton>
             </View>
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
                 <Image
                   source={imgs.startDate}
-                  style={[styles.imageStamp, {marginRight: 8}]}
+                  style={[styles.imageStamp, { marginRight: 8 }]}
                 />
                 <Text style={styles.txtStatus}>{langs.day}</Text>
               </View>
               <TouchableOpacity
                 style={styles.time}
-                onPress={() => onShowPicker('day')}>
+                onPress={() => onShowPicker('day')}
+              >
                 <Text style={styles.txtTime}>
                   {moment(day).format('DD/MM/yyyy')}
                 </Text>
@@ -502,9 +507,9 @@ function ApplyOT(props) {
               value={hour}
               onChange={onChangeHour}
               onPress={onUnshow}
-              mode={'time'}
+              mode="time"
               show={showModal}
-              locale={'en-GB'}
+              locale="en-GB"
               onHideModal={onUnshow}
             />
           ) : mode === 'day' ? (
@@ -512,7 +517,7 @@ function ApplyOT(props) {
               value={day}
               onChange={onChangeDay}
               onPress={onUnshow}
-              mode={'date'}
+              mode="date"
               show={showModal}
               minimumDate={new Date()}
               onHideModal={onUnshow}
@@ -520,7 +525,7 @@ function ApplyOT(props) {
           ) : null
         ) : null}
         <Button
-          title={'Hoàn thành'}
+          title="Hoàn thành"
           containerStyle={styles.complete}
           onPress={onSetOverTime}
         />
@@ -594,7 +599,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     alignSelf: 'center',
-    
+
   },
   card: {
     borderRadius: 16,

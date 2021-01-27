@@ -341,9 +341,7 @@ const Event = (props) => {
   };
 
   return (
-
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
-
       <HeaderCustom
         title="Đặt lịch phòng họp"
         goBack={onGoBack}

@@ -339,7 +339,6 @@ function ListOT(props) {
   console.log(_data);
   return (
     <>
-
       <HeaderCustom
         height={44}
         title={langs.titleHistoryOt}
@@ -353,7 +352,7 @@ function ListOT(props) {
       />
       <View style={styles.detail}>
         {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <SwipeListView
           data={_data}

@@ -22,6 +22,7 @@ HeaderCustom.defaultProps = {
   backgroundColor: Colors.white,
   textPress: false,
   size: 32,
+
 };
 
 export default function HeaderCustom(props?: Props) {

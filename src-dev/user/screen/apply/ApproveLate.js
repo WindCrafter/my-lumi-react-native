@@ -89,6 +89,9 @@ function ApproveLate(props) {
       case '3':
         setType('Bị từ chối');
         break;
+      case '4':
+        setType('Auto Cancel');
+        break;
       default:
         console.log(':::Wrong type :', item);
     }

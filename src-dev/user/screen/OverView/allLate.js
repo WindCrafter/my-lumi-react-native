@@ -7,7 +7,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   ScrollView,
-  FlatList
+  FlatList,
 } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -15,7 +15,6 @@ import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
 import _ from 'lodash';
-import FilterDate from './components/FilterDate';
 import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';
@@ -26,9 +25,7 @@ import HeaderNotify from '../notify/component/HeaderNotify';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 
 const allLate = (props) => {
-  const {
-    token,
-  } = props;
+  const { token } = props;
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -115,9 +112,7 @@ const allLate = (props) => {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <Indicator />
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
   console.log(date);
   console.log('name2', name);

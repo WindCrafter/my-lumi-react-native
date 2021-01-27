@@ -49,7 +49,7 @@ const ItemOT = (props) => {
     <Card style={styles.card}>
       <View style={[styles.row, { justifyContent: 'space-between' }]}>
         <View>{renderStatus()}</View>
-        <Text style={{ alignSelf: 'flex-end', padding: 5 }}>
+        <Text style={{ alignSelf: 'flex-end', padding: 5,fontWeight:'600',fontFamily:'Quicksand-Bold' }}>
           {item.start_date}
         </Text>
       </View>

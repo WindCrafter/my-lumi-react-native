@@ -26,7 +26,8 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  SelectButton,
+  Dropdown,
+  SelectButton
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -118,9 +119,6 @@ function FormLate(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
   };
-  const onHistoryLate = () => {
-    navigation.navigate(langs.navigator.historyLate);
-  };
   const unFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
@@ -133,52 +131,11 @@ function FormLate(props) {
     setType('early');
   };
 
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={choose}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 120,
-          borderRadius: 8,
-        }}
-        style={{ height: 300 }}
-      />
-    );
-  };
 
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 5,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  const onPressItem = (item) => {
 
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
     setTime(item.value);
   };
-
   const choose = [
     { label: '15 phút', value: 15 },
     { label: '30 phút', value: 30 },
@@ -295,21 +252,29 @@ function FormLate(props) {
                 { justifyContent: 'center', alignItems: 'center' },
               ]}
             >
-              <TouchableOpacity style={[styles.buttonTime]} disabled>
-                <Image source={imgs.startTime} style={styles.icon} />
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}
-                >
+              <Dropdown
+                position="auto"
+                options={choose.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+                }))}
+
+              >
+
+                <View style={[styles.buttonTime]}>
+                  <Image source={imgs.startTime} style={styles.icon} />
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </SelectButton>
-              </TouchableOpacity>
+                </View>
+              </Dropdown>
             </View>
+
           </Card>
         </View>
 
@@ -487,6 +452,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     paddingVertical: 12,
     paddingHorizontal: 8,
+
   },
   filter: {
     flexDirection: 'row',

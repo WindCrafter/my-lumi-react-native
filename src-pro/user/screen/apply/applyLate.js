@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -16,7 +15,6 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {
-  heightPercentageToDP,
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
@@ -28,7 +26,8 @@ import {
   HeaderCustom,
   Button,
   InputSelect,
-  SelectButton,
+  Dropdown,
+  SelectButton
 } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 
@@ -36,6 +35,7 @@ import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
+import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -44,14 +44,13 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-function ApplyLate(props) {
-  const { navigation, setLateEarly, token, assign } = props;
+function FormLate(props) {
+  const { navigation, setLateEarly, token } = props;
   const [reason, setReason] = useState('');
   const [show, setShow] = useState(false);
   const [time, setTime] = useState(15);
   const [isVisible, setVisible] = useState(false);
   const [type, setType] = useState('late');
-  const [status, setStatus] = useState(1);
   const onSetVisible = () => {
     setVisible(!isVisible);
   };
@@ -112,7 +111,7 @@ function ApplyLate(props) {
       date: moment(day).format('DD/MM/YYYY'),
       token,
       content: reason,
-      status,
+      status: 1,
     };
 
     setLateEarly(data);
@@ -121,7 +120,6 @@ function ApplyLate(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(true);
   };
-
   const unFocus = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShow(false);
@@ -134,52 +132,9 @@ function ApplyLate(props) {
     setType('early');
   };
 
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={choose}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 120,
-          borderRadius: 8,
-        }}
-        style={{ height: 300 }}
-      />
-    );
-  };
-
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 5,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.txtTime,
-              { color: time === item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     setTime(item.value);
   };
-
   const choose = [
     { label: '15 phút', value: 15 },
     { label: '30 phút', value: 30 },
@@ -189,19 +144,15 @@ function ApplyLate(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
         title="Đơn xin đi muộn"
-        height={60}
+        height={64}
         goBack={goBack}
-        fontSize={24}
+        shadow
       />
       <ScrollView
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
+        style={{ backgroundColor: '#f2f2f2' }}
         keyboardDismissMode="interactive"
       >
         <View style={styles.detail}>
@@ -300,23 +251,32 @@ function ApplyLate(props) {
                 { justifyContent: 'center', alignItems: 'center' },
               ]}
             >
-              <TouchableOpacity style={[styles.buttonTime]} disabled>
-                <Image source={imgs.startTime} style={styles.icon} />
-                <SelectButton
-                  dropdownHeight={120}
-                  dropdownWidth={128}
-                  customY={10}
-                  renderDropdown={renderDropdown}
-                >
+              <Dropdown
+                position="auto"
+                options={choose.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+                }))}
+
+              >
+
+                <View style={[styles.buttonTime]}>
+                  <Image source={imgs.startTime} style={styles.icon} />
                   <View style={[styles.filter]}>
                     <Text style={styles.txtTime}>{`${time} phút`}</Text>
                     <Text style={styles.icon}>▼</Text>
                   </View>
-                </SelectButton>
-              </TouchableOpacity>
+                </View>
+              </Dropdown>
             </View>
+
           </Card>
         </View>
+
         <Button
           title="Hoàn thành"
           containerStyle={styles.complete}
@@ -339,13 +299,12 @@ function ApplyLate(props) {
   );
 }
 
-export default ApplyLate;
+export default FormLate;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    flex: 1,
-    zIndex: 0,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -395,7 +354,6 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
-    marginTop: 150,
   },
   bottom: {
     position: 'absolute',
@@ -488,11 +446,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
-    width: 160,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
-    paddingVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 8
+
   },
   filter: {
     flexDirection: 'row',

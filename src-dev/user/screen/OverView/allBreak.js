@@ -29,10 +29,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const AllBreak = (props) => {
-  const {
-    navigation,
-    token,
-  } = props;
+  const { navigation, token } = props;
 
   const [date, setDate] = useState('');
   const [status, setStatus] = useState(2);
@@ -108,15 +105,14 @@ const AllBreak = (props) => {
     }
   };
   const renderFooterComponent = () => {
-    return loading ? (
-      <Indicator />
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, [],name);
+    getData(1, date, status, [], name);
+
   };
 
   const goBack = () => {

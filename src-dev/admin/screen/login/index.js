@@ -202,7 +202,8 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFill,
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'center'
+
   },
   textStyle: {
     alignSelf: 'center',
