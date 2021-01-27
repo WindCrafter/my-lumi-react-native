@@ -64,7 +64,6 @@ const FloatButton = (props) => {
       buttonColor="white"
       renderIcon={buttonIcon}
       onPress={onApply}
-
       style={[
         styles.actonButton,
         Platform.OS === 'ios' ? { zIndex: 100 } : { elevation: 100 },

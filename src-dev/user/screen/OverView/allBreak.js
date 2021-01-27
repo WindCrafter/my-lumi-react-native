@@ -112,6 +112,7 @@ const AllBreak = (props) => {
     setRefresh(true);
     setOnScroll(false);
     getData(1, date, status, [], name);
+
   };
 
   const goBack = () => {

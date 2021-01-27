@@ -129,21 +129,18 @@ const ChangePass = (props) => {
       : null;
   };
   return (
-    <>
+    <View style={{ backgroundColor: 'white', ...StyleSheet.absoluteFill }}>
       {/* <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
       /> */}
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
-      />
 
       <HeaderCustom
         title={langs.navigator.changePass}
         height={60}
         goBack={onGoBack}
         rightImage={imgs.settingICon}
+        shadow
         // backgroundColor={'#F32013'}
         // containerStyle={{backgroundColor: 'white'}}
       />
@@ -224,7 +221,7 @@ const ChangePass = (props) => {
             : '#827D82'
         }
       />
-    </>
+    </View>
   );
 };
 const styles = StyleSheet.create({

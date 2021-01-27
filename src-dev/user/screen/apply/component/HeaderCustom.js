@@ -28,7 +28,8 @@ const HeaderCustom = (props?: Props) => {
   const { backgroundColor } = props || Colors.white;
   const { textPress } = props || false;
   const deviceWidth = Dimensions.get('window').width;
-
+  const { filter } = props || true;
+  const { placeHolder } = props || 'Bạn muốn tìm lumier nào?';
   const {
     leftImage,
     containerStyle,
@@ -182,10 +183,12 @@ const HeaderCustom = (props?: Props) => {
           value={txtSearch}
           onChangeText={onChangeName}
           autoCapitalize="none"
-          placeholder="Bạn muốn tìm lumier nào?"
+          placeholder={placeHolder || 'Bạn muốn tìm lumier nào?'}
         />
       )}
-      <View
+
+      {filter && (
+        <View
         style={[
           styles.rowBot,
           { marginBottom: 16, justifyContent: 'space-around' },
@@ -258,7 +261,7 @@ const HeaderCustom = (props?: Props) => {
             </TouchableOpacity>
           ) : null}
         </View>
-      </View>
+      </View>)}
       <PickerCustom
         title="Chọn ngày"
         show={show}
@@ -277,6 +280,8 @@ const HeaderCustom = (props?: Props) => {
 
 HeaderCustom.defaultProps = {
   header: true,
+  filter: true,
+  placeHolder: 'Bạn muốn tìm lumier nào?',
 };
 
 const styles = StyleSheet.create({

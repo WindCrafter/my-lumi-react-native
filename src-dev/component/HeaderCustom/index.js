@@ -21,7 +21,8 @@ HeaderCustom.defaultProps = {
   rightImage: imgs.add,
   backgroundColor: Colors.white,
   textPress: false,
-  size: 32
+  size: 32,
+
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -38,7 +39,8 @@ export default function HeaderCustom(props?: Props) {
     fontSize,
     rightImage,
     textPress,
-    size, shadow,
+    size,
+    shadow,
     ...otherProps
   } = props;
 

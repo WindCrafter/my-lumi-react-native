@@ -449,10 +449,12 @@ export function* watchGetHoliday() {
 function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
+    const onDone = action.payload.onDone;
     const response = yield _GET(
       `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
+    onDone && onDone();
     console.log('GET_WORKDAY_TODAY', response);
     const data = response.data;
     _global.Loading.hide();
@@ -468,8 +470,10 @@ function* sagaGetWorkdayToday(action) {
       yield put(changeToIn());
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 3) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 0) {
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.type === 0) {
       yield put(changeToOut());
+    } else if (response.success && response.statusCode === 200 && data && data.check_out && data.type === 0) {
+      yield put(changeToIn());
     } else if (!response.success && response.statusCode === 200 && data.length === 0) {
       yield put(changeToIn());
     }

@@ -35,7 +35,6 @@ import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
 import Suggest from './component/Suggest';
 import PickerCustom from './component/PickerCustom';
-import ActionButton from './component/ActionButton';
 
 if (
   Platform.OS === 'android'
@@ -132,7 +131,9 @@ function FormLate(props) {
     setType('early');
   };
 
+
   const onPressItem = (item) => {
+
     setTime(item.value);
   };
   const choose = [
@@ -448,8 +449,9 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
     paddingVertical: 12,
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
 
   },
   filter: {

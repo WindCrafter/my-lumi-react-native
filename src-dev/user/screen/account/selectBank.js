@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,29 +10,32 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import _ from 'lodash';
 import {
   BarStatus,
-  HeaderCustom,
   Input,
   KeyBoardScroll,
 } from '../../../component';
-import {Colors, imgs} from '../../../../utlis';
-import {BANK_LIST} from '../../../../utlis/config/bank';
+
+import HeaderCustom from '../apply/component/HeaderCustom';
+import { Colors, imgs } from '../../../../utlis';
+import { BANK_LIST } from '../../../../utlis/config/bank';
 
 const SelectBank = (props) => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const [search, setSearch] = useState('');
-  const {bank_name, onChangeBank} = route.params;
+  const { bank_name, onChangeBank } = route.params;
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => onChangeBank(item.TenNH)}
-        style={styles.renderItem}>
+        style={styles.renderItem}
+      >
         <Text style={styles.bankName}>{item.TenNH}</Text>
         {bank_name && bank_name === item.TenNH && (
           <Image source={imgs.tick} style={styles.image} />
@@ -40,31 +43,36 @@ const SelectBank = (props) => {
       </TouchableOpacity>
     );
   };
-
+  const debouceSearch = _.debounce((value) => {
+    onSearchBank(value);
+  }, 500);
   const onSearchBank = (value) => {
     setSearch(value);
   };
 
-  let _data = BANK_LIST.filter((i) =>
-    i.TenNH.toLowerCase().includes(search.toLowerCase().trim()),
-  );
+  const _data = BANK_LIST.filter((i) => i.TenNH.toLowerCase().includes(search.toLowerCase().trim()),);
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
+      <HeaderCustom
+        title="Chọn ngân hàng"
+        goBack={goBack}
+        shadow
+        search
+        filter={false}
+        onChangeName={debouceSearch}
+        txtSearch={search}
+        placeHolder="Tìm kiếm ngân hàng"
       />
-      <HeaderCustom title={'Chọn ngân hàng'} goBack={goBack} />
-      <Input
+      {/* <Input
         button
         leftImage={imgs.search}
         containerStyle={styles.search}
         value={search}
         onChangeText={onSearchBank}
-        autoCapitalize={'none'}
-        placeholder={'Tìm kiếm'}
-      />
+        autoCapitalize="none"
+        placeholder="Tìm kiếm"
+      /> */}
       <KeyBoardScroll style={styles.content}>
         <FlatList
           data={_data}
@@ -79,12 +87,13 @@ const SelectBank = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white'
   },
   search: {
     alignSelf: 'center',
-    borderRadius: 32,
-    height: 40,
+    borderRadius: 16,
+    height: 48,
     width: Dimensions.get('window').width - 64,
     marginVertical: 8,
     backgroundColor: '#ffffff',
@@ -99,6 +108,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    backgroundColor: '#f0f0f0'
   },
   list: {
     flex: 1,

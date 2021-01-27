@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   Platform,
   UIManager,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
@@ -57,6 +58,7 @@ if (
 
 export default function Home(props) {
   const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
+  const [refresh, setRefresh] = useState(false);
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.notify);
@@ -82,7 +84,13 @@ export default function Home(props) {
       unsubscribe;
     };
   }, []);
+  const onDone = () => { setRefresh(false); };
+  const onRefresh = () => {
+    getWorkdayToday(
+      { token, date: moment().format('DD/MM/YYYY'), onDone },
 
+    );
+  };
   const onPressApprove = () => {
     navigation.navigate(langs.navigator.approve, { page: 0 });
   };
@@ -125,7 +133,11 @@ export default function Home(props) {
             end={{ x: 1, y: 1 }}
             colors={['#216632', '#2FAC4F']}
           />
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
+          >
             <View style={styles.groupCard}>
               <TouchableOpacity onPress={moveToHistory}>
                 <CardUser

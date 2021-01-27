@@ -311,6 +311,7 @@ function ApplyOT(props) {
     Keyboard.dismiss();
   };
 
+
   const status = [
     { label: '0.5 giờ', value: 0.5 },
     { label: '1 giờ', value: 1 },
@@ -553,7 +554,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginVertical: 8,
-    flex: 1,
+    flex: 1
   },
   txtTime: {
     fontSize: 16,

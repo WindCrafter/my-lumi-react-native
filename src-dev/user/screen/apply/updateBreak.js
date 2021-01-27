@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -304,7 +303,6 @@ function UpdateBreak(props) {
         title="Sửa đơn nghỉ phép"
         height={64}
         goBack={goBack}
-        fontSize={24}
         shadow
       />
       <ScrollView
