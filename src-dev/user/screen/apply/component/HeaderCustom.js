@@ -27,7 +27,8 @@ const HeaderCustom = (props?: Props) => {
   const { backgroundColor } = props || Colors.white;
   const { textPress } = props || false;
   const deviceWidth = Dimensions.get('window').width;
-
+  const { filter } = props || true;
+  const { placeHolder } = props || 'Bạn muốn tìm lumier nào?';
   const {
     leftImage,
     containerStyle,
@@ -144,7 +145,7 @@ const HeaderCustom = (props?: Props) => {
               height,
               backgroundColor,
               justifyContent: 'center',
-              marginTop: insets.top + 8
+              marginTop: insets.top + 8,
             },
             containerStyle,
           ]}
@@ -155,7 +156,10 @@ const HeaderCustom = (props?: Props) => {
           >
             <Icon name="chevron-back-outline" size={32} color={Colors.black} />
           </TouchableOpacity>
-          <Text style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]} {...otherProps}>
+          <Text
+            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
+            {...otherProps}
+          >
             {title}
           </Text>
           {rightButton ? (
@@ -179,77 +183,81 @@ const HeaderCustom = (props?: Props) => {
           value={txtSearch}
           onChangeText={onChangeName}
           autoCapitalize="none"
-          placeholder="Bạn muốn tìm lumier nào?"
+          placeholder={placeHolder || 'Bạn muốn tìm lumier nào?'}
         />
       )}
-      <View
-        style={[
-          styles.rowBot,
-          { marginBottom: 16, justifyContent: 'space-around' },
-        ]}
-      >
-        <SelectButton
-          dropdownHeight={20}
-          dropdownWidth={100}
-          renderDropdown={renderDropdown}
+      {filter && (
+        <View
+          style={[
+            styles.rowBot,
+            { marginBottom: 16, justifyContent: 'space-around' },
+          ]}
         >
+          <SelectButton
+            dropdownHeight={20}
+            dropdownWidth={100}
+            renderDropdown={renderDropdown}
+          >
+            <View
+              style={[
+                styles.filterStatus,
+                {
+                  backgroundColor:
+                    type !== 'Tất cả' ? 'white' : 'rgba(1,18,34,0.05)',
+                  borderWidth: type !== 'Tất cả' ? 1 : 0,
+                  borderColor: type !== 'Tất cả' ? Colors.background : 'white',
+                },
+              ]}
+            >
+              <Text>{type}</Text>
+              <Icon
+                size={18}
+                name="caret-down-outline"
+                style={{ color: Colors.black }}
+              />
+            </View>
+          </SelectButton>
           <View
             style={[
-              styles.filterStatus,
+              styles.filterDate,
               {
-                backgroundColor:
-                  type !== 'Tất cả' ? 'white' : 'rgba(1,18,34,0.05)',
-                borderWidth: type !== 'Tất cả' ? 1 : 0,
-                borderColor: type !== 'Tất cả' ? Colors.background : 'white',
+                justifyContent: 'center',
+                backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
+                borderWidth: date ? 1 : 0,
+                borderColor: date ? Colors.background : 'white',
               },
             ]}
           >
-            <Text>{type}</Text>
-            <Icon
-              size={18}
-              name="caret-down-outline"
-              style={{ color: Colors.black }}
-            />
-          </View>
-        </SelectButton>
-        <View
-          style={[
-            styles.filterDate,
-            {
-              justifyContent: 'center',
-              backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
-              borderWidth: date ? 1 : 0,
-              borderColor: date ? Colors.background : 'white',
-            },
-          ]}
-        >
-          <TouchableOpacity style={styles.txtDay} onPress={onShow}>
-            <Text
-              style={[
-                styles.txtRole,
-                { color: date ? Colors.background : Colors.ink500 },
-              ]}
-            >
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Chọn ngày'}
-            </Text>
+            <TouchableOpacity style={styles.txtDay} onPress={onShow}>
+              <Text
+                style={[
+                  styles.txtRole,
+                  { color: date ? Colors.background : Colors.ink500 },
+                ]}
+              >
+                {date
+                  ? moment(new Date(date)).format('DD/MM/YYYY')
+                  : 'Chọn ngày'}
+              </Text>
 
-            {date ? null : (
-              <Icon
-                size={18}
-                name={!show ? 'caret-down-outline' : 'caret-up-outline'}
-                style={{ color: Colors.black }}
-              />
-            )}
-          </TouchableOpacity>
-          {date ? (
-            <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
-              <View style={styles.viewClear}>
-                <Image source={imgs.cancel} style={styles.imgClear} />
-              </View>
+              {date ? null : (
+                <Icon
+                  size={18}
+                  name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                  style={{ color: Colors.black }}
+                />
+              )}
             </TouchableOpacity>
-          ) : null}
+            {date ? (
+              <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
+                <View style={styles.viewClear}>
+                  <Image source={imgs.cancel} style={styles.imgClear} />
+                </View>
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
-      </View>
+      )}
       <PickerCustom
         title="Chọn ngày"
         show={show}
@@ -268,6 +276,8 @@ const HeaderCustom = (props?: Props) => {
 
 HeaderCustom.defaultProps = {
   header: true,
+  filter: true,
+  placeHolder: 'Bạn muốn tìm lumier nào?',
 };
 
 const styles = StyleSheet.create({
