@@ -193,7 +193,7 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckin,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
@@ -214,7 +214,7 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckout,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
@@ -238,10 +238,10 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.cantCheck,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
-          text: langs.code,
+          text: langs.remote,
           onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
@@ -903,9 +903,11 @@ function* sagaCheckInCode(action) {
   try {
     const data = {
       type: action.payload.type === 'in' ? 1 : 2,
+      time: action.payload.time,
+      date: action.payload.date
     };
     const token = action.payload.token;
-
+    console.log('savsgha', data);
     const response = yield _POST(
       URL_CHECK_IN_REQUEST,
       data,

@@ -152,27 +152,52 @@ const Event = (props) => {
     setshowModalDate(false);
   };
   const onShowPickerEnd = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setshowModalTimeEnd(true);
+    if (start) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      setshowModalTimeEnd(true);
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Vui lòng chọn thời gian bắt đầu trước',
+        leftButton: { text: langs.alert.ok },
+      });
+    }
   };
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
+    const today = moment(new Date()).format('DD/MM/YYYY') === moment(date).format('DD/MM/YYYY');
+    const past = moment(new Date()).format('HH:mm') > moment(currentShift).format('HH:mm');
     if (Platform.OS === 'ios') {
       setHourStart(moment(currentShift)._d);
     } else if (event.type === 'set') {
       setshowModalTimeStart(false);
-      setStart(moment(currentShift)._d);
+      if (!today) {
+        setStart(moment(currentShift)._d);
+      } else {
+        !past && setStart(moment(currentShift)._d);
+        past && _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian trong quá khứ',
+          leftButton: { text: langs.alert.ok },
+        });
+      }
     } else {
       setshowModalTimeStart(false);
     }
   };
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
+    const past = moment(start).format('HH:mm') > moment(currentShift).format('HH:mm');
     if (Platform.OS === 'ios') {
       setHourEnd(moment(currentShift)._d);
     } else if (event.type === 'set') {
       setshowModalTimeEnd(false);
-      setEnd(moment(currentShift)._d);
+      !past && setEnd(moment(currentShift)._d);
+      past && _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+        leftButton: { text: langs.alert.ok },
+      });
     } else {
       setshowModalTimeEnd(false);
     }
@@ -317,7 +342,6 @@ const Event = (props) => {
 
   return (
     <>
-    
       <HeaderCustom
         title="Đặt lịch phòng họp"
         goBack={onGoBack}
@@ -482,7 +506,7 @@ const Event = (props) => {
             <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
-               keyExtractor={(item, index) => String(index)}
+                keyExtractor={(item, index) => String(index)}
                 renderItem={renderItem}
               />
             </Card>
