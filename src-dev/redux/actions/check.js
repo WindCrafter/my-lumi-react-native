@@ -406,3 +406,8 @@ export const checkOutRequestSuccess = (data) => {
     payload: data,
   };
 };
+export const checkInactive = (data) => {
+  return {
+    type: types.CHECK_INACTIVE,
+  };
+};

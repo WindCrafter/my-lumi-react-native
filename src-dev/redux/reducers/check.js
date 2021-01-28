@@ -148,7 +148,7 @@ export default function check(state = initialState, action) {
         dataManagerCheck: {},
       };
 
-      /// Duyet Cham cong tu xa
+    /// Duyet Cham cong tu xa
     case types.LIST_MANAGER_CHECK:
       return {
         ...state,
@@ -171,6 +171,12 @@ export default function check(state = initialState, action) {
             : item;
         }),
       };
+    case types.CHECK_INACTIVE:
+      return {
+        ...state,
+        type: 'inactive',
+      };
+
     default:
       return state;
   }
