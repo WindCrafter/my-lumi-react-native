@@ -112,7 +112,6 @@ const AllBreak = (props) => {
     setRefresh(true);
     setOnScroll(false);
     getData(1, date, status, [], name);
-
   };
 
   const goBack = () => {
@@ -141,7 +140,7 @@ const AllBreak = (props) => {
   };
   const debouceSearch = _.debounce((value) => {
     onChangeName(value);
-  }, 500);
+  }, 1000);
   const onChangeName = (item) => {
     setLoading(true);
     console.log('date', date);

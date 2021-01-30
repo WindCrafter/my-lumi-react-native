@@ -76,7 +76,7 @@ const allLate = (props) => {
   };
   const debouceSearch = _.debounce((value) => {
     onChangeName(value);
-  }, 500);
+  }, 1000);
   const onChangeName = (item) => {
     setLoading(true);
     setData([]);

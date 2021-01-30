@@ -47,7 +47,7 @@ const ApproveAll = (props) => {
     date_ad_ot,
     date_ad_late,
   } = props;
-  const { page } = route.params;
+  const { page } = route.params ? route.params : { page: 0 };
   console.log('date redux', date_ad_break);
   const goBack = () => {
     navigation.goBack();
@@ -59,11 +59,9 @@ const ApproveAll = (props) => {
     );
   };
   return (
-
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
-
       <HeaderCustom
-        title={langs.navigator.approve}
+        title={langs.approveAll}
         height={64}
         goBack={goBack}
         fontSize={24}
@@ -72,7 +70,7 @@ const ApproveAll = (props) => {
         tabBarActiveTextColor={Colors.background}
         tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
         renderTabBar={renderTabBar}
-        initialPage={page}
+        initialPage={page || 0}
       >
         <ApproveBreak
           tabLabel={langs.break}

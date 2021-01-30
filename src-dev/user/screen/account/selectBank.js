@@ -45,7 +45,7 @@ const SelectBank = (props) => {
   };
   const debouceSearch = _.debounce((value) => {
     onSearchBank(value);
-  }, 500);
+  }, 1000);
   const onSearchBank = (value) => {
     setSearch(value);
   };

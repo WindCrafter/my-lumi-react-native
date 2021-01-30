@@ -157,7 +157,7 @@ function Contact(props) {
   };
   const debouceSearch = _.debounce((value) => {
     onChangeSearch(value);
-  }, 500);
+  }, 1000);
   const onGoBack = () => {
     navigation.goBack();
   };
@@ -198,7 +198,7 @@ function Contact(props) {
         ListFooterComponent={renderFooterComponent}
         data={data}
         renderItem={renderItem}
-       keyExtractor={(item, index) => String(index)}
+        keyExtractor={(item, index) => String(index)}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }

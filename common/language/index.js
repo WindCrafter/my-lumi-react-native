@@ -108,13 +108,14 @@ const langs = {
   comunicate: 'Thông tin liên hệ',
   timeOT: 'Thời gian ước tính',
   role: 'Vị trí',
+  approveAll: 'Duyệt đơn',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
   errorLocationCheckin:
     'Bạn không có quyền check in bằng cách này khi không ở công ty.',
   errorLocationCheckout:
     'Bạn không có quyền check out bằng cách này khi không ở công ty.',
   navigator: {
-    overView:'Tổng quan',
+    overView: 'Tổng quan',
     kpi: 'KPI',
     login: 'Login',
     register: 'Register',
@@ -208,7 +209,8 @@ const langs = {
     checkoutSuccess: 'CHECK-OUT',
     wishIn: 'Hãy có ngày làm việc tuyệt vời ông Mặt Trời nhé.',
     wishOut: 'Hãy dành nhiều thời gian hơn cho bản thân và gia đình nhé!',
-    cantCheck: 'Bạn chưa chấm công thành công. Tiếp tục thử lại hoặc gửi yêu cầu chấm công từ xa',
+    cantCheck:
+      'Bạn chưa chấm công thành công. Tiếp tục thử lại hoặc gửi yêu cầu chấm công từ xa',
     applydone: 'Đơn của bạn đã được gửi đi',
     applyOTdone: 'Đơn tăng ca đã được gửi đi',
     waitConfirm: 'Vui lòng đợi trong khi duyệt.',

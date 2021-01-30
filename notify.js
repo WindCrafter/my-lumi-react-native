@@ -1,10 +1,11 @@
-import React, {PureComponent, useEffect} from 'react';
-import {Linking} from 'react-native';
-import {connect} from 'react-redux';
+import React, { PureComponent, useEffect } from 'react';
+import { Linking } from 'react-native';
+import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
-import {addUserIdDevice} from './src-pro/redux/actions/user.js';
-import {getOneSignalID} from './src-pro/redux/actions/authen.js';
-import {getOneSignalID as getOneSignalIDserverDev} from './src-dev/redux/actions/authen.js';
+import { addUserIdDevice } from './src-pro/redux/actions/user.js';
+import { getOneSignalID } from './src-pro/redux/actions/authen.js';
+import { getOneSignalID as getOneSignalIDserverDev } from './src-dev/redux/actions/authen.js';
+
 const Schema = 'lumihr://';
 
 function Notify(props) {
@@ -40,10 +41,11 @@ function Notify(props) {
     // console.log('openResult: ', openResult);
     let Url = `${Schema}UserStack`;
     setTimeout(() => {
-      console.log('openURL succcess--->');
-      if (openResult.notification.payload&&
-        openResult.notification.payload.additionalData &&
-        openResult.notification.payload.additionalData.type
+      console.log('openURL succcess--->', openResult);
+      if (
+        openResult.notification.payload
+        && openResult.notification.payload.additionalData
+        && openResult.notification.payload.additionalData.type
       ) {
         if (openResult.notification.payload.additionalData.type == 1) {
           if (openResult.notification.payload.additionalData.approved == 1) {
@@ -76,6 +78,25 @@ function Notify(props) {
         }
         if (openResult.notification.payload.additionalData.type == 10) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
+        }
+
+        if (openResult.notification.payload.additionalData.type == 4) {
+          if (openResult.notification.payload.additionalData.approved == 2) {
+            Url = `${Schema}UserStack/ApproveAll`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 1
+          ) {
+            Url = `${Schema}UserStack/Notify`;
+          }
+        }
+        if (openResult.notification.payload.additionalData.type == 5) {
+          if (openResult.notification.payload.additionalData.approved == 2) {
+            Url = `${Schema}UserStack/ApproveAll`;
+          } else if (
+            openResult.notification.payload.additionalData.approved == 1
+          ) {
+            Url = `${Schema}UserStack/Notify`;
+          }
         }
       }
 

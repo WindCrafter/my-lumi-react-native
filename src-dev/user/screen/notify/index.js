@@ -86,23 +86,49 @@ const Notify = (props) => {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.listOT, { page: 2 });
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.listOT,
+              { page: 2 },
+            );
             break;
           case 2:
           case '2':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyBreak, { page: 0 });
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.historyBreak,
+              { page: 0 },
+            );
             break;
           case 3:
           case '3':
-            navigation.navigate(leader ? langs.navigator.approve : langs.navigator.historyLate, { page: 1 });
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.historyLate,
+              { page: 1 },
+            );
             break;
-          default: console.log('Wrong type', item.customData.type);
+          case 4:
+          case '4':
+            navigation.navigate(langs.navigator.approve, { page: 0 });
+            break;
+          case 5:
+          case '5':
+            navigation.navigate(langs.navigator.approve, { page: 0 });
+            break;
+          case 6:
+          case '6':
+          case 7:
+          case '7':
+            navigation.goBack();
+            break;
+          default:
+            console.log('Wrong type', item.customData.type);
         }
       }
       _POST(url, { id: item.id }, token, false);
-      setData(data.map((e) => {
-        return (e.id === item.id ? { ...e, status: 1 } : e);
-      }));
+      setData(
+        data.map((e) => {
+          return e.id === item.id ? { ...e, status: 1 } : e;
+        }),
+      );
     };
     const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
 
@@ -138,7 +164,7 @@ const Notify = (props) => {
 
   const debouceSearch = _.debounce((value) => {
     onSearch(value);
-  }, 500);
+  }, 1000);
   const onSearch = (value) => {
     setLoading(true);
     setPage(1);
