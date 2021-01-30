@@ -46,8 +46,11 @@ const ApproveAll = (props) => {
     date_ad_break,
     date_ad_ot,
     date_ad_late,
+    page_link,
   } = props;
-  const { page } = route.params ? route.params : { page: 0 };
+  const page = page_link || route.params.page || 0;
+  console.log(page, route.params, page_link);
+  // const { page } = route.params ? route.params : { page: 0 };
   console.log('date redux', date_ad_break);
   const goBack = () => {
     navigation.goBack();

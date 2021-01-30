@@ -160,7 +160,7 @@ const langs = {
     button: 'Button',
     changePass: 'Đổi mật khẩu',
     selectBank: 'Chọn ngân hàng',
-    approve: 'Duyệt đơn',
+    approve: 'ApproveAll',
   },
   alert: {
     accept: 'Đồng ý',

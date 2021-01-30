@@ -86,7 +86,7 @@ function Notify(props) {
           } else if (
             openResult.notification.payload.additionalData.approved == 1
           ) {
-            Url = `${Schema}UserStack/Notify`;
+            Url = `${Schema}UserStack/Notify?page_link=3`;
           }
         }
         if (openResult.notification.payload.additionalData.type == 5) {
@@ -95,7 +95,7 @@ function Notify(props) {
           } else if (
             openResult.notification.payload.additionalData.approved == 1
           ) {
-            Url = `${Schema}UserStack/Notify`;
+            Url = `${Schema}UserStack/Notify?page_link=3`;
           }
         }
       }
