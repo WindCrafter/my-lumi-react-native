@@ -248,6 +248,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
+    marginLeft: 12,
   },
   title: {
     fontWeight: '500',

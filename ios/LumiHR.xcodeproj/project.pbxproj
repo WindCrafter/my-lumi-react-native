@@ -12,24 +12,24 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13E9E89593FC4DCB91A9DAB8 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 165F60C1EC9F4B0FADFA6447 /* Quicksand-SemiBold.ttf */; };
+		169CE75BC855BA93995BC7B2 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53B7DB234C1487691C738710 /* libPods-OneSignalNotificationServiceExtension.a */; };
+		16FE1B2468453D2EC6BD0CE6 /* libPods-LumiHR-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE95D1257200084BF3F8099B /* libPods-LumiHR-tvOS.a */; };
 		1E40AAFAED9D4A04B086C163 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 237A8649C7714B519DA468C2 /* Quicksand-Medium.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* LumiHRTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* LumiHRTests.m */; };
+		2F2EA3CEB317D99B269CE99B /* libPods-LumiHR-LumiHRTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C53E6F97788EE6CA3EF1DC8E /* libPods-LumiHR-LumiHRTests.a */; };
 		467EA4E0D35446A999B060BA /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DFFBF7E4BF34C01B489656B /* Quicksand-Light.ttf */; };
-		54EF9D9E2262E97C3863276E /* libPods-LumiHR-LumiHRTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F90E9282D4C51251AB090CD /* libPods-LumiHR-LumiHRTests.a */; };
-		5DBB0505FBD50C47F082CBD7 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0827D9DB5EB959E749476820 /* libPods-OneSignalNotificationServiceExtension.a */; };
-		5E920DFDE9EE99AB2C6AC79C /* libPods-LumiHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1925CCD6965118CCFE6E6278 /* libPods-LumiHR.a */; };
 		637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637181BE252BEB7A0030B72C /* ExternalAccessory.framework */; };
 		637357332576A82800B522C8 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 637357322576A82800B522C8 /* splash.png */; };
 		63D0C34E25B806C000CD528C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D0C34D25B806C000CD528C /* NotificationService.swift */; };
 		63D0C35225B806C000CD528C /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 63D0C34B25B806C000CD528C /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7218DDA5920748A48E3994BF /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F30C0E1EBEA47FC899A62CB /* Quicksand-Bold.ttf */; };
-		7EAA1CAC441AEE16648450D0 /* libPods-LumiHR-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF72D201845256B770C5A68C /* libPods-LumiHR-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A9085BDBF890487493742DBC /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7D953AB03E44EFB817AEC8B /* Quicksand-Regular.ttf */; };
-		E6A15E774248741232EFEE85 /* libPods-LumiHR-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFBDA8F837010360BD44BF96 /* libPods-LumiHR-tvOS.a */; };
+		CBEC1C8263992C11BA608BAA /* libPods-LumiHR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B90C6E15644E0EFA6CDDF336 /* libPods-LumiHR.a */; };
+		E2D61A55455F1A3E607DE059 /* libPods-LumiHR-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86F69EFD03CC1C0C0C665AA4 /* libPods-LumiHR-tvOSTests.a */; };
 		FA95319A24EB8A90007F7670 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA95319924EB8A8F007F7670 /* AppCenter-Config.plist */; };
 /* End PBXBuildFile section */
 
@@ -76,9 +76,7 @@
 		00E356EE1AD99517003FC87E /* LumiHRTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumiHRTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* LumiHRTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LumiHRTests.m; sourceTree = "<group>"; };
-		041EA59D4ECF82B39DDCCEDD /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
-		0827D9DB5EB959E749476820 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E956697F37CC588C5C2D266 /* Pods-LumiHR-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		0873EB2D3B011D324C4D09A2 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* My Lumi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Lumi.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = LumiHR/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = LumiHR/AppDelegate.m; sourceTree = "<group>"; };
@@ -86,15 +84,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LumiHR/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LumiHR/main.m; sourceTree = "<group>"; };
 		165F60C1EC9F4B0FADFA6447 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-SemiBold.ttf"; path = "../common/assets/fonts/Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
-		1925CCD6965118CCFE6E6278 /* libPods-LumiHR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D5E322CAB33495A3D6FDD3B /* Pods-LumiHR-LumiHRTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.release.xcconfig"; sourceTree = "<group>"; };
 		237A8649C7714B519DA468C2 /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Medium.ttf"; path = "../common/assets/fonts/Quicksand-Medium.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* LumiHR-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LumiHR-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* LumiHR-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LumiHR-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F6D71552D417DFE1DB71D7B /* Pods-LumiHR-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		32293D5BD003D154019290DD /* Pods-LumiHR-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		3B34EF873D3FC712C3E7B854 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		4B3C55211042E61F8DFDAAC2 /* Pods-LumiHR-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		33CCD5E6A1E853BA4F4857AC /* Pods-LumiHR-LumiHRTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.release.xcconfig"; sourceTree = "<group>"; };
+		379EA0C17BF8E8DE4649349E /* Pods-LumiHR-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		53B7DB234C1487691C738710 /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6339C5CC25B2948E003DA569 /* Quicksand-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Quicksand-Italic.ttf"; path = "../../Downloads/Quicksand-Italic.ttf"; sourceTree = "<group>"; };
 		6361221D25B5675400E6622A /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		637181BD252BEB7A0030B72C /* LumiHR.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LumiHR.entitlements; path = LumiHR/LumiHR.entitlements; sourceTree = "<group>"; };
@@ -106,19 +101,24 @@
 		63D0C34B25B806C000CD528C /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D0C34D25B806C000CD528C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		63D0C34F25B806C000CD528C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6F90E9282D4C51251AB090CD /* libPods-LumiHR-LumiHRTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-LumiHRTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DFFBF7E4BF34C01B489656B /* Quicksand-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Light.ttf"; path = "../common/assets/fonts/Quicksand-Light.ttf"; sourceTree = "<group>"; };
 		7F30C0E1EBEA47FC899A62CB /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Bold.ttf"; path = "../common/assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LumiHR/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		83F67CDA6AF9C954A85467AD /* Pods-LumiHR-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		86F69EFD03CC1C0C0C665AA4 /* libPods-LumiHR-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96B21142C2F54C9CBAF2DDE2 /* libRCTSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTSplashScreen.a; sourceTree = "<group>"; };
-		AF72D201845256B770C5A68C /* libPods-LumiHR-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFBDA8F837010360BD44BF96 /* libPods-LumiHR-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0C2A1D14878AB0822E26FEE /* Pods-LumiHR-LumiHRTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9F5BC7C267511287E7184F78 /* Pods-LumiHR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.release.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.release.xcconfig"; sourceTree = "<group>"; };
 		B7D953AB03E44EFB817AEC8B /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Quicksand-Regular.ttf"; path = "../common/assets/fonts/Quicksand-Regular.ttf"; sourceTree = "<group>"; };
-		E9E7D8C854494A9DCECD3B94 /* Pods-LumiHR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.release.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.release.xcconfig"; sourceTree = "<group>"; };
+		B90C6E15644E0EFA6CDDF336 /* libPods-LumiHR.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF8BBF5938FBD1044EFE4A75 /* Pods-LumiHR-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOS.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOS/Pods-LumiHR-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		C30DF953F7CC62C4ADC14B5F /* Pods-LumiHR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.debug.xcconfig"; sourceTree = "<group>"; };
+		C53E6F97788EE6CA3EF1DC8E /* libPods-LumiHR-LumiHRTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-LumiHRTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE95D1257200084BF3F8099B /* libPods-LumiHR-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LumiHR-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D327178B546C4275F64A2C88 /* Pods-LumiHR-LumiHRTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-LumiHRTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D8D6B28A0D73F3A031CDE190 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
+		DB7BCD0EEE4121CDA17F8790 /* Pods-LumiHR-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-LumiHR-tvOSTests/Pods-LumiHR-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F234E22497C92E58A39BAD39 /* Pods-LumiHR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiHR.debug.xcconfig"; path = "Target Support Files/Pods-LumiHR/Pods-LumiHR.debug.xcconfig"; sourceTree = "<group>"; };
 		FA02492424E29D83003B6244 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FA02492524E2A1AE003B6244 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FA02492624E2A218003B6244 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54EF9D9E2262E97C3863276E /* libPods-LumiHR-LumiHRTests.a in Frameworks */,
+				2F2EA3CEB317D99B269CE99B /* libPods-LumiHR-LumiHRTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				637181BF252BEB7A0030B72C /* ExternalAccessory.framework in Frameworks */,
-				5E920DFDE9EE99AB2C6AC79C /* libPods-LumiHR.a in Frameworks */,
+				CBEC1C8263992C11BA608BAA /* libPods-LumiHR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6A15E774248741232EFEE85 /* libPods-LumiHR-tvOS.a in Frameworks */,
+				16FE1B2468453D2EC6BD0CE6 /* libPods-LumiHR-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EAA1CAC441AEE16648450D0 /* libPods-LumiHR-tvOSTests.a in Frameworks */,
+				E2D61A55455F1A3E607DE059 /* libPods-LumiHR-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DBB0505FBD50C47F082CBD7 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
+				169CE75BC855BA93995BC7B2 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,11 +210,11 @@
 				637181BE252BEB7A0030B72C /* ExternalAccessory.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				1925CCD6965118CCFE6E6278 /* libPods-LumiHR.a */,
-				6F90E9282D4C51251AB090CD /* libPods-LumiHR-LumiHRTests.a */,
-				AFBDA8F837010360BD44BF96 /* libPods-LumiHR-tvOS.a */,
-				AF72D201845256B770C5A68C /* libPods-LumiHR-tvOSTests.a */,
-				0827D9DB5EB959E749476820 /* libPods-OneSignalNotificationServiceExtension.a */,
+				B90C6E15644E0EFA6CDDF336 /* libPods-LumiHR.a */,
+				C53E6F97788EE6CA3EF1DC8E /* libPods-LumiHR-LumiHRTests.a */,
+				CE95D1257200084BF3F8099B /* libPods-LumiHR-tvOS.a */,
+				86F69EFD03CC1C0C0C665AA4 /* libPods-LumiHR-tvOSTests.a */,
+				53B7DB234C1487691C738710 /* libPods-OneSignalNotificationServiceExtension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -309,16 +309,16 @@
 		BAE435E9A3F5CFD9D57412A9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F234E22497C92E58A39BAD39 /* Pods-LumiHR.debug.xcconfig */,
-				E9E7D8C854494A9DCECD3B94 /* Pods-LumiHR.release.xcconfig */,
-				B0C2A1D14878AB0822E26FEE /* Pods-LumiHR-LumiHRTests.debug.xcconfig */,
-				1D5E322CAB33495A3D6FDD3B /* Pods-LumiHR-LumiHRTests.release.xcconfig */,
-				0E956697F37CC588C5C2D266 /* Pods-LumiHR-tvOS.debug.xcconfig */,
-				32293D5BD003D154019290DD /* Pods-LumiHR-tvOS.release.xcconfig */,
-				2F6D71552D417DFE1DB71D7B /* Pods-LumiHR-tvOSTests.debug.xcconfig */,
-				4B3C55211042E61F8DFDAAC2 /* Pods-LumiHR-tvOSTests.release.xcconfig */,
-				3B34EF873D3FC712C3E7B854 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
-				041EA59D4ECF82B39DDCCEDD /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
+				C30DF953F7CC62C4ADC14B5F /* Pods-LumiHR.debug.xcconfig */,
+				9F5BC7C267511287E7184F78 /* Pods-LumiHR.release.xcconfig */,
+				D327178B546C4275F64A2C88 /* Pods-LumiHR-LumiHRTests.debug.xcconfig */,
+				33CCD5E6A1E853BA4F4857AC /* Pods-LumiHR-LumiHRTests.release.xcconfig */,
+				379EA0C17BF8E8DE4649349E /* Pods-LumiHR-tvOS.debug.xcconfig */,
+				BF8BBF5938FBD1044EFE4A75 /* Pods-LumiHR-tvOS.release.xcconfig */,
+				83F67CDA6AF9C954A85467AD /* Pods-LumiHR-tvOSTests.debug.xcconfig */,
+				DB7BCD0EEE4121CDA17F8790 /* Pods-LumiHR-tvOSTests.release.xcconfig */,
+				0873EB2D3B011D324C4D09A2 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				D8D6B28A0D73F3A031CDE190 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -341,11 +341,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "LumiHRTests" */;
 			buildPhases = (
-				9D2AC5EF1B07B69EF87D9D28 /* [CP] Check Pods Manifest.lock */,
+				80D2505EAF6E0FB024BEF8BD /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				9E0DBCA237A7BB3553818988 /* [CP] Copy Pods Resources */,
+				AB326319B7DF82F06F22B54F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -361,7 +361,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LumiHR" */;
 			buildPhases = (
-				7CE58595D4A264EAC1974AAA /* [CP] Check Pods Manifest.lock */,
+				4BF683F15BCC8C5BD3167021 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -369,7 +369,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				63B37636253EAA8A00CC4080 /* Embed App Extensions */,
 				FB1447A55CE1419B87E1DD8C /* Upload Debug Symbols to Sentry */,
-				C4B3B7481FA355D806905E30 /* [CP] Copy Pods Resources */,
+				C11A635C6F1C6CD113E35A9E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -385,7 +385,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "LumiHR-tvOS" */;
 			buildPhases = (
-				3A9718AD03613C64E93E6245 /* [CP] Check Pods Manifest.lock */,
+				9CF113F3E84212889BC9BE9E /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -405,7 +405,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "LumiHR-tvOSTests" */;
 			buildPhases = (
-				4C6CEDBD541454D646A69AEA /* [CP] Check Pods Manifest.lock */,
+				E636CF8FBFE256EE7A7368BD /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -424,7 +424,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63D0C35525B806C000CD528C /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
 			buildPhases = (
-				57B27BA9DDDCF6133F314D27 /* [CP] Check Pods Manifest.lock */,
+				FED3A2F98AB050A37DD239B8 /* [CP] Check Pods Manifest.lock */,
 				63D0C34725B806C000CD528C /* Sources */,
 				63D0C34825B806C000CD528C /* Frameworks */,
 				63D0C34925B806C000CD528C /* Resources */,
@@ -571,73 +571,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		3A9718AD03613C64E93E6245 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LumiHR-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C6CEDBD541454D646A69AEA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LumiHR-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		57B27BA9DDDCF6133F314D27 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7CE58595D4A264EAC1974AAA /* [CP] Check Pods Manifest.lock */ = {
+		4BF683F15BCC8C5BD3167021 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -659,7 +593,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9D2AC5EF1B07B69EF87D9D28 /* [CP] Check Pods Manifest.lock */ = {
+		80D2505EAF6E0FB024BEF8BD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -681,7 +615,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9E0DBCA237A7BB3553818988 /* [CP] Copy Pods Resources */ = {
+		9CF113F3E84212889BC9BE9E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LumiHR-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB326319B7DF82F06F22B54F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -737,7 +693,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LumiHR-LumiHRTests/Pods-LumiHR-LumiHRTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C4B3B7481FA355D806905E30 /* [CP] Copy Pods Resources */ = {
+		C11A635C6F1C6CD113E35A9E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -793,6 +749,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LumiHR/Pods-LumiHR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E636CF8FBFE256EE7A7368BD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LumiHR-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FB1447A55CE1419B87E1DD8C /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -843,6 +821,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FED3A2F98AB050A37DD239B8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -913,7 +913,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B0C2A1D14878AB0822E26FEE /* Pods-LumiHR-LumiHRTests.debug.xcconfig */;
+			baseConfigurationReference = D327178B546C4275F64A2C88 /* Pods-LumiHR-LumiHRTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = W829PZX392;
@@ -945,7 +945,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D5E322CAB33495A3D6FDD3B /* Pods-LumiHR-LumiHRTests.release.xcconfig */;
+			baseConfigurationReference = 33CCD5E6A1E853BA4F4857AC /* Pods-LumiHR-LumiHRTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -974,7 +974,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F234E22497C92E58A39BAD39 /* Pods-LumiHR.debug.xcconfig */;
+			baseConfigurationReference = C30DF953F7CC62C4ADC14B5F /* Pods-LumiHR.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1006,7 +1006,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9E7D8C854494A9DCECD3B94 /* Pods-LumiHR.release.xcconfig */;
+			baseConfigurationReference = 9F5BC7C267511287E7184F78 /* Pods-LumiHR.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1037,7 +1037,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E956697F37CC588C5C2D266 /* Pods-LumiHR-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 379EA0C17BF8E8DE4649349E /* Pods-LumiHR-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1073,7 +1073,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32293D5BD003D154019290DD /* Pods-LumiHR-tvOS.release.xcconfig */;
+			baseConfigurationReference = BF8BBF5938FBD1044EFE4A75 /* Pods-LumiHR-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1109,7 +1109,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F6D71552D417DFE1DB71D7B /* Pods-LumiHR-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 83F67CDA6AF9C954A85467AD /* Pods-LumiHR-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1144,7 +1144,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B3C55211042E61F8DFDAAC2 /* Pods-LumiHR-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = DB7BCD0EEE4121CDA17F8790 /* Pods-LumiHR-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1179,7 +1179,7 @@
 		};
 		63D0C35325B806C000CD528C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B34EF873D3FC712C3E7B854 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			baseConfigurationReference = 0873EB2D3B011D324C4D09A2 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1209,7 +1209,7 @@
 		};
 		63D0C35425B806C000CD528C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 041EA59D4ECF82B39DDCCEDD /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			baseConfigurationReference = D8D6B28A0D73F3A031CDE190 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;

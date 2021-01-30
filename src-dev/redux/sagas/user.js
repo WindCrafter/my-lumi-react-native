@@ -27,7 +27,7 @@ import {
   getHolidaySuccess,
   getWorkdayToday,
 } from '../actions/user';
-import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest } from '../actions/check';
+import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
@@ -465,7 +465,7 @@ function* sagaGetWorkdayToday(action) {
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 2) {
       yield put(changeToOut());
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 2) {
-      yield put(changeToIn());
+      yield put(checkInactive());
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 3) {
       yield put(changeToIn());
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 3) {
@@ -473,7 +473,7 @@ function* sagaGetWorkdayToday(action) {
     } else if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.type === 0) {
       yield put(changeToOut());
     } else if (response.success && response.statusCode === 200 && data && data.check_out && data.type === 0) {
-      yield put(changeToIn());
+      yield put(checkInactive());
     } else if (!response.success && response.statusCode === 200 && data.length === 0) {
       yield put(changeToIn());
     }

@@ -604,6 +604,7 @@ const styles = StyleSheet.create({
       height: 6,
     },
     height: 54,
+    fontFamily: 'Quicksand-Regular',
   },
   viewInputSelect: {
     marginVertical: 16,
