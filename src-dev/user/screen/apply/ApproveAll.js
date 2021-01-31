@@ -48,9 +48,13 @@ const ApproveAll = (props) => {
     date_ad_late,
     page_link,
   } = props;
-  const page = page_link || route.params.page || 0;
-  console.log(page, route.params, page_link);
-  // const { page } = route.params ? route.params : { page: 0 };
+
+  const page = route.params && parseInt(route.params.page);
+  console.log(
+    'route.params.page_link',
+    route.params,
+  );
+  console.log('route.params', route.params.page);
   console.log('date redux', date_ad_break);
   const goBack = () => {
     navigation.goBack();
@@ -61,8 +65,10 @@ const ApproveAll = (props) => {
       <DefaultTabBar tabStyle={styles.tab} style={{ borderColor: 'white' }} />
     );
   };
+  console.log('finale', page);
+
   return (
-    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
+    <View style={{...StyleSheet.absoluteFill, backgroundColor: 'white'}}>
       <HeaderCustom
         title={langs.approveAll}
         height={64}
@@ -71,10 +77,9 @@ const ApproveAll = (props) => {
       />
       <ScrollableTabView
         tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
+        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
         renderTabBar={renderTabBar}
-        initialPage={page || 0}
-      >
+        initialPage={page || 0}>
         <ApproveBreak
           tabLabel={langs.break}
           token={token}

@@ -82,6 +82,8 @@ const Notify = (props) => {
     const leader = item.customData.approved === 1 || item.customData.approved === '1';
     // console.log(leader);
     const onShow = () => {
+      console.log('item', item);
+
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
           case 1:
@@ -107,14 +109,16 @@ const Notify = (props) => {
             break;
           case 4:
           case '4':
-            navigation.navigate(langs.navigator.approve, { page: 0 });
+            navigation.navigate(langs.navigator.approve, { page: 3 });
             break;
           case 5:
           case '5':
-            navigation.navigate(langs.navigator.approve, { page: 0 });
+            navigation.navigate(langs.navigator.approve, { page: 3 });
             break;
           case 6:
           case '6':
+            navigation.navigate(langs.navigator.history);
+            break;
           case 7:
           case '7':
             navigation.goBack();
@@ -248,7 +252,6 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'left',
     color: 'rgba(4, 4, 15, 0.45)',
-    marginLeft: 12,
   },
   title: {
     fontWeight: '500',

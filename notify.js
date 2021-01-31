@@ -42,14 +42,13 @@ function Notify(props) {
     let Url = `${Schema}UserStack`;
     setTimeout(() => {
       console.log('openURL succcess--->', openResult);
-      if (
-        openResult.notification.payload
+      if (openResult.notification.payload
         && openResult.notification.payload.additionalData
         && openResult.notification.payload.additionalData.type
       ) {
         if (openResult.notification.payload.additionalData.type == 1) {
           if (openResult.notification.payload.additionalData.approved == 1) {
-            Url = `${Schema}UserStack/ApproveOT`;
+            Url = `${Schema}UserStack/ApproveAll?page=2`;
           } else if (
             openResult.notification.payload.additionalData.approved == 2
           ) {
@@ -59,7 +58,7 @@ function Notify(props) {
 
         if (openResult.notification.payload.additionalData.type == 2) {
           if (openResult.notification.payload.additionalData.approved == 1) {
-            Url = `${Schema}UserStack/ApproveBreak`;
+            Url = `${Schema}UserStack/ApproveAll?page=0`;
           } else if (
             openResult.notification.payload.additionalData.approved == 2
           ) {
@@ -69,7 +68,7 @@ function Notify(props) {
 
         if (openResult.notification.payload.additionalData.type == 3) {
           if (openResult.notification.payload.additionalData.approved == 1) {
-            Url = `${Schema}UserStack/ApproveLate`;
+            Url = `${Schema}UserStack/ApproveAll?page=1`;
           } else if (
             openResult.notification.payload.additionalData.approved == 2
           ) {
@@ -82,20 +81,20 @@ function Notify(props) {
 
         if (openResult.notification.payload.additionalData.type == 4) {
           if (openResult.notification.payload.additionalData.approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll`;
+            Url = `${Schema}UserStack/ApproveAll?page=3`;
           } else if (
             openResult.notification.payload.additionalData.approved == 1
           ) {
-            Url = `${Schema}UserStack/Notify?page_link=3`;
+            Url = `${Schema}UserStack/Notify`;
           }
         }
         if (openResult.notification.payload.additionalData.type == 5) {
           if (openResult.notification.payload.additionalData.approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll`;
+            Url = `${Schema}UserStack/ApproveAll?page=3`;
           } else if (
             openResult.notification.payload.additionalData.approved == 1
           ) {
-            Url = `${Schema}UserStack/Notify?page_link=3`;
+            Url = `${Schema}UserStack/Notify`;
           }
         }
       }
