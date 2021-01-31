@@ -86,7 +86,7 @@ function UpdateBreak(props) {
   } = props;
   const { _id, _date, morning, type, content } = route.params;
   console.log('route', route.params);
-  const [shift, setShift] = useState(new Date());
+  const [shift, setShift] = useState(moment(_date, 'DD/MM/YYYY').format('YYYY-MM-DD'));
   const [mode, setMode] = useState('');
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
