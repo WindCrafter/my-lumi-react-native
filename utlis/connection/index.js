@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {_POST, _GET} from './api';
-import {URL, URL_STAGING} from './url';
+import React, { Component } from 'react';
+import { _POST, _GET } from './api';
+import { URL, URL_STAGING } from './url';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -37,27 +37,35 @@ export class Connection extends Component {
   check(data, token) {
     return _POST(URL_CHECK_IN, data, token);
   }
+
   checkInWifi(data, token) {
     return _POST(URL_CHECK_IN_WIFI, data, token);
   }
+
   updateProfile(data, token) {
     return _POST(URL_UPDATE_PROFILE, data, token);
   }
+
   getQR(date, token) {
     return _GET(`${URL_GET_QR}${date}`, token);
   }
+
   setLateEarly(data, token) {
     return _POST(URL_LATE_EARLY, data, token);
   }
+
   takeLeave(data, token) {
     return _POST(URL_TAKE_LEAVE, data, token);
   }
+
   overTime(data, token) {
     return _POST(URL_OVERTIME, data, token);
   }
+
   listTeams(token) {
     return _POST(URL_TEAMS, token);
   }
+
   listAssign(token) {
     return _POST(URL_ASSIGN, token);
   }

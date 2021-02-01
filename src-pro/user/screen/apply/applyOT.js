@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -30,7 +29,7 @@ import {
   BarStatus,
   HeaderCustom,
   Button,
-  SelectButton,
+  Dropdown,
 } from '../../../component';
 import { imgs, Colors } from '../../../../utlis';
 import ApplyIcon from './component/ApplyIcon';
@@ -312,46 +311,6 @@ function ApplyOT(props) {
     Keyboard.dismiss();
   };
 
-  const renderDropdown = (hideOverlay) => {
-    return (
-      <FlatList
-        data={status}
-        keyExtractor={(item, index) => String(index)}
-        renderItem={({ item, index }) => renderItem(item, hideOverlay)}
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          width: 100,
-          borderRadius: 8,
-        }}
-        style={{ height: 200 }}
-      />
-    );
-  };
-
-  const renderItem = (item, hideOverlay) => {
-    return (
-      <View>
-        {item.value === '0' ? null : <View style={styles.line} />}
-        <TouchableOpacity
-          style={{
-            paddingVertical: 10,
-            alignSelf: 'center',
-            paddingHorizontal: 8,
-          }}
-          onPress={() => onPressItem(item, hideOverlay)}
-        >
-          <Text
-            style={[
-              styles.text,
-              { color: time == item.value ? Colors.background : 'black' },
-            ]}
-          >
-            {item.label}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   const status = [
     { label: '0.5 giờ', value: 0.5 },
@@ -372,26 +331,19 @@ function ApplyOT(props) {
     { label: '8 giờ', value: 8 },
   ];
 
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     setTime(item.value);
   };
-
   return (
     <View style={styles.container}>
-      {/* <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      /> */}
-      <BarStatus />
-      <SafeAreaView />
       <HeaderCustom
         title="Tạo đơn xin OT"
-        height={60}
+        height={64}
         goBack={goBack}
-        fontSize={24}
+        shadow
       />
       <ScrollView
+        style={{ backgroundColor: '#f2f2f2' }}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
@@ -400,7 +352,7 @@ function ApplyOT(props) {
             <View style={styles.img}>
               <Image source={imgs.reason} style={styles.imageStamp} />
             </View>
-            <Text style={styles.txtStatus}>Nội dung</Text>
+            <Text style={styles.txtStatus}>Nội dung :</Text>
           </View>
           <InputApply
             borderRadius={12}
@@ -417,6 +369,7 @@ function ApplyOT(props) {
             onBlur={unFocus}
             blurOnSubmit
             rightIcon
+            placeholder="Tóm tắt lí do :"
           />
 
           {!reason && show ? (
@@ -471,16 +424,23 @@ function ApplyOT(props) {
                 />
                 <Text style={styles.txtStatus}>{langs.timeOT}</Text>
               </View>
-              <SelectButton
-                dropdownHeight={200}
-                dropdownWidth={100}
-                renderDropdown={renderDropdown}
+              <Dropdown
+                position="auto"
+                options={status.map((i) => ({
+                  titleStyle: {
+                    textAlign: 'center',
+                    color: i.value === time ? Colors.background : 'black',
+                  },
+                  title: i.label,
+                  onPress: () => onPressItem(i),
+                }))}
               >
-                <View style={[styles.filter]}>
+                <View style={[styles.filter, { zIndex: 1 }]}>
                   <Text>{`${time} giờ`}</Text>
                   <Text>▼</Text>
                 </View>
-              </SelectButton>
+              </Dropdown>
+
             </View>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
@@ -538,8 +498,8 @@ export default ApplyOT;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    height: '100%',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   image: {
     width: 56,
@@ -594,12 +554,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginVertical: 8,
+    flex: 1
   },
   txtTime: {
     fontSize: 16,
     color: Colors.black,
     alignSelf: 'center',
-
   },
   card: {
     borderRadius: 16,

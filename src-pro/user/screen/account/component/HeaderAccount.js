@@ -3,24 +3,19 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import moment from 'moment';
 import Icon from 'react-native-vector-icons/Feather';
-import { imgs, Colors } from '../../../../../utlis';
-import langs from '../../../../../common/language';
-
-const currrentDate = moment().format('DD/MM/YYYY');
-const day = moment().format('dddd');
+import LinearGradient from 'react-native-linear-gradient';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../../../../../utlis';
 
 const HeaderAccount = (props) => {
-  const { title, sub, goBack } = props;
+  const { title, sub, goBack, shadow } = props;
   return (
     <View style={styles.container}>
-      <SafeAreaView />
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         {goBack ? (
           <TouchableOpacity onPress={goBack} style={styles.button}>
             {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
@@ -28,17 +23,21 @@ const HeaderAccount = (props) => {
               name="chevron-left"
               size={32}
               color={Colors.black}
-              style={{top: 0}}
+              style={{ top: 0 }}
             />
           </TouchableOpacity>
         ) : null}
-        <View style={[styles.info, {marginLeft:goBack? 48:24}]}>
+        <View style={[styles.info, { marginLeft: goBack ? 48 : 24 }]}>
           <Text style={styles.txtTitle}>{title}</Text>
           <Text style={styles.txtDetail}>{sub}</Text>
         </View>
       </View>
-      <View style={styles.line} />
-      <View style={styles.bot} />
+      {shadow ? (
+        <LinearGradient
+          style={[styles.gradient,]}
+          colors={['#D5D5D5', '#F2F2F2']}
+        />
+      ) : null}
     </View>
   );
 };
@@ -47,7 +46,7 @@ export default HeaderAccount;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    backgroundColor: 'white',
   },
   info: {
     flexDirection: 'column',
@@ -68,17 +67,18 @@ const styles = StyleSheet.create({
   line: {
     height: StyleSheet.hairlineWidth,
     width: '100%',
-    backgroundColor: 'black',
+    backgroundColor: Colors.gray,
   },
-  bot: {
-    flex: 1,
-    paddingBottom: 16,
-  },
+
   button: {
     position: 'absolute',
     left: 8,
     width: 36,
     height: 48,
     top: 8,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
   },
 });

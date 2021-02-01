@@ -31,6 +31,19 @@ import {
   listAdminTakeLeaveSuccess,
   confirmDenyTakeLeaveSuccess,
   confirmDenyTakeLeaveFailed,
+  listManagerCheckSuccess,
+  listManagerCheckFailed,
+  approveCheckSuccess,
+  approveCheckFailed,
+  updateTakeLeaveSuccess,
+  updateTakeLeaveFailed,
+  deleteTakeLeaveFailed,
+  deleteTakeLeaveSuccess,
+  updateOverTimeSuccess,
+  updateOverTimeFailed,
+  checkInCode,
+  checkInRequestSuccess,
+  checkOutRequestSuccess,
 } from '../actions/check';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
@@ -43,8 +56,8 @@ const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
-const URL_CHECK_IN_CODE = `${URL.LOCAL_HOST}${URL.CHECK_IN_CODE}`;
-const URL_CHECK_OUT_CODE = `${URL.LOCAL_HOST}${URL.CHECK_OUT_CODE}`;
+const URL_CHECK_IN_REQUEST = `${URL.LOCAL_HOST}${URL.CHECK_IN_REQUEST}`;
+const URL_CHECK_OUT_REQUEST = `${URL.LOCAL_HOST}${URL.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
@@ -65,7 +78,14 @@ const URL_UPDATE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.UPDATE_LATE_EARLY}`;
 const URL_DELETE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
 const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
+const URL_UPDATE_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.UPDATE_TAKE_LEAVE}`;
+const URL_DELETE_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.DELETE_TAKE_LEAVE}`;
+/// //////////////////////////////////////////////////////////////////////////////////////
 const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
+const URL_UPDATE_OVERTIME = `${URL.LOCAL_HOST}${URL.UPDATE_OT}`;
+
+/// //////////////////////////////////////////////////////////////////////////////////////
+
 const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
 const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
@@ -173,11 +193,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckin,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -194,11 +214,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckout,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -218,11 +238,11 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.cantCheck,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(data)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -375,7 +395,151 @@ function* sagaTakeLeave(action) {
 export function* watchTakeLeave() {
   yield takeLatest(types.TAKE_LEAVE, sagaTakeLeave);
 }
+function* sagaUpdateTakeLeave(action) {
+  try {
+    const data = {
+      _id: action.payload._id,
+      date: action.payload.date,
+      type: action.payload.type,
+      content: action.payload.content,
+      morning: action.payload.morning,
+      // month: action.payload.month,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_TAKE_LEAVE, data, token);
+    console.log('take leave=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateTakeLeaveSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateTakeLeaveFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
 
+export function* watchUpdateTakeLeave() {
+  yield takeLatest(types.UPDATE_TAKE_LEAVE, sagaUpdateTakeLeave);
+}
+function* sagaUpdateOverTime(action) {
+  try {
+    const data = {
+      id: action.payload.id,
+      start: action.payload.start,
+      start_date: action.payload.start_date,
+      content: action.payload.content,
+      data: action.payload.data,
+      total_time: action.payload.total_time,
+
+      // month: action.payload.month,
+    };
+    console.log('overtime', data);
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_OVERTIME, data, token);
+    console.log('take leave=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateOverTimeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateOverTimeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchUpdateOvertime() {
+  yield takeLatest(types.UPDATE_OVER_TIME, sagaUpdateOverTime);
+}
+
+function* sagaDeleteTakeLeave(action) {
+  try {
+    const data = {
+      _id: action.payload._id,
+
+      // month: action.payload.month,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_DELETE_TAKE_LEAVE, data, token);
+    console.log('take leave=>>>', response);
+    console.log('take leave=>>>', token);
+    console.log('take leave=>>>', data);
+
+    if (response.success && response.statusCode === 200) {
+      yield put(deleteTakeLeaveSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.applydone,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(deleteTakeLeaveFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchSagaDeleteTakeLeave() {
+  yield takeLatest(types.DELETE_TAKE_LEAVE, sagaDeleteTakeLeave);
+}
 function* sagaOverTime(action) {
   try {
     const data = {
@@ -556,11 +720,27 @@ export function* watchApproveLateEarly() {
 
 function* sagaUpdateLateEarly(action) {
   try {
-    const data = {};
+    const data = {
+      id: action.payload.id,
+      date: action.payload.date,
+      type: action.payload.type,
+      content: action.payload.content,
+      time: action.payload.time,
+      status: action.payload.status,
+    };
     const token = action.payload.token;
     const response = yield _POST(URL_UPDATE_LATE_EARLY, data, token);
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(updateLateEarlySuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
       _global.Loading.hide();
     } else {
       yield put(updateLateEarlyFailed());
@@ -721,15 +901,15 @@ export function* watchConfirmDenyTakeLeave() {
 
 function* sagaCheckInCode(action) {
   try {
-    const data = { ...action.payload };
-    const onConfirm = action.payload.onConfirm;
-    delete data.type;
-    delete data.token;
-    delete data.onConfirm;
+    const data = {
+      type: action.payload.type === 'in' ? 1 : 2,
+      time: action.payload.time,
+      date: action.payload.date
+    };
     const token = action.payload.token;
-
+    console.log('savsgha', data);
     const response = yield _POST(
-      action.payload.type === 'in' ? URL_CHECK_IN_CODE : URL_CHECK_OUT_CODE,
+      URL_CHECK_IN_REQUEST,
       data,
       token,
     );
@@ -739,20 +919,13 @@ function* sagaCheckInCode(action) {
       && response.statusCode === 200
       && action.payload.type === 'in'
     ) {
-      yield put(checkInSuccess(response.data));
+      yield put(checkInRequestSuccess(response.data));
       yield put(getSummary(token));
 
       _global.Alert.alert({
         title: langs.alert.checkinSuccess,
         message: response.message,
-        leftButton: onConfirm
-          ? {
-            text: langs.alert.ok,
-            onPress: () => onConfirm(),
-          }
-          : {
-            text: langs.alert.ok,
-          },
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     } else if (
@@ -760,7 +933,7 @@ function* sagaCheckInCode(action) {
       && response.statusCode === 200
       && action.payload.type === 'out'
     ) {
-      yield put(checkOutSuccess(response.data));
+      yield put(checkOutRequestSuccess(response.data));
       yield put(getSummary(token));
 
       _global.Alert.alert({
@@ -779,8 +952,8 @@ function* sagaCheckInCode(action) {
           onPress: () => store.dispatch(checkInWifi(data)),
         },
         middleButton: {
-          text: langs.code,
-          onPress: () => CustomNavigation.navigate(langs.navigator.checkIn),
+          text: langs.remote,
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -812,4 +985,86 @@ function* sagaCheckInCode(action) {
 
 export function* watchCheckInCode() {
   yield takeLatest(types.CHECK_IN_CODE, sagaCheckInCode);
+}
+
+/// Duyet cham cong tu xa
+function* sagaListManagerCheck(action) {
+  try {
+    const token = action.payload.token;
+    const status = action.payload.status;
+    const date = action.payload.date;
+    const page_size = action.payload.page_size;
+    const page = action.payload.page;
+    const reload = action.payload.reload;
+    const loading = !!action.payload.loading;
+    const response = yield _GET(
+      URL_LIST_MANAGER_LATE_EARLY(status, date, page, page_size),
+      token,
+      loading,
+    );
+    if (response.success && response.statusCode === 200) {
+      const DATA = {
+        reload,
+        data: response.data,
+      };
+      yield put(listManagerCheckSuccess(DATA));
+      _global.Loading.hide();
+    } else {
+      yield put(listManagerCheckFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchListManagerCheck() {
+  yield takeLatest(types.LIST_MANAGER_CHECK, sagaListManagerCheck);
+}
+
+function* sagaApproveCheck(action) {
+  try {
+    const data = {
+      id: action.payload._id,
+      status: action.payload.status,
+    };
+    const token = action.payload.token;
+    const response = yield _POST(URL_APPROVE_LATE_EARLY, data, token);
+    console.log('>>>>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(approveCheckSuccess(response.data));
+      _global.Loading.hide();
+    } else {
+      yield put(approveCheckFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchApproveCheck() {
+  yield takeLatest(types.APPROVE_CHECK, sagaApproveCheck);
 }

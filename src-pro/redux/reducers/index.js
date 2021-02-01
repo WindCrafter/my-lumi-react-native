@@ -1,10 +1,10 @@
 // Imports: Dependencies
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
+import {combineReducers} from 'redux';
+import {persistReducer} from 'redux-persist';
 
 // Imports: Reducers
-import AsyncStorage from '@react-native-community/async-storage';
 import authen from './authen';
+import AsyncStorage from '@react-native-community/async-storage';
 import admin from './admin';
 import check from './check';
 import user from './user';
@@ -37,7 +37,7 @@ const authPersistConfig = {
     'identity_number',
     'bank_account',
     'bank_name',
-    'user_id'
+    'user_id',
   ],
 };
 

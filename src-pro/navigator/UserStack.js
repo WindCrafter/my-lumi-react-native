@@ -11,6 +11,9 @@ import applyOT from '../user/container/apply/applyOT';
 import ListOT from '../user/container/apply/ListOT';
 import ApproveOT from '../user/container/apply/ApproveOT';
 import applyBreak from '../user/container/apply/applyBreak';
+import updateBreak from '../user/container/apply/updateBreak';
+import updateOT from '../user/container/apply/updateOT';
+import updateLate from '../user/container/apply/updateLate';
 import notify from '../user/container/notify';
 import TabbarUser from './TabbarUser';
 import updateProfile from '../user/container/account/updateProfile';
@@ -32,6 +35,7 @@ import HistoryBreak from '../user/container/apply/HistoryBreak';
 import ApproveBreak from '../user/container/apply/ApproveBreak';
 import ChangePass from '../user/container/changePass/index';
 import Kpi from '../user/container/kpi';
+import ApproveAll from '../user/container/apply/ApproveAll';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -90,8 +94,40 @@ export default function UserStack() {
         }}
       />
       <Stack.Screen
+        name={langs.navigator.approve}
+        component={ApproveAll}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
         name={langs.navigator.applyBreak}
         component={applyBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateBreak}
+        component={updateBreak}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateLate}
+        component={updateLate}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateOT}
+        component={updateOT}
         options={{
           headerShown: false,
           gestureEnabled: false,
@@ -126,6 +162,7 @@ export default function UserStack() {
         component={HistoryBreak}
         options={{
           headerShown: false,
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen
@@ -161,11 +198,7 @@ export default function UserStack() {
         name={langs.navigator.notify}
         component={notify}
         options={{
-          headerBackTitleVisible: false,
-          headerStyle: {
-            backgroundColor: 'rgb(47, 172, 79)',
-          },
-          headerTintColor: 'white',
+          headerShown: false,
         }}
       />
       <Stack.Screen

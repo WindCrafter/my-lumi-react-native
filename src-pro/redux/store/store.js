@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
-import { rootSaga } from '../sagas/index';
 import createSagaMiddleware from 'redux-saga';
+import { rootSaga } from '../sagas/index';
 
 import rootReducer from '../reducers/index';
 
@@ -24,12 +24,11 @@ const persistConfig = {
 //   blacklist: [],
 // };
 
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, applyMiddleware(sagaMiddleware, createLogger()));
 sagaMiddleware.run(rootSaga);
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
 export { store, persistor };

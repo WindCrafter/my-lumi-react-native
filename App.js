@@ -5,8 +5,8 @@
 
 'use strick';
 
-import React, {PureComponent} from 'react';
-import {View, Text, Animated, StyleSheet} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, Animated, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Setup from './src-pro/setup';
 import SetupDev from './src-dev/setup';
@@ -22,7 +22,7 @@ export default class App extends PureComponent {
 
   async componentDidMount() {
     const mode = await AsyncStorage.getItem('APP_MODE');
-    this.setState({typeServer: mode});
+    this.setState({ typeServer: mode });
     // window.isAllowChangeSever = true;
     // if (!!mode) {
     //   await AsyncStorage.setItem('APP_MODE', 'product');
@@ -56,7 +56,7 @@ export default class App extends PureComponent {
   }
 
   render() {
-    const {typeServer} = this.state;
+    const { typeServer } = this.state;
     console.log('typeServer', typeServer);
     return (
       <View style={styles.container}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    transform: [{rotate: '45deg'}],
+    transform: [{ rotate: '45deg' }],
   },
   title: {
     color: 'white',

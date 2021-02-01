@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -16,16 +16,21 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import MonthPicker from 'react-native-month-picker';
-import {BarStatus, HeaderCustom} from '../../../component';
-import {Colors, imgs} from '../../../../utlis';
 import moment from 'moment';
-import {Card} from 'native-base';
-import {URL} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import { Card } from 'native-base';
+import {
+  BarStatus,
+  HeaderCustom,
+  EmptyState,
+  Indicator,
+} from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -33,10 +38,10 @@ if (
 const width = Dimensions.get('window').width;
 
 function History(props) {
-  const {navigation, token} = props;
+  const { navigation, token } = props;
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [onScroll, setOnScroll] = useState(false);
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
@@ -64,10 +69,10 @@ function History(props) {
     setOnScroll(false);
     console.log('_GET_LIST_CHECKIN ===========>', response);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
       setPage(_pageN);
@@ -92,8 +97,8 @@ function History(props) {
       return 'Đi muộn';
     }
     if (
-      (check_in === 2 && check_out === 0) ||
-      (check_in === 0 && check_out === 2)
+      (check_in === 2 && check_out === 0)
+      || (check_in === 0 && check_out === 2)
     ) {
       return 'Trừ 1 nửa ngày lương';
     }
@@ -134,21 +139,21 @@ function History(props) {
     return moment(date * 1000).format(format);
   };
 
-  const renderItem = ({item}) => {
-    const color =
-      item.status_check_in === 0 && item.status_check_out === 0
-        ? '#328c4f'
-        : '#f43c30';
+  const renderItem = ({ item }) => {
+    const color = item.status_check_in === 0 && item.status_check_out === 0
+      ? '#328c4f'
+      : '#f43c30';
     return (
       <Card style={styles.card}>
-        <View style={[styles.indicator, {backgroundColor: color}]} />
+        <View style={[styles.indicator, { backgroundColor: color }]} />
         <View style={styles.row}>
-          <View style={{paddingHorizontal: 8}}>
-            <Text style={{textAlign: 'center'}}>
+          <View style={{ paddingHorizontal: 8 }}>
+            <Text style={{ textAlign: 'center' }}>
               {`Tháng ${convertTime(item.date, 'MM')}`}
             </Text>
             <Text
-              style={[styles.status, {textAlign: 'center', paddingTop: 10}]}>
+              style={[styles.status, { textAlign: 'center', paddingTop: 10 }]}
+            >
               {convertTime(item.date, 'D')}
             </Text>
           </View>
@@ -156,24 +161,32 @@ function History(props) {
             style={{
               flex: 1,
               paddingHorizontal: 16,
-            }}>
+            }}
+          >
             <View
-              style={[{flexDirection: 'row', justifyContent: 'space-between'}]}>
+              style={[{ flexDirection: 'row', justifyContent: 'space-between' }]}
+            >
               {item.check_in && (
-                <Text>{`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
-                  item.check_in,
-                  'mm',
-                )}`}</Text>
+                <Text>
+                  {`Vào: ${convertTime(item.check_in, 'HH')}h${convertTime(
+                    item.check_in,
+                    'mm',
+                  )}`}
+
+                </Text>
               )}
               {item.check_out && (
-                <Text>{`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
-                  item.check_out,
-                  'mm',
-                )}`}</Text>
+                <Text>
+                  {`Ra: ${convertTime(item.check_out, 'HH')}h${convertTime(
+                    item.check_out,
+                    'mm',
+                  )}`}
+
+                </Text>
               )}
             </View>
 
-            <Text style={[styles.status, {paddingTop: 10, color}]}>
+            <Text style={[styles.status, { paddingTop: 10, color }]}>
               {getStatusCheckIn(item.status_check_in, item.status_check_out)}
             </Text>
           </View>
@@ -198,13 +211,12 @@ function History(props) {
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
-      </View>
+      <Indicator />
     ) : null;
   };
 
   const onConfirmDate = () => {
+    setLoading(true);
     setDate(moment(dateChange).format('DD/MM/YYYY'));
     setVisible(false);
     getData(1, moment(dateChange).format('DD/MM/YYYY'), []);
@@ -218,25 +230,23 @@ function History(props) {
 
   return (
     <View style={styles.container}>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 26 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={'Lịch sử chấm công'}
+        title="Lịch sử chấm công"
         height={60}
         goBack={onGoBack}
         rightButton
         rightImage={imgs.settingICon}
         onRight={onRight}
+        shadow
       />
-      <View style={styles.timeCheck}>
-        <Image source={imgs.clockKeeping} style={styles.avt} />
-        <Text style={styles.time}>{getTimeBySeason()}</Text>
-      </View>
+
       <View style={styles.contentHistory}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử</Text>
+        <View style={styles.timeCheck}>
+          <Image source={imgs.clockKeeping} style={styles.avt} />
+          <Text style={styles.time}>{getTimeBySeason()}</Text>
+        </View>
+        {data && data.length === 0 && !loading && (
+          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
         <FlatList
           data={data}
@@ -254,20 +264,23 @@ function History(props) {
       </View>
       <Modal
         isVisible={visible}
-        animationIn={'slideInUp'}
+        animationIn="slideInUp"
         animationOutTiming={500}
-        animationOut={'slideOutDown'}
+        animationOut="slideOutDown"
         onBackdropPress={hideModal}
         // style={styles.modal}
-        backdropTransitionOutTiming={0}>
+        backdropTransitionOutTiming={0}
+      >
         <View style={styles.contentContainer}>
           <View style={styles.content}>
             <MonthPicker selectedDate={dateChange} onMonthChange={onChange} />
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+            >
               <TouchableOpacity
                 style={styles.confirmButton}
-                onPress={onConfirmDate}>
+                onPress={onConfirmDate}
+              >
                 <Text>Xác nhận</Text>
               </TouchableOpacity>
             </View>
@@ -282,12 +295,12 @@ export default History;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   contentHistory: {
     flex: 1,
-    marginTop: 16,
+    backgroundColor: '#f0f0f0',
   },
   card: {
     flexDirection: 'row',
@@ -298,13 +311,15 @@ const styles = StyleSheet.create({
     width: width - 32,
     backgroundColor: '#ffffff',
     height: 80,
-    shadowColor: 'black',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 0,
+      height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   row: {
     alignItems: 'center',
@@ -321,12 +336,21 @@ const styles = StyleSheet.create({
   timeCheck: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgb(239, 239, 239)',
+    backgroundColor: 'white',
     alignSelf: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 15,
+    marginVertical: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   time: {
     fontWeight: '600',

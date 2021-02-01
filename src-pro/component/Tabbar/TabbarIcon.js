@@ -1,17 +1,25 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
-import {imgs} from '../../../utlis';
+import { Image, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { imgs, Colors } from '../../../utlis';
 
 const Icons = [
-  {active: imgs.homegreen, inactive: imgs.homegrey},
-  {active: imgs.documentGreen, inactive: imgs.document},
-  {active: imgs.notificationGreen, inactive: imgs.notificationGrey},
-  {active: imgs.personalgreen, inactive: imgs.personalgrey},
+  { active: 'home', inactive: 'home-outline' },
+  { active: 'calendar', inactive: 'calendar-outline' },
+  { active: 'business', inactive: 'business-outline' },
+  { active: 'person-circle', inactive: 'person-circle-outline' },
 ];
 
-export default function TabbarIcon({focused, tab}) {
+export default function TabbarIcon({ focused, tab }) {
   const icon = focused ? Icons[tab].active : Icons[tab].inactive;
-  return <Image source={icon} style={styles.container} resizeMode="contain" />;
+  return (
+    <Icon
+      name={icon}
+      size={ 24}
+      style={[{ color: focused ? Colors.background : Colors.itemInActive }]}
+      resizeMode="contain"
+    />
+  );
 }
 
 const styles = StyleSheet.create({

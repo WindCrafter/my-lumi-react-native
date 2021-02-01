@@ -1,13 +1,14 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
-import {Card} from 'native-base';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { Card } from 'native-base';
 // import langs from '../../../../../common/language';
-import {imgs, Colors} from '../../../../../utlis';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { imgs, Colors } from '../../../../../utlis';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const ItemOT = (props) => {
-  const {item} = props;
+  const { item } = props;
   const renderStatus = () => {
     if (item.status === 1) {
       return (
@@ -46,28 +47,26 @@ const ItemOT = (props) => {
 
   return (
     <Card style={styles.card}>
-      <View style={[styles.row]}>{renderStatus()}</View>
-      <View style={[styles.row, {marginTop: 16}]}>
-        <View style={styles.img}>
-          <Image
-            source={imgs.startDate}
-            style={[styles.imageStamp, styles.marginRight]}
-          />
-          <Text style={styles.txtStatus}>{item.start_date}</Text>
-        </View>
+      <View style={[styles.row, { justifyContent: 'space-between' }]}>
+        <View>{renderStatus()}</View>
+        <Text style={{ alignSelf: 'flex-end', padding: 5,fontWeight:'600',fontFamily:'Quicksand-Bold' }}>
+          {item.start_date}
+        </Text>
       </View>
+      <View style={[styles.row, { marginTop: 16 }]} />
       <View style={[styles.row]}>
-        <View style={[styles.img, {width: (width - 32) / 2}]}>
+        <View style={[styles.img, { width: (width - 32) / 2 }]}>
           <Image
             source={imgs.startTime}
             style={[styles.imageStamp, styles.marginRight]}
           />
           <Text style={styles.txtStatus}>{`${item.start}`}</Text>
         </View>
-        <View style={[styles.img, {width: (width - 32) / 2}]}>
-          <Image
-            source={imgs.startDate}
-            style={[styles.imageStamp, styles.marginRight]}
+        <View style={[styles.img, { width: (width - 32) / 2 }]}>
+          <Icon
+            name="timer-outline"
+            size={20}
+            style={[styles.marginRight]}
           />
           <Text style={styles.txtStatus}>{`${item.total_time} giờ`}</Text>
         </View>
@@ -90,15 +89,17 @@ const styles = StyleSheet.create({
     padding: 5,
     marginRight: 8,
     flexDirection: 'row',
+    alignItems: 'center'
+
   },
   imageStamp: {
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
   },
   txtStatus: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     fontSize: 16,
-    marginBottom: -2,
+
   },
   row: {
     flexDirection: 'row',
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingHorizontal: 16,
     paddingVertical: 16,
+    marginTop: 16,
   },
   time: {
     justifyContent: 'center',

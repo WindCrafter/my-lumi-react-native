@@ -1,5 +1,5 @@
-import * as types from '../types';
 import moment from 'moment';
+import * as types from '../types';
 
 const initialState = {
   checked: false,
@@ -8,10 +8,12 @@ const initialState = {
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
   type: 'in',
+  status: 0,
   listTakeLeave: '',
   historyAdminTakeLeave: '',
-  dataLateEarly: [],
-  dataManagerLateEarly: [],
+  dataLateEarly: {},
+  dataManagerLateEarly: {},
+  dataManagerCheck: {},
   refreshing: false,
 };
 
@@ -20,7 +22,7 @@ export default function check(state = initialState, action) {
     case types.LIST_LATE_EARLY:
       return {
         ...state,
-        refreshing: action.payload.refreshing ? true : false,
+        refreshing: !!action.payload.refreshing,
       };
     case types.LIST_LATE_EARLY_SUCCESS:
       return {
@@ -33,7 +35,7 @@ export default function check(state = initialState, action) {
     case types.LIST_MANAGER_LATE_EARLY:
       return {
         ...state,
-        refreshing: action.payload.refreshing ? true : false,
+        refreshing: !!action.payload.refreshing,
       };
     case types.LIST_MANAGER_LATE_EARLY_SUCCESS:
       return {
@@ -48,7 +50,7 @@ export default function check(state = initialState, action) {
         ...state,
         dataManagerLateEarly: state.dataManagerLateEarly.map((item) => {
           return item.id === action.payload.id
-            ? {...item, status: action.payload.status}
+            ? { ...item, status: action.payload.status }
             : item;
         }),
       };
@@ -63,17 +65,35 @@ export default function check(state = initialState, action) {
         ...state,
         historyAdminTakeLeave: action.payload,
       };
+    case types.CHECK_IN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        type: 'in',
+        dateCheckIn: moment(new Date()),
+        timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
+      };
+    case types.CHECK_OUT_REQUEST_SUCCESS:
+      return {
+        ...state,
+        type: 'out',
+        dateCheckIn: moment(new Date()),
+        timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
+      };
     case types.CHECK_IN_SUCCESS:
       return {
         ...state,
         type: 'out',
         dateCheckIn: moment(new Date()),
         timeCheckIn: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
       };
     case types.CHECK_OUT_SUCCESS:
       return {
         ...state,
         timeCheckOut: moment(new Date()).format('HH:mm'),
+        status: action.payload.status,
       };
     case types.CREATE_QR_SUCCESS:
       return {
@@ -92,11 +112,25 @@ export default function check(state = initialState, action) {
       return {
         ...state,
         type: 'in',
+        status: 2,
       };
     case types.CHANGETO_CHECKOUT:
       return {
         ...state,
         type: 'out',
+        status: 2,
+      };
+    case types.CHANGETO_CHECKIN_REQUEST:
+      return {
+        ...state,
+        type: 'in',
+        status: 1,
+      };
+    case types.CHANGETO_CHECKOUT_REQUEST:
+      return {
+        ...state,
+        type: 'out',
+        status: 1,
       };
     case types.RESET_CHECK:
       return {
@@ -109,9 +143,40 @@ export default function check(state = initialState, action) {
     case types.REMOVE_LIST:
       return {
         ...state,
-        dataLateEarly: [],
-        dataManagerLateEarly: [],
+        dataLateEarly: {},
+        dataManagerLateEarly: {},
+        dataManagerCheck: {},
       };
+
+    /// Duyet Cham cong tu xa
+    case types.LIST_MANAGER_CHECK:
+      return {
+        ...state,
+        refreshing: !!action.payload.refreshing,
+      };
+    case types.LIST_MANAGER_CHECK_SUCCESS:
+      return {
+        ...state,
+        dataManagerCheck: action.payload.reload
+          ? action.payload.data
+          : [...state.dataManagerCheck, ...action.payload.data],
+        refreshing: false,
+      };
+    case types.APPROVE_CHECK_SUCCESS:
+      return {
+        ...state,
+        dataManagerCheck: state.dataManagerCheck.map((item) => {
+          return item.id === action.payload.id
+            ? { ...item, status: action.payload.status }
+            : item;
+        }),
+      };
+    case types.CHECK_INACTIVE:
+      return {
+        ...state,
+        type: 'inactive',
+      };
+
     default:
       return state;
   }

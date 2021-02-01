@@ -38,12 +38,12 @@ const ModalInforApp = (props) => {
         {/* <Text style={styles.titleDescription}>
           Hỗ trợ chấm công, quản lí nhân sự và nhiều hơn thế.
         </Text> */}
-        <Text style={styles.version}>V1.1.1 - 07/01/2021 08:00</Text>
+        <Text style={styles.version}>V1.1.2 - 01/02/2021 19:00</Text>
         <Text style={styles.website}>Công ty cổ phần Lumi Việt Nam</Text>
         <Text style={styles.website}>
           Số 38, Đỗ Đức Dục, quận Nam Từ Liêm, Hà Nội
         </Text>
-        <TouchableOpacity onPress={openUrl} style={styles.URL}>
+        <TouchableOpacity onPress={openUrl} style={styles.url}>
           <Text>Website: </Text>
           <Text style={styles.link}>https://lumi.vn</Text>
         </TouchableOpacity>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   version: { color: 'grey', fontSize: 12, marginBottom: 48 },
-  URL: { flexDirection: 'row', marginTop: 8 },
+  url: { flexDirection: 'row', marginTop: 8 },
   website: {
     textAlign: 'center',
     paddingHorizontal: 16,

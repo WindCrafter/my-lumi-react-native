@@ -152,27 +152,52 @@ const Event = (props) => {
     setshowModalDate(false);
   };
   const onShowPickerEnd = (m) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setshowModalTimeEnd(true);
+    if (start) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      setshowModalTimeEnd(true);
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Vui lòng chọn thời gian bắt đầu trước',
+        leftButton: { text: langs.alert.ok },
+      });
+    }
   };
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
+    const today = moment(new Date()).format('DD/MM/YYYY') === moment(date).format('DD/MM/YYYY');
+    const past = moment(new Date()).format('HH:mm') > moment(currentShift).format('HH:mm');
     if (Platform.OS === 'ios') {
       setHourStart(moment(currentShift)._d);
     } else if (event.type === 'set') {
       setshowModalTimeStart(false);
-      setStart(moment(currentShift)._d);
+      if (!today) {
+        setStart(moment(currentShift)._d);
+      } else {
+        !past && setStart(moment(currentShift)._d);
+        past && _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian trong quá khứ',
+          leftButton: { text: langs.alert.ok },
+        });
+      }
     } else {
       setshowModalTimeStart(false);
     }
   };
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
+    const past = moment(start).format('HH:mm') > moment(currentShift).format('HH:mm');
     if (Platform.OS === 'ios') {
       setHourEnd(moment(currentShift)._d);
     } else if (event.type === 'set') {
       setshowModalTimeEnd(false);
-      setEnd(moment(currentShift)._d);
+      !past && setEnd(moment(currentShift)._d);
+      past && _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+        leftButton: { text: langs.alert.ok },
+      });
     } else {
       setshowModalTimeEnd(false);
     }
@@ -316,23 +341,20 @@ const Event = (props) => {
   };
 
   return (
-    <>
-      <BarStatus
-        height={Platform.OS === 'ios' ? 28 : StatusBar.currentHeight}
-      />
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
-        backgroundColor="rgba(0,0,0,0)"
         title="Đặt lịch phòng họp"
         goBack={onGoBack}
         rightButton
         textPress
         onRight={onAddEvent}
+        shadow
       />
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: '#f0f0f0' }}>
           <View style={styles.header} />
           <InputRow
             containerStyle={styles.txtInput}
@@ -484,7 +506,7 @@ const Event = (props) => {
             <Card style={[styles.card, { width: widthPercentageToDP(90) - 32 }]}>
               <FlatList
                 data={memberPicked}
-               keyExtractor={(item, index) => String(index)}
+                keyExtractor={(item, index) => String(index)}
                 renderItem={renderItem}
               />
             </Card>
@@ -538,7 +560,7 @@ const Event = (props) => {
         setModal={hideModalTime}
         onPress={(e) => setLocation(e)}
       />
-    </>
+    </View>
   );
 };
 
@@ -582,6 +604,7 @@ const styles = StyleSheet.create({
       height: 6,
     },
     height: 54,
+    fontFamily: 'Quicksand-Regular',
   },
   viewInputSelect: {
     marginVertical: 16,
@@ -598,7 +621,6 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 16,
     backgroundColor: 'white',
-    marginVertical: 16,
     shadowColor: 'rgba(0,0,25,0.17)',
     shadowOffset: {
       width: 0,

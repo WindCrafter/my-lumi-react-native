@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -11,39 +11,64 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Card} from 'native-base';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
 import moment from 'moment';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus, EmptyState, Indicator } from '../../../component';
 import langs from '../../../../common/language';
 import CardBreakLeader from './component/CardBreakLeader';
 import HeaderCustom from './component/HeaderCustom';
-import {_GET, _POST} from '../../../../utlis/connection/api';
-import {_global} from '../../../../utlis/global/global';
-import {URL} from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
+import { _global } from '../../../../utlis/global/global';
+import { URL } from '../../../../utlis/connection/url';
 import CardBreak from './component/CardBreak';
 
 const ApproveBreak = (props) => {
   const {
     navigation,
-    listAdminTakeLeave,
     token,
-    historyAdminTakeLeave,
-    confirmDenyTakeLeave,
+    setStatusAdBreak,
+    status_ad_break,
+    date_ad_break,
+    setDateAdBreak,
   } = props;
+  let initialType;
+  switch (status_ad_break) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
-  const [type, setType] = useState('Đang chờ');
-  const [date, setDate] = useState('');
+  const [filter, setFilter] = useState({
+    date: date_ad_break,
+    status: status_ad_break,
+    name: '',
+  });
+  const [type, setType] = useState(initialType || 'Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, filter.date, filter.status, [], filter.name);
+    getData(1, date_ad_break, status_ad_break, [], filter.name);
   }, []);
   const onSetType = (item) => {
     switch (item) {
@@ -59,21 +84,13 @@ const ApproveBreak = (props) => {
       case '3':
         setType('Bị từ chối');
         break;
+      case '4':
+        setType('Auto Cancel');
+        break;
+      default:
+        console.log(':::Wrong type :', item);
     }
   };
-  const goBack = () => {
-    navigation.goBack();
-  };
-
-  // saga
-  // const getData = () => {
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
@@ -82,43 +99,28 @@ const ApproveBreak = (props) => {
     const _name = nameN || '';
     const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
-    console.log('_GET_LIST_TAKELEAVE_MANAGER ===========>', response);
+    console.log('_GET_LIST_TAKE_LEAVE_MANAGER ===========>', response);
     setRefresh(false);
     setLoading(false);
     setOnScroll(false);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_data.concat(response.data));
       setPage(pageNumber);
-      
-    } 
+    }
   };
   const handleLoadMore = () => {
     setLoading(true);
-        setOnScroll(false);
-
+    setOnScroll(false);
     getData(page + 1, filter.date, filter.status, data, filter.name);
   };
-  // saga
-  // const onChangeDate = (date) => {
-  //   const pickDate = moment(date, 'DD/MM/YYYY').toDate();
-  //   console.log(moment(pickDate).format('DD/MM/YYYY'));
-  //   setFilter({...filter, date: moment(pickDate).format('DD/MM/YYYY')});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: 0,
-  //     page: page,
-  //     token: token,
-  //     date: date ? moment(pickDate).format('DD/MM/YYYY') : null,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  // };
+
   const onChangeDate = (date) => {
+    setLoading(true);
     setFilter({
       ...filter,
       date: !date ? '' : moment(date).format('DD/MM/YYYY'),
@@ -132,39 +134,33 @@ const ApproveBreak = (props) => {
       [],
       filter.name,
     );
+    setDateAdBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 1000);
   const onChangeName = (item) => {
-    setFilter({...filter, name: item});
+    setLoading(true);
+    setFilter({ ...filter, name: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, filter.status, [], item);
   };
-  // saga
-  // const onChangeStatus = (item) => {
-  //   setFilter({...filter, status: item});
-  //   setData([]);
-  //   setPage(1);
-  //   const dataLeave = {
-  //     status: item,
-  //     page: page,
-  //     token: token,
-  //   };
-  //   listAdminTakeLeave(dataLeave);
-  //   onSetType(item);
-  // };
   const onChangeStatus = (item) => {
-    setFilter({...filter, status: item});
+    setLoading(true);
+    setFilter({ ...filter, status: item });
     setData([]);
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
+    setStatusAdBreak(item);
   };
 
   const renderFooterComponent = () => {
     return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#ABB0BB" />
-      </View>
+
+      <Indicator />
+
     ) : null;
   };
 
@@ -176,72 +172,65 @@ const ApproveBreak = (props) => {
     };
     const response = await _POST(apiURL, body, token);
     console.log('_APPROVE_BREAK =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) =>
-            i._id === response.data._id
-              ? {...i, status: response.data.status}
-              : i,
-          ),
+          data.map((i) => (i._id === response.data._id
+            ? { ...i, status: response.data.status }
+            : i),),
         );
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
     }
-  };
-  const onRefresh = () => {
-    setRefresh(true);
-        setOnScroll(false);
-
-    getData(1, filter.date, filter.status, [], filter.name);
   };
 
   const onDeny = async (item) => {
     const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
-      _id: item,
+      _id: item._id,
       status: 3,
     };
     const response = await _POST(apiURL, body, token);
     console.log('_DENY =============>', response);
+    _global.Loading.hide();
+    setLoading(false);
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) =>
-            i._id === response.data._id
-              ? {...i, status: response.data.status}
-              : i,
-          ),
+          data.map((i) => (i._id === response.data._id
+            ? { ...i, status: response.data.status }
+            : i),),
         );
       } else {
         setData(data.filter((i) => i._id !== response.data._id));
       }
-      _global.Loading.hide();
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
-      _global.Loading.hide();
     }
   };
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData(1, filter.date, filter.status, [], filter.name);
+  };
 
-  const renderItem = ({item, index}) => {
-    const _listDate = item.date.map((i) =>
-      moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-    );
+  const renderItem = ({ item, index }) => {
+    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format('DD/MM/YYYY'),);
     return (
       <CardBreakLeader
         name={item.fullname}
@@ -249,18 +238,18 @@ const ApproveBreak = (props) => {
         type={item.type}
         date={_listDate}
         reason={item.content}
-        onDeny={() => onDeny(item._id)}
+        onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item._id)}
         typeBreak={
           item.date.length > 1 && item.morning === 0
             ? 'Nhiều ngày'
             : item.date.length === 1 && item.morning === 0
-            ? 'Một ngày'
-            : item.date.length === 1 && item.morning === 1
-            ? 'Buổi sáng'
-            : item.date.length === 1 && item.morning === 2
-            ? 'Buổi chiều'
-            : 'Đơn thiếu '
+              ? 'Một ngày'
+              : item.date.length === 1 && item.morning === 1
+                ? 'Buổi sáng'
+                : item.date.length === 1 && item.morning === 2
+                  ? 'Buổi chiều'
+                  : 'Không nhận được thời gian'
         }
       />
     );
@@ -268,25 +257,24 @@ const ApproveBreak = (props) => {
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={langs.titleApproveBreak}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
+        header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
+        onChangeName={debouceSearch}
         type={type}
-        CONFIRM_DENY_TAKE_LEAVE
-        search
+        dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
+        search={false}
+        txtSearch={filter.name}
+        containerStyle={{ marginTop: -90 }}
       />
-      <View style={{flex: 1}}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có lịch sử.</Text>
+      <View style={styles.detail}>
+        {data && data.length === 0 && !loading && (
+          <EmptyState
+            source={imgs.notFound}
+            title="Chưa có đơn cần duyệt"
+            description="Gặp lại bạn sau nhé."
+          />
         )}
         <FlatList
           // saga
@@ -296,7 +284,7 @@ const ApproveBreak = (props) => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
           data={data}
-         keyExtractor={(item, index) => String(index)}
+          keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
@@ -310,9 +298,5 @@ const ApproveBreak = (props) => {
 export default ApproveBreak;
 
 const styles = StyleSheet.create({
-  loader: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  detail: { flex: 1, backgroundColor: '#f0f0f0' },
 });

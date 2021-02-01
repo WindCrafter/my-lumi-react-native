@@ -27,7 +27,7 @@ import {
   getHolidaySuccess,
   getWorkdayToday,
 } from '../actions/user';
-import { changeToOut, changeToIn } from '../actions/check';
+import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
@@ -449,15 +449,32 @@ export function* watchGetHoliday() {
 function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
+    const onDone = action.payload.onDone;
     const response = yield _GET(
       `${URL.LOCAL_HOST}${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
-    console.log(response);
+    onDone && onDone();
+    console.log('GET_WORKDAY_TODAY', response);
+    const data = response.data;
     _global.Loading.hide();
-    if (response.success && response.statusCode === 200 && response.data && response.data && response.data.check_in) {
+    if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.status === 1) {
+      yield put(changeToInRequest());
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.check_out && data.status === 1) {
+      yield put(changeToOutRequest());
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 2) {
       yield put(changeToOut());
-    } else if (!response.success && response.statusCode === 200 && response.data.length === 0) {
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 2) {
+      yield put(checkInactive());
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 3) {
+      yield put(changeToIn());
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 3) {
+      yield put(changeToOut());
+    } else if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.type === 0) {
+      yield put(changeToOut());
+    } else if (response.success && response.statusCode === 200 && data && data.check_out && data.type === 0) {
+      yield put(checkInactive());
+    } else if (!response.success && response.statusCode === 200 && data.length === 0) {
       yield put(changeToIn());
     }
   } catch (error) {

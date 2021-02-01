@@ -4,7 +4,7 @@ import { Colors, imgs } from '../../../utlis';
 import langs from '../../../common/language';
 
 const ButtonCheckIn = (props) => {
-  const { navigation, onCheck, demoMode, type } = props;
+  const { navigation, onCheck, demoMode, type, status } = props;
 
   const onLongPress = () => {
     if (demoMode) {
@@ -18,9 +18,26 @@ const ButtonCheckIn = (props) => {
       onPress={onCheck}
       onLongPress={onLongPress}
       style={styles.container}
+      disabled={!demoMode ? (type === 'inactive') : false}
     >
-      <View style={[styles.containerBt, { backgroundColor: type === 'in' ? Colors.background : '#EE9723' }]}>
-        <Image source={imgs.tick} style={styles.img} />
+      <View
+        style={[
+          styles.containerBt,
+          {
+            backgroundColor:
+             !demoMode ? (type === 'inactive'
+               ? Colors.itemInActive
+               : type === 'in'
+                 ? Colors.background
+                 : '#EE9723') : (type === 'in'
+               ? Colors.background
+               : '#EE9723'),
+            // borderWidth: type === 'inactive' ? 0 : status === 1 ? 5 : 0,
+            // borderColor: type === 'out' ? Colors.background : '#EE9723',
+          },
+        ]}
+      >
+        <Image source={imgs.tick} style={[styles.img]} />
       </View>
     </TouchableOpacity>
   );

@@ -12,11 +12,12 @@ import {
 import moment from 'moment';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { imgs, Colors } from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
-import { Input, SelectButton } from '../../../../component';
+import { Input, Dropdown } from '../../../../component';
 // import {FlatList} from 'react-native-gesture-handler';
 
 const HeaderCustom = (props?: Props) => {
@@ -27,7 +28,8 @@ const HeaderCustom = (props?: Props) => {
   const { backgroundColor } = props || Colors.white;
   const { textPress } = props || false;
   const deviceWidth = Dimensions.get('window').width;
-
+  const { filter } = props || true;
+  const { placeHolder } = props || 'Bạn muốn tìm lumier nào?';
   const {
     leftImage,
     containerStyle,
@@ -86,25 +88,24 @@ const HeaderCustom = (props?: Props) => {
     return (
       <FlatList
         style={{ backgroundColor: 'white', borderRadius: 8 }}
-        data={status}
+        data={flatStatus || status}
         keyExtractor={(item, index) => String(index)}
         renderItem={({ item, index }) => renderItem(item, hideOverlay)}
       />
     );
   };
 
-  const onPressItem = (item, hideOverlay) => {
-    hideOverlay && hideOverlay();
+  const onPressItem = (item) => {
     onChangeStatus(item.value);
   };
 
-  const renderItem = (item, hideOverlay) => {
+  const renderItem = (item) => {
     return (
       <View>
         {item.value === '0' ? null : <View style={styles.line} />}
         <TouchableOpacity
           style={styles.touchable}
-          onPress={() => onPressItem(item, hideOverlay)}
+          onPress={() => onPressItem(item)}
         >
           <Text
             style={[
@@ -153,7 +154,7 @@ const HeaderCustom = (props?: Props) => {
             onPress={goBack}
             style={[styles.button, { top: deviceWidth > 374 ? 4 : 0 }]}
           >
-            <Icon name="chevron-back-outline" size={32} color={Colors.black} />
+            <Icon2 name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
           <Text
             style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
@@ -182,19 +183,27 @@ const HeaderCustom = (props?: Props) => {
           value={txtSearch}
           onChangeText={onChangeName}
           autoCapitalize="none"
-          placeholder="Bạn muốn tìm lumier nào?"
+          placeholder={placeHolder || 'Bạn muốn tìm lumier nào?'}
         />
       )}
-      <View
+
+      {filter && (
+        <View
         style={[
           styles.rowBot,
           { marginBottom: 16, justifyContent: 'space-around' },
         ]}
       >
-        <SelectButton
-          dropdownHeight={20}
-          dropdownWidth={100}
-          renderDropdown={renderDropdown}
+        <Dropdown
+          position="auto"
+          options={(flatStatus || status).map((i) => ({
+            titleStyle: {
+              textAlign: 'center',
+              color: i.label === type ? Colors.background : 'black',
+            },
+            title: i.label,
+            onPress: () => onPressItem(i),
+          }))}
         >
           <View
             style={[
@@ -214,7 +223,7 @@ const HeaderCustom = (props?: Props) => {
               style={{ color: Colors.black, top: 2 }}
             />
           </View>
-        </SelectButton>
+        </Dropdown>
         <View
           style={[
             styles.filterDate,
@@ -252,7 +261,7 @@ const HeaderCustom = (props?: Props) => {
             </TouchableOpacity>
           ) : null}
         </View>
-      </View>
+      </View>)}
       <PickerCustom
         title="Chọn ngày"
         show={show}
@@ -271,6 +280,8 @@ const HeaderCustom = (props?: Props) => {
 
 HeaderCustom.defaultProps = {
   header: true,
+  filter: true,
+  placeHolder: 'Bạn muốn tìm lumier nào?',
 };
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,20 +6,21 @@ import {
   Platform,
   UIManager,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-
+import { Card } from 'native-base';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { sum } from 'lodash';
+import { BarStatus } from '../../../component';
 import Header from './component/header';
-import {Card} from 'native-base';
-import {Colors, imgs} from '../../../../utlis';
+import { Colors, imgs } from '../../../../utlis';
 import Event from './component/event';
 import FloatButton from './component/ActionButton';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
 import CardUser from './component_user/user';
 import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
-import {sum} from 'lodash';
 
 const DATA_EVENT = [
   {
@@ -49,17 +50,18 @@ const DATA_EVENT = [
 ];
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 export default function Home(props) {
-  const {navigation, nameUser, token, summary, getSummary, getWorkdayToday} = props;
+  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
+  const [refresh, setRefresh] = useState(false);
 
   const onPressNotify = () => {
-    navigation.navigate(langs.navigator.testNotify);
+    navigation.navigate(langs.navigator.notify);
   };
 
   const onPressLate = () => {
@@ -74,9 +76,24 @@ export default function Home(props) {
   };
 
   useEffect(() => {
-    getSummary(token);
-    getWorkdayToday({token, date: moment().format('DD/MM/YYYY')});
+    const unsubscribe = navigation.addListener('focus', () => {
+      getSummary(token);
+      getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
+    });
+    return () => {
+      unsubscribe;
+    };
   }, []);
+  const onDone = () => { setRefresh(false); };
+  const onRefresh = () => {
+    getWorkdayToday(
+      { token, date: moment().format('DD/MM/YYYY'), onDone },
+
+    );
+  };
+  const onPressApprove = () => {
+    navigation.navigate(langs.navigator.approve, { page: 0 });
+  };
 
   const moveToHistory = () => {
     navigation.navigate(langs.navigator.history);
@@ -91,75 +108,81 @@ export default function Home(props) {
   };
 
   const time_late = () => {
-    const hour = Math.floor(
-      (summary.check_in_of_week + summary.check_out_of_week) / 60,
-    );
-    const minute = (summary.check_in_of_week + summary.check_out_of_week) % 60;
+    const hour = Math.floor(summary.check_in_out_late_early / 60);
+    const minute = summary.check_in_out_late_early % 60;
     return `${hour}h ${minute}m`;
   };
 
   return (
     <>
       <View style={styles.container}>
-        <Header pressNotify={onPressNotify} name={nameUser} />
+        <BarStatus height={0} hidden />
+
+        <Header
+          pressNotify={onPressNotify}
+          name={nameUser}
+          numberNotifys={0}
+        />
 
         <View style={styles.flex}>
           <LinearGradient
             style={styles.top}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             colors={['#216632', '#2FAC4F']}
           />
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
+          >
             <View style={styles.groupCard}>
               <TouchableOpacity onPress={moveToHistory}>
                 <CardUser
-                  backgroundColor={'rgb( 229, 246, 255)'}
+                  backgroundColor="rgb( 229, 246, 255)"
                   number={
                     summary.actual_date_month ? summary.actual_date_month : 0
                   }
-                  detail={'Công thực tế'}
+                  detail="Công thực tế"
                   source={imgs.clockEarly}
-                  imgBackground={'rgb( 183, 231, 254)'}
-                  numberColor={'rgb(46, 114, 249)'}
-                  tintColor={'rgb(46, 114, 249)'}
+                  imgBackground="rgb( 183, 231, 254)"
+                  numberColor="rgb(46, 114, 249)"
+                  tintColor="rgb(46, 114, 249)"
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={moveToHistoryBreak}>
                 <CardUser
-                  backgroundColor={'rgb( 255, 240, 234)'}
+                  backgroundColor="rgb( 255, 240, 234)"
                   number={summary.day_off_month ? summary.day_off_month : 0}
-                  detail={'Ngày nghỉ'}
+                  detail="Ngày nghỉ"
                   source={imgs.breakOneDay}
-                  imgBackground={'rgb(255,218,201)'}
-                  numberColor={'rgb(255, 86, 46)'}
-                  tintColor={'rgb(255, 86, 46)'}
+                  imgBackground="rgb(255,218,201)"
+                  numberColor="rgb(255, 86, 46)"
+                  tintColor="rgb(255, 86, 46)"
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.botCard}>
               <CardUser
-                backgroundColor={'rgb(226, 246, 234)'}
+                backgroundColor="rgb(226, 246, 234)"
                 number={summary.day_of_leave ? summary.day_of_leave : 0}
-                detail={'Phép tồn'}
+                detail="Phép tồn"
                 source={imgs.selectCalendar}
-                imgBackground={'rgb(195, 233, 209)'}
-                numberColor={'rgb(52, 141, 80)'}
-                tintColor={'rgb(52, 141, 80)'}
+                imgBackground="rgb(195, 233, 209)"
+                numberColor="rgb(52, 141, 80)"
+                tintColor="rgb(52, 141, 80)"
               />
               <TouchableOpacity onPress={moveToHistoryLate}>
                 <CardUser
-                  backgroundColor={'rgb(246, 243, 255)'}
+                  backgroundColor="rgb(246, 243, 255)"
                   number={
-                    summary.check_in_of_week || summary.check_out_of_week
-                      ? time_late()
-                      : '0h 0m'
+                    summary.check_in_out_late_early ? time_late() : '0h 0m'
                   }
-                  detail={'Đi muộn/về sớm'}
+                  detail="Giờ làm bù"
                   source={imgs.clockAlert}
-                  imgBackground={'rgb(217, 211, 253)'}
-                  numberColor={'rgb(108, 74, 248)'}
-                  tintColor={'rgb(108, 74, 248)'}
+                  imgBackground="rgb(217, 211, 253)"
+                  numberColor="rgb(108, 74, 248)"
+                  tintColor="rgb(108, 74, 248)"
                 />
               </TouchableOpacity>
             </View>
@@ -178,6 +201,8 @@ export default function Home(props) {
             onPressLate={onPressLate}
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
+            onPressApprove={onPressApprove}
+            permission={role}
           />
         </View>
       </View>
@@ -189,7 +214,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  flex: {flex: 6},
+  flex: { flex: 6 },
   card: {
     borderRadius: 16,
     marginTop: 11,

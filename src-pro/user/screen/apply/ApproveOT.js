@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,67 +11,66 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
+import _ from 'lodash';
 import moment from 'moment';
 import langs from '../../../../common/language';
-import {BarStatus} from '../../../component';
-import {Colors} from '../../../../utlis';
+import { BarStatus, Indicator, EmptyState } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import ItemOT from './component/ItemApproveOT';
-import {URL} from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
-import {_GET, _POST} from '../../../../utlis/connection/api';
-import {_global} from '../../../../utlis/global/global';
+import { _GET, _POST } from '../../../../utlis/connection/api';
+import { _global } from '../../../../utlis/global/global';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
-// const item = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 1,
-// };
-
-// const item1 = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 2,
-// };
-
-// const item2 = {
-//   id: Math.random().toString(36).substr(2, 9),
-//   name: 'Đỗ Tuấn Phong',
-//   date: '21/09/2020',
-//   time: '0.5',
-//   content: 'Sửa lỗi phát sinh trên UI',
-//   status: 3,
-// };
-
 function ApproveOT(props) {
-  const {navigation, token} = props;
+  const {
+    navigation,
+    token,
+    setStatusAdOT,
+    status_ad_ot,
+    date_ad_ot,
+    setDateAdOT,
+  } = props;
+  let initialType;
+  switch (status_ad_ot) {
+    case '0':
+      initialType = 'Tất cả';
+      break;
+    case '1':
+      initialType = 'Đang chờ';
+      break;
+    case '2':
+      initialType = 'Đã duyệt';
+      break;
+    case '3':
+      initialType = 'Bị từ chối';
+      break;
+    case '4':
+      initialType = 'Auto Cancel';
+      break;
+    default:
+      0;
+  }
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({date: '', status: 1, name: ''});
-  const [type, setType] = useState('Đang chờ');
+  const [filter, setFilter] = useState({ date: date_ad_ot,
+    status: status_ad_ot,
+    name: '' });
+  const [type, setType] = useState(initialType || 'Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(page, filter.date, filter.status, [], filter.name);
+    getData(1, date_ad_ot, status_ad_ot, [], filter.name);
   }, []);
 
-  const goBack = () => {
-    navigation.goBack();
-  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -86,10 +85,74 @@ function ApproveOT(props) {
       case '3':
         setType('Bị từ chối');
         break;
+      default:
+        console.log(':::Wrong type :', item);
     }
   };
-  const renderItem = ({item}) => {
-    return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
+  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
+    const _date = dateN || '';
+    const _status = statusN || 0;
+    const _data = dataN || [];
+    const _name = nameN || '';
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setData(_data.concat(response.data));
+      setPage(pageNumber);
+    }
+  };
+  const handleLoadMore = () => {
+    setLoading(true);
+    setOnScroll(false);
+    getData(page + 1, filter.date, filter.status, data, filter.name);
+  };
+  const onChangeDate = (date) => {
+    setLoading(true);
+    setFilter({
+      ...filter,
+      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
+    });
+    setData([]);
+    setPage(1);
+    getData(
+      1,
+      !date ? '' : moment(date).format('DD/MM/YYYY'),
+      filter.status,
+      [],
+      filter.name,
+    );
+    setDateAdOT(!date ? '' : moment(date).format('DD/MM/YYYY'));
+  };
+  const debouceSearch = _.debounce((value) => {
+    onChangeName(value);
+  }, 1000);
+  const onChangeName = (item) => {
+    setLoading(true);
+    setFilter({ ...filter, name: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, filter.status, [], item);
+  };
+  const onChangeStatus = (item) => {
+    setLoading(true);
+    setFilter({ ...filter, status: item });
+    setData([]);
+    setPage(1);
+    getData(1, filter.date, item, [], filter.name);
+    onSetType(item);
+    setStatusAdOT(item);
+  };
+  const renderFooterComponent = () => {
+    return loading ? <Indicator /> : null;
   };
 
   const onConfirm = async (item) => {
@@ -103,7 +166,7 @@ function ApproveOT(props) {
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(data.map((i) => (i.id === item.id ? {...item, status: 2} : i)));
+        setData(data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)));
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
@@ -112,7 +175,7 @@ function ApproveOT(props) {
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     }
   };
@@ -128,7 +191,7 @@ function ApproveOT(props) {
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(data.map((i) => (i.id === item.id ? {...item, status: 3} : i)));
+        setData(data.map((i) => (i.id === item.id ? { ...item, status: 3 } : i)));
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
@@ -137,111 +200,45 @@ function ApproveOT(props) {
         title: langs.alert.notify,
         message: langs.alert.approveFail,
         // messageColor: Colors.danger,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     }
+  };
+  const renderItem = ({ item }) => {
+    return <ItemOT item={item} onConfirm={onConfirm} onDeny={onDeny} />;
   };
 
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    console.log('on Refresh');
     getData(1, filter.date, filter.status, [], filter.name);
-  };
-
-  const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || '';
-    const _status = statusN || 0;
-    const _data = dataN || [];
-    const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
-    const response = await _GET(apiURL, token, false);
-    setRefresh(false);
-    setLoading(false);
-    setOnScroll(false);
-    console.log('_GET_LIST_OVERTIME_MANAGER ===========>', response);
-    if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
-    ) {
-      setData(_data.concat(response.data));
-      setPage(pageNumber);
-    } 
-  };
-
-  const handleLoadMore = () => {
-    setLoading(true);
-    setOnScroll(false);
-    getData(page + 1, filter.date, filter.status, data, filter.name);
-  };
-
-  const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    ) : null;
-  };
-
-  const onChangeDate = (date) => {
-    setFilter({
-      ...filter,
-      date: !date ? '' : moment(date).format('DD/MM/YYYY'),
-    });
-    setData([]);
-    setPage(1);
-    getData(
-      1,
-      !date ? '' : moment(date).format('DD/MM/YYYY'),
-      filter.status,
-      [],
-      filter.name,
-    );
-  };
-
-  const onChangeStatus = (item) => {
-    setFilter({...filter, status: item});
-    setData([]);
-    setPage(1);
-    getData(1, filter.date, item, [], filter.name);
-    onSetType(item);
-  };
-
-  const onChangeName = (item) => {
-    setFilter({...filter, name: item});
-    setData([]);
-    setPage(1);
-    getData(1, filter.date, filter.status, [], item);
   };
 
   return (
     <>
-      <BarStatus
-        backgroundColor={Colors.white}
-        height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
-      />
       <HeaderCustom
-        title={langs.titleApproveOT}
-        height={40}
-        goBack={goBack}
-        fontSize={24}
+        header={false}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
-        onChangeName={onChangeName}
-        search
+        onChangeName={debouceSearch}
         type={type}
+        dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
+        search={false}
+        txtSearch={filter.name}
       />
       <View style={styles.detail}>
-        {data.length === 0 && (
-          <Text style={styles.noData}>Không có đơn cần duyệt</Text>
+        {data && data.length === 0 && !loading && (
+          <EmptyState
+            source={imgs.notFound}
+            title="Chưa có đơn cần duyệt"
+            description="Gặp lại bạn sau nhé."
+          />
         )}
         <FlatList
           data={data}
           // style={{borderColor: 'red', borderWidth: 1}}
           renderItem={renderItem}
-         keyExtractor={(item, index) => String(index)}
+          keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
@@ -261,11 +258,6 @@ export default ApproveOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-    marginVertical: 16,
-  },
-  noData: {
-    fontSize: 16,
-    alignSelf: 'center',
-    marginTop: 24,
+    backgroundColor: '#f0f0f0',
   },
 });

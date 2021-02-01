@@ -7,17 +7,17 @@ import {
   InputPick,
   InputDown
 } from './Input';
-import {Button} from './Button';
+import { Button } from './Button';
 import Checkbox from './Checkbox';
 import Logo from './Logo';
-import {Alert} from './Alert';
+import { Alert } from './Alert';
 import BarStatus from './StatusBar/BarStatus';
 import TabbarIcon from './Tabbar/TabbarIcon';
 import HeaderCustom from './HeaderCustom/index.js';
 import HeaderCheck from './HeaderCustom/HeaderCheck';
 import SmartWipeRow from './Row/SmartWipeRow';
-import {Touchable} from './Touchable';
-import {TextSelect} from './Text';
+import { Touchable } from './Touchable';
+import { TextSelect } from './Text';
 import Loading from './Loading';
 import Bottom from './BottomCustom/BottomCustom';
 import Combine from './Combine';
@@ -25,6 +25,13 @@ import Gradient from './Gradient';
 import KeyBoardScroll from './KeyBoardScroll';
 import SelectButton from './SelectButton';
 import PickerCustom from './PickerCustom';
+import HeaderAccount from './HeaderCustom/HeaderAccount';
+import ScrollableTabBarCustom from './ScrollableTabBar/index';
+import TabView from './TabView/index';
+import EmptyState from './EmptyState/index';
+import Indicator from './Loading/Indicator';
+import { Dropdown } from './Dropdown';
+
 export {
   Input,
   InputPassword,
@@ -51,4 +58,10 @@ export {
   KeyBoardScroll,
   SelectButton,
   PickerCustom,
+  HeaderAccount,
+  ScrollableTabBarCustom,
+  TabView,
+  EmptyState,
+  Indicator,
+  Dropdown,
 };

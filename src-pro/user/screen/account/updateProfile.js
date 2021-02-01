@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,38 +10,38 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {
+  widthPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import moment from 'moment';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Clipboard from '@react-native-community/clipboard';
+import { Card } from 'native-base';
+import {
   BarStatus,
   Button,
   HeaderCustom,
   KeyBoardScroll,
 } from '../../../component';
-import {
-  widthPercentageToDP,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
-import {Colors} from '../../../../utlis';
+import { Colors } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
-import {_global} from '../../../../utlis/global/global';
+import { _global } from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
 
-import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import Clipboard from '@react-native-community/clipboard';
 import langs from '../../../../common/language';
-import {Card} from 'native-base';
-import {URL} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 function UpdateProfile(props) {
-  const {navigation, updateProfile, token, auth} = props;
+  const { navigation, updateProfile, token, auth } = props;
   const [user, setUser] = useState(auth);
   const [dateChange, setDateChange] = useState(new Date());
 
@@ -71,11 +71,11 @@ function UpdateProfile(props) {
   };
 
   const onChangeName = (val) => {
-    setUser({...user, fullname: val});
+    setUser({ ...user, fullname: val });
   };
 
   const onChangePhone = (val) => {
-    setUser({...user, phone_number: val});
+    setUser({ ...user, phone_number: val });
   };
 
   const onChangeBirthday = (event, val) => {
@@ -83,20 +83,18 @@ function UpdateProfile(props) {
     if (Platform.OS === 'ios') {
       setShowPicker(Platform.OS === 'ios');
       setDateChange(val);
+    } else if (event.type === 'set') {
+      setShowPicker(false);
+      setUser({ ...user, birthday: moment(pickDate).format('DD/MM/YYYY') });
+      setDateChange(pickDate);
     } else {
-      if (event.type === 'set') {
-        setShowPicker(false);
-        setUser({...user, birthday: moment(pickDate).format('DD/MM/YYYY')});
-        setDateChange(pickDate);
-      } else {
-        setShowPicker(false);
-      }
+      setShowPicker(false);
     }
   };
 
   const onConfirmBirthday = () => {
     setShow(false);
-    setUser({...user, birthday: moment(dateChange).format('DD/MM/YYYY')});
+    setUser({ ...user, birthday: moment(dateChange).format('DD/MM/YYYY') });
   };
 
   // const onHideGene = () => {
@@ -104,11 +102,11 @@ function UpdateProfile(props) {
   // };
 
   const onChangeIdentity = (val) => {
-    setUser({...user, identity_number: val});
+    setUser({ ...user, identity_number: val });
   };
 
   const onChangeAddress = (val) => {
-    setUser({...user, address: val});
+    setUser({ ...user, address: val });
   };
 
   const onShowModal = () => {
@@ -127,11 +125,11 @@ function UpdateProfile(props) {
 
   const onChangeBank = (value) => {
     navigation.goBack();
-    setUser({...user, bank_name: value});
+    setUser({ ...user, bank_name: value });
   };
 
   const onChangeBankAccount = (value) => {
-    setUser({...user, bank_account: value});
+    setUser({ ...user, bank_account: value });
   };
 
   const onHideModal = () => {
@@ -146,7 +144,7 @@ function UpdateProfile(props) {
       leftButton: {
         text: langs.alert.copy,
         onPress: onCopyDeviceID,
-        textStyle: {color: Colors.background},
+        textStyle: { color: Colors.background },
       },
     });
   };
@@ -173,7 +171,7 @@ function UpdateProfile(props) {
       _global.Alert.alert({
         title: langs.alert.notify,
         message: langs.alert.wrongVinaphone,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
     } else {
       updateProfile(data);
@@ -181,10 +179,8 @@ function UpdateProfile(props) {
   };
 
   return (
-    <>
-      <BarStatus />
-      <SafeAreaView />
-      <HeaderCustom title={'Khai báo thông tin'} goBack={goBack} />
+    <View style={{ backgroundColor: 'white' }}>
+      <HeaderCustom title="Cập nhật thông tin" goBack={goBack} shadow />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>
           <UpdateInfo
@@ -218,23 +214,23 @@ function UpdateProfile(props) {
             showModal={show}
             hideModal={onHideModal}
             onConfirm={onConfirmBirthday}
-            picker={
+            picker={(
               <View style={styles.picker}>
                 <DateTimePicker
                   value={dateChange}
-                  mode={'date'}
+                  mode="date"
                   display="default"
                   onChange={onChangeBirthday}
                   locale="vi-VI"
                 />
               </View>
-            }
+            )}
           />
         ) : (
           showPicker && (
             <DateTimePicker
               value={dateChange}
-              mode={'date'}
+              mode="date"
               display="default"
               onChange={onChangeBirthday}
               locale="vi-VI"
@@ -243,7 +239,7 @@ function UpdateProfile(props) {
           )
         )}
       </KeyBoardScroll>
-    </>
+    </View>
   );
 }
 
@@ -252,6 +248,7 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
   container: {
     // padding: 24,
+    backgroundColor: '#f0f0f0'
   },
   viewButton: {
     flex: 0.5,

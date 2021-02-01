@@ -7,6 +7,7 @@ import {listRoom} from '../../../redux/actions/user';
 const mapStateToProps = (state) => ({
   token: state.authen.token,
   listRoomBook: state.user.listRoomBook,
+  user_id: state.authen.user_id,
 });
 
 const mapDispatchToProps = {

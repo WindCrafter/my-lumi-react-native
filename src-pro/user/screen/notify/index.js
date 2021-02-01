@@ -10,22 +10,23 @@ import {
   RefreshControl,
 } from 'react-native';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
 import HeaderNotify from './component/HeaderNotify';
-import { BarStatus } from '../../../component';
-import { Colors } from '../../../../utlis';
+import { BarStatus, Indicator, EmptyState } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 import { URL } from '../../../../utlis/connection/url';
-import { _GET } from '../../../../utlis/connection/api';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
 const Notify = (props) => {
-  const { navigation, token } = props;
+  const { navigation, token, read } = props;
   const [date, setDate] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
@@ -52,11 +53,7 @@ const Notify = (props) => {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
-      </View>
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const getData = async (pageNumber, dateN, searchN, dataN) => {
@@ -64,7 +61,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20`;
+    const apiURL = `${URL.LOCAL_HOST}${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -82,51 +79,98 @@ const Notify = (props) => {
   };
 
   const renderItem = ({ item }) => {
+    const leader = item.customData.approved === 1 || item.customData.approved === '1';
+    // console.log(leader);
     const onShow = () => {
+      console.log('item', item);
+
       if (item.type === 1 || item.type === '1') {
         switch (item.customData.type) {
           case 1:
           case '1':
-            navigation.navigate(langs.navigator.listOT);
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.listOT,
+              { page: 2 },
+            );
             break;
           case 2:
           case '2':
-            navigation.navigate(langs.navigator.historyBreak);
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.historyBreak,
+              { page: 0 },
+            );
             break;
           case 3:
           case '3':
-            navigation.navigate(langs.navigator.historyLate);
+            navigation.navigate(
+              leader ? langs.navigator.approve : langs.navigator.historyLate,
+              { page: 1 },
+            );
             break;
           case 4:
           case '4':
-            navigation.navigate(langs.navigator.approveOT);
+            navigation.navigate(langs.navigator.approve, { page: 3 });
             break;
           case 5:
           case '5':
-            navigation.navigate(langs.navigator.approveBreak);
+            navigation.navigate(langs.navigator.approve, { page: 3 });
             break;
           case 6:
           case '6':
-            navigation.navigate(langs.navigator.approveLate);
+            navigation.navigate(langs.navigator.history);
             break;
+          case 7:
+          case '7':
+            navigation.goBack();
+            break;
+          default:
+            console.log('Wrong type', item.customData.type);
         }
       }
+      _POST(url, { id: item.id }, token, false);
+      setData(
+        data.map((e) => {
+          return e.id === item.id ? { ...e, status: 1 } : e;
+        }),
+      );
     };
+    const url = `${URL.LOCAL_HOST}${URL.NOTIFICATION_READ}`;
 
     return (
-      // <TouchableOpacity onPress={onShow}>
-      <Card style={styles.card}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.content}>{item.content}</Text>
-        <Text style={styles.time}>
-          {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
-        </Text>
-      </Card>
-      // </TouchableOpacity>
+      <TouchableOpacity onPress={onShow}>
+        <Card
+          style={[
+            styles.card,
+            {
+              backgroundColor:
+                item.status === 0 || item.status === '0'
+                  ? Colors.white
+                  : Colors.backgroundInActive,
+            },
+          ]}
+        >
+          <View style={styles.row}>
+            {item.status === 0 || item.status === '0' ? (
+              <View style={styles.read} />
+            ) : (
+              <View style={styles.unRead} />
+            )}
+            {/* <Text style={styles.title}>{item.title}</Text> */}
+            <Text style={styles.content}>{item.content}</Text>
+          </View>
+          <Text style={styles.time}>
+            {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
+          </Text>
+        </Card>
+      </TouchableOpacity>
     );
   };
 
+  const debouceSearch = _.debounce((value) => {
+    onSearch(value);
+  }, 1000);
   const onSearch = (value) => {
+    setLoading(true);
     setPage(1);
     setData([]);
     setSearch(value);
@@ -134,22 +178,33 @@ const Notify = (props) => {
   };
 
   const onChangeDate = (value) => {
+    setLoading(true);
     const _date = value ? moment(value).format('DD/MM/YYYY') : '';
     setPage(1);
     setData([]);
     setDate(_date);
     getData(1, _date, search, []);
   };
-
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
-      <BarStatus />
-      <HeaderNotify onSearch={onSearch} onDate={onChangeDate} />
+      <HeaderNotify
+        onSearch={debouceSearch}
+        onDate={onChangeDate}
+        goBack={goBack}
+      />
 
-      {data.length === 0 && (
-        <Text style={styles.noData}>Không có thông báo.</Text>
+      {data && data.length === 0 && !loading && (
+        <EmptyState
+          source={imgs.emptyState}
+          title="Không có thông báo nào"
+          description=""
+        />
       )}
       <FlatList
+        style={{ paddingTop: 16 }}
         data={data}
         renderItem={renderItem}
         keyExtractor={(item, index) => String(index)}
@@ -177,11 +232,20 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     width: '90%',
     alignSelf: 'center',
-    backgroundColor: '#ffffff',
     overflow: 'hidden',
     shadowColor: 'black',
-    paddingHorizontal: 16,
+    paddingLeft: 16,
+    paddingRight: 24,
     paddingVertical: 16,
+    marginVertical: 8,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   time: {
     fontSize: 10,
@@ -202,5 +266,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     marginTop: 24,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  read: {
+    backgroundColor: Colors.background,
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    marginRight: 4,
+  },
+  unRead: {
+    backgroundColor: Colors.itemInActive,
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    marginRight: 4,
   },
 });

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,22 +8,28 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import {Input} from '../../../../component';
-import {imgs} from '../../../../../utlis';
-import PickerCustom from './PickerCustom';
 import moment from 'moment';
-import {Colors} from '../../../../../utlis/';
+import LinearGradient from 'react-native-linear-gradient';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Input } from '../../../../component';
+import { imgs, Colors } from '../../../../../utlis';
+import PickerCustom from './PickerCustom';
+
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
+  header?:Boolean;
 }
 HeaderNotify.defaultProps = {
   title: 'Thông báo',
   detail: 'Nhắc việc và bản tin',
+  header: true
 };
 
-export default function HeaderNotify(props?: Props) {
-  const {title, detail, onSearch, onDate} = props;
+export default function HeaderNotify(props) {
+  const { title, detail, onSearch, onDate, goBack, header } = props;
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -34,7 +40,7 @@ export default function HeaderNotify(props?: Props) {
   };
 
   const onChangeTextSearch = (value) => {
-    setSearch(value);
+    onSearch(value);
   };
 
   const onShow = () => {
@@ -48,14 +54,12 @@ export default function HeaderNotify(props?: Props) {
   const onChangeDate = (event, selected) => {
     if (Platform.OS === 'ios') {
       setDateChange(selected);
+    } else if (event.type === 'set') {
+      setShow(false);
+      setDate(selected);
+      onDate(selected);
     } else {
-      if (event.type === 'set') {
-        setShow(false);
-        setDate(selected);
-        onDate(selected);
-      } else {
-        setShow(false);
-      }
+      setShow(false);
     }
   };
 
@@ -70,39 +74,75 @@ export default function HeaderNotify(props?: Props) {
     setDateChange(new Date());
     onDate('');
   };
-
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
-      <SafeAreaView />
-      <View style={styles.info}>
-        <Text style={styles.txtTitle}>{title}</Text>
+      <View style={[styles.info]}>
+        {header ? (
+          <View style={{ flexDirection: 'row', marginTop: insets.top + 16 }}>
+            {goBack ? (
+              <TouchableOpacity onPress={goBack} style={styles.button}>
+                {/* <Image source={leftImage} style={styles.image} resizeMode="contain" /> */}
+                <Icon
+                  name="chevron-back-outline"
+                  size={32}
+                  color={Colors.black}
+                  style={{ top: 0 }}
+                />
+              </TouchableOpacity>
+            ) : null}
+            <Text style={[styles.txtTitle, { marginLeft: goBack ? 12 : 0 }]}>
+              {title}
+            </Text>
+          </View>
+        ) : null}
         <View style={styles.filter}>
           <Input
             button
             leftImage={imgs.search}
             containerStyle={styles.search}
             height={40}
-            onPress={submitSearch}
             value={search}
             onChangeText={onChangeTextSearch}
-            autoCapitalize={'none'}
-            placeholder={'Tìm kiếm'}
+            autoCapitalize="none"
+            placeholder="Tìm kiếm"
+            rightIcon
           />
           <View
             style={[
               styles.filterDate,
-              {justifyContent: !date ? 'center' : 'space-between'},
-            ]}>
+              {
+                justifyContent: 'center',
+                backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
+                borderWidth: date ? 1 : 0,
+                borderColor: date ? Colors.background : 'white',
+              },
+            ]}
+          >
             <TouchableOpacity style={styles.txtDay} onPress={onShow}>
-              <Text style={styles.txtRole}>
-                {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Ngày'}{' '}
+              <Text
+                style={[
+                  styles.txtRole,
+                  { color: date ? Colors.background : Colors.ink500 },
+                ]}
+              >
+                {date
+                  ? moment(new Date(date)).format('DD/MM/YYYY')
+                  : 'Chọn ngày '}
               </Text>
-              <Text>{show ? '▲' : '▼'}</Text>
+              {date ? null : (
+                <Icon
+                  size={18}
+                  name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                  style={{ color: Colors.black, top: 2 }}
+                />
+              )}
             </TouchableOpacity>
             {date ? (
               <TouchableOpacity style={styles.touchableClear} onPress={onClear}>
-                <View style={styles.column} />
-                <Image source={imgs.cancel} style={styles.imgClear} />
+                <View style={styles.viewClear}>
+                  <Image source={imgs.cancel} style={styles.imgClear} />
+                </View>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -115,23 +155,25 @@ export default function HeaderNotify(props?: Props) {
         onChange={onChangeDate}
         onHideModal={onHideModal}
         onPress={onPressConfirmIOS}
-        mode={'date'}
+        mode="date"
       />
-      <View style={styles.line} />
-      <View style={styles.bot} />
+      <LinearGradient
+        style={[styles.gradient]}
+        colors={['#D5D5D5', '#F2F2F2']}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
+    backgroundColor: Colors.white,
   },
   info: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginHorizontal: 24,
-    marginVertical: 10,
+    marginHorizontal: 16,
+    marginBottom: 16,
   },
   txtTitle: {
     fontSize: 24,
@@ -139,42 +181,26 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Bold',
     color: 'black',
   },
-  txtDetail: {
-    fontSize: 16,
-    fontWeight: '300',
-    color: 'black',
-    marginVertical: 4,
-  },
-  line: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: Colors.gray,
-  },
-  bot: {
-    flex: 1,
-    paddingBottom: 16,
-  },
+
   filterDate: {
     flexDirection: 'row',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.gray,
     alignItems: 'center',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    width: 150,
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    width: 120,
     height: 40,
+
   },
   txtDay: {
     flexDirection: 'row',
     justifyContent: 'center',
-    height: '100%',
-    width: '75%',
     alignItems: 'center',
-    marginRight: 0,
+
   },
-  imgClear: {alignSelf: 'center', width: 12, height: 12},
+  imgClear: { alignSelf: 'center', width: 8, height: 8, tintColor: 'white' },
   search: {
     flex: 1,
-    marginRight: 20,
+    marginRight: 8,
     alignSelf: 'center',
     borderRadius: 10,
     backgroundColor: 'transparent',
@@ -187,12 +213,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   touchableClear: {
-    width: '35%',
-    height: '100%',
-    flexDirection: 'row',
+    overflow: 'hidden',
+    width: 18,
+    height: 32,
     justifyContent: 'center',
-    borderLeftColor: Colors.gray,
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    marginLeft: 4,
+    alignItems: 'flex-start',
+    marginLeft: 4
   },
+  viewClear: {
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    backgroundColor: Colors.ink300,
+    borderRadius: 16,
+    width: 18,
+    height: 18,
+  },
+  gradient: {
+    width: wp(100),
+    height: 4,
+  },
+  button: {
+    width: 32, height: 32
+  }
 });

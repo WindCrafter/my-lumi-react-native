@@ -1,6 +1,6 @@
-import {takeLatest, put, select, delay} from 'redux-saga/effects';
-import * as types from '../types';
+import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import OneSignal from 'react-native-onesignal';
+import * as types from '../types';
 
 import {
   loginSuccess,
@@ -24,13 +24,13 @@ import {
   getSummaryFailed,
   logOut,
 } from '../actions/authen';
-import {URL} from '../../../utlis/connection/url';
-import {_GET, _POST} from '../../../utlis/connection/api';
-import {_global} from '../../../utlis/global/global';
+import { URL } from '../../../utlis/connection/url';
+import { _GET, _POST } from '../../../utlis/connection/api';
+import { _global } from '../../../utlis/global/global';
 import langs from '../../../common/language';
-import {Colors} from '../../../utlis';
+import { Colors } from '../../../utlis';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
-import {removeUserIdDevice} from '../actions/user';
+import { removeUserIdDevice } from '../actions/user';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -61,13 +61,13 @@ function* sagaLoginAction(action) {
         }),
       );
       _global.Loading.hide();
-      yield put(getProfile({access_token: response.data.access_token}));
+      yield put(getProfile({ access_token: response.data.access_token }));
     } else {
       yield put(loginFailed());
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -76,7 +76,7 @@ function* sagaLoginAction(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
     _global.Loading.hide();
   }
@@ -98,16 +98,16 @@ function* sagaFirstLogin(action) {
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(changePassSuccess());
-       
+
       _global.Alert.alert({
         title: langs.notify,
-        message: `Đổi mật khẩu thành công. \n Vui lòng đăng nhập lại.`,
+        message: 'Đổi mật khẩu thành công. \n Vui lòng đăng nhập lại.',
         leftButton: {
           text: langs.alert.ok,
-         
+
         },
       });
-yield put(logOut());
+      yield put(logOut());
       _global.Loading.hide();
     } else {
       yield put(changePassFailed());
@@ -125,7 +125,7 @@ yield put(logOut());
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
     _global.Loading.hide();
   }
@@ -260,7 +260,7 @@ function* sagaRegisterAction(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: response.message,
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -269,7 +269,7 @@ function* sagaRegisterAction(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
     _global.Loading.hide();
   }
@@ -292,7 +292,7 @@ function* sagaGetProfile(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: 'Lấy thông tin user thất bại',
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -301,7 +301,7 @@ function* sagaGetProfile(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
     _global.Loading.hide();
   }
@@ -324,7 +324,7 @@ function* sagaGetSummary(action) {
       _global.Alert.alert({
         title: langs.notify,
         message: 'Lấy thông tin user thất bại',
-        leftButton: {text: langs.alert.ok},
+        leftButton: { text: langs.alert.ok },
       });
       _global.Loading.hide();
     }
@@ -333,7 +333,7 @@ function* sagaGetSummary(action) {
     _global.Alert.alert({
       title: langs.notify,
       message: langs.errorNetwork,
-      leftButton: {text: langs.alert.ok},
+      leftButton: { text: langs.alert.ok },
     });
     _global.Loading.hide();
   }

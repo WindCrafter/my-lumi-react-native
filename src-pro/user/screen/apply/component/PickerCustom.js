@@ -1,10 +1,10 @@
 import React from 'react';
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Colors} from '../../../../../utlis';
 import Modal from 'react-native-modal';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Button} from '../../../../component';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Colors } from '../../../../../utlis';
+import { Button } from '../../../../component';
 
 const PickerCustom = (props) => {
   const {
@@ -23,12 +23,13 @@ const PickerCustom = (props) => {
   return Platform.OS === 'ios' ? (
     <Modal
       isVisible={show}
-      animationIn={'slideInUp'}
+      animationIn="slideInUp"
       animationOutTiming={500}
-      animationOut={'slideOutDown'}
+      animationOut="slideOutDown"
       onBackdropPress={onHideModal}
       style={styles.modal}
-      backdropTransitionOutTiming={0}>
+      backdropTransitionOutTiming={0}
+    >
       <View style={styles.modalview}>
         <View style={styles.picker}>
           <Text style={styles.txtHeader}>
@@ -39,14 +40,14 @@ const PickerCustom = (props) => {
             mode={mode}
             display="default"
             onChange={onChange}
-            is24Hour={true}
+            is24Hour
             minimumDate={minimumDate}
             maximumDate={maximumDate}
             {...props}
             locale={locale}
           />
           <Button
-            title={'Xong'}
+            title="Xong"
             containerStyle={styles.complete}
             onPress={onPress}
           />
@@ -58,10 +59,10 @@ const PickerCustom = (props) => {
       <DateTimePicker
         value={value}
         mode={mode}
-        display="default"
         onChange={onChange}
-        is24Hour={true}
+        is24Hour
         minimumDate={minimumDate}
+        display="default"
         {...props}
         locale={locale}
       />

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import { addUserIdDevice } from './src-pro/redux/actions/user.js';
 import { getOneSignalID } from './src-pro/redux/actions/authen.js';
-import { getOneSignalID as getOneSignalIDserverDev } from './src-dev/redux/actions/authen.js';
+import { getOneSignalID as getOneSignalIDserverDev } from './src-pro/redux/actions/authen.js';
 
 const Schema = 'lumihr://';
 

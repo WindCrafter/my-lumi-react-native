@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   StyleSheet,
@@ -18,36 +19,39 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {Agenda, Calendar} from 'react-native-calendars';
+import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import ActionButton from 'react-native-action-button';
-import {Card} from 'native-base';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus} from '../../../component';
-import HeaderAccount from './component/HeaderAccount';
-import langs from '../../../../common/language/index';
-import {_GET} from '../../../../utlis/connection/api';
-import {URL} from '../../../../utlis/connection/url';
+import { Card } from 'native-base';
 import Modal from 'react-native-modal';
+import { Colors, Fonts, imgs } from '../../../../utlis';
+import { BarStatus, HeaderAccount, EmptyState,
+  Indicator, } from '../../../component';
+import langs from '../../../../common/language/index';
+import { _GET } from '../../../../utlis/connection/api';
+import { URL } from '../../../../utlis/connection/url';
+
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 const Book = (props) => {
-  const {navigation, token, listRoom, listRoomBook} = props;
+  const { navigation, token, listRoom, listRoomBook, user_id } = props;
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [itemShow, setItemShow] = useState({});
 
   const onShowModal = (item) => {
     setShowModal(true);
     setItemShow(item);
+    console.log(moment().format('DD-MM-YYYY'));
+    console.log(item);
   };
   const onHideModal = () => {
     setShowModal(false);
@@ -78,15 +82,13 @@ const Book = (props) => {
   //     listArrayRoom[`${year}-${month}-${date}`] = [i];
   //   }
   // });
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    if (isFocused) {
       getData();
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+      // console.log('statusstatussta redux', status_user_break, date_user_break);
+    }
+  }, [isFocused]);
   const getData = async (dataN) => {
     console.log('date');
 
@@ -98,45 +100,62 @@ const Book = (props) => {
     setOnScroll(false);
     console.log('_GET_LIST_OVERTIME ===========>', response);
     if (
-      response.success &&
-      response.statusCode === 200 &&
-      response.data &&
-      response.data.length > 0
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
-    } else {
     }
+    // else {
+    // }
   };
   const array = [];
-
+  let count = 0;
   data.forEach((i) => {
     if (array.filter((it) => i.date === it.date).length === 0) {
-      array.push({date: i.date, data: [i]});
+      array.push({ date: i.date, data: [i] });
     } else {
-      array.map((item) =>
-        item.date === i.date ? {...item, data: item.data.push(i)} : item,
-      );
+      array.map((item) => (item.date === i.date ? { ...item, data: item.data.push(i) } : item),);
     }
   });
-
+  array.forEach((i) => {
+    console.log(i);
+    if (i.date == moment().format('DD-MM-YYYY')) {
+      i.data.forEach((k) => {
+        // console.log(k);
+        // console.log('member', k.member_ids);
+        // console.log('owner', k.owner_id);
+        if (k.member_ids.includes(user_id) || k.owner_id == user_id) {
+          count++;
+        }
+      });
+    }
+  });
+  console.log(count);
   const renderItem = (item) => {
+    // console.log('memberid', item.item.member_ids);
+    // console.log('user_id', user_id);
+
     return (
       <View>
         <View style={[styles.container]}>
           {/* <Text>{item.section.date}</Text>  */}
-          <View style={{width: 80}} />
+          <View style={{ width: 80 }} />
           <TouchableOpacity
             onPress={() => onShowModal(item.item)}
             style={[
               styles.item,
-              ,
               {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
+                borderWidth: item.item.member_ids.includes(user_id) || item.item.owner_id == user_id ? 2.5 : 0,
+                borderColor: Colors.background,
               },
-            ]}>
-            <View style={{marginHorizontal: 16}}>
+            ]}
+          >
+            <View style={{ marginHorizontal: 16 }}>
               <Text style={styles.itemDurationText}>
                 {`${item.item.subject}`}
               </Text>
@@ -150,10 +169,15 @@ const Book = (props) => {
               </Text> */}
               {item.item.owner_name !== item.item.member ? (
                 <Text>
-                  <Text style={styles.txtOwner}>{item.item.owner_name}</Text>,{' '}
-                  {item.item.member
-                    .replace(`${item.item.owner_name},`, '')
-                    .replace(/,/g, ', ')}
+                  <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
+                  ,
+                  {' '}
+                  {item.item.owner_name
+                    !== item.item.member ? item.item.member
+                      .split(',')
+                      .filter((i) => i != item.item.owner_name)
+                      .toString()
+                      .replace(/,/g, ', ') : item.item.owner_name}
                 </Text>
               ) : (
                 <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
@@ -193,37 +217,86 @@ const Book = (props) => {
     );
   };
   const ListHeaderComponent = () => {
-    return <View style={{height: 24}} />;
+    return <View style={{ height: 24 }} />;
   };
   const renderFooterComponent = () => {
-    return loading ? (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color={Colors.gray} />
+    return (
+      <View style={{ paddingBottom: 64 }}>
+        {loading ? (
+
+          <Indicator />
+
+        ) : null}
       </View>
-    ) : null;
+    );
   };
   const renderHeader = (section) => {
     return (
-      <View style={styles.viewHeader}>
-        <Text style={styles.textHeader}>
-          {moment(section.section.date, 'DD-MM-YYYY').format('D')}
-        </Text>
-        <Text>
-          Tháng {moment(section.section.date, 'DD-MM-YYYY').format('M')}
-        </Text>
+      <View>
+        {moment().format('DD-MM-YYYY')
+        !== moment(section.section.date, 'DD-MM-YYYY').format('DD-MM-YYYY') ? (
+          <View style={styles.viewHeader}>
+            <Text style={styles.textHeader}>
+              {moment(section.section.date, 'DD-MM-YYYY').format('D')}
+            </Text>
+            <Text>
+              Tháng
+              {' '}
+              {moment(section.section.date, 'DD-MM-YYYY').format('M')}
+            </Text>
+          </View>
+          ) : (
+            <View style={styles.viewHeader}>
+              <Text style={styles.textToday}>
+                Hôm
+                {' '}
+                {'\n '}
+                nay
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  position: 'absolute',
+                  top: 64,
+                  fontWeight: '500',
+
+                }}
+              >
+                {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
+                {' '}
+                Tháng
+                {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
+              </Text>
+            </View>
+          )}
       </View>
     );
   };
 
   return (
     <>
-      <SafeAreaView />
-      <BarStatus />
-      <HeaderAccount />
-      {data.length === 0 && (
-        <Text style={styles.noData}>Hiện tại chưa có lịch họp.</Text>
+      <BarStatus
+        backgroundColor={Colors.white}
+        height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
+      />
+      <HeaderAccount
+        shadow
+        title="Lịch"
+        sub={
+          count === 0
+            ? 'Hôm nay bạn chưa có lịch họp nào'
+            : `Hôm nay bạn có ${count} lịch họp.`
+        }
+      />
+      {data && data.length === 0 && !loading && (
+        <EmptyState
+          source={imgs.caughtUp}
+          title="Chưa có lịch họp."
+          description="Hẹn bạn sau nhé."
+        />
       )}
       <SectionList
+        style={{ paddingTop: 16 }}
         sections={array}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
@@ -233,6 +306,7 @@ const Book = (props) => {
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={renderFooterComponent}
+        stickySectionHeadersEnabled={false}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
@@ -243,7 +317,7 @@ const Book = (props) => {
         degrees={45}
         fixNativeFeedbackRadius
         renderIcon={buttonIcon}
-        style={[Platform.OS === 'ios' ? {zIndex: 100} : {elevation: 100}]}
+        style={[Platform.OS === 'ios' ? { zIndex: 100 } : { elevation: 100 }]}
       />
       <Modal isVisible={showModal} onBackdropPress={onHideModal}>
         <Card style={styles.viewCard}>
@@ -254,17 +328,21 @@ const Book = (props) => {
               alignSelf: 'center',
               fontWeight: '600',
               fontFamily: 'Quicksand-Bold',
-            }}>
+            }}
+          >
             Chi tiết
           </Text>
           <Text style={styles.txtContainer}>
-            <Text style={styles.detail}>Nội dung họp:</Text> {itemShow.subject}
+            <Text style={styles.detail}>Nội dung họp:</Text>
+            {' '}
+            {itemShow.subject}
           </Text>
           <Text
             style={{
               fontSize: 16,
               marginBottom: 8,
-            }}>
+            }}
+          >
             {`${moment(itemShow.date, 'DD-MM-YYYY').format(
               'DD',
             )} tháng ${moment(itemShow.date, 'DD-MM-YYYY').format(
@@ -273,19 +351,33 @@ const Book = (props) => {
               'LT',
             )} - ${moment(itemShow.end_time, 'hh:mm').format('LT')}`}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Địa điểm :</Text> {itemShow.location}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Địa điểm :</Text>
+            {' '}
+            {itemShow.location}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Người tạo :</Text> {itemShow.owner_name}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tạo :</Text>
+            {' '}
+            {itemShow.owner_name}
           </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>{' '}
-            {itemShow.content}
-          </Text>
-          <Text style={{fontSize: 16, marginBottom: 8}}>
-            <Text style={styles.detail}>Người tham gia :</Text>{' '}
-            {itemShow.member && itemShow.member.replace(/,/g, ', ')}
+          {itemShow.content ? (
+            <Text style={{ fontSize: 16, marginBottom: 8 }}>
+              <Text style={styles.detail}>Tóm tắt cuộc họp :</Text>
+              {' '}
+              {itemShow.content}
+            </Text>
+          ) : null}
+          <Text style={{ fontSize: 16, marginBottom: 8 }}>
+            <Text style={styles.detail}>Người tham gia :</Text>
+            {' '}
+            {itemShow.owner_name !== itemShow.member
+              ? itemShow.member
+                .split(',')
+                .filter((item) => item != itemShow.owner_name)
+                .toString()
+                .replace(/,/g, ', ')
+              : itemShow.owner_name}
           </Text>
         </Card>
       </Modal>
@@ -293,7 +385,19 @@ const Book = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  container: {flexDirection: 'row', width: '100%'},
+  container: {
+    flexDirection: 'row',
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
   item: {
     backgroundColor: 'white',
     flex: 1,
@@ -301,6 +405,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 16,
     marginRight: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   emptyDate: {
     height: 15,
@@ -342,21 +455,7 @@ const styles = StyleSheet.create({
   txtHeader: {
     textAlign: 'center',
   },
-  meeting: {
-    width: '25%',
-    height: 48,
-    borderBottomRightRadius: 23,
-    borderTopRightRadius: 23,
-    backgroundColor: '#ffffff',
-    shadowColor: 'rgba(0, 0, 0, 0.16)',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 6,
-    shadowOpacity: 1,
-    justifyContent: 'center',
-  },
+
   day: {
     width: '25%',
     height: 48,
@@ -393,7 +492,6 @@ const styles = StyleSheet.create({
   img: {
     tintColor: '#008aee',
   },
-  meeting: {tintColor: '#008aee'},
   add: {
     alignSelf: 'center',
     height: 16,
@@ -409,20 +507,23 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 24,
   },
-  viewHeader: {justifyContent: 'center', width: 80, alignItems: 'center'},
-  textHeader: {fontSize: 24, fontWeight: '500'},
+  viewHeader: { justifyContent: 'center', width: 80, alignItems: 'center' },
+  textHeader: { fontSize: 24, fontWeight: '500' },
+  textToday: { fontSize: 20, fontWeight: '500', color: Colors.blue },
   txtTime: {
-    fontSize: 14,
-    color: 'grey',
+    fontSize: 16,
+    color: Colors.ink500,
     marginBottom: 8,
+    fontFamily: Fonts.font_family.bold,
+    fontWeight: Fonts.font_weight.bold
   },
-  txtOwner: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
+  txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
   },
-  txtContainer: {fontSize: 16, marginVertical: 8},
-  detail: {fontWeight: '600', fontFamily: 'Quicksand-Bold'},
+  txtContainer: { fontSize: 16, marginVertical: 8 },
+  detail: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
 });
 export default Book;
