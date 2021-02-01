@@ -108,10 +108,8 @@ export default function Home(props) {
   };
 
   const time_late = () => {
-    const hour = Math.floor(
-      (summary.check_in_of_week + summary.check_out_of_week) / 60,
-    );
-    const minute = (summary.check_in_of_week + summary.check_out_of_week) % 60;
+    const hour = Math.floor(summary.check_in_out_late_early / 60);
+    const minute = summary.check_in_out_late_early % 60;
     return `${hour}h ${minute}m`;
   };
 
@@ -178,9 +176,7 @@ export default function Home(props) {
                 <CardUser
                   backgroundColor="rgb(246, 243, 255)"
                   number={
-                    summary.check_in_of_week || summary.check_out_of_week
-                      ? time_late()
-                      : '0h 0m'
+                    summary.check_in_out_late_early ? time_late() : '0h 0m'
                   }
                   detail="Giờ làm bù"
                   source={imgs.clockAlert}

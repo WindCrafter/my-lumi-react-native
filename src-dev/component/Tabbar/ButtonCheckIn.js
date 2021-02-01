@@ -18,18 +18,20 @@ const ButtonCheckIn = (props) => {
       onPress={onCheck}
       onLongPress={onLongPress}
       style={styles.container}
-      disabled={type === 'inactive'}
+      disabled={!demoMode ? (type === 'inactive') : false}
     >
       <View
         style={[
           styles.containerBt,
           {
             backgroundColor:
-              type === 'inactive'
-                ? Colors.itemInActive
-                : type === 'in'
-                  ? Colors.background
-                  : '#EE9723',
+             !demoMode ? (type === 'inactive'
+               ? Colors.itemInActive
+               : type === 'in'
+                 ? Colors.background
+                 : '#EE9723') : (type === 'in'
+               ? Colors.background
+               : '#EE9723'),
             // borderWidth: type === 'inactive' ? 0 : status === 1 ? 5 : 0,
             // borderColor: type === 'out' ? Colors.background : '#EE9723',
           },
