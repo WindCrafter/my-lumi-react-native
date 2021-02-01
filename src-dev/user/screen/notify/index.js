@@ -61,7 +61,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&name=${_search}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -234,7 +234,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     overflow: 'hidden',
     shadowColor: 'black',
-    paddingHorizontal: 16,
+    paddingLeft: 16,
+    paddingRight: 24,
     paddingVertical: 16,
     marginVertical: 8,
     shadowOffset: {

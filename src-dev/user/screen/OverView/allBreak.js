@@ -61,7 +61,7 @@ const AllBreak = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&fullname=${_name}`;
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=2&date=${_date}&fullname=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);

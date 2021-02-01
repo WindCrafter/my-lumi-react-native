@@ -238,7 +238,7 @@ function UpdateBreak(props) {
   const onSetTypeShift = () => {
     console.log('typeShift', typeShift);
 
-    if (moment(_date.toString(), 'DD/MM/YYYY').format('dddd') !== 'Saturday') {
+    if (moment(shift, 'YYYY-MM-DD').format('dddd') !== 'Saturday') {
       console.log('check');
       typeShift === 'Buổi sáng'
         ? setTypeShift('Buổi chiều')
@@ -402,7 +402,7 @@ function UpdateBreak(props) {
                   <Image source={imgs.breakDay} style={styles.imageStamp} />
 
                   <Text style={styles.txtTime}>
-                    {moment(shift).format('DD/MM/YYYY')}
+                    {moment(shift, 'YYYY-MM-DD').format('DD/MM/YYYY')}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -440,7 +440,7 @@ function UpdateBreak(props) {
         </View>
         {mode === 'shift' ? (
           <PickerCustom
-            value={shift}
+            value={moment(shift, 'YYYY-MM-DD')._d}
             onChange={onChangeShift}
             onPress={onUnshow}
             mode="date"

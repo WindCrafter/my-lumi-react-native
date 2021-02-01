@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Header from './component/Header';
 import { Colors, imgs } from '../../../../utlis/index';
-import {BarStatus, HeaderAccount} from '../../../component';
+import { BarStatus, HeaderAccount } from '../../../component';
 
 const Kpi = (props) => {
   const { token, navigation, getKPI, confirmKpi, kpi } = props;
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
 
-    elevation: 11,
+    elevation: 2,
   },
   headerCard: {
     paddingVertical: 50,

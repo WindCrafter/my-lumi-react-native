@@ -239,11 +239,12 @@ function History(props) {
         onRight={onRight}
         shadow
       />
-      <View style={styles.timeCheck}>
-        <Image source={imgs.clockKeeping} style={styles.avt} />
-        <Text style={styles.time}>{getTimeBySeason()}</Text>
-      </View>
+
       <View style={styles.contentHistory}>
+        <View style={styles.timeCheck}>
+          <Image source={imgs.clockKeeping} style={styles.avt} />
+          <Text style={styles.time}>{getTimeBySeason()}</Text>
+        </View>
         {data && data.length === 0 && !loading && (
           <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}
@@ -268,15 +269,18 @@ function History(props) {
         animationOut="slideOutDown"
         onBackdropPress={hideModal}
         // style={styles.modal}
-        backdropTransitionOutTiming={0}>
+        backdropTransitionOutTiming={0}
+      >
         <View style={styles.contentContainer}>
           <View style={styles.content}>
             <MonthPicker selectedDate={dateChange} onMonthChange={onChange} />
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+            >
               <TouchableOpacity
                 style={styles.confirmButton}
-                onPress={onConfirmDate}>
+                onPress={onConfirmDate}
+              >
                 <Text>Xác nhận</Text>
               </TouchableOpacity>
             </View>
@@ -291,11 +295,12 @@ export default History;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   contentHistory: {
     flex: 1,
-    marginTop: 16,
+    backgroundColor: '#f0f0f0',
   },
   card: {
     flexDirection: 'row',
@@ -336,7 +341,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 15,
+    marginVertical: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

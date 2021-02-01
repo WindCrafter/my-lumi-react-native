@@ -12,7 +12,7 @@ import {
   FlatList,
 } from 'react-native';
 import moment from 'moment';
-import _ from 'lodash';
+import _, { stubFalse } from 'lodash';
 import langs from '../../../../common/language';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
@@ -284,7 +284,7 @@ function ApproveCheck(props) {
         onChangeName={debouceSearch}
         type={type}
         CONFIRM_DENY_TAKE_LEAVE
-        search
+        search={false}
         txtSearch={filter.name}
         flatStatus={status}
       />
