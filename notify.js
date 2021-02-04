@@ -2,33 +2,20 @@ import React, { PureComponent, useEffect } from 'react';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
-import { addUserIdDevice } from './src-pro/redux/actions/user.js';
-import { getOneSignalID } from './src-pro/redux/actions/authen.js';
-import { getOneSignalID as getOneSignalIDserverDev } from './src-pro/redux/actions/authen.js';
+import { getOneSignalID } from './src-pro/redux/actions/authen';
+import { getOneSignalID as getOneSignalIDserverDev } from './src-dev/redux/actions/authen';
 
 const Schema = 'lumihr://';
 
 function Notify(props) {
   const {
     token,
-    addUserIdDevice,
-    deviceIds,
     oneSignalID,
     getOneSignalId,
   } = props;
   const onIds = (device) => {
-    // console.log('Device info: ', device.userId);
-    // const data = {
-    //   deviceId: device.userId,
-    //   token: token,
-    // };
     !oneSignalID && getOneSignalId(device.userId);
-    // const aye = deviceIds && deviceIds.find((e) => e === device.userId);
-    // if (!aye) {
-    //   addUserIdDevice(data);
-    //   console.log('Da them thiet bi');
-    // }
-    console.log('-----------device', deviceIds);
+    console.log('-----------device', oneSignalID);
     console.log('-----------device ID', device.userId);
   };
   const onReceived = (notification) => {
@@ -148,16 +135,15 @@ function Notify(props) {
     kOSSettingsKeyAutoPrompt: true,
     kOSSettingsKeyInAppLaunchURL: false,
   });
-  OneSignal.addEventListener('received', onReceived);
-  OneSignal.addEventListener('opened', onOpened);
-  OneSignal.addEventListener('ids', onIds);
 
   OneSignal.setLogLevel(6, 0);
-
   OneSignal.inFocusDisplaying(2);
   OneSignal.promptForPushNotificationsWithUserResponse(myiOSPromptCallback);
 
   useEffect(() => {
+    OneSignal.addEventListener('received', onReceived);
+    OneSignal.addEventListener('opened', onOpened);
+    OneSignal.addEventListener('ids', onIds);
     // const onIds = (device) => {
     //   console.log('Device info: ', device.userId);
     //   const data = {

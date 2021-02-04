@@ -347,7 +347,7 @@ const HistoryLate = (props) => {
         backgroundColor={Colors.white}
         dateN={localDate}
       />
-      <View style={{width: wp(100), backgroundColor: '#F0F0F0'}}>
+      <View style={{ width: wp(100), backgroundColor: '#F0F0F0', flex: 1 }}>
         {data && data.length === 0 && !loading && (
           <EmptyState source={imgs.notFound} title="Không có lịch sử." />
         )}

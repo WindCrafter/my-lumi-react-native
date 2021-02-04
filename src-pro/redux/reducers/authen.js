@@ -17,7 +17,7 @@ const initialState = {
   deviceId: '',
   userProfile: {},
   remember: false,
-  oneSignalID: '',
+  oneSignalID: 'de8cffc4-c475-45e2-8878-54f797af4949',
   refresh_token: '',
   user_id: '',
   fullname: '',
@@ -33,7 +33,6 @@ const initialState = {
   identity_number: '',
   bank_account: '',
   bank_name: '',
-  
 };
 
 export default function authen(state = initialState, action) {
