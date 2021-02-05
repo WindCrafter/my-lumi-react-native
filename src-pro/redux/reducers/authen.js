@@ -17,7 +17,7 @@ const initialState = {
   deviceId: '',
   userProfile: {},
   remember: false,
-  oneSignalID: 'de8cffc4-c475-45e2-8878-54f797af4949',
+  oneSignalID: '',
   refresh_token: '',
   user_id: '',
   fullname: '',

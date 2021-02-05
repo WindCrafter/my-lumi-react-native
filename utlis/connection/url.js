@@ -22,6 +22,8 @@ export const URL = {
   //
   LATE_EARLY: '/late-early/create',
   LIST_LATE_EARLY: '/late-early/self-list',
+  ALL_LIST_LATE_EARLY: '/late-early/all-list',
+
   LIST_MANAGER_LATE_EARLY: '/late-early/manager-list',
   APPROVE_LATE_EARLY: '/late-early/approved-canceled',
   UPDATE_LATE_EARLY: '/late-early/update',
@@ -31,6 +33,7 @@ export const URL = {
   //
   TAKE_LEAVE: '/take-leave/create',
   LIST_TAKE_LEAVE: '/take-leave/self-list',
+  ALL_LIST_TAKE_LEAVE: '/take-leave/all-list',
   LIST_BY_ID_TAKE_LEAVE: '/take-leave/get-by-id',
   LIST_MANAGER_TAKE_LEAVE: '/take-leave/manager-list',
   APPROVE_TAKE_LEAVE: '/take-leave/approved-canceled',
@@ -39,6 +42,9 @@ export const URL = {
   //
 
   OVERTIME: '/overtime/create',
+  UPDATE_OT: '/overtime/update',
+  DELETE_OT: '/overtime/delete',
+  ///
   ADD_USERID_DEVICE: '/user/add-device-id',
   REMOVE_USERID_DEVICE: '/user/remove-device-id',
   GET_LIST_TEAMS: '/user/list-teams',
@@ -68,8 +74,13 @@ export const URL = {
 
   MEETING_MEMBERS: '/meeting/members',
   GET_NOTIFICATION: '/notification-user/list',
+  NOTIFICATION_READ: '/notification-user/read',
   GET_HOLIDAY: '/holiday/list',
   GET_WORKDAY_TODAY: '/work-day/get-by-date',
+
+  CHECK_IN_REQUEST: '/work-day/check-in-out-by-request',
+  LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
+  APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 };
 
 export const URL_STAGING = {
