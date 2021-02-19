@@ -36,7 +36,7 @@ export default function EmptyState(props?:Props) {
     ...otherProps
   } = props;
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center', height: hp(70) }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: hp(18) }}>
       <ImageBackground
         resizeMode='contain'
         source={source}
