@@ -127,20 +127,18 @@ function Contact(props) {
       }
     };
     return (
-      !loading ? (
-        <ContactRow
-          name={key.item.fullname}
+      <ContactRow
+        name={key.item.fullname}
         // leftImage={require('../../../../naruto.jpeg')}
-          team={key.item.team}
+        team={key.item.team}
         // dob={key.item.birthday}
-          role={key.item.role}
-          work={key.item.work}
+        role={key.item.role}
+        work={key.item.work}
         // kpi={key.item.kpi}
         // kpi_6m={key.item.kpi_6m}
-          onCall={onGetContact}
-          onCopyBankAccount={copyToClipboard}
-        />
-      ) : null
+        onCall={onGetContact}
+        onCopyBankAccount={copyToClipboard}
+      />
     );
   };
 
@@ -162,6 +160,10 @@ function Contact(props) {
     navigation.goBack();
   };
   console.log('name', name);
+  const renderEmpty = () => {
+    return <EmptyState title="Không tìm thấy Lumier này." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <BarStatus
@@ -190,14 +192,13 @@ function Contact(props) {
         style={[styles.gradient]}
         colors={['#D5D5D5', '#F2F2F2']}
       />
-      {data && data.length === 0 && !loading && <EmptyState title="Không tìm thấy Lumier này." />}
       <FlatList
         style={{ paddingTop: 16 }}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooterComponent}
-        data={data}
-        renderItem={renderItem}
+        data={empty ? [1] : data}
+        renderItem={empty ? renderEmpty : renderItem}
         keyExtractor={(item, index) => String(index)}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />

@@ -127,20 +127,20 @@ function Contact(props) {
       }
     };
     return (
-      !loading ? (
-        <ContactRow
-          name={key.item.fullname}
+
+      <ContactRow
+        name={key.item.fullname}
         // leftImage={require('../../../../naruto.jpeg')}
-          team={key.item.team}
+        team={key.item.team}
         // dob={key.item.birthday}
-          role={key.item.role}
-          work={key.item.work}
+        role={key.item.role}
+        work={key.item.work}
         // kpi={key.item.kpi}
         // kpi_6m={key.item.kpi_6m}
-          onCall={onGetContact}
-          onCopyBankAccount={copyToClipboard}
-        />
-      ) : null
+        onCall={onGetContact}
+        onCopyBankAccount={copyToClipboard}
+      />
+
     );
   };
 

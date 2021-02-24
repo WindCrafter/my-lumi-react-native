@@ -1,4 +1,5 @@
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import moment from 'moment';
 import * as types from '../types';
 import { URL_STAGING } from '../../../utlis/connection/url';
 import { _POST, _GET, _POST_WIFI } from '../../../utlis/connection/api';
@@ -44,7 +45,9 @@ import {
   checkInCode,
   checkInRequestSuccess,
   checkOutRequestSuccess,
+
 } from '../actions/check';
+import { getWorkdayToday } from '../actions/user';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
 import { Colors } from '../../../utlis';
@@ -180,7 +183,9 @@ function* sagaCheckInWifi(action) {
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
         message: response.message,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {
+          text: langs.alert.ok,
+        },
       });
       _global.Loading.hide();
     } else if (

@@ -9,7 +9,7 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
-  FlatList,
+  FlatList, AppState
 } from 'react-native';
 import _ from 'lodash';
 import moment from 'moment';
@@ -32,45 +32,33 @@ function ApproveOT(props) {
   const {
     navigation,
     token,
-    setStatusAdOT,
-    status_ad_ot,
-    date_ad_ot,
-    setDateAdOT,
+
   } = props;
-  let initialType;
-  switch (status_ad_ot) {
-    case '0':
-      initialType = 'Tất cả';
-      break;
-    case '1':
-      initialType = 'Đang chờ';
-      break;
-    case '2':
-      initialType = 'Đã duyệt';
-      break;
-    case '3':
-      initialType = 'Bị từ chối';
-      break;
-    case '4':
-      initialType = 'Auto Cancel';
-      break;
-    default:
-      0;
-  }
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({ date: date_ad_ot,
-    status: status_ad_ot,
+  const [filter, setFilter] = useState({ date: null,
+    status: 1,
     name: '' });
-  const [type, setType] = useState(initialType || 'Đang chờ');
+  const [type, setType] = useState('Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, date_ad_ot, status_ad_ot, [], filter.name);
-  }, []);
+    AppState.addEventListener('change', _handleAppStateChange);
 
+    getData(1, null, 1, [], filter.name);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, null, 1, [], filter.name);
+      console.log('call api for approve OT');
+    }
+  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -130,7 +118,6 @@ function ApproveOT(props) {
       [],
       filter.name,
     );
-    setDateAdOT(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
   const debouceSearch = _.debounce((value) => {
     onChangeName(value);
@@ -149,7 +136,6 @@ function ApproveOT(props) {
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
-    setStatusAdOT(item);
   };
   const renderFooterComponent = () => {
     return loading ? <Indicator /> : null;
@@ -213,7 +199,16 @@ function ApproveOT(props) {
     setOnScroll(false);
     getData(1, filter.date, filter.status, [], filter.name);
   };
-
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.notFound}
+        title="Chưa có đơn cần duyệt"
+        description="Gặp lại bạn sau nhé."
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -223,24 +218,13 @@ function ApproveOT(props) {
         onChangeName={debouceSearch}
         type={type}
         dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
-        search
         txtSearch={filter.name}
       />
       <View style={styles.detail}>
-        {data
-          && data.length === 0
-          && !loading
-          && (
-            <EmptyState
-              source={imgs.notFound}
-              title="Chưa có đơn cần duyệt"
-              description="Gặp lại bạn sau nhé."
-            />
-          )}
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           // style={{borderColor: 'red', borderWidth: 1}}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}

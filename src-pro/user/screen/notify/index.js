@@ -121,7 +121,7 @@ const Notify = (props) => {
             break;
           case 7:
           case '7':
-            navigation.goBack();
+            navigation.navigate(langs.navigator.history);
             break;
           default:
             console.log('Wrong type', item.customData.type);

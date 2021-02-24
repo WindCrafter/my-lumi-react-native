@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+
 import {
   Text,
   Image,
@@ -30,6 +32,8 @@ const HeaderCustom = (props?: Props) => {
   const deviceWidth = Dimensions.get('window').width;
   const { filter } = props || true;
   const { placeHolder } = props || 'Bạn muốn tìm lumier nào?';
+  const isFocused = useIsFocused();
+
   const {
     leftImage,
     containerStyle,
@@ -55,6 +59,13 @@ const HeaderCustom = (props?: Props) => {
   const [date, setDate] = useState(dateN);
 
   const [_date, setDateChange] = useState(new Date());
+  useEffect(() => {
+    // getData(1, '', '', []);
+
+    if (isFocused) {
+      setDate(null);
+    }
+  }, [isFocused]);
   const onClear = () => {
     setDate('');
     onChangeDate('');
@@ -98,7 +109,7 @@ const HeaderCustom = (props?: Props) => {
   const onPressItem = (item) => {
     onChangeStatus(item.value);
   };
-
+  console.log('dateN', date);
   const renderItem = (item) => {
     return (
       <View>
@@ -189,79 +200,80 @@ const HeaderCustom = (props?: Props) => {
 
       {filter && (
         <View
-        style={[
-          styles.rowBot,
-          { marginBottom: 16, justifyContent: 'space-around' },
-        ]}
-      >
-        <Dropdown
-          position="auto"
-          options={(flatStatus || status).map((i) => ({
-            titleStyle: {
-              textAlign: 'center',
-              color: i.label === type ? Colors.background : 'black',
-            },
-            title: i.label,
-            onPress: () => onPressItem(i),
-          }))}
+          style={[
+            styles.rowBot,
+            { marginBottom: 16, justifyContent: 'space-around' },
+          ]}
         >
+          <Dropdown
+            position="auto"
+            options={(flatStatus || status).map((i) => ({
+              titleStyle: {
+                textAlign: 'center',
+                color: i.label === type ? Colors.background : 'black',
+              },
+              title: i.label,
+              onPress: () => onPressItem(i),
+            }))}
+          >
+            <View
+              style={[
+                styles.filterStatus,
+                {
+                  backgroundColor:
+                  type !== 'Tất cả' ? 'white' : 'rgba(1,18,34,0.05)',
+                  borderWidth: type !== 'Tất cả' ? 1 : 0,
+                  borderColor: type !== 'Tất cả' ? Colors.background : 'white',
+                },
+              ]}
+            >
+              <Text>{type}</Text>
+              <Icon
+                size={18}
+                name="caret-down-outline"
+                style={{ color: Colors.black, top: 2 }}
+              />
+            </View>
+          </Dropdown>
           <View
             style={[
-              styles.filterStatus,
+              styles.filterDate,
               {
-                backgroundColor:
-                  type !== 'Tất cả' ? 'white' : 'rgba(1,18,34,0.05)',
-                borderWidth: type !== 'Tất cả' ? 1 : 0,
-                borderColor: type !== 'Tất cả' ? Colors.background : 'white',
+                justifyContent: 'center',
+                backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
+                borderWidth: date ? 1 : 0,
+                borderColor: date ? Colors.background : 'white',
               },
             ]}
           >
-            <Text>{type}</Text>
-            <Icon
-              size={18}
-              name="caret-down-outline"
-              style={{ color: Colors.black, top: 2 }}
-            />
-          </View>
-        </Dropdown>
-        <View
-          style={[
-            styles.filterDate,
-            {
-              justifyContent: 'center',
-              backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
-              borderWidth: date ? 1 : 0,
-              borderColor: date ? Colors.background : 'white',
-            },
-          ]}
-        >
-          <TouchableOpacity style={styles.txtDay} onPress={onShow}>
-            <Text
-              style={[
-                styles.txtRole,
-                { color: date ? Colors.background : Colors.ink500 },
-              ]}
-            >
-              {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Chọn ngày'}
-            </Text>
+            <TouchableOpacity style={styles.txtDay} onPress={onShow}>
+              <Text
+                style={[
+                  styles.txtRole,
+                  { color: date ? Colors.background : Colors.ink500 },
+                ]}
+              >
+                {date ? moment(new Date(date)).format('DD/MM/YYYY') : 'Chọn ngày'}
+              </Text>
 
-            {date ? null : (
-              <Icon
-                size={18}
-                name={!show ? 'caret-down-outline' : 'caret-up-outline'}
-                style={{ color: Colors.black, top: 2 }}
-              />
-            )}
-          </TouchableOpacity>
-          {date ? (
-            <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
-              <View style={styles.viewClear}>
-                <Image source={imgs.cancel} style={styles.imgClear} />
-              </View>
+              {date ? null : (
+                <Icon
+                  size={18}
+                  name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                  style={{ color: Colors.black, top: 2 }}
+                />
+              )}
             </TouchableOpacity>
-          ) : null}
+            {date ? (
+              <TouchableOpacity onPress={onClear} style={styles.touchableClear}>
+                <View style={styles.viewClear}>
+                  <Image source={imgs.cancel} style={styles.imgClear} />
+                </View>
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
-      </View>)}
+      )}
       <PickerCustom
         title="Chọn ngày"
         show={show}

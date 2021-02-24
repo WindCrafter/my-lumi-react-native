@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,8 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -21,20 +23,32 @@ interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
   header?:Boolean;
+  filter?:Boolean;
+  txtSearch?:String;
 }
 HeaderNotify.defaultProps = {
   title: 'Thông báo',
   detail: 'Nhắc việc và bản tin',
-  header: true
+  header: true,
+  filter: true,
+  txtSearch: '',
 };
 
 export default function HeaderNotify(props) {
-  const { title, detail, onSearch, onDate, goBack, header } = props;
+  const { title, detail, onSearch, onDate, goBack, header, filter, txtSearch } = props;
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(txtSearch);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+  // getData(1, '', '', []);
 
+    if (isFocused) {
+      setDate(new Date());
+      setSearch('');
+    }
+  }, [isFocused]);
   const submitSearch = () => {
     onSearch(search);
   };
@@ -74,6 +88,7 @@ export default function HeaderNotify(props) {
     setDateChange(new Date());
     onDate('');
   };
+  console.log('name', search);
   const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
@@ -96,57 +111,62 @@ export default function HeaderNotify(props) {
             </Text>
           </View>
         ) : null}
-        <View style={styles.filter}>
-          <Input
-            button
-            leftImage={imgs.search}
-            containerStyle={styles.search}
-            height={40}
-            value={search}
-            onChangeText={onChangeTextSearch}
-            autoCapitalize="none"
-            placeholder="Tìm kiếm"
-            rightIcon
-          />
-          <View
-            style={[
-              styles.filterDate,
-              {
-                justifyContent: 'center',
-                backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
-                borderWidth: date ? 1 : 0,
-                borderColor: date ? Colors.background : 'white',
-              },
-            ]}
-          >
-            <TouchableOpacity style={styles.txtDay} onPress={onShow}>
-              <Text
-                style={[
-                  styles.txtRole,
-                  { color: date ? Colors.background : Colors.ink500 },
-                ]}
-              >
-                {date
-                  ? moment(new Date(date)).format('DD/MM/YYYY')
-                  : 'Chọn ngày '}
-              </Text>
-              {date ? null : (
-                <Icon
-                  size={18}
-                  name={!show ? 'caret-down-outline' : 'caret-up-outline'}
-                  style={{ color: Colors.black, top:2 }}
-                />
-              )}
-            </TouchableOpacity>
-            {date ? (
-              <TouchableOpacity style={styles.touchableClear} onPress={onClear}>
-                <View style={styles.viewClear}>
-                  <Image source={imgs.cancel} style={styles.imgClear} />
-                </View>
+        {filter ? (
+          <View style={styles.filter}>
+            <Input
+              button
+              leftImage={imgs.search}
+              containerStyle={styles.search}
+              height={40}
+              value={search}
+              onChangeText={onChangeTextSearch}
+              autoCapitalize="none"
+              placeholder="Tìm kiếm"
+              rightIcon
+            />
+            <View
+              style={[
+                styles.filterDate,
+                {
+                  justifyContent: 'center',
+                  backgroundColor: date ? 'white' : 'rgba(1,18,34,0.05)',
+                  borderWidth: date ? 1 : 0,
+                  borderColor: date ? Colors.background : 'white',
+                },
+              ]}
+            >
+              <TouchableOpacity style={styles.txtDay} onPress={onShow}>
+                <Text
+                  style={[
+                    styles.txtRole,
+                    { color: date ? Colors.background : Colors.ink500 },
+                  ]}
+                >
+                  {date
+                    ? moment(new Date(date)).format('DD/MM/YYYY')
+                    : 'Chọn ngày '}
+                </Text>
+                {date ? null : (
+                  <Icon
+                    size={18}
+                    name={!show ? 'caret-down-outline' : 'caret-up-outline'}
+                    style={{ color: Colors.black, top: 2 }}
+                  />
+                )}
               </TouchableOpacity>
-            ) : null}
+              {date ? (
+                <TouchableOpacity
+                  style={styles.touchableClear}
+                  onPress={onClear}
+                >
+                  <View style={styles.viewClear}>
+                    <Image source={imgs.cancel} style={styles.imgClear} />
+                  </View>
+                </TouchableOpacity>
+              ) : null}
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
       <PickerCustom
         title="Chọn ngày"

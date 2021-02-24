@@ -80,11 +80,18 @@ function History(props) {
     }
   };
 
-  const getStatusCheckIn = (check_in, check_out) => {
+  const getStatusCheckIn = (check_in, check_out, status) => {
     if (check_in === null) {
       return 'Chưa check in';
     }
-    if (check_out === null) {
+    if (status === 3) {
+      return 'Yêu cầu chấm công bị từ chối';
+    }
+    if (status === 1) {
+      return 'Đang chờ phê duyệt';
+    }
+
+    if ((status === null || status === 2) && check_out === null) {
       return 'Chưa check out';
     }
     if (check_in === 0 && check_out === 0) {
@@ -172,7 +179,6 @@ function History(props) {
                     item.check_in,
                     'mm',
                   )}`}
-
                 </Text>
               )}
               {item.check_out && (
@@ -181,13 +187,16 @@ function History(props) {
                     item.check_out,
                     'mm',
                   )}`}
-
                 </Text>
               )}
             </View>
 
             <Text style={[styles.status, { paddingTop: 10, color }]}>
-              {getStatusCheckIn(item.status_check_in, item.status_check_out)}
+              {getStatusCheckIn(
+                item.status_check_in,
+                item.status_check_out,
+                item.status,
+              )}
             </Text>
           </View>
         </View>

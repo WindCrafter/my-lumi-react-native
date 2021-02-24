@@ -10,6 +10,7 @@ import {
   UIManager,
   FlatList,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Feather';
 import _ from 'lodash';
@@ -31,8 +32,7 @@ if (
 const AllBreak = (props) => {
   const { navigation, token } = props;
 
-  const [date, setDate] = useState('');
-  const [status, setStatus] = useState(2);
+  const [date, setDate] = useState(moment().format('DD/MM/YYYY'));
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -40,10 +40,15 @@ const AllBreak = (props) => {
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [name, setName] = useState('');
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getData(1, '', 0, [], '');
-    console.log('onmei');
-  }, []);
+    getData(1, moment().format('DD/MM/YYYY'), 0, [], '');
+    if (isFocused) {
+      setLoading(true);
+      setDate(moment().format('DD/MM/YYYY'));
+      setName('');
+    }
+  }, [isFocused]);
 
   // saga
   // const getData = () => {
@@ -78,7 +83,7 @@ const AllBreak = (props) => {
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date, status, data, name);
+    getData(page + 1, date, 2, data, name);
     setOnScroll(false);
     setLoading(true);
   };
@@ -111,7 +116,7 @@ const AllBreak = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date, status, [], name);
+    getData(1, date, 2, [], name);
   };
 
   const goBack = () => {
@@ -132,7 +137,7 @@ const AllBreak = (props) => {
     getData(
       1,
       !datePick ? '' : moment(datePick).format('DD/MM/YYYY'),
-      status,
+      2,
       [],
       name,
     );
@@ -147,7 +152,7 @@ const AllBreak = (props) => {
     setName(item);
     setData([]);
     setPage(1);
-    getData(1, date, status, [], item);
+    getData(1, date, 2, [], item);
   };
   const renderItem = ({ item }) => {
     const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
@@ -174,7 +179,11 @@ const AllBreak = (props) => {
       />
     );
   };
-
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.noHistory} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
+  console.log('txtSearch', name);
   return (
     <>
       <HeaderNotify
@@ -188,14 +197,11 @@ const AllBreak = (props) => {
         txtSearch={name}
       />
       <View style={styles.backGround}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
-        )}
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}

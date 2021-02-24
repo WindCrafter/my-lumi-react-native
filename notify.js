@@ -84,6 +84,14 @@ function Notify(props) {
             Url = `${Schema}UserStack/Notify`;
           }
         }
+        if (openResult.notification.payload.additionalData.type == 6) {
+          Url = `${Schema}UserStack/History`;
+        }
+        if (openResult.notification.payload.additionalData.type == 7) {
+          Url = `${Schema}UserStack/History`;
+        } else {
+          Url = `${Schema}UserStack/Notify`;
+        }
       }
 
       // switch (openResult.notification.payload.additionalData.type) {

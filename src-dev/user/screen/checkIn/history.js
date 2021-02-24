@@ -80,11 +80,18 @@ function History(props) {
     }
   };
 
-  const getStatusCheckIn = (check_in, check_out) => {
+  const getStatusCheckIn = (check_in, check_out, status) => {
     if (check_in === null) {
       return 'Chưa check in';
     }
-    if (check_out === null) {
+    if (status === 3) {
+      return 'Yêu cầu chấm công bị từ chối';
+    }
+    if (status === 1) {
+      return 'Đang chờ phê duyệt';
+    }
+
+    if ((status === null || status === 2) && check_out === null) {
       return 'Chưa check out';
     }
     if (check_in === 0 && check_out === 0) {
@@ -187,7 +194,7 @@ function History(props) {
             </View>
 
             <Text style={[styles.status, { paddingTop: 10, color }]}>
-              {getStatusCheckIn(item.status_check_in, item.status_check_out)}
+              {getStatusCheckIn(item.status_check_in, item.status_check_out, item.status)}
             </Text>
           </View>
         </View>
@@ -227,7 +234,10 @@ function History(props) {
   const hideModal = () => {
     setVisible(false);
   };
-
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <View style={styles.container}>
       <HeaderCustom
@@ -245,13 +255,11 @@ function History(props) {
           <Image source={imgs.clockKeeping} style={styles.avt} />
           <Text style={styles.time}>{getTimeBySeason()}</Text>
         </View>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-        )}
+
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           showsVerticalScrollIndicator={false}

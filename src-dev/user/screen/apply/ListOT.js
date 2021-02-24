@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -60,50 +61,41 @@ function ListOT(props) {
   const {
     navigation,
     token,
-    initialData,
-    setDateUserOT,
-    date_user_ot,
-    status_user_ot,
-    setStatusUserOT,
   } = props;
-  let initialType;
-  switch (status_user_ot) {
-    case '0':
-      initialType = 'Tất cả';
-      break;
-    case '1':
-      initialType = 'Đang chờ';
-      break;
-    case '2':
-      initialType = 'Đã duyệt';
-      break;
-    case '3':
-      initialType = 'Bị từ chối';
-      break;
-    case '4':
-      initialType = 'Auto Cancel';
-      break;
-    default:
-      0;
-  }
+
+  const [status, setStatus] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [type, setType] = useState(initialType || 'Tất cả');
+  const [type, setType] = useState('Tất cả');
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [localDate, setLocalDate] = useState(
-    date_user_ot ? moment(date_user_ot, 'DD/MM/YYYY') : null,
+    null,
   );
   const isFocused = useIsFocused();
 
   useEffect(() => {
     // getData(1, '', '', []);
-    if (isFocused) {
-      getData(1, date_user_ot, status_user_ot, []);
-    }
-  }, [isFocused, status_user_ot]);
+    AppState.addEventListener('change', _handleAppStateChange);
 
+    if (isFocused) {
+      setLoading(true);
+      setType('Tất cả');
+      setStatus(0);
+      setLocalDate(null);
+      getData(1, null, 0, []);
+    }
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, [isFocused]);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, null, 0, []);
+      console.log('call api for list ot');
+    }
+  };
   const goBack = () => {
     navigation.goBack();
   };
@@ -137,11 +129,11 @@ function ListOT(props) {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date_user_ot, status_user_ot, []);
+    getData(1, localDate, status, []);
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date_user_ot, status_user_ot, data);
+    getData(page + 1, localDate, status, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -153,16 +145,10 @@ function ListOT(props) {
 
   const onChangeDate = (date) => {
     setLoading(true);
-    setDateUserOT(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(
-      1,
-      !date ? '' : moment(date).format('DD/MM/YYYY'),
-      status_user_ot,
-      [],
-    );
-    setLocalDate(!date ? '' : date);
+    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    setLocalDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
 
   const onSetType = (item) => {
@@ -185,10 +171,10 @@ function ListOT(props) {
 
   const onChangeStatus = (item) => {
     setLoading(true);
-    setStatusUserOT(item);
+    setStatus(item);
     setData([]);
     setPage(1);
-    getData(1, date_user_ot, item, []);
+    getData(1, localDate, item, []);
     onSetType(item);
   };
   const closeRow = (rowMap, rowKey) => {
@@ -337,6 +323,10 @@ function ListOT(props) {
     _data[i] = { ...v, key: i };
   });
   console.log(_data);
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -348,15 +338,12 @@ function ListOT(props) {
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
-        dateN={localDate}
+        dateN={moment(localDate, 'DD/MM/YYYY')._d}
       />
       <View style={styles.detail}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-        )}
         <SwipeListView
-          data={_data}
-          renderItem={renderItem}
+          data={empty ? [1] : _data}
+          renderItem={empty ? renderEmpty : renderItem}
           keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
@@ -366,7 +353,7 @@ function ListOT(props) {
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
-          renderHiddenItem={renderHiddenItem}
+          renderHiddenItem={empty ? null : renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
           disableRightSwipe

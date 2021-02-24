@@ -136,7 +136,7 @@ const Book = (props) => {
   const renderItem = (item) => {
     // console.log('memberid', item.item.member_ids);
     // console.log('user_id', user_id);
-
+    const arrayUserId = item.item.member_ids.split(',');
     return (
       <View>
         <View style={[styles.container]}>
@@ -150,7 +150,11 @@ const Book = (props) => {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth: item.item.member_ids.includes(user_id) || item.item.owner_id == user_id ? 2.5 : 0,
+                borderWidth:
+                  arrayUserId.find((e) => e === user_id.toString())
+                  || item.item.owner_id == user_id
+                    ? 2.5
+                    : 0,
                 borderColor: Colors.background,
               },
             ]}
@@ -172,12 +176,13 @@ const Book = (props) => {
                   <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
                   ,
                   {' '}
-                  {item.item.owner_name
-                    !== item.item.member ? item.item.member
+                  {item.item.owner_name !== item.item.member
+                    ? item.item.member
                       .split(',')
                       .filter((i) => i != item.item.owner_name)
                       .toString()
-                      .replace(/,/g, ', ') : item.item.owner_name}
+                      .replace(/,/g, ', ')
+                    : item.item.owner_name}
                 </Text>
               ) : (
                 <Text style={styles.txtOwner}>{item.item.owner_name}</Text>

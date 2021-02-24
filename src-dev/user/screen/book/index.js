@@ -17,7 +17,7 @@ import {
   SectionList,
   UIManager,
   ActivityIndicator,
-  RefreshControl,
+  RefreshControl, AppState
 } from 'react-native';
 import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
@@ -84,10 +84,15 @@ const Book = (props) => {
   // });
   const isFocused = useIsFocused();
   useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+
     if (isFocused) {
       getData();
       // console.log('statusstatussta redux', status_user_break, date_user_break);
     }
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, [isFocused]);
   const getData = async (dataN) => {
     console.log('date');
@@ -109,6 +114,12 @@ const Book = (props) => {
     }
     // else {
     // }
+  };
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData();
+      console.log('call api for approve book');
+    }
   };
   const array = [];
   let count = 0;
@@ -136,6 +147,7 @@ const Book = (props) => {
   const renderItem = (item) => {
     // console.log('memberid', item.item.member_ids);
     // console.log('user_id', user_id);
+    const arrayUserId = item.item.member_ids.split(',');
 
     return (
       <View>
@@ -150,7 +162,11 @@ const Book = (props) => {
                 marginTop: item.index === 0 ? -48 : 16,
                 marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth: item.item.member_ids.includes(user_id) || item.item.owner_id == user_id ? 2.5 : 0,
+                borderWidth:
+                  arrayUserId.find((e) => e === user_id.toString())
+                  || item.item.owner_id == user_id
+                    ? 2.5
+                    : 0,
                 borderColor: Colors.background,
               },
             ]}

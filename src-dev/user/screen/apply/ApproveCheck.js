@@ -10,6 +10,7 @@ import {
   RefreshControl,
   SafeAreaView,
   FlatList,
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import _, { stubFalse } from 'lodash';
@@ -39,9 +40,19 @@ function ApproveCheck(props) {
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(page, filter.date, filter.status, [], filter.name);
-  }, []);
+    AppState.addEventListener('change', _handleAppStateChange);
 
+    getData(page, filter.date, filter.status, [], filter.name);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(page, filter.date, filter.status, [], filter.name);
+      console.log('call api for approve check');
+    }
+  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -275,6 +286,16 @@ function ApproveCheck(props) {
   };
   console.log(data);
   console.log(filter.status);
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.notFound}
+        title="Chưa có đơn cần duyệt"
+        description="Gặp lại bạn sau nhé."
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -289,16 +310,6 @@ function ApproveCheck(props) {
         flatStatus={status}
       />
       <View style={styles.detail}>
-        {data
-          && data.length === 0
-          && !loading
-          && (
-            <EmptyState
-              source={imgs.notFound}
-              title="Chưa có đơn cần duyệt"
-              description="Gặp lại bạn sau nhé."
-            />
-          )}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
@@ -306,9 +317,9 @@ function ApproveCheck(props) {
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }

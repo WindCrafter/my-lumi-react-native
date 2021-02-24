@@ -76,7 +76,7 @@ export default function check(state = initialState, action) {
     case types.CHECK_OUT_REQUEST_SUCCESS:
       return {
         ...state,
-        type: 'out',
+        type: 'inactive',
         dateCheckIn: moment(new Date()),
         timeCheckIn: moment(new Date()).format('HH:mm'),
         status: action.payload.status,
@@ -92,6 +92,7 @@ export default function check(state = initialState, action) {
     case types.CHECK_OUT_SUCCESS:
       return {
         ...state,
+        type: 'inactive',
         timeCheckOut: moment(new Date()).format('HH:mm'),
         status: action.payload.status,
       };
@@ -129,7 +130,7 @@ export default function check(state = initialState, action) {
     case types.CHANGETO_CHECKOUT_REQUEST:
       return {
         ...state,
-        type: 'out',
+        type: 'inactive',
         status: 1,
       };
     case types.RESET_CHECK:
