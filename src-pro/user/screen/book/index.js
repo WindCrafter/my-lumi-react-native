@@ -18,6 +18,7 @@ import {
   UIManager,
   ActivityIndicator,
   RefreshControl,
+  AppState,
 } from 'react-native';
 import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
@@ -25,8 +26,12 @@ import ActionButton from 'react-native-action-button';
 import { Card } from 'native-base';
 import Modal from 'react-native-modal';
 import { Colors, Fonts, imgs } from '../../../../utlis';
-import { BarStatus, HeaderAccount, EmptyState,
-  Indicator, } from '../../../component';
+import {
+  BarStatus,
+  HeaderAccount,
+  EmptyState,
+  Indicator,
+} from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
 import { URL } from '../../../../utlis/connection/url';
@@ -84,10 +89,15 @@ const Book = (props) => {
   // });
   const isFocused = useIsFocused();
   useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+
     if (isFocused) {
       getData();
       // console.log('statusstatussta redux', status_user_break, date_user_break);
     }
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, [isFocused]);
   const getData = async (dataN) => {
     console.log('date');
@@ -109,6 +119,12 @@ const Book = (props) => {
     }
     // else {
     // }
+  };
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData();
+      console.log('call api for approve book');
+    }
   };
   const array = [];
   let count = 0;
@@ -226,13 +242,7 @@ const Book = (props) => {
   };
   const renderFooterComponent = () => {
     return (
-      <View style={{ paddingBottom: 64 }}>
-        {loading ? (
-
-          <Indicator />
-
-        ) : null}
-      </View>
+      <View style={{ paddingBottom: 64 }}>{loading ? <Indicator /> : null}</View>
     );
   };
   const renderHeader = (section) => {
@@ -264,7 +274,6 @@ const Book = (props) => {
                   position: 'absolute',
                   top: 64,
                   fontWeight: '500',
-
                 }}
               >
                 {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
@@ -520,7 +529,7 @@ const styles = StyleSheet.create({
     color: Colors.ink500,
     marginBottom: 8,
     fontFamily: Fonts.font_family.bold,
-    fontWeight: Fonts.font_weight.bold
+    fontWeight: Fonts.font_weight.bold,
   },
   txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {

@@ -10,6 +10,7 @@ import {
   RefreshControl,
   SafeAreaView,
   FlatList,
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import _, { stubFalse } from 'lodash';
@@ -39,9 +40,19 @@ function ApproveCheck(props) {
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(page, filter.date, filter.status, [], filter.name);
-  }, []);
+    AppState.addEventListener('change', _handleAppStateChange);
 
+    getData(page, filter.date, filter.status, [], filter.name);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(page, filter.date, filter.status, [], filter.name);
+      console.log('call api for approve check');
+    }
+  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -68,7 +79,11 @@ function ApproveCheck(props) {
         status={item.status}
         type={item.type === 2 ? 'Check Out' : 'Check In'}
         day={item.date}
-        time={item.type === 2 ? moment(item.check_out * 1000).format('HH:mm') : moment(item.check_in * 1000).format('HH:mm')}
+        time={
+          item.type === 2
+            ? moment(item.check_out * 1000).format('HH:mm')
+            : moment(item.check_in * 1000).format('HH:mm')
+        }
         name={item.fullname}
         onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item)}
@@ -88,9 +103,7 @@ function ApproveCheck(props) {
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(
-          data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)),
-        );
+        setData(data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)));
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
@@ -112,15 +125,14 @@ function ApproveCheck(props) {
             date: response.data.date,
             time: response.data.time,
             content: response.data.content,
-            is_updated: true
-
+            is_updated: true,
           }
           : i),),
       );
     } else if (
       !response.success
-             && response.statusCode === 601
-             && response.data
+      && response.statusCode === 601
+      && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -162,8 +174,8 @@ function ApproveCheck(props) {
       }
     } else if (
       !response.success
-             && response.statusCode === 600
-             && response.data
+      && response.statusCode === 600
+      && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -173,8 +185,8 @@ function ApproveCheck(props) {
       });
     } else if (
       !response.success
-             && response.statusCode === 601
-             && response.data
+      && response.statusCode === 601
+      && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -275,6 +287,16 @@ function ApproveCheck(props) {
   };
   console.log(data);
   console.log(filter.status);
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.notFound}
+        title="Chưa có đơn cần duyệt"
+        description="Gặp lại bạn sau nhé."
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -289,16 +311,6 @@ function ApproveCheck(props) {
         flatStatus={status}
       />
       <View style={styles.detail}>
-        {data
-          && data.length === 0
-          && !loading
-          && (
-            <EmptyState
-              source={imgs.notFound}
-              title="Chưa có đơn cần duyệt"
-              description="Gặp lại bạn sau nhé."
-            />
-          )}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
@@ -306,9 +318,9 @@ function ApproveCheck(props) {
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }

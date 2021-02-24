@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextInputProps,
   TextInput,
@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { imgs, Colors } from '../../../utlis';
+import { useIsFocused } from '@react-navigation/native';
+import { Colors, imgs } from '../../../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -54,6 +55,14 @@ export default function Input(props?: Props) {
   const Button = button ? TouchableOpacity : View;
   const [isFocus, setIsFocus] = useState(false);
   const [text, setText] = useState(value || '');
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    // getData(1, '', '', []);
+
+    if (isFocused) {
+      setText('');
+    }
+  }, [isFocused]);
   const onRightButton = () => {
     onChangeText && onChangeText('');
     setIsFocus(true);

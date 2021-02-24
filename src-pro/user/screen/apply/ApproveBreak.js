@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  AppState,
 } from 'react-native';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
@@ -27,49 +28,34 @@ import { URL } from '../../../../utlis/connection/url';
 import CardBreak from './component/CardBreak';
 
 const ApproveBreak = (props) => {
-  const {
-    navigation,
-    token,
-    setStatusAdBreak,
-    status_ad_break,
-    date_ad_break,
-    setDateAdBreak,
-  } = props;
-  let initialType;
-  switch (status_ad_break) {
-    case '0':
-      initialType = 'Tất cả';
-      break;
-    case '1':
-      initialType = 'Đang chờ';
-      break;
-    case '2':
-      initialType = 'Đã duyệt';
-      break;
-    case '3':
-      initialType = 'Bị từ chối';
-      break;
-    case '4':
-      initialType = 'Auto Cancel';
-      break;
-    default:
-      0;
-  }
+  const { token } = props;
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
-    date: date_ad_break,
-    status: status_ad_break,
+    date: null,
+    status: 1,
     name: '',
   });
-  const [type, setType] = useState(initialType || 'Đang chờ');
+  const [type, setType] = useState('Đang chờ');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(1, date_ad_break, status_ad_break, [], filter.name);
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    getData(1, null, 1, [], filter.name);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, null, 1, [], filter.name);
+      console.log('call api for approve break');
+    }
+  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -134,7 +120,6 @@ const ApproveBreak = (props) => {
       [],
       filter.name,
     );
-    setDateAdBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
   const debouceSearch = _.debounce((value) => {
     onChangeName(value);
@@ -153,15 +138,10 @@ const ApproveBreak = (props) => {
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
-    setStatusAdBreak(item);
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-
-      <Indicator />
-
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const onConfirm = async (item) => {
@@ -254,6 +234,16 @@ const ApproveBreak = (props) => {
       />
     );
   };
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.notFound}
+        title="Chưa có đơn cần duyệt"
+        description="Gặp lại bạn sau nhé."
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
 
   return (
     <>
@@ -264,18 +254,10 @@ const ApproveBreak = (props) => {
         onChangeName={debouceSearch}
         type={type}
         dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
-        search={false}
         txtSearch={filter.name}
         containerStyle={{ marginTop: -90 }}
       />
       <View style={styles.detail}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState
-            source={imgs.notFound}
-            title="Chưa có đơn cần duyệt"
-            description="Gặp lại bạn sau nhé."
-          />
-        )}
         <FlatList
           // saga
           // data={historyAdminTakeLeave}
@@ -283,9 +265,9 @@ const ApproveBreak = (props) => {
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooterComponent}
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }

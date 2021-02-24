@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
@@ -29,16 +30,22 @@ const allLate = (props) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(moment().format('DD/MM/YYYY'));
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [status, setStatus] = useState(2);
   const [name, setName] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    getData(1, '', 0, [], '');
-  }, []);
+    getData(1, moment().format('DD/MM/YYYY'), 0, [], '');
+    if (isFocused) {
+      setLoading(true);
+      setDate(moment().format('DD/MM/YYYY'));
+      setName('');
+    }
+  }, [isFocused]);
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
     const _date = dateN || '';
@@ -120,6 +127,10 @@ const allLate = (props) => {
   // console.log('initialDatainitialData', initialData);
   // console.log('date_user_late', date_user_late);
   // console.log('localDate',localDate);
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.noHistory} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderNotify
@@ -133,15 +144,11 @@ const allLate = (props) => {
         txtSearch={name}
       />
       <View style={styles.backGround}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.noHistory} title="Không có lịch sử." />
-        )}
-
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}

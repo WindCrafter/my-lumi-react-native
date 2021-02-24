@@ -10,6 +10,7 @@ import {
   RefreshControl,
   SafeAreaView,
   FlatList,
+  AppState
 } from 'react-native';
 import _ from 'lodash';
 
@@ -31,50 +32,37 @@ if (
 }
 function ApproveLate(props) {
   const {
-    navigation,
     token,
-    setStatusAdLate,
-    status_ad_late,
-    date_ad_late,
-    setDateAdLate,
   } = props;
-  let initialType;
-  switch (status_ad_late) {
-    case '0':
-      initialType = 'Tất cả';
-      break;
-    case '1':
-      initialType = 'Đang chờ';
-      break;
-    case '2':
-      initialType = 'Đã duyệt';
-      break;
-    case '3':
-      initialType = 'Bị từ chối';
-      break;
-    case '4':
-      initialType = 'Auto Cancel';
-      break;
-    default:
-      0;
-  }
+
   const [page, setPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({
-    date: date_ad_late,
-    status: status_ad_late,
+    date: null,
+    status: 1,
     name: '',
   });
-  const [type, setType] = useState(initialType || 'Đang chờ');
+  const [type, setType] = useState('Đang chờ');
 
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
 
   useEffect(() => {
-    getData(page, date_ad_late, status_ad_late, [], filter.name);
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    getData(page, null, 1, [], filter.name);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(page, null, 1, [], filter.name);
+      console.log('call api for approve late');
+    }
+  };
   const onSetType = (item) => {
     switch (item) {
       case '0':
@@ -139,7 +127,6 @@ function ApproveLate(props) {
       [],
       filter.name,
     );
-    setDateAdLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
   const debouceSearch = _.debounce((value) => {
     onChangeName(value);
@@ -158,7 +145,6 @@ function ApproveLate(props) {
     setPage(1);
     getData(1, filter.date, item, [], filter.name);
     onSetType(item);
-    setStatusAdLate(item);
   };
   const renderFooterComponent = () => {
     return loading ? (
@@ -240,6 +226,16 @@ function ApproveLate(props) {
     );
   };
   console.log('checkkk', data);
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.notFound}
+        title="Chưa có đơn cần duyệt"
+        description="Gặp lại bạn sau nhé."
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -248,24 +244,14 @@ function ApproveLate(props) {
         onChangeDate={onChangeDate}
         onChangeName={debouceSearch}
         type={type}
-        
         dateN={filter.date ? moment(filter.date, 'DD/MM/YYYY')._d : null}
-        search={false}
         txtSearch={filter.name}
       />
       <View style={styles.detail}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState
-            source={imgs.notFound}
-            title="Chưa có đơn cần duyệt"
-            description="Gặp lại bạn sau nhé."
-          />
-        )}
-
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           // style={{borderColor: 'red', borderWidth: 1}}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           keyExtractor={(item, index) => String(index)}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}

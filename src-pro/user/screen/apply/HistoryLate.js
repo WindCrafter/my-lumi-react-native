@@ -8,7 +8,7 @@ import {
   Text,
   RefreshControl,
   TouchableOpacity,
-  ScrollView,
+  ScrollView, AppState
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
@@ -32,52 +32,37 @@ const HistoryLate = (props) => {
   const {
     navigation,
     token,
-    status_user_late,
-    setStatusUserLate,
-    date_user_late,
-    setDateUserLate
   } = props;
+  const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
-
-  let initialType;
-  switch (status_user_late) {
-    case '0':
-      initialType = ('Tất cả');
-      break;
-    case '1':
-      initialType = ('Đang chờ');
-      break;
-    case '2':
-      initialType = ('Đã duyệt');
-      break;
-    case '3':
-      initialType = ('Bị từ chối');
-      break;
-    case '4':
-      initialType = ('Auto Cancel');
-      break;
-    default:
-      0;
-  }
-  console.log('date_user_late', date_user_late);
-  const [type, setType] = useState(initialType || 'Tất cả');
+  const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [localDate, setLocalDate] = useState(
-    date_user_late ? moment(date_user_late, 'DD/MM/YYYY') : null
-  );
+  const [localDate, setLocalDate] = useState(null);
   const isFocused = useIsFocused();
   useEffect(() => {
     // getData(1, '', '', []);
+    AppState.addEventListener('change', _handleAppStateChange);
 
     if (isFocused) {
-      getData(1, date_user_late, status_user_late, []);
-      console.log('statusstatussta redux', status_user_late, date_user_late);
+      setLoading(true);
+      setType('Tất cả');
+      setStatus(0);
+      setLocalDate(null);
+      getData(1, null, 0, []);
+    } return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, [isFocused]);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, null, 0, []);
+      console.log('call api for history late');
     }
-  }, [isFocused, status_user_late]);
+  };
   const step = useRef();
   const goBack = () => {
     // navigation.reset({
@@ -125,11 +110,10 @@ const HistoryLate = (props) => {
   };
   const onChangeDate = (date) => {
     setLoading(true);
-    setDateUserLate(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
-    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status_user_late, []);
-    setLocalDate(!date ? '' : date);
+    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    setLocalDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
   const onSetType = (item) => {
     switch (item) {
@@ -155,15 +139,15 @@ const HistoryLate = (props) => {
 
   const onChangeStatus = (item) => {
     setLoading(true);
-    setStatusUserLate(item);
+    setStatus(item);
     setData([]);
     setPage(1);
-    getData(1, date_user_late, item, []);
+    getData(1, localDate, item, []);
     onSetType(item);
   };
 
   const handleLoadMore = () => {
-    getData(page + 1, date_user_late, status_user_late, data);
+    getData(page + 1, localDate, status, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -171,7 +155,7 @@ const HistoryLate = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date_user_late, status_user_late, []);
+    getData(1, localDate, status, []);
   };
 
   const renderFooterComponent = () => {
@@ -324,7 +308,6 @@ const HistoryLate = (props) => {
     _data[i] = { ...v, key: i };
   }));
   // console.log(data);
-  console.log('statusstatusstatus', status_user_late);
   const handleScroll = (event) => {
     if (event.nativeEvent.contentOffset.x > 0) {
       setEdit(true);
@@ -334,6 +317,10 @@ const HistoryLate = (props) => {
   // console.log('initialDatainitialData', initialData);
   // console.log('date_user_late', date_user_late);
   // console.log('localDate',localDate);
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <>
       <HeaderCustom
@@ -345,17 +332,14 @@ const HistoryLate = (props) => {
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
-        dateN={localDate}
+        dateN={moment(localDate, 'DD/MM/YYYY')._d}
       />
-      <View style={{ width: wp(100), backgroundColor: '#F0F0F0', flex: 1 }}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-        )}
+      <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
         <SwipeListView
-          data={_data}
+          data={empty ? [1] : _data}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
@@ -363,7 +347,7 @@ const HistoryLate = (props) => {
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
-          renderHiddenItem={renderHiddenItem}
+          renderHiddenItem={empty ? null : renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
           disableRightSwipe

@@ -219,9 +219,7 @@ function History(props) {
   };
 
   const renderFooterComponent = () => {
-    return loading ? (
-      <Indicator />
-    ) : null;
+    return loading ? <Indicator /> : null;
   };
 
   const onConfirmDate = () => {
@@ -236,7 +234,10 @@ function History(props) {
   const hideModal = () => {
     setVisible(false);
   };
-
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   return (
     <View style={styles.container}>
       <HeaderCustom
@@ -254,13 +255,10 @@ function History(props) {
           <Image source={imgs.clockKeeping} style={styles.avt} />
           <Text style={styles.time}>{getTimeBySeason()}</Text>
         </View>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-        )}
         <FlatList
-          data={data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           showsVerticalScrollIndicator={false}

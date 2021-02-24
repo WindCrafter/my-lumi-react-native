@@ -129,7 +129,7 @@ const langs = {
     account: 'Personal',
     main: 'Trang chủ',
     schedule: 'Schedule',
-    notify: 'Thông báo',
+    notify: 'Notify',
     tabbarUser: 'TabbarUser',
     tabbarAdmin: 'TabbarAdmin',
     forgotPassword: 'ForgotPass',

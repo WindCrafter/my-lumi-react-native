@@ -15,7 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Input } from '../../../../component';
+import Input from './Input';
 import { imgs, Colors } from '../../../../../utlis';
 import PickerCustom from './PickerCustom';
 

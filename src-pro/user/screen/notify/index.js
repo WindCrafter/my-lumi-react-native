@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Feather';
@@ -30,16 +32,24 @@ const Notify = (props) => {
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getData(1, date, search, []);
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+    AppState.addEventListener('change', _handleAppStateChange);
 
+    if (isFocused) {
+      getData(1, date, search, []);
+    }
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, [isFocused]);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, date, search, []);
+      console.log('call api for notify');
+    }
+  };
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
@@ -188,25 +198,30 @@ const Notify = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
+  const renderEmpty = () => {
+    return (
+      <EmptyState
+        source={imgs.emptyState}
+        title="Không có thông báo nào"
+        description=""
+      />
+    );
+  };
+  const empty = data && data.length === 0 && !loading;
+
   return (
     <View style={styles.container}>
       <HeaderNotify
         onSearch={debouceSearch}
         onDate={onChangeDate}
         goBack={goBack}
+        filter={false}
       />
 
-      {data && data.length === 0 && !loading && (
-        <EmptyState
-          source={imgs.emptyState}
-          title="Không có thông báo nào"
-          description=""
-        />
-      )}
       <FlatList
         style={{ paddingTop: 16 }}
-        data={data}
-        renderItem={renderItem}
+        data={empty ? [1] : data}
+        renderItem={empty ? renderEmpty : renderItem}
         keyExtractor={(item, index) => String(index)}
         onMomentumScrollBegin={() => setOnScroll(true)}
         onEndReached={!loading && onScroll ? handleLoadMore : null}

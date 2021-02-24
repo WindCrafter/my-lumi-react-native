@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 import {
-
   Platform,
   StatusBar,
   StyleSheet,
@@ -10,10 +9,9 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
-
   TouchableOpacity,
   UIManager,
-
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -21,7 +19,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Colors, imgs } from '../../../../utlis';
 import {
   BarStatus,
-
   EmptyState,
   Indicator,
 } from '../../../component';
@@ -43,53 +40,39 @@ const HistoryBreak = (props) => {
   const {
     navigation,
     token,
-    setStatusUserBreak,
-    status_user_break,
-    point,
-    initialData,
-    date_user_break,
-    setDateUserBreak,
   } = props;
   // console.log('>>>>', initialData);
-  let initialType;
-  switch (status_user_break) {
-    case '0':
-      initialType = 'Tất cả';
-      break;
-    case '1':
-      initialType = 'Đang chờ';
-      break;
-    case '2':
-      initialType = 'Đã duyệt';
-      break;
-    case '3':
-      initialType = 'Bị từ chối';
-      break;
-    case '4':
-      initialType = 'Auto Cancel';
-      break;
-    default:
-      0;
-  }
+  const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
-  const [type, setType] = useState(initialType || 'Tất cả');
+  const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
-  const [localDate, setLocalDate] = useState(
-    date_user_break ? moment(date_user_break, 'DD/MM/YYYY') : null,
-  );
+  const [localDate, setLocalDate] = useState(null);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     // getData(1, '', '', []);
+    AppState.addEventListener('change', _handleAppStateChange);
 
     if (isFocused) {
-      getData(1, date_user_break, status_user_break, []);
-      // console.log('statusstatussta redux', status_user_break, date_user_break);
+      setLoading(true);
+      setType('Tất cả');
+      setStatus(0);
+      setLocalDate(null);
+      getData(1, null, 0, []);
     }
-  }, [isFocused, status_user_break]);
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, [isFocused]);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData(1, null, 0, []);
+      console.log('call api for history break');
+    }
+  };
   const getData = async (pageNumber, dateN, statusN, dataN) => {
     // console.log('statusNstatusNstatusN', statusN);
     const _date = dateN || '';
@@ -112,7 +95,7 @@ const HistoryBreak = (props) => {
     }
   };
   const handleLoadMore = () => {
-    getData(page + 1, date_user_break, status_user_break, data);
+    getData(page + 1, localDate, status, data);
     setOnScroll(false);
     setLoading(true);
   };
@@ -144,7 +127,7 @@ const HistoryBreak = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData(1, date_user_break, status_user_break, []);
+    getData(1, localDate, status, []);
   };
 
   const goBack = () => {
@@ -153,25 +136,24 @@ const HistoryBreak = (props) => {
 
   const onChangeStatus = (item) => {
     setLoading(true);
-    setStatusUserBreak(item);
+    setStatus(item);
     setData([]);
     setPage(1);
-    getData(1, date_user_break, item, []);
+    getData(1, localDate, item, []);
     onSetType(item);
   };
 
   const onChangeDate = (date) => {
     setLoading(true);
-    setDateUserBreak(!date ? '' : moment(date).format('DD/MM/YYYY'));
     setData([]);
     setPage(1);
     getData(
       1,
       !date ? '' : moment(date).format('DD/MM/YYYY'),
-      status_user_break,
+      status,
       [],
     );
-    setLocalDate(!date ? '' : date);
+    setLocalDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
 
   const renderItem = ({ item, index }) => {
@@ -346,10 +328,14 @@ const HistoryBreak = (props) => {
   //   console.log('This row opened', rowKey);
   //   console.log('This row opened', rowMap);
   // };
-
+  const renderEmpty = () => {
+    return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
+  };
+  const empty = data && data.length === 0 && !loading;
   const _data = [];
   data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
-  // console.log(_data);
+  // console.log(_data);c
+  console.log('localDATE', localDate);
   return (
     <>
       <HeaderCustom
@@ -361,17 +347,14 @@ const HistoryBreak = (props) => {
         onChangeDate={onChangeDate}
         type={type}
         backgroundColor={Colors.white}
-        dateN={localDate}
+        dateN={moment(localDate, 'DD/MM/YYYY')._d}
       />
       <View style={styles.backGround}>
-        {data && data.length === 0 && !loading && (
-          <EmptyState source={imgs.notFound} title="Không có lịch sử." />
-        )}
         <SwipeListView
-          data={_data}
+          data={empty ? [1] : _data}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
+          renderItem={empty ? renderEmpty : renderItem}
           onMomentumScrollBegin={() => setOnScroll(true)}
           onEndReached={!loading && onScroll ? handleLoadMore : null}
           onEndReachedThreshold={0.5}
@@ -379,7 +362,7 @@ const HistoryBreak = (props) => {
           refreshControl={
             <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
           }
-          renderHiddenItem={renderHiddenItem}
+          renderHiddenItem={empty ? null : renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
           disableRightSwipe
@@ -399,7 +382,7 @@ const HistoryBreak = (props) => {
 export default HistoryBreak;
 
 const styles = StyleSheet.create({
-  noData: {fontSize: 16, alignSelf: 'center', marginTop: 24},
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
   backTextWhite: {
     color: '#FFF',
   },
@@ -441,7 +424,7 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
-  backGround: {flex: 1, backgroundColor: '#f0f0f0'},
-  loader: {marginTop: 8},
-  imgClear: {alignSelf: 'center', width: 8, height: 8, tintColor: 'white'},
+  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
+  loader: { marginTop: 8 },
+  imgClear: { alignSelf: 'center', width: 8, height: 8, tintColor: 'white' },
 });

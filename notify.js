@@ -62,10 +62,6 @@ function Notify(props) {
             Url = `${Schema}UserStack/HistoryLate`;
           }
         }
-        if (openResult.notification.payload.additionalData.type == 10) {
-          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
-        }
-
         if (openResult.notification.payload.additionalData.type == 4) {
           if (openResult.notification.payload.additionalData.approved == 2) {
             Url = `${Schema}UserStack/ApproveAll?page=3`;
@@ -89,8 +85,12 @@ function Notify(props) {
         }
         if (openResult.notification.payload.additionalData.type == 7) {
           Url = `${Schema}UserStack/History`;
-        } else {
-          Url = `${Schema}UserStack/Notify`;
+        }
+        if (openResult.notification.payload.additionalData.type == 8) {
+          Url = `${Schema}UserStack/KPI`;
+        }
+        if (openResult.notification.payload.additionalData.type == 10) {
+          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
       }
 
