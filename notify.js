@@ -87,9 +87,15 @@ function Notify(props) {
           Url = `${Schema}UserStack/History`;
         }
         if (openResult.notification.payload.additionalData.type == 8) {
+          Url = `${Schema}UserStack`;
+        }
+        if (openResult.notification.payload.additionalData.type == 9) {
           Url = `${Schema}UserStack/KPI`;
         }
         if (openResult.notification.payload.additionalData.type == 10) {
+          Url = `${Schema}UserStack`;
+        }
+        if (openResult.notification.payload.additionalData.type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
       }

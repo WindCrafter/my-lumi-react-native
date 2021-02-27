@@ -80,11 +80,11 @@ function History(props) {
     }
   };
 
-  const getStatusCheckIn = (check_in, check_out, status) => {
+  const getStatusCheckIn = (check_in, check_out, status, type) => {
     if (check_in === null) {
       return 'Chưa check in';
     }
-    if (status === 3) {
+    if (status === 3 && type !== 0) {
       return 'Yêu cầu chấm công bị từ chối';
     }
     if (status === 1) {
@@ -192,11 +192,7 @@ function History(props) {
             </View>
 
             <Text style={[styles.status, { paddingTop: 10, color }]}>
-              {getStatusCheckIn(
-                item.status_check_in,
-                item.status_check_out,
-                item.status,
-              )}
+              {getStatusCheckIn(item.status_check_in, item.status_check_out, item.status, item.type)}
             </Text>
           </View>
         </View>

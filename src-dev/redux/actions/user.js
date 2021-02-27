@@ -235,6 +235,12 @@ export const confirmKpi = (data) => {
     payload: data,
   };
 };
+export const confirmKpiSuccess = (data) => {
+  return {
+    type: types.CONFIRM_KPI_SUCCESS,
+    payload: data,
+  };
+};
 
 export const getHoliday = (data) => {
   return {

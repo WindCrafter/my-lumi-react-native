@@ -347,7 +347,7 @@ export function* watchListRoom() {
 function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
-    const response = yield _GET(`${URL.LOCAL_HOST}${URL.GET_KPI}`, token);
+    const response = yield _GET(`${URL.LOCAL_HOST}${URL.GET_KPI}${action.payload.month}`, token); console.log(response);
     console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getKPISuccess(response.data));
@@ -389,7 +389,7 @@ function* sagaConfirmKpi(action) {
     if (response.success && response.statusCode === 200) {
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: 'Phản hồi thành công!',
+        message: response.message,
         leftButton: {
           text: langs.alert.ok,
         },

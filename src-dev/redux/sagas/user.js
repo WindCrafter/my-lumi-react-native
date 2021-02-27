@@ -26,6 +26,8 @@ import {
   getKPISuccess,
   getHolidaySuccess,
   getWorkdayToday,
+  getKPI,
+  confirmKpiSuccess,
 } from '../actions/user';
 import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
@@ -347,8 +349,7 @@ export function* watchListRoom() {
 function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
-    const response = yield _GET(`${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_KPI}`, token);
-    console.log(response);
+    const response = yield _GET(`${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_KPI}${action.payload.month}`, token); console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getKPISuccess(response.data));
       _global.Loading.hide();
@@ -387,9 +388,10 @@ function* sagaConfirmKpi(action) {
     );
     console.log(response);
     if (response.success && response.statusCode === 200) {
+      yield put(confirmKpiSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: 'Phản hồi thành công!',
+        message: response.message,
         leftButton: {
           text: langs.alert.ok,
         },

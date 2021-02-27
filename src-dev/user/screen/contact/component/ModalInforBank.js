@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-native-modal';
-import { StyleSheet, Text, View, Image, Platform, Touchable } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Platform,
+  Touchable,
+  TouchableOpacity,
+} from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Clipboard from '@react-native-community/clipboard';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { imgs, Colors } from '../../../../../utlis';
 
 const ModalInforBank = (props) => {
@@ -32,28 +39,41 @@ const ModalInforBank = (props) => {
         backdropTransitionOutTiming={0}
       >
         <View style={styles.modalview}>
-          <Text style={[styles.titlemodal, { fontSize: 16 }]}>
-            Thông tin ngân hàng :
-          </Text>
+          <Text style={[styles.titlemodal]}>Thông tin ngân hàng :</Text>
           <View style={[styles.detailView, { marginTop: 16 }]}>
             <View style={styles.startView}>
               <Image source={imgs.banking} style={styles.image} />
               <Text style={styles.description}>Số tài khoản:</Text>
             </View>
-            <Text style={[styles.detailmodal, { flex: 0.6 }]}>{BankAccount}</Text>
-            <TouchableOpacity onPress={onCopy} style={{ width: 48, justifyContent: 'center', alignItems: 'center' }}>
-              <Icon name={isCopy ? 'checkmark-outline' : 'copy-outline'} size={20} color={isCopy ? Colors.background : 'black'} />
-            </TouchableOpacity>
+            <View style={{ flex: 0.4, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.detailmodal}>
+                {BankAccount}
+              </Text>
+              <TouchableOpacity
+                onPress={onCopy}
+                style={{
+                  width: 48,
+
+                }}
+              >
+                <Icon
+                  name={isCopy ? 'checkmark-outline' : 'copy-outline'}
+                  size={24}
+                  color={isCopy ? Colors.background : 'black'}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.detailView}>
             <View style={styles.startView}>
               <Image source={imgs.bank} style={styles.image} />
               <Text style={styles.description}>Ngân Hàng:</Text>
             </View>
-
-            <Text style={[styles.detailmodal, { flex: 0.6 }]}>{bankName}</Text>
-            <View style={{ width: 48 }}>
-              <Icon name="copy-outline" size={20} style={{ color: 'white' }} />
+            <View style={{ flex: 0.4, alignItems: 'flex-start', flexDirection: 'row' }}>
+              <Text style={[styles.detailmodal]}>{bankName}</Text>
+              <View style={{ width: 48 }}>
+                <Icon name="copy-outline" size={20} style={{ color: 'white' }} />
+              </View>
             </View>
           </View>
         </View>
@@ -82,15 +102,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titlemodal: {
-    fontWeight: '500',
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 10,
+    fontWeight: '600',
+    fontFamily: 'Quicksand-Bold',
   },
   detailmodal: {
     fontWeight: '500',
     fontSize: 15,
     justifyContent: 'center',
-    textAlign: 'right'
   },
   description: {
     fontWeight: '500',
@@ -102,13 +122,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    marginLeft: 16,
-    marginBottom: 16
+    marginBottom: 16,
+    justifyContent: 'center',
   },
   startView: {
     flexDirection: 'row',
     flex: 0.5,
     alignItems: 'center',
   },
-  image: { width: 20, height: 20 }
+  image: { width: 20, height: 20 },
 });

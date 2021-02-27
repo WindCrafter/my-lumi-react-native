@@ -69,7 +69,7 @@ export const URL = {
   BOOK_ROOM: '/meeting/create',
   LIST_ROOM: '/meeting/list',
 
-  GET_KPI: '/kpi/detail',
+  GET_KPI: '/kpi/detail?date=',
   CONFIRM_KPI: '/kpi/confirm',
 
   MEETING_MEMBERS: '/meeting/members',
@@ -154,7 +154,7 @@ export const URL_STAGING = {
   BOOK_ROOM: '/meeting/create',
   LIST_ROOM: '/meeting/list',
 
-  GET_KPI: '/kpi/detail',
+  GET_KPI: '/kpi/detail?date=',
   CONFIRM_KPI: '/kpi/confirm',
 
   MEETING_MEMBERS: '/meeting/members',

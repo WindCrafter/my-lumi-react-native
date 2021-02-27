@@ -209,7 +209,7 @@ function ListOT(props) {
   const onDeleteOT = async (rowMap, data2) => {
     const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_OT}`;
     const body = {
-      _id: data2.item.id,
+      id: data2.item.id,
       token,
     };
     const response = await _POST(apiURL, body, token);

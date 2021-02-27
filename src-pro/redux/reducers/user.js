@@ -18,7 +18,7 @@ const initialState = {
   history: null,
   demoMode: false,
   listRoomBook: [],
-  kpi: {},
+  kpi: [],
   holiday: [],
   status_ad_late: 1,
   status_ad_break: 1,
@@ -121,6 +121,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         kpi: action.payload,
+      };
+    case types.CONFIRM_KPI_SUCCESS:
+      return {
+        ...state,
+        kpi: { ...state.kpi, is_confirmed: action.payload.is_confirmed },
       };
     case types.GET_HOLIDAY_SUCCESS:
       return {

@@ -181,6 +181,7 @@ export const LIST_ROOM_FAILED = 'LIST_ROOM_FAILED';
 export const GET_KPI = 'GET_KPI';
 export const GET_KPI_SUCCESS = 'GET_KPI_SUCCESS';
 export const CONFIRM_KPI = 'CONFIRM_KPI';
+export const CONFIRM_KPI_SUCCESS = 'CONFIRM_KPI_SUCCESS';
 
 export const CHECK_IN_CODE = 'CHECK_IN_CODE';
 export const CHECK_IN_CODE_SUCCESS = 'CHECK_IN_CODE_SUCCESS';
