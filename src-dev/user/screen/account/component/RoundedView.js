@@ -1,4 +1,4 @@
-import {Card} from 'native-base';
+import { Card } from 'native-base';
 import React from 'react';
 import {
   Image,
@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {imgs} from '../../../../../utlis';
+import { imgs } from '../../../../../utlis';
 
 interface Props extends RoundedView {
   leftImage?: String | Number;
@@ -73,31 +73,29 @@ export default function RoundedView(props?: Props) {
   } = props;
 
   return (
-    <Card style={[styles.container, containerStyle]}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={onPressButton}
-        disabled={disabled}>
+    <TouchableOpacity
+      style={[(styles.container, containerStyle)]}
+      onPress={onPressButton}
+      disabled={disabled}
+    >
+      <Card style={styles.button}>
         <View style={styles.middle}>
           <Image
             source={leftImage}
-            style={[{tintColor: tintColorLeft}, styleImg]}
+            style={[{ tintColor: tintColorLeft }, styleImg]}
             resizeMode="cover"
           />
-          <View style={styles.viewTitle}>
-            <Text style={[styles.textTitle, styleName]}>{title}</Text>
+          <Text style={[styles.textTitle, styleName]}>{title}</Text>
 
-            {/* {team && <Text style={[styles.textTeam]}>{team}</Text>} */}
-
-          </View>
+          {/* {team && <Text style={[styles.textTeam]}>{team}</Text>} */}
         </View>
         <Image
-          source={rightImage ? rightImage : null}
-          style={[{tintColor}, styles.image]}
+          source={rightImage || null}
+          style={[{ tintColor }, styles.image]}
           resizeMode="contain"
         />
-      </TouchableOpacity>
-    </Card>
+      </Card>
+    </TouchableOpacity>
   );
 }
 
@@ -107,18 +105,17 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     justifyContent: 'space-between',
     alignSelf: 'center',
+    width: '100%',
+  },
+  button: {
+    flexDirection: 'row',
+    textAlignVertical: 'center',
+    alignSelf: 'center',
     width: '90%',
     paddingVertical: 20,
     paddingHorizontal: 24,
     borderRadius: 16,
     marginTop: 8,
-  },
-  button: {
-    flexDirection: 'row',
-    textAlignVertical: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    width: '100%',
   },
   image: {
     width: 18,
@@ -129,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     alignSelf: 'center',
+    marginLeft: 8
   },
 
   textDetail: {
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
   },
   middle: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    flex: 1
   },
   textTeam: {
     fontSize: 14,
