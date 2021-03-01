@@ -3,23 +3,24 @@
  * Copyright (c) 2020 phongdt@lumi.biz
  */
 
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {Linking, UIManager, LayoutAnimation} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import { Linking, UIManager, LayoutAnimation, AppState } from 'react-native';
 import moment from 'moment';
-import {autoLogin, getDeviceId} from './redux/actions/authen';
-import {resetCheck} from './redux/actions/check';
-import Navigator from './navigator';
-import {_global} from '../utlis/global/global';
-import LoadInital from './admin/screen/loadInitial';
-import {Loading, Alert} from './component';
 import DeviceInfo from 'react-native-device-info';
-import Notify from '../notify';
 import SplashScreen from 'react-native-smart-splash-screen';
+import { autoLogin, getDeviceId } from './redux/actions/authen';
+import { resetCheck } from './redux/actions/check';
+import { getWorkdayToday } from './redux/actions/user';
+import Navigator from './navigator';
+import { _global } from '../utlis/global/global';
+import LoadInital from './admin/screen/loadInitial';
+import { Loading, Alert } from './component';
+import Notify from '../notify';
 import Version from './component/Version';
 
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental
+  && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const AppNavigator = (props) => {
   const {
@@ -31,12 +32,16 @@ const AppNavigator = (props) => {
     dateCheckIn,
     codepush,
     resetCheck,
+    getWorkdayToday,
   } = props;
   const [loading, setLoading] = useState(true);
+  const appState = useRef(AppState.currentState);
 
-  let titleVersion = `${DeviceInfo.getVersion()}`;
+  const titleVersion = `${DeviceInfo.getVersion()}`;
 
   useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
     if (
@@ -45,7 +50,7 @@ const AppNavigator = (props) => {
       resetCheck();
     }
 
-    setTimeout(async function changeLoading() {
+    setTimeout(async () => {
       token ? (autoLoginStatus ? autoLogin() : null) : null;
       setLoading(false);
     }, 450);
@@ -54,18 +59,27 @@ const AppNavigator = (props) => {
       duration: 850,
       delay: 0,
     });
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
   }, [token, autoLoginStatus, autoLogin, deviceId, getDeviceId, dateCheckIn]);
 
   console.log('Titleversion', titleVersion);
-
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
+      console.log('call api here');
+    }
+    console.log('AppState currrent', nextAppState);
+  };
   const handleOpenURL = () => {};
 
   useEffect(() => {
-    Linking.getInitialURL().then((url) => handleOpenURL({url}));
+    Linking.getInitialURL().then((url) => handleOpenURL({ url }));
     Linking.addEventListener('url', handleOpenURL);
 
     () => {
-      Linking.removeEventListener('url', this.handleOpenURL);
+      Linking.removeEventListener('url', handleOpenURL);
     };
   }, []);
 
@@ -101,6 +115,7 @@ const mapDispatchToProps = {
   autoLogin,
   getDeviceId,
   resetCheck,
+  getWorkdayToday,
 };
 
 const mapStateToProps = (state) => {
