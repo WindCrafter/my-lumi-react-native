@@ -137,7 +137,7 @@ const Book = (props) => {
         // console.log(k);
         // console.log('member', k.member_ids);
         // console.log('owner', k.owner_id);
-        if (k.member_ids.includes(user_id) || k.owner_id == user_id) {
+        if (k.member_ids.split(',').find((e) => e === user_id.toString()) || k.owner_id == user_id) {
           count++;
         }
       });
