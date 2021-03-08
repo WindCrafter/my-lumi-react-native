@@ -17,6 +17,7 @@ import codePush from 'react-native-code-push';
 import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../component';
 import Checkbox from './components/Checkbox';
 import langs from '../../../../common/language';
+import { globalApp } from '../../../../logs/logs';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -106,13 +107,29 @@ const Login = (props) => {
   const onChangeRememberLogin = () => {
     setChecked(!checked);
   };
-
+  const onConnect = () => {
+    try {
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.disconnect();
+      } else {
+        globalApp.customLog
+         && globalApp.customLog.connect({
+           localhost: false,
+         });
+      }
+    } catch (e) {
+      // error customlog
+    }
+  };
   return (
     <KeyBoardScroll>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <View style={styles.detail}>
-            <Logo containerStyle={styles.logo} />
+            <TouchableWithoutFeedback onLongPress={onConnect}>
+              <Logo containerStyle={styles.logo} />
+            </TouchableWithoutFeedback>
+
             <View>
               <Input
                 // leftImage={}

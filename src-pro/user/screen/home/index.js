@@ -13,6 +13,7 @@ import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { sum } from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
@@ -75,17 +76,17 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.listOT);
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    if (isFocused) {
       getSummary(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, []);
+    }
+  }, [isFocused]);
   const onDone = () => { setRefresh(false); };
   const onRefresh = () => {
+    getSummary(token);
     getWorkdayToday(
       { token, date: moment().format('DD/MM/YYYY'), onDone },
 

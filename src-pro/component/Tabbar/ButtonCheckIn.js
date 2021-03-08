@@ -2,14 +2,28 @@ import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { Colors, imgs } from '../../../utlis';
 import langs from '../../../common/language';
+import { globalApp } from '../../../logs/logs';
 
 const ButtonCheckIn = (props) => {
   const { navigation, onCheck, demoMode, type, status } = props;
-
+  const onConnect = () => {
+    try {
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.disconnect();
+      } else {
+        globalApp.customLog
+        && globalApp.customLog.connect({
+          localhost: false,
+        });
+      }
+    } catch (e) {
+    // error customlog
+    }
+  };
   const onLongPress = () => {
     if (demoMode) {
       navigation.navigate(langs.navigator.checkIn);
-    }
+    } else onConnect();
   };
 
   return (

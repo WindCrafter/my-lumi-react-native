@@ -95,6 +95,15 @@ function Notify(props) {
         if (openResult.notification.payload.additionalData.type == 10) {
           Url = `${Schema}UserStack`;
         }
+        if (openResult.notification.payload.additionalData.type == 50) {
+          Url = `${Schema}UserStack/listOT`;
+        }
+        if (openResult.notification.payload.additionalData.type == 51) {
+          Url = `${Schema}UserStack/HistoryBreak`;
+        }
+        if (openResult.notification.payload.additionalData.type == 52) {
+          Url = `${Schema}UserStack/HistoryLate`;
+        }
         if (openResult.notification.payload.additionalData.type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }

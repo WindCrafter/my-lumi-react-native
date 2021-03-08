@@ -1,13 +1,15 @@
-import React, {PureComponent} from 'react';
-import {UIManager} from 'react-native';
-import {PersistGate} from 'redux-persist/es/integration/react';
-import {Provider} from 'react-redux';
+import React, { PureComponent } from 'react';
+import { UIManager, LogBox } from 'react-native';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import { Provider } from 'react-redux';
 import codePush from 'react-native-code-push';
-import {store, persistor} from './redux/store/store';
+import { store, persistor } from './redux/store/store';
 import AppNavigator from './app-navigator';
-import {setFont} from '../utlis/index';
-import {ChangeState} from './redux/actions/codepush';
-import {LogBox} from 'react-native';
+import { setFont } from '../utlis/index';
+import { ChangeState } from './redux/actions/codepush';
+import { Loading, Alert } from './component';
+import { _global } from '../utlis/global/global';
+
 console.disableYellowBox = true;
 
 setFont('Quicksand-Regular');
@@ -15,11 +17,11 @@ setFont('Quicksand-Regular');
 class App extends PureComponent {
   constructor(props) {
     super(props);
-    UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental
+      && UIManager.setLayoutAnimationEnabledExperimental(true);
 
     this.state = {
-      store: store,
+      store,
     };
 
     this.CodePushState = {
@@ -43,10 +45,10 @@ class App extends PureComponent {
     this.CodePushState = {
       ...this.CodePushState,
       progress:
-        progress &&
-        progress.receivedBytes &&
-        progress.totalBytes &&
-        progress.totalBytes != 0
+        progress
+        && progress.receivedBytes
+        && progress.totalBytes
+        && progress.totalBytes != 0
           ? (progress.receivedBytes * 100) / progress.totalBytes
           : 0,
     };
@@ -61,6 +63,17 @@ class App extends PureComponent {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppNavigator />
+          <Loading
+            loadingRef
+            ref={(ref) => {
+              _global.Loading = ref;
+            }}
+          />
+          <Alert
+            ref={(ref) => {
+              _global.Alert = ref;
+            }}
+          />
         </PersistGate>
       </Provider>
     );

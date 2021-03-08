@@ -28,7 +28,6 @@ import RoundedView from './component/RoundedView';
 import ModalInforApp from './component/ModalInforApp';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { globalApp } from '../../../../logs/logs';
 
 const Account = (props) => {
   const {
@@ -47,20 +46,6 @@ const Account = (props) => {
   } = props;
 
   const [showModal, setshowModal] = useState(false);
-  const onConnect = () => {
-    try {
-      if (globalApp.customLog && globalApp.customLog.enableLog) {
-        globalApp.customLog.disconnect();
-      } else {
-        globalApp.customLog
-          && globalApp.customLog.connect({
-            localhost: false,
-          });
-      }
-    } catch (e) {
-    // error customlog
-    }
-  };
   const onLogOut = () => {
     _global.Alert.alert({
       title: langs.alert.notify,
@@ -154,11 +139,7 @@ const Account = (props) => {
               title={langs.kpiConfirm}
               onPressButton={gotoKpi}
             />
-            <RoundedView
-              leftImage={imgs.exchangeIcon}
-              title="Log"
-              onPressButton={onConnect}
-            />
+
             <RoundedView
               leftImage={imgs.logout}
               title={langs.logOut}

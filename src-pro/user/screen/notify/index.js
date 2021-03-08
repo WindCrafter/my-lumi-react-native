@@ -133,6 +133,18 @@ const Notify = (props) => {
           case '7':
             navigation.navigate(langs.navigator.history);
             break;
+          case 50:
+          case '50':
+            navigation.navigate(langs.navigator.listOT);
+            break;
+          case 51:
+          case '51':
+            navigation.navigate(langs.navigator.historyBreak);
+            break;
+          case 52:
+          case '52':
+            navigation.navigate(langs.navigator.historyLate);
+            break;
           default:
             console.log('Wrong type', item.customData.type);
         }

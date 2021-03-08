@@ -7,6 +7,8 @@ import { store, persistor } from './redux/store/store';
 import AppNavigator from './app-navigator';
 import { setFont } from '../utlis/index';
 import { ChangeState } from './redux/actions/codepush';
+import { Loading, Alert } from './component';
+import { _global } from '../utlis/global/global';
 
 console.disableYellowBox = true;
 
@@ -61,6 +63,17 @@ class App extends PureComponent {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppNavigator />
+          <Loading
+            loadingRef
+            ref={(ref) => {
+              _global.Loading = ref;
+            }}
+          />
+          <Alert
+            ref={(ref) => {
+              _global.Alert = ref;
+            }}
+          />
         </PersistGate>
       </Provider>
     );

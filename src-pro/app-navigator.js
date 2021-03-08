@@ -13,9 +13,7 @@ import { autoLogin, getDeviceId } from './redux/actions/authen';
 import { resetCheck } from './redux/actions/check';
 import { getWorkdayToday } from './redux/actions/user';
 import Navigator from './navigator';
-import { _global } from '../utlis/global/global';
 import LoadInital from './admin/screen/loadInitial';
-import { Loading, Alert } from './component';
 import Notify from '../notify';
 import Version from './component/Version';
 
@@ -93,17 +91,6 @@ const AppNavigator = (props) => {
         loginSuccess={props.loginSuccess}
         changePass={props.changePass}
         role={props.role}
-      />
-      <Loading
-        loadingRef
-        ref={(ref) => {
-          _global.Loading = ref;
-        }}
-      />
-      <Alert
-        ref={(ref) => {
-          _global.Alert = ref;
-        }}
       />
       {/* {codepush.progress !== 0 && <Version />} */}
       <Notify />
