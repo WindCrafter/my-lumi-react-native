@@ -28,6 +28,8 @@ import {
   getWorkdayToday,
   getKPI,
   confirmKpiSuccess,
+  getUnreadNotifySuccess,
+  getUnreadNotifyFailed
 } from '../actions/user';
 import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
@@ -50,6 +52,7 @@ const URL_NOTIFY = (e) => {
 const URL_LIST_CHECK = (e) => {
   return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}${e}`;
 };
+const URL_UNREAD_NOTIFICATION = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_UNREAD_NOTIFICATION}`;
 const notificationDeviceSelect = (state) => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -245,6 +248,26 @@ function* sagaGetListNotifys(action) {
 
 export function* watchGetListNotifys() {
   yield takeLatest(types.GET_LIST_NOTIFYS, sagaGetListNotifys);
+}
+function* sagaUnreadNotify(action) {
+  try {
+    const token = action.payload;
+    console.log('notify token::', token);
+
+    const response = yield _GET(URL_UNREAD_NOTIFICATION, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getUnreadNotifySuccess(response.data));
+    } else {
+      yield put(getUnreadNotifyFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchUnreadNotify() {
+  yield takeLatest(types.GET_UNREAD_NOTIFICATION, sagaUnreadNotify);
 }
 
 function* sagaGetListCheck(action) {
@@ -451,6 +474,7 @@ export function* watchGetHoliday() {
 function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
+    console.log('workday token::', token);
     const onDone = action.payload.onDone;
     const response = yield _GET(
       `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
@@ -460,7 +484,7 @@ function* sagaGetWorkdayToday(action) {
     console.log('GET_WORKDAY_TODAY', response);
     const data = response.data;
     _global.Loading.hide();
-    if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.status === 1) {
+    if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.status === 1 && data.type !== 0) {
       yield put(changeToInRequest());
     } else if (response.success && response.statusCode === 200 && data && data.check_in && data.check_out && data.status === 1) {
       yield put(changeToOutRequest());

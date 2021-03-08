@@ -170,7 +170,25 @@ export const getListNotifysFailed = () => {
     type: types.GET_LIST_NOTIFYS_FAILED,
   };
 };
+export const getUnreadNotify = (data) => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION,
+    payload: data,
+  };
+};
 
+export const getUnreadNotifySuccess = (data) => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getUnreadNotifyFailed = () => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION_FAILED,
+  };
+};
 export const getListCheck = (data) => {
   return {
     type: types.GET_LIST_CHECK,

@@ -13,6 +13,7 @@ import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { sum } from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
@@ -57,7 +58,17 @@ if (
 }
 
 export default function Home(props) {
-  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
+  const {
+    navigation,
+    nameUser,
+    token,
+    summary,
+    getSummary,
+    getWorkdayToday,
+    role,
+    unreadNotify,
+    getUnreadNotify,
+  } = props;
   const [refresh, setRefresh] = useState(false);
 
   const onPressNotify = () => {
@@ -74,18 +85,18 @@ export default function Home(props) {
   const onPressOT = () => {
     navigation.navigate(langs.navigator.listOT);
   };
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    if (isFocused) {
       getSummary(token);
+      getUnreadNotify(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, []);
+    }
+  }, [isFocused]);
   const onDone = () => { setRefresh(false); };
   const onRefresh = () => {
+    getSummary(token);
     getWorkdayToday(
       { token, date: moment().format('DD/MM/YYYY'), onDone },
 
@@ -121,7 +132,7 @@ export default function Home(props) {
         <Header
           pressNotify={onPressNotify}
           name={nameUser}
-          numberNotifys={99}
+          numberNotifys={unreadNotify}
         />
 
         <View style={styles.flex}>

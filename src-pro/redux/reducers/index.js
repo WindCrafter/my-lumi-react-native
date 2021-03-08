@@ -1,10 +1,10 @@
 // Imports: Dependencies
-import {combineReducers} from 'redux';
-import {persistReducer} from 'redux-persist';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
 
 // Imports: Reducers
-import authen from './authen';
 import AsyncStorage from '@react-native-community/async-storage';
+import authen from './authen';
 import admin from './admin';
 import check from './check';
 import user from './user';

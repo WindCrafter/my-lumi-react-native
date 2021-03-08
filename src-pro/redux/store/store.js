@@ -5,6 +5,7 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from '../sagas/index';
+import { customLoger } from '../../../logs/customLoger';
 
 import rootReducer from '../reducers/index';
 
@@ -26,7 +27,12 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const store = createStore(persistedReducer, applyMiddleware(sagaMiddleware, createLogger()));
+const store = createStore(
+  persistedReducer,
+  applyMiddleware(sagaMiddleware, createLogger(), customLoger),
+);
+window.store = store;
+
 sagaMiddleware.run(rootSaga);
 
 const persistor = persistStore(store);

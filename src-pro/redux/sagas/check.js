@@ -50,7 +50,6 @@ import { _global } from '../../../utlis/global/global';
 import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
-import { store } from '../store/store.js';
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
 const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
@@ -193,11 +192,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckin,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(action.payload)),
+          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => store.dispatch(checkInCode(action.payload)),
+          onPress: () => window.store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -214,11 +213,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckout,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(action.payload)),
+          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => store.dispatch(checkInCode(action.payload)),
+          onPress: () => window.store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -238,11 +237,11 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.cantCheck,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInWifi(action.payload)),
+          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => store.dispatch(checkInCode(action.payload)),
+          onPress: () => window.store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Platform } from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import { imgs, Colors } from '../../../../../utlis';
@@ -45,21 +45,19 @@ const Header = (props) => {
           </Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
-          <Image
-            source={imgs.notification}
-            style={{ top: numberNotifys && numberNotifys !== 0 ? 8 : 0 }}
-          />
-          {numberNotifys && numberNotifys !== 0 && numberNotifys < 100 ? (
+          <Image source={imgs.notification} />
+          {numberNotifys && numberNotifys !== 0 && numberNotifys < 10 ? (
             <View
               style={{
                 backgroundColor: 'red',
-                height: 18,
-                width: 18,
                 borderRadius: 10,
-                right: -12,
-                justifyContent: 'center',
+                position: 'absolute',
+                left: 20,
+                bottom: 12,
+                height: 16,
+                width: 16,
+                justifyContent: 'space-around',
                 alignItems: 'center',
-                top: -18,
               }}
             >
               <Text
@@ -68,34 +66,40 @@ const Header = (props) => {
                   color: 'white',
                   fontWeight: '600',
                   fontFamily: 'Quicksand-Bold',
+                  alignSelf: 'center',
+                  textAlign: 'left',
+                  top: Platform.OS === 'android' ? -1 : 0,
                 }}
               >
                 {numberNotifys}
               </Text>
             </View>
-          ) : numberNotifys && numberNotifys !== 0 && numberNotifys >= 100 ? (
+          ) : numberNotifys && numberNotifys !== 0 && numberNotifys >= 10 ? (
             <View
               style={{
                 backgroundColor: 'red',
-                height: 18,
-                width: 18,
-                borderRadius: 9,
-                right: -12,
-                justifyContent: 'center',
+                borderRadius: 10,
+                position: 'absolute',
+                left: 20,
+                bottom: 12,
+                paddingHorizontal: 4,
+                paddingVertical: 1,
+                justifyContent: 'space-around',
                 alignItems: 'center',
-                top: -18,
               }}
             >
               <Text
                 style={{
-                  fontSize: 9,
+                  fontSize: 12,
                   color: 'white',
                   fontWeight: '600',
                   fontFamily: 'Quicksand-Bold',
-                  top: -1,
+                  alignSelf: 'center',
+                  textAlign: 'left',
+                  top: Platform.OS === 'android' ? -1 : 0,
                 }}
               >
-                99+
+                9+
               </Text>
             </View>
           ) : null}
@@ -151,7 +155,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   btCheckIn: {
     paddingHorizontal: 8,

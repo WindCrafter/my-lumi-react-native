@@ -17,22 +17,27 @@ import codePush from 'react-native-code-push';
 import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../component';
 import Checkbox from './components/Checkbox';
 import langs from '../../../../common/language';
+import { globalApp } from '../../../../logs/logs';
 
 const deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const { loginAction, changeAutoLogin, autoLoginStatus, oneSignalID } = props;
+  const {
+    loginAction,
+    changeAutoLogin,
+    autoLoginStatus,
+    oneSignalID,
+    navigation,
+  } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [errMail, setErrMail] = useState('');
   const [errNew, setErrNew] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
-  const { navigation } = props;
 
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 
-  useEffect(() => {}, []);
   const onRegister = () => {
     navigation.navigate(langs.navigator.register);
   };
@@ -62,7 +67,6 @@ const Login = (props) => {
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
       loginAction({ email, password: pass, device_token: oneSignalID });
-
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
     }
@@ -106,13 +110,28 @@ const Login = (props) => {
   const onChangeRememberLogin = () => {
     setChecked(!checked);
   };
-
+  const onConnect = () => {
+    try {
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.disconnect();
+      } else {
+        globalApp.customLog
+        && globalApp.customLog.connect({
+          localhost: false,
+        });
+      }
+    } catch (e) {
+    // error customlog
+    }
+  };
   return (
     <KeyBoardScroll>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <View style={styles.detail}>
-            <Logo containerStyle={styles.logo} />
+            <TouchableWithoutFeedback onLongPress={onConnect}>
+              <Logo containerStyle={styles.logo} />
+            </TouchableWithoutFeedback>
             <View>
               <Input
                 // leftImage={}

@@ -74,6 +74,7 @@ export const URL = {
 
   MEETING_MEMBERS: '/meeting/members',
   GET_NOTIFICATION: '/notification-user/list',
+  GET_UNREAD_NOTIFICATION: '/notification-user/count-unread',
   NOTIFICATION_READ: '/notification-user/read',
   GET_HOLIDAY: '/holiday/list',
   GET_WORKDAY_TODAY: '/work-day/get-by-date',
@@ -159,6 +160,7 @@ export const URL_STAGING = {
 
   MEETING_MEMBERS: '/meeting/members',
   GET_NOTIFICATION: '/notification-user/list',
+  GET_UNREAD_NOTIFICATION: '/notification-user/count-unread',
   NOTIFICATION_READ: '/notification-user/read',
   GET_HOLIDAY: '/holiday/list',
   GET_WORKDAY_TODAY: '/work-day/get-by-date',

@@ -1,26 +1,55 @@
-import {_global} from '../global/global';
+import { _global } from '../global/global';
+import { globalApp } from '../../logs/logs';
+import { formatTimeNow } from '../../logs/helpers';
 
-export function _POST(url, data, token, loading = true) {
+export async function _POST(url, data, token, loading = true) {
   console.log('___POST: ', url, data, token);
   if (loading) {
     _global.Loading.show();
   }
-  const response = fetch(url, {
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api',
+      method: 'POST',
+      payload: {
+        url,
+        data,
+        token,
+        time: formatTimeNow(),
+      },
+    });
+  }
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: ' Bearer ' + token,
+      Authorization: ` Bearer ${token}`,
     },
     body: JSON.stringify(data),
   })
-    .then((res) => {
-      return res.json();
-    })
+    .then((res) => res.json())
     .catch((error) => {
       _global.Loading.hide();
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.emitEvent({
+          type: 'call_api_response',
+          payload: `POST_ERROR:: ${url}${JSON.stringify(
+            error,
+          )}\nTIME_RES:: ${formatTimeNow()}`,
+        });
+      }
       return error;
     });
+
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api_response',
+      payload: `POST_RES:: ${url}${JSON.stringify(
+        response,
+      )}\nTIME_RES:: ${formatTimeNow()}`,
+    });
+  }
 
   return response;
 }
@@ -30,7 +59,7 @@ export function _PUT(url, data, token) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ' Bearer ' + token,
+      Authorization: ` Bearer ${token}`,
     },
     body: JSON.stringify(data),
   }).then((res) => res.json());
@@ -38,53 +67,109 @@ export function _PUT(url, data, token) {
   return response;
 }
 
-export function _GET(url, token, loading) {
+export async function _GET(url, token, loading) {
   console.log('___GET', url);
   if (loading) {
     _global.Loading.show();
   }
-  const response = fetch(url, {
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api',
+      method: 'GET',
+      payload: {
+        url,
+        token,
+        time: formatTimeNow(),
+      },
+    });
+  }
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ' Bearer ' + token,
+      Authorization: ` Bearer ${token}`,
     },
   })
     .then((res) => res.json())
     .catch((error) => {
       _global.Loading.hide();
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.emitEvent({
+          type: 'call_api_response',
+          payload: `POST_ERROR:: ${url}${JSON.stringify(
+            error,
+          )}\nTIME_RES:: ${formatTimeNow()}`,
+        });
+      }
       return error;
     });
+
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api_response',
+      payload: `POST_RES:: ${url}${JSON.stringify(
+        response,
+      )}\nTIME_RES:: ${formatTimeNow()}`,
+    });
+  }
   return response;
 }
 
-export function _POST_WIFI(url, data, token, loading = true) {
+export async function _POST_WIFI(url, data, token, loading = true) {
   console.log('___POST: ', url, data, token);
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api',
+      method: 'POST_WIFI',
+      payload: {
+        url,
+        token,
+        time: formatTimeNow(),
+      },
+    });
+  }
   if (loading) {
     _global.Loading.show();
   }
-  const response = fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: ' Bearer ' + token,
+      Authorization: ` Bearer ${token}`,
     },
     body: JSON.stringify(data),
   })
     .then((res) => {
       return res.status === 403
         ? {
-            success: false,
-            statusCode: 403,
-            message: '',
-          }
+          success: false,
+          statusCode: 403,
+          message: '',
+        }
         : res.json();
     })
     .catch((error) => {
       _global.Loading.hide();
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.emitEvent({
+          type: 'call_api_response',
+          payload: `POST_WIFI_ERROR:: ${url}${JSON.stringify(
+            error,
+          )}\nTIME_RES:: ${formatTimeNow()}`,
+        });
+      }
       return error;
     });
+
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api_response',
+      payload: `POST_WIFI_RES:: ${url}${JSON.stringify(
+        response,
+      )}\nTIME_RES:: ${formatTimeNow()}`,
+    });
+  }
 
   return response;
 }

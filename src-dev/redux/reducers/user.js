@@ -31,6 +31,7 @@ const initialState = {
   date_ad_ot: '',
   date_user_late: '',
   date_user_ot: '',
+  unreadNotify: 0,
 };
 
 export default function user(state = initialState, action) {
@@ -106,6 +107,11 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         listNotifys: action.payload,
+      };
+    case types.GET_UNREAD_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        unreadNotify: action.payload,
       };
     case types.GET_LIST_CHECK_SUCCESS:
       return {

@@ -87,11 +87,14 @@ function History(props) {
     if (status === 3 && type !== 0) {
       return 'Yêu cầu chấm công bị từ chối';
     }
-    if (status === 1) {
+    if (status === 1 && type !== 0) {
       return 'Đang chờ phê duyệt';
     }
 
-    if ((status === null || status === 2) && check_out === null) {
+    if (
+      (status === null || status === 2 || (status === 1 && type === 0))
+      && check_out === null
+    ) {
       return 'Chưa check out';
     }
     if (check_in === 0 && check_out === 0) {
@@ -120,6 +123,9 @@ function History(props) {
     }
     if (check_in === 2 && check_out === 2) {
       return 'Không tính lương';
+    }
+    if (check_in === 3 || check_out === 3) {
+      return 'Làm nửa ngày.';
     }
   };
 

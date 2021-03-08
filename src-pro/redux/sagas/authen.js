@@ -31,6 +31,7 @@ import langs from '../../../common/language';
 import { Colors } from '../../../utlis';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { removeUserIdDevice } from '../actions/user';
+import { globalApp } from '../../../logs/logs';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -49,6 +50,12 @@ function* sagaLoginAction(action) {
       password: action.payload.password,
       device_token: action.payload.device_token,
     };
+    if (globalApp.customLog && globalApp.customLog.enableLog) {
+      globalApp.customLog.emitEvent({
+        type: 'call_api_response',
+        payload: ` ${JSON.stringify(action)}  Saga Login`,
+      });
+    }
     const response = yield _POST(URL_LOGIN, data);
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
@@ -72,6 +79,12 @@ function* sagaLoginAction(action) {
       _global.Loading.hide();
     }
   } catch (error) {
+    if (globalApp.customLog && globalApp.customLog.enableLog) {
+      globalApp.customLog.emitEvent({
+        type: 'call_api_response',
+        payload: ` ${JSON.stringify(error)}  Error Saga Login`,
+      });
+    }
     console.log(error);
     _global.Alert.alert({
       title: langs.notify,

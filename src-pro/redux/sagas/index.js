@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { all, fork } from 'redux-saga/effects';
 import * as authen from './authen';
 import * as admin from './admin';
