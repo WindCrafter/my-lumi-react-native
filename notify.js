@@ -93,7 +93,7 @@ function Notify(props) {
           Url = `${Schema}UserStack/KPI`;
         }
         if (openResult.notification.payload.additionalData.type == 10) {
-          Url = `${Schema}UserStack`;
+          Url = `${Schema}UserStack/KPI`;
         }
         if (openResult.notification.payload.additionalData.type == 50) {
           Url = `${Schema}UserStack/listOT`;

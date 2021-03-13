@@ -47,6 +47,8 @@ import {
   checkOutRequestSuccess,
 
 } from '../actions/check';
+import { store } from '../store/store.js';
+
 import { getWorkdayToday } from '../actions/user';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
@@ -197,11 +199,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckin,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => window.store.dispatch(checkInCode(action.payload)),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',

@@ -45,6 +45,7 @@ import {
   checkInRequestSuccess,
   checkOutRequestSuccess,
 } from '../actions/check';
+import { store } from '../store/store.js';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
 import { Colors } from '../../../utlis';
@@ -56,7 +57,6 @@ const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
 const URL_CHECK_IN_REQUEST = `${URL.LOCAL_HOST}${URL.CHECK_IN_REQUEST}`;
-const URL_CHECK_OUT_REQUEST = `${URL.LOCAL_HOST}${URL.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
@@ -192,11 +192,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckin,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => window.store.dispatch(checkInCode(action.payload)),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -213,11 +213,11 @@ function* sagaCheckInWifi(action) {
         message: langs.errorLocationCheckout,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => window.store.dispatch(checkInCode(action.payload)),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
@@ -237,11 +237,11 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.cantCheck,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => window.store.dispatch(checkInWifi(action.payload)),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         middleButton: {
           text: langs.remote,
-          onPress: () => window.store.dispatch(checkInCode(action.payload)),
+          onPress: () => store.dispatch(checkInCode(action.payload)),
         },
         rightButton: {
           text: 'Thoát',
