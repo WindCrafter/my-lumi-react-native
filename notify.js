@@ -4,15 +4,13 @@ import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import { getOneSignalID } from './src-pro/redux/actions/authen';
 import { getOneSignalID as getOneSignalIDserverDev } from './src-dev/redux/actions/authen';
+import { URL_STAGING, URL } from './utlis/connection/url';
+import { _POST } from './utlis/connection/api';
 
 const Schema = 'lumihr://';
 
 function Notify(props) {
-  const {
-    token,
-    oneSignalID,
-    getOneSignalId,
-  } = props;
+  const { token, oneSignalID, getOneSignalId, user_id } = props;
   const onIds = (device) => {
     !oneSignalID && getOneSignalId(device.userId);
     console.log('-----------device', oneSignalID);
@@ -21,15 +19,22 @@ function Notify(props) {
   const onReceived = (notification) => {
     console.log('Notification received: ', notification);
   };
+  const urlServer = window.typeServer === 'product' ? URL : URL_STAGING;
+  const url = `${urlServer.LOCAL_HOST}${urlServer.NOTIFICATION_READ}`;
   const onOpened = (openResult, device) => {
     // console.log('Message: ', openResult.notification.payload.body);
     // console.log('Data: ', openResult.notification.payload.additionalData.type);
     // console.log('isActive: ', openResult.notification.isAppInFocus);
     // console.log('openResult: ', openResult);
     let Url = `${Schema}UserStack`;
+    const type = openResult.notification.payload.additionalData.type;
+    const approved = openResult.notification.payload.additionalData.approved;
+    type !== 99 && _POST(url, { id: openResult.notification.payload.additionalData.notification_ids[user_id] }, token, false);
+
     setTimeout(() => {
       console.log('openURL succcess--->', openResult);
-      if (openResult.notification.payload
+      if (
+        openResult.notification.payload
         && openResult.notification.payload.additionalData
         && openResult.notification.payload.additionalData.type
       ) {
@@ -87,13 +92,13 @@ function Notify(props) {
           Url = `${Schema}UserStack/History`;
         }
         if (openResult.notification.payload.additionalData.type == 8) {
-          Url = `${Schema}UserStack`;
+          Url = `${Schema}UserStack/Notify`;
         }
         if (openResult.notification.payload.additionalData.type == 9) {
           Url = `${Schema}UserStack/KPI`;
         }
         if (openResult.notification.payload.additionalData.type == 10) {
-          Url = `${Schema}UserStack/KPI`;
+          Url = `${Schema}UserStack/Notify`;
         }
         if (openResult.notification.payload.additionalData.type == 50) {
           Url = `${Schema}UserStack/listOT`;
@@ -103,6 +108,15 @@ function Notify(props) {
         }
         if (openResult.notification.payload.additionalData.type == 52) {
           Url = `${Schema}UserStack/HistoryLate`;
+        }
+        if (openResult.notification.payload.additionalData.type == 53) {
+          Url = `${Schema}UserStack/History`;
+        }
+        if (openResult.notification.payload.additionalData.type == 54) {
+          Url = `${Schema}UserStack/History`;
+        }
+        if (openResult.notification.payload.additionalData.type == 56) {
+          Url = `${Schema}UserStack/Notify`;
         }
         if (openResult.notification.payload.additionalData.type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
@@ -197,6 +211,7 @@ const mapStateToProps = (state) => {
     // notify: state.config.notify
     token: state.authen.token,
     oneSignalID: state.authen.oneSignalID,
+    user_id: state.authen.user_id,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Notify);
