@@ -17,10 +17,6 @@ function Notify(props) {
   };
   const onReceived = (notification) => {
     console.log('Notification received: ', notification);
-    console.log(
-      'Check user ID and notify ID:',
-      notification.payload.additionalData.notification_ids[user_id],
-    );
     console.log('URL notify now:', url);
   };
   const urlServer = window.typeServer === 'product' ? URL : URL_STAGING;
