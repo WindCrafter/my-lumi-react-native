@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import { getOneSignalID } from './src-pro/redux/actions/authen';
 import { getOneSignalID as getOneSignalIDserverDev } from './src-dev/redux/actions/authen';
-import { URL_STAGING, URL } from './utlis/connection/url';
+import { URL, URL_STAGING } from './utlis/connection/url';
 import { _POST } from './utlis/connection/api';
 
 const Schema = 'lumihr://';
@@ -13,11 +13,15 @@ function Notify(props) {
   const { token, oneSignalID, getOneSignalId, user_id } = props;
   const onIds = (device) => {
     !oneSignalID && getOneSignalId(device.userId);
-    console.log('-----------device', oneSignalID);
     console.log('-----------device ID', device.userId);
   };
   const onReceived = (notification) => {
     console.log('Notification received: ', notification);
+    console.log(
+      'Check user ID and notify ID:',
+      notification.payload.additionalData.notification_ids[user_id],
+    );
+    console.log('URL notify now:', url);
   };
   const urlServer = window.typeServer === 'product' ? URL : URL_STAGING;
   const url = `${urlServer.LOCAL_HOST}${urlServer.NOTIFICATION_READ}`;
@@ -29,97 +33,100 @@ function Notify(props) {
     let Url = `${Schema}UserStack`;
     const type = openResult.notification.payload.additionalData.type;
     const approved = openResult.notification.payload.additionalData.approved;
-    type !== 99 && _POST(url, { id: openResult.notification.payload.additionalData.notification_ids[user_id] }, token, false);
-
+    type !== 99
+      && type !== 60
+      && type !== 61
+      && _POST(
+        url,
+        {
+          id:
+            openResult.notification.payload.additionalData.notification_ids[
+              user_id
+            ],
+        },
+        token,
+        false,
+      );
     setTimeout(() => {
       console.log('openURL succcess--->', openResult);
       if (
         openResult.notification.payload
         && openResult.notification.payload.additionalData
-        && openResult.notification.payload.additionalData.type
+        && type
       ) {
-        if (openResult.notification.payload.additionalData.type == 1) {
-          if (openResult.notification.payload.additionalData.approved == 1) {
+        if (type == 1) {
+          if (approved == 1) {
             Url = `${Schema}UserStack/ApproveAll?page=2`;
-          } else if (
-            openResult.notification.payload.additionalData.approved == 2
-          ) {
+          } else if (approved == 2) {
             Url = `${Schema}UserStack/listOT`;
           }
         }
 
-        if (openResult.notification.payload.additionalData.type == 2) {
-          if (openResult.notification.payload.additionalData.approved == 1) {
+        if (type == 2) {
+          if (approved == 1) {
             Url = `${Schema}UserStack/ApproveAll?page=0`;
-          } else if (
-            openResult.notification.payload.additionalData.approved == 2
-          ) {
+          } else if (approved == 2) {
             Url = `${Schema}UserStack/HistoryBreak`;
           }
         }
 
-        if (openResult.notification.payload.additionalData.type == 3) {
-          if (openResult.notification.payload.additionalData.approved == 1) {
+        if (type == 3) {
+          if (approved == 1) {
             Url = `${Schema}UserStack/ApproveAll?page=1`;
-          } else if (
-            openResult.notification.payload.additionalData.approved == 2
-          ) {
+          } else if (approved == 2) {
             Url = `${Schema}UserStack/HistoryLate`;
           }
         }
-        if (openResult.notification.payload.additionalData.type == 4) {
-          if (openResult.notification.payload.additionalData.approved == 2) {
+        if (type == 4) {
+          if (approved == 2) {
             Url = `${Schema}UserStack/ApproveAll?page=3`;
-          } else if (
-            openResult.notification.payload.additionalData.approved == 1
-          ) {
+          } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
         }
-        if (openResult.notification.payload.additionalData.type == 5) {
-          if (openResult.notification.payload.additionalData.approved == 2) {
+        if (type == 5) {
+          if (approved == 2) {
             Url = `${Schema}UserStack/ApproveAll?page=3`;
-          } else if (
-            openResult.notification.payload.additionalData.approved == 1
-          ) {
+          } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
         }
-        if (openResult.notification.payload.additionalData.type == 6) {
+        if (type == 6) {
           Url = `${Schema}UserStack/History`;
         }
-        if (openResult.notification.payload.additionalData.type == 7) {
+        if (type == 7) {
           Url = `${Schema}UserStack/History`;
         }
-        if (openResult.notification.payload.additionalData.type == 8) {
+        if (type == 8) {
           Url = `${Schema}UserStack/Notify`;
         }
-        if (openResult.notification.payload.additionalData.type == 9) {
+        if (type == 9) {
           Url = `${Schema}UserStack/KPI`;
         }
-        if (openResult.notification.payload.additionalData.type == 10) {
+        if (type == 10) {
           Url = `${Schema}UserStack/Notify`;
         }
-        if (openResult.notification.payload.additionalData.type == 50) {
+        if (type == 99) {
+          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
+        }
+
+        if (type == 50) {
           Url = `${Schema}UserStack/listOT`;
         }
-        if (openResult.notification.payload.additionalData.type == 51) {
+        if (type == 51) {
           Url = `${Schema}UserStack/HistoryBreak`;
         }
-        if (openResult.notification.payload.additionalData.type == 52) {
+        if (type == 52) {
           Url = `${Schema}UserStack/HistoryLate`;
         }
-        if (openResult.notification.payload.additionalData.type == 53) {
+        if (type == 53) {
           Url = `${Schema}UserStack/History`;
         }
-        if (openResult.notification.payload.additionalData.type == 54) {
+        if (type == 54) {
           Url = `${Schema}UserStack/History`;
         }
-        if (openResult.notification.payload.additionalData.type == 56) {
+        if (type == 56) {
           Url = `${Schema}UserStack/Notify`;
-        }
-        if (openResult.notification.payload.additionalData.type == 99) {
-          Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
       }
 
@@ -172,7 +179,6 @@ function Notify(props) {
     kOSSettingsKeyAutoPrompt: true,
     kOSSettingsKeyInAppLaunchURL: false,
   });
-
   OneSignal.setLogLevel(6, 0);
   OneSignal.inFocusDisplaying(2);
   OneSignal.promptForPushNotificationsWithUserResponse(myiOSPromptCallback);

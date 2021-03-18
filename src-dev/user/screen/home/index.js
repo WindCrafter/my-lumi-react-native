@@ -13,7 +13,6 @@ import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { sum } from 'lodash';
-import { useIsFocused } from '@react-navigation/native';
 import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
@@ -66,8 +65,6 @@ export default function Home(props) {
     getSummary,
     getWorkdayToday,
     role,
-    unreadNotify,
-    getUnreadNotify,
   } = props;
   const [refresh, setRefresh] = useState(false);
 
@@ -85,22 +82,21 @@ export default function Home(props) {
   const onPressOT = () => {
     navigation.navigate(langs.navigator.listOT);
   };
-  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) {
+    const unsubscribe = navigation.addListener('focus', () => {
       getSummary(token);
-      getUnreadNotify(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
-    }
-  }, [isFocused]);
-  const onDone = () => { setRefresh(false); };
+    });
+    return () => {
+      unsubscribe;
+    };
+  }, []);
+  const onDone = () => {
+    setRefresh(false);
+  };
   const onRefresh = () => {
-    getSummary(token);
-    getWorkdayToday(
-      { token, date: moment().format('DD/MM/YYYY'), onDone },
-
-    );
+    getWorkdayToday({ token, date: moment().format('DD/MM/YYYY'), onDone });
   };
   const onPressApprove = () => {
     navigation.navigate(langs.navigator.approve, { page: 0 });
@@ -124,6 +120,14 @@ export default function Home(props) {
     return `${hour}h ${minute}m`;
   };
 
+  const gotoDetailEvent = (item) => {
+    navigation.navigate(langs.navigator.detailEvent, { item });
+  };
+
+  const onPressHR = () => {
+    navigation.navigate(langs.navigator.listEvent, { DATA_EVENT });
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -132,7 +136,7 @@ export default function Home(props) {
         <Header
           pressNotify={onPressNotify}
           name={nameUser}
-          numberNotifys={unreadNotify}
+          numberNotifys={99}
         />
 
         <View style={styles.flex}>
@@ -199,7 +203,12 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <Event data={DATA_EVENT} />
+                <Event
+                  data={DATA_EVENT}
+                  onPress={gotoDetailEvent}
+                  role={role}
+                  onPressHR={onPressHR}
+                />
               </View>
             </Card>
             {/* <Card style={styles.card}>

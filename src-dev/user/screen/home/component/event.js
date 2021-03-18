@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import langs from '../../../../../common/language';
-import {Colors, imgs} from '../../../../../utlis';
+import { Colors, imgs } from '../../../../../utlis';
 
 const Event = (props) => {
   const [number, setNumber] = useState(0);
-  const {data} = props;
+  const { data, onPress, role, onPressHR } = props;
   const ref = useRef(null);
   const onScroll = (e) => {
     const upper = e.nativeEvent.contentOffset.x;
@@ -22,15 +22,16 @@ const Event = (props) => {
     setNumber(Math.floor(upper / below));
   };
   const scrollFlat = () => {
-    ref.current.scrollToIndex({animated: true, index: 2});
+    ref.current.scrollToIndex({ animated: true, index: 2 });
   };
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity style={styles.viewItem}>
+      <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)}>
         <ImageBackground
           source={item.source}
           style={styles.image}
-          imageStyle={styles.backGround}>
+          imageStyle={styles.backGround}
+        >
           <View style={styles.row}>
             {/* <View
               style={[
@@ -57,7 +58,7 @@ const Event = (props) => {
       <View
         style={[
           styles.sttPage,
-          {backgroundColor: number === data.indexOf(m) ? 'gray' : null},
+          { backgroundColor: number === data.indexOf(m) ? 'gray' : null },
         ]}
       />
     );
@@ -65,8 +66,15 @@ const Event = (props) => {
   return (
     <>
       <TouchableOpacity style={styles.manager} onPress={scrollFlat}>
-        <Image source={imgs.calendarWeek} style={styles.imgs} />
-        <Text style={styles.txtManager}>{langs.event}</Text>
+        <View style={styles.row}>
+          <Image source={imgs.calendarWeek} style={styles.imgs} />
+          <Text style={styles.txtManager}>{langs.event}</Text>
+        </View>
+        { role === 'HR' && (
+        <TouchableOpacity onPress={onPressHR}>
+          <Image source={imgs.manageIcon} style={styles.imgsEnd} />
+        </TouchableOpacity>
+        )}
       </TouchableOpacity>
       <View style={styles.line} />
       <FlatList
@@ -77,7 +85,7 @@ const Event = (props) => {
         renderItem={renderItem}
         scrollEnabled
         horizontal
-        pagingEnabled={true}
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
       />
@@ -91,6 +99,7 @@ export default Event;
 const styles = StyleSheet.create({
   manager: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   txtManager: {
     fontSize: 16,
@@ -168,4 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: StyleSheet.hairlineWidth,
   },
+  imgsEnd: {
+    tintColor: Colors.background,
+  }
 });

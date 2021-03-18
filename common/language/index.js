@@ -161,6 +161,8 @@ const langs = {
     changePass: 'Đổi mật khẩu',
     selectBank: 'Chọn ngân hàng',
     approve: 'ApproveAll',
+    detailEvent: 'DetailEvent',
+    listEvent: 'ListEvent',
   },
   alert: {
     accept: 'Đồng ý',
