@@ -13,6 +13,7 @@ import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { sum } from 'lodash';
+import { useIsFocused } from '@react-navigation/native';
 import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
@@ -65,6 +66,8 @@ export default function Home(props) {
     getSummary,
     getWorkdayToday,
     role,
+    unreadNotify,
+    getUnreadNotify,
   } = props;
   const [refresh, setRefresh] = useState(false);
 
@@ -82,20 +85,20 @@ export default function Home(props) {
   const onPressOT = () => {
     navigation.navigate(langs.navigator.listOT);
   };
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    if (isFocused) {
       getSummary(token);
+      getUnreadNotify(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
-    });
-    return () => {
-      unsubscribe;
-    };
-  }, []);
+    }
+  }, [isFocused]);
   const onDone = () => {
     setRefresh(false);
   };
   const onRefresh = () => {
+    getSummary(token);
     getWorkdayToday({ token, date: moment().format('DD/MM/YYYY'), onDone });
   };
   const onPressApprove = () => {
@@ -113,19 +116,13 @@ export default function Home(props) {
   const moveToHistoryLate = () => {
     navigation.navigate(langs.navigator.historyLate);
   };
-
+  const moveToUpdate = () => {
+    navigation.navigate(langs.navigator.updateProfile);
+  };
   const time_late = () => {
     const hour = Math.floor(summary.check_in_out_late_early / 60);
     const minute = summary.check_in_out_late_early % 60;
     return `${hour}h ${minute}m`;
-  };
-
-  const gotoDetailEvent = (item) => {
-    navigation.navigate(langs.navigator.detailEvent, { item });
-  };
-
-  const onPressHR = () => {
-    navigation.navigate(langs.navigator.listEvent, { DATA_EVENT });
   };
 
   return (
@@ -136,7 +133,8 @@ export default function Home(props) {
         <Header
           pressNotify={onPressNotify}
           name={nameUser}
-          numberNotifys={99}
+          numberNotifys={unreadNotify}
+          pressAvatar={moveToUpdate}
         />
 
         <View style={styles.flex}>
@@ -203,12 +201,7 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <Event
-                  data={DATA_EVENT}
-                  onPress={gotoDetailEvent}
-                  role={role}
-                  onPressHR={onPressHR}
-                />
+                <Event data={DATA_EVENT} />
               </View>
             </Card>
             {/* <Card style={styles.card}>

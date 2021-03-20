@@ -8,6 +8,10 @@ import {
   ScrollView,
   Keyboard,
   SafeAreaView,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {
   widthPercentageToDP,
@@ -17,6 +21,15 @@ import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Clipboard from '@react-native-community/clipboard';
 import { Card } from 'native-base';
+import ImagePicker from 'react-native-image-crop-picker';
+import {
+  PERMISSIONS,
+  request,
+  openSettings,
+  RESULTS,
+} from 'react-native-permissions';
+import Modal from 'react-native-modal';
+import ModalAvatar from './component/ModalAvatar';
 import {
   BarStatus,
   Button,
@@ -28,7 +41,6 @@ import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import { _global } from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
-
 import langs from '../../../../common/language';
 import { URL_STAGING } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
@@ -64,17 +76,18 @@ function UpdateProfile(props) {
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
   const [show, setShow] = useState(false);
+  const [showAvatar, setShowAvatar] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-
+  const [sourceImage, setSourceImage] = useState('');
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onChangeName = (val) => {
+  const onChangeName = val => {
     setUser({ ...user, fullname: val });
   };
 
-  const onChangePhone = (val) => {
+  const onChangePhone = val => {
     setUser({ ...user, phone_number: val });
   };
 
@@ -101,11 +114,11 @@ function UpdateProfile(props) {
   //   setShowGene(false);
   // };
 
-  const onChangeIdentity = (val) => {
+  const onChangeIdentity = val => {
     setUser({ ...user, identity_number: val });
   };
 
-  const onChangeAddress = (val) => {
+  const onChangeAddress = val => {
     setUser({ ...user, address: val });
   };
 
@@ -113,6 +126,10 @@ function UpdateProfile(props) {
     setShow(true);
     Keyboard.dismiss();
     setShowPicker(true);
+  };
+  const onShowModalAvatar = () => {
+    setShowAvatar(true);
+    Keyboard.dismiss();
   };
 
   const onPick = () => {
@@ -123,19 +140,21 @@ function UpdateProfile(props) {
     });
   };
 
-  const onChangeBank = (value) => {
+  const onChangeBank = value => {
     navigation.goBack();
     setUser({ ...user, bank_name: value });
   };
 
-  const onChangeBankAccount = (value) => {
+  const onChangeBankAccount = value => {
     setUser({ ...user, bank_account: value });
   };
 
   const onHideModal = () => {
     setShow(false);
   };
-
+  const onHideAvatar = () => {
+    setShowAvatar(false);
+  };
   const onAlertCopy = () => {
     _global.Alert.alert({
       title: langs.alert.deviceID,
@@ -177,12 +196,143 @@ function UpdateProfile(props) {
       updateProfile(data);
     }
   };
+  const SCREEN = Dimensions.get('window');
+  const onOpenSettingsPermissionApp = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
+  };
+  const onUpdateAvatar = image => {
+    setSourceImage(image.sourceURL);
+  };
+  const onSelectFromAlbum = () => {
+    setShowAvatar(false);
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+        ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền thư mục.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        setTimeout(() => {
+          ImagePicker.openPicker({
+            width: SCREEN.width * 2,
+            height: SCREEN.width * 2,
+            multiple: false,
+            minFiles: 1,
+            maxFiles: 1,
+            mediaType: 'photo',
+            compressImageQuality: 1,
+            waitAnimationEnd: true,
+            cropping: true,
+          })
+            .then(image => {
+              if (Platform.OS === 'android') {
+                image.sourceURL = image.path;
+                if (!image.filename) {
+                  image.filename = `${new Date().getTime()}.JPG`;
+                }
+                if (!image.mime) {
+                  image.mime = 'image/jpeg';
+                }
+              } else {
+                image.sourceURL = image.path;
+                if (!image.filename) {
+                  image.filename = `${new Date().getTime()}.JPG`;
+                }
+                if (!image.mime) {
+                  image.mime = 'image/jpeg';
+                }
+              }
+
+              console.log('select image', image);
+              onUpdateAvatar && onUpdateAvatar(image);
+            })
+            .catch(e => {
+              // error
+              setShowAvatar(false);
+              console.log('error::select image', e);
+            });
+        }, 700);
+      }
+    });
+  };
+
+  const onTakePhoto = () => {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.CAMERA,
+        ios: PERMISSIONS.IOS.CAMERA,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền camera.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        ImagePicker.openCamera({
+          width: SCREEN.width * 2,
+          height: SCREEN.width * 2,
+          cropping: true,
+        })
+          .then(image => {
+            if (Platform.OS === 'android') {
+              image.sourceURL = image.path;
+              if (!image.filename) {
+                image.filename = `${new Date().getTime()}.JPG`;
+              }
+              if (!image.mime) {
+                image.mime = 'image/jpeg';
+              }
+            } else {
+              image.sourceURL = image.path;
+              if (!image.filename) {
+                image.filename = `${new Date().getTime()}.JPG`;
+              }
+              if (!image.mime) {
+                image.mime = 'image/jpeg';
+              }
+            }
+
+            onUpdateAvatar && onUpdateAvatar(image);
+          })
+          .catch(error => {
+            //
+          });
+      }
+    });
+  };
 
   return (
     <View style={{ backgroundColor: 'white' }}>
       <HeaderCustom title="Cập nhật thông tin" goBack={goBack} shadow />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>
+          <TouchableOpacity onPress={onShowModalAvatar}>
+            <Image
+              source={
+                sourceImage
+                  ? { uri: sourceImage }
+                  : require('../../../../naruto.jpeg')
+              }
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
           <UpdateInfo
             name={user.fullname}
             team={user.team}
@@ -208,6 +358,12 @@ function UpdateProfile(props) {
           title={langs.update}
           containerStyle={styles.complete}
           onPress={onUpdateInfo}
+        />
+        <ModalAvatar
+          showModal={showAvatar}
+          hideModal={onHideAvatar}
+          onOpenCamera={onTakePhoto}
+          onOpenLibrary={onSelectFromAlbum}
         />
         {Platform.OS === 'ios' ? (
           <ModalTime
@@ -248,7 +404,7 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
   container: {
     // padding: 24,
-    backgroundColor: '#f0f0f0'
+    backgroundColor: '#f0f0f0',
   },
   viewButton: {
     flex: 0.5,
@@ -297,5 +453,12 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    alignSelf: 'center',
+    marginBottom: 8,
   },
 });
