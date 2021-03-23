@@ -14,11 +14,20 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Feather';
 import { Card } from 'native-base';
 import moment from 'moment';
+import { Icon, IconType } from '@nghinv/react-native-icons';
+import ImagePicker from 'react-native-image-crop-picker';
+import {
+  PERMISSIONS,
+  request,
+  openSettings,
+  RESULTS,
+} from 'react-native-permissions';
 import { Colors, imgs } from '../../../../utlis';
 import {
   InputRow,
@@ -57,6 +66,7 @@ const AddEvent = (props) => {
   const [hourEnd, setHourEnd] = useState(moment()._d);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
+  const [sourceImage, setSourceImage] = useState('');
   const [description, setDescription] = useState('');
 
   const onSetSelect = () => {
@@ -254,6 +264,127 @@ const AddEvent = (props) => {
       });
     }
   };
+
+  const SCREEN = Dimensions.get('window');
+  const onOpenSettingsPermissionApp = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
+  };
+
+  const onUpdateAvatar = image => {
+    setSourceImage(image.sourceURL);
+  };
+  const onSelectFromAlbum = () => {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+        ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền thư mục.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        setTimeout(() => {
+          ImagePicker.openPicker({
+            width: SCREEN.width * 2,
+            height: SCREEN.width * 2,
+            multiple: false,
+            minFiles: 1,
+            maxFiles: 1,
+            mediaType: 'photo',
+            compressImageQuality: 1,
+            waitAnimationEnd: true,
+            cropping: true,
+          })
+            .then(image => {
+              if (Platform.OS === 'android') {
+                image.sourceURL = image.path;
+                if (!image.filename) {
+                  image.filename = `${new Date().getTime()}.JPG`;
+                }
+                if (!image.mime) {
+                  image.mime = 'image/jpeg';
+                }
+              } else {
+                image.sourceURL = image.path;
+                if (!image.filename) {
+                  image.filename = `${new Date().getTime()}.JPG`;
+                }
+                if (!image.mime) {
+                  image.mime = 'image/jpeg';
+                }
+              }
+
+              console.log('select image', image);
+              onUpdateAvatar && onUpdateAvatar(image);
+            })
+            .catch(e => {
+              // error
+              console.log('error::select image', e);
+            });
+        }, 200);
+      }
+    });
+  };
+
+  const onTakePhoto = () => {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.CAMERA,
+        ios: PERMISSIONS.IOS.CAMERA,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền camera.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        ImagePicker.openCamera({
+          width: SCREEN.width * 2,
+          height: SCREEN.width * 2,
+          cropping: true,
+        })
+          .then(image => {
+            if (Platform.OS === 'android') {
+              image.sourceURL = image.path;
+              if (!image.filename) {
+                image.filename = `${new Date().getTime()}.JPG`;
+              }
+              if (!image.mime) {
+                image.mime = 'image/jpeg';
+              }
+            } else {
+              image.sourceURL = image.path;
+              if (!image.filename) {
+                image.filename = `${new Date().getTime()}.JPG`;
+              }
+              if (!image.mime) {
+                image.mime = 'image/jpeg';
+              }
+            }
+
+            onUpdateAvatar && onUpdateAvatar(image);
+          })
+          .catch(error => {
+            //
+          });
+      }
+    });
+  };
+
   return (
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
@@ -269,7 +400,24 @@ const AddEvent = (props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView style={{ backgroundColor: '#f0f0f0' }}>
-          <View style={styles.header} />
+          <ImageBackground
+            source={sourceImage
+              ? { uri: sourceImage }
+              : imgs.event}
+            style={styles.avtEvent}
+            imageStyle={styles.avtBG}
+          >
+            <View style={styles.bottom}>
+              <TouchableOpacity style={styles.btnTxt} onPress={onSelectFromAlbum}>
+                <Icon name="image" size={24} />
+                <Text style={styles.txtCamera}>Chọn ảnh</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnTxt} onPress={onTakePhoto}>
+                <Icon name="image" size={24} />
+                <Text style={styles.txtCamera}>Chụp ảnh</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
           <InputRow
             containerStyle={styles.txtInput}
             title="Nội dung họp :"
@@ -566,4 +714,33 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   viewTime: { flexDirection: 'row', justifyContent: 'center' },
+  avtEvent: {
+    marginVertical: 4,
+    width: widthPercentageToDP(100) - 48,
+    height: (widthPercentageToDP(100) - 48) * 0.6,
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+  },
+  avtBG: {
+    borderRadius: 16,
+  },
+  bottom: {
+    width: '100%',
+    height: (widthPercentageToDP(100) - 48) * 0.14,
+    backgroundColor: Colors.white,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    opacity: 0.7,
+    flexDirection: 'row',
+  },
+  txtCamera: {
+    fontWeight: '600',
+    fontSize: 16
+  },
+  btnTxt: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    flex: 1,
+    justifyContent: 'center'
+  }
 });

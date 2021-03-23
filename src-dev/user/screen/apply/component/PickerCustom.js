@@ -38,7 +38,7 @@ const PickerCustom = (props) => {
           <DateTimePicker
             value={value}
             mode={mode}
-            display="inline"
+            display="spinner"
             onChange={onChange}
             is24Hour
             minimumDate={minimumDate}

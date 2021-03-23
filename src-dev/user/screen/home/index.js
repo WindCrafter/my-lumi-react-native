@@ -43,12 +43,12 @@ const DATA_EVENT = [
     time: '15:45   22/11/2020',
     source: imgs.event,
   },
-  {
-    id: '4',
-    detail: 'Kìa là 1 ngày trọng đại',
-    time: '17:45   23/11/2020',
-    source: imgs.event,
-  },
+  // {
+  //   id: '4',
+  //   detail: 'Kìa là 1 ngày trọng đại',
+  //   time: '17:45   23/11/2020',
+  //   source: imgs.event,
+  // },
 ];
 
 if (
@@ -103,7 +103,7 @@ export default function Home(props) {
     getWorkdayToday({ token, date: moment().format('DD/MM/YYYY'), onDone });
   };
   const onPressApprove = () => {
-    navigation.navigate(langs.navigator.approve, { page: 0 });
+    navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 3 : 0 });
   };
 
   const moveToHistory = () => {
@@ -144,7 +144,7 @@ export default function Home(props) {
       message: 'Bạn có chắc chắn muốn xoá sự kiện đã chọn không !!!',
       leftButton: {
         text: 'Xác nhận',
-        textStyle:{
+        textStyle: {
           color: Colors.danger,
         },
         onPress: () => {

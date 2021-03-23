@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,7 +13,8 @@ import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../../utlis';
+import moment from 'moment';
+import { Colors, imgs } from '../../../../utlis';
 import ContentDay from './component/ContentDay';
 import {
   BarStatus,
@@ -21,17 +22,16 @@ import {
   HeaderCustom,
   InputSelect,
 } from '../../../component';
-import moment from 'moment';
 import PickerCustom from '../apply/component/PickerCustom';
 
 if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
+  Platform.OS === 'android'
+  && UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 const AllHistory = (props) => {
-  const {navigation, getListCheck, token, history, route} = props;
+  const { navigation, getListCheck, token, history, route } = props;
   const item = route.params;
   const [page, setPage] = useState(1);
   const [title, setTitle] = useState(`${item.day}/${item.month}/${item.year}`);
@@ -42,7 +42,7 @@ const AllHistory = (props) => {
   const dataDay = history ? history.filter((e) => e.date === title) : null;
 
   useEffect(() => {
-    getListCheck({token, page});
+    getListCheck({ token, page });
   }, [getListCheck, page, token]);
 
   const onUnshow = () => {
@@ -89,17 +89,17 @@ const AllHistory = (props) => {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Lịch sử chấm công'}
+        title="Lịch sử chấm công"
         height={60}
         goBack={goBack}
         fontSize={24}
       />
       <InputSelect
-        width={'90%'}
+        width="90%"
         leftImage={imgs.calendarWeek}
         borderRadius={32}
         height={54}
-        shadowColor={'white'}
+        shadowColor="white"
         title={title}
         padding={8}
         marginVertical={18}
@@ -107,21 +107,24 @@ const AllHistory = (props) => {
         onPressButton={onShow}
         shadowOpacity={0.1}
         marginRight={-30}
-        color={'rgba(4, 4, 15, 0.45)'}
-        detail={''}
+        color="rgba(4, 4, 15, 0.45)"
+        detail=""
       />
       {dataDay && dataDay[0] ? (
         <Combine
           date={moment(dataDay[0].date, 'DD/MM/YYYY').format('DD/MM')}
           department={dataDay[0].department}
-          status={dataDay[0].checkIn > '08:15' ? false : true}
+          status={!(dataDay[0].checkIn > '08:15')}
           shift={dataDay ? dataDay[0].shift : null}
           timeIn={moment(dataDay[0].checkIn, 'HH:mm:ss').format('HH:mm')}
           timeOut={moment(dataDay[0].checkOut, 'HH:mm:ss').format('HH:mm')}
           punish={dataDay.advance ? dataDay[0].advance.punishment : null}
         />
       ) : (
-        <Text style={styles.txt}>Bạn chưa chấm công ngày {title}</Text>
+        <Text style={styles.txt}>
+          Bạn chưa chấm công ngày
+          {title}
+        </Text>
       )}
       {/* <View style={styles.top}>
         <TouchableOpacity
@@ -162,11 +165,12 @@ const AllHistory = (props) => {
       <View style={styles.line} />
       <ScrollView
         ref={scrollRef}
-        horizontal={true}
-        pagingEnabled={true}
+        horizontal
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScrollAnimationEnd={false}
-        style={{marginTop: 4}}>
+        style={{ marginTop: 4 }}
+      >
         <ContentDay data={history} ref={flatRef} />
         {/* <ContentWeek />
         <ContentMonth /> */}
@@ -176,7 +180,7 @@ const AllHistory = (props) => {
           value={day}
           onChange={onChangeDay}
           onPress={onUnshow}
-          mode={'date'}
+          mode="date"
           show={show}
         />
       )}
@@ -185,7 +189,7 @@ const AllHistory = (props) => {
 };
 export default AllHistory;
 const styles = StyleSheet.create({
-  container: {height: '100%', backgroundColor: 'white'},
+  container: { height: '100%', backgroundColor: 'white' },
   top: {
     flexDirection: 'row',
     justifyContent: 'space-around',

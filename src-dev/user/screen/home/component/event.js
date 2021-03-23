@@ -19,7 +19,7 @@ const Event = (props) => {
   const onScroll = (e) => {
     const upper = e.nativeEvent.contentOffset.x;
     const below = widthPercentageToDP(100) - 57;
-    setNumber(Math.floor(upper / below));
+    setNumber(Math.round(upper / below));
   };
   const scrollFlat = () => {
     ref.current.scrollToIndex({ animated: true, index: 2 });
@@ -58,7 +58,7 @@ const Event = (props) => {
       <View
         style={[
           styles.sttPage,
-          { backgroundColor: number === data.indexOf(m) ? 'gray' : null },
+          { backgroundColor: number === data.indexOf(m) ? Colors.background : null },
         ]}
       />
     );
@@ -89,7 +89,7 @@ const Event = (props) => {
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
       />
-      {/* <View style={styles.paging}>{data.map((m) => renderPage(m))}</View> */}
+      <View style={styles.paging}>{data.map((m) => renderPage(m))}</View>
     </>
   );
 };
@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     borderRadius: 6,
     borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.background,
   },
   imgsEnd: {
     tintColor: Colors.white,
