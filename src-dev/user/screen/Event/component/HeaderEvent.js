@@ -23,13 +23,12 @@ const HeaderEvent = (props) => {
             name="chevron-left"
             size={32}
             color={Colors.black}
+            style={styles.icon}
           />
         </TouchableOpacity>
         <View style={[styles.info]}>
-          <Text style={styles.txtTitle}>Danh sách sự kiện</Text>
-          <TouchableOpacity style={styles.btnAdd}>
-            <Image source={imgs.add} style={styles.add} />
-          </TouchableOpacity>
+          <Text style={styles.txtTitle}>Sự kiện</Text>
+          <Text style={styles.txtDetail}>Hôm nay có 1 sự kiện </Text>
         </View>
       </View>
       {shadow ? (
@@ -49,9 +48,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   info: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flex: 1,
   },
   txtTitle: {
@@ -65,6 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
     color: 'black',
+    marginLeft: 12,
     marginVertical: 4,
   },
   line: {
@@ -74,8 +71,7 @@ const styles = StyleSheet.create({
   },
   button: {
     justifyContent: 'center',
-    width: 24,
-    height: 32,
+    alignItems: 'center',
   },
   gradient: {
     width: wp(100),
@@ -88,5 +84,8 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     marginRight: 16
+  },
+  icon:{
+    alignSelf: 'center',
   }
 });

@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import langs from '../../../common/language';
-import {imgs, Colors} from '../../../utlis';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { imgs, Colors } from '../../../utlis';
 
 const currrentDate = moment().format('DD/MM/YYYY');
 const day = moment().format('dddd');
@@ -23,21 +23,23 @@ function Bottom(props?: Props) {
     top,
   } = props;
   return (
-    <View style={[{top}, styles.container]}>
+    <View style={[{ top }, styles.container]}>
       <TouchableOpacity
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={[styles.body, {borderWidth: method === 'qr' ? 1 : 0}]}
-        onPress={onPressOne}>
+        style={[styles.body, { borderWidth: method === 'qr' ? 1 : 0 }]}
+        onPress={onPressOne}
+      >
         <Image style={styles.cancel} source={imgs.qrwhite} />
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.body, {borderWidth: method === 'wifi' ? 1 : 0}]}
-        onPress={onPressTwo}>
+        style={[styles.body, { borderWidth: method === 'wifi' ? 1 : 0 }]}
+        onPress={onPressTwo}
+      >
         <Image style={styles.cancel} source={imgs.wifiwhite} />
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.body, {borderWidth: method === 'code' ? 1 : 0}]}
-        onPress={onPressThree}>
+        style={[styles.body, { borderWidth: method === 'code' ? 1 : 0 }]}
+        onPress={onPressThree}
+      >
         <Image style={styles.cancel} source={imgs.codewhite} />
       </TouchableOpacity>
     </View>

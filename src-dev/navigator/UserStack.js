@@ -38,6 +38,7 @@ import Kpi from '../user/container/kpi';
 import ApproveAll from '../user/container/apply/ApproveAll';
 import DetailEvent from '../user/container/event/DetailEvent';
 import ListEvent from '../user/container/event/ListEvent';
+import AddEvent from '../user/container/event/AddEvent';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -292,6 +293,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.listEvent}
         component={ListEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.addEvent}
+        component={AddEvent}
         options={{
           headerShown: false,
         }}

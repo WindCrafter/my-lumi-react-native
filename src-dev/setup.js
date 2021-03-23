@@ -3,6 +3,8 @@ import { UIManager, LogBox } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import codePush from 'react-native-code-push';
+import { ActionSheetService } from '@nghinv/react-native-action-sheet';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store, persistor } from './redux/store/store';
 import AppNavigator from './app-navigator';
 import { setFont } from '../utlis/index';
@@ -62,7 +64,11 @@ class App extends PureComponent {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
+          <SafeAreaProvider>
+            <ActionSheetService>
+              <AppNavigator />
+            </ActionSheetService>
+          </SafeAreaProvider>
           <Loading
             loadingRef
             ref={(ref) => {

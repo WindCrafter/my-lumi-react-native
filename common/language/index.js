@@ -163,6 +163,8 @@ const langs = {
     approve: 'ApproveAll',
     detailEvent: 'DetailEvent',
     listEvent: 'ListEvent',
+    addEvent: 'AddEvent',
+    editEvent: 'EditEvent'
   },
   alert: {
     accept: 'Đồng ý',

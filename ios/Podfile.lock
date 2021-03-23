@@ -383,8 +383,8 @@ PODS:
     - React
   - RNCPicker (1.6.5):
     - React
-  - RNDateTimePicker (2.6.1):
-    - React
+  - RNDateTimePicker (3.0.6):
+    - React-Core
   - RNDeviceInfo (5.6.5):
     - React
   - RNGestureHandler (1.10.3):
@@ -686,7 +686,7 @@ SPEC CHECKSUMS:
   CodePush: 69186fd1143f7e5e5c6f65383cf14f4927e28213
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 66aaff69a4d16c8d3c6719cf5282268d62c4cc0f
+  FBReactNativeSpec: 22a4f0a16767d4481f806d96176b37e38a3d0b68
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: f7a3caafbd74bda4827954fd7a6e000e36355489
@@ -741,7 +741,7 @@ SPEC CHECKSUMS:
   RNCClipboard: a1dd5a278566666ac8f9c9b517b7922c801bcd98
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPicker: 55b9b4240d0a9eba8733d02616775d4040de2e7d
-  RNDateTimePicker: 83540fb5d71f28bd34990d8fabccb8d91e5d957e
+  RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
   RNDeviceInfo: c5f8f3a456adcbba405ace475254b08febc4c095
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
@@ -759,6 +759,6 @@ SPEC CHECKSUMS:
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 19caf0af2c3dfcb619fd6b878b1ea2508522e436
+PODFILE CHECKSUM: 7cf8140942fe1fc5e320979f5b59ff655e085bb9
 
 COCOAPODS: 1.10.1

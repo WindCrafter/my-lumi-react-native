@@ -14,7 +14,7 @@ import { Colors, imgs } from '../../../../../utlis';
 
 const Event = (props) => {
   const [number, setNumber] = useState(0);
-  const { data, onPress, role, onPressHR } = props;
+  const { data, onPress, role, onPressHR, AddEvent, onLongPress } = props;
   const ref = useRef(null);
   const onScroll = (e) => {
     const upper = e.nativeEvent.contentOffset.x;
@@ -26,7 +26,7 @@ const Event = (props) => {
   };
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)}>
+      <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
         <ImageBackground
           source={item.source}
           style={styles.image}
@@ -66,13 +66,13 @@ const Event = (props) => {
   return (
     <>
       <TouchableOpacity style={styles.manager} onPress={scrollFlat}>
-        <View style={styles.row}>
+        <TouchableOpacity style={styles.row} onPress={onPressHR}>
           <Image source={imgs.calendarWeek} style={styles.imgs} />
           <Text style={styles.txtManager}>{langs.event}</Text>
-        </View>
+        </TouchableOpacity>
         { role === 'HR' && (
-        <TouchableOpacity onPress={onPressHR}>
-          <Image source={imgs.manageIcon} style={styles.imgsEnd} />
+        <TouchableOpacity onPress={AddEvent} style={styles.btnAdd}>
+          <Image source={imgs.add} style={styles.imgsEnd} />
         </TouchableOpacity>
         )}
       </TouchableOpacity>
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     marginTop: 8,
     flexDirection: 'row',
-    marginRight: 4,
+    marginRight: 5,
   },
   viewDetail: {
     justifyContent: 'center',
@@ -178,6 +178,16 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   imgsEnd: {
-    tintColor: Colors.background,
-  }
+    tintColor: Colors.white,
+    width: 16,
+    height: 16
+  },
+  btnAdd: {
+    width: 36,
+    height: 24,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

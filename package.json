@@ -11,10 +11,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@nghinv/react-native-action-sheet": "^1.0.2",
+    "@nghinv/react-native-icons": "^1.0.1",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/clipboard": "^1.4.0",
-    "@react-native-community/datetimepicker": "^2.6.1",
+    "@react-native-community/datetimepicker": "3.0.6",
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.6",

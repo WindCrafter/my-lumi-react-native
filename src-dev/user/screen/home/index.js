@@ -12,15 +12,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { sum } from 'lodash';
+import { ActionSheet } from '@nghinv/react-native-action-sheet';
 import { BarStatus } from '../../../component';
 import Header from './component/header';
 import { Colors, imgs } from '../../../../utlis';
 import Event from './component/event';
 import FloatButton from './component/ActionButton';
 import CardUser from './component_user/user';
-import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
+import { _global } from '../../../../utlis/global/global';
 
 const DATA_EVENT = [
   {
@@ -128,6 +128,56 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.listEvent, { DATA_EVENT });
   };
 
+  const onAddEvent = () => {
+    navigation.navigate(langs.navigator.addEvent);
+  };
+
+  const onAlertDelete = () => {
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Bạn có chắc chắn muốn xoá sự kiện đã chọn không !!!',
+      leftButton: {
+        text: 'Xác nhận',
+        textStyle:{
+          color: Colors.danger,
+        },
+        onPress: () => {
+        },
+      },
+      rightButton: {
+        text: 'Huỷ',
+        onPress: () => {
+        },
+      },
+    });
+  };
+
+  const onEditItem = (item) => {
+    ActionSheet.show({
+      bottomTitle: 'Huỷ',
+      bottomButtonProps: {
+        titleStyle: styles.btn
+      },
+      zIndex: 10,
+      options: [
+        {
+          title: 'Chỉnh sửa',
+          leftIconName: 'edit',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => {},
+        },
+        {
+          title: 'Xoá',
+          leftIconName: 'delete',
+          titleColor: Colors.danger,
+          leftIconColor: Colors.danger,
+          onPress: () => onAlertDelete(),
+        },
+      ],
+    });
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -208,14 +258,11 @@ export default function Home(props) {
                   onPress={gotoDetailEvent}
                   role={role}
                   onPressHR={onPressHR}
+                  onLongPress={onEditItem}
+                  AddEvent={onAddEvent}
                 />
               </View>
             </Card>
-            {/* <Card style={styles.card}>
-              <View>
-                <HistoryCheck data={DATA_CHECK} navigation={navigation} />
-              </View>
-            </Card> */}
           </ScrollView>
           <FloatButton
             onPressLate={onPressLate}
@@ -273,4 +320,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 5,
   },
+  btn: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+  }
 });
