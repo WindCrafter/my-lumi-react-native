@@ -6,8 +6,9 @@ platform :ios, '10.0'
 target 'LumiHR' do
   config = use_native_modules!
 
-  use_react_native!(:path => config["reactNativePath"],:hermes_enable => true)
-  
+  use_react_native!(:path => config["reactNativePath"],
+   :hermes_enabled => true)
+
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
@@ -17,7 +18,7 @@ target 'LumiHR' do
     inherit! :complete
     # Pods for testing
   end
- 
+
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
 pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"

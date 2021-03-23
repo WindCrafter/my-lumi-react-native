@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import { imgs, Colors } from '../../../../../utlis';
@@ -23,7 +30,7 @@ const currentDayInWeek = day === 'Monday'
             : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressNotify, name, numberNotifys } = props;
+  const { pressAvatar, pressNotify, name, numberNotifys } = props;
   return (
     <LinearGradient
       style={styles.container}
@@ -33,10 +40,12 @@ const Header = (props) => {
     >
       <View style={styles.detail}>
         <View style={styles.avatar}>
-          <Image
-            source={require('../../../../../naruto.jpeg')}
-            style={styles.avt}
-          />
+          <TouchableOpacity onPress={pressAvatar}>
+            <Image
+              source={require('../../../../../naruto.jpeg')}
+              style={styles.avt}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.info}>
           <Text style={styles.txtName}>{`Xin chào ${name}!`}</Text>
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,25,0.22)',
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btCheckIn: {
     paddingHorizontal: 8,
