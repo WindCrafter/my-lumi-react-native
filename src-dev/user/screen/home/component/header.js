@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  AppState,
 } from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
@@ -31,6 +32,40 @@ const currentDayInWeek = day === 'Monday'
 
 const Header = (props) => {
   const { pressAvatar, pressNotify, name, numberNotifys } = props;
+  const [datez, setDatez] = useState(currrentDate);
+  const [dayz, setDayz] = useState(currentDayInWeek);
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+    AppState.addEventListener('change', _handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+
+  const _handleAppStateChange = (nextAppState) => {
+    const currrentDatez = moment().format('DD/MM/YYYY');
+    const d = moment().format('dddd');
+    const currentDayz = d === 'Monday'
+      ? 'Thứ 2'
+      : d === 'Tuesday'
+        ? 'Thứ 3'
+        : d === 'Wednesday'
+          ? 'Thứ 4'
+          : d === 'Thursday'
+            ? 'Thứ 5'
+            : d === 'Friday'
+              ? 'Thứ 6'
+              : d === 'Saturday'
+                ? 'Thứ 7'
+                : 'Chủ Nhật';
+
+    if (nextAppState === 'active') {
+      setDatez(currrentDatez);
+      setDayz(currentDayz);
+    }
+    appState.current = nextAppState;
+  };
   return (
     <LinearGradient
       style={styles.container}
@@ -50,7 +85,7 @@ const Header = (props) => {
         <View style={styles.info}>
           <Text style={styles.txtName}>{`Xin chào ${name}!`}</Text>
           <Text style={styles.time}>
-            {`${currentDayInWeek}, ${currrentDate}`}
+            {`${dayz}, ${datez}`}
           </Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>

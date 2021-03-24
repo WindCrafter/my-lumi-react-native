@@ -171,7 +171,7 @@ export default function Home(props) {
           leftIconName: 'edit',
           titleColor: Colors.black,
           leftIconColor: Colors.black,
-          onPress: () => {},
+          onPress: () => onMoveToEdit(),
         },
         {
           title: 'Xoá',
@@ -182,6 +182,14 @@ export default function Home(props) {
         },
       ],
     });
+  };
+
+  const onNothing = () => {
+    console.log('Not role to edit');
+  };
+
+  const onMoveToEdit = () => {
+    navigation.navigate(langs.navigator.editEvent);
   };
 
   return (
@@ -265,7 +273,7 @@ export default function Home(props) {
                   onPress={gotoDetailEvent}
                   role={role}
                   onPressHR={onPressHR}
-                  onLongPress={onEditItem}
+                  onLongPress={role === 'HR' ? onEditItem : onNothing}
                   AddEvent={onAddEvent}
                 />
               </View>

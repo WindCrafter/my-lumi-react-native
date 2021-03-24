@@ -39,6 +39,7 @@ import ApproveAll from '../user/container/apply/ApproveAll';
 import DetailEvent from '../user/container/event/DetailEvent';
 import ListEvent from '../user/container/event/ListEvent';
 import AddEvent from '../user/container/event/AddEvent';
+import EditEvent from '../user/container/event/EditEvent';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -300,6 +301,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.addEvent}
         component={AddEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.editEvent}
+        component={EditEvent}
         options={{
           headerShown: false,
         }}
