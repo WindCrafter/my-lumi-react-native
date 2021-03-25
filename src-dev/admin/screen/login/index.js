@@ -30,10 +30,13 @@ const Login = (props) => {
   const [errNew, setErrNew] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
   const { navigation } = props;
-
+  useEffect(() => {
+    refPassword.current.setNativeProps({
+      style: { fontFamily: 'Quicksand-Regular' },
+    });
+  }, []);
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 
-  useEffect(() => {}, []);
   const onRegister = () => {
     navigation.navigate(langs.navigator.register);
   };

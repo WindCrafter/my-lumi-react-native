@@ -2,7 +2,7 @@ import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
 import { URL_STAGING } from '../../../utlis/connection/url';
-import { _POST, _GET } from '../../../utlis/connection/api';
+import { _POST, _GET, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import {
   updateProfileSuccess,
@@ -29,9 +29,15 @@ import {
   getKPI,
   confirmKpiSuccess,
   getUnreadNotifySuccess,
-  getUnreadNotifyFailed
+  getUnreadNotifyFailed,
 } from '../actions/user';
-import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
+import {
+  changeToOut,
+  changeToIn,
+  changeToInRequest,
+  changeToOutRequest,
+  checkInactive,
+} from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
@@ -46,14 +52,14 @@ const URL_TEAMS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_TEAMS}`;
 const URL_BOOK_ROOM = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.BOOK_ROOM}`;
 const URL_LIST_ROOM = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROOM}`;
 
-const URL_NOTIFY = (e) => {
+const URL_NOTIFY = e => {
   return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_NOTIFY}${e}`;
 };
-const URL_LIST_CHECK = (e) => {
+const URL_LIST_CHECK = e => {
   return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}${e}`;
 };
 const URL_UNREAD_NOTIFICATION = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_UNREAD_NOTIFICATION}`;
-const notificationDeviceSelect = (state) => state.user.notificationDevice;
+const notificationDeviceSelect = state => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
     const data = {
@@ -158,8 +164,8 @@ function* sagaRemoveUserIdDevice(action) {
   try {
     console.log(action);
     let userId;
-    OneSignal.getPermissionSubscriptionState((status) => {
-      (userId = status.userId);
+    OneSignal.getPermissionSubscriptionState(status => {
+      userId = status.userId;
     });
     console.log(userId);
     const data = {
@@ -372,7 +378,11 @@ export function* watchListRoom() {
 function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
-    const response = yield _GET(`${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_KPI}${action.payload.month}`, token); console.log(response);
+    const response = yield _GET(
+      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_KPI}${action.payload.month}`,
+      token,
+    );
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getKPISuccess(response.data));
       _global.Loading.hide();
@@ -484,23 +494,83 @@ function* sagaGetWorkdayToday(action) {
     console.log('GET_WORKDAY_TODAY', response);
     const data = response.data;
     _global.Loading.hide();
-    if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.status === 1 && data.type !== 0) {
+    if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && !data.check_out
+      && data.status === 1
+      && data.type !== 0
+    ) {
       yield put(changeToInRequest());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.check_out && data.status === 1) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.check_out
+      && data.status === 1
+    ) {
       yield put(changeToOutRequest());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 2) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 1
+      && data.status === 2
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 2) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 2
+      && data.status === 2
+    ) {
       yield put(checkInactive());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 3) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 1
+      && data.status === 3
+    ) {
       yield put(changeToIn());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 3) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 2
+      && data.status === 3
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.type === 0) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && !data.check_out
+      && data.type === 0
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_out && data.type === 0) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_out
+      && data.type === 0
+    ) {
       yield put(checkInactive());
-    } else if (!response.success && response.statusCode === 200 && data.length === 0) {
+    } else if (
+      !response.success
+      && response.statusCode === 200
+      && data.length === 0
+    ) {
       yield put(changeToIn());
     }
   } catch (error) {

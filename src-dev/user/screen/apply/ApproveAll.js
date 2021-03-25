@@ -68,7 +68,7 @@ const ApproveAll = (props) => {
   console.log('finale', page);
 
   return (
-    <View style={{...StyleSheet.absoluteFill, backgroundColor: 'white'}}>
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'red' }}>
       <HeaderCustom
         title={langs.approveAll}
         height={64}
@@ -77,9 +77,10 @@ const ApproveAll = (props) => {
       />
       <ScrollableTabView
         tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{backgroundColor: Colors.background}}
+        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
         renderTabBar={renderTabBar}
-        initialPage={page || 0}>
+        initialPage={page || 0}
+      >
         <ApproveBreak
           tabLabel={langs.break}
           token={token}

@@ -53,7 +53,7 @@ if (
 }
 
 function UpdateProfile(props) {
-  const { navigation, updateProfile, token, auth } = props;
+  const { navigation, updateProfile, token, auth, uploadAvatar, avatar } = props;
   const [user, setUser] = useState(auth);
   const [dateChange, setDateChange] = useState(new Date());
 
@@ -78,7 +78,7 @@ function UpdateProfile(props) {
   const [show, setShow] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [sourceImage, setSourceImage] = useState('');
+  const [sourceImage, setSourceImage] = useState(avatar);
   const goBack = () => {
     navigation.goBack();
   };
@@ -202,6 +202,12 @@ function UpdateProfile(props) {
   };
   const onUpdateAvatar = image => {
     setSourceImage(image.sourceURL);
+    const data = {
+      url: image.sourceURL,
+      name: image.filename,
+      token
+    };
+    uploadAvatar(data);
   };
   const onSelectFromAlbum = () => {
     setShowAvatar(false);
@@ -326,7 +332,7 @@ function UpdateProfile(props) {
             <Image
               source={
                 sourceImage
-                  ? { uri: sourceImage }
+                  ? { uri: sourceImage.files[0] }
                   : require('../../../../naruto.jpeg')
               }
               style={styles.image}
