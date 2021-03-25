@@ -190,7 +190,11 @@ export async function _UPLOAD(url, files, token, loading) {
     });
   }
   const formData = new FormData();
-  formData.append('UploadForm[files]', { uri: files.url, name: files.name, type: 'image/jpeg' });
+  formData.append('UploadForm[files]', {
+    uri: files.url,
+    name: files.name,
+    type: 'image/jpeg',
+  });
   console.log('UPLOAD FILE::', files);
 
   const response = await fetch(url, {
