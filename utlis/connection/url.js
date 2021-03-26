@@ -172,4 +172,11 @@ export const URL_STAGING = {
   APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 
   UPLOAD_AVATAR: '/media/upload',
+  CREATE_EVENT: '/event/create',
+  LIST_EVENT: '/event/list',
+  UPDATE_EVENT: '/event/update',
+  DELETE_EVENT: '/event/delete',
+  GET_DETAIL_EVENT: '/event/get-by-id',
+  UPLOAD_IMAGE: '/media/upload',
+  READ_EVENT: '/event/read'
 };

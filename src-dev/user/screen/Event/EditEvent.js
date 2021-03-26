@@ -18,7 +18,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { Card } from 'native-base';
+import { Card, Item } from 'native-base';
 import moment from 'moment';
 import { Icon, IconType } from '@nghinv/react-native-icons';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -36,12 +36,18 @@ import {
   BarStatus,
   InputPick,
   InputDown,
+  Checkbox,
 } from '../../../component';
 import PickerCustom from '../apply/component/PickerCustom';
 import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _POST, _UPLOAD } from '../../../../utlis/connection/api';
+
+const URL_EDIT_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_EVENT}`;
+const URL_UPLOAD_IMAGE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPLOAD_IMAGE}`;
 
 if (
   Platform.OS === 'android'
@@ -54,63 +60,100 @@ const EditEvent = (props) => {
     navigation,
     token,
     bookRoom,
+    route,
   } = props;
+  const { _item } = route.params;
   const refPhone = useRef('');
-  const [title, setTitle] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState('Phòng họp');
+  const [title, setTitle] = useState(_item.subject);
   const [select, onSelect] = useState(false);
-  const [loop, setLoop] = useState('');
-  const [hourStart, setHourStart] = useState(moment()._d);
+  const [avatar, setAvatar] = useState(_item.avatar);
+  const [hourStart, setHourStart] = useState(moment(_item.start_datetime, 'HH:mm:ss DD/MM/YYYY')._d);
   const [hourEnd, setHourEnd] = useState(moment()._d);
-  const [start, setStart] = useState('');
-  const [end, setEnd] = useState('');
+  const [start, setStart] = useState(moment(_item.start_datetime, 'HH:mm:ss DD/MM/YYYY').format());
+  const [end, setEnd] = useState(_item.end_datetime !== '' ? moment(_item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format() : '');
   const [sourceImage, setSourceImage] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(_item.content);
+  const [checked, setChecked] = useState(_item.urgent === 1);
 
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
   };
-  const onSetWeek = () => {
-    if (loop === 'week') {
-      setLoop('');
+  const editEventImage = async () => {
+    const data = {
+      _id: _item._id,
+      subject: title,
+      content: description,
+      urgent: checked ? 1 : 0,
+      start_datetime: `${moment(start).format('HH:mm:00')} ${moment(date).format('DD/MM/YYYY')}`,
+      end_datetime: datez && `${moment(end).format('HH:mm:00')} ${moment(datez).format('DD/MM/YYYY')}`,
+      view_users: _item.view_users,
+    };
+    const data_image = {
+      url: sourceImage.sourceURL,
+      name: sourceImage.filename,
+      type: 'event',
+    };
+
+    const response_ = await _UPLOAD(URL_UPLOAD_IMAGE, data_image, token, true);
+    if (response_.success && response_.statusCode === 200
+    ) {
+      const response = await _POST(URL_EDIT_EVENT, { ...data, avatar: response_.data.files[0] }, token, true);
+      if (response.success && response.statusCode === 200
+      ) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Sửa sự kiện thành công',
+          leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
+        });
+      } else {
+        _global.Loading.hide();
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: response.message,
+          leftButton: { text: langs.alert.ok },
+        });
+      }
     } else {
-      setLoop('week');
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: response_.message,
+        leftButton: { text: langs.alert.ok },
+      });
     }
   };
-  const onSetMonth = () => {
-    if (loop === 'month') {
-      setLoop('');
+
+  const noEditImage = async () => {
+    const data = {
+      _id: _item._id,
+      subject: title,
+      content: description,
+      urgent: checked ? 1 : 0,
+      start_datetime: `${moment(start).format('HH:mm:00')} ${moment(date).format('DD/MM/YYYY')}`,
+      end_datetime: datez && `${moment(end).format('HH:mm:00')} ${moment(datez).format('DD/MM/YYYY')}`,
+      view_users: [],
+    };
+    const response = await _POST(URL_EDIT_EVENT, data, token, true);
+    if (response.success && response.statusCode === 200
+    ) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Sửa sự kiện thành công',
+        leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
+      });
     } else {
-      setLoop('month');
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
     }
   };
-  const onSetYear = () => {
-    if (loop === 'year') {
-      setLoop('');
-    } else {
-      setLoop('year');
-    }
-  };
+
   const onChangeTitle = (val) => {
     setTitle(val);
-  };
-
-  const hideModal = () => {
-    setShowModal(false);
-  };
-  const hideModalTime = () => {
-    setShowModalTime(false);
-  };
-  const onChangeLocation = () => {
-    setShowModal(true);
-    Keyboard.dismiss();
-  };
-
-  const onGoPickTeam = () => {
-    navigation.navigate(langs.navigator.pickTeam);
   };
 
   const onGoBack = () => {
@@ -127,31 +170,100 @@ const EditEvent = (props) => {
   };
 
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+  const [dateEnd, setDateEnd] = useState(new Date());
+  const [date, setDate] = useState(moment(_item.start_datetime, 'HH:mm:ss DD/MM/YYYY').format());
+  const [datez, setDatez] = useState(_item.end_datetime !== '' ? moment(_item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format() : '');
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
-  const [showModalDate, setshowModalDate] = useState(false);
+  const [showModalDateStart, setshowModalDateStart] = useState(false);
+  const [showModalDateEnd, setshowModalDateEnd] = useState(false);
   const onShowPickerDate = (m) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-    setshowModalDate(true);
+    setshowModalDateStart(true);
+  };
+  const onShowPickerDateEnd = (m) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setshowModalDateEnd(true);
   };
   const onChangeDate = (event, selectedDay) => {
     const currentDay = selectedDay || dateStart;
+    const oneDate = moment(currentDay).format('YYYYMMDD') === moment(datez).format('YYYYMMDD');
+    const smallerDate = moment(currentDay).format('YYYYMMDD') > moment(datez).format('YYYYMMDD');
     if (Platform.OS === 'ios') {
       setDateStart(currentDay);
     } else if (event.type === 'set') {
-      setshowModalDate(false);
-      setDate(currentDay);
+      setshowModalDateStart(false);
+      if (oneDate && start > end) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+          leftButton: { text: langs.alert.ok },
+        });
+      } else if (smallerDate && datez) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+          leftButton: { text: langs.alert.ok },
+        });
+      } else {
+        setDate(currentDay);
+      }
     } else {
-      setshowModalDate(false);
+      setshowModalDateStart(false);
     }
   };
-  const onConfirmDate = () => {
-    setshowModalDate(false);
-    setDate(dateStart);
+  const onChangeDateEnd = (event, selectedDay) => {
+    const currentDay = selectedDay || dateEnd;
+    const oneDate = moment(date).format('YYYYMMDD') === moment(currentDay).format('YYYYMMDD');
+    const smallerDate = moment(date).format('YYYYMMDD') > moment(currentDay).format('YYYYMMDD');
+    if (Platform.OS === 'ios') {
+      setDateEnd(currentDay);
+    } else if (event.type === 'set') {
+      setshowModalDateEnd(false);
+      if (oneDate && end && start > end) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+          leftButton: { text: langs.alert.ok },
+        });
+      } else if (smallerDate) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+          leftButton: { text: langs.alert.ok },
+        });
+      } else {
+        setDatez(currentDay);
+      }
+    } else {
+      setshowModalDateEnd(false);
+    }
+  };
+  const onConfirmDate = (set) => {
+    const oneDate = moment(dateStart).format('YYYYMMDD') === moment(dateEnd).format('YYYYMMDD');
+    const smallerDate = moment(dateStart).format('YYYYMMDD') > moment(dateEnd).format('YYYYMMDD');
+    setshowModalDateStart(false);
+    setshowModalDateEnd(false);
+    if (oneDate && end && start > end) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+        leftButton: { text: langs.alert.ok },
+      });
+    } else if (datez && smallerDate) {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+        leftButton: { text: langs.alert.ok },
+      });
+    } else {
+      !set && setDate(dateStart);
+      set && setDatez(dateEnd);
+    }
   };
   const onUnshowDate = () => {
-    setshowModalDate(false);
+    setshowModalDateStart(false);
+    setshowModalDateEnd(false);
   };
   const onShowPickerEnd = (m) => {
     if (start) {
@@ -190,12 +302,13 @@ const EditEvent = (props) => {
   const onChangeHourEnd = (event, selectedShift) => {
     const currentShift = selectedShift || hourEnd;
     const past = moment(start).format('HH:mm') > moment(currentShift).format('HH:mm');
+    const checkDate = moment(date).format('YYYYMMDD') === moment(datez).format('YYYYMMDD');
     if (Platform.OS === 'ios') {
       setHourEnd(moment(currentShift)._d);
     } else if (event.type === 'set') {
       setshowModalTimeEnd(false);
-      !past && setEnd(moment(currentShift)._d);
-      past && _global.Alert.alert({
+      (!past || !checkDate) && setEnd(moment(currentShift)._d);
+      (checkDate && past) && _global.Alert.alert({
         title: langs.alert.remind,
         message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
         leftButton: { text: langs.alert.ok },
@@ -223,45 +336,27 @@ const EditEvent = (props) => {
   const onBlur = () => {
     Keyboard.dismiss();
   };
-  const onAddEvent = () => {
+  const onEditEvent = () => {
     if (title.trim().length === 0) {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullTitle,
         leftButton: { text: langs.alert.ok },
       });
-      return;
-    }
-    if (date === '') {
+    } else if (date === '') {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: langs.alert.nullDate,
+        message: langs.alert.nullStartDateEvent,
         leftButton: { text: langs.alert.ok },
       });
-      return;
-    }
-    if (start === '') {
+    } else if (start === '') {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: langs.alert.nullStartTime,
+        message: langs.alert.nullStartTimeEvent,
         leftButton: { text: langs.alert.ok },
       });
-      return;
-    }
-    if (end === '') {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: langs.alert.nullEndTime,
-        leftButton: { text: langs.alert.ok },
-      });
-      return;
-    }
-    if (end < start) {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: langs.alert.invalidStartTime,
-        leftButton: { text: langs.alert.ok },
-      });
+    } else {
+      sourceImage ? editEventImage() : noEditImage();
     }
   };
 
@@ -271,7 +366,7 @@ const EditEvent = (props) => {
   };
 
   const onUpdateAvatar = image => {
-    setSourceImage(image.sourceURL);
+    setSourceImage(image);
   };
   const onSelectFromAlbum = () => {
     request(
@@ -304,22 +399,10 @@ const EditEvent = (props) => {
             cropping: true,
           })
             .then(image => {
-              if (Platform.OS === 'android') {
-                image.sourceURL = image.path;
-                if (!image.filename) {
-                  image.filename = `${new Date().getTime()}.JPG`;
-                }
-                if (!image.mime) {
-                  image.mime = 'image/jpeg';
-                }
-              } else {
-                image.sourceURL = image.path;
-                if (!image.filename) {
-                  image.filename = `${new Date().getTime()}.JPG`;
-                }
-                if (!image.mime) {
-                  image.mime = 'image/jpeg';
-                }
+              image.sourceURL = image.path;
+              image.filename = `${new Date().getTime()}.JPG`;
+              if (!image.mime) {
+                image.mime = 'image/jpeg';
               }
 
               console.log('select image', image);
@@ -358,22 +441,10 @@ const EditEvent = (props) => {
           cropping: true,
         })
           .then(image => {
-            if (Platform.OS === 'android') {
-              image.sourceURL = image.path;
-              if (!image.filename) {
-                image.filename = `${new Date().getTime()}.JPG`;
-              }
-              if (!image.mime) {
-                image.mime = 'image/jpeg';
-              }
-            } else {
-              image.sourceURL = image.path;
-              if (!image.filename) {
-                image.filename = `${new Date().getTime()}.JPG`;
-              }
-              if (!image.mime) {
-                image.mime = 'image/jpeg';
-              }
+            image.sourceURL = image.path;
+            image.filename = `${new Date().getTime()}.JPG`;
+            if (!image.mime) {
+              image.mime = 'image/jpeg';
             }
 
             onUpdateAvatar && onUpdateAvatar(image);
@@ -392,7 +463,7 @@ const EditEvent = (props) => {
         goBack={onGoBack}
         rightButton
         textPress
-        onRight={onAddEvent}
+        onRight={onEditEvent}
         shadow
       />
       <KeyboardAvoidingView
@@ -402,25 +473,25 @@ const EditEvent = (props) => {
         <ScrollView style={{ backgroundColor: '#f0f0f0' }}>
           <ImageBackground
             source={sourceImage
-              ? { uri: sourceImage }
-              : imgs.event}
+              ? { uri: sourceImage.sourceURL }
+              : { uri: _item.avatar }}
             style={styles.avtEvent}
             imageStyle={styles.avtBG}
           >
             <View style={styles.bottom}>
               <TouchableOpacity style={styles.btnTxt} onPress={onSelectFromAlbum}>
-                <Icon name="image" size={24} />
+                <Icon name="photo" size={24} />
                 <Text style={styles.txtCamera}>Chọn ảnh</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnTxt} onPress={onTakePhoto}>
-                <Icon name="image" size={24} />
+                <Icon name="camera-alt" size={24} />
                 <Text style={styles.txtCamera}>Chụp ảnh</Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>
           <InputRow
             containerStyle={styles.txtInput}
-            title="Nội dung họp :"
+            title="Nội dung:"
             size={16}
             value={title}
             onChangeText={onChangeTitle}
@@ -432,42 +503,43 @@ const EditEvent = (props) => {
             <TextInput
               multiline
               placeholder="Nhập nội dung sự kiện"
-              maxLength={90}
+              maxLength={500}
+              value={description}
               style={styles.txtDescription}
               onBlur={onBlur}
               onChangeText={onChangeDescription}
             />
           </Card>
-          <InputSelect
-            width="90%"
-            leftImage={imgs.selectCalendar}
-            borderRadius={32}
-            height={54}
-            shadowColor="white"
-            title="Chọn ngày"
-            padding={8}
-            marginVertical={18}
-            containerStyle={styles.viewInputSelect}
-            onPressButton={onShowPickerDate}
-            shadowOpacity={0.1}
-            marginRight={-30}
-            color="rgba(4, 4, 15, 0.45)"
-            detail={
+          <View style={styles.viewTime}>
+            <InputSelect
+              width="60%"
+              leftImage={false}
+              borderRadius={32}
+              height={54}
+              shadowColor="white"
+              title="Chọn ngày bắt đầu"
+              padding={8}
+              marginVertical={18}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onShowPickerDate}
+              shadowOpacity={0.1}
+              marginRight={-30}
+              color="rgba(4, 4, 15, 0.45)"
+              detail={
               date !== ''
-                ? `${moment(date).format('DD')} tháng ${moment(date).format(
+                ? `Từ   : ${moment(date).format('DD')} tháng ${moment(date).format(
                   'MM',
                 )}, ${moment(date).format('YYYY')}`
                 : null
             }
-            rightImage={imgs.roundedLeft}
-          />
-          <View style={styles.viewTime}>
+              rightImage={imgs.roundedLeft}
+            />
             <InputDown
-              width="45%"
+              width="30%"
               borderRadius={32}
               height={54}
               shadowColor="white"
-              title="Giờ bắt đầu"
+              title="Chọn giờ"
               padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
@@ -476,19 +548,42 @@ const EditEvent = (props) => {
               color="rgba(4, 4, 15, 0.45)"
               detail={
                 start !== ''
-                  ? `Từ : ${moment(start).format('HH')} giờ ${moment(
+                  ? `${moment(start).format('HH')} giờ ${moment(
                     start,
                   ).format('mm')}`
                   : null
               }
               rightImage={imgs.roundedLeft}
             />
+          </View>
+          <View style={styles.viewTime}>
+            <InputSelect
+              width="60%"
+              borderRadius={32}
+              height={54}
+              leftImage={false}
+              shadowColor="white"
+              title="Chọn ngày kết thúc"
+              padding={8}
+              marginVertical={18}
+              containerStyle={styles.viewInputSelect}
+              onPressButton={onShowPickerDateEnd}
+              shadowOpacity={0.1}
+              marginRight={-30}
+              color="rgba(4, 4, 15, 0.45)"
+              detail={datez !== ''
+                ? `Đến : ${moment(datez).format('DD')} tháng ${moment(datez).format(
+                  'MM',
+                )}, ${moment(datez).format('YYYY')}`
+                : null}
+              rightImage={imgs.roundedLeft}
+            />
             <InputDown
-              width="45%"
+              width="30%"
               borderRadius={32}
               height={54}
               shadowColor="white"
-              title="Giờ kết thúc"
+              title="Chọn giờ"
               padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
@@ -497,7 +592,7 @@ const EditEvent = (props) => {
               color="rgba(4, 4, 15, 0.45)"
               detail={
                 end !== ''
-                  ? `Đến : ${moment(end).format('HH')} giờ ${moment(end).format(
+                  ? `${moment(end).format('HH')} giờ ${moment(end).format(
                     'mm',
                   )}`
                   : null
@@ -505,6 +600,12 @@ const EditEvent = (props) => {
               rightImage={imgs.roundedLeft}
             />
           </View>
+          <Checkbox
+            containerStyle={styles.checkBox}
+            title={langs.urgent}
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+          />
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -530,29 +631,26 @@ const EditEvent = (props) => {
         show={showModalTimeEnd}
         locale="en-GB"
         onHideModal={onUnshowEnd}
-        minimumDate={start || new Date()}
+        minimumDate={moment(date).format('YYYYMMDD') === moment(datez).format('YYYYMMDD') && start}
       />
 
       <PickerCustom
         value={dateStart}
         onChange={onChangeDate}
-        onPress={onConfirmDate}
+        onPress={() => onConfirmDate(false)}
         mode="date"
-        show={showModalDate}
+        show={showModalDateStart}
         minimumDate={new Date()}
         onHideModal={onUnshowDate}
       />
-
-      <LocationModal
-        showModal={showModal}
-        setModal={hideModal}
-        onPress={(e) => setLocation(e)}
-        detail={location}
-      />
-      <TimeModal
-        showModal={showModalTime}
-        setModal={hideModalTime}
-        onPress={(e) => setLocation(e)}
+      <PickerCustom
+        value={dateEnd}
+        onChange={onChangeDateEnd}
+        onPress={() => onConfirmDate(true)}
+        mode="date"
+        show={showModalDateEnd}
+        minimumDate={dateStart || new Date()}
+        onHideModal={onUnshowDate}
       />
     </View>
   );
@@ -742,5 +840,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flex: 1,
     justifyContent: 'center'
-  }
+  },
+
+  checkBox: {
+    marginLeft: 16,
+    marginVertical: 8,
+    width: 200,
+  },
 });

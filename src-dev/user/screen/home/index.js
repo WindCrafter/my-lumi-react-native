@@ -23,6 +23,8 @@ import FloatButton from './component/ActionButton';
 import CardUser from './component_user/user';
 import langs from '../../../../common/language';
 import { _global } from '../../../../utlis/global/global';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 
 const DATA_EVENT = [
   {
@@ -43,12 +45,6 @@ const DATA_EVENT = [
     time: '15:45   22/11/2020',
     source: imgs.event,
   },
-  // {
-  //   id: '4',
-  //   detail: 'Kìa là 1 ngày trọng đại',
-  //   time: '17:45   23/11/2020',
-  //   source: imgs.event,
-  // },
 ];
 
 if (
@@ -72,6 +68,7 @@ export default function Home(props) {
     avatar,
   } = props;
   const [refresh, setRefresh] = useState(false);
+  const [dataEvent, setDataEvent] = useState([]);
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.notify);
@@ -94,14 +91,55 @@ export default function Home(props) {
       getSummary(token);
       getUnreadNotify(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
+      getDataEvent();
     }
   }, [isFocused]);
+  const getDataEvent = async () => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_EVENT}?page=1&page_size=3&status&date=`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_Event ===========>', response);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setDataEvent(response.data);
+    }
+  };
+  const onDeleteEvent = async (_id) => {
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_EVENT}`;
+    const response = await _POST(apiURL, { _id }, token, false);
+    console.log('_GET_LIST_Event ===========>', _id);
+    if (
+      response.success
+      && response.statusCode === 200
+    ) {
+      getDataEvent();
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Xoá sự kiện thành công !!!',
+        rightButton: {
+          text: langs.alert.ok,
+        },
+      });
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        rightButton: {
+          text: langs.alert.ok,
+        },
+      });
+    }
+  };
   const onDone = () => {
     setRefresh(false);
   };
   const onRefresh = () => {
     getSummary(token);
     getWorkdayToday({ token, date: moment().format('DD/MM/YYYY'), onDone });
+    getDataEvent();
   };
   const onPressApprove = () => {
     navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 3 : 0 });
@@ -139,7 +177,7 @@ export default function Home(props) {
     navigation.navigate(langs.navigator.addEvent);
   };
 
-  const onAlertDelete = () => {
+  const onAlertDelete = (_id) => {
     _global.Alert.alert({
       title: langs.alert.notify,
       message: 'Bạn có chắc chắn muốn xoá sự kiện đã chọn không !!!',
@@ -148,8 +186,7 @@ export default function Home(props) {
         textStyle: {
           color: Colors.danger,
         },
-        onPress: () => {
-        },
+        onPress: () => onDeleteEvent(_id),
       },
       rightButton: {
         text: 'Huỷ',
@@ -172,14 +209,14 @@ export default function Home(props) {
           leftIconName: 'edit',
           titleColor: Colors.black,
           leftIconColor: Colors.black,
-          onPress: () => onMoveToEdit(),
+          onPress: () => onMoveToEdit(item),
         },
         {
           title: 'Xoá',
           leftIconName: 'delete',
           titleColor: Colors.danger,
           leftIconColor: Colors.danger,
-          onPress: () => onAlertDelete(),
+          onPress: () => onAlertDelete(item._id),
         },
       ],
     });
@@ -189,8 +226,8 @@ export default function Home(props) {
     console.log('Not role to edit');
   };
 
-  const onMoveToEdit = () => {
-    navigation.navigate(langs.navigator.editEvent);
+  const onMoveToEdit = (item) => {
+    navigation.navigate(langs.navigator.editEvent, { _item: item });
   };
 
   return (
@@ -271,7 +308,7 @@ export default function Home(props) {
             <Card style={styles.card}>
               <View>
                 <Event
-                  data={DATA_EVENT}
+                  data={dataEvent}
                   onPress={gotoDetailEvent}
                   role={role}
                   onPressHR={onPressHR}

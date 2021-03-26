@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Colors } from '../../../utlis/color/index';
 
 const HeaderAccount = (props) => {
-  const { title, sub, goBack, shadow } = props;
+  const { title, sub, goBack, shadow, subStyle } = props;
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
@@ -29,7 +29,7 @@ const HeaderAccount = (props) => {
         ) : null}
         <View style={[styles.info, { marginLeft: goBack ? 48 : 24 }]}>
           <Text style={styles.txtTitle}>{title}</Text>
-          <Text style={styles.txtDetail}>{sub}</Text>
+          <Text style={[styles.txtDetail, subStyle]}>{sub}</Text>
         </View>
       </View>
       {shadow ? (

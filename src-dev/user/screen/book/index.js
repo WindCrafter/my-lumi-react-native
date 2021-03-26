@@ -134,9 +134,6 @@ const Book = (props) => {
     console.log(i);
     if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
-        // console.log(k);
-        // console.log('member', k.member_ids);
-        // console.log('owner', k.owner_id);
         if (k.member_ids.split(',').find((e) => e === user_id.toString()) || k.owner_id == user_id) {
           count++;
         }
@@ -217,6 +214,7 @@ const Book = (props) => {
   };
   const handleLoadMore = () => {
     getData();
+    console.log(1);
     setOnScroll(false);
     setLoading(true);
   };
