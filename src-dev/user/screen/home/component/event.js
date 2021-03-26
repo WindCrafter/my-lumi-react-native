@@ -9,12 +9,14 @@ import {
   ImageBackground,
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import moment from 'moment';
 import langs from '../../../../../common/language';
 import { Colors, imgs } from '../../../../../utlis';
 
 const Event = (props) => {
   const [number, setNumber] = useState(0);
   const { data, onPress, role, onPressHR, AddEvent, onLongPress } = props;
+  const [opacity, setOpacity] = useState(0.1);
   const ref = useRef(null);
   const onScroll = (e) => {
     const upper = e.nativeEvent.contentOffset.x;
@@ -24,33 +26,38 @@ const Event = (props) => {
   const scrollFlat = () => {
     ref.current.scrollToIndex({ animated: true, index: 2 });
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      opacity === 1 ? setOpacity(0.3) : setOpacity(1);
+    }, 600);
+    return () => clearInterval(interval);
+  }, [opacity]);
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
         <ImageBackground
-          source={item.source}
+          source={{
+            uri: item.avatar,
+          }}
           style={styles.image}
           imageStyle={styles.backGround}
         >
+          {/* {item.urgent === 1 && <View style={styles.urgent}><Text style={styles.txtUrgent}>Urgent</Text></View>} */}
           <View style={styles.row}>
-            {/* <View
-              style={[
-                styles.column,
-                {
-                  backgroundColor:
-                    index % 2 === 0
-                      ? 'rgb(252, 163, 125)'
-                      : 'rgb(46, 114, 249)',
-                },
-              ]}
-            /> */}
             <View style={styles.viewDetail}>
-              <Text style={styles.txtDetail}>{item.detail}</Text>
-              <Text style={styles.txtTime}>{item.time}</Text>
+              <Text style={[styles.txtDetail, { color: item.urgent == 1 ? 'orange' : 'white', opacity: item.urgent == 1 ? opacity : 1 }]}>{item.subject}</Text>
+              <Text style={styles.txtTime}>{moment(item.start_datetime, 'HH:mm:ss DD/MM/YYYY').format('HH:mm DD/MM/YYYY')}</Text>
             </View>
           </View>
         </ImageBackground>
       </TouchableOpacity>
+    );
+  };
+  const renderEmpty = ({ item, index }) => {
+    return (
+      <View style={[styles.viewItem, { width: widthPercentageToDP(100) - 48 }]}>
+        <Text> Hiện tại không có sự kiện để hiển thị !!!</Text>
+      </View>
     );
   };
   const renderPage = (m) => {
@@ -80,9 +87,9 @@ const Event = (props) => {
       <FlatList
         style={styles.flatList}
         ref={ref}
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        data={data && data.length !== 0 ? data : [1]}
+        keyExtractor={(item) => item._id}
+        renderItem={data && data.length !== 0 ? renderItem : renderEmpty}
         scrollEnabled
         horizontal
         pagingEnabled
@@ -112,22 +119,22 @@ const styles = StyleSheet.create({
   txtDetail: {
     fontSize: 16,
     fontWeight: '500',
-    color: Colors.white,
   },
   line: {
     width: '100%',
     height: 1,
     backgroundColor: 'rgb(112, 112, 112)',
+    marginBottom: 8,
   },
   column: {
     width: 6,
     flex: 1,
   },
   viewItem: {
-    paddingVertical: 2,
-    marginTop: 8,
     flexDirection: 'row',
+    overflow: 'hidden',
     marginRight: 5,
+    justifyContent: 'center'
   },
   viewDetail: {
     justifyContent: 'center',
@@ -191,4 +198,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  urgent: {
+    position: 'absolute',
+    top: 10,
+    right: 0,
+    // right: -50,
+    backgroundColor: 'rgba(251, 28, 28, 0.7)',
+    width: 100,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // transform: [{ rotate: '45deg' }],
+  },
+  txtUrgent: {
+    // color: 'rgb(252, 252, 3)',
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: '700',
+  }
 });

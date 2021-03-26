@@ -37,55 +37,6 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DATA_EVENT = [
-  { date: '20/11/2020',
-    data: [{
-      id: '1',
-      detail: 'Nay là 1 ngày trọng đại  ',
-
-      time: '10:00',
-      source: imgs.event,
-    },
-    ]
-  },
-  { date: '21/11/2020',
-    data: [
-      {
-        id: '2',
-        detail: 'Mai là 1 ngày trọng đại',
-        time: '13:45',
-        source: imgs.event,
-      },
-    ]
-  },
-  { date: '22/11/2020',
-    data: [
-      {
-        id: '3',
-        detail: 'Kia là 1 ngày trọng đại',
-        time: '15:45',
-        source: imgs.event,
-      },
-      {
-        id: '4',
-        detail: 'Kìa là 1 ngày trọng đại',
-        time: '17:00',
-        source: imgs.event,
-      },
-    ]
-  },
-  { date: '23/11/2020',
-    data: [
-      {
-        id: '4',
-        detail: 'Kìa là 1 ngày trọng đại',
-        time: '17:00',
-        source: imgs.event,
-      },
-    ]
-  },
-];
-
 const ListEvent = (props) => {
   const { navigation, token, listRoom, listRoomBook, user_id } = props;
   const [onScroll, setOnScroll] = useState(false);
@@ -109,38 +60,59 @@ const ListEvent = (props) => {
     AppState.addEventListener('change', _handleAppStateChange);
 
     if (isFocused) {
-      // getData();
+      getData();
     }
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
   }, [isFocused]);
 
-  // const getData = async (dataN) => {
-  //   const _dataN = dataN || [];
-  //   const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROOM}`;
-  //   const response = await _GET(apiURL, token, false);
-  //   setRefresh(false);
-  //   setLoading(false);
-  //   setOnScroll(false);
-  //   if (
-  //     response.success
-  //     && response.statusCode === 200
-  //     && response.data
-  //     && response.data.length > 0
-  //   ) {
-  //     setData(_dataN.concat(response.data));
-  //   }
-  // };
+  const getData = async (dataN) => {
+    const _dataN = dataN || [];
+    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_EVENT}`;
+    const response = await _GET(apiURL, token, false);
+    setRefresh(false);
+    setLoading(false);
+    setOnScroll(false);
+    console.log('List Event =>>>>>', response);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setData(_dataN.concat(response.data));
+    }
+  };
+  const gotoDetaiEvent = (item) => {
+    navigation.navigate(langs.navigator.detailEvent, { item });
+  };
   const _handleAppStateChange = (nextAppState) => {
     if (nextAppState === 'active') {
       // getData();
     }
   };
   const array = [];
+  const data_ = [];
+  data.forEach((i) => {
+    data_.push({ ...i, date: moment(i.start_datetime, 'HH:mm:ss DD/MM/YYYY').format('DD/MM/YYYY'), time: moment(i.start_datetime, 'HH:mm:ss DD/MM/YYYY').format('HH:mm') });
+  });
+  let count = 0;
+  data_.forEach((i) => {
+    if (array.filter((it) => i.date === it.date).length === 0) {
+      array.push({ date: i.date, data: [i] });
+    } else {
+      array.map((item) => (item.date === i.date ? { ...item, data: item.data.push(i) } : item),);
+    }
+  });
+  array.forEach((i) => {
+    if (i.date == moment().format('DD/MM/YYYY')) {
+      count = i.data.length;
+    }
+  });
 
   const renderItem = (item) => {
-    console.log(item);
+    const urgent = item.item.urgent;
     return (
       <View style={{ flexDirection: 'row', marginBottom: 8 }}>
         <View style={styles.scroll}>
@@ -150,10 +122,12 @@ const ListEvent = (props) => {
         <TouchableOpacity
           style={[
             styles.item,
-            { marginTop: item.index === 0 ? -24 : 3 }
+            { marginTop: item.index === 0 ? -24 : 3, borderWidth: urgent === 1 ? 2.5 : 0, borderColor: Colors.danger }
           ]}
+          onPress={() => gotoDetaiEvent(item.item)}
         >
-          <Text style={styles.detail}>{item.item.detail}</Text>
+          <Text style={styles.detail}>{item.item.subject}</Text>
+          <Text style={styles.time}>{item.item.time}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -163,14 +137,14 @@ const ListEvent = (props) => {
     return <Image source={imgs.add} style={styles.add} />;
   };
   const handleLoadMore = () => {
-    // getData();
+    getData();
     setOnScroll(false);
     setLoading(true);
   };
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    // getData();
+    getData();
   };
   const renderFooterComponent = () => {
     return (
@@ -184,9 +158,10 @@ const ListEvent = (props) => {
     );
   };
   const renderHeader = (section) => {
+    const today = moment().format('DD/MM/YYYY') === section.section.date;
     return (
       <View style={styles.header}>
-        <Text style={styles.txtHeader}>{section.section.date}</Text>
+        <Text style={styles.txtHeader}>{today ? 'Hôm nay' : section.section.date}</Text>
       </View>
     );
   };
@@ -200,8 +175,9 @@ const ListEvent = (props) => {
       <HeaderEvent
         shadow
         goBack={goBack}
+        count={count}
       />
-      {DATA_EVENT && DATA_EVENT.length === 0 && !loading && (
+      {data && data.length === 0 && !loading && (
         <EmptyState
           source={imgs.caughtUp}
           title="Chưa có sự kiện nào cả"
@@ -210,19 +186,19 @@ const ListEvent = (props) => {
       )}
       <SectionList
         style={{ paddingTop: 16 }}
-        sections={DATA_EVENT}
+        sections={array}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
         keyExtractor={(item, index) => index}
         onMomentumScrollBegin={() => setOnScroll(true)}
-        // onEndReached={!loading && onScroll ? handleLoadMore : null}
+        onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
-        // ListFooterComponent={renderFooterComponent}
+        ListFooterComponent={renderFooterComponent}
         stickySectionHeadersEnabled={false}
-        // refreshControl={
-        //   <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-        // }
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
     </>
   );
@@ -377,6 +353,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     marginRight: 3.5,
     marginTop: -2,
+  },
+  time: {
+    fontSize: 14,
   }
 });
 
