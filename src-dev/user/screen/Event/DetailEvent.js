@@ -49,6 +49,23 @@ const DetailEvent = (props) => {
       });
     }
   };
+
+  const onAlertConfirm = (_id) => {
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Bạn xác nhận đã đọc hết nội dung của sự kiện  !!!',
+      leftButton: {
+        text: 'Xác nhận',
+        onPress: () => onPressConfirm(),
+      },
+      rightButton: {
+        text: 'Huỷ',
+        onPress: () => {
+        },
+      },
+    });
+  };
+  
   const read = item.view_users.find(i => i == user_id);
   return (
     <>
@@ -75,7 +92,7 @@ const DetailEvent = (props) => {
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}
             title={read ? 'Đã đọc ✓' : langs.confirmReadEvt}
-            onPress={onPressConfirm}
+            onPress={onAlertConfirm}
             disable={read}
             containerStyle={styles.btn}
           />
