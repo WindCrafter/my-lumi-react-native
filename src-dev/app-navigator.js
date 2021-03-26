@@ -14,9 +14,8 @@ import { resetCheck } from './redux/actions/check';
 import { getWorkdayToday } from './redux/actions/user';
 import Navigator from './navigator';
 import LoadInital from './admin/screen/loadInitial';
-import Notify from '../notify';
+import Notify from './notify';
 import Version from './component/Version';
-import { ActionSheetService } from '@nghinv/react-native-action-sheet';
 
 UIManager.setLayoutAnimationEnabledExperimental
   && UIManager.setLayoutAnimationEnabledExperimental(true);

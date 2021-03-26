@@ -8,7 +8,7 @@ import {
 } from '../../../redux/actions/user';
 import { getSummary } from '../../../redux/actions/authen';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   nameUser: state.authen.fullname,
   emailUser: state.authen.email,
   timeIn: state.check.timeCheckIn,
@@ -17,6 +17,7 @@ const mapStateToProps = (state) => ({
   summary: state.authen.summary,
   role: state.authen.role,
   unreadNotify: state.user.unreadNotify,
+  avatar: state.authen.avatar,
 });
 
 const mapDispatchToProps = {

@@ -7,6 +7,7 @@ import {
   Keyboard,
   Dimensions,
   TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -31,9 +32,10 @@ const Login = (props) => {
   const [checked, setChecked] = useState(autoLoginStatus);
   const { navigation } = props;
   useEffect(() => {
-    refPassword.current.setNativeProps({
-      style: { fontFamily: 'Quicksand-Regular' },
-    });
+    Platform.OS === 'android'
+       && refPassword.current.setNativeProps({
+         style: { fontFamily: 'Quicksand-Regular' },
+       });
   }, []);
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 

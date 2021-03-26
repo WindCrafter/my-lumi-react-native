@@ -69,6 +69,7 @@ export default function Home(props) {
     role,
     unreadNotify,
     getUnreadNotify,
+    avatar,
   } = props;
   const [refresh, setRefresh] = useState(false);
 
@@ -202,6 +203,7 @@ export default function Home(props) {
           name={nameUser}
           numberNotifys={unreadNotify}
           pressAvatar={moveToUpdate}
+          avatar={avatar ? avatar.files[0] : null}
         />
 
         <View style={styles.flex}>

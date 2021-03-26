@@ -12,7 +12,7 @@ import {
 import moment from 'moment';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { Colors, imgs } from '../../../../utlis';
-import { BarStatus, HeaderCustom } from '../../../component';
+import { BarStatus, HeaderCustom, TabView } from '../../../component';
 import langs from '../../../../common/language';
 import { _global } from '../../../../utlis/global/global';
 import ApproveBreak from './ApproveBreak';
@@ -66,49 +66,82 @@ const ApproveAll = (props) => {
     );
   };
   console.log('finale', page);
-
+  const [routes] = useState([
+    { key: '1', title: 'Nghỉ phép' },
+    { key: '2', title: 'Đi muộn' },
+    { key: '3', title: 'OT' },
+    role === 'HR' && { key: '4', title: 'Chấm công' },
+  ]);
+  const [index, setIndex] = useState(page || 0);
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case '1':
+        return (
+          <ApproveBreak
+            tabLabel={langs.break}
+            token={token}
+            setStatusAdBreak={setStatusAdBreak}
+            status_ad_break={status_ad_break}
+            date_ad_break={date_ad_break}
+            setDateAdBreak={setDateAdBreak}
+          />
+        );
+      case '2':
+        return (
+          <ApproveLate
+            tabLabel={langs.late}
+            token={token}
+            setStatusAdLate={setStatusAdLate}
+            status_ad_late={status_ad_late}
+            date_ad_late={date_ad_late}
+            setDateAdLate={setDateAdLate}
+          />
+        );
+      case '3':
+        return (
+          <ApproveOT
+            tabLabel={langs.ot}
+            token={token}
+            setStatusAdOT={setStatusAdOT}
+            status_ad_ot={status_ad_ot}
+            date_ad_ot={date_ad_ot}
+            setDateAdOT={setDateAdOT}
+          />
+        );
+      case '4':
+        return (
+          <ApproveCheck tabLabel={langs.checkIn} token={token} />
+        );
+      default:
+        return null;
+    }
+  };
   return (
-    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'red' }}>
+    <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
         title={langs.approveAll}
-        height={64}
+        height={32}
         goBack={goBack}
         fontSize={24}
       />
-      <ScrollableTabView
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        swipeEnabled
+        // style={{ height: -24 }}
+      />
+      {/* <ScrollableTabView
         tabBarActiveTextColor={Colors.background}
         tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
         renderTabBar={renderTabBar}
         initialPage={page || 0}
       >
-        <ApproveBreak
-          tabLabel={langs.break}
-          token={token}
-          setStatusAdBreak={setStatusAdBreak}
-          status_ad_break={status_ad_break}
-          date_ad_break={date_ad_break}
-          setDateAdBreak={setDateAdBreak}
-        />
-        <ApproveLate
-          tabLabel={langs.late}
-          token={token}
-          setStatusAdLate={setStatusAdLate}
-          status_ad_late={status_ad_late}
-          date_ad_late={date_ad_late}
-          setDateAdLate={setDateAdLate}
-        />
-        <ApproveOT
-          tabLabel={langs.ot}
-          token={token}
-          setStatusAdOT={setStatusAdOT}
-          status_ad_ot={status_ad_ot}
-          date_ad_ot={date_ad_ot}
-          setDateAdOT={setDateAdOT}
-        />
+
         {role === 'HR' && (
           <ApproveCheck tabLabel={langs.checkIn} token={token} />
         )}
-      </ScrollableTabView>
+      </ScrollableTabView> */}
     </View>
   );
 };
