@@ -109,6 +109,8 @@ const langs = {
   timeOT: 'Thời gian ước tính',
   role: 'Vị trí',
   approveAll: 'Duyệt đơn',
+  urgent: 'Sự kiện quan trọng',
+  confirmReadEvt:'Xác nhận đã đọc',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
   errorLocationCheckin:
     'Bạn không có quyền check in bằng cách này khi không ở công ty.',
@@ -239,6 +241,9 @@ const langs = {
     invalidEndTime: 'Chưa điền giờ kết thúc họp',
     deleteApplication: 'Bạn có chắc chắn xoá đơn này không ?',
     successDeleteApplication: 'Xoá đơn thành công',
+    nullStartTimeEvent: 'Chưa có giờ bắt đầu sự kiện',
+    nullStartDateEvent: 'Chưa có ngày bắt đầu sự kiện',
+    nullAvatar: 'Chưa chọn ảnh cho sự kiện',
   },
 };
 

@@ -14,7 +14,7 @@ import { Colors } from '../../../../../utlis/color/index';
 import { imgs } from '../../../../../utlis';
 
 const HeaderEvent = (props) => {
-  const { title, sub, goBack, shadow } = props;
+  const { title, sub, goBack, shadow, count } = props;
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', paddingTop: 4, paddingBottom: 8, }}>
@@ -28,7 +28,14 @@ const HeaderEvent = (props) => {
         </TouchableOpacity>
         <View style={[styles.info]}>
           <Text style={styles.txtTitle}>Sự kiện</Text>
-          <Text style={styles.txtDetail}>Hôm nay có 1 sự kiện </Text>
+          <Text style={styles.txtDetail}>
+            Hôm nay có
+            {' '}
+            {count}
+            {' '}
+            sự kiện
+            {' '}
+          </Text>
         </View>
       </View>
       {shadow ? (
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
     height: 16,
     marginRight: 16
   },
-  icon:{
+  icon: {
     alignSelf: 'center',
   }
 });

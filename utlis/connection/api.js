@@ -173,3 +173,55 @@ export async function _POST_WIFI(url, data, token, loading = true) {
 
   return response;
 }
+export async function _UPLOAD(url, files, token, loading) {
+  console.log('UPLOAD', url);
+  if (loading) {
+    _global.Loading.show();
+  }
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api',
+      method: 'UPLOAD',
+      payload: {
+        url,
+        token,
+        time: formatTimeNow(),
+      },
+    });
+  }
+  const formData = new FormData();
+  formData.append('UploadForm[files]', { uri: files.url, name: files.name, type: 'image/jpeg' });
+  console.log('UPLOAD FILE::', files);
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: ` Bearer ${token}`,
+    },
+    body: formData,
+  })
+    .then(res => res.json())
+    .catch(error => {
+      _global.Loading.hide();
+      if (globalApp.customLog && globalApp.customLog.enableLog) {
+        globalApp.customLog.emitEvent({
+          type: 'call_api_response_image',
+          payload: `POST_ERROR:: ${url}${JSON.stringify(
+            error,
+          )}\nTIME_RES:: ${formatTimeNow()}`,
+        });
+      }
+      return error;
+    });
+
+  if (globalApp.customLog && globalApp.customLog.enableLog) {
+    globalApp.customLog.emitEvent({
+      type: 'call_api_response_image',
+      payload: `POST_RES:: ${url}${JSON.stringify(
+        response,
+      )}\nTIME_RES:: ${formatTimeNow()}`,
+    });
+  }
+  return response;
+}

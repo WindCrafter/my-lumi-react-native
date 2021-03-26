@@ -79,6 +79,7 @@ export default function InputDown(props?: Props) {
     padding,
     paddingVertical,
     marginRight,
+    paddingRight,
     color,
   } = props;
   const ViewCard = Platform.OS === 'ios' ? Card : Card;
@@ -128,6 +129,7 @@ export default function InputDown(props?: Props) {
                 {
                   padding,
                   color,
+                  paddingRight,
                 },
                 styles.textTitle,
               ]}>

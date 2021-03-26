@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import EditEvent from '../../screen/Event/EditEvent';
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  token: state.authen.token,
+});
 
 const mapDispatchToProps = {};
 
