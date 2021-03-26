@@ -28,8 +28,8 @@ export async function _POST(url, data, token, loading = true) {
     },
     body: JSON.stringify(data),
   })
-    .then((res) => res.json())
-    .catch((error) => {
+    .then(res => res.json())
+    .catch(error => {
       _global.Loading.hide();
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
@@ -62,7 +62,7 @@ export function _PUT(url, data, token) {
       Authorization: ` Bearer ${token}`,
     },
     body: JSON.stringify(data),
-  }).then((res) => res.json());
+  }).then(res => res.json());
 
   return response;
 }
@@ -90,8 +90,8 @@ export async function _GET(url, token, loading) {
       Authorization: ` Bearer ${token}`,
     },
   })
-    .then((res) => res.json())
-    .catch((error) => {
+    .then(res => res.json())
+    .catch(error => {
       _global.Loading.hide();
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
@@ -140,7 +140,7 @@ export async function _POST_WIFI(url, data, token, loading = true) {
     },
     body: JSON.stringify(data),
   })
-    .then((res) => {
+    .then(res => {
       return res.status === 403
         ? {
           success: false,
@@ -149,7 +149,7 @@ export async function _POST_WIFI(url, data, token, loading = true) {
         }
         : res.json();
     })
-    .catch((error) => {
+    .catch(error => {
       _global.Loading.hide();
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
@@ -190,7 +190,12 @@ export async function _UPLOAD(url, files, token, loading) {
     });
   }
   const formData = new FormData();
-  formData.append('UploadForm[files]', { uri: files.url, name: files.name, type: 'image/jpeg' });
+  formData.append('UploadForm[files]', {
+    uri: files.url,
+    name: files.name,
+    type: 'image/jpeg',
+  });
+
   console.log('UPLOAD FILE::', files);
 
   const response = await fetch(url, {
@@ -224,4 +229,5 @@ export async function _UPLOAD(url, files, token, loading) {
     });
   }
   return response;
+
 }

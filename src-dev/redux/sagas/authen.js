@@ -23,9 +23,11 @@ import {
   getSummarySuccess,
   getSummaryFailed,
   logOut,
+  uploadAvatarSuccess,
+  uploadAvatarFailed
 } from '../actions/authen';
 import { URL_STAGING } from '../../../utlis/connection/url';
-import { _GET, _POST } from '../../../utlis/connection/api';
+import { _GET, _POST, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import langs from '../../../common/language';
 import { Colors } from '../../../utlis';
@@ -41,6 +43,7 @@ const URL_SET_STATUS_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.SET_ST
 const URL_REGISTER = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.REGISTER}`;
 const URL_GET_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_PROFILE}`;
 const URL_GET_SUMMARY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_SUMMARY}`;
+const URL_UPLOAD_IMAGE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPLOAD_AVATAR}`;
 
 function* sagaLoginAction(action) {
   try {
@@ -341,4 +344,43 @@ function* sagaGetSummary(action) {
 
 export function* watchgetSummary() {
   yield takeLatest(types.GET_SUMMARY, sagaGetSummary);
+}
+function* sagaUploadImage(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const data = {
+      url: action.payload.url,
+      name: action.payload.name,
+    };
+    const response = yield _UPLOAD(URL_UPLOAD_IMAGE, data, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(uploadAvatarSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchSagaUploadImage() {
+  yield takeLatest(types.UPLOAD_AVATAR, sagaUploadImage);
 }

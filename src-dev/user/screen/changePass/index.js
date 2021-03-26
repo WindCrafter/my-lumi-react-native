@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Text,
   View,
@@ -11,16 +11,33 @@ import {
 } from 'react-native';
 import { InputPassword, HeaderCustom, BarStatus } from '../../../component';
 import { Button } from '../../../component/Button';
-import { Header } from '../kpi/component/Header';
 import { Colors, imgs } from '../../../../utlis/index';
 import langs from '../../../../common/language/index';
 import { _global } from '../../../../utlis/global/global';
 
 const ChangePass = (props) => {
   const { token, changePass, navigation } = props;
+  const refNew = useRef(null);
+  const refConfirm = useRef(null);
+  const refRecent = useRef(null);
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      refNew.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+      refConfirm.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+      refRecent.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+    }
+  }, []);
+
   const onGoBack = () => {
     navigation.goBack();
   };
+
   const [recentPass, setRecentPass] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
@@ -78,8 +95,6 @@ const ChangePass = (props) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   };
 
-  const refNew = useRef(null);
-  const refConfirm = useRef(null);
   const onCheck = () => {
     if (
       recentPass === ''
@@ -159,6 +174,7 @@ const ChangePass = (props) => {
             marginBottom: errRecent !== '' ? 0 : 28,
           },
         ]}
+        refInput={refRecent}
         onSubmitEditing={() => refNew.current.focus()}
         leftImage={imgs.lock}
       />

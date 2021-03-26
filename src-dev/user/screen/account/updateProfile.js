@@ -28,8 +28,8 @@ import {
   openSettings,
   RESULTS,
 } from 'react-native-permissions';
+import { ActionSheet } from '@nghinv/react-native-action-sheet';
 import Modal from 'react-native-modal';
-import ModalAvatar from './component/ModalAvatar';
 import {
   BarStatus,
   Button,
@@ -53,7 +53,7 @@ if (
 }
 
 function UpdateProfile(props) {
-  const { navigation, updateProfile, token, auth } = props;
+  const { navigation, updateProfile, token, auth, uploadAvatar, avatar } = props;
   const [user, setUser] = useState(auth);
   const [dateChange, setDateChange] = useState(new Date());
 
@@ -76,9 +76,9 @@ function UpdateProfile(props) {
   const isVNPhoneMobile = /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/;
   const regId = /(\d{12})|(\d{9})/;
   const [show, setShow] = useState(false);
-  const [showAvatar, setShowAvatar] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [sourceImage, setSourceImage] = useState('');
+  const [sourceImage, setSourceImage] = useState(avatar ? avatar.files[0] : null);
+  console.log('avatar', avatar);
   const goBack = () => {
     navigation.goBack();
   };
@@ -127,11 +127,37 @@ function UpdateProfile(props) {
     Keyboard.dismiss();
     setShowPicker(true);
   };
-  const onShowModalAvatar = () => {
-    setShowAvatar(true);
-    Keyboard.dismiss();
-  };
 
+  const onShowModalAvatar = () => {
+    Keyboard.dismiss();
+    ActionSheet.show({
+      bottomTitle: 'Huỷ',
+      bottomButtonProps: {
+        titleStyle: styles.btn,
+      },
+      zIndex: 10,
+      options: [
+        {
+          title: 'Chọn ảnh',
+          leftIconType: 'Ionicons',
+          leftIconName: 'images',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => onSelectFromAlbum(),
+          leftIconSize: 20,
+        },
+        {
+          title: 'Chụp ảnh',
+          leftIconType: 'Ionicons',
+          leftIconSize: 22,
+          leftIconName: 'camera',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => onTakePhoto(),
+        },
+      ],
+    });
+  };
   const onPick = () => {
     Keyboard.dismiss();
     navigation.navigate(langs.navigator.selectBank, {
@@ -152,9 +178,7 @@ function UpdateProfile(props) {
   const onHideModal = () => {
     setShow(false);
   };
-  const onHideAvatar = () => {
-    setShowAvatar(false);
-  };
+
   const onAlertCopy = () => {
     _global.Alert.alert({
       title: langs.alert.deviceID,
@@ -202,9 +226,14 @@ function UpdateProfile(props) {
   };
   const onUpdateAvatar = image => {
     setSourceImage(image.sourceURL);
+    const data = {
+      url: image.sourceURL,
+      name: image.filename,
+      token
+    };
+    uploadAvatar(data);
   };
   const onSelectFromAlbum = () => {
-    setShowAvatar(false);
     request(
       Platform.select({
         android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
@@ -222,46 +251,32 @@ function UpdateProfile(props) {
           },
         });
       } else {
-        setTimeout(() => {
-          ImagePicker.openPicker({
-            width: SCREEN.width * 2,
-            height: SCREEN.width * 2,
-            multiple: false,
-            minFiles: 1,
-            maxFiles: 1,
-            mediaType: 'photo',
-            compressImageQuality: 1,
-            waitAnimationEnd: true,
-            cropping: true,
-          })
-            .then(image => {
-              if (Platform.OS === 'android') {
-                image.sourceURL = image.path;
-                if (!image.filename) {
-                  image.filename = `${new Date().getTime()}.JPG`;
-                }
-                if (!image.mime) {
-                  image.mime = 'image/jpeg';
-                }
-              } else {
-                image.sourceURL = image.path;
-                if (!image.filename) {
-                  image.filename = `${new Date().getTime()}.JPG`;
-                }
-                if (!image.mime) {
-                  image.mime = 'image/jpeg';
-                }
-              }
+        ImagePicker.openPicker({
+          width: SCREEN.width * 2,
+          height: SCREEN.width * 2,
+          multiple: false,
+          minFiles: 1,
+          maxFiles: 1,
+          mediaType: 'photo',
+          compressImageQuality: 1,
+          waitAnimationEnd: true,
+          cropping: true,
+        })
+          .then(image => {
+            image.sourceURL = image.path;
+            image.filename = `${new Date().getTime()}.JPG`;
 
-              console.log('select image', image);
-              onUpdateAvatar && onUpdateAvatar(image);
-            })
-            .catch(e => {
-              // error
-              setShowAvatar(false);
-              console.log('error::select image', e);
-            });
-        }, 700);
+            if (!image.mime) {
+              image.mime = 'image/jpeg';
+            }
+
+            console.log('select image', image);
+            onUpdateAvatar && onUpdateAvatar(image);
+          })
+          .catch(e => {
+            // error
+            console.log('error::select image', e);
+          });
       }
     });
   };
@@ -358,12 +373,6 @@ function UpdateProfile(props) {
           title={langs.update}
           containerStyle={styles.complete}
           onPress={onUpdateInfo}
-        />
-        <ModalAvatar
-          showModal={showAvatar}
-          hideModal={onHideAvatar}
-          onOpenCamera={onTakePhoto}
-          onOpenLibrary={onSelectFromAlbum}
         />
         {Platform.OS === 'ios' ? (
           <ModalTime

@@ -31,7 +31,7 @@ const currentDayInWeek = day === 'Monday'
             : 'Chủ Nhật';
 
 const Header = (props) => {
-  const { pressAvatar, pressNotify, name, numberNotifys } = props;
+  const { pressAvatar, pressNotify, name, numberNotifys, avatar } = props;
   const [datez, setDatez] = useState(currrentDate);
   const [dayz, setDayz] = useState(currentDayInWeek);
   const appState = useRef(AppState.currentState);
@@ -77,16 +77,18 @@ const Header = (props) => {
         <View style={styles.avatar}>
           <TouchableOpacity onPress={pressAvatar}>
             <Image
-              source={require('../../../../../naruto.jpeg')}
+              source={
+                avatar
+                  ? { uri: avatar }
+                  : require('../../../../../naruto.jpeg')
+              }
               style={styles.avt}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.info}>
           <Text style={styles.txtName}>{`Xin chào ${name}!`}</Text>
-          <Text style={styles.time}>
-            {`${dayz}, ${datez}`}
-          </Text>
+          <Text style={styles.time}>{`${dayz}, ${datez}`}</Text>
         </View>
         <TouchableOpacity style={styles.notify} onPress={pressNotify}>
           <Image source={imgs.notification} />

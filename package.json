@@ -11,7 +11,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@nghinv/react-native-action-sheet": "^1.0.2",
+    "@nghinv/react-native-action-sheet": "^1.0.3",
     "@nghinv/react-native-icons": "^1.0.1",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/blur": "^3.6.0",

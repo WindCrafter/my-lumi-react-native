@@ -43,6 +43,7 @@ const Account = (props) => {
     changeDemoMode,
     demoMode,
     codepush,
+    avatar,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
@@ -110,7 +111,9 @@ const Account = (props) => {
         <HeaderAccount shadow title={langs.account} sub={langs.setting} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
-            leftImage={require('../../../../naruto.jpeg')}
+            leftImage={
+              avatar ? { uri: avatar.files[0] } : require('../../../../naruto.jpeg')
+            }
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"

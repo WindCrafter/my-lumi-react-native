@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   TextInputProps,
   TouchableOpacity,
@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { imgs } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -81,11 +81,12 @@ export default function InputPassword(props?: Props) {
           backgroundColor,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       {leftImage && (
         <Image
           source={leftImage}
-          style={[styles.image, {tintColor: tintColor}]}
+          style={[styles.image, { tintColor }]}
           resizeMode="contain"
         />
       )}
@@ -99,7 +100,7 @@ export default function InputPassword(props?: Props) {
         autoCapitalize="none"
         secureTextEntry={!showPass}
         clearButtonMode="never"
-        textContentType={'oneTimeCode'}
+        textContentType="oneTimeCode"
         onBlur={onBlur}
         onFocus={onFocus}
         onChangeText={(txtValue) => onChangeTextInput(txtValue)}
@@ -109,10 +110,11 @@ export default function InputPassword(props?: Props) {
       {text !== '' && (
         <TouchableOpacity
           onPress={onShowHidePass}
-          style={styles.btnShowHidePass}>
+          style={styles.btnShowHidePass}
+        >
           <Image
             source={showPass ? imgs.showpassword : imgs.hidepassword}
-            style={[styles.showHidePassword, {tintColor: tintColor}]}
+            style={[styles.showHidePassword, { tintColor }]}
             resizeMode="contain"
           />
         </TouchableOpacity>
