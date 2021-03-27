@@ -114,12 +114,22 @@ const AddEvent = (props) => {
         });
       }
     } else {
-      _global.Loading.hide();
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: response_.message,
-        leftButton: { text: langs.alert.ok },
-      });
+      const response = await _POST(URL_ADD_EVENT, data, token, true);
+      if (response.success && response.statusCode === 200
+      ) {
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Tạo sự kiện thành công',
+          leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
+        });
+      } else {
+        _global.Loading.hide();
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: response.message,
+          leftButton: { text: langs.alert.ok },
+        });
+      }
     }
   };
   const onChangeTitle = (val) => {
@@ -317,12 +327,6 @@ const AddEvent = (props) => {
       _global.Alert.alert({
         title: langs.alert.remind,
         message: langs.alert.nullDate,
-        leftButton: { text: langs.alert.ok },
-      });
-    } else if (sourceImage === '') {
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: langs.alert.nullAvatar,
         leftButton: { text: langs.alert.ok },
       });
     } else if (start === '') {

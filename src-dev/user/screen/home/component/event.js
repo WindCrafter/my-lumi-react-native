@@ -36,9 +36,9 @@ const Event = (props) => {
     return (
       <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
         <ImageBackground
-          source={{
+          source={item.avatar ? {
             uri: item.avatar,
-          }}
+          } : imgs.event}
           style={styles.image}
           imageStyle={styles.backGround}
         >
