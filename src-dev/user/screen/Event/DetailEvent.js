@@ -35,6 +35,7 @@ const DetailEvent = (props) => {
     const response = await _POST(URL_READ_EVENT, data, token, true);
     if (response.success && response.statusCode === 200
     ) {
+      _global.Loading.hide();
       _global.Alert.alert({
         title: langs.alert.remind,
         message: 'Xác nhận đã đọc',
@@ -65,7 +66,7 @@ const DetailEvent = (props) => {
       },
     });
   };
-  
+
   const read = item.view_users.find(i => i == user_id);
   return (
     <>
@@ -74,8 +75,8 @@ const DetailEvent = (props) => {
         height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
       <View style={styles.container}>
-        <HeaderAccount shadow title={item.subject} sub={item.urgent == 1 ? 'Sự kiện quan trọng' : 'Sự kiện thường nhật'} subStyle={{ color: item.urgent == 1 ? Colors.danger : Colors.background, fontWeight: '600' }} goBack={goBack} />
-        <Image source={{ uri: item.avatar }} style={styles.imgDetai} />
+        <HeaderAccount shadow title={item.subject} goBack={goBack} titleStyle={{ marginTop: 8 }} />
+        <Image source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai} />
         <ScrollView style={styles.scroll}>
           <Text style={styles.content}>
             <Text style={styles.titleContent}>Thời gian bắt đầu: </Text>
@@ -89,6 +90,7 @@ const DetailEvent = (props) => {
             <Text style={styles.titleContent}>Nội dung: </Text>
             {item.content}
           </Text>
+          {item.urgent === 1 && (
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}
             title={read ? 'Đã đọc ✓' : langs.confirmReadEvt}
@@ -96,6 +98,7 @@ const DetailEvent = (props) => {
             disable={read}
             containerStyle={styles.btn}
           />
+          )}
         </ScrollView>
       </View>
     </>
