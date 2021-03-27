@@ -240,7 +240,7 @@ export default function Home(props) {
           name={nameUser}
           numberNotifys={unreadNotify}
           pressAvatar={moveToUpdate}
-          avatar={avatar ? avatar.files[0] : null}
+          avatar={avatar}
         />
 
         <View style={styles.flex}>

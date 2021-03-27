@@ -19,6 +19,7 @@ import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../com
 import Checkbox from './components/Checkbox';
 import langs from '../../../../common/language';
 import { globalApp } from '../../../../logs/logs';
+import { _global } from '../../../../utlis/global/global';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -67,6 +68,9 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
+      if (!oneSignalID) {
+        _global.Loading.show();
+      }
       loginAction({ email, password: pass, device_token: oneSignalID });
 
       changeAutoLogin(checked);

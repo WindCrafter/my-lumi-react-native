@@ -352,6 +352,7 @@ function* sagaUploadImage(action) {
     const data = {
       url: action.payload.url,
       name: action.payload.name,
+      type: action.payload.type,
     };
     const response = yield _UPLOAD(URL_UPLOAD_IMAGE, data, token);
     console.log(response);
@@ -359,7 +360,7 @@ function* sagaUploadImage(action) {
       yield put(uploadAvatarSuccess(response.data));
       _global.Alert.alert({
         title: langs.alert.notify,
-        message: response.message,
+        message: 'Upload ảnh thành công.',
         leftButton: {
           text: langs.alert.ok,
         },

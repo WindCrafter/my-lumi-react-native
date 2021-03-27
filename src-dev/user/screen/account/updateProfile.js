@@ -77,7 +77,7 @@ function UpdateProfile(props) {
   const regId = /(\d{12})|(\d{9})/;
   const [show, setShow] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [sourceImage, setSourceImage] = useState(avatar ? avatar.files[0] : null);
+  const [sourceImage, setSourceImage] = useState(avatar || null);
   console.log('avatar', avatar);
   const goBack = () => {
     navigation.goBack();
@@ -229,7 +229,8 @@ function UpdateProfile(props) {
     const data = {
       url: image.sourceURL,
       name: image.filename,
-      token
+      token,
+      type: 'user'
     };
     uploadAvatar(data);
   };

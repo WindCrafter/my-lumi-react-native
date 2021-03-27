@@ -195,6 +195,7 @@ export async function _UPLOAD(url, files, token, loading) {
     name: files.name,
     type: 'image/jpeg',
   });
+  formData.append('type', files.type);
 
   console.log('UPLOAD FILE::', files);
 
@@ -229,5 +230,4 @@ export async function _UPLOAD(url, files, token, loading) {
     });
   }
   return response;
-
 }

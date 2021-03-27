@@ -111,7 +111,7 @@ export default function authen(state = initialState, action) {
     case types.UPLOAD_AVATAR_SUCCESS:
       return {
         ...state,
-        avatar: action.payload,
+        avatar: action.payload.avatar,
       };
     case types.GET_SUMMARY_SUCCESS:
       return {
