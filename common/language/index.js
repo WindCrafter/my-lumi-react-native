@@ -221,7 +221,7 @@ const langs = {
     applyOTdone: 'Đơn tăng ca đã được gửi đi',
     waitConfirm: 'Vui lòng đợi trong khi duyệt.',
     updateProfileFailed:
-      'Thay đổi thông tin thấy bại \n Vui lòng kiểm tra kết nối mạng',
+      'Thay đổi thông tin thất bại. \n Vui lòng kiểm tra kết nối mạng',
     updateProfileSuccess: 'Cập nhật thành công',
     signOut: 'Đăng xuất',
     questSignOut: 'Bạn thực sự muốn đăng xuất ?',

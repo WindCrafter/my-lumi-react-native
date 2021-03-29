@@ -1337,10 +1337,10 @@
     prettier "2.0.5"
     typescript "^3.8.3"
 
-"@nghinv/react-native-action-sheet@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@nghinv/react-native-action-sheet/-/react-native-action-sheet-1.0.2.tgz#f0dace4a3962fab0b5f5e245d86e91ce083c7569"
-  integrity sha512-uXlCxzGZJBRE9y2QhK4q5KEI94SlZfuOBAaNzQabblG/hUsSrKdgslYzEYpzFk0jg0uXLOlp0tCWnbhplpOV4A==
+"@nghinv/react-native-action-sheet@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@nghinv/react-native-action-sheet/-/react-native-action-sheet-1.0.3.tgz#ebd2c47269d90b63be3cfd8fb71baf874412198d"
+  integrity sha512-8dO0z8cpRNQ/b00EKiNUAhfWvesAMAShyAFDUhv1SpABBYZXZ5x72C8kRONNDtyxjFIia6OFcSsvDC83N4PLeA==
 
 "@nghinv/react-native-icons@^1.0.1":
   version "1.0.1"

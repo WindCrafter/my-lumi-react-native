@@ -33,7 +33,7 @@ const initialState = {
   identity_number: '',
   bank_account: '',
   bank_name: '',
-  
+
 };
 
 export default function authen(state = initialState, action) {
@@ -60,7 +60,7 @@ export default function authen(state = initialState, action) {
         identity_number: action.payload.data.identity_number,
         bank_name: action.payload.data.bank_name,
         bank_account: action.payload.data.bank_name,
-        role: action.payload.data.role
+        role: action.payload.data.role,
       };
     case types.CHANGE_PASS_SUCCESS:
       return {
@@ -107,6 +107,11 @@ export default function authen(state = initialState, action) {
       return {
         ...state,
         oneSignalID: action.payload,
+      };
+    case types.UPLOAD_AVATAR_SUCCESS:
+      return {
+        ...state,
+        avatar: action.payload.avatar,
       };
     case types.GET_SUMMARY_SUCCESS:
       return {

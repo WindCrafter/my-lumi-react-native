@@ -65,6 +65,25 @@ export const updateProfileFailed = (data) => {
     payload: data,
   };
 };
+export const uploadAvatar = data => {
+  return {
+    type: types.UPLOAD_AVATAR,
+    payload: data,
+  };
+};
+
+export const uploadAvatarSuccess = data => {
+  return {
+    type: types.UPLOAD_AVATAR_SUCCESS,
+    payload: data,
+  };
+};
+export const uploadAvatarFailed = data => {
+  return {
+    type: types.UPLOAD_AVATAR_FAILED,
+    payload: data,
+  };
+};
 export const autoLogin = () => {
   return {
     type: types.AUTO_LOGIN,

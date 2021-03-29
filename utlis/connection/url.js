@@ -82,6 +82,9 @@ export const URL = {
   CHECK_IN_REQUEST: '/work-day/check-in-out-by-request',
   LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
   APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
+
+  UPLOAD_AVATAR: '/media/upload',
+
 };
 
 export const URL_STAGING = {
@@ -169,11 +172,12 @@ export const URL_STAGING = {
   LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
   APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 
+  UPLOAD_AVATAR: '/site/upload-avatar',
   CREATE_EVENT: '/event/create',
   LIST_EVENT: '/event/list',
   UPDATE_EVENT: '/event/update',
   DELETE_EVENT: '/event/delete',
   GET_DETAIL_EVENT: '/event/get-by-id',
   UPLOAD_IMAGE: '/media/upload',
-  READ_EVENT: '/event/read'
+  READ_EVENT: '/event/read',
 };
