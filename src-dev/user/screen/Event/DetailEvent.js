@@ -54,7 +54,7 @@ const DetailEvent = (props) => {
   const onAlertConfirm = (_id) => {
     _global.Alert.alert({
       title: langs.alert.notify,
-      message: 'Bạn xác nhận đã đọc hết nội dung của sự kiện  !!!',
+      message: 'Bạn xác nhận đã đọc và đã hiểu hết nội dung của sự kiện  !!!',
       leftButton: {
         text: 'Xác nhận',
         onPress: () => onPressConfirm(),

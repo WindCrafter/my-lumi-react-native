@@ -357,6 +357,7 @@ const EditEvent = (props) => {
       });
     } else {
       sourceImage ? editEventImage() : noEditImage();
+      Keyboard.dismiss();
     }
   };
 

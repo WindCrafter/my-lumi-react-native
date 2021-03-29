@@ -439,7 +439,7 @@ const AddEvent = (props) => {
   return (
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
-        title="Đặt lịch sự kiện"
+        title="Tạo sự kiện"
         goBack={onGoBack}
         rightButton
         textPress
@@ -482,7 +482,7 @@ const AddEvent = (props) => {
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder="Nhập nội dung sự kiện"
+              placeholder="Nhập nội dung"
               maxLength={500}
               value={description}
               style={styles.txtDescription}
