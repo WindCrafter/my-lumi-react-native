@@ -19,15 +19,38 @@ import { BarStatus, Button, HeaderAccount } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 import { URL_STAGING } from '../../../../utlis/connection/url';
-import { _POST } from '../../../../utlis/connection/api';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 
 const URL_READ_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.READ_EVENT}`;
-const DetailEvent = (props) => {
+const DetailEventByNotify = (props) => {
   const { route, navigation, token, user_id } = props;
-  const { item } = route.params;
+  const { id } = route.params;
+  const URL_GET_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_EVENT_BY_ID}?_id=${id}`;
+  const [item, setItem] = useState({});
+  const [show, setShow] = useState(false);
   const goBack = () => {
     navigation.goBack();
   };
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = async () => {
+    const response = await _GET(URL_GET_EVENT, token, false);
+    if (
+      response.success
+      && response.statusCode === 200
+    ) {
+      setItem(response.data);
+      setShow(true);
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: response.message,
+        leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
+      });
+    }
+  };
+
   const onPressConfirm = async () => {
     const data = {
       _id: item._id,
@@ -67,13 +90,14 @@ const DetailEvent = (props) => {
     });
   };
 
-  const read = item.view_users.find(i => i == user_id);
+  const read = true;
   return (
     <>
       <BarStatus
         backgroundColor={Colors.white}
         height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
+      { show && (
       <View style={styles.container}>
         <HeaderAccount shadow title={item.subject} goBack={goBack} titleStyle={{ marginTop: 8 }} />
         <Image source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai} />
@@ -101,11 +125,12 @@ const DetailEvent = (props) => {
           )}
         </ScrollView>
       </View>
+      )}
     </>
   );
 };
 
-export default DetailEvent;
+export default DetailEventByNotify;
 const wd = widthPercentageToDP(100) - 36;
 const styles = StyleSheet.create({
   container: {

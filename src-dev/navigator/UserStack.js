@@ -40,6 +40,7 @@ import DetailEvent from '../user/container/event/DetailEvent';
 import ListEvent from '../user/container/event/ListEvent';
 import AddEvent from '../user/container/event/AddEvent';
 import EditEvent from '../user/container/event/EditEvent';
+import DetailEventByNotify from '../user/container/event/DetailEventByNotify';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -287,6 +288,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.detailEvent}
         component={DetailEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.detailEventByNotify}
+        component={DetailEventByNotify}
         options={{
           headerShown: false,
         }}

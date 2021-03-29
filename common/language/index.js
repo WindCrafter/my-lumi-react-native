@@ -164,6 +164,7 @@ const langs = {
     selectBank: 'Chọn ngân hàng',
     approve: 'ApproveAll',
     detailEvent: 'DetailEvent',
+    detailEventByNotify: 'DetailEventByNotify',
     listEvent: 'ListEvent',
     addEvent: 'AddEvent',
     editEvent: 'EditEvent'
@@ -244,6 +245,7 @@ const langs = {
     nullStartTimeEvent: 'Chưa có giờ bắt đầu sự kiện',
     nullStartDateEvent: 'Chưa có ngày bắt đầu sự kiện',
     nullAvatar: 'Chưa chọn ảnh cho sự kiện',
+    nullContent: 'Nội dung không được để trống',
   },
 };
 

@@ -100,38 +100,72 @@ const AddEvent = (props) => {
       const response = await _POST(URL_ADD_EVENT, { ...data, avatar: response_.data.files[0] }, token, true);
       if (response.success && response.statusCode === 200
       ) {
+        _global.Loading.hide();
         _global.Alert.alert({
           title: langs.alert.remind,
           message: 'Tạo sự kiện thành công',
           leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
         });
-      } else {
+      } else if (response.statusCode) {
         _global.Loading.hide();
         _global.Alert.alert({
           title: langs.alert.remind,
           message: response.message,
+          leftButton: { text: langs.alert.ok },
+        });
+      } else {
+        _global.Loading.hide();
+        _global.Alert.alert({
+          title: langs.alert.remind,
+          message: 'Quá thời gian phản hồi, tuy vậy sự kiện vẫn có thể update thành công !!! ',
           leftButton: { text: langs.alert.ok },
         });
       }
     } else {
-      const response = await _POST(URL_ADD_EVENT, data, token, true);
-      if (response.success && response.statusCode === 200
-      ) {
-        _global.Alert.alert({
-          title: langs.alert.remind,
-          message: 'Tạo sự kiện thành công',
-          leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
-        });
-      } else {
-        _global.Loading.hide();
-        _global.Alert.alert({
-          title: langs.alert.remind,
-          message: response.message,
-          leftButton: { text: langs.alert.ok },
-        });
-      }
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: response_.message,
+        leftButton: { text: langs.alert.ok },
+      });
     }
   };
+
+  const addEventNoImage = async () => {
+    const data = {
+      subject: title,
+      content: description,
+      urgent: checked ? 1 : 0,
+      start_datetime: `${moment(start).format('HH:mm:00')} ${moment(date).format('DD/MM/YYYY')}`,
+      end_datetime: onSetSelect(),
+      view_users: [],
+    };
+    const response = await _POST(URL_ADD_EVENT, data, token, true);
+    if (response.success && response.statusCode === 200
+    ) {
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Tạo sự kiện thành công',
+        leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
+      });
+    } else if (response.statusCode) {
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: response.message,
+        leftButton: { text: langs.alert.ok },
+      });
+    } else {
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: 'Quá thời gian phản hồi, tuy vậy sự kiện vẫn có thể update thành công !!! ',
+        leftButton: { text: langs.alert.ok },
+      });
+    }
+  };
+
   const onChangeTitle = (val) => {
     setTitle(val);
   };
@@ -326,17 +360,24 @@ const AddEvent = (props) => {
     } else if (date === '') {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: langs.alert.nullDate,
+        message: langs.alert.nullStartDateEvent,
+        leftButton: { text: langs.alert.ok },
+      });
+    } else if (description === '') {
+      _global.Alert.alert({
+        title: langs.alert.remind,
+        message: langs.alert.nullContent,
         leftButton: { text: langs.alert.ok },
       });
     } else if (start === '') {
       _global.Alert.alert({
         title: langs.alert.remind,
-        message: langs.alert.nullStartTime,
+        message: langs.alert.nullStartTimeEvent,
         leftButton: { text: langs.alert.ok },
       });
     } else {
-      addEvent();
+      sourceImage ? addEvent() : addEventNoImage();
+      Keyboard.dismiss();
     }
   };
 
@@ -480,9 +521,11 @@ const AddEvent = (props) => {
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
+            <Icon name="menu" size={20} style={styles.iconMenu} />
             <TextInput
               multiline
               placeholder="Nhập nội dung"
+              placeholderTextColor='gray'
               maxLength={500}
               value={description}
               style={styles.txtDescription}
@@ -707,8 +750,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    paddingHorizontal: 24,
+    flexDirection: 'row',
   },
-  txtDescription: { paddingHorizontal: 24, fontSize: 16 },
+  txtDescription: {
+    fontSize: 16,
+    color: 'black',
+    fontFamily: 'Quicksand-Regular',
+    width: widthPercentageToDP(90) - 48,
+    marginLeft: 8,
+    paddingTop: Platform.OS === 'ios' ? 0 : 4,
+  },
   card: {
     borderRadius: 16,
     width: '90%',
@@ -832,4 +884,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     width: 200,
   },
+  iconMenu: {
+    paddingTop: Platform.OS === 'android' ? 6 : 4,
+    marginLeft: 16,
+  }
 });
