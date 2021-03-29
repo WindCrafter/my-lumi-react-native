@@ -105,13 +105,6 @@ export const addAssign = (data) => {
   };
 };
 
-export const kickAssign = (data) => {
-  return {
-    type: types.KICK_ASSIGN,
-    payload: data,
-  };
-};
-
 export const getListAssign = (data) => {
   return {
     type: types.GET_LIST_ASSIGN,

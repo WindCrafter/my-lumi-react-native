@@ -98,11 +98,6 @@ export default function user(state = initialState, action) {
         ...state,
         assign: action.payload,
       };
-    case types.KICK_ASSIGN:
-      return {
-        ...state,
-        assign: null,
-      };
     case types.GET_LIST_NOTIFYS_SUCCESS:
       return {
         ...state,

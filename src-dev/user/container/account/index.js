@@ -3,8 +3,8 @@ import Account from '../../screen/account';
 import { logOut } from '../../../redux/actions/authen';
 import {
   // getListTeams,
-  kickAssign,
   changeDemoMode,
+  removeUserIdDevice
 } from '../../../redux/actions/user';
 import { resetCheck } from '../../../redux/actions/check';
 
@@ -20,11 +20,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  kickAssign,
   logOut,
   // getListTeams,
   resetCheck,
   changeDemoMode,
+  removeUserIdDevice,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);

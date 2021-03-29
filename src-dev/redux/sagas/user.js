@@ -162,14 +162,8 @@ export function* watchAddUserIdDevice() {
 
 function* sagaRemoveUserIdDevice(action) {
   try {
-    console.log(action);
-    let userId;
-    OneSignal.getPermissionSubscriptionState(status => {
-      userId = status.userId;
-    });
-    console.log(userId);
     const data = {
-      deviceId: action.payload.deviceId,
+      token: action.payload.deviceId,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_REMOVE_USERID_DEVICE, data, token);
@@ -179,11 +173,6 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Loading.hide();
     } else {
       yield put(removeUserIdDeviceFailed());
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: { text: langs.alert.ok },
-      });
       _global.Loading.hide();
     }
   } catch (error) {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FlatList,
   Image,
@@ -13,13 +13,13 @@ import {
   RefreshControl,
   Keyboard,
 } from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import langs from '../../../../common/language';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus, HeaderCustom, Input} from '../../../component';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
-import {URL_STAGING} from '../../../../utlis/connection/url';
-import {_GET} from '../../../../utlis/connection/api';
+import langs from '../../../../common/language';
+import { Colors, imgs } from '../../../../utlis';
+import { BarStatus, HeaderCustom, Input } from '../../../component';
+import { URL_STAGING } from '../../../../utlis/connection/url';
+import { _GET } from '../../../../utlis/connection/api';
 
 const widthTeam = Dimensions.get('window').width / 2 - 16;
 
@@ -41,7 +41,7 @@ const widthTeam = Dimensions.get('window').width / 2 - 16;
 // ];
 
 const PickTeam = (props) => {
-  const {navigation, addMember, memberPicked, clearMember, token} = props;
+  const { navigation, addMember, memberPicked, clearMember, token } = props;
   const [dataUser, setDataUser] = useState([]);
   const [dataTeam, setDataTeam] = useState([]);
   const [page, setPage] = useState(1);
@@ -195,14 +195,15 @@ const PickTeam = (props) => {
   //   setUserPicked([]);
   // };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <View style={styles.btn}>
         <TouchableOpacity
           style={
             !checkSelectedTeam(item.team_id) ? styles.button : styles.btnPicked
           }
-          onPress={() => onSelectTeam(item.team_id)}>
+          onPress={() => onSelectTeam(item.team_id)}
+        >
           <View style={styles.viewImage}>
             <Image source={imgs.meeting} style={styles.image} />
           </View>
@@ -214,7 +215,8 @@ const PickTeam = (props) => {
                   ? Colors.white
                   : Colors.black,
               },
-            ]}>
+            ]}
+          >
             {item.team_name}
           </Text>
         </TouchableOpacity>
@@ -222,18 +224,19 @@ const PickTeam = (props) => {
     );
   };
 
-  const renderUser = ({item, index}) => {
+  const renderUser = ({ item, index }) => {
     return (
       <>
         <TouchableOpacity
           style={styles.btUser}
-          onPress={() => onSelectUser(item)}>
+          onPress={() => onSelectUser(item)}
+        >
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={require('../../../../naruto.jpeg')}
+                source={item.avatar ? { uri: item.avatar } : require('../../../../naruto.jpeg')}
                 style={styles.avatar}
-                resizeMode={'cover'}
+                resizeMode="cover"
               />
             </View>
             <Text style={styles.textUser}>{item.member_name}</Text>
@@ -254,9 +257,9 @@ const PickTeam = (props) => {
 
   return (
     <View style={styles.container}>
-    
+
       <HeaderCustom
-        backgroundColor={'rgba(0,0,0,0)'}
+        backgroundColor="rgba(0,0,0,0)"
         title={langs.pickTeam}
         goBack={onGoBack}
         rightButton
@@ -271,8 +274,8 @@ const PickTeam = (props) => {
         onPress={onSearch}
         value={name}
         onChangeText={(value) => setName(value)}
-        autoCapitalize={'none'}
-        placeholder={'Tìm kiếm ...'}
+        autoCapitalize="none"
+        placeholder="Tìm kiếm ..."
       />
       <View style={styles.viewSuggest}>
         <Text style={styles.txtSuggest}>Gợi ý:</Text>
@@ -291,7 +294,8 @@ const PickTeam = (props) => {
             {userPicked.length === dataUser.length ? (
               <TouchableOpacity
                 onPress={onRemoveAll}
-                style={[styles.resetBtn, {backgroundColor: Colors.danger}]}>
+                style={[styles.resetBtn, { backgroundColor: Colors.danger }]}
+              >
                 <Image
                   source={imgs.cancel}
                   style={styles.imageIcon}
@@ -302,7 +306,8 @@ const PickTeam = (props) => {
             ) : (
               <TouchableOpacity
                 onPress={onPickAll}
-                style={[styles.resetBtn, {backgroundColor: Colors.background}]}>
+                style={[styles.resetBtn, { backgroundColor: Colors.background }]}
+              >
                 <Image
                   source={imgs.add}
                   style={styles.imageIcon}

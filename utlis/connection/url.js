@@ -135,7 +135,7 @@ export const URL_STAGING = {
   DELETE_OT: '/overtime/delete',
   ///
   ADD_USERID_DEVICE: '/user/add-device-id',
-  REMOVE_USERID_DEVICE: '/user/remove-device-id',
+  REMOVE_USERID_DEVICE: '/site/delete-token-device',
   GET_LIST_TEAMS: '/user/list-teams',
   GET_LIST_ASSIGN: '/user/list-assign',
   GET_LIST_NOTIFY: '/user/list-notify?page=',

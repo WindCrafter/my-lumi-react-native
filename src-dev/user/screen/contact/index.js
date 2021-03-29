@@ -128,7 +128,7 @@ function Contact(props) {
     return (
       <ContactRow
         name={key.item.fullname}
-        // leftImage={require('../../../../naruto.jpeg')}
+        leftImage={key.item.avatar}
         team={key.item.team}
         // dob={key.item.birthday}
         role={key.item.role}

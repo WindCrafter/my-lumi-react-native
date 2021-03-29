@@ -38,12 +38,12 @@ const Account = (props) => {
     token,
     oneSignalID,
     // getListTeams,
-    kickAssign,
     resetCheck,
     changeDemoMode,
     demoMode,
     codepush,
     avatar,
+    removeUserIdDevice,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
@@ -67,7 +67,7 @@ const Account = (props) => {
       deviceId: oneSignalID,
       token,
     };
-    kickAssign();
+    removeUserIdDevice(data);
     resetCheck();
   };
 
