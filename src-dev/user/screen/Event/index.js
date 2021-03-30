@@ -61,7 +61,6 @@ const Event = (props) => {
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
   const [description, setDescription] = useState('');
-
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -224,7 +223,11 @@ const Event = (props) => {
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={require('../../../../naruto.jpeg')}
+                source={
+                  item.avatar
+                    ? { uri: item.avatar }
+                    : require('../../../../naruto.jpeg')
+                }
                 style={styles.avatar}
                 resizeMode="cover"
               />
