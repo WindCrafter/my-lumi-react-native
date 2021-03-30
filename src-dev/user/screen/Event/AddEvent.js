@@ -521,7 +521,7 @@ const AddEvent = (props) => {
             leftImage={imgs.title}
           />
           <Card style={styles.Description}>
-            <Icon name="menu" size={20} style={styles.iconMenu} />
+            <Icon name="menu" size={24} style={styles.iconMenu} />
             <TextInput
               multiline
               placeholder="Nhập nội dung"
@@ -534,14 +534,13 @@ const AddEvent = (props) => {
           </Card>
           <View style={styles.viewTime}>
             <InputSelect
-              width="55%"
+              width="60%"
               leftImage={false}
               borderRadius={32}
               height={54}
               shadowColor="white"
               title="Chọn ngày bắt đầu"
-              paddingRight={4}
-              paddingVertical={8}
+              padding={4}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerDate}
@@ -550,21 +549,18 @@ const AddEvent = (props) => {
               color="rgba(4, 4, 15, 0.45)"
               detail={
               date !== ''
-                ? `Từ : ${moment(date).format('DD')} tháng ${moment(date).format(
-                  'MM',
-                )}, ${moment(date).format('YYYY')}`
+                ? `Từ : ${moment(date).format('DD/MM/YYYY')}`
                 : null
             }
               rightImage={imgs.roundedLeft}
             />
             <InputDown
-              width="35%"
+              width="30%"
               borderRadius={32}
               height={54}
               shadowColor="white"
               title="Chọn giờ"
-              paddingRight={4}
-              paddingVertical={8}
+              padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerStart}
@@ -572,9 +568,7 @@ const AddEvent = (props) => {
               color="rgba(4, 4, 15, 0.45)"
               detail={
                 start !== ''
-                  ? `${moment(start).format('HH')} giờ ${moment(
-                    start,
-                  ).format('mm')}`
+                  ? `${moment(start).format('HH:mm')}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -582,14 +576,13 @@ const AddEvent = (props) => {
           </View>
           <View style={styles.viewTime}>
             <InputSelect
-              width="55%"
+              width="60%"
               borderRadius={32}
               height={54}
               leftImage={false}
               shadowColor="white"
               title="Chọn ngày kết thúc"
-              paddingRight={4}
-              paddingVertical={8}
+              padding={4}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerDateEnd}
@@ -597,20 +590,17 @@ const AddEvent = (props) => {
               marginRight={-30}
               color="rgba(4, 4, 15, 0.45)"
               detail={datez !== ''
-                ? `Đến : ${moment(datez).format('DD')} tháng ${moment(datez).format(
-                  'MM',
-                )}, ${moment(datez).format('YYYY')}`
+                ? `Đến : ${moment(datez).format('DD/MM/YYYY')}`
                 : null}
               rightImage={imgs.roundedLeft}
             />
             <InputDown
-              width="35%"
+              width="30%"
               borderRadius={32}
               height={54}
               shadowColor="white"
               title="Chọn giờ"
-              paddingRight={4}
-              paddingVertical={8}
+              padding={8}
               marginVertical={18}
               containerStyle={styles.viewInputSelect}
               onPressButton={onShowPickerEnd}
@@ -618,9 +608,7 @@ const AddEvent = (props) => {
               color="rgba(4, 4, 15, 0.45)"
               detail={
                 end !== ''
-                  ? `${moment(end).format('HH')} giờ ${moment(end).format(
-                    'mm',
-                  )}`
+                  ? `${moment(end).format('HH:mm')}`
                   : null
               }
               rightImage={imgs.roundedLeft}
@@ -759,7 +747,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Regular',
     width: widthPercentageToDP(90) - 48,
     marginLeft: 8,
-    paddingTop: Platform.OS === 'ios' ? 0 : 4,
+    paddingTop: Platform.OS === 'ios' ? 2 : 6,
   },
   card: {
     borderRadius: 16,
