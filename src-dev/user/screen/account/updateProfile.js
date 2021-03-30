@@ -306,24 +306,12 @@ function UpdateProfile(props) {
           cropping: true,
         })
           .then(image => {
-            if (Platform.OS === 'android') {
-              image.sourceURL = image.path;
-              if (!image.filename) {
-                image.filename = `${new Date().getTime()}.JPG`;
-              }
-              if (!image.mime) {
-                image.mime = 'image/jpeg';
-              }
-            } else {
-              image.sourceURL = image.path;
-              if (!image.filename) {
-                image.filename = `${new Date().getTime()}.JPG`;
-              }
-              if (!image.mime) {
-                image.mime = 'image/jpeg';
-              }
+            image.sourceURL = image.path;
+            image.filename = `${new Date().getTime()}.JPG`;
+            if (!image.mime) {
+              image.mime = 'image/jpeg';
             }
-
+            console.log('select image', image);
             onUpdateAvatar && onUpdateAvatar(image);
           })
           .catch(error => {
@@ -334,7 +322,7 @@ function UpdateProfile(props) {
   };
 
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderCustom title="Cập nhật thông tin" goBack={goBack} shadow />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>
@@ -414,6 +402,7 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
   container: {
     // padding: 24,
+    // flex: 1,
     backgroundColor: '#f0f0f0',
   },
   viewButton: {

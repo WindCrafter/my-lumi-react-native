@@ -11,7 +11,9 @@ const Schema = 'lumihr://';
 function Notify(props) {
   const { token, oneSignalID, getOneSignalId, user_id } = props;
   const onIds = device => {
-    !oneSignalID && getOneSignalId(device.userId);
+    if (oneSignalID != device.userId) {
+      getOneSignalId(device.userId);
+    }
     console.log('-----------device ID', device.userId);
   };
   const onReceived = notification => {

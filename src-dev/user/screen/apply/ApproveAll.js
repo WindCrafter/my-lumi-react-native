@@ -120,7 +120,7 @@ const ApproveAll = (props) => {
     <View style={{ ...StyleSheet.absoluteFill, backgroundColor: 'white' }}>
       <HeaderCustom
         title={langs.approveAll}
-        height={32}
+        height={48}
         goBack={goBack}
         fontSize={24}
       />

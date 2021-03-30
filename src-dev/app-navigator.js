@@ -64,7 +64,7 @@ const AppNavigator = (props) => {
 
   console.log('Titleversion', titleVersion);
   const _handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') {
+    if (token && nextAppState === 'active') {
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
       console.log('call api here');
     }

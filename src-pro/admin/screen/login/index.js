@@ -191,14 +191,16 @@ const Login = (props) => {
               onChange={onChangeRememberLogin}
               onLongPress={onChangeServer}
             />
+
             <Button
               backgroundColor={
                 errMail === '' && errNew === '' ? 'rgb(47,172,79)' : '#E9E9E9'
               }
-              title={langs.login}
+              title={!oneSignalID ? 'Vui lòng đợi' : langs.login}
               titleColor={errMail === '' && errNew === '' ? 'white' : '#827D82'}
               onPress={errMail === '' && errNew === '' ? onLogin : null}
               testID="test_Login"
+              disable={!oneSignalID}
             />
             <TouchableOpacity onPress={onRegister} style={styles.bottom}>
               <Text style={styles.register}>Đăng ký tài khoản</Text>
