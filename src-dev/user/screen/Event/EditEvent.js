@@ -521,7 +521,6 @@ const EditEvent = (props) => {
             <TextInput
               multiline
               placeholder="Nhập nội dung"
-              maxLength={500}
               value={description}
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -742,6 +741,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: 24,
     flexDirection: 'row',
+    paddingTop: 8,
   },
   txtDescription: {
     fontSize: 16,
@@ -874,7 +874,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   iconMenu: {
-    paddingTop: Platform.OS === 'android' ? 6 : 4,
+    paddingTop: Platform.OS === 'android' ? 6 : 0,
     marginLeft: 16,
   }
 });
