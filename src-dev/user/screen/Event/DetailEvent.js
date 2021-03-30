@@ -67,7 +67,7 @@ const DetailEvent = (props) => {
     });
   };
 
-  const read = item.viewusers && item.view_users.find(i => i == user_id);
+  const read = item.view_users && item.view_users.find(i => i == user_id);
   return (
     <>
       <BarStatus
@@ -94,7 +94,7 @@ const DetailEvent = (props) => {
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}
             title={read ? 'Đã đọc ✓' : langs.confirmReadEvt}
-            onPress={onAlertConfirm}
+            onPress={onPressConfirm}
             disable={read}
             containerStyle={styles.btn}
           />
