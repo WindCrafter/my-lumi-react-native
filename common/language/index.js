@@ -110,7 +110,7 @@ const langs = {
   role: 'Vị trí',
   approveAll: 'Duyệt đơn',
   urgent: 'Sự kiện quan trọng',
-  confirmReadEvt:'Xác nhận đã đọc',
+  confirmReadEvt: 'Xác nhận đã đọc và đã hiểu',
   lateEarlyError: 'Lí do xin nghỉ không được để trống',
   errorLocationCheckin:
     'Bạn không có quyền check in bằng cách này khi không ở công ty.',
