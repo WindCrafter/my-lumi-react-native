@@ -137,6 +137,10 @@ const Notify = (props) => {
           case '9':
             navigation.navigate(langs.navigator.kpi);
             break;
+          case 27:
+          case '27':
+            navigation.navigate(langs.navigator.detailEventByNotify, { id: item.customData.eventId });
+            break;
           case 50:
           case '50':
             navigation.navigate(langs.navigator.listOT);

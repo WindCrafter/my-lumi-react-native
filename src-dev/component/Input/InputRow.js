@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 8,
     fontSize: 16,
-    // color: 'black',
+    color: 'black',
     alignSelf: 'center',
     textAlign: 'left',
     fontFamily: 'Quicksand-Regular',

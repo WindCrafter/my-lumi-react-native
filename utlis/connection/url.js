@@ -180,4 +180,5 @@ export const URL_STAGING = {
   GET_DETAIL_EVENT: '/event/get-by-id',
   UPLOAD_IMAGE: '/media/upload',
   READ_EVENT: '/event/read',
+  GET_EVENT_BY_ID: '/event/get-by-id',
 };

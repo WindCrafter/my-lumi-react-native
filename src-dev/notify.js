@@ -100,6 +100,9 @@ function Notify(props) {
         if (type == 10) {
           Url = `${Schema}UserStack/Notify`;
         }
+        if (type == 27) {
+          Url = `${Schema}UserStack/DetailEventByNotify?id=${openResult.notification.payload.additionalData.eventId}`;
+        }
         if (type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
