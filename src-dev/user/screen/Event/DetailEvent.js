@@ -67,7 +67,7 @@ const DetailEvent = (props) => {
     });
   };
 
-  const read = item.view_users.find(i => i == user_id);
+  const read = item.viewusers && item.view_users.find(i => i == user_id);
   return (
     <>
       <BarStatus
@@ -90,7 +90,7 @@ const DetailEvent = (props) => {
             <Text style={styles.titleContent}>Nội dung: </Text>
             {item.content}
           </Text>
-          {item.urgent === 1 && (
+          {item.urgent == 1 && (
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}
             title={read ? 'Đã đọc ✓' : langs.confirmReadEvt}
