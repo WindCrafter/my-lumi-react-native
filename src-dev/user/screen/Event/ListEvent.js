@@ -122,7 +122,7 @@ const ListEvent = (props) => {
         <TouchableOpacity
           style={[
             styles.item,
-            { marginTop: item.index === 0 ? -24 : 3, borderWidth: urgent === 1 ? 2.5 : 0, borderColor: Colors.background }
+            { marginTop: item.index === 0 ? -24 : 3, borderWidth: urgent == 1 ? 2.5 : 0, borderColor: Colors.background }
           ]}
           onPress={() => gotoDetaiEvent(item.item)}
         >
