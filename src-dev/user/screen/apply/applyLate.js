@@ -131,9 +131,7 @@ function FormLate(props) {
     setType('early');
   };
 
-
   const onPressItem = (item) => {
-
     setTime(item.value);
   };
   const choose = [
@@ -171,6 +169,7 @@ function FormLate(props) {
               justifyContent: 'center',
               alignSelf: 'center',
             }}
+            keyboardType="default"
             value={reason}
             onChangeText={onChangeReason}
             onFocus={onFocus}
@@ -254,7 +253,7 @@ function FormLate(props) {
             >
               <Dropdown
                 position="auto"
-                options={choose.map((i) => ({
+                options={choose.map(i => ({
                   titleStyle: {
                     textAlign: 'center',
                     color: i.value === time ? Colors.background : 'black',
@@ -262,9 +261,7 @@ function FormLate(props) {
                   title: i.label,
                   onPress: () => onPressItem(i),
                 }))}
-
               >
-
                 <View style={[styles.buttonTime]}>
                   <Image source={imgs.startTime} style={styles.icon} />
                   <View style={[styles.filter]}>
@@ -274,7 +271,6 @@ function FormLate(props) {
                 </View>
               </Dropdown>
             </View>
-
           </Card>
         </View>
 

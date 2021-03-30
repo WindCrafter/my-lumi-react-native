@@ -311,7 +311,6 @@ function ApplyOT(props) {
     Keyboard.dismiss();
   };
 
-
   const status = [
     { label: '0.5 giờ', value: 0.5 },
     { label: '1 giờ', value: 1 },
@@ -336,12 +335,7 @@ function ApplyOT(props) {
   };
   return (
     <View style={styles.container}>
-      <HeaderCustom
-        title="Tạo đơn xin OT"
-        height={64}
-        goBack={goBack}
-        shadow
-      />
+      <HeaderCustom title="Tạo đơn xin OT" height={64} goBack={goBack} shadow />
       <ScrollView
         style={{ backgroundColor: '#f2f2f2' }}
         keyboardShouldPersistTaps="handled"
@@ -362,6 +356,7 @@ function ApplyOT(props) {
               justifyContent: 'center',
               alignSelf: 'center',
             }}
+            keyboardType="default"
             value={reason}
             onChangeText={onChangeReason}
             onFocus={onFocus}
@@ -426,7 +421,7 @@ function ApplyOT(props) {
               </View>
               <Dropdown
                 position="auto"
-                options={status.map((i) => ({
+                options={status.map(i => ({
                   titleStyle: {
                     textAlign: 'center',
                     color: i.value === time ? Colors.background : 'black',
@@ -440,7 +435,6 @@ function ApplyOT(props) {
                   <Text>▼</Text>
                 </View>
               </Dropdown>
-
             </View>
             <View style={[styles.row, { justifyContent: 'space-between' }]}>
               <View style={styles.img}>
