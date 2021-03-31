@@ -11,6 +11,7 @@ import {
   Switch,
   Alert,
   Platform,
+  ImageBackground,
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
@@ -80,9 +81,25 @@ const DetailEventByNotify = (props) => {
       />
       { show && (
       <View style={styles.container}>
-        <HeaderAccount shadow title={item.subject} goBack={goBack} titleStyle={{ marginTop: Platform.OS === 'android' ? 6 : 8 }} />
-        <Image source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai} />
-        <ScrollView style={styles.scroll}>
+        <HeaderAccount title="Chi tiết sự kiện" goBack={goBack} titleStyle={{ marginTop: Platform.OS === 'android' ? 6 : 8 }} detailStyle={styles.detailStyle}/>
+        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+          <ImageBackground source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai}>
+            {item.urgent == 1
+           && (
+           <>
+             <View style={styles.urgent}>
+               <Text style={styles.txtUrgent}>
+                 Nổi bật
+               </Text>
+             </View>
+             <View style={styles.triangleUp} />
+             <View style={styles.triangleDown} />
+           </>
+           )}
+          </ImageBackground>
+          <Text style={[styles.titleContent, { marginTop: 4, fontSize: 24 }]}>
+            {item.subject}
+          </Text>
           <Text style={styles.content}>
             <Text style={styles.titleContent}>Thời gian bắt đầu: </Text>
             {moment(item.start_datetime, 'HH:mm:ss DD/MM/YYYY').format('DD/MM/YYYY - HH:mm')}
@@ -92,7 +109,6 @@ const DetailEventByNotify = (props) => {
             {moment(item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format('DD/MM/YYYY - HH:mm')}
           </Text>
           <Text style={styles.content}>
-            <Text style={styles.titleContent}>Nội dung: </Text>
             {item.content}
           </Text>
           {item.urgent == 1 && (
@@ -112,30 +128,90 @@ const DetailEventByNotify = (props) => {
 };
 
 export default DetailEventByNotify;
-const wd = widthPercentageToDP(100) - 36;
+const wd = widthPercentageToDP(100);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   imgDetai: {
     alignSelf: 'center',
-    marginTop: 16,
     width: wd,
     height: wd * 0.6,
-    borderRadius: 16,
+    overflow: 'visible',
   },
   content: {
     marginTop: 8,
+    marginHorizontal: 16,
   },
   scroll: {
-    paddingHorizontal: 16,
   },
   titleContent: {
     fontWeight: '600',
     fontSize: 14,
     fontFamily: 'Quicksand-Bold',
+    marginHorizontal: 16,
   },
   btn: {
     marginTop: 16,
+  },
+  urgent: {
+    position: 'absolute',
+    top: 8,
+    left: 0,
+    backgroundColor: 'rgb(251, 28, 28)',
+    width: 80,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // transform: [{ rotate: '45deg' }],
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+    borderBottomLeftRadius: 4,
+    borderTopLeftRadius: 4,
+  },
+  txtUrgent: {
+    // color: 'rgb(252, 252, 3)',
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  triangleUp: {
+    position: 'absolute',
+    left: 80,
+    top: 8,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 16,
+    borderBottomWidth: 0,
+    borderTopWidth: 16,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderLeftColor: 'rgb(251, 28, 28)',
+  },
+  triangleDown: {
+    position: 'absolute',
+    left: 80,
+    top: 24,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 16,
+    borderBottomWidth: 16,
+    borderTopWidth: 0,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderLeftColor: 'rgb(251, 28, 28)',
+  },
+  detailStyle: {
+    width: widthPercentageToDP(100) - 88,
+    alignItems: 'center'
   }
 });
