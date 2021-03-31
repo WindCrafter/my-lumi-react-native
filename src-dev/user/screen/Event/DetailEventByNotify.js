@@ -80,7 +80,7 @@ const DetailEventByNotify = (props) => {
       />
       { show && (
       <View style={styles.container}>
-        <HeaderAccount shadow title={item.subject} goBack={goBack} titleStyle={{ marginTop: 8 }} />
+        <HeaderAccount shadow title={item.subject} goBack={goBack} titleStyle={{ marginTop: Platform.OS === 'android' ? 6 : 8 }} />
         <Image source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai} />
         <ScrollView style={styles.scroll}>
           <Text style={styles.content}>
