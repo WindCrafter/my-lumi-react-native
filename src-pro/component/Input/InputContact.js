@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import langs from '../../../common/language';
-import {Colors, imgs} from '../../../utlis';
+import { Colors, imgs } from '../../../utlis';
 
 export default function ContactRow(props?: Props) {
   const {
@@ -21,16 +21,22 @@ export default function ContactRow(props?: Props) {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../naruto.jpeg')}
+        source={leftImage ? { uri: leftImage } : require('../../../naruto.jpeg')}
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.detail}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.team}>
-          {langs.team} {team} -{' '}
+          {langs.team}
+          {' '}
+          {team}
+          {' '}
+          -
+          {' '}
           <Text
-            style={[styles.role, {color: role === 'Leader' ? 'red' : 'black'}]}>
+            style={[styles.role, { color: role === 'Leader' ? 'red' : 'black' }]}
+          >
             {role}
           </Text>
         </Text>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   TextInputProps,
   Image,
@@ -9,10 +9,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Card } from 'native-base';
-import { Colors, imgs } from '../../../utlis';
-import { Button, Touchable } from '..';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Colors, imgs} from '../../../utlis';
+import {Button, Touchable} from '..';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -112,13 +112,11 @@ export default function InputPick(props?: Props) {
           paddingVertical,
         },
         containerStyle,
-      ]}
-    >
+      ]}>
       <TouchableOpacity
         style={styles.container}
         onPress={onPressButton}
-        disabled={disabled}
-      >
+        disabled={disabled}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
         <Text
           style={[
@@ -127,8 +125,7 @@ export default function InputPick(props?: Props) {
               color,
             },
             styles.textTitle,
-          ]}
-        >
+          ]}>
           {title}
         </Text>
         <View style={styles.detail}>
@@ -138,8 +135,7 @@ export default function InputPick(props?: Props) {
                 marginRight,
               },
               styles.textDetail,
-            ]}
-          >
+            ]}>
             {detail}
           </Text>
         </View>
@@ -220,5 +216,5 @@ const styles = StyleSheet.create({
     height: 24,
     tintColor: '#abb0bb',
   },
-  viewSelect: { height: 80 },
+  viewSelect: {height: 80},
 });

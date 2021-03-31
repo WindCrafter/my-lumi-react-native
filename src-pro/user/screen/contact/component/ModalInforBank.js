@@ -27,8 +27,7 @@ const ModalInforBank = (props) => {
     console.log('check copy');
     Clipboard.setString(`${BankAccount}`);
     setIsCopy(true);
-  };
-  return (
+  }; return (
     <View>
       <Modal
         isVisible={showModal}
@@ -46,26 +45,21 @@ const ModalInforBank = (props) => {
               <Image source={imgs.banking} style={styles.image} />
               <Text style={styles.description}>Số tài khoản:</Text>
             </View>
-            <View
-              style={{
-                flex: 0.4,
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text style={styles.detailmodal}>{BankAccount}</Text>
+            <View style={{ flex: 0.4, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={styles.detailmodal}>
+                {BankAccount}
+              </Text>
               <TouchableOpacity
                 onPress={onCopy}
                 style={{
                   width: 48,
-                  marginLeft: 4
+
                 }}
               >
                 <Icon
                   name={isCopy ? 'checkmark-outline' : 'copy-outline'}
-                  size={22}
-                  color={isCopy ? Colors.background : Colors.itemInActive}
+                  size={24}
+                  color={isCopy ? Colors.background : 'black'}
                 />
               </TouchableOpacity>
             </View>
@@ -75,13 +69,7 @@ const ModalInforBank = (props) => {
               <Image source={imgs.bank} style={styles.image} />
               <Text style={styles.description}>Ngân Hàng:</Text>
             </View>
-            <View
-              style={{
-                flex: 0.4,
-                alignItems: 'flex-start',
-                flexDirection: 'row',
-              }}
-            >
+            <View style={{ flex: 0.4, alignItems: 'flex-start', flexDirection: 'row' }}>
               <Text style={[styles.detailmodal]}>{bankName}</Text>
               <View style={{ width: 48 }}>
                 <Icon name="copy-outline" size={20} style={{ color: 'white' }} />

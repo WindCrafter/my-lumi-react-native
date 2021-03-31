@@ -9,9 +9,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Card } from 'native-base';
-import { Colors, imgs } from '../../../utlis';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {Colors, imgs} from '../../../utlis';
+import {Button, Touchable} from '..';
+import {Card} from 'native-base';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -78,6 +79,7 @@ export default function InputDown(props?: Props) {
     padding,
     paddingVertical,
     marginRight,
+    paddingRight,
     color,
   } = props;
   const ViewCard = Platform.OS === 'ios' ? Card : Card;
@@ -99,8 +101,7 @@ export default function InputDown(props?: Props) {
           paddingVertical,
         },
         containerStyle,
-      ]}
-    >
+      ]}>
       <TouchableOpacity
         style={[
           styles.container,
@@ -109,9 +110,8 @@ export default function InputDown(props?: Props) {
           },
         ]}
         onPress={onPressButton}
-        disabled={disabled}
-      >
-        <View style={{ flexDirection: 'row' }}>
+        disabled={disabled}>
+        <View style={{flexDirection: 'row'}}>
           {detail ? (
             <Text
               style={[
@@ -120,8 +120,7 @@ export default function InputDown(props?: Props) {
                   color,
                 },
                 styles.textTitle,
-              ]}
-            >
+              ]}>
               {detail}
             </Text>
           ) : (
@@ -130,10 +129,10 @@ export default function InputDown(props?: Props) {
                 {
                   padding,
                   color,
+                  paddingRight,
                 },
                 styles.textTitle,
-              ]}
-            >
+              ]}>
               {title}
             </Text>
           )}

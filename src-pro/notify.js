@@ -11,7 +11,9 @@ const Schema = 'lumihr://';
 function Notify(props) {
   const { token, oneSignalID, getOneSignalId, user_id } = props;
   const onIds = device => {
-    !oneSignalID && getOneSignalId(device.userId);
+    if (oneSignalID != device.userId) {
+      getOneSignalId(device.userId);
+    }
     console.log('-----------device ID', device.userId);
   };
   const onReceived = notification => {
@@ -33,8 +35,8 @@ function Notify(props) {
       && _POST(
         url,
         {
-          id:
-            openResult.notification.payload.additionalData.notification_ids[
+          id: openResult.notification.payload.additionalData.notification_ids
+            && openResult.notification.payload.additionalData.notification_ids[
               user_id
             ],
         },
@@ -97,6 +99,9 @@ function Notify(props) {
         }
         if (type == 10) {
           Url = `${Schema}UserStack/Notify`;
+        }
+        if (type == 27) {
+          Url = `${Schema}UserStack/DetailEventByNotify?id=${openResult.notification.payload.additionalData.eventId}`;
         }
         if (type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;

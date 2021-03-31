@@ -12,14 +12,15 @@ const ButtonCheckIn = (props) => {
         globalApp.customLog.disconnect();
       } else {
         globalApp.customLog
-        && globalApp.customLog.connect({
-          localhost: false,
-        });
+          && globalApp.customLog.connect({
+            localhost: false,
+          });
       }
     } catch (e) {
-    // error customlog
+      // error customlog
     }
   };
+
   const onLongPress = () => {
     if (demoMode) {
       navigation.navigate(langs.navigator.checkIn);

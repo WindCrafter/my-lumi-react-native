@@ -51,7 +51,6 @@ function Contact(props) {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
   const [onScroll, setOnScroll] = useState(false);
-
   useEffect(() => {
     getData(1, [], '', false);
   }, []);
@@ -92,6 +91,7 @@ function Contact(props) {
     setOnScroll(false);
     getData(page + 1, data, name, false);
   };
+
   const renderItem = (key) => {
     const onGetContact = () => {
       let phone;
@@ -122,14 +122,13 @@ function Contact(props) {
       } else {
         setBankAccount(key.item.bank_account);
         setBankName(key.item.bank_name);
-        Clipboard.setString(`${key.item.bank_account}`);
         setShowModal(true);
       }
     };
     return (
       <ContactRow
         name={key.item.fullname}
-        // leftImage={require('../../../../naruto.jpeg')}
+        leftImage={key.item.avatar}
         team={key.item.team}
         // dob={key.item.birthday}
         role={key.item.role}

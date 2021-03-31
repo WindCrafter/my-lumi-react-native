@@ -1,13 +1,14 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Account from '../../screen/account';
-import {logOut} from '../../../redux/actions/authen';
+import { logOut } from '../../../redux/actions/authen';
 import {
   // getListTeams,
-  kickAssign,
   changeDemoMode,
+  removeUserIdDevice
 } from '../../../redux/actions/user';
-import {resetCheck} from '../../../redux/actions/check';
-const mapStateToProps = (state) => ({
+import { resetCheck } from '../../../redux/actions/check';
+
+const mapStateToProps = state => ({
   nameUser: state.authen.fullname,
   emailUser: state.authen.email,
   token: state.authen.token,
@@ -15,14 +16,15 @@ const mapStateToProps = (state) => ({
   oneSignalID: state.authen.oneSignalID,
   demoMode: state.user.demoMode,
   codepush: state.codepush,
+  avatar: state.authen.avatar,
 });
 
 const mapDispatchToProps = {
-  kickAssign,
   logOut,
   // getListTeams,
   resetCheck,
   changeDemoMode,
+  removeUserIdDevice,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);

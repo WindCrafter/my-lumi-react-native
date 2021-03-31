@@ -2,7 +2,7 @@ import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
 import { URL } from '../../../utlis/connection/url';
-import { _POST, _GET } from '../../../utlis/connection/api';
+import { _POST, _GET, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import {
   updateProfileSuccess,
@@ -28,8 +28,16 @@ import {
   getWorkdayToday,
   getKPI,
   confirmKpiSuccess,
+  getUnreadNotifySuccess,
+  getUnreadNotifyFailed,
 } from '../actions/user';
-import { changeToOut, changeToIn, changeToInRequest, changeToOutRequest, checkInactive } from '../actions/check';
+import {
+  changeToOut,
+  changeToIn,
+  changeToInRequest,
+  changeToOutRequest,
+  checkInactive,
+} from '../actions/check';
 // import OneSignal from 'react-native-onesignal';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
@@ -44,13 +52,14 @@ const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
 const URL_BOOK_ROOM = `${URL.LOCAL_HOST}${URL.BOOK_ROOM}`;
 const URL_LIST_ROOM = `${URL.LOCAL_HOST}${URL.LIST_ROOM}`;
 
-const URL_NOTIFY = (e) => {
+const URL_NOTIFY = e => {
   return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
 };
-const URL_LIST_CHECK = (e) => {
+const URL_LIST_CHECK = e => {
   return `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}${e}`;
 };
-const notificationDeviceSelect = (state) => state.user.notificationDevice;
+const URL_UNREAD_NOTIFICATION = `${URL.LOCAL_HOST}${URL.GET_UNREAD_NOTIFICATION}`;
+const notificationDeviceSelect = state => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
     const data = {
@@ -153,14 +162,8 @@ export function* watchAddUserIdDevice() {
 
 function* sagaRemoveUserIdDevice(action) {
   try {
-    console.log(action);
-    let userId;
-    OneSignal.getPermissionSubscriptionState((status) => {
-      (userId = status.userId);
-    });
-    console.log(userId);
     const data = {
-      deviceId: action.payload.deviceId,
+      token: action.payload.deviceId,
     };
     const token = action.payload.token;
     const response = yield _POST(URL_REMOVE_USERID_DEVICE, data, token);
@@ -170,11 +173,6 @@ function* sagaRemoveUserIdDevice(action) {
       _global.Loading.hide();
     } else {
       yield put(removeUserIdDeviceFailed());
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: { text: langs.alert.ok },
-      });
       _global.Loading.hide();
     }
   } catch (error) {
@@ -245,6 +243,26 @@ function* sagaGetListNotifys(action) {
 
 export function* watchGetListNotifys() {
   yield takeLatest(types.GET_LIST_NOTIFYS, sagaGetListNotifys);
+}
+function* sagaUnreadNotify(action) {
+  try {
+    const token = action.payload;
+    console.log('notify token::', token);
+
+    const response = yield _GET(URL_UNREAD_NOTIFICATION, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(getUnreadNotifySuccess(response.data));
+    } else {
+      yield put(getUnreadNotifyFailed());
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchUnreadNotify() {
+  yield takeLatest(types.GET_UNREAD_NOTIFICATION, sagaUnreadNotify);
 }
 
 function* sagaGetListCheck(action) {
@@ -349,7 +367,11 @@ export function* watchListRoom() {
 function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
-    const response = yield _GET(`${URL.LOCAL_HOST}${URL.GET_KPI}${action.payload.month}`, token); console.log(response);
+    const response = yield _GET(
+      `${URL.LOCAL_HOST}${URL.GET_KPI}${action.payload.month}`,
+      token,
+    );
+    console.log(response);
     if (response.success && response.statusCode === 200) {
       yield put(getKPISuccess(response.data));
       _global.Loading.hide();
@@ -451,6 +473,7 @@ export function* watchGetHoliday() {
 function* sagaGetWorkdayToday(action) {
   try {
     const token = action.payload.token;
+    console.log('workday token::', token);
     const onDone = action.payload.onDone;
     const response = yield _GET(
       `${URL.LOCAL_HOST}${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
@@ -460,23 +483,83 @@ function* sagaGetWorkdayToday(action) {
     console.log('GET_WORKDAY_TODAY', response);
     const data = response.data;
     _global.Loading.hide();
-    if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.status === 1) {
+    if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && !data.check_out
+      && data.status === 1
+      && data.type !== 0
+    ) {
       yield put(changeToInRequest());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.check_out && data.status === 1) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.check_out
+      && data.status === 1
+    ) {
       yield put(changeToOutRequest());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 2) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 1
+      && data.status === 2
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 2) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 2
+      && data.status === 2
+    ) {
       yield put(checkInactive());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 1 && data.status === 3) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 1
+      && data.status === 3
+    ) {
       yield put(changeToIn());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && data.type === 2 && data.status === 3) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && data.type === 2
+      && data.status === 3
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_in && !data.check_out && data.type === 0) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_in
+      && !data.check_out
+      && data.type === 0
+    ) {
       yield put(changeToOut());
-    } else if (response.success && response.statusCode === 200 && data && data.check_out && data.type === 0) {
+    } else if (
+      response.success
+      && response.statusCode === 200
+      && data
+      && data.check_out
+      && data.type === 0
+    ) {
       yield put(checkInactive());
-    } else if (!response.success && response.statusCode === 200 && data.length === 0) {
+    } else if (
+      !response.success
+      && response.statusCode === 200
+      && data.length === 0
+    ) {
       yield put(changeToIn());
     }
   } catch (error) {

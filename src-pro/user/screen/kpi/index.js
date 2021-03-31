@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
 
-    elevation: 2,
+    elevation: 11,
   },
   headerCard: {
     paddingVertical: 50,

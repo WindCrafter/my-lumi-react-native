@@ -3,7 +3,7 @@
  * Copyright (c) 2020 phongdt
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {
   widthPercentageToDP as SCREEN,
@@ -158,7 +159,20 @@ const Register = (props) => {
   const refPassword = useRef(null);
   const refRePassword = useRef(null);
   const refVerifyCode = useRef(null);
-
+  useEffect(() => {
+    if (Platform.OS === 'android'
+    ) {
+      refPassword.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+      refRePassword.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+      refVerifyCode.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
+    }
+  }, []);
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
   const onRegister = () => {
     Keyboard.dismiss();
@@ -234,7 +248,8 @@ const Register = (props) => {
   return (
     <KeyBoardScroll
       keyboardShouldPersistTaps="handled"
-      keyboardDismissMode="on-drag">
+      keyboardDismissMode="on-drag"
+    >
       <SafeAreaView style={styles.container}>
         <View style={styles.viewMiddle}>
           <Logo containerStyle={styles.logo} />
@@ -364,10 +379,10 @@ const Register = (props) => {
           <Button
             title="Tạo tài khoản"
             onPress={
-              errMail === '' &&
-              errNew === '' &&
-              errConfirm === '' &&
-              errCode === ''
+              errMail === ''
+              && errNew === ''
+              && errConfirm === ''
+              && errCode === ''
                 ? onRegister
                 : null
             }
@@ -375,23 +390,23 @@ const Register = (props) => {
             containerStyle={[
               styles.viewInButton,
               {
-               
+
                 marginTop: errCode === '' ? 36 : 8,
               },
             ]}
             titleColor={
-              errMail === '' &&
-              errNew === '' &&
-              errConfirm === '' &&
-              errCode === ''
+              errMail === ''
+              && errNew === ''
+              && errConfirm === ''
+              && errCode === ''
                 ? 'white'
                 : '#827D82'
             }
             backgroundColor={
-              errMail === '' &&
-              errNew === '' &&
-              errConfirm === '' &&
-              errCode === ''
+              errMail === ''
+              && errNew === ''
+              && errConfirm === ''
+              && errCode === ''
                 ? 'rgb(47,172,79)'
                 : '#E9E9E9'
             }

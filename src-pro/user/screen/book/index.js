@@ -17,8 +17,7 @@ import {
   SectionList,
   UIManager,
   ActivityIndicator,
-  RefreshControl,
-  AppState,
+  RefreshControl, AppState
 } from 'react-native';
 import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
@@ -26,12 +25,8 @@ import ActionButton from 'react-native-action-button';
 import { Card } from 'native-base';
 import Modal from 'react-native-modal';
 import { Colors, Fonts, imgs } from '../../../../utlis';
-import {
-  BarStatus,
-  HeaderAccount,
-  EmptyState,
-  Indicator,
-} from '../../../component';
+import { BarStatus, HeaderAccount, EmptyState,
+  Indicator, } from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
 import { URL } from '../../../../utlis/connection/url';
@@ -139,9 +134,6 @@ const Book = (props) => {
     console.log(i);
     if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
-        // console.log(k);
-        // console.log('member', k.member_ids);
-        // console.log('owner', k.owner_id);
         if (k.member_ids.split(',').find((e) => e === user_id.toString()) || k.owner_id == user_id) {
           count++;
         }
@@ -153,6 +145,7 @@ const Book = (props) => {
     // console.log('memberid', item.item.member_ids);
     // console.log('user_id', user_id);
     const arrayUserId = item.item.member_ids.split(',');
+
     return (
       <View>
         <View style={[styles.container]}>
@@ -192,13 +185,12 @@ const Book = (props) => {
                   <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
                   ,
                   {' '}
-                  {item.item.owner_name !== item.item.member
-                    ? item.item.member
+                  {item.item.owner_name
+                    !== item.item.member ? item.item.member
                       .split(',')
                       .filter((i) => i != item.item.owner_name)
                       .toString()
-                      .replace(/,/g, ', ')
-                    : item.item.owner_name}
+                      .replace(/,/g, ', ') : item.item.owner_name}
                 </Text>
               ) : (
                 <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
@@ -222,6 +214,7 @@ const Book = (props) => {
   };
   const handleLoadMore = () => {
     getData();
+    console.log(1);
     setOnScroll(false);
     setLoading(true);
   };
@@ -242,7 +235,13 @@ const Book = (props) => {
   };
   const renderFooterComponent = () => {
     return (
-      <View style={{ paddingBottom: 64 }}>{loading ? <Indicator /> : null}</View>
+      <View style={{ paddingBottom: 64 }}>
+        {loading ? (
+
+          <Indicator />
+
+        ) : null}
+      </View>
     );
   };
   const renderHeader = (section) => {
@@ -274,6 +273,7 @@ const Book = (props) => {
                   position: 'absolute',
                   top: 64,
                   fontWeight: '500',
+
                 }}
               >
                 {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
@@ -529,7 +529,7 @@ const styles = StyleSheet.create({
     color: Colors.ink500,
     marginBottom: 8,
     fontFamily: Fonts.font_family.bold,
-    fontWeight: Fonts.font_weight.bold,
+    fontWeight: Fonts.font_weight.bold
   },
   txtOwner: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
   viewCard: {

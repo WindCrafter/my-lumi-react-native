@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -36,6 +36,11 @@ import ApproveBreak from '../user/container/apply/ApproveBreak';
 import ChangePass from '../user/container/changePass/index';
 import Kpi from '../user/container/kpi';
 import ApproveAll from '../user/container/apply/ApproveAll';
+import DetailEvent from '../user/container/event/DetailEvent';
+import ListEvent from '../user/container/event/ListEvent';
+import AddEvent from '../user/container/event/AddEvent';
+import EditEvent from '../user/container/event/EditEvent';
+import DetailEventByNotify from '../user/container/event/DetailEventByNotify';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -47,7 +52,8 @@ export default function UserStack() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       <Stack.Screen
         name={langs.navigator.tabbarUser}
         component={TabbarUser}
@@ -275,6 +281,41 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.kpi}
         component={Kpi}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.detailEvent}
+        component={DetailEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.detailEventByNotify}
+        component={DetailEventByNotify}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.listEvent}
+        component={ListEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.addEvent}
+        component={AddEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.editEvent}
+        component={EditEvent}
         options={{
           headerShown: false,
         }}

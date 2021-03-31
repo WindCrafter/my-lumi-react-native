@@ -79,11 +79,7 @@ function ApproveCheck(props) {
         status={item.status}
         type={item.type === 2 ? 'Check Out' : 'Check In'}
         day={item.date}
-        time={
-          item.type === 2
-            ? moment(item.check_out * 1000).format('HH:mm')
-            : moment(item.check_in * 1000).format('HH:mm')
-        }
+        time={item.type === 2 ? moment(item.check_out * 1000).format('HH:mm') : moment(item.check_in * 1000).format('HH:mm')}
         name={item.fullname}
         onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item)}
@@ -103,7 +99,9 @@ function ApproveCheck(props) {
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)));
+        setData(
+          data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)),
+        );
       } else {
         setData(data.filter((i) => i.id !== item.id));
       }
@@ -125,14 +123,15 @@ function ApproveCheck(props) {
             date: response.data.date,
             time: response.data.time,
             content: response.data.content,
-            is_updated: true,
+            is_updated: true
+
           }
           : i),),
       );
     } else if (
       !response.success
-      && response.statusCode === 601
-      && response.data
+             && response.statusCode === 601
+             && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -174,8 +173,8 @@ function ApproveCheck(props) {
       }
     } else if (
       !response.success
-      && response.statusCode === 600
-      && response.data
+             && response.statusCode === 600
+             && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -185,8 +184,8 @@ function ApproveCheck(props) {
       });
     } else if (
       !response.success
-      && response.statusCode === 601
-      && response.data
+             && response.statusCode === 601
+             && response.data
     ) {
       _global.Alert.alert({
         title: langs.alert.notify,

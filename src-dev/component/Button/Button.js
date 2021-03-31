@@ -8,7 +8,7 @@ import {
   TextStyle,
   ActivityIndicator,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 interface Props {
   containerStyle?: ViewStyle;
@@ -61,13 +61,19 @@ export default function Button(props?: Props) {
           borderRadius,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       {!loading ? (
-        <Text style={[styles.txtTitle, {color: titleColor}, titleStyle]}>
+        <Text style={[styles.txtTitle, { color: titleColor }, titleStyle]}>
           {title}
         </Text>
       ) : (
-        <ActivityIndicator size="small" color={'white'} />
+        <View style={{ flexDirection: 'row' }}>
+          <ActivityIndicator size="small" color="white" />
+          <Text style={[styles.txtTitle, { color: titleColor }, titleStyle]}>
+            {title}
+          </Text>
+        </View>
       )}
     </ButtonComponent>
   );

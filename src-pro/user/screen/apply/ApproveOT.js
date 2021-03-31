@@ -32,7 +32,9 @@ function ApproveOT(props) {
   const {
     navigation,
     token,
+
   } = props;
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);

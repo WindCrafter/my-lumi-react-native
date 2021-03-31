@@ -28,7 +28,9 @@ import { URL } from '../../../../utlis/connection/url';
 import CardBreak from './component/CardBreak';
 
 const ApproveBreak = (props) => {
-  const { token } = props;
+  const {
+    token,
+  } = props;
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -141,7 +143,11 @@ const ApproveBreak = (props) => {
   };
 
   const renderFooterComponent = () => {
-    return loading ? <Indicator /> : null;
+    return loading ? (
+
+      <Indicator />
+
+    ) : null;
   };
 
   const onConfirm = async (item) => {

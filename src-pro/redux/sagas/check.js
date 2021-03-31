@@ -1,4 +1,5 @@
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
+import moment from 'moment';
 import * as types from '../types';
 import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET, _POST_WIFI } from '../../../utlis/connection/api';
@@ -44,8 +45,11 @@ import {
   checkInCode,
   checkInRequestSuccess,
   checkOutRequestSuccess,
+
 } from '../actions/check';
 import { store } from '../store/store.js';
+
+import { getWorkdayToday } from '../actions/user';
 import { getSummary } from '../actions/authen';
 import { _global } from '../../../utlis/global/global';
 import { Colors } from '../../../utlis';
@@ -57,6 +61,7 @@ const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
 const URL_CHECK_IN_REQUEST = `${URL.LOCAL_HOST}${URL.CHECK_IN_REQUEST}`;
+const URL_CHECK_OUT_REQUEST = `${URL.LOCAL_HOST}${URL.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
@@ -179,7 +184,9 @@ function* sagaCheckInWifi(action) {
       _global.Alert.alert({
         title: langs.alert.checkoutSuccess,
         message: response.message,
-        leftButton: { text: langs.alert.ok },
+        leftButton: {
+          text: langs.alert.ok,
+        },
       });
       _global.Loading.hide();
     } else if (
@@ -237,7 +244,7 @@ function* sagaCheckInWifi(action) {
         message: langs.alert.cantCheck,
         leftButton: {
           text: langs.tryAgain,
-          onPress: () => store.dispatch(checkInCode(action.payload)),
+          onPress: () => store.dispatch(checkInWifi(action.payload)),
         },
         middleButton: {
           text: langs.remote,

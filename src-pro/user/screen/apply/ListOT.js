@@ -18,7 +18,11 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
 import { useIsFocused } from '@react-navigation/native';
 import langs from '../../../../common/language';
-import { BarStatus, EmptyState, Indicator } from '../../../component';
+import {
+  BarStatus,
+  EmptyState,
+  Indicator,
+} from '../../../component';
 import HeaderCustom from './component/HeaderCustom';
 import { Colors, imgs } from '../../../../utlis';
 import ItemOT from './component/ItemOT';
@@ -54,7 +58,10 @@ if (
 // };
 
 function ListOT(props) {
-  const { navigation, token } = props;
+  const {
+    navigation,
+    token,
+  } = props;
 
   const [status, setStatus] = useState(0);
   const [page, setPage] = useState(1);
@@ -63,7 +70,9 @@ function ListOT(props) {
   const [type, setType] = useState('Tất cả');
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [localDate, setLocalDate] = useState(null);
+  const [localDate, setLocalDate] = useState(
+    null,
+  );
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -156,8 +165,7 @@ function ListOT(props) {
       case '3':
         setType('Bị từ chối');
         break;
-      default:
-        0;
+      default: 0;
     }
   };
 
@@ -311,10 +319,9 @@ function ListOT(props) {
   };
 
   const _data = [];
-  data
-    && data.map((v, i) => {
-      _data[i] = { ...v, key: i };
-    });
+  data && data.map((v, i) => {
+    _data[i] = { ...v, key: i };
+  });
   console.log(_data);
   const renderEmpty = () => {
     return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
@@ -363,7 +370,7 @@ export default ListOT;
 const styles = StyleSheet.create({
   detail: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f0f0f0'
   },
   noData: {
     fontSize: 16,

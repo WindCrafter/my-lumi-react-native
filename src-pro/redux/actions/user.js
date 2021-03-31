@@ -105,13 +105,6 @@ export const addAssign = (data) => {
   };
 };
 
-export const kickAssign = (data) => {
-  return {
-    type: types.KICK_ASSIGN,
-    payload: data,
-  };
-};
-
 export const getListAssign = (data) => {
   return {
     type: types.GET_LIST_ASSIGN,
@@ -170,7 +163,25 @@ export const getListNotifysFailed = () => {
     type: types.GET_LIST_NOTIFYS_FAILED,
   };
 };
+export const getUnreadNotify = (data) => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION,
+    payload: data,
+  };
+};
 
+export const getUnreadNotifySuccess = (data) => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getUnreadNotifyFailed = () => {
+  return {
+    type: types.GET_UNREAD_NOTIFICATION_FAILED,
+  };
+};
 export const getListCheck = (data) => {
   return {
     type: types.GET_LIST_CHECK,
@@ -235,7 +246,6 @@ export const confirmKpi = (data) => {
     payload: data,
   };
 };
-
 export const confirmKpiSuccess = (data) => {
   return {
     type: types.CONFIRM_KPI_SUCCESS,

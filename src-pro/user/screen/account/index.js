@@ -38,14 +38,16 @@ const Account = (props) => {
     token,
     oneSignalID,
     // getListTeams,
-    kickAssign,
     resetCheck,
     changeDemoMode,
     demoMode,
     codepush,
+    avatar,
+    removeUserIdDevice,
   } = props;
 
   const [showModal, setshowModal] = useState(false);
+
   const onLogOut = () => {
     _global.Alert.alert({
       title: langs.alert.notify,
@@ -65,7 +67,7 @@ const Account = (props) => {
       deviceId: oneSignalID,
       token,
     };
-    kickAssign();
+    removeUserIdDevice(data);
     resetCheck();
   };
 
@@ -109,7 +111,9 @@ const Account = (props) => {
         <HeaderAccount shadow title={langs.account} sub={langs.setting} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
-            leftImage={require('../../../../naruto.jpeg')}
+            leftImage={
+              avatar ? { uri: avatar } : require('../../../../naruto.jpeg')
+            }
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"
@@ -139,7 +143,6 @@ const Account = (props) => {
               title={langs.kpiConfirm}
               onPressButton={gotoKpi}
             />
-
             <RoundedView
               leftImage={imgs.logout}
               title={langs.logOut}

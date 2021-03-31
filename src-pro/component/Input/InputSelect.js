@@ -9,10 +9,10 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {Colors, imgs} from '../../../utlis';
-import {Button, Touchable} from '../../component';
-import {Card} from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
+import { Colors, imgs } from '../../../utlis';
+import { Button, Touchable } from '..';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -77,6 +77,7 @@ export default function InputSelect(props?: Props) {
     alignSelf,
     alignItems,
     padding,
+    paddingRight,
     paddingVertical,
     marginRight,
     color,
@@ -100,7 +101,8 @@ export default function InputSelect(props?: Props) {
           paddingVertical,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       <TouchableOpacity
         style={[
           styles.container,
@@ -112,19 +114,22 @@ export default function InputSelect(props?: Props) {
           },
         ]}
         onPress={onPressButton}
-        disabled={disabled}>
-        <View style={{flexDirection: 'row'}}>
-          <Image source={leftImage} style={styles.image} resizeMode="contain" />
+        disabled={disabled}
+      >
+        <View style={{ flexDirection: 'row' }}>
+          {leftImage && <Image source={leftImage} style={styles.image} resizeMode="contain" />}
 
           {detail ? (
             <Text
               style={[
                 {
                   padding,
+                  paddingRight,
                   color,
                 },
                 styles.textTitle,
-              ]}>
+              ]}
+            >
               {detail}
             </Text>
           ) : (
@@ -135,7 +140,8 @@ export default function InputSelect(props?: Props) {
                   color,
                 },
                 styles.textTitle,
-              ]}>
+              ]}
+            >
               {title}
             </Text>
           )}

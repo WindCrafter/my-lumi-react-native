@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { ActionSheet } from '@nghinv/react-native-action-sheet';
 import { sum } from 'lodash';
 import { useIsFocused } from '@react-navigation/native';
 import { BarStatus } from '../../../component';
@@ -20,8 +21,10 @@ import { Colors, imgs } from '../../../../utlis';
 import Event from './component/event';
 import FloatButton from './component/ActionButton';
 import CardUser from './component_user/user';
-import HistoryCheck from './component/HistoryCheck';
 import langs from '../../../../common/language';
+import { _global } from '../../../../utlis/global/global';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 
 const DATA_EVENT = [
   {
@@ -42,12 +45,6 @@ const DATA_EVENT = [
     time: '15:45   22/11/2020',
     source: imgs.event,
   },
-  {
-    id: '4',
-    detail: 'Kìa là 1 ngày trọng đại',
-    time: '17:45   23/11/2020',
-    source: imgs.event,
-  },
 ];
 
 if (
@@ -58,8 +55,20 @@ if (
 }
 
 export default function Home(props) {
-  const { navigation, nameUser, token, summary, getSummary, getWorkdayToday, role } = props;
+  const {
+    navigation,
+    nameUser,
+    token,
+    summary,
+    getSummary,
+    getWorkdayToday,
+    role,
+    unreadNotify,
+    getUnreadNotify,
+    avatar,
+  } = props;
   const [refresh, setRefresh] = useState(false);
+  const [dataEvent, setDataEvent] = useState([]);
 
   const onPressNotify = () => {
     navigation.navigate(langs.navigator.notify);
@@ -75,25 +84,60 @@ export default function Home(props) {
   const onPressOT = () => {
     navigation.navigate(langs.navigator.listOT);
   };
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
       getSummary(token);
+      getUnreadNotify(token);
       getWorkdayToday({ token, date: moment().format('DD/MM/YYYY') });
+      getDataEvent();
     }
   }, [isFocused]);
-  const onDone = () => { setRefresh(false); };
+  const getDataEvent = async () => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_LIST_Event ===========>', response);
+    if (
+      response.success
+      && response.statusCode === 200
+      && response.data
+      && response.data.length > 0
+    ) {
+      setDataEvent(response.data);
+    }
+  };
+  const onDeleteEvent = async (_id) => {
+    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_EVENT}`;
+    const response = await _POST(apiURL, { _id }, token, false);
+    console.log('_GET_LIST_Event ===========>', _id);
+    if (
+      response.success
+      && response.statusCode === 200
+    ) {
+      getDataEvent();
+      _global.Loading.hide();
+    } else {
+      _global.Loading.hide();
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        rightButton: {
+          text: langs.alert.ok,
+        },
+      });
+    }
+  };
+  const onDone = () => {
+    setRefresh(false);
+  };
   const onRefresh = () => {
     getSummary(token);
-    getWorkdayToday(
-      { token, date: moment().format('DD/MM/YYYY'), onDone },
-
-    );
+    getWorkdayToday({ token, date: moment().format('DD/MM/YYYY'), onDone });
+    getDataEvent();
   };
   const onPressApprove = () => {
-    navigation.navigate(langs.navigator.approve, { page: 0 });
+    navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 3 : 0 });
   };
 
   const moveToHistory = () => {
@@ -107,11 +151,78 @@ export default function Home(props) {
   const moveToHistoryLate = () => {
     navigation.navigate(langs.navigator.historyLate);
   };
-
+  const moveToUpdate = () => {
+    navigation.navigate(langs.navigator.updateProfile);
+  };
   const time_late = () => {
     const hour = Math.floor(summary.check_in_out_late_early / 60);
     const minute = summary.check_in_out_late_early % 60;
     return `${hour}h ${minute}m`;
+  };
+
+  const gotoDetailEvent = (item) => {
+    navigation.navigate(langs.navigator.detailEvent, { item });
+  };
+
+  const onPressHR = () => {
+    navigation.navigate(langs.navigator.listEvent, { DATA_EVENT });
+  };
+
+  const onAddEvent = () => {
+    navigation.navigate(langs.navigator.addEvent);
+  };
+
+  const onAlertDelete = (_id) => {
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Bạn có chắc chắn muốn xoá sự kiện đã chọn không !!!',
+      leftButton: {
+        text: 'Xác nhận',
+        textStyle: {
+          color: Colors.danger,
+        },
+        onPress: () => onDeleteEvent(_id),
+      },
+      rightButton: {
+        text: 'Huỷ',
+        onPress: () => {
+        },
+      },
+    });
+  };
+
+  const onEditItem = (item) => {
+    ActionSheet.show({
+      bottomTitle: 'Huỷ',
+      bottomButtonProps: {
+        titleStyle: styles.btn
+      },
+      zIndex: 10,
+      options: [
+        {
+          title: 'Chỉnh sửa',
+          leftIconName: 'edit',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => onMoveToEdit(item),
+        },
+        {
+          title: 'Xoá',
+          leftIconName: 'delete',
+          titleColor: Colors.danger,
+          leftIconColor: Colors.danger,
+          onPress: () => onAlertDelete(item._id),
+        },
+      ],
+    });
+  };
+
+  const onNothing = () => {
+    console.log('Not role to edit');
+  };
+
+  const onMoveToEdit = (item) => {
+    navigation.navigate(langs.navigator.editEvent, { _item: item });
   };
 
   return (
@@ -122,7 +233,9 @@ export default function Home(props) {
         <Header
           pressNotify={onPressNotify}
           name={nameUser}
-          numberNotifys={0}
+          numberNotifys={unreadNotify}
+          pressAvatar={moveToUpdate}
+          avatar={avatar}
         />
 
         <View style={styles.flex}>
@@ -189,14 +302,16 @@ export default function Home(props) {
             </View>
             <Card style={styles.card}>
               <View>
-                <Event data={DATA_EVENT} />
+                <Event
+                  data={dataEvent}
+                  onPress={gotoDetailEvent}
+                  role={role}
+                  onPressHR={onPressHR}
+                  onLongPress={role === 'HR' ? onEditItem : onNothing}
+                  AddEvent={onAddEvent}
+                />
               </View>
             </Card>
-            {/* <Card style={styles.card}>
-              <View>
-                <HistoryCheck data={DATA_CHECK} navigation={navigation} />
-              </View>
-            </Card> */}
           </ScrollView>
           <FloatButton
             onPressLate={onPressLate}
@@ -254,4 +369,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 5,
   },
+  btn: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+  }
 });

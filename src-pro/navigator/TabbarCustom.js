@@ -26,7 +26,6 @@ import { checkInWifi } from '../redux/actions/check';
 import { _global } from '../../utlis/global/global';
 import langs from '../../common/language';
 import ModalTime from '../user/screen/account/component/ModalTime';
-import { globalApp } from '../../logs/logs';
 
 function TabbarCustom({
   state,
@@ -76,20 +75,8 @@ function TabbarCustom({
           buttonPositive: 'OK',
         },
       );
-      if (globalApp.customLog && globalApp.customLog.enableLog) {
-        globalApp.customLog.emitEvent({
-          type: 'call_api_response',
-          payload: `${granted} PERMISSION`,
-        });
-      }
       if (granted === RESULTS.GRANTED || granted === RESULTS.BLOCKED) {
         const result = await NetworkInfo.getSSID();
-        if (globalApp.customLog && globalApp.customLog.enableLog) {
-          globalApp.customLog.emitEvent({
-            type: 'call_api_response',
-            payload: `${result} on check error`,
-          });
-        }
         if (result === '<unknown ssid>') {
           _global.Alert.alert({
             title: langs.alert.notify,
@@ -102,12 +89,6 @@ function TabbarCustom({
             },
           });
         } else {
-          if (globalApp.customLog && globalApp.customLog.enableLog) {
-            globalApp.customLog.emitEvent({
-              type: 'call_api_response',
-              payload: 'ON CALL API CHECK IN',
-            });
-          }
           checkIn({ type, token, ssid: result });
         }
       } else {

@@ -23,15 +23,16 @@ import {
   getSummarySuccess,
   getSummaryFailed,
   logOut,
+  uploadAvatarSuccess,
+  uploadAvatarFailed
 } from '../actions/authen';
 import { URL } from '../../../utlis/connection/url';
-import { _GET, _POST } from '../../../utlis/connection/api';
+import { _GET, _POST, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import langs from '../../../common/language';
 import { Colors } from '../../../utlis';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { removeUserIdDevice } from '../actions/user';
-import { globalApp } from '../../../logs/logs';
 
 const URL_LOGIN = `${URL.LOCAL_HOST}${URL.LOGIN}`;
 const URL_CHANGE_PASS = `${URL.LOCAL_HOST}${URL.CHANGE_PASS}`;
@@ -42,6 +43,7 @@ const URL_SET_STATUS_LATE_EARLY = `${URL.LOCAL_HOST}${URL.SET_STATUS_LATE_EARLY}
 const URL_REGISTER = `${URL.LOCAL_HOST}${URL.REGISTER}`;
 const URL_GET_PROFILE = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
 const URL_GET_SUMMARY = `${URL.LOCAL_HOST}${URL.GET_SUMMARY}`;
+const URL_UPLOAD_IMAGE = `${URL.LOCAL_HOST}${URL.UPLOAD_AVATAR}`;
 
 function* sagaLoginAction(action) {
   try {
@@ -50,12 +52,6 @@ function* sagaLoginAction(action) {
       password: action.payload.password,
       device_token: action.payload.device_token,
     };
-    if (globalApp.customLog && globalApp.customLog.enableLog) {
-      globalApp.customLog.emitEvent({
-        type: 'call_api_response',
-        payload: ` ${JSON.stringify(action)}  Saga Login`,
-      });
-    }
     const response = yield _POST(URL_LOGIN, data);
     console.log('=>>>>>', response);
     if (response.success && response.statusCode === 200) {
@@ -79,12 +75,6 @@ function* sagaLoginAction(action) {
       _global.Loading.hide();
     }
   } catch (error) {
-    if (globalApp.customLog && globalApp.customLog.enableLog) {
-      globalApp.customLog.emitEvent({
-        type: 'call_api_response',
-        payload: ` ${JSON.stringify(error)}  Error Saga Login`,
-      });
-    }
     console.log(error);
     _global.Alert.alert({
       title: langs.notify,
@@ -354,4 +344,44 @@ function* sagaGetSummary(action) {
 
 export function* watchgetSummary() {
   yield takeLatest(types.GET_SUMMARY, sagaGetSummary);
+}
+function* sagaUploadImage(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const data = {
+      url: action.payload.url,
+      name: action.payload.name,
+      type: action.payload.type,
+    };
+    const response = yield _UPLOAD(URL_UPLOAD_IMAGE, data, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(uploadAvatarSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Upload ảnh thành công.',
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    _global.Loading.hide();
+    console.log(error);
+  }
+}
+
+export function* watchSagaUploadImage() {
+  yield takeLatest(types.UPLOAD_AVATAR, sagaUploadImage);
 }

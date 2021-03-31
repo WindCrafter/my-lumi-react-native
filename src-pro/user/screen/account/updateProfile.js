@@ -8,6 +8,10 @@ import {
   ScrollView,
   Keyboard,
   SafeAreaView,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {
   widthPercentageToDP,
@@ -17,6 +21,15 @@ import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Clipboard from '@react-native-community/clipboard';
 import { Card } from 'native-base';
+import ImagePicker from 'react-native-image-crop-picker';
+import {
+  PERMISSIONS,
+  request,
+  openSettings,
+  RESULTS,
+} from 'react-native-permissions';
+import { ActionSheet } from '@nghinv/react-native-action-sheet';
+import Modal from 'react-native-modal';
 import {
   BarStatus,
   Button,
@@ -28,7 +41,6 @@ import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import { _global } from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
-
 import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
@@ -41,7 +53,7 @@ if (
 }
 
 function UpdateProfile(props) {
-  const { navigation, updateProfile, token, auth } = props;
+  const { navigation, updateProfile, token, auth, uploadAvatar, avatar } = props;
   const [user, setUser] = useState(auth);
   const [dateChange, setDateChange] = useState(new Date());
 
@@ -65,16 +77,17 @@ function UpdateProfile(props) {
   const regId = /(\d{12})|(\d{9})/;
   const [show, setShow] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-
+  const [sourceImage, setSourceImage] = useState(avatar || null);
+  console.log('avatar', avatar);
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onChangeName = (val) => {
+  const onChangeName = val => {
     setUser({ ...user, fullname: val });
   };
 
-  const onChangePhone = (val) => {
+  const onChangePhone = val => {
     setUser({ ...user, phone_number: val });
   };
 
@@ -101,11 +114,11 @@ function UpdateProfile(props) {
   //   setShowGene(false);
   // };
 
-  const onChangeIdentity = (val) => {
+  const onChangeIdentity = val => {
     setUser({ ...user, identity_number: val });
   };
 
-  const onChangeAddress = (val) => {
+  const onChangeAddress = val => {
     setUser({ ...user, address: val });
   };
 
@@ -115,6 +128,36 @@ function UpdateProfile(props) {
     setShowPicker(true);
   };
 
+  const onShowModalAvatar = () => {
+    Keyboard.dismiss();
+    ActionSheet.show({
+      bottomTitle: 'Huỷ',
+      bottomButtonProps: {
+        titleStyle: styles.btn,
+      },
+      zIndex: 10,
+      options: [
+        {
+          title: 'Chọn ảnh',
+          leftIconType: 'Ionicons',
+          leftIconName: 'images',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => onSelectFromAlbum(),
+          leftIconSize: 20,
+        },
+        {
+          title: 'Chụp ảnh',
+          leftIconType: 'Ionicons',
+          leftIconSize: 22,
+          leftIconName: 'camera',
+          titleColor: Colors.black,
+          leftIconColor: Colors.black,
+          onPress: () => onTakePhoto(),
+        },
+      ],
+    });
+  };
   const onPick = () => {
     Keyboard.dismiss();
     navigation.navigate(langs.navigator.selectBank, {
@@ -123,12 +166,12 @@ function UpdateProfile(props) {
     });
   };
 
-  const onChangeBank = (value) => {
+  const onChangeBank = value => {
     navigation.goBack();
     setUser({ ...user, bank_name: value });
   };
 
-  const onChangeBankAccount = (value) => {
+  const onChangeBankAccount = value => {
     setUser({ ...user, bank_account: value });
   };
 
@@ -177,12 +220,123 @@ function UpdateProfile(props) {
       updateProfile(data);
     }
   };
+  const SCREEN = Dimensions.get('window');
+  const onOpenSettingsPermissionApp = () => {
+    openSettings().catch(() => console.warn('cannot open settings'));
+  };
+  const onUpdateAvatar = image => {
+    setSourceImage(image.sourceURL);
+    const data = {
+      url: image.sourceURL,
+      name: image.filename,
+      token,
+      type: 'user'
+    };
+    uploadAvatar(data);
+  };
+  const onSelectFromAlbum = () => {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+        ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền thư mục.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        ImagePicker.openPicker({
+          width: SCREEN.width * 2,
+          height: SCREEN.width * 2,
+          multiple: false,
+          minFiles: 1,
+          maxFiles: 1,
+          mediaType: 'photo',
+          compressImageQuality: 1,
+          waitAnimationEnd: true,
+          cropping: true,
+        })
+          .then(image => {
+            image.sourceURL = image.path;
+            image.filename = `${new Date().getTime()}.JPG`;
+
+            if (!image.mime) {
+              image.mime = 'image/jpeg';
+            }
+
+            console.log('select image', image);
+            onUpdateAvatar && onUpdateAvatar(image);
+          })
+          .catch(e => {
+            // error
+            console.log('error::select image', e);
+          });
+      }
+    });
+  };
+
+  const onTakePhoto = () => {
+    request(
+      Platform.select({
+        android: PERMISSIONS.ANDROID.CAMERA,
+        ios: PERMISSIONS.IOS.CAMERA,
+      }),
+    ).then(response => {
+      if (response === RESULTS.BLOCKED) {
+        _global.Alert.alert({
+          title: 'Thông báo',
+          message: 'Vui lòng cấp quyền camera.',
+          leftButton: { text: 'Từ chối' },
+          rightButton: {
+            text: 'Mở cài đặt',
+            onPress: onOpenSettingsPermissionApp,
+          },
+        });
+      } else {
+        ImagePicker.openCamera({
+          width: SCREEN.width * 2,
+          height: SCREEN.width * 2,
+          cropping: true,
+        })
+          .then(image => {
+            image.sourceURL = image.path;
+            image.filename = `${new Date().getTime()}.JPG`;
+            if (!image.mime) {
+              image.mime = 'image/jpeg';
+            }
+            console.log('select image', image);
+            onUpdateAvatar && onUpdateAvatar(image);
+          })
+          .catch(error => {
+            //
+          });
+      }
+    });
+  };
 
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
       <HeaderCustom title="Cập nhật thông tin" goBack={goBack} shadow />
       <KeyBoardScroll contentContainerStyle={styles.container}>
         <Card style={styles.card}>
+          <TouchableOpacity onPress={onShowModalAvatar}>
+            <Image
+              source={
+                sourceImage
+                  ? { uri: sourceImage }
+                  : require('../../../../naruto.jpeg')
+              }
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
           <UpdateInfo
             name={user.fullname}
             team={user.team}
@@ -248,7 +402,8 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
   container: {
     // padding: 24,
-    backgroundColor: '#f0f0f0'
+    // flex: 1,
+    backgroundColor: '#f0f0f0',
   },
   viewButton: {
     flex: 0.5,
@@ -297,5 +452,12 @@ const styles = StyleSheet.create({
   },
   complete: {
     backgroundColor: Colors.background,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    alignSelf: 'center',
+    marginBottom: 8,
   },
 });

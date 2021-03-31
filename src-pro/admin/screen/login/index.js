@@ -7,6 +7,7 @@ import {
   Keyboard,
   Dimensions,
   TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -18,24 +19,25 @@ import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../com
 import Checkbox from './components/Checkbox';
 import langs from '../../../../common/language';
 import { globalApp } from '../../../../logs/logs';
+import { _global } from '../../../../utlis/global/global';
 
 const deviceWidth = Dimensions.get('window').width;
 
 const Login = (props) => {
-  const {
-    loginAction,
-    changeAutoLogin,
-    autoLoginStatus,
-    oneSignalID,
-    navigation,
-  } = props;
+  const { loginAction, changeAutoLogin, autoLoginStatus, oneSignalID } = props;
   const refPassword = useRef(null);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [errMail, setErrMail] = useState('');
   const [errNew, setErrNew] = useState('');
   const [checked, setChecked] = useState(autoLoginStatus);
-
+  const { navigation } = props;
+  useEffect(() => {
+    Platform.OS === 'android'
+       && refPassword.current.setNativeProps({
+         style: { fontFamily: 'Quicksand-Regular' },
+       });
+  }, []);
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 
   const onRegister = () => {
@@ -66,7 +68,11 @@ const Login = (props) => {
       }
     } else {
       // loginAction({email, password: pass, oneSignalID: oneSignalID});
+      if (!oneSignalID) {
+        _global.Loading.show();
+      }
       loginAction({ email, password: pass, device_token: oneSignalID });
+
       changeAutoLogin(checked);
       // addUserIdDevice({ deviceId: oneSignalID, token: token });
     }
@@ -116,12 +122,12 @@ const Login = (props) => {
         globalApp.customLog.disconnect();
       } else {
         globalApp.customLog
-        && globalApp.customLog.connect({
-          localhost: false,
-        });
+         && globalApp.customLog.connect({
+           localhost: false,
+         });
       }
     } catch (e) {
-    // error customlog
+      // error customlog
     }
   };
   return (
@@ -132,6 +138,7 @@ const Login = (props) => {
             <TouchableWithoutFeedback onLongPress={onConnect}>
               <Logo containerStyle={styles.logo} />
             </TouchableWithoutFeedback>
+
             <View>
               <Input
                 // leftImage={}
@@ -191,7 +198,6 @@ const Login = (props) => {
               onChange={onChangeRememberLogin}
               onLongPress={onChangeServer}
             />
-
             <Button
               backgroundColor={
                 errMail === '' && errNew === '' ? 'rgb(47,172,79)' : '#E9E9E9'

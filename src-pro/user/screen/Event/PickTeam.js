@@ -234,7 +234,7 @@ const PickTeam = (props) => {
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={require('../../../../naruto.jpeg')}
+                source={item.avatar ? { uri: item.avatar } : require('../../../../naruto.jpeg')}
                 style={styles.avatar}
                 resizeMode="cover"
               />
@@ -344,7 +344,6 @@ export default PickTeam;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
   },
   search: {
     alignSelf: 'center',

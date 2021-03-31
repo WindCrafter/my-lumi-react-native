@@ -9,8 +9,7 @@ import {
   Text,
   RefreshControl,
   SafeAreaView,
-  FlatList,
-  AppState
+  FlatList, AppState
 } from 'react-native';
 import _ from 'lodash';
 
@@ -33,6 +32,7 @@ if (
 function ApproveLate(props) {
   const {
     token,
+
   } = props;
 
   const [page, setPage] = useState(1);

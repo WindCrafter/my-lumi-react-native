@@ -3,6 +3,8 @@ import { UIManager, LogBox } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import codePush from 'react-native-code-push';
+import { ActionSheetService } from '@nghinv/react-native-action-sheet';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Sentry from '@sentry/react-native';
 import { store, persistor } from './redux/store/store';
 import AppNavigator from './app-navigator';
@@ -12,19 +14,19 @@ import { Loading, Alert } from './component';
 import { _global } from '../utlis/global/global';
 
 const DSN_SENTRY = 'https://fc0d9122795948ee93aa4e34e28d776c@o486792.ingest.sentry.io/5544590';
+
 Sentry.init({
   dsn: DSN_SENTRY,
   enableAutoSessionTracking: true,
-  // Sessions close after app is 10 seconds in the background.
   sessionTrackingIntervalMillis: 10000,
 });
 console.disableYellowBox = true;
 
 setFont('Quicksand-Regular');
+
 class App extends PureComponent {
   constructor(props) {
     super(props);
-
     UIManager.setLayoutAnimationEnabledExperimental
       && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -70,7 +72,11 @@ class App extends PureComponent {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
+          <SafeAreaProvider>
+            <ActionSheetService>
+              <AppNavigator />
+            </ActionSheetService>
+          </SafeAreaProvider>
           <Loading
             loadingRef
             ref={(ref) => {

@@ -299,6 +299,7 @@ function ApplyBreak(props) {
               justifyContent: 'center',
               alignItems: 'center',
             }}
+            keyboardType="default"
             value={reason}
             onChangeText={onChangeReason}
             onFocus={onFocus}

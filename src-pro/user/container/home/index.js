@@ -1,10 +1,14 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import HomeComponent from '../../screen/home';
-import {getListNotifys, getWorkdayToday} from '../../../redux/actions/user';
-import {getSummary} from '../../../redux/actions/authen';
+import {
+  getListNotifys,
+  getWorkdayToday,
+  getUnreadNotify,
+} from '../../../redux/actions/user';
+import { getSummary } from '../../../redux/actions/authen';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   nameUser: state.authen.fullname,
   emailUser: state.authen.email,
   timeIn: state.check.timeCheckIn,
@@ -12,12 +16,15 @@ const mapStateToProps = (state) => ({
   token: state.authen.token,
   summary: state.authen.summary,
   role: state.authen.role,
+  unreadNotify: state.user.unreadNotify,
+  avatar: state.authen.avatar,
 });
 
 const mapDispatchToProps = {
   getListNotifys,
   getSummary,
   getWorkdayToday,
+  getUnreadNotify,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

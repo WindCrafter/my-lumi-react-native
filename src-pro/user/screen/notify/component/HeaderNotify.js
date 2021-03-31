@@ -22,9 +22,9 @@ import PickerCustom from './PickerCustom';
 interface Props extends HeaderNotify {
   title?: String;
   detail?: String;
-  header?: Boolean;
-  filter?: Boolean;
-  txtSearch?: String;
+  header?:Boolean;
+  filter?:Boolean;
+  txtSearch?:String;
 }
 HeaderNotify.defaultProps = {
   title: 'Thông báo',
@@ -35,23 +35,14 @@ HeaderNotify.defaultProps = {
 };
 
 export default function HeaderNotify(props) {
-  const {
-    title,
-    detail,
-    onSearch,
-    onDate,
-    goBack,
-    header,
-    filter,
-    txtSearch,
-  } = props;
+  const { title, detail, onSearch, onDate, goBack, header, filter, txtSearch } = props;
   const [date, setDate] = useState('');
   const [dateChange, setDateChange] = useState(new Date());
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState(txtSearch);
   const isFocused = useIsFocused();
   useEffect(() => {
-    // getData(1, '', '', []);
+  // getData(1, '', '', []);
 
     if (isFocused) {
       setDate(new Date());
@@ -218,11 +209,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     width: 120,
     height: 40,
+
   },
   txtDay: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   imgClear: { alignSelf: 'center', width: 8, height: 8, tintColor: 'white' },
   search: {
@@ -245,7 +238,7 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginLeft: 4,
+    marginLeft: 4
   },
   viewClear: {
     justifyContent: 'center',
@@ -261,7 +254,6 @@ const styles = StyleSheet.create({
     height: 4,
   },
   button: {
-    width: 32,
-    height: 32,
-  },
+    width: 32, height: 32
+  }
 });
