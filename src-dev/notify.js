@@ -35,8 +35,8 @@ function Notify(props) {
       && _POST(
         url,
         {
-          id:
-            openResult.notification.payload.additionalData.notification_ids[
+          id: openResult.notification.payload.additionalData.notification_ids
+            && openResult.notification.payload.additionalData.notification_ids[
               user_id
             ],
         },
