@@ -25,6 +25,7 @@ const URL_READ_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.READ_EVENT}`;
 const DetailEvent = (props) => {
   const { route, navigation, token, user_id } = props;
   const { item } = route.params;
+  const [read, setRead] = useState(item.view_users && item.view_users.find(i => i == user_id));
   const goBack = () => {
     navigation.goBack();
   };
@@ -36,11 +37,7 @@ const DetailEvent = (props) => {
     if (response.success && response.statusCode === 200
     ) {
       _global.Loading.hide();
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: 'Xác nhận đã đọc',
-        leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
-      });
+      setRead(true);
     } else {
       _global.Loading.hide();
       _global.Alert.alert({
@@ -51,23 +48,6 @@ const DetailEvent = (props) => {
     }
   };
 
-  const onAlertConfirm = (_id) => {
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: 'Bạn xác nhận đã đọc và hiểu hết nội dung của sự kiện  !!!',
-      leftButton: {
-        text: 'Xác nhận',
-        onPress: () => onPressConfirm(),
-      },
-      rightButton: {
-        text: 'Huỷ',
-        onPress: () => {
-        },
-      },
-    });
-  };
-
-  const read = item.view_users && item.view_users.find(i => i == user_id);
   return (
     <>
       <BarStatus

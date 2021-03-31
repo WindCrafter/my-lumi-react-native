@@ -73,7 +73,7 @@ const EditEvent = (props) => {
   const [end, setEnd] = useState(_item.end_datetime !== '' ? moment(_item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format() : '');
   const [sourceImage, setSourceImage] = useState('');
   const [description, setDescription] = useState(_item.content);
-  const [checked, setChecked] = useState(_item.urgent === 1);
+  const [checked, setChecked] = useState(_item.urgent == 1);
 
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);

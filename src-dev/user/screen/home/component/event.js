@@ -26,12 +26,6 @@ const Event = (props) => {
   const scrollFlat = () => {
     ref.current.scrollToIndex({ animated: true, index: 2 });
   };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      opacity === 1 ? setOpacity(0.3) : setOpacity(1);
-    }, 600);
-    return () => clearInterval(interval);
-  }, [opacity]);
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
@@ -42,10 +36,21 @@ const Event = (props) => {
           style={styles.image}
           imageStyle={styles.backGround}
         >
-          {/* {item.urgent === 1 && <View style={styles.urgent}><Text style={styles.txtUrgent}>Urgent</Text></View>} */}
+          {item.urgent == 1
+           && (
+           <>
+             <View style={styles.urgent}>
+               <Text style={styles.txtUrgent}>
+                 Nổi bật
+               </Text>
+             </View>
+             <View style={styles.triangleUp} />
+             <View style={styles.triangleDown} />
+           </>
+           )}
           <View style={styles.row}>
             <View style={styles.viewDetail}>
-              <Text style={[styles.txtDetail, { color: item.urgent == 1 ? 'orange' : 'white', opacity: item.urgent == 1 ? opacity : 1 }]}>{item.subject}</Text>
+              <Text style={[styles.txtDetail, { color: 'white' }]}>{item.subject}</Text>
               <Text style={styles.txtTime}>{moment(item.start_datetime, 'HH:mm:ss DD/MM/YYYY').format('HH:mm DD/MM/YYYY')}</Text>
             </View>
           </View>
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
   },
   viewItem: {
     flexDirection: 'row',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     marginRight: 5,
     justifyContent: 'center'
   },
@@ -200,20 +205,58 @@ const styles = StyleSheet.create({
   },
   urgent: {
     position: 'absolute',
-    top: 10,
-    right: 0,
-    // right: -50,
-    backgroundColor: 'rgba(251, 28, 28, 0.7)',
-    width: 100,
+    top: 8,
+    left: 0,
+    backgroundColor: 'rgb(251, 28, 28)',
+    width: 80,
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
     // transform: [{ rotate: '45deg' }],
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 1,
+    borderBottomLeftRadius: 4,
+    borderTopLeftRadius: 4,
   },
   txtUrgent: {
     // color: 'rgb(252, 252, 3)',
     color: Colors.white,
     fontSize: 14,
     fontWeight: '700',
-  }
+  },
+  triangleUp: {
+    position: 'absolute',
+    left: 80,
+    top: 8,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 16,
+    borderBottomWidth: 0,
+    borderTopWidth: 16,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderLeftColor: 'rgb(251, 28, 28)',
+  },
+  triangleDown: {
+    position: 'absolute',
+    left: 80,
+    top: 24,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 16,
+    borderBottomWidth: 16,
+    borderTopWidth: 0,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderLeftColor: 'rgb(251, 28, 28)',
+  },
 });

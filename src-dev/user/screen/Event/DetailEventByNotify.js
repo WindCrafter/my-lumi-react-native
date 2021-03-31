@@ -27,6 +27,7 @@ const DetailEventByNotify = (props) => {
   const { id } = route.params;
   const URL_GET_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_EVENT_BY_ID}?_id=${id}`;
   const [item, setItem] = useState({});
+  const [read, setRead] = useState(false);
   const [show, setShow] = useState(false);
   const goBack = () => {
     navigation.goBack();
@@ -41,6 +42,7 @@ const DetailEventByNotify = (props) => {
       && response.statusCode === 200
     ) {
       setItem(response.data);
+      setRead(response.data.view_users && response.data.view_users.find(i => i == user_id));
       setShow(true);
     } else {
       _global.Alert.alert({
@@ -59,11 +61,7 @@ const DetailEventByNotify = (props) => {
     if (response.success && response.statusCode === 200
     ) {
       _global.Loading.hide();
-      _global.Alert.alert({
-        title: langs.alert.remind,
-        message: 'Xác nhận đã đọc',
-        leftButton: { text: langs.alert.ok, onPress: () => navigation.goBack() },
-      });
+      setRead(true);
     } else {
       _global.Loading.hide();
       _global.Alert.alert({
@@ -74,23 +72,6 @@ const DetailEventByNotify = (props) => {
     }
   };
 
-  const onAlertConfirm = (_id) => {
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: 'Bạn xác nhận đã đọc và hiểu hết nội dung của sự kiện  !!!',
-      leftButton: {
-        text: 'Xác nhận',
-        onPress: () => onPressConfirm(),
-      },
-      rightButton: {
-        text: 'Huỷ',
-        onPress: () => {
-        },
-      },
-    });
-  };
-
-  const read = item.view_users && item.view_users.find(i => i == user_id);
   return (
     <>
       <BarStatus

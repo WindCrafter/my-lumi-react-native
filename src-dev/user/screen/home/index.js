@@ -116,14 +116,9 @@ export default function Home(props) {
       && response.statusCode === 200
     ) {
       getDataEvent();
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: 'Xoá sự kiện thành công !!!',
-        rightButton: {
-          text: langs.alert.ok,
-        },
-      });
+      _global.Loading.hide();
     } else {
+      _global.Loading.hide();
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
