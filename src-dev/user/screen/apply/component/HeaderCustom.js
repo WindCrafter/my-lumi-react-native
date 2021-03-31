@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: Colors.black,
+    fontFamily: 'Quicksand-Bold',
   },
   right: {
     backgroundColor: 'rgba(0,0,0,0)',

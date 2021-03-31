@@ -110,7 +110,7 @@ export const imgs = {
   manageIcon: require('../../common/assets/images/icon/Manage-icon.png'),
   exchangeIcon: require('../../common/assets/images/icon/Exchange-icon.png'),
   gif: require('../../common/assets/images/gif/Sever1.gif'),
-  event: require('../../common/assets/images/example/event.jpeg'),
+  event: require('../../common/assets/images/example/CoverLumi.png'),
   roudedDown: require('../../common/assets/images/icon/Down-rounded.png'),
   roundedLeft: require('../../common/assets/images/icon/LeftRound.png'),
   emptyState: require('../../common/assets/images/empty_state/EmptyState.png'),
