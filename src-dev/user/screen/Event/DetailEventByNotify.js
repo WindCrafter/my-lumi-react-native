@@ -16,7 +16,7 @@ import {
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { Colors, imgs } from '../../../../utlis';
-import { BarStatus, Button, HeaderAccount } from '../../../component';
+import { BarStatus, Button, HeaderAccount, HeaderCustom } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 import { URL_STAGING } from '../../../../utlis/connection/url';
@@ -80,8 +80,8 @@ const DetailEventByNotify = (props) => {
         height={Platform.OS === 'ios' ? 36 : StatusBar.currentHeight}
       />
       { show && (
-      <View style={styles.container}>
-        <HeaderAccount title="Chi tiết sự kiện" goBack={goBack} titleStyle={{ marginTop: Platform.OS === 'android' ? 6 : 8 }} detailStyle={styles.detailStyle}/>
+      <View style={[styles.container, { ...StyleSheet.absoluteFill, backgroundColor: 'white' }]}>
+        <HeaderCustom title="Chi tiết sự kiện" goBack={goBack} />
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           <ImageBackground source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai}>
             {item.urgent == 1
