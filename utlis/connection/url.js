@@ -46,7 +46,7 @@ export const URL = {
   DELETE_OT: '/overtime/delete',
   ///
   ADD_USERID_DEVICE: '/user/add-device-id',
-  REMOVE_USERID_DEVICE: '/user/remove-device-id',
+  REMOVE_USERID_DEVICE: '/site/delete-token-device',
   GET_LIST_TEAMS: '/user/list-teams',
   GET_LIST_ASSIGN: '/user/list-assign',
   GET_LIST_NOTIFY: '/user/list-notify?page=',
@@ -83,7 +83,15 @@ export const URL = {
   LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
   APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 
-  UPLOAD_AVATAR: '/media/upload',
+  UPLOAD_AVATAR: '/site/upload-avatar',
+  CREATE_EVENT: '/event/create',
+  LIST_EVENT: '/event/list',
+  UPDATE_EVENT: '/event/update',
+  DELETE_EVENT: '/event/delete',
+  GET_DETAIL_EVENT: '/event/get-by-id',
+  UPLOAD_IMAGE: '/media/upload',
+  READ_EVENT: '/event/read',
+  GET_EVENT_BY_ID: '/event/get-by-id',
 
 };
 
@@ -135,7 +143,7 @@ export const URL_STAGING = {
   DELETE_OT: '/overtime/delete',
   ///
   ADD_USERID_DEVICE: '/user/add-device-id',
-  REMOVE_USERID_DEVICE: '/user/remove-device-id',
+  REMOVE_USERID_DEVICE: '/site/delete-token-device',
   GET_LIST_TEAMS: '/user/list-teams',
   GET_LIST_ASSIGN: '/user/list-assign',
   GET_LIST_NOTIFY: '/user/list-notify?page=',
@@ -172,5 +180,13 @@ export const URL_STAGING = {
   LIST_CHECK_REQUEST: '/work-day/list-check-in-out-by-request',
   APPROVE_CHECK_REQUEST: '/work-day/approved-check-in-out-by-request',
 
-  UPLOAD_AVATAR: '/media/upload',
+  UPLOAD_AVATAR: '/site/upload-avatar',
+  CREATE_EVENT: '/event/create',
+  LIST_EVENT: '/event/list',
+  UPDATE_EVENT: '/event/update',
+  DELETE_EVENT: '/event/delete',
+  GET_DETAIL_EVENT: '/event/get-by-id',
+  UPLOAD_IMAGE: '/media/upload',
+  READ_EVENT: '/event/read',
+  GET_EVENT_BY_ID: '/event/get-by-id',
 };

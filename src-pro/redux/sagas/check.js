@@ -130,6 +130,7 @@ function* sagaCheckIn(action) {
       });
       _global.Loading.hide();
     } else {
+      yield put(getWorkdayToday({ token: action.payload.token, date: moment().format('DD/MM/YYYY') }));
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
@@ -232,6 +233,7 @@ function* sagaCheckInWifi(action) {
       });
       _global.Loading.hide();
     } else if (response.statusCode >= 500) {
+      yield put(getWorkdayToday({ token: action.payload.token, date: moment().format('DD/MM/YYYY') }));
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
@@ -967,6 +969,7 @@ function* sagaCheckInCode(action) {
       });
       _global.Loading.hide();
     } else {
+      yield put(getWorkdayToday({ token: action.payload.token, date: moment().format('DD/MM/YYYY') }));
       _global.Alert.alert({
         title: langs.alert.notify,
         message: response.message,
