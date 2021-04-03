@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
 
-const CardUser = (props) => {
+const CardUser = props => {
   const {
     backgroundColor,
     source,
@@ -13,20 +14,17 @@ const CardUser = (props) => {
     imgBackground,
   } = props;
   return (
-    <View style={[styles.container, {backgroundColor: backgroundColor}]}>
+    <Card style={[styles.container, { backgroundColor }]}>
       <View style={styles.flex}>
-        <View style={[styles.viewImg, {backgroundColor: imgBackground}]}>
-          <Image
-            source={source}
-            style={[styles.imgs, {tintColor: tintColor}]}
-          />
+        <View style={[styles.viewImg, { backgroundColor: imgBackground }]}>
+          <Image source={source} style={[styles.imgs, { tintColor }]} />
         </View>
       </View>
       <View style={styles.viewDetail}>
-        <Text style={[styles.txtNumber, {color: numberColor}]}>{number}</Text>
+        <Text style={[styles.txtNumber, { color: numberColor }]}>{number}</Text>
         <Text style={styles.txtDetail}>{detail}</Text>
       </View>
-    </View>
+    </Card>
   );
 };
 
@@ -40,14 +38,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: 'rgba(0, 0, 0, 0.16)',
-    shadowOffset: {
-      width: 0,
-      height: 1.5,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.9,
-    elevation:3
   },
   flex: {
     flex: 1,
@@ -71,7 +61,7 @@ const styles = StyleSheet.create({
   },
   txtDetail: {
     fontSize: 10,
-    width:'100%',
+    width: '100%',
   },
   txtNumber: {
     fontSize: 19,

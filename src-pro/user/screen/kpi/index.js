@@ -1,3 +1,4 @@
+import { Card } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Text,
@@ -20,7 +21,7 @@ import { Colors, imgs } from '../../../../utlis/index';
 import { BarStatus, HeaderAccount } from '../../../component';
 import PickerCustom from '../apply/component/PickerCustom';
 
-const Kpi = (props) => {
+const Kpi = props => {
   const { token, navigation, getKPI, confirmKpi, kpi } = props;
   const [month, setMonth] = useState(new Date());
   const [month_, setMonth_] = useState(new Date());
@@ -72,7 +73,7 @@ const Kpi = (props) => {
     }
   };
 
-  const onChange = (item) => {
+  const onChange = item => {
     setMonth_(item);
   };
 
@@ -103,7 +104,7 @@ const Kpi = (props) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View style={styles.card}>
+        <Card style={styles.card}>
           <TouchableOpacity style={styles.months} onPress={onSetShow}>
             <Text style={styles.txtMonth}>
               Tháng
@@ -282,7 +283,7 @@ const Kpi = (props) => {
               <Text style={styles.textButton}>Xác nhận</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Card>
       </ScrollView>
       {/* <PickerCustom
         title="Chọn ngày"
@@ -353,15 +354,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingHorizontal: 26,
     paddingVertical: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
   },
   headerCard: {
     paddingVertical: 50,

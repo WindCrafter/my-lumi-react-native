@@ -23,9 +23,6 @@ const Event = (props) => {
     const below = widthPercentageToDP(100) - 57;
     setNumber(Math.round(upper / below));
   };
-  const scrollFlat = () => {
-    ref.current.scrollToIndex({ animated: true, index: 2 });
-  };
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
@@ -77,23 +74,23 @@ const Event = (props) => {
   };
   return (
     <>
-      <TouchableOpacity style={styles.manager} onPress={scrollFlat}>
+      <View style={styles.manager}>
         <TouchableOpacity style={styles.row} onPress={onPressHR}>
           <Image source={imgs.calendarWeek} style={styles.imgs} />
           <Text style={styles.txtManager}>{langs.event}</Text>
         </TouchableOpacity>
-        { role === 'HR' && (
-        <TouchableOpacity onPress={AddEvent} style={styles.btnAdd}>
-          <Image source={imgs.add} style={styles.imgsEnd} />
-        </TouchableOpacity>
+        {role === 'HR' && (
+          <TouchableOpacity onPress={AddEvent} style={styles.btnAdd}>
+            <Image source={imgs.add} style={styles.imgsEnd} />
+          </TouchableOpacity>
         )}
-      </TouchableOpacity>
+      </View>
       <View style={styles.line} />
       <FlatList
         style={styles.flatList}
         ref={ref}
         data={data && data.length !== 0 ? data : [1]}
-        keyExtractor={(item) => item._id}
+        keyExtractor={item => item._id}
         renderItem={data && data.length !== 0 ? renderItem : renderEmpty}
         scrollEnabled
         horizontal
@@ -101,7 +98,7 @@ const Event = (props) => {
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
       />
-      <View style={styles.paging}>{data.map((m) => renderPage(m))}</View>
+      <View style={styles.paging}>{data.map(m => renderPage(m))}</View>
     </>
   );
 };

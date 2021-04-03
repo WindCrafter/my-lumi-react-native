@@ -7,8 +7,13 @@ import {
   ViewStyle,
   Text,
   TouchableOpacity,
+  Platform,
+  TouchableWithoutFeedback,
+  TouchableOpacityBase,
+  TouchableHighlight,
+  TouchableNativeFeedback,
 } from 'react-native';
-import { imgs } from '../../../../../utlis';
+import { Colors, imgs } from '../../../../../utlis';
 
 interface Props extends RoundedView {
   leftImage?: String | Number;
@@ -71,8 +76,34 @@ export default function RoundedView(props?: Props) {
     tintColorLeft,
     styleName,
   } = props;
+  TouchableWithoutFeedback;
+  return Platform.OS === 'android' ? (
+    <TouchableNativeFeedback
+      style={[(styles.container, containerStyle)]}
+      onPress={onPressButton}
+      disabled={disabled}
+      background={TouchableNativeFeedback.Ripple(Colors.ink200, false)}
+      useForeground
+    >
+      <Card style={styles.button}>
+        <View style={styles.middle}>
+          <Image
+            source={leftImage}
+            style={[{ tintColor: tintColorLeft }, styleImg]}
+            resizeMode="cover"
+          />
+          <Text style={[styles.textTitle, styleName]}>{title}</Text>
 
-  return (
+          {/* {team && <Text style={[styles.textTeam]}>{team}</Text>} */}
+        </View>
+        <Image
+          source={rightImage || null}
+          style={[{ tintColor }, styles.image]}
+          resizeMode="contain"
+        />
+      </Card>
+    </TouchableNativeFeedback>
+  ) : (
     <TouchableOpacity
       style={[(styles.container, containerStyle)]}
       onPress={onPressButton}
@@ -101,11 +132,8 @@ export default function RoundedView(props?: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    textAlignVertical: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    width: '100%',
+
+    borderRadius: 32,
   },
   button: {
     flexDirection: 'row',
@@ -114,8 +142,9 @@ const styles = StyleSheet.create({
     width: '90%',
     paddingVertical: 20,
     paddingHorizontal: 24,
-    borderRadius: 16,
     marginTop: 8,
+    borderRadius: 16,
+    overflow: 'hidden'
   },
   image: {
     width: 18,
@@ -126,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     alignSelf: 'center',
-    marginLeft: 8
+    marginLeft: 8,
   },
 
   textDetail: {
@@ -144,7 +173,7 @@ const styles = StyleSheet.create({
   },
   middle: {
     flexDirection: 'row',
-    flex: 1
+    flex: 1,
   },
   textTeam: {
     fontSize: 14,

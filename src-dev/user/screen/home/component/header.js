@@ -177,9 +177,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   avt: {
-    height: SCREEN_WIDTH > 400 ? 64 : 56,
-    width: SCREEN_WIDTH > 400 ? 64 : 56,
-    borderRadius: 40,
+    height: SCREEN_WIDTH > 400 ? 84 : 64,
+    width: SCREEN_WIDTH > 400 ? 84 : 64,
+    borderRadius: 60,
     marginLeft: 12,
   },
   txtName: {
