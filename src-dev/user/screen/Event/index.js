@@ -634,13 +634,13 @@ const styles = StyleSheet.create({
       height: 6,
     },
     height: 124,
+    justifyContent: 'center',
     alignSelf: 'center',
   },
   txtDescription: {
     paddingHorizontal: 16,
     fontSize: 14,
     fontFamily: 'Quicksand-Regular',
-    flex: 1,
     color: 'black',
   },
   card: {
