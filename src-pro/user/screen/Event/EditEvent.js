@@ -489,14 +489,21 @@ const EditEvent = (props) => {
       >
         <ScrollView style={{ backgroundColor: '#f0f0f0' }}>
           <ImageBackground
-            source={sourceImage
-              ? { uri: sourceImage.sourceURL }
-              : _item.avatar ? { uri: _item.avatar } : imgs.event}
+            source={
+              sourceImage
+                ? { uri: sourceImage.sourceURL }
+                : _item.avatar
+                  ? { uri: _item.avatar }
+                  : imgs.event
+            }
             style={styles.avtEvent}
             imageStyle={styles.avtBG}
           >
             <View style={styles.bottom}>
-              <TouchableOpacity style={styles.btnTxt} onPress={onSelectFromAlbum}>
+              <TouchableOpacity
+                style={styles.btnTxt}
+                onPress={onSelectFromAlbum}
+              >
                 <Icon name="photo" size={24} />
                 <Text style={styles.txtCamera}>Chọn ảnh</Text>
               </TouchableOpacity>
@@ -525,6 +532,7 @@ const EditEvent = (props) => {
               style={styles.txtDescription}
               onBlur={onBlur}
               onChangeText={onChangeDescription}
+              placeholderTextColor={Colors.ink400}
             />
           </Card>
           <View style={styles.viewTime}>
@@ -543,10 +551,8 @@ const EditEvent = (props) => {
               marginRight={-30}
               color="rgba(4, 4, 15, 0.45)"
               detail={
-              date !== ''
-                ? `Từ : ${moment(date).format('DD/MM/YYYY')}`
-                : null
-            }
+                date !== '' ? `Từ : ${moment(date).format('DD/MM/YYYY')}` : null
+              }
               rightImage={imgs.roundedLeft}
             />
             <InputDown
@@ -561,11 +567,7 @@ const EditEvent = (props) => {
               onPressButton={onShowPickerStart}
               shadowOpacity={0.1}
               color="rgba(4, 4, 15, 0.45)"
-              detail={
-                start !== ''
-                  ? `${moment(start).format('HH:mm')}`
-                  : null
-              }
+              detail={start !== '' ? `${moment(start).format('HH:mm')}` : null}
               rightImage={imgs.roundedLeft}
             />
           </View>
@@ -584,9 +586,11 @@ const EditEvent = (props) => {
               shadowOpacity={0.1}
               marginRight={-30}
               color="rgba(4, 4, 15, 0.45)"
-              detail={datez !== ''
-                ? `Đến : ${moment(datez).format('DD/MM/YYYY')}`
-                : null}
+              detail={
+                datez !== ''
+                  ? `Đến : ${moment(datez).format('DD/MM/YYYY')}`
+                  : null
+              }
               rightImage={imgs.roundedLeft}
             />
             <InputDown
@@ -601,11 +605,7 @@ const EditEvent = (props) => {
               onPressButton={onShowPickerEnd}
               shadowOpacity={0.1}
               color="rgba(4, 4, 15, 0.45)"
-              detail={
-                end !== ''
-                  ? `${moment(end).format('HH:mm')}`
-                  : null
-              }
+              detail={end !== '' ? `${moment(end).format('HH:mm')}` : null}
               rightImage={imgs.roundedLeft}
             />
           </View>
@@ -640,7 +640,10 @@ const EditEvent = (props) => {
         show={showModalTimeEnd}
         locale="en-GB"
         onHideModal={onUnshowEnd}
-        minimumDate={moment(date).format('YYYYMMDD') === moment(datez).format('YYYYMMDD') && start}
+        minimumDate={
+          moment(date).format('YYYYMMDD')
+            === moment(datez).format('YYYYMMDD') && start
+        }
       />
 
       <PickerCustom

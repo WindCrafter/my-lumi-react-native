@@ -372,11 +372,12 @@ const Event = (props) => {
           <Card style={styles.Description}>
             <TextInput
               multiline
-              placeholder={'Tóm tắt nội dung họp \n(Tuỳ chọn)'}
-              maxLength={90}
+              placeholder="Tóm tắt nội dung họp (Tuỳ chọn)"
               style={styles.txtDescription}
               onBlur={onBlur}
               onChangeText={onChangeDescription}
+              placeholderTextColor={Colors.ink400}
+
             />
           </Card>
           <InputSelect
@@ -631,10 +632,13 @@ const styles = StyleSheet.create({
     },
     height: 124,
     alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
-  txtDescription: { paddingHorizontal: 24, fontSize: 16 },
+  txtDescription: { paddingHorizontal: 16,
+    fontSize: 14,
+    fontFamily: 'Quicksand-Regular',
+    flex: 1,
+    color: 'black'
+  },
   card: {
     borderRadius: 16,
     width: '90%',

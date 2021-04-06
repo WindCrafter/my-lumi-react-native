@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   TextInputProps,
   TextInput,
@@ -10,9 +10,9 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs, Colors} from '../../../utlis';
-import {Card} from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
+import { imgs, Colors } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -84,20 +84,22 @@ export default function InputApply(props?: Props) {
           backgroundColor,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       <TextInput
         multiline
         numberOfLines={3}
         testID={testID}
         ref={refInput}
+        placeholderTextColor="gray"
         style={[
           {
             paddingLeft,
           },
           styles.textInput,
-          rightIcon ? {paddingRight: 8} : undefined,
+          rightIcon ? { paddingRight: 8 } : undefined,
         ]}
-        placeholder={'Vui lòng nhập....'}
+        placeholder="Vui lòng nhập...."
         autoCorrect={false}
         clearButtonMode="while-editing"
         maxLength={100}
@@ -108,7 +110,7 @@ export default function InputApply(props?: Props) {
         keyboardType="email-address"
         {...otherProps}
       />
-      {rightIcon &&  value !==''  && (
+      {rightIcon && value !== '' && (
         <TouchableOpacity onPress={onRightButton} style={styles.rightButton}>
           <Image style={styles.icon} source={imgs.cancel} />
         </TouchableOpacity>
@@ -123,17 +125,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    paddingBottom: Platform.OS==='ios'? 16 : 8,
-    paddingTop: Platform.OS==='ios'? 12 : 4,
+    paddingBottom: Platform.OS === 'ios' ? 16 : 8,
+    paddingTop: Platform.OS === 'ios' ? 12 : 4,
   },
   textInput: {
     fontSize: 16,
     width: '90%',
     fontFamily: 'Quicksand-Regular',
-    height:'100%',
-    justifyContent:'center',alignItems:'center'
-   
-    
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'black'
+
   },
   left: {
     flexDirection: 'row',

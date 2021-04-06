@@ -76,7 +76,6 @@ export default function RoundedView(props?: Props) {
     tintColorLeft,
     styleName,
   } = props;
-  TouchableWithoutFeedback;
   return Platform.OS === 'android' ? (
     <TouchableNativeFeedback
       style={[(styles.container, containerStyle)]}

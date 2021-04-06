@@ -9,9 +9,9 @@ import {
   Text,
   Platform
 } from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {imgs} from '../../../utlis';
-import {Card} from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
+import { imgs } from '../../../utlis';
 
 interface Props extends TextInputProps {
   leftImage?: String | Number;
@@ -63,7 +63,8 @@ export default function InputCustom(props?: Props) {
           backgroundColor,
         },
         containerStyle,
-      ]}>
+      ]}
+    >
       <View style={styles.left}>
         <Image source={leftImage} style={styles.image} resizeMode="contain" />
         <Text style={styles.title}>{title}</Text>
@@ -72,8 +73,8 @@ export default function InputCustom(props?: Props) {
         testID={testID}
         ref={refInput}
         style={styles.textInput}
-        selectionColor={'black'}
-        placeholderTextColor={'gray'}
+        selectionColor="black"
+        placeholderTextColor="gray"
         autoCorrect={false}
         clearButtonMode="always"
         keyboardType="email-address"
