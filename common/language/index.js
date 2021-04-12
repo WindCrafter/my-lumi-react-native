@@ -147,7 +147,6 @@ const langs = {
     updateProfile: 'UpdareProfile',
     allHistory: 'allHistory',
     history: 'History',
-    checkIn: 'CheckIn',
     confirm: 'Xác nhận',
     verify: 'Xác nhận đơn',
     event: 'Event',

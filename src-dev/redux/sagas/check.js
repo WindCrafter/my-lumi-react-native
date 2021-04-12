@@ -57,7 +57,6 @@ import langs from '../../../common/language';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 
 const URL_CHECK_IN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN}`;
-const URL_CREATE_QR = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_WIFI}`;
 const URL_CHECK_IN_REQUEST = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_REQUEST}`;
@@ -276,40 +275,6 @@ export function* watchCheckIn() {
 }
 export function* watchCheckInWifi() {
   yield takeLatest(types.CHECK_IN_WIFI, sagaCheckInWifi);
-}
-function* sagaCreateQR(action) {
-  try {
-    const data = {
-      date: action.payload.day,
-    };
-    const token = action.payload.token;
-    const response = yield _POST(URL_CREATE_QR, data, token);
-    console.log('Create QR=>>>', response);
-    if (response.success && response.statusCode === 200) {
-      yield put(createQRSuccess(response.data.qrDataUrl));
-      _global.Loading.hide();
-    } else {
-      yield put(createQRFailed());
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: { text: langs.alert.ok },
-      });
-      _global.Loading.hide();
-    }
-  } catch (error) {
-    console.log(error);
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: 'Lỗi mạng',
-      leftButton: { text: langs.alert.ok },
-    });
-    _global.Loading.hide();
-  }
-}
-
-export function* watchCreateQR() {
-  yield takeLatest(types.CREATE_QR, sagaCreateQR);
 }
 function* sagaSetLateEarly(action) {
   try {

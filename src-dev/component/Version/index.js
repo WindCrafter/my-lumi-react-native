@@ -3,16 +3,16 @@
  * Copyright (c) 2018 nghinv@luci.vn
  */
 
-import React, {PureComponent} from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import codePush from 'react-native-code-push';
 import DeviceConfig from 'react-native-device-info';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 
 class Version extends PureComponent {
   render() {
-    const {codepush} = this.props;
+    const { codepush } = this.props;
     let titleVersion = `v${DeviceConfig.getVersion()} - 18/12/2020 8:00`;
 
     if (codepush) {
@@ -38,12 +38,13 @@ class Version extends PureComponent {
 
     return (
       <Modal
-        isVisible={true}
-        animationIn={'slideInUp'}
+        isVisible
+        animationIn="slideInUp"
         animationOutTiming={500}
-        animationOut={'slideOutDown'}
+        animationOut="slideOutDown"
         style={styles.modal}
-        backdropTransitionOutTiming={0}>
+        backdropTransitionOutTiming={0}
+      >
         <View style={styles.modalView}>
           <Text style={styles.version}>{titleVersion}</Text>
         </View>

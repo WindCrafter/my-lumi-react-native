@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import moment from 'moment';
 import * as types from '../types';
@@ -47,6 +48,7 @@ import {
   checkOutRequestSuccess,
 
 } from '../actions/check';
+// eslint-disable-next-line import/extensions
 import { store } from '../store/store.js';
 
 import { getWorkdayToday } from '../actions/user';
@@ -57,11 +59,9 @@ import langs from '../../../common/language';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 
 const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
-const URL_CREATE_QR = `${URL.LOCAL_HOST}${URL.CREATE_QR}`;
 const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
 const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
 const URL_CHECK_IN_REQUEST = `${URL.LOCAL_HOST}${URL.CHECK_IN_REQUEST}`;
-const URL_CHECK_OUT_REQUEST = `${URL.LOCAL_HOST}${URL.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
@@ -275,40 +275,6 @@ export function* watchCheckIn() {
 }
 export function* watchCheckInWifi() {
   yield takeLatest(types.CHECK_IN_WIFI, sagaCheckInWifi);
-}
-function* sagaCreateQR(action) {
-  try {
-    const data = {
-      date: action.payload.day,
-    };
-    const token = action.payload.token;
-    const response = yield _POST(URL_CREATE_QR, data, token);
-    console.log('Create QR=>>>', response);
-    if (response.success && response.statusCode === 200) {
-      yield put(createQRSuccess(response.data.qrDataUrl));
-      _global.Loading.hide();
-    } else {
-      yield put(createQRFailed());
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: { text: langs.alert.ok },
-      });
-      _global.Loading.hide();
-    }
-  } catch (error) {
-    console.log(error);
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: 'Lỗi mạng',
-      leftButton: { text: langs.alert.ok },
-    });
-    _global.Loading.hide();
-  }
-}
-
-export function* watchCreateQR() {
-  yield takeLatest(types.CREATE_QR, sagaCreateQR);
 }
 function* sagaSetLateEarly(action) {
   try {

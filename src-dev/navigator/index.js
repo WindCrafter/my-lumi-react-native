@@ -1,6 +1,6 @@
 import React from 'react';
 // import { StatusBar } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
   // CardStyleInterpolators,
@@ -11,7 +11,7 @@ import forgotPass from '../admin/container/forgotPassword/forgotPass';
 import login from '../admin/container/login';
 import UserStack from './UserStack';
 import Register from '../admin/container/register/index';
-import {navigationRef} from './CustomNavigation';
+import { navigationRef } from './CustomNavigation';
 import langs from '../../common/language';
 
 const RootStack = createStackNavigator();
@@ -22,14 +22,15 @@ const linking = {
 };
 
 export default function Navigator(props) {
-  const {loginSuccess, changePass, role} = props;
+  const { loginSuccess, changePass, role } = props;
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
       <RootStack.Navigator
         screenOptions={{
           headerTitleAlign: 'center',
           headerShown: false,
-        }}>
+        }}
+      >
         {!loginSuccess ? (
           <>
             <RootStack.Screen

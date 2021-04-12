@@ -1,29 +1,18 @@
 export const URL = {
   LOCAL_HOST: 'https://api.lumier.lumi.com.vn',
-  // LOCAL_HOST: 'https://6f008bd5aa0a.ngrok.io',
-
-  // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
-  // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
   REGISTER: '/site/register',
   CHANGE_PASS: '/site/reset-password',
-  ADD_USER: '/admin/add-user',
-  LIST_ROLES: '/user/list-roles',
   CHECK_IN: '/check-in/qr',
-  CREATE_QR: '/admin/qr-code',
-  GET_QR: '/admin/qr-code?date=',
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/work-day/check-in',
   CHECK_OUT_WIFI: '/work-day/check-out',
   CHECK_IN_CODE: '/work-day/check-in-by-code',
   CHECK_OUT_CODE: '/work-day/check-out-by-code',
   LIST_USERS: '/users',
-
-  //
   LATE_EARLY: '/late-early/create',
   LIST_LATE_EARLY: '/late-early/self-list',
   ALL_LIST_LATE_EARLY: '/late-early/all-list',
-
   LIST_MANAGER_LATE_EARLY: '/late-early/manager-list',
   APPROVE_LATE_EARLY: '/late-early/approved-canceled',
   UPDATE_LATE_EARLY: '/late-early/update',
@@ -96,19 +85,11 @@ export const URL = {
 };
 
 export const URL_STAGING = {
-  // LOCAL_HOST: 'https://api.lumier.lumi.com.vn',
   LOCAL_HOST: 'https://staging-api.lumier.lumi.com.vn',
-  // LOCAL_HOST: 'https://6f008bd5aa0a.ngrok.io',
-  // LOCAL_HOST: 'http://10.10.0.163:4000/backend',
-  // LOCAL_HOST: 'http://10.10.1.14:4000/backend',
   LOGIN: '/site/login',
   REGISTER: '/site/register',
   CHANGE_PASS: '/site/reset-password',
-  ADD_USER: '/admin/add-user',
-  LIST_ROLES: '/user/list-roles',
   CHECK_IN: '/check-in/qr',
-  CREATE_QR: '/admin/qr-code',
-  GET_QR: '/admin/qr-code?date=',
   UPDATE_PROFILE: '/site/update-profile',
   CHECK_IN_WIFI: '/work-day/check-in',
   CHECK_OUT_WIFI: '/work-day/check-out',

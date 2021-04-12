@@ -32,25 +32,6 @@ export const checkInFailed = () => {
   };
 };
 
-export const createQR = (data) => {
-  return {
-    type: types.CREATE_QR,
-    payload: data,
-  };
-};
-
-export const createQRSuccess = (data) => {
-  return {
-    type: types.CREATE_QR_SUCCESS,
-    payload: data,
-  };
-};
-
-export const createQRFailed = () => {
-  return {
-    type: types.CREATE_QR_FAILED,
-  };
-};
 //
 export const setLateEarly = (data) => {
   return {
