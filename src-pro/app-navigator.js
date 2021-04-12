@@ -13,7 +13,7 @@ import { autoLogin, getDeviceId } from './redux/actions/authen';
 import { resetCheck } from './redux/actions/check';
 import { getWorkdayToday } from './redux/actions/user';
 import Navigator from './navigator';
-import LoadInital from './admin/screen/loadInitial';
+import LoadInital from './component/loadInitial';
 import Notify from './notify';
 import Version from './component/Version';
 

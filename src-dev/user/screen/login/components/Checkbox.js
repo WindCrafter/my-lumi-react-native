@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {imgs} from '../../../../../utlis';
+import { imgs } from '../../../../../utlis';
 
 interface Props {
   checked?: Boolean;
@@ -41,14 +41,15 @@ export default function Checkbox(props?: Props) {
       onPress={onChange}
       style={[styles.container, containerStyle]}
       onLongPress={onLongPress}
-      delayLongPress={3000}>
+      delayLongPress={3000}
+    >
       <Image
         style={styles.checkImage}
         source={checked ? imgs.checked : imgs.unchecked}
         resizeMode="contain"
       />
       {title !== undefined && (
-        <Text style={[styles.txtTitle, {color: titleColor}, titleStyle]}>
+        <Text style={[styles.txtTitle, { color: titleColor }, titleStyle]}>
           {title}
         </Text>
       )}

@@ -21,7 +21,6 @@ import SelectBank from '../user/container/account/selectBank';
 import history from '../user/container/checkIn/history';
 import Event from '../user/container/event';
 import PickTeam from '../user/container/event/PickTeam';
-import ForgotPass from '../user/container/forgotPassword/forgotPass';
 import allHistory from '../user/container/allHistory/index';
 import Confirm from '../user/screen/notify/type/confirm';
 import verify from '../user/container/notify/verify';
@@ -56,13 +55,6 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.tabbarUser}
         component={TabbarUser}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={langs.navigator.forgotPassword}
-        component={ForgotPass}
         options={{
           headerShown: false,
         }}

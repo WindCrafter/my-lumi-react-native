@@ -7,10 +7,9 @@ import {
   // TransitionPresets,
 } from '@react-navigation/stack';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import forgotPass from '../admin/container/forgotPassword/forgotPass';
-import login from '../admin/container/login';
+import login from '../user/container/login/index';
 import UserStack from './UserStack';
-import Register from '../admin/container/register/index';
+import Register from '../user/container/register/index';
 import { navigationRef } from './CustomNavigation';
 import langs from '../../common/language';
 
@@ -45,13 +44,6 @@ export default function Navigator(props) {
               component={Register}
               options={{
                 headerShown: false,
-              }}
-            />
-            <RootStack.Screen
-              name={langs.navigator.forgotPass}
-              component={forgotPass}
-              options={{
-                title: false,
               }}
             />
           </>

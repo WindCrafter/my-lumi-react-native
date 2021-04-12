@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import {StyleSheet, Image, Dimensions} from 'react-native';
+import { StyleSheet, Image, Dimensions } from 'react-native';
 
 export default function LoadInital() {
   return (
     <Image
-      source={require('../../../../common/assets/images/splash/splash.png')}
+      source={require('../../../common/assets/images/splash/splash.png')}
       resizeMode="cover"
       style={styles.image}
     />

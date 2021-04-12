@@ -1,6 +1,6 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Register from '../../screen/register/index';
-import {register} from '../../../redux/actions/authen';
+import { register } from '../../../redux/actions/authen';
 
 const mapStateToProps = () => ({});
 
