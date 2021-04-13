@@ -9,7 +9,6 @@ target 'LumiHR' do
   use_react_native!(:path => config["reactNativePath"],
    :hermes_enabled => true)
 
-  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
