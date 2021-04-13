@@ -62,7 +62,7 @@ function UpdateProfile(props) {
   }, []);
 
   const getData = async () => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
+    const apiURL = `${URL.GET_PROFILE}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_PROFILE ===========>', response);
     if (response.success && response.statusCode === 200) {

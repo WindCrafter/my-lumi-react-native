@@ -19,10 +19,10 @@ import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, Button, HeaderAccount, HeaderCustom } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _POST } from '../../../../utlis/connection/api';
 
-const URL_READ_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.READ_EVENT}`;
+const URL_READ_EVENT = `${URL.READ_EVENT}`;
 const DetailEvent = (props) => {
   const { route, navigation, token, user_id } = props;
   const { item } = route.params;

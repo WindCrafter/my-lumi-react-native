@@ -22,7 +22,7 @@ import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _POST } from '../../../../utlis/connection/api';
 
-const URL_READ_EVENT = `${URL.LOCAL_HOST}${URL.READ_EVENT}`;
+const URL_READ_EVENT = `${URL.READ_EVENT}`;
 const DetailEvent = (props) => {
   const { route, navigation, token, user_id } = props;
   const { item } = route.params;

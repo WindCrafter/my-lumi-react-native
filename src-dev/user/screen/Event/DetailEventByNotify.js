@@ -19,14 +19,14 @@ import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, Button, HeaderAccount, HeaderCustom } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
-const URL_READ_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.READ_EVENT}`;
+const URL_READ_EVENT = `${URL.READ_EVENT}`;
 const DetailEventByNotify = (props) => {
   const { route, navigation, token, user_id } = props;
   const { id } = route.params;
-  const URL_GET_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_EVENT_BY_ID}?_id=${id}`;
+  const URL_GET_EVENT = `${URL.GET_EVENT_BY_ID}?_id=${id}`;
   const [item, setItem] = useState({});
   const [read, setRead] = useState(false);
   const [show, setShow] = useState(false);

@@ -89,7 +89,7 @@ function ApproveLate(props) {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const apiURL = `${URL.LIST_MANAGER_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_LATE_EARLY_MANAGER ===========>', response);
 
@@ -159,7 +159,7 @@ function ApproveLate(props) {
   };
 
   const onConfirm = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_LATE_EARLY}`;
+    const apiURL = `${URL.APPROVE_LATE_EARLY}`;
     const body = {
       id: item.id,
       status: 2,
@@ -186,7 +186,7 @@ function ApproveLate(props) {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.APPROVE_LATE_EARLY}`;
+    const apiURL = `${URL.APPROVE_LATE_EARLY}`;
     const body = {
       id: item.id,
       status: 3,

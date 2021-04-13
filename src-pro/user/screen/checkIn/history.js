@@ -61,8 +61,8 @@ function History(props) {
     const _dateN = dateN || '';
     const _dataN = dataN || [];
     const apiURL = _dateN
-      ? `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10&date=${_dateN}`
-      : `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10`;
+      ? `${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10&date=${_dateN}`
+      : `${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

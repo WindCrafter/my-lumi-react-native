@@ -29,7 +29,7 @@ import { BarStatus, HeaderAccount, EmptyState,
   Indicator, } from '../../../component';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 
 if (
   Platform.OS === 'android'
@@ -98,7 +98,7 @@ const Book = (props) => {
     console.log('date');
 
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROOM}`;
+    const apiURL = `${URL.LIST_ROOM}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import langs from '../../../../common/language';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, HeaderCustom, Input } from '../../../component';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
 
 const widthTeam = Dimensions.get('window').width / 2 - 16;
@@ -77,7 +77,7 @@ const PickTeam = (props) => {
     const _name = nameN || '';
     const _data = dataN || [];
 
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.MEETING_MEMBERS}?page=${pageNumber}&page_size=20&team_id_list=${_team}&member_name=${_name}`;
+    const apiURL = `${URL.MEETING_MEMBERS}?page=${pageNumber}&page_size=20&team_id_list=${_team}&member_name=${_name}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

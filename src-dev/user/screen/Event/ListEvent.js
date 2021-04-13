@@ -27,7 +27,7 @@ import { BarStatus, EmptyState, Indicator, } from '../../../component';
 import HeaderEvent from './component/HeaderEvent';
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { goBack } from '../../../navigator/CustomNavigation';
 
 if (
@@ -69,7 +69,7 @@ const ListEvent = (props) => {
 
   const getData = async (dataN) => {
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_EVENT}`;
+    const apiURL = `${URL.LIST_EVENT}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

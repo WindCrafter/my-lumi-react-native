@@ -120,7 +120,6 @@ const langs = {
     kpi: 'KPI',
     login: 'Login',
     register: 'Register',
-    forgotPass: 'Forgot Password',
     firstLogin: 'FirstLogin',
     userStack: 'UserStack',
     home: 'Home',

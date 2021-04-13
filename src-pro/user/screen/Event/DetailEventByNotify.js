@@ -22,11 +22,11 @@ import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
-const URL_READ_EVENT = `${URL.LOCAL_HOST}${URL.READ_EVENT}`;
+const URL_READ_EVENT = `${URL.READ_EVENT}`;
 const DetailEventByNotify = (props) => {
   const { route, navigation, token, user_id } = props;
   const { id } = route.params;
-  const URL_GET_EVENT = `${URL.LOCAL_HOST}${URL.GET_EVENT_BY_ID}?_id=${id}`;
+  const URL_GET_EVENT = `${URL.GET_EVENT_BY_ID}?_id=${id}`;
   const [item, setItem] = useState({});
   const [read, setRead] = useState(false);
   const [show, setShow] = useState(false);

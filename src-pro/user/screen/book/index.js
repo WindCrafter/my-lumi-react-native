@@ -98,7 +98,7 @@ const Book = (props) => {
     console.log('date');
 
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_ROOM}`;
+    const apiURL = `${URL.LIST_ROOM}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

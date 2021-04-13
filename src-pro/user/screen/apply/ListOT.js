@@ -109,7 +109,7 @@ function ListOT(props) {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -207,7 +207,7 @@ function ListOT(props) {
     });
   };
   const onDeleteOT = async (rowMap, data2) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_OT}`;
+    const apiURL = `${URL.DELETE_OT}`;
     const body = {
       id: data2.item.id,
       token,

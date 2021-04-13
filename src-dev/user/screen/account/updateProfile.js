@@ -42,7 +42,7 @@ import UpdateInfo from './component/updateInfo';
 import { _global } from '../../../../utlis/global/global';
 import ModalTime from './component/ModalTime';
 import langs from '../../../../common/language';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
 
 if (
@@ -62,7 +62,7 @@ function UpdateProfile(props) {
   }, []);
 
   const getData = async () => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_PROFILE}`;
+    const apiURL = `${URL.GET_PROFILE}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_PROFILE ===========>', response);
     if (response.success && response.statusCode === 200) {

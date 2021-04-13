@@ -58,50 +58,50 @@ import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 
-const URL_CHECK_IN = `${URL.LOCAL_HOST}${URL.CHECK_IN}`;
-const URL_CHECK_IN_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_IN_WIFI}`;
-const URL_CHECK_OUT_WIFI = `${URL.LOCAL_HOST}${URL.CHECK_OUT_WIFI}`;
-const URL_CHECK_IN_REQUEST = `${URL.LOCAL_HOST}${URL.CHECK_IN_REQUEST}`;
+const URL_CHECK_IN = `${URL.CHECK_IN}`;
+const URL_CHECK_IN_WIFI = `${URL.CHECK_IN_WIFI}`;
+const URL_CHECK_OUT_WIFI = `${URL.CHECK_OUT_WIFI}`;
+const URL_CHECK_IN_REQUEST = `${URL.CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
-const URL_LATE_EARLY = `${URL.LOCAL_HOST}${URL.LATE_EARLY}`;
+const URL_LATE_EARLY = `${URL.LATE_EARLY}`;
 const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
   if (DATE) {
-    return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+    return `${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   }
-  return `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  return `${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
 };
 const URL_LIST_MANAGER_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
   if (DATE) {
-    return `${URL.LOCAL_HOST}${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+    return `${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   }
-  return `${URL.LOCAL_HOST}${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  return `${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
 };
-const URL_APPROVE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.APPROVE_LATE_EARLY}`;
-const URL_UPDATE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.UPDATE_LATE_EARLY}`;
-const URL_DELETE_LATE_EARLY = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
+const URL_APPROVE_LATE_EARLY = `${URL.APPROVE_LATE_EARLY}`;
+const URL_UPDATE_LATE_EARLY = `${URL.UPDATE_LATE_EARLY}`;
+const URL_DELETE_LATE_EARLY = `${URL.DELETE_LATE_EARLY}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
-const URL_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.TAKE_LEAVE}`;
-const URL_UPDATE_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.UPDATE_TAKE_LEAVE}`;
-const URL_DELETE_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.DELETE_TAKE_LEAVE}`;
+const URL_TAKE_LEAVE = `${URL.TAKE_LEAVE}`;
+const URL_UPDATE_TAKE_LEAVE = `${URL.UPDATE_TAKE_LEAVE}`;
+const URL_DELETE_TAKE_LEAVE = `${URL.DELETE_TAKE_LEAVE}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
-const URL_OVERTIME = `${URL.LOCAL_HOST}${URL.OVERTIME}`;
-const URL_UPDATE_OVERTIME = `${URL.LOCAL_HOST}${URL.UPDATE_OT}`;
+const URL_OVERTIME = `${URL.OVERTIME}`;
+const URL_UPDATE_OVERTIME = `${URL.UPDATE_OT}`;
 
 /// //////////////////////////////////////////////////////////////////////////////////////
 
-const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
+const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.CONFIRM_DENY_TAKE_LEAVE}`;
 const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
-    return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+    return `${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
   }
-  return `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  return `${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
 };
 const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
-    return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+    return `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
   }
-  return `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  return `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
 };
 /// ///////////////////////////////////////////////////////////////////////////////////////
 function* sagaCheckIn(action) {
