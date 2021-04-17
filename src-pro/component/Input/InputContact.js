@@ -21,7 +21,7 @@ export default function ContactRow(props?: Props) {
   return (
     <View style={styles.container}>
       <Image
-        source={leftImage ? { uri: leftImage } : require('../../../naruto.jpeg')}
+        source={leftImage ? { uri: leftImage } : imgs.defaultAvatar}
         style={styles.image}
         resizeMode="cover"
       />

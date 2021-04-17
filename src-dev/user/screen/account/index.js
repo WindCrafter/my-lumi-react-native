@@ -110,9 +110,7 @@ const Account = (props) => {
         <HeaderAccount shadow title={langs.account} sub={langs.setting} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
-            leftImage={
-              avatar ? { uri: avatar } : require('../../../../naruto.jpeg')
-            }
+            leftImage={avatar ? { uri: avatar } : imgs.defaultAvatar}
             title={nameUser}
             rightImage={imgs.next}
             tintColor="grey"

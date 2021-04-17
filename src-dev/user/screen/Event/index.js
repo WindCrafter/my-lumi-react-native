@@ -227,11 +227,7 @@ const Event = props => {
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={
-                  item.avatar
-                    ? { uri: item.avatar }
-                    : require('../../../../naruto.jpeg')
-                }
+                source={item.avatar ? { uri: item.avatar } : imgs.defaultAvatar}
                 style={styles.avatar}
                 resizeMode="cover"
               />

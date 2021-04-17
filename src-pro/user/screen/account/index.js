@@ -111,7 +111,7 @@ const Account = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
             leftImage={
-              avatar ? { uri: avatar } : require('../../../../naruto.jpeg')
+              avatar ? { uri: avatar } : imgs.defaultAvatar
             }
             title={nameUser}
             rightImage={imgs.next}

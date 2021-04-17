@@ -77,11 +77,7 @@ const Header = (props) => {
         <View style={styles.avatar}>
           <TouchableOpacity onPress={pressAvatar}>
             <Image
-              source={
-                avatar
-                  ? { uri: avatar }
-                  : require('../../../../../naruto.jpeg')
-              }
+              source={avatar ? { uri: avatar } : imgs.defaultAvatar}
               style={styles.avt}
             />
           </TouchableOpacity>
