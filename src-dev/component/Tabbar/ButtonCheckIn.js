@@ -22,9 +22,7 @@ const ButtonCheckIn = (props) => {
   };
 
   const onLongPress = () => {
-    if (demoMode) {
-      navigation.navigate(langs.navigator.checkIn);
-    } else onConnect();
+    onConnect();
   };
 
   return (

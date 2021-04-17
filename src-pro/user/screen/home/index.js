@@ -95,7 +95,7 @@ export default function Home(props) {
     }
   }, [isFocused]);
   const getDataEvent = async () => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
+    const apiURL = `${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_Event ===========>', response);
     if (
@@ -108,7 +108,7 @@ export default function Home(props) {
     }
   };
   const onDeleteEvent = async (_id) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_EVENT}`;
+    const apiURL = `${URL.DELETE_EVENT}`;
     const response = await _POST(apiURL, { _id }, token, false);
     console.log('_GET_LIST_Event ===========>', _id);
     if (

@@ -52,7 +52,7 @@ const allLate = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.ALL_LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}&status=0`;
+    const apiURL = `${URL.ALL_LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}&status=0`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);

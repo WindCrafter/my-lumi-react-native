@@ -3,7 +3,6 @@ import * as types from '../types';
 
 const initialState = {
   checked: false,
-  source: '',
   dateCheckIn: '',
   timeCheckIn: '--:--',
   timeCheckOut: '--:--',
@@ -93,11 +92,6 @@ export default function check(state = initialState, action) {
         type: 'inactive',
         timeCheckOut: moment(new Date()).format('HH:mm'),
         status: action.payload.status,
-      };
-    case types.CREATE_QR_SUCCESS:
-      return {
-        ...state,
-        source: action.payload,
       };
     case types.CHECK_IN_FAILED:
       return {

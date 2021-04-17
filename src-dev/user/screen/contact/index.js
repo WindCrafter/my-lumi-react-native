@@ -30,7 +30,7 @@ import { _global } from '../../../../utlis/global/global';
 import ModalInforBank from './component/ModalInforBank';
 import langs from '../../../../common/language';
 import { getText } from '../../../../utlis/config/utlis';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
 
 if (
@@ -58,7 +58,7 @@ function Contact(props) {
     setShowModal(false);
   };
   const getData = async (pageNumber, dataN, nameN, search) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
+    const apiURL = `${URL.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
     const response = await _GET(apiURL, token, false);
     const _data = dataN || [];
     console.log(search);

@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import HeaderNotify from './component/HeaderNotify';
 import { BarStatus, Indicator, EmptyState } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import langs from '../../../../common/language';
 
@@ -71,7 +71,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
+    const apiURL = `${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -172,7 +172,7 @@ const Notify = (props) => {
         }),
       );
     };
-    const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
+    const url = `${URL.NOTIFICATION_READ}`;
 
     return (
       <TouchableOpacity onPress={onShow}>

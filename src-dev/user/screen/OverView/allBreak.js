@@ -18,7 +18,7 @@ import { Colors, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
 import CardBreakAll from './components/CardBreakAll';
 import { _GET, _POST } from '../../../../utlis/connection/api';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _global } from '../../../../utlis/global/global';
 import HeaderNotify from '../notify/component/HeaderNotify';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
@@ -66,7 +66,7 @@ const AllBreak = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=0&date=${_date}&fullname=${_name}`;
+    const apiURL = `${URL.ALL_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=0&date=${_date}&fullname=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);

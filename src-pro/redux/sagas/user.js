@@ -43,22 +43,22 @@ import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
 
-const URL_UPDATE_PROFILE = `${URL.LOCAL_HOST}${URL.UPDATE_PROFILE}`;
-const URL_LIST_USERS = `${URL.LOCAL_HOST}${URL.LIST_USERS}`;
-const URL_ADD_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.ADD_USERID_DEVICE}`;
-const URL_REMOVE_USERID_DEVICE = `${URL.LOCAL_HOST}${URL.REMOVE_USERID_DEVICE}`;
-const URL_ASSIGN = `${URL.LOCAL_HOST}${URL.GET_LIST_ASSIGN}`;
-const URL_TEAMS = `${URL.LOCAL_HOST}${URL.GET_LIST_TEAMS}`;
-const URL_BOOK_ROOM = `${URL.LOCAL_HOST}${URL.BOOK_ROOM}`;
-const URL_LIST_ROOM = `${URL.LOCAL_HOST}${URL.LIST_ROOM}`;
+const URL_UPDATE_PROFILE = `${URL.UPDATE_PROFILE}`;
+const URL_LIST_USERS = `${URL.LIST_USERS}`;
+const URL_ADD_USERID_DEVICE = `${URL.ADD_USERID_DEVICE}`;
+const URL_REMOVE_USERID_DEVICE = `${URL.REMOVE_USERID_DEVICE}`;
+const URL_ASSIGN = `${URL.GET_LIST_ASSIGN}`;
+const URL_TEAMS = `${URL.GET_LIST_TEAMS}`;
+const URL_BOOK_ROOM = `${URL.BOOK_ROOM}`;
+const URL_LIST_ROOM = `${URL.LIST_ROOM}`;
 
 const URL_NOTIFY = e => {
-  return `${URL.LOCAL_HOST}${URL.GET_LIST_NOTIFY}${e}`;
+  return `${URL.GET_LIST_NOTIFY}${e}`;
 };
 const URL_LIST_CHECK = e => {
-  return `${URL.LOCAL_HOST}${URL.GET_LIST_CHECK}${e}`;
+  return `${URL.GET_LIST_CHECK}${e}`;
 };
-const URL_UNREAD_NOTIFICATION = `${URL.LOCAL_HOST}${URL.GET_UNREAD_NOTIFICATION}`;
+const URL_UNREAD_NOTIFICATION = `${URL.GET_UNREAD_NOTIFICATION}`;
 const notificationDeviceSelect = state => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -368,7 +368,7 @@ function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL.LOCAL_HOST}${URL.GET_KPI}${action.payload.month}`,
+      `${URL.GET_KPI}${action.payload.month}`,
       token,
     );
     console.log(response);
@@ -404,7 +404,7 @@ function* sagaConfirmKpi(action) {
       is_confirmed: action.payload.is_confirmed,
     };
     const response = yield _POST(
-      `${URL.LOCAL_HOST}${URL.CONFIRM_KPI}`,
+      `${URL.CONFIRM_KPI}`,
       data,
       token,
     );
@@ -443,7 +443,7 @@ function* sagaGetHoliday(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL.LOCAL_HOST}${URL.GET_HOLIDAY}?year=${action.payload.year}`,
+      `${URL.GET_HOLIDAY}?year=${action.payload.year}`,
       token,
     );
     console.log(response);
@@ -476,7 +476,7 @@ function* sagaGetWorkdayToday(action) {
     console.log('workday token::', token);
     const onDone = action.payload.onDone;
     const response = yield _GET(
-      `${URL.LOCAL_HOST}${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
+      `${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
     onDone && onDone();

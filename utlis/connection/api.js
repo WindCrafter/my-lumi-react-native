@@ -2,8 +2,11 @@ import { _global } from '../global/global';
 import { globalApp } from '../../logs/logs';
 import { formatTimeNow } from '../../logs/helpers';
 
+// eslint-disable-next-line no-undef
+const URL_SEVER_API = window.typeServer == 'product'
+  ? 'https://api.lumier.lumi.com.vn'
+  : 'https://staging-api.lumier.lumi.com.vn';
 export async function _POST(url, data, token, loading = true) {
-  console.log('___POST: ', url, data, token);
   if (loading) {
     _global.Loading.show();
   }
@@ -19,7 +22,11 @@ export async function _POST(url, data, token, loading = true) {
       },
     });
   }
-  const response = await fetch(url, {
+  const URL = `${URL_SEVER_API}${url}`;
+  console.log('___POST: ', URL, data, token);
+
+  console.log('URL', URL);
+  const response = await fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +41,7 @@ export async function _POST(url, data, token, loading = true) {
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
           type: 'call_api_response',
-          payload: `POST_ERROR:: ${url}${JSON.stringify(
+          payload: `POST_ERROR:: ${URL}${JSON.stringify(
             error,
           )}\nTIME_RES:: ${formatTimeNow()}`,
         });
@@ -45,7 +52,7 @@ export async function _POST(url, data, token, loading = true) {
   if (globalApp.customLog && globalApp.customLog.enableLog) {
     globalApp.customLog.emitEvent({
       type: 'call_api_response',
-      payload: `POST_RES:: ${url}${JSON.stringify(
+      payload: `POST_RES:: ${URL}${JSON.stringify(
         response,
       )}\nTIME_RES:: ${formatTimeNow()}`,
     });
@@ -55,7 +62,9 @@ export async function _POST(url, data, token, loading = true) {
 }
 
 export function _PUT(url, data, token) {
-  const response = fetch(url, {
+  const URL = `${URL_SEVER_API}${url}`;
+
+  const response = fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +77,6 @@ export function _PUT(url, data, token) {
 }
 
 export async function _GET(url, token, loading) {
-  console.log('___GET', url);
   if (loading) {
     _global.Loading.show();
   }
@@ -83,7 +91,10 @@ export async function _GET(url, token, loading) {
       },
     });
   }
-  const response = await fetch(url, {
+  const URL = `${URL_SEVER_API}${url}`;
+  console.log('___GET', URL);
+
+  const response = await fetch(URL, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -96,7 +107,7 @@ export async function _GET(url, token, loading) {
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
           type: 'call_api_response',
-          payload: `POST_ERROR:: ${url}${JSON.stringify(
+          payload: `POST_ERROR:: ${URL}${JSON.stringify(
             error,
           )}\nTIME_RES:: ${formatTimeNow()}`,
         });
@@ -107,7 +118,7 @@ export async function _GET(url, token, loading) {
   if (globalApp.customLog && globalApp.customLog.enableLog) {
     globalApp.customLog.emitEvent({
       type: 'call_api_response',
-      payload: `POST_RES:: ${url}${JSON.stringify(
+      payload: `POST_RES:: ${URL}${JSON.stringify(
         response,
       )}\nTIME_RES:: ${formatTimeNow()}`,
     });
@@ -116,7 +127,6 @@ export async function _GET(url, token, loading) {
 }
 
 export async function _POST_WIFI(url, data, token, loading = true) {
-  console.log('___POST: ', url, data, token);
   if (globalApp.customLog && globalApp.customLog.enableLog) {
     globalApp.customLog.emitEvent({
       type: 'call_api',
@@ -131,7 +141,10 @@ export async function _POST_WIFI(url, data, token, loading = true) {
   if (loading) {
     _global.Loading.show();
   }
-  const response = await fetch(url, {
+  const URL = `${URL_SEVER_API}${url}`;
+  console.log('____POST_WIFI: ', URL, data, token);
+
+  const response = await fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -154,7 +167,7 @@ export async function _POST_WIFI(url, data, token, loading = true) {
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
           type: 'call_api_response',
-          payload: `POST_WIFI_ERROR:: ${url}${JSON.stringify(
+          payload: `POST_WIFI_ERROR:: ${URL}${JSON.stringify(
             error,
           )}\nTIME_RES:: ${formatTimeNow()}`,
         });
@@ -165,7 +178,7 @@ export async function _POST_WIFI(url, data, token, loading = true) {
   if (globalApp.customLog && globalApp.customLog.enableLog) {
     globalApp.customLog.emitEvent({
       type: 'call_api_response',
-      payload: `POST_WIFI_RES:: ${url}${JSON.stringify(
+      payload: `POST_WIFI_RES:: ${URL}${JSON.stringify(
         response,
       )}\nTIME_RES:: ${formatTimeNow()}`,
     });
@@ -174,7 +187,6 @@ export async function _POST_WIFI(url, data, token, loading = true) {
   return response;
 }
 export async function _UPLOAD(url, files, token, loading) {
-  console.log('UPLOAD', url);
   if (loading) {
     _global.Loading.show();
   }
@@ -189,6 +201,7 @@ export async function _UPLOAD(url, files, token, loading) {
       },
     });
   }
+  // eslint-disable-next-line no-undef
   const formData = new FormData();
   formData.append('UploadForm[files]', {
     uri: files.url,
@@ -198,8 +211,10 @@ export async function _UPLOAD(url, files, token, loading) {
   formData.append('type', files.type);
 
   console.log('UPLOAD FILE::', files);
+  const URL = `${URL_SEVER_API}${url}`;
+  console.log('UPLOAD', URL);
 
-  const response = await fetch(url, {
+  const response = await fetch(URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -213,7 +228,7 @@ export async function _UPLOAD(url, files, token, loading) {
       if (globalApp.customLog && globalApp.customLog.enableLog) {
         globalApp.customLog.emitEvent({
           type: 'call_api_response_image',
-          payload: `POST_ERROR:: ${url}${JSON.stringify(
+          payload: `POST_ERROR:: ${URL}${JSON.stringify(
             error,
           )}\nTIME_RES:: ${formatTimeNow()}`,
         });
@@ -224,7 +239,7 @@ export async function _UPLOAD(url, files, token, loading) {
   if (globalApp.customLog && globalApp.customLog.enableLog) {
     globalApp.customLog.emitEvent({
       type: 'call_api_response_image',
-      payload: `POST_RES:: ${url}${JSON.stringify(
+      payload: `POST_RES:: ${URL}${JSON.stringify(
         response,
       )}\nTIME_RES:: ${formatTimeNow()}`,
     });

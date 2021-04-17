@@ -18,7 +18,7 @@ import langs from '../../../../common/language';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
 import CardCheck from './component/CardCheck';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
@@ -87,7 +87,7 @@ function ApproveCheck(props) {
     );
   };
   const onConfirm = async (item) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
+    const apiURL = `${URL.APPROVE_CHECK_REQUEST}`;
     const body = {
       id: item.id,
       status: 2,
@@ -155,7 +155,7 @@ function ApproveCheck(props) {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_CHECK_REQUEST}`;
+    const apiURL = `${URL.APPROVE_CHECK_REQUEST}`;
     const body = {
       id: item.id,
       status: 3,
@@ -215,7 +215,7 @@ function ApproveCheck(props) {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_CHECK_REQUEST}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const apiURL = `${URL.LIST_CHECK_REQUEST}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

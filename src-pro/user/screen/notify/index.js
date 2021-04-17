@@ -71,7 +71,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
+    const apiURL = `${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -172,7 +172,7 @@ const Notify = (props) => {
         }),
       );
     };
-    const url = `${URL.LOCAL_HOST}${URL.NOTIFICATION_READ}`;
+    const url = `${URL.NOTIFICATION_READ}`;
 
     return (
       <TouchableOpacity onPress={onShow}>

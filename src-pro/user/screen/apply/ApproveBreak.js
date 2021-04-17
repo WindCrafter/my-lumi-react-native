@@ -85,7 +85,7 @@ const ApproveBreak = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const apiURL = `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE_MANAGER ===========>', response);
     setRefresh(false);
@@ -151,7 +151,7 @@ const ApproveBreak = (props) => {
   };
 
   const onConfirm = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
+    const apiURL = `${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
       _id: item,
       status: 2,
@@ -181,7 +181,7 @@ const ApproveBreak = (props) => {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.CONFIRM_DENY_TAKE_LEAVE}`;
+    const apiURL = `${URL.CONFIRM_DENY_TAKE_LEAVE}`;
     const body = {
       _id: item._id,
       status: 3,

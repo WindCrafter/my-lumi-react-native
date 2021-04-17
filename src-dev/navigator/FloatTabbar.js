@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -10,20 +10,20 @@ import {
   Platform,
   SafeAreaView,
 } from 'react-native';
-import langs from '../../common/language';
 import moment from 'moment';
-import {Colors} from '../../utlis';
-import {_global} from '../../utlis/global/global';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { connect } from 'react-redux';
+import Svg, { Path } from 'react-native-svg';
+import langs from '../../common/language';
+import { Colors } from '../../utlis';
+import { _global } from '../../utlis/global/global';
 import ModalTime from '../user/screen/account/component/ModalTime';
-import {connect} from 'react-redux';
-import {checkInWifi} from '../redux/actions/check';
-import Svg, {Path} from 'react-native-svg';
-import {imgs} from '../../utlis/images/imgs';
+import { checkInWifi } from '../redux/actions/check';
+import { imgs } from '../../utlis/images/imgs';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
-//chieu cao tabbar
+// chieu cao tabbar
 const height = width > 375 ? 80 : 60;
 
 const tabWidth = width / 5;
@@ -96,38 +96,39 @@ function FloatTabbar({
     <View
       style={{
         paddingBottom: 64,
-      }}>
-      {show &&
-        (Platform.OS === 'ios' ? (
+      }}
+    >
+      {show
+        && (Platform.OS === 'ios' ? (
           <ModalTime
             title="Chọn thời gian"
             showModal={show}
             hideModal={onHideModal}
             onConfirm={onConfirm}
-            picker={
+            picker={(
               <View style={styles.picker}>
                 <DateTimePicker
                   value={dateIOS}
-                  mode={'datetime'}
+                  mode="datetime"
                   display="default"
                   onChange={onChangeIOS}
                 />
               </View>
-            }
+            )}
           />
         ) : (
           <>
             <DateTimePicker
               value={new Date()}
               mode="time"
-              is24Hour={true}
+              is24Hour
               display="clock"
               onChange={onChangeTime}
             />
             <DateTimePicker
               value={new Date()}
               mode="date"
-              is24Hour={true}
+              is24Hour
               display="default"
               onChange={onChangeDate}
             />
@@ -139,9 +140,10 @@ function FloatTabbar({
           backgroundColor: 'rgba(52, 52, 52, 0)',
           position: 'absolute',
           bottom: 0,
-        }}>
+        }}
+      >
         <View
-          {...{height, width}}
+          {...{ height, width }}
           style={{
             shadowOffset: {
               width: 0,
@@ -149,17 +151,17 @@ function FloatTabbar({
             },
             shadowOpacity: 0.5,
             shadowRadius: 5,
-          }}>
+          }}
+        >
           <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
             <Path fill={backgroundColor} d={path} />
           </Svg>
-          <View style={[StyleSheet.absoluteFill, {flexDirection: 'row'}]}>
+          <View style={[StyleSheet.absoluteFill, { flexDirection: 'row' }]}>
             {state.routes.map((route, index) => {
-              const {options} = descriptors[route.key];
-              const label =
-                options.tabBarLabel !== undefined
-                  ? options.tabBarLabel
-                  : options.title !== undefined
+              const { options } = descriptors[route.key];
+              const label = options.tabBarLabel !== undefined
+                ? options.tabBarLabel
+                : options.title !== undefined
                   ? options.title
                   : route.name;
 
@@ -180,20 +182,20 @@ function FloatTabbar({
                 type === 'in'
                   ? onCheck()
                   : _global.Alert.alert({
-                      title: langs.alert.notify,
-                      message: langs.alert.endShift,
-                      leftButton: {
-                        text: langs.alert.yes,
-                        onPress: () => onCheck(),
-                      },
-                      rightButton: {
-                        text: langs.alert.no,
-                      },
-                    });
+                    title: langs.alert.notify,
+                    message: langs.alert.endShift,
+                    leftButton: {
+                      text: langs.alert.yes,
+                      onPress: () => onCheck(),
+                    },
+                    rightButton: {
+                      text: langs.alert.no,
+                    },
+                  });
               };
               const onCheck = () => {
                 if (!demoMode) {
-                  checkIn({type, token});
+                  checkIn({ type, token });
                 } else {
                   setShow(true);
                 }
@@ -203,9 +205,6 @@ function FloatTabbar({
                   type: 'tabLongPress',
                   target: route.key,
                 });
-              };
-              const onLongPressCheck = () => {
-                navigation.navigate(langs.navigator.checkIn);
               };
 
               if (route.name === 'Button') {
@@ -220,11 +219,11 @@ function FloatTabbar({
                     }}
                     key={index}
                     accessibilityRole="button"
-                    accessibilityState={isFocused ? {selected: true} : {}}
+                    accessibilityState={isFocused ? { selected: true } : {}}
                     accessibilityLabel={options.tabBarAccessibilityLabel}
                     testID={options.tabBarTestID}
                     onPress={onPressCheck}
-                    onLongPress={onLongPressCheck}>
+                  >
                     <View
                       style={{
                         position: 'absolute',
@@ -237,10 +236,11 @@ function FloatTabbar({
                         justifyContent: 'center',
                         alignContent: 'center',
                         alignItems: 'center',
-                      }}>
+                      }}
+                    >
                       <Image
                         source={imgs.gif}
-                        style={{width: 36, height: 36}}
+                        style={{ width: 36, height: 36 }}
                       />
                     </View>
                   </TouchableOpacity>
@@ -258,11 +258,12 @@ function FloatTabbar({
                   }}
                   key={index}
                   accessibilityRole="button"
-                  accessibilityState={isFocused ? {selected: true} : {}}
+                  accessibilityState={isFocused ? { selected: true } : {}}
                   accessibilityLabel={options.tabBarAccessibilityLabel}
                   testID={options.tabBarTestID}
                   onPress={onPress}
-                  onLongPress={onLongPress}>
+                  onLongPress={onLongPress}
+                >
                   <View
                     style={{
                       position: 'absolute',
@@ -275,7 +276,8 @@ function FloatTabbar({
                       justifyContent: 'center',
                       alignContent: 'center',
                       alignItems: 'center',
-                    }}>
+                    }}
+                  >
                     {route.name === 'Home' && isFocused ? (
                       <Image source={imgs.homegreen} />
                     ) : route.name === 'Home' && !isFocused ? (
@@ -303,7 +305,8 @@ function FloatTabbar({
                       alignSelf: 'center',
                       fontSize: width > 375 ? 16 : 12,
                       fontWeight: '500',
-                    }}>
+                    }}
+                  >
                     {label}
                   </Text>
                 </TouchableOpacity>

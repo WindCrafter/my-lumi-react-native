@@ -58,7 +58,7 @@ function Contact(props) {
     setShowModal(false);
   };
   const getData = async (pageNumber, dataN, nameN, search) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
+    const apiURL = `${URL.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
     const response = await _GET(apiURL, token, false);
     const _data = dataN || [];
     console.log(search);

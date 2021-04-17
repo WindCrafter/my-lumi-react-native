@@ -43,11 +43,11 @@ import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _POST, _UPLOAD } from '../../../../utlis/connection/api';
 
-const URL_ADD_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CREATE_EVENT}`;
-const URL_UPLOAD_IMAGE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPLOAD_IMAGE}`;
+const URL_ADD_EVENT = `${URL.CREATE_EVENT}`;
+const URL_UPLOAD_IMAGE = `${URL.UPLOAD_IMAGE}`;
 
 if (
   Platform.OS === 'android'

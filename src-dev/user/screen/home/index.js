@@ -23,7 +23,7 @@ import FloatButton from './component/ActionButton';
 import CardUser from './component_user/user';
 import langs from '../../../../common/language';
 import { _global } from '../../../../utlis/global/global';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
 const DATA_EVENT = [
@@ -95,7 +95,7 @@ export default function Home(props) {
     }
   }, [isFocused]);
   const getDataEvent = async () => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_EVENT}?page=1&page_size=3&status&date=`;
+    const apiURL = `${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_Event ===========>', response);
     if (
@@ -108,7 +108,7 @@ export default function Home(props) {
     }
   };
   const onDeleteEvent = async (_id) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_EVENT}`;
+    const apiURL = `${URL.DELETE_EVENT}`;
     const response = await _POST(apiURL, { _id }, token, false);
     console.log('_GET_LIST_Event ===========>', _id);
     if (

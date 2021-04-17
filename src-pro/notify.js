@@ -20,7 +20,7 @@ function Notify(props) {
     console.log('Notification received: ', notification);
     console.log('URL notify now:', url);
   };
-  const url = `${URL.LOCAL_HOST}${URL.NOTIFICATION_READ}`;
+  const url = `${URL.NOTIFICATION_READ}`;
   const onOpened = (openResult, device) => {
     // console.log('Message: ', openResult.notification.payload.body);
     // console.log('Data: ', openResult.notification.payload.additionalData.type);

@@ -19,7 +19,6 @@ import {
   RESULTS,
   openSettings,
 } from 'react-native-permissions';
-import NetInfo from '@react-native-community/netinfo';
 import codePush from 'react-native-code-push';
 import { Card } from 'native-base';
 import { Colors, imgs } from '../../../../utlis';
@@ -112,7 +111,7 @@ const Account = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <RoundedView
             leftImage={
-              avatar ? { uri: avatar } : require('../../../../naruto.jpeg')
+              avatar ? { uri: avatar } : imgs.defaultAvatar
             }
             title={nameUser}
             rightImage={imgs.next}

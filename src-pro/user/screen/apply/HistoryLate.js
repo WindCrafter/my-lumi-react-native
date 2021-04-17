@@ -76,7 +76,7 @@ const HistoryLate = (props) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);
@@ -191,7 +191,7 @@ const HistoryLate = (props) => {
     });
   };
   const onDeleteLate = async (rowMap, data2) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_LATE_EARLY}`;
+    const apiURL = `${URL.DELETE_LATE_EARLY}`;
     const body = {
       id: data2.item.id,
       token,

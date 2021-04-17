@@ -77,7 +77,7 @@ const PickTeam = (props) => {
     const _name = nameN || '';
     const _data = dataN || [];
 
-    const apiURL = `${URL.LOCAL_HOST}${URL.MEETING_MEMBERS}?page=${pageNumber}&page_size=20&team_id_list=${_team}&member_name=${_name}`;
+    const apiURL = `${URL.MEETING_MEMBERS}?page=${pageNumber}&page_size=20&team_id_list=${_team}&member_name=${_name}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -234,7 +234,7 @@ const PickTeam = (props) => {
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={item.avatar ? { uri: item.avatar } : require('../../../../naruto.jpeg')}
+                source={item.avatar ? { uri: item.avatar } : imgs.defaultAvatar}
                 style={styles.avatar}
                 resizeMode="cover"
               />

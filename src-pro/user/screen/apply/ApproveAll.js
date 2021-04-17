@@ -10,7 +10,6 @@ import {
   Text,
 } from 'react-native';
 import moment from 'moment';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, HeaderCustom, TabView } from '../../../component';
 import langs from '../../../../common/language';
@@ -59,11 +58,6 @@ const ApproveAll = (props) => {
   const goBack = () => {
     navigation.goBack();
     removeList();
-  };
-  const renderTabBar = () => {
-    return (
-      <DefaultTabBar tabStyle={styles.tab} style={{ borderColor: 'white' }} />
-    );
   };
   console.log('finale', page);
   const [routes] = useState([
@@ -131,17 +125,6 @@ const ApproveAll = (props) => {
         swipeEnabled
         // style={{ height: -24 }}
       />
-      {/* <ScrollableTabView
-        tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
-        renderTabBar={renderTabBar}
-        initialPage={page || 0}
-      >
-
-        {role === 'HR' && (
-          <ApproveCheck tabLabel={langs.checkIn} token={token} />
-        )}
-      </ScrollableTabView> */}
     </View>
   );
 };
@@ -157,11 +140,4 @@ const styles = StyleSheet.create({
     // flexGrow: 1,
   },
   noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
-  tab: {
-    // borderLeftWidth: StyleSheet.hairlineWidth,
-    borderColor: 'white',
-    paddingTop: 10,
-    borderWidth: 0,
-    backgroundColor: 'white'
-  }
 });

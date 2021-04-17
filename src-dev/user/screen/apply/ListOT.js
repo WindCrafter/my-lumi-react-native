@@ -27,7 +27,7 @@ import HeaderCustom from './component/HeaderCustom';
 import { Colors, imgs } from '../../../../utlis';
 import ItemOT from './component/ItemOT';
 import ActionButton from './component/ActionButton';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 import { _global } from '../../../../utlis/global/global';
 
@@ -109,7 +109,7 @@ function ListOT(props) {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.GET_LIST_OVERTIME}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -207,7 +207,7 @@ function ListOT(props) {
     });
   };
   const onDeleteOT = async (rowMap, data2) => {
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_OT}`;
+    const apiURL = `${URL.DELETE_OT}`;
     const body = {
       id: data2.item.id,
       token,

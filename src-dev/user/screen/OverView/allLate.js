@@ -21,7 +21,7 @@ import langs from '../../../../common/language';
 import CardLateAll from './components/CardLateAll';
 import { _global } from '../../../../utlis/global/global';
 import { _GET, _POST } from '../../../../utlis/connection/api';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import HeaderNotify from '../notify/component/HeaderNotify';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 
@@ -52,7 +52,7 @@ const allLate = (props) => {
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ALL_LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}&status=0`;
+    const apiURL = `${URL.ALL_LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&date=${_date}&fullname=${_name}&status=0`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_ALL_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);

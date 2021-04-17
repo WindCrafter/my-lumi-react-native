@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,9 +11,9 @@ import {
   widthPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {KeyBoardScroll} from '../../../../component';
+import { KeyBoardScroll } from '../../../../component';
 import langs from '../../../../../common/language';
-import {imgs, Colors} from '../../../../../utlis';
+import { imgs, Colors } from '../../../../../utlis';
 import InforRow from './InfoRow';
 
 const Info = (props) => {
@@ -36,10 +36,7 @@ const Info = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.viewAvt}>
-        <Image
-          source={require('../../../../../naruto.jpeg')}
-          style={styles.avt}
-        />
+        <Image source={imgs.defaultAvatar} style={styles.avt} />
       </View>
       <KeyBoardScroll>
         <View style={styles.detail}>
@@ -61,7 +58,7 @@ const Info = (props) => {
             refInput={refTeam}
             clearButtonMode="while-editing"
             editable={false}
-            color={'rgb(200, 200, 200)'}
+            color="rgb(200, 200, 200)"
           />
           <InforRow
             containerStyle={styles.txtInput}
@@ -71,7 +68,7 @@ const Info = (props) => {
             refInput={refTeam}
             clearButtonMode="while-editing"
             editable={false}
-            color={'rgb(200, 200, 200)'}
+            color="rgb(200, 200, 200)"
           />
 
           <TouchableOpacity onPress={onChangeBirthday} style={styles.row}>
