@@ -741,8 +741,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: 'Quicksand-Regular',
     width: widthPercentageToDP(90) - 48,
-    marginLeft: 8,
+    paddingLeft: 8,
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
+    height: 105,
+    paddingRight: 8,
+    // flex: 1
   },
   card: {
     borderRadius: 16,
@@ -853,13 +856,13 @@ const styles = StyleSheet.create({
   },
   txtCamera: {
     fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
   },
   btnTxt: {
     flexDirection: 'row',
     alignSelf: 'center',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   checkBox: {
@@ -869,6 +872,6 @@ const styles = StyleSheet.create({
   },
   iconMenu: {
     paddingTop: Platform.OS === 'android' ? 6 : 0,
-    marginLeft: 16,
-  }
+    marginLeft: 12,
+  },
 });
