@@ -211,7 +211,7 @@ function ApproveCheck(props) {
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || moment().format('DD/MM/YYYY');
+    const _date = dateN || '';
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
