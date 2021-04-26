@@ -745,7 +745,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
     height: 105,
     paddingRight: 8,
-    // flex: 1
+    textAlignVertical: 'top'
   },
   card: {
     borderRadius: 16,

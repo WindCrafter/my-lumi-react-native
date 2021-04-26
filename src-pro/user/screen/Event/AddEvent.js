@@ -746,8 +746,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
     height: 105,
     paddingRight: 8,
-    // flex: 1
-
+    textAlignVertical: 'top',
   },
   card: {
     borderRadius: 16,
@@ -858,13 +857,13 @@ const styles = StyleSheet.create({
   },
   txtCamera: {
     fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
   },
   btnTxt: {
     flexDirection: 'row',
     alignSelf: 'center',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   checkBox: {
@@ -875,5 +874,5 @@ const styles = StyleSheet.create({
   iconMenu: {
     paddingTop: Platform.OS === 'android' ? 6 : 0,
     marginLeft: 12,
-  }
+  },
 });
