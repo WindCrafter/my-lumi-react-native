@@ -638,6 +638,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Quicksand-Regular',
     color: 'black',
+    height: 124,
   },
   card: {
     borderRadius: 16,

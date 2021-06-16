@@ -742,7 +742,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Regular',
     width: widthPercentageToDP(90) - 48,
     marginLeft: 8,
+    paddingLeft: 8,
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
+    height: 105,
+    paddingRight: 8,
+    textAlignVertical: 'top'
   },
   card: {
     borderRadius: 16,
@@ -869,6 +873,6 @@ const styles = StyleSheet.create({
   },
   iconMenu: {
     paddingTop: Platform.OS === 'android' ? 6 : 0,
-    marginLeft: 16,
+    marginLeft: 12,
   }
 });
