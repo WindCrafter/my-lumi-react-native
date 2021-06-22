@@ -19,6 +19,8 @@ import {
   ActivityIndicator,
   RefreshControl, AppState
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import ActionButton from 'react-native-action-button';
@@ -30,6 +32,7 @@ import { BarStatus, HeaderAccount, EmptyState,
 import langs from '../../../../common/language/index';
 import { _GET } from '../../../../utlis/connection/api';
 import { URL } from '../../../../utlis/connection/url';
+import { _global } from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android'
@@ -140,6 +143,7 @@ const Book = (props) => {
       });
     }
   });
+  
   console.log(count);
   const renderItem = (item) => {
     // console.log('memberid', item.item.member_ids);
@@ -147,62 +151,60 @@ const Book = (props) => {
     const arrayUserId = item.item.member_ids.split(',');
 
     return (
-      <View>
-        <View style={[styles.container]}>
-          {/* <Text>{item.section.date}</Text>  */}
-          <View style={{ width: 80 }} />
-          <TouchableOpacity
-            onPress={() => onShowModal(item.item)}
-            style={[
-              styles.item,
-              {
-                marginTop: item.index === 0 ? -48 : 16,
-                marginBottom:
+      <View style={[styles.container]}>
+        {/* <Text>{item.section.date}</Text>  */}
+        <View style={{ width: 80 }} />
+        <TouchableOpacity
+          onPress={() => onShowModal(item.item)}
+          style={[
+            styles.item,
+            {
+              marginTop: item.index === 0 ? -48 : 16,
+              marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth:
+              borderWidth:
                   arrayUserId.find((e) => e === user_id.toString())
                   || item.item.owner_id == user_id
                     ? 2.5
                     : 0,
-                borderColor: Colors.background,
-              },
-            ]}
-          >
-            <View style={{ marginHorizontal: 16 }}>
-              <Text style={styles.itemDurationText}>
-                {`${item.item.subject}`}
-              </Text>
-              <Text style={styles.txtTime}>
-                {`${moment(item.item.start_time, 'hh:mm').format(
-                  'LT',
-                )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
-              </Text>
-              {/* <Text style={{fontSize: 16, marginBottom: 8}}>
+              borderColor: Colors.background,
+            },
+          ]}
+        >
+          <View style={{ marginHorizontal: 16 }}>
+            <Text style={styles.itemDurationText}>
+              {`${item.item.subject}`}
+            </Text>
+            <Text style={styles.txtTime}>
+              {`${moment(item.item.start_time, 'hh:mm').format(
+                'LT',
+              )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
+            </Text>
+            {/* <Text style={{fontSize: 16, marginBottom: 8}}>
                 {item.item.location}
               </Text> */}
-              {item.item.owner_name !== item.item.member ? (
-                <Text>
-                  <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
-                  ,
-                  {' '}
-                  {item.item.owner_name
-                    !== item.item.member ? item.item.member
-                      .split(',')
-                      .filter((i) => i != item.item.owner_name)
-                      .toString()
-                      .replace(/,/g, ', ') : item.item.owner_name}
-                </Text>
-              ) : (
+            {item.item.owner_name !== item.item.member ? (
+              <Text>
                 <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
-        {/* {item.index === item.section.data.length - 1 ? (
+                ,
+                {' '}
+                {item.item.owner_name
+                    !== item.item.member ? item.item.member
+                    .split(',')
+                    .filter((i) => i != item.item.owner_name)
+                    .toString()
+                    .replace(/,/g, ', ') : item.item.owner_name}
+              </Text>
+            ) : (
+              <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+    /* {item.index === item.section.data.length - 1 ? (
             <View
               style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
-          ) : null} */}
-      </View>
+          ) : null} */
     );
   };
 
@@ -286,7 +288,87 @@ const Book = (props) => {
       </View>
     );
   };
-
+  const renderHiddenItem = (data2, rowMap) => {
+    let flag;
+    data2.item.status === 1 ? flag = true : false;
+    return flag ? (
+      <View style={styles.rowBack}>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          // onPress={() => {
+          //   data2.item.status === 1 ? onUpdateBreak(data2, rowMap) : null;
+          // }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="edit-3" size={24} color={Colors.black} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          onPress={() => {
+            _global.Alert.alert({
+              title: langs.alert.notice,
+              message: langs.alert.deleteApplication,
+              leftButton: {
+                text: langs.alert.cancel,
+                // onPress: () => closeRow(rowMap, data2.item.key),
+              },
+              rightButton: {
+                text: langs.alert.accept,
+                // onPress: () => onDeleteBreak(rowMap, data2),
+                textStyle: {
+                  fontWeight: '600',
+                  fontFamily: 'Quicksand-Bold',
+                },
+              },
+            });
+          }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="trash" size={24} color={Colors.danger} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View
+        style={{
+          alignItems: 'flex-end',
+          flex: 1,
+          justifyContent: 'center',
+        }}
+      >
+        <View style={[{ flexDirection: 'row', paddingRight: 32 }]}>
+          <View style={styles.backRightBtn}>
+            <View
+              style={[
+                styles.backBtn,
+                { backgroundColor: Colors.backgroundInActive },
+              ]}
+            >
+              <Icon name="edit-3" size={24} color={Colors.itemInActive} />
+            </View>
+          </View>
+          <View style={styles.backRightBtn}>
+            <View
+              style={[
+                styles.backBtn,
+                { backgroundColor: Colors.backgroundInActive },
+              ]}
+            >
+              <Icon name="trash" size={24} color={Colors.itemInActive} />
+            </View>
+          </View>
+        </View>
+        <Text style={styles.textDescrip}>
+          Không thay đổi được
+          {' '}
+          {'\n'}
+          {' '}
+          đơn đã duyệt
+        </Text>
+      </View>
+    );
+  };
   return (
     <>
       <BarStatus
@@ -309,12 +391,14 @@ const Book = (props) => {
           description="Hẹn bạn sau nhé."
         />
       )}
-      <SectionList
-        style={{ paddingTop: 16 }}
+      <SwipeListView
         sections={array}
+        keyExtractor={(item, index) => String(index)}
+        useSectionList
+        renderHiddenItem={renderHiddenItem}
+        style={{ paddingTop: 16 }}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index}
         onMomentumScrollBegin={() => setOnScroll(true)}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
@@ -324,6 +408,11 @@ const Book = (props) => {
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
+        leftOpenValue={75}
+        rightOpenValue={-150}
+        disableRightSwipe
+        swipeToOpenPercent={20}
+        useNativeDriver
       />
       <ActionButton
         buttonColor={Colors.white}
@@ -539,5 +628,42 @@ const styles = StyleSheet.create({
   },
   txtContainer: { fontSize: 16, marginVertical: 8 },
   detail: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
+  rowBack: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 32,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 80,
+    marginLeft: 8,
+  },
+  backBtn: {
+    height: 48,
+    width: 48,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 1,
+    borderRadius: 24,
+  },
+  textDescrip: {
+    fontSize: 10,
+    textAlign: 'center',
+    paddingRight: 32,
+    color: Colors.itemInActive,
+  },
 });
 export default Book;

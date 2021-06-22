@@ -400,7 +400,6 @@ const styles = StyleSheet.create({
     // padding: 24,
     // flex: 1,
     backgroundColor: '#f0f0f0',
-    ...StyleSheet.absoluteFill,
   },
   viewButton: {
     flex: 0.5,

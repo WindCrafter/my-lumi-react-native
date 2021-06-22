@@ -139,7 +139,9 @@ export default function Home(props) {
   const onPressApprove = () => {
     navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 3 : 0 });
   };
-
+  const onPressWFH = () => {
+    navigation.navigate(langs.navigator.historyWFH);
+  };
   const moveToHistory = () => {
     navigation.navigate(langs.navigator.history);
   };
@@ -318,6 +320,7 @@ export default function Home(props) {
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
             onPressApprove={onPressApprove}
+            onPressWFH={onPressWFH}
             permission={role}
           />
         </View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 import {
@@ -9,17 +9,17 @@ import {
   RefreshControl,
   TouchableOpacity,
   ScrollView, AppState
-} from 'react-native';
+} from 'react-native'; import equals from 'react-fast-compare';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
 import { Colors, Fonts, imgs } from '../../../../utlis';
 import langs from '../../../../common/language';
-import CardLate from './component/CardLate';
+import CardWFH from './component/CardWFH';
 import { _global } from '../../../../utlis/global/global';
-import { _GET, _POST } from '../../../../utlis/connection/api';
-import { URL } from '../../../../utlis/connection/url';
 import {
   BarStatus,
   EmptyState,
@@ -28,12 +28,12 @@ import {
 import HeaderCustom from './component/HeaderCustom';
 import ActionButton from './component/ActionButton';
 
-const HistoryLate = (props) => {
+function HistoryWFH(props) {
   const {
     navigation,
     token,
   } = props;
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -52,7 +52,7 @@ const HistoryLate = (props) => {
       setType('Tất cả');
       setStatus(0);
       setLocalDate(null);
-      getData(1, null, 0, []);
+      getData(1, null, '', []);
     } return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
@@ -63,20 +63,11 @@ const HistoryLate = (props) => {
       console.log('call api for history late');
     }
   };
-  const step = useRef();
-  const goBack = () => {
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: langs.navigator.applyLate }],
-    // });
-    navigation.goBack();
-  };
-
   const getData = async (pageNumber, dateN, statusN, dataN) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.LIST_LATE_EARLY}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.GET_LIST_WORK_FROM_HOME}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);
@@ -92,21 +83,15 @@ const HistoryLate = (props) => {
       setPage(pageNumber);
     }
   };
-
   const renderItem = ({ item }) => {
     return (
-      <CardLate
-        leader={false}
-        status={item.status}
-        type={item.type}
-        reason={item.content}
-        day={item.date}
-        time={item.time}
+      <CardWFH
+        item={item}
       />
     );
   };
-  const onApplyLate = () => {
-    navigation.navigate(langs.navigator.applyLate);
+  const onApplyWFH = () => {
+    navigation.navigate(langs.navigator.applyWFH);
   };
   const onChangeDate = (date) => {
     setLoading(true);
@@ -117,7 +102,7 @@ const HistoryLate = (props) => {
   };
   const onSetType = (item) => {
     switch (item) {
-      case '0':
+      case '':
         setType('Tất cả');
         break;
       case '1':
@@ -136,7 +121,6 @@ const HistoryLate = (props) => {
         0;
     }
   };
-
   const onChangeStatus = (item) => {
     setLoading(true);
     setStatus(item);
@@ -176,24 +160,20 @@ const HistoryLate = (props) => {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateLate = (data2, rowMap) => {
-    // console.log(data2);
+  const onUpdateWFH = (data2, rowMap) => {
     closeRow(rowMap, data2.item.key);
-
-    navigation.navigate(langs.navigator.updateLate, {
-      id: data2.item.id,
-      date: data2.item.date,
-      typeRoute: data2.item.type,
-      timeRoute: data2.item.time,
-      content: data2.item.content,
-      statusRoute: data2.item.status,
-
+    navigation.navigate(langs.navigator.updateWFH, {
+      _id: data2.item._id,
+      start_dateRoute: data2.item.start_date,
+      end_dateRoute: data2.item.end_date,
+      reasonRoute: data2.item.reason,
+      healthRoute: data2.item.health,
     });
   };
   const onDeleteLate = async (rowMap, data2) => {
-    const apiURL = `${URL.DELETE_LATE_EARLY}`;
+    const apiURL = `${URL.DELETE_WORK_FROM_HOME}`;
     const body = {
-      id: data2.item.id,
+      _id: data2.item._id,
       token,
     };
     const response = await _POST(apiURL, body, token);
@@ -228,7 +208,7 @@ const HistoryLate = (props) => {
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateLate(data2, rowMap) : null;
+            data2.item.status === 1 ? onUpdateWFH(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -319,11 +299,14 @@ const HistoryLate = (props) => {
     return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
   };
   const empty = data && data.length === 0 && !loading;
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <>
       <HeaderCustom
         height={44}
-        title={langs.titleHistoryLate}
+        title={langs.titleHistoryWFH}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
@@ -332,7 +315,7 @@ const HistoryLate = (props) => {
         backgroundColor={Colors.white}
         dateN={moment(localDate, 'DD/MM/YYYY')._d}
       />
-      <View style={{ width: wp(100), backgroundColor: '#F0F0F0' }}>
+      <View style={styles.detail}>
         <SwipeListView
           data={empty ? [1] : _data}
           keyExtractor={(item, index) => String(index)}
@@ -352,12 +335,12 @@ const HistoryLate = (props) => {
           swipeToOpenPercent={20}
         />
       </View>
-      <ActionButton onApply={onApplyLate} />
+      <ActionButton onApply={onApplyWFH} />
     </>
   );
-};
+}
 
-export default HistoryLate;
+export default React.memo(HistoryWFH, equals);
 
 const styles = StyleSheet.create({
   container: {
@@ -408,4 +391,5 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
+  detail: { width: wp(100), backgroundColor: '#f0f0f0', flex: 1 }
 });

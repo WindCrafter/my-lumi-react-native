@@ -138,7 +138,7 @@ const HeaderCustom = (props?: Props) => {
   };
 
   const status = [
-    { label: 'Tất cả', value: '0' },
+    { label: 'Tất cả', value: '' },
     { label: 'Đang chờ', value: '1' },
     { label: 'Đã duyệt', value: '2' },
     { label: 'Bị từ chối', value: '3' },

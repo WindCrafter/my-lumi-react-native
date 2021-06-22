@@ -51,7 +51,6 @@ const URL_ASSIGN = `${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.GET_LIST_TEAMS}`;
 const URL_BOOK_ROOM = `${URL.BOOK_ROOM}`;
 const URL_LIST_ROOM = `${URL.LIST_ROOM}`;
-
 const URL_NOTIFY = e => {
   return `${URL.GET_LIST_NOTIFY}${e}`;
 };

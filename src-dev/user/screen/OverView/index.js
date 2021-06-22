@@ -15,6 +15,7 @@ import { Colors } from '../../../../utlis';
 import { _global } from '../../../../utlis/global/global';
 import AllBreak from './allBreak';
 import AllLate from './allLate';
+import AllWFH from './allWFH';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
 if (
@@ -32,6 +33,8 @@ function ApplyBreak(props) {
   const [routes] = useState([
     { key: '1', title: 'Xin nghỉ' },
     { key: '2', title: 'Đi muộn/về sớm' },
+    { key: '3', title: 'WFH' },
+
   ]);
   const [index, setIndex] = useState(0);
 
@@ -51,6 +54,8 @@ function ApplyBreak(props) {
         );
       case '2':
         return <AllLate token={token} />;
+        case '3':
+          return <AllWFH token={token} />;
       default:
         return null;
     }

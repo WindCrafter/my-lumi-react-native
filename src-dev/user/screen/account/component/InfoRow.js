@@ -19,7 +19,7 @@ import {Colors, imgs} from '../../../../../utlis';
 interface Props extends TextInputProps {
   leftImage?: String | Number;
   width?: String | Number;
-  height?: String | Number;
+  height?: Number;
   borderRadius?: Number;
   backgroundColor?: String;
   containerStyle?: ViewStyle;
@@ -29,12 +29,12 @@ interface Props extends TextInputProps {
 
 InforRow.defaultProps = {
   width: wp(90),
+  height: 50,
   borderRadius: 24,
   backgroundColor: 'rgb(241,251,245)',
   leftImage: imgs.personal,
   canedit: true,
   txtInput: true,
-  height: 50
 };
 
 export default function InforRow(props?: Props) {
@@ -69,8 +69,7 @@ export default function InforRow(props?: Props) {
         value={`${value}`}
         style={[
           styles.textInput,
-          {width:width, color: color ? color : 'black'},
-          {height:50}
+          {width: width, color: color ? color : 'black'},
         ]}
         selectionColor={'black'}
         placeholderTextColor={'gray'}
