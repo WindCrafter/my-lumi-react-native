@@ -2,7 +2,6 @@ import { _global } from '../global/global';
 import { globalApp } from '../../logs/logs';
 import { formatTimeNow } from '../../logs/helpers';
 
-// eslint-disable-next-line no-undef
 const URL_SEVER_API = window.typeServer == 'product'
   ? 'https://api.lumier.lumi.com.vn'
   : 'https://staging-api.lumier.lumi.com.vn';
@@ -19,6 +18,7 @@ export async function _POST(url, data, token, loading = true) {
         data,
         token,
         time: formatTimeNow(),
+        typeSever: window.typeServer,
       },
     });
   }
@@ -88,6 +88,7 @@ export async function _GET(url, token, loading) {
         url,
         token,
         time: formatTimeNow(),
+        typeSever: window.typeServer,
       },
     });
   }

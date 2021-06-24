@@ -126,6 +126,7 @@ const langs = {
     userStack: 'UserStack',
     home: 'Home',
     book: 'BookSchedule',
+    updateRoom: 'updateRoom',
     testNotify: 'AllNotify',
     account: 'Personal',
     main: 'Trang chủ',
@@ -140,7 +141,7 @@ const langs = {
     approveOT: 'ApproveOT',
     applyOT: 'ApplyOT',
     applyWFH: 'applyWFH',
-    historyWFH: 'historyWFH',
+    historyWFH: 'HistoryWFH',
     updateWFH: 'updateWFH',
     listOT: 'listOT',
     updateOT: 'UpdateOT',
@@ -247,7 +248,8 @@ const langs = {
     nullAvatar: 'Chưa chọn ảnh cho sự kiện',
     nullContent: 'Nội dung không được để trống',
     acceptWFH: 'Gửi đơn làm việc từ xa thành công',
-    updatetWFH: 'Sửa đơn làm việc từ xa thành công'
+    updatetWFH: 'Sửa đơn làm việc từ xa thành công',
+    successDeleteRoom: 'Xoá phòng thành công',
 
   },
 };

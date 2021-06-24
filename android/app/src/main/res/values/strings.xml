@@ -2,6 +2,6 @@
     <string name="app_name">My Lumi</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <string moduleConfig="true" name="CodePushDeploymentKey">OUhxaP-DHeRtijIiRlU_4HInKpiUKuVMo6ISj</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">z4Zu45Vc9hoirLywxNWtKR7c8AxcHjMmAXXER</string>
 </resources>
     

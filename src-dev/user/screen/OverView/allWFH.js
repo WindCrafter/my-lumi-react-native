@@ -48,7 +48,7 @@ const AllWFH = (props) => {
   }, [isFocused]);
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || '';
+    const _date = dateN ? moment(dateN, 'DD/MM/YYYY').format('DD-MM-YYYY') : 0;
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';

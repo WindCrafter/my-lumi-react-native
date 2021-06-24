@@ -30,6 +30,7 @@ import {
   confirmKpiSuccess,
   getUnreadNotifySuccess,
   getUnreadNotifyFailed,
+  updateRoom,
 } from '../actions/user';
 import {
   changeToOut,
@@ -51,6 +52,7 @@ const URL_ASSIGN = `${URL.GET_LIST_ASSIGN}`;
 const URL_TEAMS = `${URL.GET_LIST_TEAMS}`;
 const URL_BOOK_ROOM = `${URL.BOOK_ROOM}`;
 const URL_LIST_ROOM = `${URL.LIST_ROOM}`;
+const URL_UPDATE_ROOM = `${URL.UDPATE_ROOM}`;
 const URL_NOTIFY = e => {
   return `${URL.GET_LIST_NOTIFY}${e}`;
 };
@@ -297,7 +299,7 @@ function* sagaBookRoom(action) {
       date: action.payload.date,
       subject: action.payload.subject,
       content: action.payload.content,
-      location: action.payload.location,
+      room_id: action.payload.room_id,
       member: action.payload.member,
       loop: action.payload.loop,
       member_ids: action.payload.member_ids,
@@ -335,7 +337,55 @@ function* sagaBookRoom(action) {
 export function* watchBookRoom() {
   yield takeLatest(types.BOOK_ROOM, sagaBookRoom);
 }
+function* sagaUpdateRoom(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const data = {
+      id: action.payload.id,
+      start_time: action.payload.start_time,
+      end_time: action.payload.end_time,
+      date: action.payload.date,
+      subject: action.payload.subject,
+      content: action.payload.content,
+      room_id: action.payload.room_id,
+      member: action.payload.member,
+      loop: action.payload.loop,
+      member_ids: action.payload.member_ids,
+    };
+    console.log(data);
+    const response = yield _POST(URL_UPDATE_ROOM, data, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(clearMember());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Sửa lịch họp thành công',
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Loading.hide();
+  }
+}
 
+export function* watchUpdateRoom() {
+  yield takeLatest(types.UPDATE_ROOM, sagaUpdateRoom);
+}
 function* sagaListRoom(action) {
   try {
     const token = action.payload.token;

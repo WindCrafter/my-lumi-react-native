@@ -119,11 +119,11 @@ const Notify = (props) => {
             break;
           case 4:
           case '4':
-            navigation.navigate(langs.navigator.approve, { page: 3 });
+            navigation.navigate(langs.navigator.approve, { page: 4 });
             break;
           case 5:
           case '5':
-            navigation.navigate(langs.navigator.approve, { page: 3 });
+            navigation.navigate(langs.navigator.approve, { page: 4 });
             break;
           case 6:
           case '6':
@@ -136,6 +136,14 @@ const Notify = (props) => {
           case 9:
           case '9':
             navigation.navigate(langs.navigator.kpi);
+            break;
+          case 11:
+          case '11':
+            navigation.navigate(langs.navigator.approve, { page: 3 });
+            break;
+          case 12:
+          case '12':
+            navigation.navigate(langs.navigator.historyWFH);
             break;
           case 27:
           case '27':
@@ -160,6 +168,10 @@ const Notify = (props) => {
           case 54:
           case '54':
             navigation.navigate(langs.navigator.history);
+            break;
+          case 57:
+          case '57':
+            navigation.navigate(langs.navigator.historyWFH);
             break;
           default:
             console.log('Wrong type', item.customData.type);

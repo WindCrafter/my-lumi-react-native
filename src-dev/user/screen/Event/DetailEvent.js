@@ -22,6 +22,7 @@ import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _POST } from '../../../../utlis/connection/api';
 
+const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
 const URL_READ_EVENT = `${URL.READ_EVENT}`;
 const DetailEvent = (props) => {
   const { route, navigation, token, user_id } = props;
@@ -29,6 +30,9 @@ const DetailEvent = (props) => {
   const [read, setRead] = useState(item.view_users && item.view_users.find(i => i == user_id));
   const goBack = () => {
     navigation.goBack();
+  };
+  const openURL = (text) => {
+    Linking.openURL(String(text.match(urlRegex)));
   };
   const onPressConfirm = async () => {
     const data = {
@@ -83,9 +87,21 @@ const DetailEvent = (props) => {
             <Text style={styles.titleContent}>Thời gian kết thúc: </Text>
             {moment(item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format('DD/MM/YYYY - HH:mm')}
           </Text>
-          <Text style={styles.content}>
-            {item.content}
-          </Text>
+          {item.content.match(urlRegex)
+            ? (
+              <TouchableOpacity style={styles.content} onPress={() => openURL(item.content)}>
+                <Text style={{ paddingBottom: 50 }}>
+                  {item.content}
+                </Text>
+              </TouchableOpacity>
+            )
+            : (
+              <Text style={styles.content}>
+                {item.content}
+              </Text>
+            )
+          }
+
           {item.urgent == 1 && (
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}

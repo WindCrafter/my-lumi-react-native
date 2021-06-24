@@ -333,9 +333,10 @@ const HistoryBreak = (props) => {
   };
   const empty = data && data.length === 0 && !loading;
   const _data = [];
+  console.log('data check 2',data);
+
   data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
-  // console.log(_data);c
-  console.log('localDATE', localDate);
+  console.log('data check',_data);
   return (
     <>
       <HeaderCustom

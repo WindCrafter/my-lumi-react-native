@@ -42,6 +42,7 @@ import ListEvent from '../user/container/event/ListEvent';
 import AddEvent from '../user/container/event/AddEvent';
 import EditEvent from '../user/container/event/EditEvent';
 import DetailEventByNotify from '../user/container/event/DetailEventByNotify';
+import UpdateRoom from '../user/container/book/updateRoom';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -323,6 +324,13 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.updateWFH}
         component={updateWFH}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateRoom}
+        component={UpdateRoom}
         options={{
           headerShown: false,
         }}

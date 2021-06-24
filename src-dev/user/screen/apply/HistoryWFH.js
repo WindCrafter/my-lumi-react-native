@@ -9,7 +9,8 @@ import {
   RefreshControl,
   TouchableOpacity,
   ScrollView, AppState
-} from 'react-native'; import equals from 'react-fast-compare';
+} from 'react-native';
+import equals from 'react-fast-compare';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -33,7 +34,7 @@ function HistoryWFH(props) {
     navigation,
     token,
   } = props;
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
@@ -64,7 +65,7 @@ function HistoryWFH(props) {
     }
   };
   const getData = async (pageNumber, dateN, statusN, dataN) => {
-    const _date = dateN || '';
+    const _date = dateN ? moment(dateN, 'DD/MM/YYYY').format('DD-MM-YYYY') : 0;
     const _status = statusN || 0;
     const _dataN = dataN || [];
     const apiURL = `${URL.GET_LIST_WORK_FROM_HOME}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
@@ -102,7 +103,7 @@ function HistoryWFH(props) {
   };
   const onSetType = (item) => {
     switch (item) {
-      case '':
+      case 0:
         setType('Tất cả');
         break;
       case '1':

@@ -59,7 +59,9 @@ export const URL = {
   //
   BOOK_ROOM: '/meeting/create',
   LIST_ROOM: '/meeting/list',
-
+  DELETE_ROOM: '/meeting/delete',
+  UDPATE_ROOM: '/meeting/update',
+  //
   GET_KPI: '/kpi/detail?date=',
   CONFIRM_KPI: '/kpi/confirm',
 
