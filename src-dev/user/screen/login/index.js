@@ -13,13 +13,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-community/async-storage';
 import codePush from 'react-native-code-push';
 import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../component';
 import Checkbox from './components/Checkbox';
 import langs from '../../../../common/language';
 import { globalApp } from '../../../../logs/logs';
 import { _global } from '../../../../utlis/global/global';
+import { Services } from '../../../../services';
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -34,9 +34,9 @@ const Login = (props) => {
   const { navigation } = props;
   useEffect(() => {
     Platform.OS === 'android'
-       && refPassword.current.setNativeProps({
-         style: { fontFamily: 'Quicksand-Regular' },
-       });
+      && refPassword.current.setNativeProps({
+        style: { fontFamily: 'Quicksand-Regular' },
+      });
   }, []);
   const isValidEmail = (value) => value && value.indexOf('@') > 0;
 
@@ -89,9 +89,11 @@ const Login = (props) => {
     }
   };
 
-  const onChangeServer = () => {
+  const onChangeServer = async () => {
     console.log('change server to product');
-    AsyncStorage.setItem('APP_MODE', 'product', () => codePush.restartApp());
+    await Services.setServerType(Services.server_type === 'product' ? 'develop' : 'product');
+
+    codePush.restartApp();
   };
 
   const onChangePass = (val) => {
@@ -118,9 +120,9 @@ const Login = (props) => {
         globalApp.customLog.disconnect();
       } else {
         globalApp.customLog
-         && globalApp.customLog.connect({
-           localhost: false,
-         });
+          && globalApp.customLog.connect({
+            localhost: false,
+          });
       }
     } catch (e) {
       // error customlog

@@ -1,11 +1,11 @@
 import { _global } from '../global/global';
 import { globalApp } from '../../logs/logs';
 import { formatTimeNow } from '../../logs/helpers';
+import { Services } from '../../services';
 
-// eslint-disable-next-line no-undef
-const URL_SEVER_API = window.typeServer == 'product'
-  ? 'https://api.lumier.lumi.com.vn'
-  : 'https://staging-api.lumier.lumi.com.vn';
+const URL_SEVER_API = Services.server.base_url;
+console.log('URL_SEVER_API--->', URL_SEVER_API);
+
 export async function _POST(url, data, token, loading = true) {
   if (loading) {
     _global.Loading.show();
