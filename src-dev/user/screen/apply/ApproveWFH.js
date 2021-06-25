@@ -17,7 +17,7 @@ import _, { stubFalse } from 'lodash';
 import langs from '../../../../common/language';
 import { BarStatus, EmptyState, Indicator } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
-import CardCheck from './component/CardCheck';
+import CardWFH from './component/CardWFH';
 import { URL } from '../../../../utlis/connection/url';
 import HeaderCustom from './component/HeaderCustom';
 import { _GET, _POST } from '../../../../utlis/connection/api';
@@ -29,7 +29,7 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-function ApproveCheck(props) {
+function ApproveWFH(props) {
   const { navigation, token } = props;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -75,75 +75,32 @@ function ApproveCheck(props) {
   };
   const renderItem = ({ item, index }) => {
     return (
-      <CardCheck
-        status={item.status}
-        type={item.type === 2 ? 'Check Out' : 'Check In'}
-        day={item.date}
-        time={item.type === 2 ? moment(item.check_out * 1000).format('HH:mm') : moment(item.check_in * 1000).format('HH:mm')}
-        name={item.fullname}
+      <CardWFH
+        item={item}
+        leader
         onDeny={() => onDeny(item)}
         onAccept={() => onConfirm(item)}
       />
     );
   };
   const onConfirm = async (item) => {
-    const apiURL = `${URL.APPROVE_CHECK_REQUEST}`;
+    const apiURL = `${URL.APPROVE_WORK_FROM_HOME}`;
     const body = {
-      id: item.id,
+      _id: item._id,
       status: 2,
-      type: item.type,
     };
     const response = await _POST(apiURL, body, token);
     setLoading(false);
-    console.log('_APPROVE_LATE_EARLY =============>', response);
+    console.log('_APPROVE_WFH =============>', response);
     _global.Loading.hide();
-    if (response.success && response.statusCode === 200 && response.data) {
+    if (response.success && response.statusCode === 200) {
       if (filter.status === '0' || filter.status === 0) {
         setData(
-          data.map((i) => (i.id === item.id ? { ...item, status: 2 } : i)),
+          data.map((i) => (i._id === item._id ? { ...item, status: 2 } : i)),
         );
       } else {
-        setData(data.filter((i) => i.id !== item.id));
+        setData(data.filter((i) => i._id !== item._id));
       }
-    } else if (
-      !response.success
-      && response.statusCode === 600
-      && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      setData(
-        data.map((i) => (i.id === item.id
-          ? {
-            ...item,
-            date: response.data.date,
-            time: response.data.time,
-            content: response.data.content,
-            is_updated: true
-
-          }
-          : i),),
-      );
-    } else if (
-      !response.success
-             && response.statusCode === 601
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-      console.log('data,data', data);
-      const newData = [...data];
-      const prevIndex = data.findIndex((check) => check.id === item.id);
-      newData.splice(prevIndex, 1);
-      setData(newData);
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -155,44 +112,21 @@ function ApproveCheck(props) {
   };
 
   const onDeny = async (item) => {
-    const apiURL = `${URL.APPROVE_CHECK_REQUEST}`;
+    const apiURL = `${URL.APPROVE_WORK_FROM_HOME}`;
     const body = {
-      id: item.id,
+      _id: item._id,
       status: 3,
-      type: item.type,
     };
     const response = await _POST(apiURL, body, token);
-    console.log('_APPROVE_LATE_EARLY =============>', response);
+    console.log('_APPROVE_WFH =============>', response);
     setLoading(false);
     _global.Loading.hide();
     if (response.success && response.statusCode === 200 && response.data) {
       if (filter.status === '0' || filter.status === 0) {
-        setData(data.map((i) => (i.id === item.id ? { ...item, status: 3 } : i)));
+        setData(data.map((i) => (i._id === item._id ? { ...item, status: 3 } : i)));
       } else {
-        setData(data.filter((i) => i.id !== item.id));
+        setData(data.filter((i) => i._id !== item._id));
       }
-    } else if (
-      !response.success
-             && response.statusCode === 600
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
-    } else if (
-      !response.success
-             && response.statusCode === 601
-             && response.data
-    ) {
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        // messageColor: Colors.danger,
-        leftButton: { text: langs.alert.ok },
-      });
     } else {
       _global.Alert.alert({
         title: langs.alert.notify,
@@ -211,11 +145,12 @@ function ApproveCheck(props) {
   };
 
   const getData = async (pageNumber, dateN, statusN, dataN, nameN) => {
-    const _date = dateN || '';
+    console.log('dateNNNNN', dateN);
+    const _date = dateN ? moment(dateN, 'DD/MM/YYYY').format('DD-MM-YYYY') : 0;
     const _status = statusN || 0;
     const _data = dataN || [];
     const _name = nameN || '';
-    const apiURL = `${URL.LIST_CHECK_REQUEST}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}&name=${_name}`;
+    const apiURL = `${URL.GET_LIST_WORK_FROM_HOME_MANAGER}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -329,7 +264,7 @@ function ApproveCheck(props) {
   );
 }
 
-export default ApproveCheck;
+export default ApproveWFH;
 
 const styles = StyleSheet.create({
   detail: {

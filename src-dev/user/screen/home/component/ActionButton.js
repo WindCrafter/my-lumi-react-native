@@ -10,7 +10,7 @@ import {
 import { imgs } from '../../../../../utlis';
 
 const FloatButton = (props) => {
-  const { onPressLate, onPressBreak, onPressOT, onPressApprove, permission } = props;
+  const { onPressLate, onPressBreak, onPressOT, onPressApprove, permission, onPressWFH } = props;
   const blurView = () => {
     return (
       <BlurView
@@ -31,6 +31,17 @@ const FloatButton = (props) => {
       renderIcon={buttonIcon}
       fixNativeFeedbackRadius
     >
+      <ActionButton.Item
+        inputX={[0, 0]}
+        outputX={[0, 0]}
+        inputY={[0, 1]}
+        outputY={[320, 40]}
+        buttonColor="#005DA9"
+        title="WFH"
+        onPress={onPressWFH}
+      >
+        <Image source={imgs.WFH} />
+      </ActionButton.Item>
       <ActionButton.Item
         inputX={[0, 0]}
         outputX={[0, 0]}

@@ -73,14 +73,14 @@ function Notify(props) {
         }
         if (type == 4) {
           if (approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll?page=3`;
+            Url = `${Schema}UserStack/ApproveAll?page=4`;
           } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
         }
         if (type == 5) {
           if (approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll?page=3`;
+            Url = `${Schema}UserStack/ApproveAll?page=4`;
           } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
@@ -99,6 +99,12 @@ function Notify(props) {
         }
         if (type == 10) {
           Url = `${Schema}UserStack/Notify`;
+        }
+        if (type == 11) {
+          Url = `${Schema}UserStack/ApproveAll?page=3`;
+        }
+        if (type == 12) {
+          Url = `${Schema}UserStack/HistoryWFH`;
         }
         if (type == 27) {
           Url = `${Schema}UserStack/DetailEventByNotify?id=${openResult.notification.payload.additionalData.eventId}`;
@@ -124,6 +130,9 @@ function Notify(props) {
         }
         if (type == 56) {
           Url = `${Schema}UserStack/Notify`;
+        }
+        if (type == 57) {
+          Url = `${Schema}UserStack/HistoryWFH`;
         }
       }
 

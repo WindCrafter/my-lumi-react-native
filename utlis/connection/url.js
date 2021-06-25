@@ -59,7 +59,9 @@ export const URL = {
   //
   BOOK_ROOM: '/meeting/create',
   LIST_ROOM: '/meeting/list',
-
+  DELETE_ROOM: '/meeting/delete',
+  UDPATE_ROOM: '/meeting/update',
+  //
   GET_KPI: '/kpi/detail?date=',
   CONFIRM_KPI: '/kpi/confirm',
 
@@ -83,5 +85,12 @@ export const URL = {
   UPLOAD_IMAGE: '/media/upload',
   READ_EVENT: '/event/read',
   GET_EVENT_BY_ID: '/event/get-by-id',
-
+  //
+  CREATE_WORK_FROM_HOME: '/work-remote/create',
+  GET_LIST_WORK_FROM_HOME: '/work-remote/all-list',
+  DELETE_WORK_FROM_HOME: '/work-remote/delete',
+  UPDATE_WORK_FROM_HOME: '/work-remote/update',
+  ALL_LIST_WORK_FROM_HOME: '/work-remote/all-list',
+  GET_LIST_WORK_FROM_HOME_MANAGER: '/work-remote/manager-list',
+  APPROVE_WORK_FROM_HOME: '/work-remote/approved-canceled',
 };

@@ -4,7 +4,6 @@ import { formatTimeNow } from '../../logs/helpers';
 import { Services } from '../../services';
 
 const URL_SEVER_API = Services.server.base_url;
-console.log('URL_SEVER_API--->', URL_SEVER_API);
 
 export async function _POST(url, data, token, loading = true) {
   if (loading) {
@@ -19,6 +18,7 @@ export async function _POST(url, data, token, loading = true) {
         data,
         token,
         time: formatTimeNow(),
+        typeSever: Services.server_type,
       },
     });
   }
@@ -88,6 +88,7 @@ export async function _GET(url, token, loading) {
         url,
         token,
         time: formatTimeNow(),
+        typeSever: window.typeServer,
       },
     });
   }

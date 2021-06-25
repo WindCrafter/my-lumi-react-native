@@ -346,3 +346,9 @@ export const setDateUserOT = (data) => {
     payload: data,
   };
 };
+export const updateRoom = (data) => {
+  return {
+    type: types.UPDATE_ROOM,
+    payload: data,
+  };
+};

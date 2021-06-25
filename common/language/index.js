@@ -83,6 +83,7 @@ const langs = {
   titleHistoryLate: 'Lịch sử đi muộn/về sớm',
   titleApproveLate: 'Đơn xin đi muộn/về sớm',
   titleHistoryOt: 'Lịch sử OT',
+  titleHistoryWFH: 'Lịch sử làm việc tại nhà',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',
@@ -115,6 +116,7 @@ const langs = {
     'Bạn không có quyền check in bằng cách này khi không ở công ty.',
   errorLocationCheckout:
     'Bạn không có quyền check out bằng cách này khi không ở công ty.',
+  WFH: 'WFH',
   navigator: {
     overView: 'Tổng quan',
     kpi: 'KPI',
@@ -124,6 +126,7 @@ const langs = {
     userStack: 'UserStack',
     home: 'Home',
     book: 'BookSchedule',
+    updateRoom: 'updateRoom',
     testNotify: 'AllNotify',
     account: 'Personal',
     main: 'Trang chủ',
@@ -137,6 +140,9 @@ const langs = {
     updateBreak: 'UpdateBreak',
     approveOT: 'ApproveOT',
     applyOT: 'ApplyOT',
+    applyWFH: 'applyWFH',
+    historyWFH: 'HistoryWFH',
+    updateWFH: 'updateWFH',
     listOT: 'listOT',
     updateOT: 'UpdateOT',
     updateProfile: 'UpdareProfile',
@@ -161,7 +167,8 @@ const langs = {
     detailEventByNotify: 'DetailEventByNotify',
     listEvent: 'ListEvent',
     addEvent: 'AddEvent',
-    editEvent: 'EditEvent'
+    editEvent: 'EditEvent',
+
   },
   alert: {
     accept: 'Đồng ý',
@@ -240,6 +247,10 @@ const langs = {
     nullStartDateEvent: 'Chưa có ngày bắt đầu sự kiện',
     nullAvatar: 'Chưa chọn ảnh cho sự kiện',
     nullContent: 'Nội dung không được để trống',
+    acceptWFH: 'Gửi đơn làm việc từ xa thành công',
+    updatetWFH: 'Sửa đơn làm việc từ xa thành công',
+    successDeleteRoom: 'Xoá phòng thành công',
+
   },
 };
 

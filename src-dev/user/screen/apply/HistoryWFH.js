@@ -2,46 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 import {
-  Platform,
-  StatusBar,
   StyleSheet,
   View,
   ActivityIndicator,
   Text,
   RefreshControl,
   TouchableOpacity,
-  UIManager,
-  AppState,
+  ScrollView, AppState
 } from 'react-native';
+import equals from 'react-fast-compare';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import moment from 'moment';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors, imgs } from '../../../../utlis';
+import { URL } from '../../../../utlis/connection/url';
+import { _GET, _POST } from '../../../../utlis/connection/api';
+import { Colors, Fonts, imgs } from '../../../../utlis';
+import langs from '../../../../common/language';
+import CardWFH from './component/CardWFH';
+import { _global } from '../../../../utlis/global/global';
 import {
   BarStatus,
   EmptyState,
   Indicator,
 } from '../../../component';
 import HeaderCustom from './component/HeaderCustom';
-import langs from '../../../../common/language';
-import CardBreak from './component/CardBreak';
 import ActionButton from './component/ActionButton';
-import { _GET, _POST } from '../../../../utlis/connection/api';
-import { URL } from '../../../../utlis/connection/url';
-import { _global } from '../../../../utlis/global/global';
 
-if (
-  Platform.OS === 'android'
-  && UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
-const HistoryBreak = (props) => {
+function HistoryWFH(props) {
   const {
     navigation,
     token,
   } = props;
-  // console.log('>>>>', initialData);
   const [status, setStatus] = useState(0);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -49,9 +41,9 @@ const HistoryBreak = (props) => {
   const [type, setType] = useState('Tất cả');
   const [refresh, setRefresh] = useState(false);
   const [onScroll, setOnScroll] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [localDate, setLocalDate] = useState(null);
   const isFocused = useIsFocused();
-
   useEffect(() => {
     // getData(1, '', '', []);
     AppState.addEventListener('change', _handleAppStateChange);
@@ -61,47 +53,57 @@ const HistoryBreak = (props) => {
       setType('Tất cả');
       setStatus(0);
       setLocalDate(null);
-      getData(1, null, 0, []);
-    }
-    return () => {
+      getData(1, null, '', []);
+    } return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
   }, [isFocused]);
   const _handleAppStateChange = (nextAppState) => {
     if (nextAppState === 'active') {
       getData(1, null, 0, []);
-      console.log('call api for history break');
+      console.log('call api for history late');
     }
   };
   const getData = async (pageNumber, dateN, statusN, dataN) => {
-    // console.log('statusNstatusNstatusN', statusN);
-    const _date = dateN || '';
+    const _date = dateN ? moment(dateN, 'DD/MM/YYYY').format('DD-MM-YYYY') : 0;
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.GET_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.GET_LIST_WORK_FROM_HOME}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
     const response = await _GET(apiURL, token, false);
-    console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
+    console.log('_GET_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);
     setOnScroll(false);
     setLoading(false);
     if (
       response.success
-      && response.statusCode === 200
-      && response.data
-      && response.data.length > 0
+    && response.statusCode === 200
+    && response.data
+    && response.data.length > 0
     ) {
       setData(_dataN.concat(response.data));
       setPage(pageNumber);
     }
   };
-  const handleLoadMore = () => {
-    getData(page + 1, localDate, status, data);
-    setOnScroll(false);
+  const renderItem = ({ item }) => {
+    return (
+      <CardWFH
+        item={item}
+      />
+    );
+  };
+  const onApplyWFH = () => {
+    navigation.navigate(langs.navigator.applyWFH);
+  };
+  const onChangeDate = (date) => {
     setLoading(true);
+    setData([]);
+    setPage(1);
+    getData(1, !date ? '' : moment(date).format('DD/MM/YYYY'), status, []);
+    setLocalDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
   const onSetType = (item) => {
     switch (item) {
-      case '0':
+      case 0:
         setType('Tất cả');
         break;
       case '1':
@@ -116,24 +118,10 @@ const HistoryBreak = (props) => {
       case '4':
         setType('Auto Cancel');
         break;
-      default: 0;
+      default:
+        0;
     }
   };
-  const renderFooterComponent = () => {
-    console.log('loading', loading);
-    return loading ? <Indicator /> : null;
-  };
-
-  const onRefresh = () => {
-    setRefresh(true);
-    setOnScroll(false);
-    getData(1, localDate, status, []);
-  };
-
-  const goBack = () => {
-    navigation.goBack();
-  };
-
   const onChangeStatus = (item) => {
     setLoading(true);
     setStatus(item);
@@ -143,44 +131,24 @@ const HistoryBreak = (props) => {
     onSetType(item);
   };
 
-  const onChangeDate = (date) => {
+  const handleLoadMore = () => {
+    getData(page + 1, localDate, status, data);
+    setOnScroll(false);
     setLoading(true);
-    setData([]);
-    setPage(1);
-    getData(
-      1,
-      !date ? '' : moment(date).format('DD/MM/YYYY'),
-      status,
-      [],
-    );
-    setLocalDate(!date ? '' : moment(date).format('DD/MM/YYYY'));
   };
 
-  const renderItem = ({ item, index }) => {
-    const _listDate = item.date.map((i) => moment(i, 'DD/MM/YYYY').format(' DD/MM/YYYY'),);
-    return (
-      <CardBreak
-        status={item.status}
-        type={item.type}
-        date={_listDate}
-        reason={item.content}
-        typeBreak={
-          item.date.length > 1 && item.morning === 0
-            ? 'Nhiều ngày'
-            : item.date.length === 1 && item.morning === 0
-              ? 'Một ngày'
-              : item.date.length === 1 && item.morning === 1
-                ? 'Buổi sáng'
-                : item.date.length === 1 && item.morning === 2
-                  ? 'Buổi chiều'
-                  : item.date.length === 1
-                    ? 'Một ngày'
-                    : 'Nhiều ngày'
-        }
-      />
-    );
+  const onRefresh = () => {
+    setRefresh(true);
+    setOnScroll(false);
+    getData(1, localDate, status, []);
+  };
+
+  const renderFooterComponent = () => {
+    console.log('loading', loading);
+    return loading ? <Indicator /> : null;
   };
   const closeRow = (rowMap, rowKey) => {
+    // console.log(rowKey);
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
@@ -193,23 +161,21 @@ const HistoryBreak = (props) => {
     newData.splice(prevIndex, 1);
     setData(newData);
   };
-  const onUpdateBreak = (data2, rowMap) => {
+  const onUpdateWFH = (data2, rowMap) => {
     closeRow(rowMap, data2.item.key);
-    // console.log(data2);
-    navigation.navigate(langs.navigator.updateBreak, {
+    navigation.navigate(langs.navigator.updateWFH, {
       _id: data2.item._id,
-      _date: data2.item.date,
-      content: data2.item.content,
-      morning: data2.item.morning,
-      type: data2.item.type,
-
+      start_dateRoute: data2.item.start_date,
+      end_dateRoute: data2.item.end_date,
+      reasonRoute: data2.item.reason,
+      healthRoute: data2.item.health,
     });
   };
-  const onDeleteBreak = async (rowMap, data2) => {
-    const apiURL = `${URL.DELETE_TAKE_LEAVE}`;
+  const onDeleteLate = async (rowMap, data2) => {
+    const apiURL = `${URL.DELETE_WORK_FROM_HOME}`;
     const body = {
       _id: data2.item._id,
-      token
+      token,
     };
     const response = await _POST(apiURL, body, token);
     if (response.success && response.statusCode === 200 && response.data) {
@@ -235,23 +201,15 @@ const HistoryBreak = (props) => {
       _global.Loading.hide();
     }
   };
-  // const onSwipeGestureBegan = (rowKey) => {
-  //   console.log('This row opened', rowKey);
-  //   setRow(rowKey);
-  // };
-  const onApplyBreak = () => {
-    navigation.navigate(langs.navigator.applyBreak);
-  };
-
   const renderHiddenItem = (data2, rowMap) => {
     let flag;
-    data2.item.status === 1 ? flag = true : false;
+    data2.item.status === 1 ? (flag = true) : false;
     return flag ? (
       <View style={styles.rowBack}>
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
-            data2.item.status === 1 ? onUpdateBreak(data2, rowMap) : null;
+            data2.item.status === 1 ? onUpdateWFH(data2, rowMap) : null;
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
@@ -270,7 +228,7 @@ const HistoryBreak = (props) => {
               },
               rightButton: {
                 text: langs.alert.accept,
-                onPress: () => onDeleteBreak(rowMap, data2),
+                onPress: () => onDeleteLate(rowMap, data2),
                 textStyle: {
                   fontWeight: '600',
                   fontFamily: 'Quicksand-Bold',
@@ -314,34 +272,42 @@ const HistoryBreak = (props) => {
             </View>
           </View>
         </View>
-        <Text style={styles.textDescrip}>
+        <Text
+          style={styles.textDescrip}
+        >
           Không thay đổi được
-          {' '}
           {'\n'}
-          {' '}
           đơn đã duyệt
         </Text>
       </View>
     );
   };
-  // const onRowDidOpen = (rowKey, rowMap) => {
-  //   console.log('This row opened', rowKey);
-  //   console.log('This row opened', rowMap);
-  // };
+  const _data = [];
+  data && (data.map((v, i) => {
+    _data[i] = { ...v, key: i };
+  }));
+  // console.log(data);
+  const handleScroll = (event) => {
+    if (event.nativeEvent.contentOffset.x > 0) {
+      setEdit(true);
+    } else setEdit(false);
+  };
+  // console.log('datadatadatadata', data);
+  // console.log('initialDatainitialData', initialData);
+  // console.log('date_user_late', date_user_late);
+  // console.log('localDate',localDate);
   const renderEmpty = () => {
     return <EmptyState source={imgs.notFound} title="Không có lịch sử." />;
   };
   const empty = data && data.length === 0 && !loading;
-  const _data = [];
-  console.log('data check 2',data);
-
-  data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
-  console.log('data check',_data);
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <>
       <HeaderCustom
         height={44}
-        title={langs.titleHistoryBreak}
+        title={langs.titleHistoryWFH}
         goBack={goBack}
         fontSize={24}
         onChangeStatus={onChangeStatus}
@@ -350,7 +316,7 @@ const HistoryBreak = (props) => {
         backgroundColor={Colors.white}
         dateN={moment(localDate, 'DD/MM/YYYY')._d}
       />
-      <View style={styles.backGround}>
+      <View style={styles.detail}>
         <SwipeListView
           data={empty ? [1] : _data}
           keyExtractor={(item, index) => String(index)}
@@ -368,26 +334,26 @@ const HistoryBreak = (props) => {
           rightOpenValue={-150}
           disableRightSwipe
           swipeToOpenPercent={20}
-          // previewRowKey="0"
-          // previewOpenValue={-40}
-          // previewOpenDelay={1000}
-          // onRowOpen={onRowDidOpen}
-          // swipeGestureBegan={onSwipeGestureBegan}
         />
       </View>
-      <ActionButton onApply={onApplyBreak} />
+      <ActionButton onApply={onApplyWFH} />
     </>
   );
-};
+}
 
-export default HistoryBreak;
+export default React.memo(HistoryWFH, equals);
 
 const styles = StyleSheet.create({
-  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
-  backTextWhite: {
-    color: '#FFF',
+  container: {
+    flex: 1,
   },
-
+  flatList: {
+    // marginBottom: heightPercentageToDP(12),
+    // flexGrow: 1,
+  },
+  noData: { fontSize: 16, alignSelf: 'center', marginTop: 24,
+  // fontFamily: Fonts.font_family.italic
+  },
   rowBack: {
     alignItems: 'center',
     flex: 1,
@@ -414,6 +380,7 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
+
     shadowRadius: 3.84,
 
     elevation: 1,
@@ -425,7 +392,5 @@ const styles = StyleSheet.create({
     paddingRight: 32,
     color: Colors.itemInActive,
   },
-  backGround: { flex: 1, backgroundColor: '#f0f0f0' },
-  loader: { marginTop: 8 },
-  imgClear: { alignSelf: 'center', width: 8, height: 8, tintColor: 'white' },
+  detail: { width: wp(100), backgroundColor: '#f0f0f0', flex: 1 }
 });

@@ -392,3 +392,39 @@ export const checkInactive = (data) => {
     type: types.CHECK_INACTIVE,
   };
 };
+export const createWorkFromHome = (data) => {
+  return {
+    type: types.CREATE_WORK_FROM_HOME,
+    payload: data,
+  };
+};
+export const createWorkFromHomeSuccess = (data) => {
+  return {
+    type: types.CREATE_WORK_FROM_HOME_SUCCESS,
+    payload: data,
+  };
+};
+export const createWorkFromHomeFailed = (data) => {
+  return {
+    type: types.CREATE_WORK_FROM_HOME_FAILED,
+    payload: data,
+  };
+};
+export const updateWorkFromHome = (data) => {
+  return {
+    type: types.UPDATE_WORK_FROM_HOME,
+    payload: data,
+  };
+};
+export const updateWorkFromHomeSuccess = (data) => {
+  return {
+    type: types.UPDATE_WORK_FROM_HOME_SUCCESS,
+    payload: data,
+  };
+};
+export const updateWorkFromHomeFailed = (data) => {
+  return {
+    type: types.UPDATE_WORK_FROM_HOME_FAILED,
+    payload: data,
+  };
+};

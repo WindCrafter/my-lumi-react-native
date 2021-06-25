@@ -179,6 +179,7 @@ const PickTeam = (props) => {
 
   const onPickTeam = () => {
     addMember(userPicked);
+    console.log('userPicked',userPicked);
     navigation.goBack();
   };
 

@@ -93,7 +93,7 @@ export default function InputPassword(props?: Props) {
       <TextInput
         testID={testID}
         ref={refInput}
-        style={styles.textInput}
+        style={[styles.textInput, { height }]}
         selectionColor="black"
         placeholderTextColor={placeholderTextColor}
         autoCorrect={false}

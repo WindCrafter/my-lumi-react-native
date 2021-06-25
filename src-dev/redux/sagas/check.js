@@ -6,8 +6,6 @@ import { _POST, _GET, _POST_WIFI } from '../../../utlis/connection/api';
 import {
   checkInSuccess,
   checkInFailed,
-  createQRSuccess,
-  createQRFailed,
   setLateEarlyFailed,
   setLateEarlySuccess,
   takeLeaveSuccess,
@@ -45,7 +43,12 @@ import {
   checkInCode,
   checkInRequestSuccess,
   checkOutRequestSuccess,
-
+  createWorkFromHome,
+  createWorkFromHomeSuccess,
+  createWorkFromHomeFailed,
+  updateWorkFromHome,
+  updateWorkFromHomeSuccess,
+  updateWorkFromHomeFailed
 } from '../actions/check';
 import { store } from '../store/store.js';
 
@@ -103,6 +106,8 @@ const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   return `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
 };
 /// ///////////////////////////////////////////////////////////////////////////////////////
+const URL_CREATE_WORK_FROM_HOME = `${URL.CREATE_WORK_FROM_HOME}`;
+const URL_UPDATE_WORK_FROM_HOME = `${URL.UPDATE_WORK_FROM_HOME}`;
 function* sagaCheckIn(action) {
   try {
     const data = {
@@ -1043,4 +1048,102 @@ function* sagaApproveCheck(action) {
 
 export function* watchApproveCheck() {
   yield takeLatest(types.APPROVE_CHECK, sagaApproveCheck);
+}
+function* sagaCreateWFH(action) {
+  try {
+    const data = {
+      ...action.payload,
+    };
+    delete data.token;
+    const token = action.payload.token;
+    const response = yield _POST(URL_CREATE_WORK_FROM_HOME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('work from home=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(createWorkFromHomeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.acceptWFH,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(createWorkFromHomeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchCreateWFH() {
+  yield takeLatest(types.CREATE_WORK_FROM_HOME, sagaCreateWFH);
+}
+function* sagaUpdateWFH(action) {
+  try {
+    const data = {
+      ...action.payload,
+    };
+    delete data.token;
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_WORK_FROM_HOME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('update work from home=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateWorkFromHomeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.updatetWFH,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateWorkFromHomeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchUpdateWFH() {
+  yield takeLatest(types.UPDATE_WORK_FROM_HOME, sagaUpdateWFH);
 }
