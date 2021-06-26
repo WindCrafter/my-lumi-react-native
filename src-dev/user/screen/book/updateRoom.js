@@ -65,12 +65,13 @@ const UpdateRoom = props => {
     loopRoute,
     memberIdsRoute,
     rommIdRoute
-} = route.params;
+  } = route.params;
+  console.log('contentRoute', contentRoute);
   const refPhone = useRef('');
   const [title, setTitle] = useState(subjectRoute);
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState(locationRoute||rommIdRoute == 1 ? 'Phòng họp' : rommIdRoute == 2? 'Phòng Chủ Tịch'  : rommIdRoute == 3 ? 'Phòng ăn' : null );
+  const [location, setLocation] = useState(locationRoute || rommIdRoute == 1 ? 'Phòng họp' : rommIdRoute == 2 ? 'Phòng Chủ Tịch' : rommIdRoute == 3 ? 'Phòng ăn' : null);
   const [select, onSelect] = useState(false);
   const [loop, setLoop] = useState(loopRoute);
   const [hourStart, setHourStart] = useState(moment(startTimeRoute, 'HH:mm')._d);
@@ -159,7 +160,7 @@ const UpdateRoom = props => {
   };
 
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState(moment(dateRoute,'DD-MM-YYYY')._d);
+  const [date, setDate] = useState(moment(dateRoute, 'DD-MM-YYYY')._d);
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
@@ -409,6 +410,7 @@ const UpdateRoom = props => {
           <Card style={styles.Description}>
             <TextInput
               multiline
+              value={description}
               placeholder="Tóm tắt nội dung họp (Tuỳ chọn)"
               style={styles.txtDescription}
               onBlur={onBlur}

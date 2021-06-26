@@ -249,7 +249,8 @@ const langs = {
     nullContent: 'Nội dung không được để trống',
     acceptWFH: 'Gửi đơn làm việc từ xa thành công',
     updatetWFH: 'Sửa đơn làm việc từ xa thành công',
-    successDeleteRoom: 'Xoá phòng thành công',
+    successDeleteRoom: 'Xoá lịch họp thành công',
+    deleteRoom: 'Bạn có chắc chắn xoá lịch họp này không ?',
 
   },
 };

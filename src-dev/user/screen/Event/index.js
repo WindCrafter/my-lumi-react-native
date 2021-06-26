@@ -334,7 +334,7 @@ const Event = props => {
       end_time: moment(end).format('HH:mm'),
       start_time: moment(start).format('HH:mm'),
       subject: title,
-      room_id: location == 'Phòng họp' ? 1 : location == 'Phòng Chủ Tịch' ? 2 : location == 'Phòng ăn' ? 3 : null,
+      room_id: location == 'Phòng họp' ? 1 : location == 'Phòng Chủ Tịch' ? 2 : location === 'Phòng ăn' ? 3 : null,
       content: description,
       member: name.toString(),
       token,
@@ -455,7 +455,6 @@ const Event = props => {
             height={select ? 148 : 54}
             shadowColor="white"
             title="Lặp lại"
-            padding={16}
             marginVertical={18}
             containerStyle={styles.viewInputPick}
             onPressButton={onSetSelect}

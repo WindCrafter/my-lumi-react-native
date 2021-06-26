@@ -68,7 +68,7 @@ function HistoryWFH(props) {
     const _date = dateN ? moment(dateN, 'DD/MM/YYYY').format('DD-MM-YYYY') : 0;
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.GET_LIST_WORK_FROM_HOME}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
+    const apiURL = `${URL.GET_SELF_LIST_WORK_FROM_HOME}?page=${pageNumber}&page_size=20&status=${_status}&start_date=${_date}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_LATE_EARLY ===========>', response);
     setRefresh(false);
@@ -103,7 +103,7 @@ function HistoryWFH(props) {
   };
   const onSetType = (item) => {
     switch (item) {
-      case 0:
+      case '0':
         setType('Tất cả');
         break;
       case '1':
@@ -170,6 +170,7 @@ function HistoryWFH(props) {
       reasonRoute: data2.item.reason,
       healthRoute: data2.item.health,
     });
+    console.log('data2.item.end_date', data2.item.start_date, data2.item.end_date);
   };
   const onDeleteLate = async (rowMap, data2) => {
     const apiURL = `${URL.DELETE_WORK_FROM_HOME}`;
@@ -309,7 +310,6 @@ function HistoryWFH(props) {
         height={44}
         title={langs.titleHistoryWFH}
         goBack={goBack}
-        fontSize={24}
         onChangeStatus={onChangeStatus}
         onChangeDate={onChangeDate}
         type={type}

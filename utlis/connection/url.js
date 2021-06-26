@@ -93,4 +93,6 @@ export const URL = {
   ALL_LIST_WORK_FROM_HOME: '/work-remote/all-list',
   GET_LIST_WORK_FROM_HOME_MANAGER: '/work-remote/manager-list',
   APPROVE_WORK_FROM_HOME: '/work-remote/approved-canceled',
+  GET_SELF_LIST_WORK_FROM_HOME: '/work-remote/self-list',
+
 };

@@ -370,7 +370,7 @@ const Book = (props) => {
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
-            <Icon name="edit-3" size={24} color={Colors.black} />
+            <Icon name="edit-3" size={16} color={Colors.black} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -378,7 +378,7 @@ const Book = (props) => {
           onPress={() => {
             _global.Alert.alert({
               title: langs.alert.notice,
-              message: langs.alert.deleteApplication,
+              message: langs.alert.deleteRoom,
               leftButton: {
                 text: langs.alert.cancel,
                 onPress: () => closeRow(rowMap, data2.item.key),
@@ -395,7 +395,7 @@ const Book = (props) => {
           }}
         >
           <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
-            <Icon name="trash" size={24} color={Colors.danger} />
+            <Icon name="trash" size={16} color={Colors.danger} />
           </View>
         </TouchableOpacity>
       </View>
@@ -407,32 +407,36 @@ const Book = (props) => {
           justifyContent: 'center',
         }}
       >
-        <View style={[{ flexDirection: 'row', paddingRight: 32, top: -6 }]}>
-          <View style={styles.backRightBtn}>
-            <View
-              style={[
-                styles.backBtn,
-                { backgroundColor: Colors.backgroundInActive },
-              ]}
-            >
-              <Icon name="edit-3" size={24} color={Colors.itemInActive} />
+        <View style={{ alignItems: 'center', paddingRight: 24 }}>
+          <View style={[{ flexDirection: 'row', top: -6 }]}>
+            <View style={styles.backRightBtn}>
+              <View
+                style={[
+                  styles.backBtn,
+                  { backgroundColor: Colors.backgroundInActive },
+                ]}
+              >
+                <Icon name="edit-3" size={16} color={Colors.itemInActive} />
+              </View>
+            </View>
+            <View style={styles.backRightBtn}>
+              <View
+                style={[
+                  styles.backBtn,
+                  { backgroundColor: Colors.backgroundInActive },
+                ]}
+              >
+                <Icon name="trash" size={16} color={Colors.itemInActive} />
+              </View>
             </View>
           </View>
-          <View style={styles.backRightBtn}>
-            <View
-              style={[
-                styles.backBtn,
-                { backgroundColor: Colors.backgroundInActive },
-              ]}
-            >
-              <Icon name="trash" size={24} color={Colors.itemInActive} />
-            </View>
-          </View>
+          <Text style={styles.textDescrip}>
+            Chỉ chỉnh sửa được
+            {'\n'}
+            phòng của mình
+          </Text>
         </View>
-        <Text style={styles.textDescrip}>
-          Chỉ thay đổi được
-          phòng của mình
-        </Text>
+
       </View>
     );
   };
@@ -477,7 +481,7 @@ const Book = (props) => {
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
         leftOpenValue={75}
-        rightOpenValue={-150}
+        rightOpenValue={-180}
         disableRightSwipe
         swipeToOpenPercent={20}
         useNativeDriver
@@ -525,7 +529,7 @@ const Book = (props) => {
           <Text style={{ fontSize: 16, marginBottom: 8 }}>
             <Text style={styles.detail}>Địa điểm :</Text>
             {' '}
-            {itemShow.location}
+            {itemShow.location || (itemShow.room_id == 1 ? 'Phòng họp' : itemShow.room_id == 2 ? 'Phòng Chủ Tịch' : itemShow.room_id == 3 ? 'Phòng ăn' : null)}
           </Text>
           <Text style={{ fontSize: 16, marginBottom: 8 }}>
             <Text style={styles.detail}>Người tạo :</Text>
@@ -710,8 +714,8 @@ const styles = StyleSheet.create({
     zIndex: 90,
   },
   backBtn: {
-    height: 48,
-    width: 48,
+    height: 36,
+    width: 36,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -728,9 +732,10 @@ const styles = StyleSheet.create({
   },
   textDescrip: {
     fontSize: 8,
-    textAlign: 'center',
-    paddingRight: 24,
+    // textAlign: 'center',
+    // paddingRight: 24,
     color: Colors.itemInActive,
+    fontFamily: 'Quicksand-Bold',
   },
 });
 export default React.memo(Book, equals);

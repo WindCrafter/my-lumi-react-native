@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { LayoutAnimation, View, Text, StyleSheet, Keyboard, TextInput, Image, Platform } from 'react-native';
+import { LayoutAnimation, View, Text, StyleSheet, Keyboard, TextInput, Image, Platform, ScrollView } from 'react-native';
 import { Card } from 'native-base';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
-import { HeaderCustom, InputRow, InputSelect, Button } from '../../../component';
+import { HeaderCustom, InputRow, InputSelect, Button, Input } from '../../../component';
 import PickerCustom from './component/PickerCustom';
 import { imgs, Colors } from '../../../../utlis';
 import { _global } from '../../../../utlis/global/global';
@@ -25,8 +25,11 @@ function UpdateWFH(props) {
   const [dateEnd, setDateEnd] = useState(new Date(end_dateRoute * 1000));
 
   const [healthCondition, setHealthCondition] = useState(healthRoute);
-  console.log(date, date2, new Date());
   const onBlur = () => {
+    Keyboard.dismiss();
+  };
+  const unFocus = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     Keyboard.dismiss();
   };
   const onChangeTitle = val => {
@@ -49,7 +52,7 @@ function UpdateWFH(props) {
   };
   const onChangeDateStart = (event, selectedDay) => {
     const currentDay = selectedDay || dateStart;
-    const smallerDate = moment(currentDay).format('YYYYMMDD') >= moment(date2).format('YYYYMMDD');
+    const smallerDate = moment(currentDay).format('YYYYMMDD') > moment(date2).format('YYYYMMDD');
 
     if (Platform.OS === 'ios') {
       setDateStart(currentDay);
@@ -70,7 +73,7 @@ function UpdateWFH(props) {
   };
   const onChangeDateEnd = (event, selectedDay) => {
     const currentDay = selectedDay || dateStart;
-    const smallerDate = moment(date).format('YYYYMMDD') >= moment(currentDay).format('YYYYMMDD');
+    const smallerDate = moment(date).format('YYYYMMDD') > moment(currentDay).format('YYYYMMDD');
 
     if (Platform.OS === 'ios') {
       setDateEnd(currentDay);
@@ -112,6 +115,7 @@ function UpdateWFH(props) {
     setshowModalDateEnd(false);
   };
   const onSetWorkFromHome = () => {
+    Keyboard.dismiss();
     if (!title) {
       _global.Alert.alert({
         title: langs.alert.remind,
@@ -161,107 +165,115 @@ function UpdateWFH(props) {
   };
   return (
     <View style={styles.container}>
-      <HeaderCustom title="Đơn xin làm việc tại nhà" height={64} goBack={goBack} shadow />
-      <Card style={styles.Description}>
-        <Image source={imgs.title} style={styles.iconMenu} />
-        <TextInput
-          multiline
-          placeholder="Lí do WFH"
-          value={title}
-          style={styles.txtDescription}
-          onBlur={onBlur}
-          onChangeText={onChangeTitle}
-          placeholderTextColor={Colors.ink400}
-        />
-      </Card>
-      <InputSelect
-        width="90%"
-        leftImage={imgs.DOB}
-        borderRadius={32}
-        height={54}
-        shadowColor="white"
-        title="Chọn ngày"
-        padding={8}
-        marginVertical={18}
-        containerStyle={styles.viewInputSelect}
-        onPressButton={onShowPickerDateStart}
-        shadowOpacity={0.1}
-        marginRight={-30}
-        color="rgba(4, 4, 15, 0.45)"
-        detail={
+      <HeaderCustom title="Sửa xin làm việc tại nhà" height={64} goBack={goBack} shadow fontSize={widthPercentageToDP(100) < 375 ? 16 : 20} />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{ backgroundColor: '#f2f2f2' }}
+        keyboardDismissMode="interactive"
+      >
+        <Card style={styles.Description}>
+          <Image source={imgs.title} style={styles.iconMenu} />
+          <TextInput
+            multiline
+            placeholder="Lí do WFH"
+            value={title}
+            style={styles.txtDescription}
+            onBlur={onBlur}
+            onChangeText={onChangeTitle}
+            placeholderTextColor={Colors.ink400}
+          />
+        </Card>
+        <InputSelect
+          width="90%"
+          leftImage={imgs.DOB}
+          borderRadius={32}
+          height={54}
+          shadowColor="white"
+          title="Chọn ngày"
+          padding={8}
+          marginVertical={18}
+          containerStyle={styles.viewInputSelect}
+          onPressButton={onShowPickerDateStart}
+          shadowOpacity={0.1}
+          marginRight={-30}
+          color="rgba(4, 4, 15, 0.45)"
+          detail={
               date !== ''
                 ? `${moment(date).format('DD')} tháng ${moment(date).format(
                   'MM',
                 )}, ${moment(date).format('YYYY')}`
                 : 'Ngày bắt đầu'
             }
-        rightImage={imgs.roundedLeft}
-      />
-      <InputSelect
-        width="90%"
-        leftImage={imgs.DOB}
-        borderRadius={32}
-        height={54}
-        shadowColor="white"
-        title="Chọn ngày"
-        padding={8}
-        marginVertical={18}
-        containerStyle={styles.viewInputSelect}
-        onPressButton={onShowPickerDateEnd}
-        shadowOpacity={0.1}
-        marginRight={-30}
-        color="rgba(4, 4, 15, 0.45)"
-        detail={
+          rightImage={imgs.roundedLeft}
+        />
+        <InputSelect
+          width="90%"
+          leftImage={imgs.DOB}
+          borderRadius={32}
+          height={54}
+          shadowColor="white"
+          title="Chọn ngày"
+          padding={8}
+          marginVertical={18}
+          containerStyle={styles.viewInputSelect}
+          onPressButton={onShowPickerDateEnd}
+          shadowOpacity={0.1}
+          marginRight={-30}
+          color="rgba(4, 4, 15, 0.45)"
+          detail={
               date2 !== ''
-                ? `${moment(date2).format('DD')} tháng ${moment(date).format(
+                ? `${moment(date2).format('DD')} tháng ${moment(date2).format(
                   'MM',
                 )}, ${moment(date2).format('YYYY')}`
                 : 'Ngày kết thúc'
             }
-        rightImage={imgs.roundedLeft}
-      />
-      <Card style={styles.viewHealth}>
-        <Image source={imgs.healthCondition} style={styles.iconMenu} />
-        <TextInput
-          multiline
-          placeholder="Tình trạng sức khoẻ"
-          value={healthCondition}
-          style={styles.textHealth}
-          onBlur={onBlur}
-          onChangeText={onChangeHealthCondition}
-          placeholderTextColor={Colors.ink400}
+          rightImage={imgs.roundedLeft}
         />
-      </Card>
-      <Button
-        title="Hoàn thành"
-        containerStyle={styles.complete}
-        onPress={onSetWorkFromHome}
-      />
-      <PickerCustom
-        value={dateStart}
-        onChange={onChangeDateStart}
-        onPress={() => onConfirmDate(false)}
-        mode="date"
-        show={showModalDateStart}
-        minimumDate={new Date()}
-        onHideModal={onUnshowDateStart}
-      />
-      <PickerCustom
-        value={dateEnd}
-        onChange={onChangeDateEnd}
-        onPress={() => onConfirmDate(true)}
-        mode="date"
-        show={showModalDateEnd}
-        minimumDate={new Date()}
-        onHideModal={onUnshowDateEnd}
-      />
+        <Card style={styles.viewHealth}>
+          <Image source={imgs.healthCondition} style={styles.iconMenu} />
+          <TextInput
+            placeholder="Tình trạng sức khoẻ"
+            value={healthCondition}
+            style={styles.textHealth}
+            onBlur={unFocus}
+            onChangeText={onChangeHealthCondition}
+            placeholderTextColor={Colors.ink400}
+            onSubmitEditing={unFocus}
+
+          />
+        </Card>
+        <Button
+          title="Hoàn thành"
+          containerStyle={styles.complete}
+          onPress={onSetWorkFromHome}
+        />
+        <PickerCustom
+          value={dateStart}
+          onChange={onChangeDateStart}
+          onPress={() => onConfirmDate(false)}
+          mode="date"
+          show={showModalDateStart}
+          minimumDate={new Date()}
+          onHideModal={onUnshowDateStart}
+        />
+        <PickerCustom
+          value={dateEnd}
+          onChange={onChangeDateEnd}
+          onPress={() => onConfirmDate(true)}
+          mode="date"
+          show={showModalDateEnd}
+          minimumDate={new Date()}
+          onHideModal={onUnshowDateEnd}
+        />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'white',
   },
   Description: {
     width: '90%',
@@ -293,8 +305,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   },
   iconMenu: {
-    paddingTop: Platform.OS === 'android' ? 6 : 0,
-    marginLeft: 10,
+    marginLeft: 16,
   },
   viewInputSelect: {
     marginVertical: 16,
