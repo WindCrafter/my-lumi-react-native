@@ -246,8 +246,7 @@ const Book = (props) => {
   };
   const renderHeader = (section) => {
     return (
-      <View>
-        {moment().format('DD-MM-YYYY')
+      moment().format('DD-MM-YYYY')
         !== moment(section.section.date, 'DD-MM-YYYY').format('DD-MM-YYYY') ? (
           <View style={styles.viewHeader}>
             <Text style={styles.textHeader}>
@@ -259,31 +258,30 @@ const Book = (props) => {
               {moment(section.section.date, 'DD-MM-YYYY').format('M')}
             </Text>
           </View>
-          ) : (
-            <View style={styles.viewHeader}>
-              <Text style={styles.textToday}>
-                Hôm
-                {' '}
-                {'\n '}
-                nay
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  position: 'absolute',
-                  top: 64,
-                  fontWeight: '500',
+        ) : (
+          <View style={styles.viewHeader}>
+            <Text style={styles.textToday}>
+              Hôm
+              {' '}
+              {'\n '}
+              nay
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                position: 'absolute',
+                top: 64,
+                fontWeight: '500',
 
-                }}
-              >
-                {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
-                {' '}
-                Tháng
-                {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
-              </Text>
-            </View>
-          )}
-      </View>
+              }}
+            >
+              {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
+              {' '}
+              Tháng
+              {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
+            </Text>
+          </View>
+        )
     );
   };
   const closeRow = (rowMap, rowKey) => {
@@ -362,7 +360,7 @@ const Book = (props) => {
     // console.log('flag', data2);
     data2.item.owner_id == user_id ? flag = true : false;
     return flag ? (
-      <View style={styles.rowBack}>
+      <View style={[styles.rowBack, { top: data2.index === 0 ? -20 : 0, }]}>
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
@@ -405,6 +403,7 @@ const Book = (props) => {
           alignItems: 'flex-end',
           flex: 1,
           justifyContent: 'center',
+          marginTop: data2.index === 0 ? -15 : 0
         }}
       >
         <View style={{ alignItems: 'center', paddingRight: 24 }}>
@@ -430,11 +429,11 @@ const Book = (props) => {
               </View>
             </View>
           </View>
-          <Text style={styles.textDescrip}>
+          {/* <Text style={styles.textDescrip}>
             Chỉ chỉnh sửa được
             {'\n'}
             phòng của mình
-          </Text>
+          </Text> */}
         </View>
 
       </View>

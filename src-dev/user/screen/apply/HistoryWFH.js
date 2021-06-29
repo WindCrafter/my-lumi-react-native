@@ -80,7 +80,11 @@ function HistoryWFH(props) {
     && response.data
     && response.data.length > 0
     ) {
-      setData(_dataN.concat(response.data));
+      const _data = [];
+      response.data && (response.data.map((v, i) => {
+        _data[i] = { ...v, key: i };
+      }));
+      setData(_dataN.concat(_data));
       setPage(pageNumber);
     }
   };
@@ -157,7 +161,7 @@ function HistoryWFH(props) {
     // console.log(rowMap, rowKey);
     closeRow(rowMap, rowKey);
     const newData = [...data];
-    const prevIndex = _data.findIndex((item) => item.key === rowKey);
+    const prevIndex = data.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setData(newData);
   };
@@ -283,10 +287,7 @@ function HistoryWFH(props) {
       </View>
     );
   };
-  const _data = [];
-  data && (data.map((v, i) => {
-    _data[i] = { ...v, key: i };
-  }));
+ 
   // console.log(data);
   const handleScroll = (event) => {
     if (event.nativeEvent.contentOffset.x > 0) {
@@ -318,7 +319,7 @@ function HistoryWFH(props) {
       />
       <View style={styles.detail}>
         <SwipeListView
-          data={empty ? [1] : _data}
+          data={empty ? [1] : data}
           keyExtractor={(item, index) => String(index)}
           showsVerticalScrollIndicator={false}
           renderItem={empty ? renderEmpty : renderItem}
