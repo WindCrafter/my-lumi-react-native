@@ -295,9 +295,7 @@ const HistoryLate = (props) => {
           style={styles.textDescrip}
         >
           Không thay đổi được
-          {' '}
           {'\n'}
-          {' '}
           đơn đã duyệt
         </Text>
       </View>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -29,10 +29,12 @@ import {
   InputDown,
 } from '../../../component';
 import PickerCustom from '../apply/component/PickerCustom';
-import LocationModal from './component/LocationModal';
-import TimeModal from './component/TimeModal';
+import LocationModal from '../Event/component/LocationModal';
+import TimeModal from '../Event/component/TimeModal';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
+import { _GET } from '../../../../utlis/connection/api';
+import { URL } from '../../../../utlis/connection/url';
 
 if (
   Platform.OS === 'android'
@@ -40,27 +42,61 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-const Event = props => {
+const UpdateRoom = props => {
   const {
     navigation,
     memberPicked,
     kickMember,
     clearMember,
     token,
-    bookRoom,
+    updateRoom,
+    route,
+    addMember
   } = props;
+  const {
+    idRoute,
+    startTimeRoute,
+    endTimeRoute,
+    dateRoute,
+    subjectRoute,
+    contentRoute,
+    memberRoute,
+    locationRoute,
+    loopRoute,
+    memberIdsRoute,
+    rommIdRoute
+  } = route.params;
+  console.log('contentRoute', contentRoute);
   const refPhone = useRef('');
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(subjectRoute);
   const [showModal, setShowModal] = useState(false);
   const [showModalTime, setShowModalTime] = useState(false);
-  const [location, setLocation] = useState('Phòng họp');
+  const [location, setLocation] = useState(locationRoute || rommIdRoute == 1 ? 'Phòng họp' : rommIdRoute == 2 ? 'Phòng Chủ Tịch' : rommIdRoute == 3 ? 'Phòng ăn' : null);
   const [select, onSelect] = useState(false);
-  const [loop, setLoop] = useState('');
-  const [hourStart, setHourStart] = useState(moment()._d);
-  const [hourEnd, setHourEnd] = useState(moment()._d);
-  const [start, setStart] = useState('');
-  const [end, setEnd] = useState('');
-  const [description, setDescription] = useState('');
+  const [loop, setLoop] = useState(loopRoute);
+  const [hourStart, setHourStart] = useState(moment(startTimeRoute, 'HH:mm')._d);
+  const [hourEnd, setHourEnd] = useState(moment(endTimeRoute, 'HH:mm')._d);
+  const [start, setStart] = useState(moment(startTimeRoute, 'HH:mm')._d);
+  const [end, setEnd] = useState(moment(endTimeRoute, 'HH:mm')._d);
+  const [description, setDescription] = useState(contentRoute);
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = async () => {
+    const apiURL = `${URL.MEETING_MEMBERS}`;
+    const response = await _GET(apiURL, token, false);
+    console.log('_GET_DATA ===========>', response);
+    if (response.success && response.statusCode === 200) {
+      if (response.data.members && response.data.members.length > 0) {
+        // console.log('no', response.data.members);
+        const member_infor = [];
+
+        memberIdsRoute.split(',').forEach((i) => response.data.members.forEach((a) => a.member_id === i && member_infor.push(a)));
+        // console.log('no no', member_infor);
+        addMember(member_infor);
+      }
+    }
+  };
   const onSetSelect = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     onSelect(!select);
@@ -124,7 +160,7 @@ const Event = props => {
   };
 
   const [dateStart, setDateStart] = useState(new Date());
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment(dateRoute, 'DD-MM-YYYY')._d);
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
@@ -321,6 +357,7 @@ const Event = props => {
     });
     console.log('location', location);
     const data = {
+      id: idRoute,
       loop:
         loop === ''
           ? 0
@@ -334,14 +371,14 @@ const Event = props => {
       end_time: moment(end).format('HH:mm'),
       start_time: moment(start).format('HH:mm'),
       subject: title,
-      room_id: location == 'Phòng họp' ? 1 : location == 'Phòng Chủ Tịch' ? 2 : location === 'Phòng ăn' ? 3 : null,
+      room_id: location == 'Phòng họp' ? 1 : location == 'Phòng Chủ Tịch' ? 2 : location == 'Phòng ăn' ? 3 : null,
       content: description,
       member: name.toString(),
       token,
       date: moment(date).format('DD-MM-YYYY'),
       member_ids: member_ids.toString(),
     };
-    bookRoom(data);
+    updateRoom(data);
   };
 
   return (
@@ -373,6 +410,7 @@ const Event = props => {
           <Card style={styles.Description}>
             <TextInput
               multiline
+              value={description}
               placeholder="Tóm tắt nội dung họp (Tuỳ chọn)"
               style={styles.txtDescription}
               onBlur={onBlur}
@@ -455,6 +493,7 @@ const Event = props => {
             height={select ? 148 : 54}
             shadowColor="white"
             title="Lặp lại"
+            padding={16}
             marginVertical={18}
             containerStyle={styles.viewInputPick}
             onPressButton={onSetSelect}
@@ -472,7 +511,7 @@ const Event = props => {
             borderRadius={32}
             height={54}
             shadowColor="white"
-            title="Địa điểm : Phòng hợp"
+            title="Địa điểm : Phòng họp"
             padding={8}
             marginVertical={18}
             containerStyle={styles.viewInputSelect}
@@ -567,7 +606,7 @@ const Event = props => {
   );
 };
 
-export default Event;
+export default UpdateRoom;
 
 const styles = StyleSheet.create({
   container: {

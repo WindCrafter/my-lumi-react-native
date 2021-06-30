@@ -11,6 +11,9 @@ import applyOT from '../user/container/apply/applyOT';
 import ListOT from '../user/container/apply/ListOT';
 import ApproveOT from '../user/container/apply/ApproveOT';
 import applyBreak from '../user/container/apply/applyBreak';
+import applyWFH from '../user/container/apply/applyWFH';
+import HistoryWFH from '../user/container/apply/HistoryWFH';
+import updateWFH from '../user/container/apply/updateWFH';
 import updateBreak from '../user/container/apply/updateBreak';
 import updateOT from '../user/container/apply/updateOT';
 import updateLate from '../user/container/apply/updateLate';
@@ -39,6 +42,7 @@ import ListEvent from '../user/container/event/ListEvent';
 import AddEvent from '../user/container/event/AddEvent';
 import EditEvent from '../user/container/event/EditEvent';
 import DetailEventByNotify from '../user/container/event/DetailEventByNotify';
+import UpdateRoom from '../user/container/book/updateRoom';
 
 const Stack = createStackNavigator();
 StatusBar.setBarStyle('dark-content');
@@ -299,6 +303,34 @@ export default function UserStack() {
       <Stack.Screen
         name={langs.navigator.editEvent}
         component={EditEvent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.applyWFH}
+        component={applyWFH}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.historyWFH}
+        component={HistoryWFH}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateWFH}
+        component={updateWFH}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={langs.navigator.updateRoom}
+        component={UpdateRoom}
         options={{
           headerShown: false,
         }}

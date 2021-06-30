@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Card } from 'native-base';
 
-const CardUser = props => {
+const CardUser = (props) => {
   const {
     backgroundColor,
     source,
@@ -17,7 +17,10 @@ const CardUser = props => {
     <Card style={[styles.container, { backgroundColor }]}>
       <View style={styles.flex}>
         <View style={[styles.viewImg, { backgroundColor: imgBackground }]}>
-          <Image source={source} style={[styles.imgs, { tintColor }]} />
+          <Image
+            source={source}
+            style={[styles.imgs, { tintColor }]}
+          />
         </View>
       </View>
       <View style={styles.viewDetail}>
@@ -38,6 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   flex: {
     flex: 1,

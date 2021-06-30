@@ -7,7 +7,7 @@ import {
   // TransitionPresets,
 } from '@react-navigation/stack';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import login from '../user/container/login';
+import login from '../user/container/login/index';
 import UserStack from './UserStack';
 import Register from '../user/container/register/index';
 import { navigationRef } from './CustomNavigation';

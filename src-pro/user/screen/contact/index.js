@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 4
+    elevation: 4,
   },
   gradient: {
     width: widthPercentageToDP(100),
@@ -281,14 +281,13 @@ const styles = StyleSheet.create({
     color: Colors.ink500,
     fontWeight: '600',
     fontFamily: 'Quicksand-Bold',
-    marginTop: 8
+    marginTop: 8,
   },
   description: {
     fontSize: 16,
     alignSelf: 'center',
     color: Colors.ink400,
     textAlign: 'center',
-    paddingHorizontal: 16
-
+    paddingHorizontal: 16,
   },
 });

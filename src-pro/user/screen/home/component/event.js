@@ -23,6 +23,7 @@ const Event = (props) => {
     const below = widthPercentageToDP(100) - 57;
     setNumber(Math.round(upper / below));
   };
+
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity style={styles.viewItem} onPress={() => onPress(item)} onLongPress={() => onLongPress(item)}>
@@ -79,10 +80,10 @@ const Event = (props) => {
           <Image source={imgs.calendarWeek} style={styles.imgs} />
           <Text style={styles.txtManager}>{langs.event}</Text>
         </TouchableOpacity>
-        {role === 'HR' && (
-          <TouchableOpacity onPress={AddEvent} style={styles.btnAdd}>
-            <Image source={imgs.add} style={styles.imgsEnd} />
-          </TouchableOpacity>
+        { role === 'HR' && (
+        <TouchableOpacity onPress={AddEvent} style={styles.btnAdd}>
+          <Image source={imgs.add} style={styles.imgsEnd} />
+        </TouchableOpacity>
         )}
       </View>
       <View style={styles.line} />
@@ -90,7 +91,7 @@ const Event = (props) => {
         style={styles.flatList}
         ref={ref}
         data={data && data.length !== 0 ? data : [1]}
-        keyExtractor={item => item._id}
+        keyExtractor={(item) => item._id}
         renderItem={data && data.length !== 0 ? renderItem : renderEmpty}
         scrollEnabled
         horizontal
@@ -98,7 +99,7 @@ const Event = (props) => {
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
       />
-      <View style={styles.paging}>{data.map(m => renderPage(m))}</View>
+      <View style={styles.paging}>{data.map((m) => renderPage(m))}</View>
     </>
   );
 };

@@ -13,7 +13,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-community/async-storage';
 import codePush from 'react-native-code-push';
 import { Logo, Input, InputPassword, Button, KeyBoardScroll } from '../../../component';
 import Checkbox from './components/Checkbox';

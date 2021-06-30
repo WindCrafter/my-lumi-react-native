@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useIsFocused } from '@react-navigation/native';
+import equals from 'react-fast-compare';
 
 import {
   StyleSheet,
@@ -19,6 +20,8 @@ import {
   ActivityIndicator,
   RefreshControl, AppState
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { Agenda, Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import ActionButton from 'react-native-action-button';
@@ -28,8 +31,9 @@ import { Colors, Fonts, imgs } from '../../../../utlis';
 import { BarStatus, HeaderAccount, EmptyState,
   Indicator, } from '../../../component';
 import langs from '../../../../common/language/index';
-import { _GET } from '../../../../utlis/connection/api';
+import { _POST, _GET } from '../../../../utlis/connection/api';
 import { URL } from '../../../../utlis/connection/url';
+import { _global } from '../../../../utlis/global/global';
 
 if (
   Platform.OS === 'android'
@@ -43,6 +47,7 @@ const Book = (props) => {
   const [onScroll, setOnScroll] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [itemShow, setItemShow] = useState({});
@@ -87,18 +92,17 @@ const Book = (props) => {
     AppState.addEventListener('change', _handleAppStateChange);
 
     if (isFocused) {
-      getData();
+      getData([], 1);
       // console.log('statusstatussta redux', status_user_break, date_user_break);
     }
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
   }, [isFocused]);
-  const getData = async (dataN) => {
-    console.log('date');
-
+  // const [count, setCount] = useState(0);
+  const getData = async (dataN, pageN) => {
     const _dataN = dataN || [];
-    const apiURL = `${URL.LIST_ROOM}`;
+    const apiURL = `${URL.LIST_ROOM}?page=${pageN}&page_size=20`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -110,28 +114,32 @@ const Book = (props) => {
       && response.data
       && response.data.length > 0
     ) {
-      setData(_dataN.concat(response.data));
+      const array = [];
+      response.data.forEach((i) => {
+        if (array.filter((it) => i.date === it.date).length === 0) {
+          array.push({ date: i.date, data: [i] });
+        } else {
+          array.map((item) => (item.date === i.date ? { ...item, data: item.data.push(i) } : item),);
+        }
+      });
+
+      let _data = [];
+      if (array) {
+        _data = array.map((d, index) => ({
+          ...d,
+          data: d.data.map((d2, i2) => ({ ...d2, key: `${index}.${i2}` }))
+        }));
+      }
+      setData(_dataN.concat(_data));
+      setPage(pageN);
     }
     // else {
     // }
+    console.log(data);
   };
-  const _handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') {
-      getData();
-      console.log('call api for approve book');
-    }
-  };
-  const array = [];
   let count = 0;
   data.forEach((i) => {
-    if (array.filter((it) => i.date === it.date).length === 0) {
-      array.push({ date: i.date, data: [i] });
-    } else {
-      array.map((item) => (item.date === i.date ? { ...item, data: item.data.push(i) } : item),);
-    }
-  });
-  array.forEach((i) => {
-    console.log(i);
+    // console.log(i);
     if (i.date == moment().format('DD-MM-YYYY')) {
       i.data.forEach((k) => {
         if (k.member_ids.split(',').find((e) => e === user_id.toString()) || k.owner_id == user_id) {
@@ -140,69 +148,71 @@ const Book = (props) => {
       });
     }
   });
-  console.log(count);
+  // setCount(point);
+  const _handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') {
+      getData();
+      console.log('call api for approve book');
+    }
+  };
+
+  // console.log(count);
   const renderItem = (item) => {
     // console.log('memberid', item.item.member_ids);
     // console.log('user_id', user_id);
+    // console.log('index', item);
     const arrayUserId = item.item.member_ids.split(',');
 
     return (
-      <View>
-        <View style={[styles.container]}>
-          {/* <Text>{item.section.date}</Text>  */}
-          <View style={{ width: 80 }} />
-          <TouchableOpacity
-            onPress={() => onShowModal(item.item)}
-            style={[
-              styles.item,
-              {
-                marginTop: item.index === 0 ? -48 : 16,
-                marginBottom:
+      <TouchableOpacity
+        onPress={() => onShowModal(item.item)}
+        activeOpacity={0.8}
+        style={[
+          styles.item,
+          {
+            marginTop: item.index === 0 ? -48 : 16,
+            marginBottom:
                   item.index === item.section.data.length - 1 ? 16 : 0,
-                borderWidth:
+            borderWidth:
                   arrayUserId.find((e) => e === user_id.toString())
                   || item.item.owner_id == user_id
                     ? 2.5
                     : 0,
-                borderColor: Colors.background,
-              },
-            ]}
-          >
-            <View style={{ marginHorizontal: 16 }}>
-              <Text style={styles.itemDurationText}>
-                {`${item.item.subject}`}
-              </Text>
-              <Text style={styles.txtTime}>
-                {`${moment(item.item.start_time, 'hh:mm').format(
-                  'LT',
-                )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
-              </Text>
-              {/* <Text style={{fontSize: 16, marginBottom: 8}}>
+            borderColor: Colors.background,
+            zIndex: -80,
+            marginLeft: 80
+          },
+        ]}
+      >
+        <View style={{ marginHorizontal: 16 }}>
+          <Text style={styles.itemDurationText}>
+            {`${item.item.subject}`}
+          </Text>
+          <Text style={styles.txtTime}>
+            {`${moment(item.item.start_time, 'hh:mm').format(
+              'LT',
+            )} - ${moment(item.item.end_time, 'hh:mm').format('LT')}`}
+          </Text>
+          {/* <Text style={{fontSize: 16, marginBottom: 8}}>
                 {item.item.location}
               </Text> */}
-              {item.item.owner_name !== item.item.member ? (
-                <Text>
-                  <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
-                  ,
-                  {' '}
-                  {item.item.owner_name
+          {item.item.owner_name !== item.item.member ? (
+            <Text>
+              <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
+              ,
+              {' '}
+              {item.item.owner_name
                     !== item.item.member ? item.item.member
-                      .split(',')
-                      .filter((i) => i != item.item.owner_name)
-                      .toString()
-                      .replace(/,/g, ', ') : item.item.owner_name}
-                </Text>
-              ) : (
-                <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
-              )}
-            </View>
-          </TouchableOpacity>
+                  .split(',')
+                  .filter((i) => i != item.item.owner_name)
+                  .toString()
+                  .replace(/,/g, ', ') : item.item.owner_name}
+            </Text>
+          ) : (
+            <Text style={styles.txtOwner}>{item.item.owner_name}</Text>
+          )}
         </View>
-        {/* {item.index === item.section.data.length - 1 ? (
-            <View
-              style={{height: StyleSheet.hairlineWidth, width: '100%',backgroundColor:"black"}}></View>
-          ) : null} */}
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -213,7 +223,7 @@ const Book = (props) => {
     return <Image source={imgs.add} style={styles.add} />;
   };
   const handleLoadMore = () => {
-    getData();
+    getData(data, page + 1);
     console.log(1);
     setOnScroll(false);
     setLoading(true);
@@ -221,17 +231,7 @@ const Book = (props) => {
   const onRefresh = () => {
     setRefresh(true);
     setOnScroll(false);
-    getData();
-  };
-  const ListFooterComponent = () => {
-    return (
-      <View style={styles.headerFooterStyle}>
-        <Text style={styles.textStyle}>This is Footer</Text>
-      </View>
-    );
-  };
-  const ListHeaderComponent = () => {
-    return <View style={{ height: 24 }} />;
+    getData([], 1);
   };
   const renderFooterComponent = () => {
     return (
@@ -246,8 +246,7 @@ const Book = (props) => {
   };
   const renderHeader = (section) => {
     return (
-      <View>
-        {moment().format('DD-MM-YYYY')
+      moment().format('DD-MM-YYYY')
         !== moment(section.section.date, 'DD-MM-YYYY').format('DD-MM-YYYY') ? (
           <View style={styles.viewHeader}>
             <Text style={styles.textHeader}>
@@ -259,30 +258,185 @@ const Book = (props) => {
               {moment(section.section.date, 'DD-MM-YYYY').format('M')}
             </Text>
           </View>
-          ) : (
-            <View style={styles.viewHeader}>
-              <Text style={styles.textToday}>
-                Hôm
-                {' '}
-                {'\n '}
-                nay
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  position: 'absolute',
-                  top: 64,
-                  fontWeight: '500',
+        ) : (
+          <View style={styles.viewHeader}>
+            <Text style={styles.textToday}>
+              Hôm
+              {' '}
+              {'\n '}
+              nay
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                position: 'absolute',
+                top: 64,
+                fontWeight: '500',
 
-                }}
+              }}
+            >
+              {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
+              {' '}
+              Tháng
+              {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
+            </Text>
+          </View>
+        )
+    );
+  };
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+  const onUpdateBreak = (data2, rowMap) => {
+    closeRow(rowMap, data2.item.key);
+    console.log('date data', data2);
+    console.log('rowmap', rowMap);
+
+    const dataRoute = {
+      idRoute: data2.item.id,
+      startTimeRoute: data2.item.start_time,
+      endTimeRoute: data2.item.end_time,
+      dateRoute: data2.item.date,
+      subjectRoute: data2.item.subject,
+      contentRoute: data2.item.content,
+      memberRoute: data2.item.member,
+      locationRoute: data2.item.location,
+      loopRoute: data2.item.loop,
+      memberIdsRoute: data2.item.member_ids,
+      rommIdRoute: data2.item.room_id,
+    };
+    console.log('dataRoute', dataRoute);
+    navigation.navigate(langs.navigator.updateRoom, dataRoute);
+  };
+  const deleteRow = (rowMap, rowKey) => {
+    closeRow(rowMap, rowKey);
+    const [section] = rowKey.split('.');
+    const newData = [...data];
+    const prevIndex = data[section].data.findIndex(
+      item => item.key === rowKey
+    );
+    if (newData[section].data.length == 1) {
+      newData.splice(section, 1);
+    } else {
+      newData[section].data.splice(prevIndex, 1);
+    }
+    setData(newData);
+  };
+  const onDeleteRoom = async (rowMap, data2) => {
+    const apiURL = `${URL.DELETE_ROOM}`;
+    const body = {
+      id: data2.item.id,
+      token
+    };
+    const response = await _POST(apiURL, body, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: langs.alert.successDeleteRoom,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => deleteRow(rowMap, data2.item.key),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        // messageColor: Colors.danger,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => closeRow(rowMap, data2.item.key),
+        },
+      });
+      _global.Loading.hide();
+    }
+  };
+  const renderHiddenItem = (data2, rowMap) => {
+    let flag;
+    (data2.item.owner_id == user_id && (data2.item.date === (moment().format('DD-MM-YYYY')) || moment().diff(moment(data2.item.date, 'DD-MM-YYYY')) < 0)) ? flag = true : false;
+    // console.log('flag', data2);
+
+    return flag ? (
+      <View style={[styles.rowBack, { marginTop: data2.index === 0 ? -40 : 0, }]}>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          onPress={() => {
+            onUpdateBreak(data2, rowMap);
+          }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="edit-3" size={16} color={Colors.black} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.backRightBtn}
+          onPress={() => {
+            _global.Alert.alert({
+              title: langs.alert.notice,
+              message: langs.alert.deleteRoom,
+              leftButton: {
+                text: langs.alert.cancel,
+                onPress: () => closeRow(rowMap, data2.item.key),
+              },
+              rightButton: {
+                text: langs.alert.accept,
+                onPress: () => onDeleteRoom(rowMap, data2),
+                textStyle: {
+                  fontWeight: '600',
+                  fontFamily: 'Quicksand-Bold',
+                },
+              },
+            });
+          }}
+        >
+          <View style={[styles.backBtn, { backgroundColor: 'white' }]}>
+            <Icon name="trash" size={16} color={Colors.danger} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View
+        style={{
+          alignItems: 'flex-end',
+          flex: 1,
+          justifyContent: 'center',
+          marginTop: data2.index === 0 ? -20 : 0
+        }}
+      >
+        <View style={{ alignItems: 'center', paddingRight: 24 }}>
+          <View style={[{ flexDirection: 'row', top: -6 }]}>
+            <View style={styles.backRightBtn}>
+              <View
+                style={[
+                  styles.backBtn,
+                  { backgroundColor: Colors.backgroundInActive },
+                ]}
               >
-                {moment(section.section.date, 'DD-MM-YYYY').format('DD')}
-                {' '}
-                Tháng
-                {moment(section.section.date, 'DD-MM-YYYY').format(' MM')}
-              </Text>
+                <Icon name="edit-3" size={16} color={Colors.itemInActive} />
+              </View>
             </View>
-          )}
+            <View style={styles.backRightBtn}>
+              <View
+                style={[
+                  styles.backBtn,
+                  { backgroundColor: Colors.backgroundInActive },
+                ]}
+              >
+                <Icon name="trash" size={16} color={Colors.itemInActive} />
+              </View>
+            </View>
+          </View>
+          {/* <Text style={styles.textDescrip}>
+            Chỉ chỉnh sửa được
+            {'\n'}
+            phòng của mình
+          </Text> */}
+        </View>
+
       </View>
     );
   };
@@ -309,12 +463,14 @@ const Book = (props) => {
           description="Hẹn bạn sau nhé."
         />
       )}
-      <SectionList
+      <SwipeListView
+        sections={data}
+        keyExtractor={(item, index) => String(index)}
+        useSectionList
+        renderHiddenItem={renderHiddenItem}
         style={{ paddingTop: 16 }}
-        sections={array}
         renderSectionHeader={renderHeader}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index}
         onMomentumScrollBegin={() => setOnScroll(true)}
         onEndReached={!loading && onScroll ? handleLoadMore : null}
         onEndReachedThreshold={0.5}
@@ -324,6 +480,11 @@ const Book = (props) => {
         refreshControl={
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
+        leftOpenValue={75}
+        rightOpenValue={-180}
+        disableRightSwipe
+        swipeToOpenPercent={20}
+        useNativeDriver
       />
       <ActionButton
         buttonColor={Colors.white}
@@ -368,7 +529,7 @@ const Book = (props) => {
           <Text style={{ fontSize: 16, marginBottom: 8 }}>
             <Text style={styles.detail}>Địa điểm :</Text>
             {' '}
-            {itemShow.location}
+            {itemShow.location || (itemShow.room_id == 1 ? 'Phòng họp' : itemShow.room_id == 2 ? 'Phòng Chủ Tịch' : itemShow.room_id == 3 ? 'Phòng ăn' : null)}
           </Text>
           <Text style={{ fontSize: 16, marginBottom: 8 }}>
             <Text style={styles.detail}>Người tạo :</Text>
@@ -539,5 +700,41 @@ const styles = StyleSheet.create({
   },
   txtContainer: { fontSize: 16, marginVertical: 8 },
   detail: { fontWeight: '600', fontFamily: 'Quicksand-Bold' },
+  rowBack: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 32,
+  },
+  backRightBtn: {
+    width: 50,
+    marginLeft: 8,
+    zIndex: 90,
+  },
+  backBtn: {
+    height: 36,
+    width: 36,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 1,
+    borderRadius: 24,
+    zIndex: 180
+  },
+  textDescrip: {
+    fontSize: 8,
+    // textAlign: 'center',
+    // paddingRight: 24,
+    color: Colors.itemInActive,
+    fontFamily: 'Quicksand-Bold',
+  },
 });
-export default Book;
+export default React.memo(Book, equals);

@@ -105,7 +105,7 @@ export default function InputApply(props?: Props) {
         maxLength={100}
         onFocus={onFocus}
         onBlur={onBlur}
-        onChangeText={(txtValue) => onChangeTextInput(txtValue)}
+        onChangeText={txtValue => onChangeTextInput(txtValue)}
         value={value}
         keyboardType="email-address"
         {...otherProps}

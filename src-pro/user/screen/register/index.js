@@ -12,8 +12,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Keyboard,
-  Dimensions,
-  Platform,
+  Dimensions, Platform
 } from 'react-native';
 import {
   widthPercentageToDP as SCREEN,
@@ -160,8 +159,7 @@ const Register = (props) => {
   const refRePassword = useRef(null);
   const refVerifyCode = useRef(null);
   useEffect(() => {
-    if (Platform.OS === 'android'
-    ) {
+    if (Platform.OS === 'android') {
       refPassword.current.setNativeProps({
         style: { fontFamily: 'Quicksand-Regular' },
       });

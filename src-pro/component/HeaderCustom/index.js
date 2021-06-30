@@ -22,7 +22,7 @@ HeaderCustom.defaultProps = {
   backgroundColor: Colors.white,
   textPress: false,
   size: 32,
-
+  fontHeader: wp(100) < 400 ? 18 : 24,
 };
 
 export default function HeaderCustom(props?: Props) {
@@ -41,6 +41,7 @@ export default function HeaderCustom(props?: Props) {
     textPress,
     size,
     shadow,
+    fontHeader,
     ...otherProps
   } = props;
 
@@ -65,7 +66,7 @@ export default function HeaderCustom(props?: Props) {
         </TouchableOpacity>
         <View style={styles.viewMiddle}>
           <Text
-            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
+            style={[styles.title, { fontSize }]}
             {...otherProps}
           >
             {title}

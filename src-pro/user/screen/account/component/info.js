@@ -36,7 +36,10 @@ const Info = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.viewAvt}>
-        <Image source={imgs.defaultAvatar} style={styles.avt} />
+        <Image
+          source={imgs.defaultAvatar}
+          style={styles.avt}
+        />
       </View>
       <KeyBoardScroll>
         <View style={styles.detail}>
