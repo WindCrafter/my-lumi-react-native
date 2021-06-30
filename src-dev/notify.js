@@ -112,7 +112,9 @@ function Notify(props) {
         if (type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
-
+        if (type == 98) {
+          Url = `${Schema}UserStack/TabbarUser/Home`;
+        }
         if (type == 50) {
           Url = `${Schema}UserStack/listOT`;
         }

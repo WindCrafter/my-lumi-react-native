@@ -357,10 +357,11 @@ const Book = (props) => {
   };
   const renderHiddenItem = (data2, rowMap) => {
     let flag;
+    (data2.item.owner_id == user_id && (data2.item.date === (moment().format('DD-MM-YYYY')) || moment().diff(moment(data2.item.date, 'DD-MM-YYYY')) < 0)) ? flag = true : false;
     // console.log('flag', data2);
-    data2.item.owner_id == user_id ? flag = true : false;
+
     return flag ? (
-      <View style={[styles.rowBack, { top: data2.index === 0 ? -20 : 0, }]}>
+      <View style={[styles.rowBack, { marginTop: data2.index === 0 ? -40 : 0, }]}>
         <TouchableOpacity
           style={styles.backRightBtn}
           onPress={() => {
@@ -403,7 +404,7 @@ const Book = (props) => {
           alignItems: 'flex-end',
           flex: 1,
           justifyContent: 'center',
-          marginTop: data2.index === 0 ? -15 : 0
+          marginTop: data2.index === 0 ? -20 : 0
         }}
       >
         <View style={{ alignItems: 'center', paddingRight: 24 }}>
@@ -705,7 +706,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingRight: 32,
-
   },
   backRightBtn: {
     width: 50,
