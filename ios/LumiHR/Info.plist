@@ -70,7 +70,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Cấp quyền truy cập để chụp ảnh.</string>
+	<string>Cấp quyền truy cập để chụp ảnh đại diện hoặc tải ảnh lên.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Cấp quyền truy cập để chấm công.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -78,9 +78,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Cấp quyền truy cập để chấm công.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<string>Cấp quyền truy cập vào micro để ghi âm hoặc gọi điện.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Cấp quyền truy cập vào thư viện ảnh.</string>
+	<string>Cấp quyền truy cập vào thư viện ảnh để cập nhật ảnh đại diện hoặc tải ảnh lên.</string>
 	<key>UIAppF</key>
 	<string></string>
 	<key>UIAppFonts</key>
