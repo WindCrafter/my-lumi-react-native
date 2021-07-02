@@ -36,7 +36,7 @@ import {
   HeaderCustom,
   KeyBoardScroll,
 } from '../../../component';
-import { Colors } from '../../../../utlis';
+import { Colors, imgs } from '../../../../utlis';
 import Info from './component/info';
 import UpdateInfo from './component/updateInfo';
 import { _global } from '../../../../utlis/global/global';
@@ -62,7 +62,7 @@ function UpdateProfile(props) {
   }, []);
 
   const getData = async () => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_PROFILE}`;
+    const apiURL = `${URL.GET_PROFILE}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_PROFILE ===========>', response);
     if (response.success && response.statusCode === 200) {
@@ -328,11 +328,7 @@ function UpdateProfile(props) {
         <Card style={styles.card}>
           <TouchableOpacity onPress={onShowModalAvatar}>
             <Image
-              source={
-                sourceImage
-                  ? { uri: sourceImage }
-                  : require('../../../../naruto.jpeg')
-              }
+              source={sourceImage ? { uri: sourceImage } : imgs.defaultAvatar}
               style={styles.image}
               resizeMode="cover"
             />

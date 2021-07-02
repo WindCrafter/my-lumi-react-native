@@ -10,7 +10,6 @@ import {
   Text,
 } from 'react-native';
 import moment from 'moment';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, HeaderCustom, TabView } from '../../../component';
 import langs from '../../../../common/language';
@@ -19,6 +18,7 @@ import ApproveBreak from './ApproveBreak';
 import ApproveLate from './ApproveLate';
 import ApproveOT from './ApproveOT';
 import ApproveCheck from './ApproveCheck';
+import ApproveWFH from './ApproveWFH';
 
 const ApproveAll = (props) => {
   const {
@@ -60,17 +60,14 @@ const ApproveAll = (props) => {
     navigation.goBack();
     removeList();
   };
-  const renderTabBar = () => {
-    return (
-      <DefaultTabBar tabStyle={styles.tab} style={{ borderColor: 'white' }} />
-    );
-  };
+
   console.log('finale', page);
   const [routes] = useState([
     { key: '1', title: 'Nghỉ phép' },
     { key: '2', title: 'Đi muộn' },
     { key: '3', title: 'OT' },
-    role === 'HR' && { key: '4', title: 'Chấm công' },
+    { key: '4', title: 'WFH' },
+    role === 'HR' && { key: '5', title: 'Chấm công' },
   ]);
   const [index, setIndex] = useState(page || 0);
   const renderScene = ({ route }) => {
@@ -108,7 +105,11 @@ const ApproveAll = (props) => {
             setDateAdOT={setDateAdOT}
           />
         );
-      case '4':
+        case '4':
+        return (
+          <ApproveWFH tabLabel={langs.WFH} token={token} />
+        );
+      case '5':
         return (
           <ApproveCheck tabLabel={langs.checkIn} token={token} />
         );
@@ -131,17 +132,6 @@ const ApproveAll = (props) => {
         swipeEnabled
         // style={{ height: -24 }}
       />
-      {/* <ScrollableTabView
-        tabBarActiveTextColor={Colors.background}
-        tabBarUnderlineStyle={{ backgroundColor: Colors.background }}
-        renderTabBar={renderTabBar}
-        initialPage={page || 0}
-      >
-
-        {role === 'HR' && (
-          <ApproveCheck tabLabel={langs.checkIn} token={token} />
-        )}
-      </ScrollableTabView> */}
     </View>
   );
 };
@@ -157,11 +147,4 @@ const styles = StyleSheet.create({
     // flexGrow: 1,
   },
   noData: { fontSize: 16, alignSelf: 'center', marginTop: 24 },
-  tab: {
-    // borderLeftWidth: StyleSheet.hairlineWidth,
-    borderColor: 'white',
-    paddingTop: 10,
-    borderWidth: 0,
-    backgroundColor: 'white'
-  }
 });

@@ -46,8 +46,8 @@ import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _POST, _UPLOAD } from '../../../../utlis/connection/api';
 
-const URL_ADD_EVENT = `${URL.LOCAL_HOST}${URL.CREATE_EVENT}`;
-const URL_UPLOAD_IMAGE = `${URL.LOCAL_HOST}${URL.UPLOAD_IMAGE}`;
+const URL_ADD_EVENT = `${URL.CREATE_EVENT}`;
+const URL_UPLOAD_IMAGE = `${URL.UPLOAD_IMAGE}`;
 
 if (
   Platform.OS === 'android'
@@ -746,7 +746,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
     height: 105,
     paddingRight: 8,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top'
   },
   card: {
     borderRadius: 16,
@@ -874,5 +874,5 @@ const styles = StyleSheet.create({
   iconMenu: {
     paddingTop: Platform.OS === 'android' ? 6 : 0,
     marginLeft: 12,
-  },
+  }
 });

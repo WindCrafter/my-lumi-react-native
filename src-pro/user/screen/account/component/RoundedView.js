@@ -131,6 +131,7 @@ export default function RoundedView(props?: Props) {
 
 const styles = StyleSheet.create({
   container: {
+
     borderRadius: 32,
   },
   button: {
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginTop: 8,
     borderRadius: 16,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   image: {
     width: 18,

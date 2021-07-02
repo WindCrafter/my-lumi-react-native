@@ -26,27 +26,6 @@ import { _global } from '../../../../utlis/global/global';
 import { URL } from '../../../../utlis/connection/url';
 import { _GET, _POST } from '../../../../utlis/connection/api';
 
-const DATA_EVENT = [
-  {
-    id: '1',
-    detail: 'Nay là 1 ngày trọng đại  ',
-    time: '10:00   20/11/2020',
-    source: imgs.event,
-  },
-  {
-    id: '2',
-    detail: 'Mai là 1 ngày trọng đại',
-    time: '13:45   21/11/2020',
-    source: imgs.event,
-  },
-  {
-    id: '3',
-    detail: 'Kia là 1 ngày trọng đại',
-    time: '15:45   22/11/2020',
-    source: imgs.event,
-  },
-];
-
 if (
   Platform.OS === 'android'
   && UIManager.setLayoutAnimationEnabledExperimental
@@ -95,7 +74,7 @@ export default function Home(props) {
     }
   }, [isFocused]);
   const getDataEvent = async () => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
+    const apiURL = `${URL.LIST_EVENT}?page=1&page_size=3&status&date=`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_Event ===========>', response);
     if (
@@ -108,7 +87,7 @@ export default function Home(props) {
     }
   };
   const onDeleteEvent = async (_id) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_EVENT}`;
+    const apiURL = `${URL.DELETE_EVENT}`;
     const response = await _POST(apiURL, { _id }, token, false);
     console.log('_GET_LIST_Event ===========>', _id);
     if (
@@ -137,9 +116,11 @@ export default function Home(props) {
     getDataEvent();
   };
   const onPressApprove = () => {
-    navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 3 : 0 });
+    navigation.navigate(langs.navigator.approve, { page: role === 'HR' ? 4 : 0 });
   };
-
+  const onPressWFH = () => {
+    navigation.navigate(langs.navigator.historyWFH);
+  };
   const moveToHistory = () => {
     navigation.navigate(langs.navigator.history);
   };
@@ -165,7 +146,7 @@ export default function Home(props) {
   };
 
   const onPressHR = () => {
-    navigation.navigate(langs.navigator.listEvent, { DATA_EVENT });
+    navigation.navigate(langs.navigator.listEvent);
   };
 
   const onAddEvent = () => {
@@ -318,6 +299,7 @@ export default function Home(props) {
             onPressBreak={onPressBreak}
             onPressOT={onPressOT}
             onPressApprove={onPressApprove}
+            onPressWFH={onPressWFH}
             permission={role}
           />
         </View>

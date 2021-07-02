@@ -3,7 +3,7 @@ import { Linking } from 'react-native';
 import { connect } from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import { getOneSignalID } from './redux/actions/authen';
-import { URL_STAGING } from '../utlis/connection/url';
+import { URL } from '../utlis/connection/url';
 import { _POST } from '../utlis/connection/api';
 
 const Schema = 'lumihr://';
@@ -20,7 +20,7 @@ function Notify(props) {
     console.log('Notification received: ', notification);
     console.log('URL notify now:', url);
   };
-  const url = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.NOTIFICATION_READ}`;
+  const url = `${URL.NOTIFICATION_READ}`;
   const onOpened = (openResult, device) => {
     // console.log('Message: ', openResult.notification.payload.body);
     // console.log('Data: ', openResult.notification.payload.additionalData.type);
@@ -73,14 +73,14 @@ function Notify(props) {
         }
         if (type == 4) {
           if (approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll?page=3`;
+            Url = `${Schema}UserStack/ApproveAll?page=4`;
           } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
         }
         if (type == 5) {
           if (approved == 2) {
-            Url = `${Schema}UserStack/ApproveAll?page=3`;
+            Url = `${Schema}UserStack/ApproveAll?page=4`;
           } else if (approved == 1) {
             Url = `${Schema}UserStack/Notify`;
           }
@@ -100,13 +100,21 @@ function Notify(props) {
         if (type == 10) {
           Url = `${Schema}UserStack/Notify`;
         }
+        if (type == 11) {
+          Url = `${Schema}UserStack/ApproveAll?page=3`;
+        }
+        if (type == 12) {
+          Url = `${Schema}UserStack/HistoryWFH`;
+        }
         if (type == 27) {
           Url = `${Schema}UserStack/DetailEventByNotify?id=${openResult.notification.payload.additionalData.eventId}`;
         }
         if (type == 99) {
           Url = `${Schema}UserStack/TabbarUser/BookSchedule`;
         }
-
+        if (type == 98) {
+          Url = `${Schema}UserStack/TabbarUser/Home`;
+        }
         if (type == 50) {
           Url = `${Schema}UserStack/listOT`;
         }
@@ -124,6 +132,9 @@ function Notify(props) {
         }
         if (type == 56) {
           Url = `${Schema}UserStack/Notify`;
+        }
+        if (type == 57) {
+          Url = `${Schema}UserStack/HistoryWFH`;
         }
       }
 

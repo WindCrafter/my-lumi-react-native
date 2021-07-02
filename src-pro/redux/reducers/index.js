@@ -5,7 +5,6 @@ import { persistReducer } from 'redux-persist';
 // Imports: Reducers
 import AsyncStorage from '@react-native-community/async-storage';
 import authen from './authen';
-import admin from './admin';
 import check from './check';
 import user from './user';
 import codepush from './codepush';
@@ -61,7 +60,6 @@ const userPersist = {
 
 const rootReducer = combineReducers({
   authen: persistReducer(authPersistConfig, authen),
-  admin,
   check: persistReducer(checkPersist, check),
   user: persistReducer(userPersist, user),
   codepush,

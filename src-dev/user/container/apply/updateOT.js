@@ -1,8 +1,7 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import UpdateOT from '../../screen/apply/updateOT';
-import {overTime} from '../../../redux/actions/check';
-import {getHoliday} from '../../../redux/actions/user';
-import {updateOverTime} from '../../../redux/actions/check';
+import { overTime, updateOverTime } from '../../../redux/actions/check';
+import { getHoliday } from '../../../redux/actions/user';
 
 const mapStateToProps = (state) => ({
   userId: state.authen.userId,

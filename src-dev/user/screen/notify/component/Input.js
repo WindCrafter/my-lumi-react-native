@@ -99,7 +99,7 @@ export default function Input(props?: Props) {
       <TextInput
         testID={testID}
         ref={refInput}
-        style={[styles.textInput, rightIcon ? { paddingRight: 8 } : undefined]}
+        style={[styles.textInput, rightIcon ? { paddingRight: 8 } : undefined, { height }]}
         selectionColor="black"
         placeholderTextColor="gray"
         autoCorrect={false}

@@ -7,10 +7,9 @@
 
 import React, { PureComponent } from 'react';
 import { View, Text, Animated, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import Setup from './src-pro/setup';
-import SetupDev from './src-dev/setup';
+import { Services } from './services';
 
+let RootComponent;
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -21,49 +20,26 @@ export default class App extends PureComponent {
   }
 
   async componentDidMount() {
-    const mode = await AsyncStorage.getItem('APP_MODE');
-    this.setState({ typeServer: mode });
-    // window.isAllowChangeSever = true;
-    // if (!!mode) {
-    //   await AsyncStorage.setItem('APP_MODE', 'product');
-    // }
-    window.typeServer = mode || 'product';
+    await Services.getServerType();
 
-    // if (window.typeServer === 'product') {
-    //   Setup = require('./src/setup').default;
-    // } else {
-    //   Setup = require('./src-dev/setup').default;
-    // }
-
-    // this.setState(
-    //   {
-    //     loading: false,
-    //   },
-    //   () => {
-    //     try {
-    //       SharedGroupPreferences.setItem(
-    //         commonKeyGroupShare.typeServer,
-    //         window.typeServer,
-    //         configWidget.appGroupIdentifier,
-    //       )
-    //         .then((res) => {})
-    //         .catch((e) => {});
-    //     } catch (errorCode) {
-    //       console.log(errorCode);
-    //     }
-    //   },
-    // );
+    this.setState({ loading: false });
   }
 
   render() {
-    const { typeServer } = this.state;
-    console.log('typeServer', typeServer);
+    const { loading } = this.state;
+
+    if (loading) return null;
+
+    console.log('URL_SEVER_API--->:serverType', Services.server_type, Services.server.base_url);
+
+    RootComponent = Services.server_type === 'develop' ? require('./src-dev/setup').default : require('./src-pro/setup').default;
+
     return (
       <View style={styles.container}>
-        {typeServer === 'develop' ? <SetupDev /> : <Setup />}
-        {typeServer === 'develop' && (
+        <RootComponent />
+        {Services.server_type === 'develop' && (
           <Animated.View pointerEvents="none" style={styles.devType}>
-            <Text style={styles.title}>{typeServer.toUpperCase()}</Text>
+            <Text style={styles.title}>{Services.server_type.toUpperCase()}</Text>
           </Animated.View>
         )}
       </View>

@@ -69,7 +69,7 @@ const ListEvent = (props) => {
 
   const getData = async (dataN) => {
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_EVENT}`;
+    const apiURL = `${URL.LIST_EVENT}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

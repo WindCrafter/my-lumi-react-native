@@ -78,7 +78,7 @@ const HistoryBreak = (props) => {
     const _date = dateN || '';
     const _status = statusN || 0;
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
+    const apiURL = `${URL.GET_LIST_TAKE_LEAVE}?page=${pageNumber}&page_size=20&status=${_status}&date=${_date}`;
     const response = await _GET(apiURL, token, false);
     console.log('_GET_LIST_TAKE_LEAVE ===========>', response);
     setRefresh(false);
@@ -206,7 +206,7 @@ const HistoryBreak = (props) => {
     });
   };
   const onDeleteBreak = async (rowMap, data2) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.DELETE_TAKE_LEAVE}`;
+    const apiURL = `${URL.DELETE_TAKE_LEAVE}`;
     const body = {
       _id: data2.item._id,
       token
@@ -333,9 +333,10 @@ const HistoryBreak = (props) => {
   };
   const empty = data && data.length === 0 && !loading;
   const _data = [];
+  console.log('data check 2',data);
+
   data && data.map((v, i) => { _data[i] = { ...v, key: i }; });
-  // console.log(_data);c
-  console.log('localDATE', localDate);
+  console.log('data check',_data);
   return (
     <>
       <HeaderCustom

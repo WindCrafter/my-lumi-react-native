@@ -58,7 +58,7 @@ function Contact(props) {
     setShowModal(false);
   };
   const getData = async (pageNumber, dataN, nameN, search) => {
-    const apiURL = `${URL.LOCAL_HOST}${URL.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
+    const apiURL = `${URL.LIST_USERS}?page=${pageNumber}&page_size=20&fullname=${nameN}`;
     const response = await _GET(apiURL, token, false);
     const _data = dataN || [];
     console.log(search);
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 4
+    elevation: 4,
   },
   gradient: {
     width: widthPercentageToDP(100),
@@ -281,14 +281,13 @@ const styles = StyleSheet.create({
     color: Colors.ink500,
     fontWeight: '600',
     fontFamily: 'Quicksand-Bold',
-    marginTop: 8
+    marginTop: 8,
   },
   description: {
     fontSize: 16,
     alignSelf: 'center',
     color: Colors.ink400,
     textAlign: 'center',
-    paddingHorizontal: 16
-
+    paddingHorizontal: 16,
   },
 });

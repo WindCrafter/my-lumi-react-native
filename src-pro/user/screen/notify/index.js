@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
-  AppState,
+  AppState, Platform,
+  TouchableNativeFeedback,
+
 } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
@@ -71,7 +73,7 @@ const Notify = (props) => {
     const _date = dateN || '';
     const _search = searchN || '';
     const _dataN = dataN || [];
-    const apiURL = `${URL.LOCAL_HOST}${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
+    const apiURL = `${URL.GET_NOTIFICATION}?page=${pageNumber}&page_size=20&date=${_date}&content=${_search}`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);
@@ -119,11 +121,11 @@ const Notify = (props) => {
             break;
           case 4:
           case '4':
-            navigation.navigate(langs.navigator.approve, { page: 3 });
+            navigation.navigate(langs.navigator.approve, { page: 4 });
             break;
           case 5:
           case '5':
-            navigation.navigate(langs.navigator.approve, { page: 3 });
+            navigation.navigate(langs.navigator.approve, { page: 4 });
             break;
           case 6:
           case '6':
@@ -136,6 +138,14 @@ const Notify = (props) => {
           case 9:
           case '9':
             navigation.navigate(langs.navigator.kpi);
+            break;
+          case 11:
+          case '11':
+            navigation.navigate(langs.navigator.approve, { page: 3 });
+            break;
+          case 12:
+          case '12':
+            navigation.navigate(langs.navigator.historyWFH);
             break;
           case 27:
           case '27':
@@ -161,6 +171,18 @@ const Notify = (props) => {
           case '54':
             navigation.navigate(langs.navigator.history);
             break;
+          case 57:
+          case '57':
+            navigation.navigate(langs.navigator.historyWFH);
+            break;
+          case 99:
+          case '99':
+            navigation.navigate(langs.navigator.book);
+            break;
+          case 98:
+          case '98':
+            navigation.navigate(langs.navigator.home);
+            break;
           default:
             console.log('Wrong type', item.customData.type);
         }
@@ -172,10 +194,14 @@ const Notify = (props) => {
         }),
       );
     };
-    const url = `${URL.LOCAL_HOST}${URL.NOTIFICATION_READ}`;
+    const url = `${URL.NOTIFICATION_READ}`;
 
-    return (
-      <TouchableOpacity onPress={onShow}>
+    return Platform.OS === 'android' ? (
+      <TouchableNativeFeedback
+        onPress={onShow}
+        background={TouchableNativeFeedback.Ripple(Colors.ink200, false)}
+        useForeground
+      >
         <Card
           style={[
             styles.card,
@@ -184,6 +210,33 @@ const Notify = (props) => {
                 item.status === 0 || item.status === '0'
                   ? Colors.white
                   : Colors.backgroundInActive,
+            },
+          ]}
+        >
+          <View style={styles.row}>
+            {item.status === 0 || item.status === '0' ? (
+              <View style={styles.read} />
+            ) : (
+              <View style={styles.unRead} />
+            )}
+            {/* <Text style={styles.title}>{item.title}</Text> */}
+            <Text style={styles.content}>{item.content}</Text>
+          </View>
+          <Text style={styles.time}>
+            {moment(item.time_send * 1000).format('HH:mm - DD/MM/YYYY')}
+          </Text>
+        </Card>
+      </TouchableNativeFeedback>
+    ) : (
+      <TouchableOpacity onPress={onShow}>
+        <Card
+          style={[
+            styles.card,
+            {
+              backgroundColor:
+              item.status === 0 || item.status === '0'
+                ? Colors.white
+                : Colors.backgroundInActive,
             },
           ]}
         >

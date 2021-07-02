@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -9,11 +9,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {Colors, imgs} from '../../../../utlis';
-import {BarStatus, HeaderCustom} from '../../../component';
 import Icon from 'react-native-vector-icons/Feather';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {Card} from 'native-base';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Card } from 'native-base';
+import { BarStatus, HeaderCustom } from '../../../component';
+import { Colors, imgs } from '../../../../utlis';
 
 const Assignment = (props) => {
   const {
@@ -29,7 +29,7 @@ const Assignment = (props) => {
   // );
   const [userPicked, setUserPicked] = useState(assign);
   const goBack = () => {
-    navigation.goBack({userPicked});
+    navigation.goBack({ userPicked });
   };
 
   useEffect(() => {
@@ -51,18 +51,19 @@ const Assignment = (props) => {
     navigation.goBack();
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <>
         <TouchableOpacity
           style={styles.btUser}
-          onPress={() => setUserPicked(item)}>
+          onPress={() => setUserPicked(item)}
+        >
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={require('../../../../naruto.jpeg')}
+                source={imgs.defaultAvatar}
                 style={styles.avatar}
-                resizeMode={'cover'}
+                resizeMode="cover"
               />
             </View>
             <View style={styles.column}>
@@ -93,10 +94,10 @@ const Assignment = (props) => {
         height={Platform.OS === 'ios' ? 46 : StatusBar.currentHeight}
       />
       <HeaderCustom
-        title={'Chọn người phê duyệt'}
+        title="Chọn người phê duyệt"
         goBack={goBack}
         rightButton
-        textPress={true}
+        textPress
         onRight={onDone}
       />
       {listAssign ? (

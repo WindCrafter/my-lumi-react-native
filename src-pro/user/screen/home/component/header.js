@@ -77,11 +77,7 @@ const Header = (props) => {
         <View style={styles.avatar}>
           <TouchableOpacity onPress={pressAvatar}>
             <Image
-              source={
-                avatar
-                  ? { uri: avatar }
-                  : require('../../../../../naruto.jpeg')
-              }
+              source={avatar ? { uri: avatar } : imgs.defaultAvatar}
               style={styles.avt}
             />
           </TouchableOpacity>
@@ -177,9 +173,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   avt: {
-    height: SCREEN_WIDTH > 400 ? 64 : 56,
-    width: SCREEN_WIDTH > 400 ? 64 : 56,
-    borderRadius: 40,
+    height: SCREEN_WIDTH > 400 ? 84 : 64,
+    width: SCREEN_WIDTH > 400 ? 84 : 64,
+    borderRadius: 60,
     marginLeft: 12,
   },
   txtName: {

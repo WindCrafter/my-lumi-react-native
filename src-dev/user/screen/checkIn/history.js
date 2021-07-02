@@ -25,7 +25,7 @@ import {
   Indicator,
 } from '../../../component';
 import { Colors, imgs } from '../../../../utlis';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _GET } from '../../../../utlis/connection/api';
 
 if (
@@ -61,8 +61,8 @@ function History(props) {
     const _dateN = dateN || '';
     const _dataN = dataN || [];
     const apiURL = _dateN
-      ? `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?page=${_pageN}&page_size=10&date=${_dateN}`
-      : `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}?page=${_pageN}&page_size=10`;
+      ? `${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10&date=${_dateN}`
+      : `${URL.GET_LIST_CHECK}?page=${_pageN}&page_size=10`;
     const response = await _GET(apiURL, token, false);
     setRefresh(false);
     setLoading(false);

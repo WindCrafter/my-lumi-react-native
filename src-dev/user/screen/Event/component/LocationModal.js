@@ -28,10 +28,6 @@ const DATA = [
     room: 'Phòng Chủ Tịch',
     id: '3',
   },
-  {
-    room: 'Khác',
-    id: '4',
-  },
 ];
 
 const LocationModal = (props) => {

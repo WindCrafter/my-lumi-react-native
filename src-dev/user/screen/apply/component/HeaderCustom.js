@@ -168,7 +168,7 @@ const HeaderCustom = (props?: Props) => {
             <Icon2 name="chevron-left" size={32} color={Colors.black} />
           </TouchableOpacity>
           <Text
-            style={[styles.title, { fontSize: wp(100) < 400 ? 18 : 24 }]}
+            style={[styles.title, { fontSize: wp(100) < 375 ? 18 : 24 }]}
             {...otherProps}
           >
             {title}

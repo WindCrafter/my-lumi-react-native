@@ -1,9 +1,4 @@
 PODS:
-  - AppAuth (1.4.0):
-    - AppAuth/Core (= 1.4.0)
-    - AppAuth/ExternalUserAgent (= 1.4.0)
-  - AppAuth/Core (1.4.0)
-  - AppAuth/ExternalUserAgent (1.4.0)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
@@ -70,21 +65,7 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
-  - GoogleSignIn (5.0.2):
-    - AppAuth (~> 1.2)
-    - GTMAppAuth (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.0.0):
-    - AppAuth/Core (~> 1.0)
-    - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.4.0):
-    - GTMSessionFetcher/Full (= 1.4.0)
-  - GTMSessionFetcher/Core (1.4.0)
-  - GTMSessionFetcher/Full (1.4.0):
-    - GTMSessionFetcher/Core (= 1.4.0)
   - hermes-engine (0.7.2)
-  - Interactable (2.0.1):
-    - React
   - JWT (3.0.0-beta.12):
     - Base64 (~> 1.1.2)
   - libevent (2.1.12)
@@ -312,16 +293,12 @@ PODS:
     - React
   - react-native-camera/RN (3.36.0):
     - React
-  - react-native-netinfo (5.9.6):
-    - React
   - react-native-network-info (5.2.1):
     - React
   - react-native-onesignal (3.9.2):
     - OneSignal (= 2.15.4)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.1.1):
-    - React
-  - react-native-slider (3.0.3):
     - React
   - react-native-smart-splash-screen (2.3.5):
     - React
@@ -397,17 +374,12 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
-  - RNCPicker (1.6.5):
-    - React
   - RNDateTimePicker (3.0.6):
     - React-Core
   - RNDeviceInfo (5.6.5):
     - React
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNGoogleSignin (4.0.3):
-    - GoogleSignIn (~> 5.0.0)
-    - React
   - RNImageCropPicker (0.35.1):
     - React-Core
     - React-RCTImage
@@ -457,8 +429,6 @@ PODS:
     - React
   - RNVectorIcons (7.0.0):
     - React
-  - RNWifi (4.2.2):
-    - React
   - Sentry (6.0.9):
     - Sentry/Core (= 6.0.9)
   - Sentry/Core (6.0.9)
@@ -495,7 +465,6 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.75.1)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (~> 0.7.2)
-  - Interactable (from `../node_modules/react-native-interactable`)
   - libevent (~> 2.1.12)
   - OneSignal (= 2.15.4)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
@@ -516,11 +485,9 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-camera (from `../node_modules/react-native-camera`)
-  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-network-info (from `../node_modules/react-native-network-info`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-smart-splash-screen (from `../node_modules/react-native-smart-splash-screen`)
   - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -538,11 +505,9 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
-  - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -550,12 +515,10 @@ DEPENDENCIES:
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - RNWifi (from `../node_modules/react-native-wifi-reborn`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
-    - AppAuth
     - Base64
     - boost-for-react-native
     - CocoaAsyncSocket
@@ -566,9 +529,6 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
-    - GoogleSignIn
-    - GTMAppAuth
-    - GTMSessionFetcher
     - hermes-engine
     - JWT
     - libevent
@@ -592,8 +552,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  Interactable:
-    :path: "../node_modules/react-native-interactable"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
   Permission-LocationAlways:
@@ -624,16 +582,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/blur"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
-  react-native-netinfo:
-    :path: "../node_modules/@react-native-community/netinfo"
   react-native-network-info:
     :path: "../node_modules/react-native-network-info"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-slider:
-    :path: "../node_modules/@react-native-community/slider"
   react-native-smart-splash-screen:
     :path: "../node_modules/react-native-smart-splash-screen"
   react-native-viewpager:
@@ -668,16 +622,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
-  RNCPicker:
-    :path: "../node_modules/@react-native-community/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNGoogleSignin:
-    :path: "../node_modules/@react-native-community/google-signin"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   RNPermissions:
@@ -692,21 +642,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  RNWifi:
-    :path: "../node_modules/react-native-wifi-reborn"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: 69186fd1143f7e5e5c6f65383cf14f4927e28213
-  DoubleConversion: cde416483dac037923206447da6e1454df403714
+  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
-  FBReactNativeSpec: 66aaff69a4d16c8d3c6719cf5282268d62c4cc0f
+  FBReactNativeSpec: 4433889e3e59b8252b76d6c3baed7cfd85cc8e13
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: f7a3caafbd74bda4827954fd7a6e000e36355489
@@ -714,12 +661,8 @@ SPEC CHECKSUMS:
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
   Flipper-RSocket: 602921fee03edacf18f5d6f3d3594ba477f456e5
   FlipperKit: 8a20b5c5fcf9436cac58551dc049867247f64b00
-  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
-  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   hermes-engine: 7d97ba46a1e29bacf3e3c61ecb2804a5ddd02d4f
-  Interactable: 411887c89fa16ac41f8e7898aca06dcad55e5f22
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OneSignal: 6647275955d0f06d9e17c90dc93af9d85ecfd2b9
@@ -739,11 +682,9 @@ SPEC CHECKSUMS:
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-camera: 8016138a8348b889e22c95b23f668a234f124335
-  react-native-netinfo: 38a1e0b3e89b48e4b5833ed475d8df5f049f6f90
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
   react-native-onesignal: ab5bd48dfc62d6f502ee2087cef317cd1c2b72f7
   react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
-  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   react-native-smart-splash-screen: f92fe23ccc150f650fdab47c37ac70a6ddcaaab2
   react-native-viewpager: ea945e2881ce9a4a8bcdc84de4ec65ff23c90f6e
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
@@ -761,11 +702,9 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
   RNCClipboard: a1dd5a278566666ac8f9c9b517b7922c801bcd98
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNCPicker: 55b9b4240d0a9eba8733d02616775d4040de2e7d
   RNDateTimePicker: 120f8d08b19dd50c0308d30a07c1982e4618e9ad
   RNDeviceInfo: c5f8f3a456adcbba405ace475254b08febc4c095
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNImageCropPicker: 16951bc02411f50c4d197488ed6406a23dc3b5f1
   RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
   RNReanimated: 64f6c5789f82818c07ba3c71864b73619cb23c76
@@ -773,13 +712,12 @@ SPEC CHECKSUMS:
   RNSentry: 5ebc2926dbcbb9b77857ba6df0754a869037123d
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  RNWifi: 4fc05916e21464d665e8f03e8162e38f16185502
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 40261d6e057fc7869d2dffc42203fbf5e8a52599
+PODFILE CHECKSUM: 1bf0bc4d6297a04d9519f2489b7bdf5a77214d00
 
 COCOAPODS: 1.10.1

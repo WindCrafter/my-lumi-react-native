@@ -43,11 +43,11 @@ import LocationModal from './component/LocationModal';
 import TimeModal from './component/TimeModal';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
-import { URL_STAGING } from '../../../../utlis/connection/url';
+import { URL } from '../../../../utlis/connection/url';
 import { _POST, _UPLOAD } from '../../../../utlis/connection/api';
 
-const URL_EDIT_EVENT = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_EVENT}`;
-const URL_UPLOAD_IMAGE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPLOAD_IMAGE}`;
+const URL_EDIT_EVENT = `${URL.UPDATE_EVENT}`;
+const URL_UPLOAD_IMAGE = `${URL.UPLOAD_IMAGE}`;
 
 if (
   Platform.OS === 'android'
@@ -743,11 +743,12 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: 'Quicksand-Regular',
     width: widthPercentageToDP(90) - 48,
+    marginLeft: 8,
     paddingLeft: 8,
     paddingTop: Platform.OS === 'ios' ? 2 : 6,
     height: 105,
     paddingRight: 8,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top'
   },
   card: {
     borderRadius: 16,
@@ -875,5 +876,5 @@ const styles = StyleSheet.create({
   iconMenu: {
     paddingTop: Platform.OS === 'android' ? 6 : 0,
     marginLeft: 12,
-  },
+  }
 });

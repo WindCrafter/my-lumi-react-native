@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: wp(100),
     height: 50,
-    
   },
   contentRow: {
     fontSize: 16,

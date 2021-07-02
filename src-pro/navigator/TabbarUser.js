@@ -1,15 +1,14 @@
 import React from 'react';
-import {StatusBar, View} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { StatusBar, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import account from '../user/container/account';
-import {TabbarIcon} from '../component';
+import { TabbarIcon } from '../component';
 import home from '../user/container/home';
-import checkIn from '../user/container/checkIn';
 import book from '../user/container/book';
-import OverView from '../user/container/OverView/index'
+import OverView from '../user/container/OverView/index';
 import TabbarCustom from './TabbarCustom';
 import FloatTabbar from './FloatTabbar';
-import {Colors} from '../../utlis';
+import { Colors } from '../../utlis';
 import notify from '../user/container/notify';
 import langs from '../../common/language';
 
@@ -31,18 +30,19 @@ export default function TabbarUser() {
       tabBarOptions={{
         activeTintColor: Colors.background,
       }}
-      tabBar={(props) => <TabbarCustom {...props} />}>
+      tabBar={(props) => <TabbarCustom {...props} />}
+    >
       <BotStack.Screen
         name={langs.navigator.home}
         component={home}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarLabel: 'Trang chủ',
         })}
       />
       <BotStack.Screen
         name={langs.navigator.book}
         component={book}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarLabel: 'Lịch họp',
         })}
       />
@@ -56,7 +56,7 @@ export default function TabbarUser() {
       <BotStack.Screen
         name={langs.navigator.account}
         component={account}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarVisible: shouldShowTabbar(route),
           tabBarLabel: 'Tổng quan',
         })}

@@ -120,4 +120,7 @@ export const imgs = {
   notFound: require('../../common/assets/images/empty_state/NotFound.png'),
   taskComplete: require('../../common/assets/images/empty_state/TaskComplete.png'),
   noHistory: require('../../common/assets/images/empty_state/NoHistory.png'),
+  defaultAvatar: require('../../common/assets/images/icon/DefaultAvatar.jpeg'),
+  WFH: require('../../common/assets/images/icon/WFH.png'),
+  healthCondition: require('../../common/assets/images/icon/Health-condition.png'),
 };

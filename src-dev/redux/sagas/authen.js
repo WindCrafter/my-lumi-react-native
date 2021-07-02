@@ -26,7 +26,7 @@ import {
   uploadAvatarSuccess,
   uploadAvatarFailed
 } from '../actions/authen';
-import { URL_STAGING } from '../../../utlis/connection/url';
+import { URL } from '../../../utlis/connection/url';
 import { _GET, _POST, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import langs from '../../../common/language';
@@ -34,16 +34,16 @@ import { Colors } from '../../../utlis';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { removeUserIdDevice } from '../actions/user';
 
-const URL_LOGIN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LOGIN}`;
-const URL_CHANGE_PASS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHANGE_PASS}`;
-const URL_UPDATE_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_PROFILE}`;
-const URL_SET_STATUS_OVERTIME = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.SET_STATUS_OVERTIME}`;
-const URL_SET_STATUS_BREAK = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.SET_STATUS_BREAK}`;
-const URL_SET_STATUS_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.SET_STATUS_LATE_EARLY}`;
-const URL_REGISTER = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.REGISTER}`;
-const URL_GET_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_PROFILE}`;
-const URL_GET_SUMMARY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_SUMMARY}`;
-const URL_UPLOAD_IMAGE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPLOAD_AVATAR}`;
+const URL_LOGIN = `${URL.LOGIN}`;
+const URL_CHANGE_PASS = `${URL.CHANGE_PASS}`;
+const URL_UPDATE_PROFILE = `${URL.UPDATE_PROFILE}`;
+const URL_SET_STATUS_OVERTIME = `${URL.SET_STATUS_OVERTIME}`;
+const URL_SET_STATUS_BREAK = `${URL.SET_STATUS_BREAK}`;
+const URL_SET_STATUS_LATE_EARLY = `${URL.SET_STATUS_LATE_EARLY}`;
+const URL_REGISTER = `${URL.REGISTER}`;
+const URL_GET_PROFILE = `${URL.GET_PROFILE}`;
+const URL_GET_SUMMARY = `${URL.GET_SUMMARY}`;
+const URL_UPLOAD_IMAGE = `${URL.UPLOAD_AVATAR}`;
 
 function* sagaLoginAction(action) {
   try {

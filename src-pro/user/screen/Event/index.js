@@ -40,7 +40,7 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-const Event = (props) => {
+const Event = props => {
   const {
     navigation,
     memberPicked,
@@ -86,7 +86,7 @@ const Event = (props) => {
       setLoop('year');
     }
   };
-  const onChangeTitle = (val) => {
+  const onChangeTitle = val => {
     setTitle(val);
   };
 
@@ -114,11 +114,11 @@ const Event = (props) => {
     setDescription(val);
   }
 
-  const removeMember = (val) => {
+  const removeMember = val => {
     kickMember(val);
   };
 
-  const onShowPickerStart = (m) => {
+  const onShowPickerStart = m => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalTimeStart(true);
   };
@@ -128,7 +128,7 @@ const Event = (props) => {
   const [showModalTimeStart, setshowModalTimeStart] = useState(false);
   const [showModalTimeEnd, setshowModalTimeEnd] = useState(false);
   const [showModalDate, setshowModalDate] = useState(false);
-  const onShowPickerDate = (m) => {
+  const onShowPickerDate = m => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setshowModalDate(true);
   };
@@ -150,7 +150,7 @@ const Event = (props) => {
   const onUnshowDate = () => {
     setshowModalDate(false);
   };
-  const onShowPickerEnd = (m) => {
+  const onShowPickerEnd = m => {
     if (start) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       setshowModalTimeEnd(true);
@@ -164,7 +164,8 @@ const Event = (props) => {
   };
   const onChangeHourStart = (event, selectedShift) => {
     const currentShift = selectedShift || hourStart;
-    const today = moment(new Date()).format('DD/MM/YYYY') === moment(date).format('DD/MM/YYYY');
+    const today = moment(new Date()).format('DD/MM/YYYY')
+      === moment(date).format('DD/MM/YYYY');
     const past = moment(new Date()).format('HH:mm') > moment(currentShift).format('HH:mm');
     if (Platform.OS === 'ios') {
       setHourStart(moment(currentShift)._d);
@@ -174,11 +175,12 @@ const Event = (props) => {
         setStart(moment(currentShift)._d);
       } else {
         !past && setStart(moment(currentShift)._d);
-        past && _global.Alert.alert({
-          title: langs.alert.remind,
-          message: 'Không thể chọn thời gian trong quá khứ',
-          leftButton: { text: langs.alert.ok },
-        });
+        past
+          && _global.Alert.alert({
+            title: langs.alert.remind,
+            message: 'Không thể chọn thời gian trong quá khứ',
+            leftButton: { text: langs.alert.ok },
+          });
       }
     } else {
       setshowModalTimeStart(false);
@@ -192,11 +194,13 @@ const Event = (props) => {
     } else if (event.type === 'set') {
       setshowModalTimeEnd(false);
       !past && setEnd(moment(currentShift)._d);
-      past && _global.Alert.alert({
-        title: langs.alert.remind,
-        message: 'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
-        leftButton: { text: langs.alert.ok },
-      });
+      past
+        && _global.Alert.alert({
+          title: langs.alert.remind,
+          message:
+            'Không thể chọn thời gian kết thúc nhỏ hơn thời gian bắt đầu',
+          leftButton: { text: langs.alert.ok },
+        });
     } else {
       setshowModalTimeEnd(false);
     }
@@ -223,11 +227,7 @@ const Event = (props) => {
           <View style={styles.rowUser}>
             <View style={styles.viewImage}>
               <Image
-                source={
-                  item.avatar
-                    ? { uri: item.avatar }
-                    : require('../../../../naruto.jpeg')
-                }
+                source={item.avatar ? { uri: item.avatar } : imgs.defaultAvatar}
                 style={styles.avatar}
                 resizeMode="cover"
               />
@@ -313,12 +313,13 @@ const Event = (props) => {
     const name = [];
     const member_ids = [];
     console.log(memberPicked);
-    memberPicked.forEach((i) => {
+    memberPicked.forEach(i => {
       i.member_name !== null ? name.push(i.member_name) : null;
     });
-    memberPicked.forEach((i) => {
+    memberPicked.forEach(i => {
       i.member_id !== null ? member_ids.push(i.member_id) : null;
     });
+    console.log('location', location);
     const data = {
       loop:
         loop === ''
@@ -333,7 +334,7 @@ const Event = (props) => {
       end_time: moment(end).format('HH:mm'),
       start_time: moment(start).format('HH:mm'),
       subject: title,
-      location,
+      room_id: location == 'Phòng họp' ? 1 : location == 'Phòng Chủ Tịch' ? 2 : location === 'Phòng ăn' ? 3 : null,
       content: description,
       member: name.toString(),
       token,
@@ -377,7 +378,6 @@ const Event = (props) => {
               onBlur={onBlur}
               onChangeText={onChangeDescription}
               placeholderTextColor={Colors.ink400}
-
             />
           </Card>
           <InputSelect
@@ -455,7 +455,6 @@ const Event = (props) => {
             height={select ? 148 : 54}
             shadowColor="white"
             title="Lặp lại"
-            padding={16}
             marginVertical={18}
             containerStyle={styles.viewInputPick}
             onPressButton={onSetSelect}
@@ -556,13 +555,13 @@ const Event = (props) => {
       <LocationModal
         showModal={showModal}
         setModal={hideModal}
-        onPress={(e) => setLocation(e)}
+        onPress={e => setLocation(e)}
         detail={location}
       />
       <TimeModal
         showModal={showModalTime}
         setModal={hideModalTime}
-        onPress={(e) => setLocation(e)}
+        onPress={e => setLocation(e)}
       />
     </View>
   );
@@ -639,6 +638,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Quicksand-Regular',
     color: 'black',
+    height: 124,
   },
   card: {
     borderRadius: 16,

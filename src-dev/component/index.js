@@ -15,7 +15,6 @@ import BarStatus from './StatusBar/BarStatus';
 import TabbarIcon from './Tabbar/TabbarIcon';
 import HeaderCustom from './HeaderCustom/index.js';
 import HeaderCheck from './HeaderCustom/HeaderCheck';
-import SmartWipeRow from './Row/SmartWipeRow';
 import { Touchable } from './Touchable';
 import { TextSelect } from './Text';
 import Loading from './Loading';
@@ -48,7 +47,6 @@ export {
   TabbarIcon,
   HeaderCustom,
   HeaderCheck,
-  SmartWipeRow,
   Touchable,
   TextSelect,
   Loading,

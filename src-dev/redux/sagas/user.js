@@ -1,7 +1,7 @@
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import OneSignal from 'react-native-onesignal';
 import * as types from '../types';
-import { URL_STAGING } from '../../../utlis/connection/url';
+import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET, _UPLOAD } from '../../../utlis/connection/api';
 import { _global } from '../../../utlis/global/global';
 import {
@@ -30,6 +30,7 @@ import {
   confirmKpiSuccess,
   getUnreadNotifySuccess,
   getUnreadNotifyFailed,
+  updateRoom,
 } from '../actions/user';
 import {
   changeToOut,
@@ -43,22 +44,22 @@ import * as CustomNavigation from '../../navigator/CustomNavigation';
 import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
 
-const URL_UPDATE_PROFILE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_PROFILE}`;
-const URL_LIST_USERS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_USERS}`;
-const URL_ADD_USERID_DEVICE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.ADD_USERID_DEVICE}`;
-const URL_REMOVE_USERID_DEVICE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.REMOVE_USERID_DEVICE}`;
-const URL_ASSIGN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ASSIGN}`;
-const URL_TEAMS = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_TEAMS}`;
-const URL_BOOK_ROOM = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.BOOK_ROOM}`;
-const URL_LIST_ROOM = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_ROOM}`;
-
+const URL_UPDATE_PROFILE = `${URL.UPDATE_PROFILE}`;
+const URL_LIST_USERS = `${URL.LIST_USERS}`;
+const URL_ADD_USERID_DEVICE = `${URL.ADD_USERID_DEVICE}`;
+const URL_REMOVE_USERID_DEVICE = `${URL.REMOVE_USERID_DEVICE}`;
+const URL_ASSIGN = `${URL.GET_LIST_ASSIGN}`;
+const URL_TEAMS = `${URL.GET_LIST_TEAMS}`;
+const URL_BOOK_ROOM = `${URL.BOOK_ROOM}`;
+const URL_LIST_ROOM = `${URL.LIST_ROOM}`;
+const URL_UPDATE_ROOM = `${URL.UDPATE_ROOM}`;
 const URL_NOTIFY = e => {
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_NOTIFY}${e}`;
+  return `${URL.GET_LIST_NOTIFY}${e}`;
 };
 const URL_LIST_CHECK = e => {
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_CHECK}${e}`;
+  return `${URL.GET_LIST_CHECK}${e}`;
 };
-const URL_UNREAD_NOTIFICATION = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_UNREAD_NOTIFICATION}`;
+const URL_UNREAD_NOTIFICATION = `${URL.GET_UNREAD_NOTIFICATION}`;
 const notificationDeviceSelect = state => state.user.notificationDevice;
 function* sagaUpdateProfile(action) {
   try {
@@ -298,7 +299,7 @@ function* sagaBookRoom(action) {
       date: action.payload.date,
       subject: action.payload.subject,
       content: action.payload.content,
-      location: action.payload.location,
+      room_id: action.payload.room_id,
       member: action.payload.member,
       loop: action.payload.loop,
       member_ids: action.payload.member_ids,
@@ -336,7 +337,55 @@ function* sagaBookRoom(action) {
 export function* watchBookRoom() {
   yield takeLatest(types.BOOK_ROOM, sagaBookRoom);
 }
+function* sagaUpdateRoom(action) {
+  try {
+    console.log(action);
+    const token = action.payload.token;
+    const data = {
+      id: action.payload.id,
+      start_time: action.payload.start_time,
+      end_time: action.payload.end_time,
+      date: action.payload.date,
+      subject: action.payload.subject,
+      content: action.payload.content,
+      room_id: action.payload.room_id,
+      member: action.payload.member,
+      loop: action.payload.loop,
+      member_ids: action.payload.member_ids,
+    };
+    console.log(data);
+    const response = yield _POST(URL_UPDATE_ROOM, data, token);
+    console.log(response);
+    if (response.success && response.statusCode === 200) {
+      yield put(clearMember());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: 'Sửa lịch họp thành công',
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Loading.hide();
+  }
+}
 
+export function* watchUpdateRoom() {
+  yield takeLatest(types.UPDATE_ROOM, sagaUpdateRoom);
+}
 function* sagaListRoom(action) {
   try {
     const token = action.payload.token;
@@ -368,7 +417,7 @@ function* sagaGetKpi(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_KPI}${action.payload.month}`,
+      `${URL.GET_KPI}${action.payload.month}`,
       token,
     );
     console.log(response);
@@ -404,7 +453,7 @@ function* sagaConfirmKpi(action) {
       is_confirmed: action.payload.is_confirmed,
     };
     const response = yield _POST(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CONFIRM_KPI}`,
+      `${URL.CONFIRM_KPI}`,
       data,
       token,
     );
@@ -443,7 +492,7 @@ function* sagaGetHoliday(action) {
   try {
     const token = action.payload.token;
     const response = yield _GET(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_HOLIDAY}?year=${action.payload.year}`,
+      `${URL.GET_HOLIDAY}?year=${action.payload.year}`,
       token,
     );
     console.log(response);
@@ -476,7 +525,7 @@ function* sagaGetWorkdayToday(action) {
     console.log('workday token::', token);
     const onDone = action.payload.onDone;
     const response = yield _GET(
-      `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
+      `${URL.GET_WORKDAY_TODAY}?date=${action.payload.date}`,
       token,
     );
     onDone && onDone();

@@ -1,13 +1,11 @@
 import { takeLatest, put, select, delay } from 'redux-saga/effects';
 import moment from 'moment';
 import * as types from '../types';
-import { URL_STAGING } from '../../../utlis/connection/url';
+import { URL } from '../../../utlis/connection/url';
 import { _POST, _GET, _POST_WIFI } from '../../../utlis/connection/api';
 import {
   checkInSuccess,
   checkInFailed,
-  createQRSuccess,
-  createQRFailed,
   setLateEarlyFailed,
   setLateEarlySuccess,
   takeLeaveSuccess,
@@ -45,7 +43,12 @@ import {
   checkInCode,
   checkInRequestSuccess,
   checkOutRequestSuccess,
-
+  createWorkFromHome,
+  createWorkFromHomeSuccess,
+  createWorkFromHomeFailed,
+  updateWorkFromHome,
+  updateWorkFromHomeSuccess,
+  updateWorkFromHomeFailed
 } from '../actions/check';
 import { store } from '../store/store.js';
 
@@ -56,54 +59,55 @@ import { Colors } from '../../../utlis';
 import langs from '../../../common/language';
 import * as CustomNavigation from '../../navigator/CustomNavigation';
 
-const URL_CHECK_IN = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN}`;
-const URL_CREATE_QR = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CREATE_QR}`;
-const URL_CHECK_IN_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_WIFI}`;
-const URL_CHECK_OUT_WIFI = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_OUT_WIFI}`;
-const URL_CHECK_IN_REQUEST = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CHECK_IN_REQUEST}`;
-const URL_CHECK_OUT_REQUEST = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.URL_CHECK_IN_REQUEST}`;
+const URL_CHECK_IN = `${URL.CHECK_IN}`;
+const URL_CHECK_IN_WIFI = `${URL.CHECK_IN_WIFI}`;
+const URL_CHECK_OUT_WIFI = `${URL.CHECK_OUT_WIFI}`;
+const URL_CHECK_IN_REQUEST = `${URL.CHECK_IN_REQUEST}`;
+const URL_CHECK_OUT_REQUEST = `${URL.URL_CHECK_IN_REQUEST}`;
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
-const URL_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LATE_EARLY}`;
+const URL_LATE_EARLY = `${URL.LATE_EARLY}`;
 const URL_LIST_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
   if (DATE) {
-    return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+    return `${URL.LIST_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   }
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  return `${URL.LIST_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
 };
 const URL_LIST_MANAGER_LATE_EARLY = (STATUS, DATE, PAGE, PAGE_SIZE) => {
   if (DATE) {
-    return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+    return `${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&date=${DATE}&page=${PAGE}&page_size=${PAGE_SIZE}`;
   }
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
+  return `${URL.LIST_MANAGER_LATE_EARLY}?status=${STATUS}&page=${PAGE}&page_size=${PAGE_SIZE}`;
 };
-const URL_APPROVE_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.APPROVE_LATE_EARLY}`;
-const URL_UPDATE_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_LATE_EARLY}`;
-const URL_DELETE_LATE_EARLY = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_LATE_EARLY}`;
+const URL_APPROVE_LATE_EARLY = `${URL.APPROVE_LATE_EARLY}`;
+const URL_UPDATE_LATE_EARLY = `${URL.UPDATE_LATE_EARLY}`;
+const URL_DELETE_LATE_EARLY = `${URL.DELETE_LATE_EARLY}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
-const URL_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.TAKE_LEAVE}`;
-const URL_UPDATE_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_TAKE_LEAVE}`;
-const URL_DELETE_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.DELETE_TAKE_LEAVE}`;
+const URL_TAKE_LEAVE = `${URL.TAKE_LEAVE}`;
+const URL_UPDATE_TAKE_LEAVE = `${URL.UPDATE_TAKE_LEAVE}`;
+const URL_DELETE_TAKE_LEAVE = `${URL.DELETE_TAKE_LEAVE}`;
 /// //////////////////////////////////////////////////////////////////////////////////////
-const URL_OVERTIME = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.OVERTIME}`;
-const URL_UPDATE_OVERTIME = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.UPDATE_OT}`;
+const URL_OVERTIME = `${URL.OVERTIME}`;
+const URL_UPDATE_OVERTIME = `${URL.UPDATE_OT}`;
 
 /// //////////////////////////////////////////////////////////////////////////////////////
 
-const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL_STAGING.LOCAL_HOST}${URL_STAGING.CONFIRM_DENY_TAKE_LEAVE}`;
+const URL_CONFIRM_DENY_TAKE_LEAVE = `${URL.CONFIRM_DENY_TAKE_LEAVE}`;
 const LIST_URL_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
-    return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+    return `${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
   }
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  return `${URL.GET_LIST_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
 };
 const LIST_URL_ADMIN_TAKE_LEAVE = (STATUS, PAGE, DATE) => {
   if (!DATE) {
-    return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
+    return `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10`;
   }
-  return `${URL_STAGING.LOCAL_HOST}${URL_STAGING.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
+  return `${URL.GET_LIST_ADMIN_TAKE_LEAVE}?status=${STATUS}&page=${PAGE}&page_size=10&date=${DATE}`;
 };
 /// ///////////////////////////////////////////////////////////////////////////////////////
+const URL_CREATE_WORK_FROM_HOME = `${URL.CREATE_WORK_FROM_HOME}`;
+const URL_UPDATE_WORK_FROM_HOME = `${URL.UPDATE_WORK_FROM_HOME}`;
 function* sagaCheckIn(action) {
   try {
     const data = {
@@ -276,40 +280,6 @@ export function* watchCheckIn() {
 }
 export function* watchCheckInWifi() {
   yield takeLatest(types.CHECK_IN_WIFI, sagaCheckInWifi);
-}
-function* sagaCreateQR(action) {
-  try {
-    const data = {
-      date: action.payload.day,
-    };
-    const token = action.payload.token;
-    const response = yield _POST(URL_CREATE_QR, data, token);
-    console.log('Create QR=>>>', response);
-    if (response.success && response.statusCode === 200) {
-      yield put(createQRSuccess(response.data.qrDataUrl));
-      _global.Loading.hide();
-    } else {
-      yield put(createQRFailed());
-      _global.Alert.alert({
-        title: langs.alert.notify,
-        message: response.message,
-        leftButton: { text: langs.alert.ok },
-      });
-      _global.Loading.hide();
-    }
-  } catch (error) {
-    console.log(error);
-    _global.Alert.alert({
-      title: langs.alert.notify,
-      message: 'Lỗi mạng',
-      leftButton: { text: langs.alert.ok },
-    });
-    _global.Loading.hide();
-  }
-}
-
-export function* watchCreateQR() {
-  yield takeLatest(types.CREATE_QR, sagaCreateQR);
 }
 function* sagaSetLateEarly(action) {
   try {
@@ -1078,4 +1048,102 @@ function* sagaApproveCheck(action) {
 
 export function* watchApproveCheck() {
   yield takeLatest(types.APPROVE_CHECK, sagaApproveCheck);
+}
+function* sagaCreateWFH(action) {
+  try {
+    const data = {
+      ...action.payload,
+    };
+    delete data.token;
+    const token = action.payload.token;
+    const response = yield _POST(URL_CREATE_WORK_FROM_HOME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('work from home=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(createWorkFromHomeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.acceptWFH,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(createWorkFromHomeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchCreateWFH() {
+  yield takeLatest(types.CREATE_WORK_FROM_HOME, sagaCreateWFH);
+}
+function* sagaUpdateWFH(action) {
+  try {
+    const data = {
+      ...action.payload,
+    };
+    delete data.token;
+    const token = action.payload.token;
+    const response = yield _POST(URL_UPDATE_WORK_FROM_HOME, data, token);
+    // const response = {
+    //   success: true,
+    //   statusCode: 200,
+    // };
+    console.log('update work from home=>>>', response);
+    if (response.success && response.statusCode === 200) {
+      yield put(updateWorkFromHomeSuccess(response.data));
+      _global.Alert.alert({
+        title: langs.alert.updatetWFH,
+        message: langs.alert.waitConfirm,
+        leftButton: {
+          text: langs.alert.ok,
+          onPress: () => CustomNavigation.goBack(),
+        },
+      });
+      _global.Loading.hide();
+    } else {
+      yield put(updateWorkFromHomeFailed());
+      _global.Alert.alert({
+        title: langs.alert.notify,
+        message: response.message,
+        leftButton: {
+          text: langs.alert.ok,
+        },
+      });
+      _global.Loading.hide();
+    }
+  } catch (error) {
+    console.log(error);
+    _global.Alert.alert({
+      title: langs.alert.notify,
+      message: 'Lỗi mạng',
+      leftButton: { text: langs.alert.ok },
+    });
+    _global.Loading.hide();
+  }
+}
+
+export function* watchUpdateWFH() {
+  yield takeLatest(types.UPDATE_WORK_FROM_HOME, sagaUpdateWFH);
 }
