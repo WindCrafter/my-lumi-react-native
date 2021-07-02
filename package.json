@@ -30,6 +30,7 @@
     "react-fast-compare": "^3.2.0",
     "react-native": "0.64.0",
     "react-native-action-button": "https://github.com/TranDuke/react-native-action-button.git",
+    "react-native-autolink": "^4.0.0",
     "react-native-calendars": "https://github.com/TranDuke/react-native-calendars-1.git",
     "react-native-camera": "^3.36.0",
     "react-native-code-push": "^6.3.0",
