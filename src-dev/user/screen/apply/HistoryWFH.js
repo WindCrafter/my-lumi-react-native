@@ -287,7 +287,7 @@ function HistoryWFH(props) {
       </View>
     );
   };
- 
+
   // console.log(data);
   const handleScroll = (event) => {
     if (event.nativeEvent.contentOffset.x > 0) {
@@ -357,10 +357,10 @@ const styles = StyleSheet.create({
   },
   rowBack: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingRight: 32,
+    top: 32
   },
   backRightBtn: {
     alignItems: 'center',

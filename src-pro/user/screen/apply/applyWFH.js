@@ -162,7 +162,7 @@ function WFH(props) {
   };
   return (
     <View style={styles.container}>
-      <HeaderCustom title="Đơn xin làm việc tại nhà" height={64} goBack={goBack} shadow fontSize={wp(100) < 375 ? 16 : 20} />
+      <HeaderCustom title="Đơn xin làm việc từ xa" height={64} goBack={goBack} shadow fontSize={wp(100) < 375 ? 16 : 20} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         style={{ backgroundColor: '#f2f2f2' }}
@@ -172,7 +172,7 @@ function WFH(props) {
           <Image source={imgs.title} style={styles.iconMenu} />
           <TextInput
             multiline
-            placeholder="Lí do WFH"
+            placeholder="Lí do làm việc từ xa"
             value={title}
             style={styles.txtDescription}
             onBlur={unFocus}

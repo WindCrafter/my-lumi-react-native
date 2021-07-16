@@ -77,16 +77,17 @@ const CardWFH = (props) => {
           <Text style={styles.txtStatus}>{moment.unix(item.end_date).format('DD/MM/YYYY')}</Text>
         </View>
       </View>
-      <View style={[styles.row]}>
+      <View style={[styles.row, { paddingRight: 32 }]}>
         <View style={styles.img}>
           <Image
             source={imgs.note}
-            style={[styles.imageStamp, styles.marginRight]}
+            style={[styles.imageStamp]}
           />
-          <Text style={styles.txtStatus}>{item.reason}</Text>
+
         </View>
+        <Text style={styles.txtStatus}>{item.reason}</Text>
       </View>
-      <View style={[styles.row]}>
+      <View style={[styles.row, { paddingRight: 32 }]}>
         <View style={styles.img}>
           <Image
             source={imgs.healthCondition}
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginRight: 8,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
 
   },
   imageStamp: {

@@ -33,7 +33,7 @@ function ApplyBreak(props) {
   const [routes] = useState([
     { key: '1', title: 'Xin nghỉ' },
     { key: '2', title: 'Đi muộn/về sớm' },
-    { key: '3', title: 'WFH' },
+    { key: '3', title: 'Làm việc từ xa' },
 
   ]);
   const [index, setIndex] = useState(0);
