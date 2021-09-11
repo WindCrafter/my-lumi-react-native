@@ -37,7 +37,7 @@ const FloatButton = (props) => {
         inputY={[0, 1]}
         outputY={[320, 40]}
         buttonColor="#005DA9"
-        title="WFH"
+        title="Xin làm việc từ xa"
         onPress={onPressWFH}
       >
         <Image source={imgs.WFH} />

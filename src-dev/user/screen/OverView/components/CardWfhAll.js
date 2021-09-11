@@ -68,7 +68,7 @@ const CardWfhAll = (props) => {
           <Text style={styles.txtStatus}>{moment.unix(item.end_date).format('DD/MM/YYYY')}</Text>
         </View>
       </View>
-      <View style={[styles.row]}>
+      <View style={[styles.row, { paddingRight: 32 }]}>
         <View style={styles.img}>
           <Image
             source={imgs.note}
@@ -77,7 +77,7 @@ const CardWfhAll = (props) => {
           <Text style={styles.txtStatus}>{item.reason}</Text>
         </View>
       </View>
-      <View style={[styles.row]}>
+      <View style={[styles.row, { paddingRight: 32 }]}>
         <View style={styles.img}>
           <Image
             source={imgs.healthCondition}

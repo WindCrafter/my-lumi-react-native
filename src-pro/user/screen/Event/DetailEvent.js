@@ -15,12 +15,15 @@ import {
 } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
+import Autolink from 'react-native-autolink';
 import { Colors, imgs } from '../../../../utlis';
 import { BarStatus, Button, HeaderAccount, HeaderCustom } from '../../../component';
 import { _global } from '../../../../utlis/global/global';
 import langs from '../../../../common/language';
 import { URL } from '../../../../utlis/connection/url';
 import { _POST } from '../../../../utlis/connection/api';
+
+const wd = widthPercentageToDP(100);
 
 const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
 const URL_READ_EVENT = `${URL.READ_EVENT}`;
@@ -31,6 +34,15 @@ const DetailEvent = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
+  const widthImage = wd;
+  const [heightImage, setHeight] = useState(wd);
+  useEffect(() => {
+    item.avatar
+    && Image.getSize(item.avatar, (width, height) => {
+      setHeight(height * (widthImage / width));
+    });
+  });
+  console.log('widthImage', widthImage, heightImage);
   const openURL = (text) => {
     Linking.openURL(String(text.match(urlRegex)));
   };
@@ -62,7 +74,7 @@ const DetailEvent = (props) => {
       <View style={[styles.container, { ...StyleSheet.absoluteFill, backgroundColor: 'white' }]}>
         <HeaderCustom title="Chi tiết sự kiện" goBack={goBack} />
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-          <ImageBackground source={item.avatar ? { uri: item.avatar } : imgs.event} style={styles.imgDetai}>
+          <ImageBackground source={item.avatar ? { uri: item.avatar } : imgs.event} style={[styles.imgDetai, { height: heightImage, width: widthImage }]}>
             {item.urgent == 1
            && (
            <>
@@ -87,7 +99,7 @@ const DetailEvent = (props) => {
             <Text style={styles.titleContent}>Thời gian kết thúc: </Text>
             {moment(item.end_datetime, 'HH:mm:ss DD/MM/YYYY').format('DD/MM/YYYY - HH:mm')}
           </Text>
-          {item.content.match(urlRegex)
+          {/* {item.content.match(urlRegex)
             ? (
               <TouchableOpacity style={styles.content} onPress={() => openURL(item.content)}>
                 <Text style={{ paddingBottom: 50 }}>
@@ -100,8 +112,8 @@ const DetailEvent = (props) => {
                 {item.content}
               </Text>
             )
-          }
-
+          } */}
+          <Autolink style={styles.content} text={item.content} />
           {item.urgent == 1 && (
           <Button
             backgroundColor={read ? Colors.itemInActive : Colors.background}
@@ -118,15 +130,12 @@ const DetailEvent = (props) => {
 };
 
 export default DetailEvent;
-const wd = widthPercentageToDP(100);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   imgDetai: {
     alignSelf: 'center',
-    width: wd,
-    height: wd * 0.6,
   },
   content: {
     marginTop: 8,

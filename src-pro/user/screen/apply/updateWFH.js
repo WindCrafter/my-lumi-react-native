@@ -175,7 +175,7 @@ function UpdateWFH(props) {
           <Image source={imgs.title} style={styles.iconMenu} />
           <TextInput
             multiline
-            placeholder="Lí do WFH"
+            placeholder="Lí do làm việc từ xa"
             value={title}
             style={styles.txtDescription}
             onBlur={onBlur}

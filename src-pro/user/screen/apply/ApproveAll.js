@@ -66,7 +66,7 @@ const ApproveAll = (props) => {
     { key: '1', title: 'Nghỉ phép' },
     { key: '2', title: 'Đi muộn' },
     { key: '3', title: 'OT' },
-    { key: '4', title: 'WFH' },
+    { key: '4', title: 'Remote' },
     role === 'HR' && { key: '5', title: 'Chấm công' },
   ]);
   const [index, setIndex] = useState(page || 0);
@@ -105,9 +105,9 @@ const ApproveAll = (props) => {
             setDateAdOT={setDateAdOT}
           />
         );
-        case '4':
+      case '4':
         return (
-          <ApproveWFH tabLabel={langs.WFH} token={token} />
+          <ApproveWFH tabLabel={langs.Remote} token={token} />
         );
       case '5':
         return (

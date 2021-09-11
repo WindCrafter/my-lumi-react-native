@@ -83,7 +83,7 @@ const langs = {
   titleHistoryLate: 'Lịch sử đi muộn/về sớm',
   titleApproveLate: 'Đơn xin đi muộn/về sớm',
   titleHistoryOt: 'Lịch sử OT',
-  titleHistoryWFH: 'Lịch sử làm việc tại nhà',
+  titleHistoryWFH: 'Lịch sử làm việc từ xa',
   writeOT: 'Viết đơn',
   approveOT: 'Duyệt đơn',
   filter: 'Bộ lọc',
@@ -116,7 +116,7 @@ const langs = {
     'Bạn không có quyền check in bằng cách này khi không ở công ty.',
   errorLocationCheckout:
     'Bạn không có quyền check out bằng cách này khi không ở công ty.',
-  WFH: 'WFH',
+  Remote: 'Remote',
   navigator: {
     overView: 'Tổng quan',
     kpi: 'KPI',

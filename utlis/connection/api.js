@@ -31,7 +31,7 @@ export async function _POST(url, data, token, loading = true) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: ` Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   })
@@ -68,7 +68,7 @@ export function _PUT(url, data, token) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ` Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   }).then(res => res.json());
@@ -99,7 +99,7 @@ export async function _GET(url, token, loading) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: ` Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then(res => res.json())
@@ -150,7 +150,7 @@ export async function _POST_WIFI(url, data, token, loading = true) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: ` Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   })
@@ -219,7 +219,7 @@ export async function _UPLOAD(url, files, token, loading) {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: ` Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: formData,
   })
